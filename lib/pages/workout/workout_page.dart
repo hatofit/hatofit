@@ -35,7 +35,7 @@ class WorkoutPage extends GetView<WorkoutController> {
                 SizedBox(
                   height: dashboardController.screenHeight * 0.032,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     DayWidget(
@@ -178,7 +178,7 @@ class WorkoutPage extends GetView<WorkoutController> {
                           height: dashboardController.screenHeight * 0.015,
                         ),
                         SizedBox(
-                          height: dashboardController.screenHeight * 0.211,
+                          height: dashboardController.screenHeight * 0.201,
                           width: dashboardController.screenWidth * 0.8,
                           child: ListView(
                             children: [

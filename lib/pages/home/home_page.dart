@@ -36,7 +36,7 @@ class HomePage extends GetView<HomeController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Row(
+                    Row(
                       children: [
                         SizedBox(
                           width: 34,

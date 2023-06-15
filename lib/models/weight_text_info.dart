@@ -12,7 +12,7 @@ class WeightTextScreen extends StatelessWidget {
       child: SizedBox(
           height: height * 0.4,
           width: width * 0.85,
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               CustomText(

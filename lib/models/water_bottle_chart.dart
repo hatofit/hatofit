@@ -66,7 +66,7 @@ class WaterBottleScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
