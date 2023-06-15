@@ -12,25 +12,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ApiSession = void 0;
+exports.ApiExercises = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const db_1 = require("../db");
-const session_1 = require("../types/session");
-const ApiSession = ({ route }) => {
-    route.get('/session/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const exercise_1 = require("../types/exercise");
+const ApiExercises = ({ route }) => {
+    route.get('/exercise', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const exercises = yield db_1.Exercise.find();
+        return res.json({
+            success: true,
+            message: 'Exercise found',
+            exercises,
+        });
+    }));
+    route.get('/exercise/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = req.params;
-            const session = yield db_1.Session.findById(id);
-            if (!session) {
+            const exercise = yield db_1.Exercise.findById(id);
+            if (!exercise) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Session not found',
+                    message: 'Exercise not found',
                 });
             }
             return res.json({
                 success: true,
-                message: 'Session found',
-                session,
+                message: 'Exercise found',
+                exercise,
             });
         }
         catch (error) {
@@ -38,19 +46,19 @@ const ApiSession = ({ route }) => {
             return res.status(500).json({ error });
         }
     }));
-    route.post('/session', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.post('/exercise', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('DATA BODY', req.body);
         try {
             // validate input
-            const session = session_1.SessionSchema.parse(req.body);
+            const exercise = exercise_1.ExerciseSchema.parse(req.body);
             // save to db
-            const created = yield db_1.Session.create(Object.assign(Object.assign({}, session), { _id: new mongoose_1.default.Types.ObjectId().toHexString() }));
+            const created = yield db_1.Exercise.create(Object.assign(Object.assign({}, exercise), { _id: new mongoose_1.default.Types.ObjectId().toHexString() }));
             // resposne
             return res.json({
                 success: true,
-                message: 'Session created successfully',
+                message: 'Exercise created successfully',
                 id: created._id,
-                session,
+                exercise,
             });
         }
         catch (error) {
@@ -59,4 +67,4 @@ const ApiSession = ({ route }) => {
         }
     }));
 };
-exports.ApiSession = ApiSession;
+exports.ApiExercises = ApiExercises;

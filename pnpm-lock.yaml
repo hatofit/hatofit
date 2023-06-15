@@ -44,6 +44,9 @@ importers:
       express:
         specifier: ^4.18.2
         version: 4.18.2
+      express-route-grouping:
+        specifier: ^1.1.1
+        version: 1.1.1
       mongoose:
         specifier: ^7.2.2
         version: 7.2.2
@@ -53,6 +56,10 @@ importers:
       zod:
         specifier: ^3.21.4
         version: 3.21.4
+    devDependencies:
+      dotenv:
+        specifier: ^16.1.4
+        version: 16.1.4
 
 packages:
 
@@ -1777,6 +1784,11 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
+  /dotenv@16.1.4:
+    resolution: {integrity: sha512-m55RtE8AsPeJBpOIFKihEmqUcoVncQIwo7x9U8ZwLEZw9ZpXboz2c+rvog+jUaJvVrZ5kBOeYQBX5+8Aa/OZQw==}
+    engines: {node: '>=12'}
+    dev: true
+
   /duplexer@0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
     dev: false
@@ -1904,6 +1916,16 @@ packages:
       onetime: 5.1.2
       signal-exit: 3.0.7
       strip-final-newline: 2.0.0
+    dev: false
+
+  /express-route-grouping@1.1.1:
+    resolution: {integrity: sha512-skwRUBqRo9jqL5xGHSig7CX7G2BNQ1/P5yNAAW5wpnZLe9gbe+SxHOUGEEc2IdyQVBvJUWHCl9si5/KpMWZbxg==}
+    engines: {node: '>=10'}
+    dependencies:
+      express: 4.18.2
+      pluralize: 8.0.0
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /express@4.18.2:
@@ -4122,6 +4144,11 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       find-up: 4.1.0
+    dev: false
+
+  /pluralize@8.0.0:
+    resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
+    engines: {node: '>=4'}
     dev: false
 
   /postcss-selector-parser@6.0.13:
