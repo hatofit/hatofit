@@ -1,0 +1,9 @@
+{
+  "useNx": false,
+  "npmClient": "pnpm",
+  "version": "independent",
+  "useWorkspaces": true,
+  "packages": [
+    "packages/*"
+  ]
+}
