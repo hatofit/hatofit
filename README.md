@@ -22,7 +22,7 @@
     method: `POST`  
     body: `see in ./packages/api/example-data/session.json`
   - [X] Get  
-    url: `/api/session/:id  `
+    url: `/api/session/:id`  
     method: `GET`
 
 - [X] Exercise
