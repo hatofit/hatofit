@@ -20,7 +20,8 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const db_1 = require("./db");
 const dotenv_1 = __importDefault(require("dotenv"));
 const session_1 = require("./api/session");
-const exercises_1 = require("./api/exercises");
+const exercise_1 = require("./api/exercise");
+const auth_1 = require("./api/auth");
 // set
 mongoose_1.default.set('strictQuery', true);
 dotenv_1.default.config();
@@ -34,8 +35,11 @@ dotenv_1.default.config();
     // routes
     const root = new express_route_grouping_1.default('/', express_1.default.Router());
     root.group('/', (app) => {
-        (0, exercises_1.ApiExercises)({ route: app });
+        (0, exercise_1.ApiExercises)({ route: app });
         (0, session_1.ApiSession)({ route: app });
+        app.group('/auth', (app) => {
+            (0, auth_1.ApiAuth)({ route: app });
+        });
     });
     app.use('/api', root.export());
     // listen

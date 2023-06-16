@@ -44,8 +44,21 @@ const ExerciseSchema = new Schema({
   typeKey: '$type',
   timestamps: true,
 })
+const UserSchema = new Schema({
+  _id: String,
+  name: String,
+  email: String,
+  password: String,
+  firstName: String,
+  lastName: String,
+  birthDate: Date,
+}, {
+  typeKey: '$type',
+  timestamps: true,
+})
 
 // MODEL
+export const User = mongoose.model('User', UserSchema)
 export const Session = mongoose.model('Session', SessionSchema)
 export const Exercise = mongoose.model('Exercise', ExerciseSchema)
 

@@ -8,7 +8,8 @@ import mongoose, { Schema, Model } from 'mongoose'
 import { MongoConnect } from './db'
 import dotenv from 'dotenv'
 import { ApiSession } from './api/session'
-import { ApiExercises } from './api/exercises'
+import { ApiExercises } from './api/exercise'
+import { ApiAuth } from './api/auth';
 
 // set
 mongoose.set('strictQuery', true)
@@ -29,6 +30,9 @@ dotenv.config()
   root.group('/', (app) => {
     ApiExercises({ route: app })
     ApiSession({ route: app })
+    app.group('/auth', (app) => {
+      ApiAuth({ route: app })
+    })
   })
   app.use('/api', root.export())
 

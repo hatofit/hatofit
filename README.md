@@ -14,8 +14,33 @@
 ### Todo
 - [ ] Auth
   - [ ] Login
+    url: `/api/auth/login`  
+    method: `POST`  
+    body:  
+    ```json
+    {
+      "email": "test@mail.com",
+      "password": "password"
+    }
+    ```
   - [ ] Register
-
+    url: `/api/auth/login`  
+    method: `POST`  
+    body:  
+    ```json
+    {
+      "email": "test@mail.com",
+      "password": "password",
+      "confirmPassword": "password",
+      "firstName": "Test",
+      "lastName": "User",
+      "dateOfBirth": "04/24/2023"
+    }
+    ```
+  - [ ] Me
+    url: `/api/auth/me`  
+    method: `GET`
+  
 - [X] Session
   - [X] Create  
     url: `/api/session`  
@@ -24,7 +49,7 @@
   - [X] Get  
     url: `/api/session/:id`  
     method: `GET`
-
+  
 - [X] Exercise
   - [X] Create  
     url: `/api/exercise`  
