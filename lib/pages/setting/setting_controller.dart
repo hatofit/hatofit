@@ -1,7 +1,9 @@
-import 'package:get/get.dart';
-import 'package:polar_hr_devices/services/streaming_service.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:get/get.dart'; 
 
 class SettingController extends GetxController {
-  final StreamingService streamingService = StreamingService();
   final String title = 'Setting Title';
+  FlutterBluePlus flutterBlue = FlutterBluePlus.instance;
+
+  
 }

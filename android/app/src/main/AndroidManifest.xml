@@ -1,18 +1,20 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.polar_hr_devices"> 
-    <uses-permission android:name="android.permission.BLUETOOTH" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30" />
+                     
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
-    <uses-permission android:name="android.permission.BLUETOOTH_PRIVILEGED" />
-    <uses-permission android:name="android.permission.BLUETOOTH_STACK" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.BLUETOOTH_MAP" />
-    <uses-permission android:name="android.permission.BLUETOOTH_WRITE" />
-    <uses-permission android:name="android.permission.BLUETOOTH_SETTINGS" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true" />
+    
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" android:maxSdkVersion="30" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:maxSdkVersion="30" />
-   <application
+    <uses-feature android:name="android.hardware.location.gps" android:maxSdkVersion="30" />
+    <uses-feature android:name="android.hardware.location.network" android:maxSdkVersion="30" />
+    
+    <application
         android:label="polar_hr_devices"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

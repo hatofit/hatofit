@@ -14,28 +14,12 @@ class SettingPage extends GetView<SettingController> {
         title: controller.title,
         screenColor: ColorPalette.black00,
       ),
-      body: Center(
-          child: Column(
-        children: [
-          TextButton(
-              onPressed: () {
-                controller.streamingService.searchForDevices((deviceId) {});
-              },
-              child: const Text('Scan Devices', style: TextStyle(fontSize: 20))),
-          ListTile(
-            title: Text('Device ID: ${controller.streamingService.deviceId}'),
-            trailing: IconButton(
-              onPressed: () async {
-                controller.streamingService
-                    .connectingToDevice(controller.streamingService.deviceId);
-                await controller.streamingService
-                    .streamWhenReady(controller.streamingService.deviceId);
-              },
-              icon: const Icon(Icons.bluetooth_connected),
-            ),
-          ),
-        ],
-      )),
+      body:   Center(
+        child: TextButton(
+          onPressed: (){},
+          child: const Text('Scan for devices'),
+        ),
+      ),
     );
   }
 }

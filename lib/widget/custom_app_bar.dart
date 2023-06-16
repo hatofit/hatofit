@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:polar_hr_devices/pages/dashboard/dashboard_controller.dart';
+import 'package:polar_hr_devices/widget/detected_devices_modal.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -23,8 +26,8 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  String deviceId = '';
-  late bool isBluetoothOn = false;
+  var controller = Get.find<DashboardController>();
+
   void changeStatusBarColor(Color color) {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: color),
@@ -82,13 +85,23 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   icon: const Icon(Icons.gps_fixed),
                   onPressed: () {},
                 ),
-                IconButton(
-                  icon: isBluetoothOn
-                      ? const Icon(Icons.bluetooth)
-                      : const Icon(Icons.bluetooth_disabled),
-                  onPressed: () {},
+                Obx(
+                  () => IconButton(
+                    icon: controller.isConnectedDevice.value
+                        ? const Icon(Icons.bluetooth_connected)
+                        : const Icon(Icons.bluetooth_disabled),
+                    onPressed: () {
+                      if (controller.isBluetoothOn.value) {
+                        DetectedDevicesModal().showModal();
+                      } else {
+                        controller.turnOnBluetooth();
+                        Get.snackbar(
+                            'Bluetooth is off', 'Please turn on bluetooth',
+                            snackPosition: SnackPosition.TOP);
+                      }
+                    },
+                  ),
                 ),
-                Text(deviceId),
                 IconButton(
                   icon: const Icon(Icons.notifications),
                   onPressed: () {},

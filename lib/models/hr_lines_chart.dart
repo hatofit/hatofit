@@ -62,10 +62,10 @@ class HrLinesChartState extends State<HrLinesChart> {
     return BarChartData(
       titlesData: FlTitlesData(
         show: true,
-        rightTitles: AxisTitles(
+        rightTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
-        topTitles: AxisTitles(
+        topTitles: const AxisTitles(
           sideTitles: SideTitles(showTitles: false),
         ),
         bottomTitles: AxisTitles(
@@ -75,7 +75,7 @@ class HrLinesChartState extends State<HrLinesChart> {
             reservedSize: 30,
           ),
         ),
-        leftTitles: AxisTitles(
+        leftTitles: const AxisTitles(
           sideTitles: SideTitles(
             showTitles: false,
           ),
@@ -85,7 +85,7 @@ class HrLinesChartState extends State<HrLinesChart> {
         show: false,
       ),
       barGroups: showingGroups(),
-      gridData: FlGridData(show: false),
+      gridData: const FlGridData(show: false),
     );
   }
 

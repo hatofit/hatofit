@@ -71,7 +71,7 @@ class HomePage extends GetView<HomeController> {
                       children: [
                         Obx(() {
                           final snapshotData =
-                              controller.streamingService.hrData.value;
+                              dashboardController.hrData.value.toString();
                           return CustomText(
                             text: snapshotData,
                             fontSize: 48,

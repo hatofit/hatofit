@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:polar_hr_devices/routes/app_pages.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: AppRoutes.workout,
+      initialRoute: AppRoutes.home,
       getPages: AppPages.list,
       debugShowCheckedModeBanner: false,
       routingCallback: (value) {},
