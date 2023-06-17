@@ -30,13 +30,7 @@ class DashboardController extends GetxController {
   void onInit() {
     super.onInit();
     getBluetoothStatus();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    getBluetoothStatus();
-  }
+  } 
 
   void showConnectingDialog() {
     showDialog(
@@ -142,17 +136,19 @@ class DashboardController extends GetxController {
     Get.back();
   }
 
-  void getBluetoothStatus() async { 
-    flutterBluePlus.state.listen((event) {
-      if (event == BluetoothState.on) {
-        isBluetoothOn.value = true;
-        isConnectedDevice.value = false;
-        scanPolarDevices();
-      } else {
-        isConnectedDevice.value = false;
-        isBluetoothOn.value = false;
-      }
-    });
+  void getBluetoothStatus() async {
+    polar
+        .requestPermissions()
+        .then((value) => flutterBluePlus.state.listen((event) {
+              if (event == BluetoothState.on) {
+                isBluetoothOn.value = true;
+                isConnectedDevice.value = false;
+                scanPolarDevices();
+              } else {
+                isConnectedDevice.value = false;
+                isBluetoothOn.value = false;
+              }
+            }));
 
     update();
   }
