@@ -23,32 +23,11 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Exercise = exports.Session = exports.User = exports.MongoConnect = void 0;
+exports.Session = exports.Exercise = exports.User = exports.MongoConnect = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 const MongoConnect = (url, opts) => mongoose_1.default.connect(url, opts);
 exports.MongoConnect = MongoConnect;
 // SCHEMA
-const SessionSchema = new mongoose_1.Schema({
-    _id: String,
-    startTime: Number,
-    endTime: Number,
-    timelines: [{
-            name: String,
-            startTime: Number,
-        }],
-    data: [{
-            second: Number,
-            timeStamp: Number,
-            devices: [{
-                    type: String,
-                    identifier: String,
-                    value: mongoose_1.Schema.Types.Mixed,
-                }]
-        }]
-}, {
-    typeKey: '$type',
-    timestamps: true,
-});
 const ExerciseSchema = new mongoose_1.Schema({
     _id: String,
     name: String,
@@ -81,7 +60,29 @@ const UserSchema = new mongoose_1.Schema({
     typeKey: '$type',
     timestamps: true,
 });
+const SessionSchema = new mongoose_1.Schema({
+    _id: String,
+    exercise: ExerciseSchema,
+    startTime: Number,
+    endTime: Number,
+    timelines: [{
+            name: String,
+            startTime: Number,
+        }],
+    data: [{
+            second: Number,
+            timeStamp: Number,
+            devices: [{
+                    type: String,
+                    identifier: String,
+                    value: mongoose_1.Schema.Types.Mixed,
+                }]
+        }]
+}, {
+    typeKey: '$type',
+    timestamps: true,
+});
 // MODEL
 exports.User = mongoose_1.default.model('User', UserSchema);
-exports.Session = mongoose_1.default.model('Session', SessionSchema);
 exports.Exercise = mongoose_1.default.model('Exercise', ExerciseSchema);
+exports.Session = mongoose_1.default.model('Session', SessionSchema);

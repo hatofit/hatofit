@@ -47,7 +47,8 @@ dotenv_1.default.config();
         auth: {
             username: process.env.MONGO_USER || '',
             password: process.env.MONGO_PASSWORD || '',
-        }
+        },
+        dbName: process.env.MONGO_DB_NAME || '',
     });
     console.log('📚 connected to mongodb');
     app.listen(3000, () => {

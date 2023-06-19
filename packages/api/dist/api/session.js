@@ -39,12 +39,29 @@ const ApiSession = ({ route }) => {
         }
     }));
     route.post('/session', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _a;
         console.log('DATA BODY', req.body);
         try {
+            // validate exercise
+            const exerciseId = (_a = req.body) === null || _a === void 0 ? void 0 : _a.exerciseId;
+            if (!exerciseId || typeof exerciseId !== 'string' || exerciseId.length === 0) {
+                return res.json({
+                    success: false,
+                    message: 'Invalid exerciseId',
+                });
+            }
             // validate input
             const session = session_1.SessionSchema.parse(req.body);
+            // validate exercise
+            const exercise = yield db_1.Exercise.findById(exerciseId);
+            if (!exercise) {
+                return res.json({
+                    success: false,
+                    message: 'Exercise not found',
+                });
+            }
             // save to db
-            const created = yield db_1.Session.create(Object.assign(Object.assign({}, session), { _id: new mongoose_1.default.Types.ObjectId().toHexString() }));
+            const created = yield db_1.Session.create(Object.assign(Object.assign({}, session), { _id: new mongoose_1.default.Types.ObjectId().toHexString(), exercise }));
             // resposne
             return res.json({
                 success: true,
