@@ -5,6 +5,7 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: polar
       MONGO_INITDB_ROOT_PASSWORD: polar-password
+      MONGO_INITDB_DATABASE: polar_db
     ports:
       - 27017:27017
     volumes:
