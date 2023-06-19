@@ -51,7 +51,8 @@ dotenv_1.default.config();
         dbName: process.env.MONGO_DB_NAME || '',
     });
     console.log('📚 connected to mongodb');
-    app.listen(3000, () => {
-        console.log('🚀 Server ready at http://localhost:3000');
+    const port = parseInt(process.env.PORT || '3000') || 3000;
+    app.listen(port, () => {
+        console.log(`🚀 Server ready at http://localhost:${port}`);
     });
 }))();
