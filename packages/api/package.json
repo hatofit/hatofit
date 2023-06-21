@@ -1,10 +1,11 @@
 {
-  "name": "@nokiamon/api",
+  "name": "@hatofit/api",
   "version": "0.0.1",
   "description": "NokiaMon API",
   "scripts": {
     "dev": "concurrently -k -p \"[{name}]\" -n \"TS,NODE\" -c \"yello.bold, cyan.bold\" \"yarn run tsc:watch\" \"yarn run start:hot\"",
-    "build": "npm tsc",
+    "build": "npm run tsc",
+    "build:watch": "npm run tsc:watch",
     "tsc": "tsc",
     "tsc:watch": "tsc -w --preserveWatchOutput",
     "start": "node dist/index.js",

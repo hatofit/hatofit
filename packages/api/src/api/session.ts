@@ -4,6 +4,14 @@ import { Exercise, Session } from '../db'
 import { SessionSchema } from '../types/session'
 
 export const ApiSession = ({ route }: { route: express.Router }) => {
+  route.get('/session/', async (req, res) => {
+    const sessions = await Session.find()
+    return res.json({
+      success: true,
+      message: 'Sessions found',
+      sessions,
+    })
+  })
   route.get('/session/:id', async (req, res) => {
     try {
       const { id } = req.params

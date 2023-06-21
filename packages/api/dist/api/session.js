@@ -17,6 +17,14 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const db_1 = require("../db");
 const session_1 = require("../types/session");
 const ApiSession = ({ route }) => {
+    route.get('/session/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const sessions = yield db_1.Session.find();
+        return res.json({
+            success: true,
+            message: 'Sessions found',
+            sessions,
+        });
+    }));
     route.get('/session/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = req.params;
