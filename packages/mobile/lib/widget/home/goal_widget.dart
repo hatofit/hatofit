@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/routes/app_routes.dart';
 import 'package:polar_hr_devices/widget/custom_text.dart';
 
 class GoalWidget extends StatelessWidget {
@@ -45,7 +47,7 @@ class GoalWidget extends StatelessWidget {
                 height: height * 0.4,
                 width: width * 0.85,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () => {Get.toNamed(AppRoutes.setting)},
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         ColorPalette.crimsonRed),

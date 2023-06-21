@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/pages/dashboard/dashboard_controller.dart';
+import 'package:polar_hr_devices/controller/dashboard_controller.dart';
 import 'package:polar_hr_devices/widget/appBar/detected_devices_modal.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {

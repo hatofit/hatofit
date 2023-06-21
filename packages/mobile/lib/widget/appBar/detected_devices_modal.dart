@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/pages/dashboard/dashboard_controller.dart';
+import 'package:polar_hr_devices/controller/dashboard_controller.dart';
 import 'package:polar_hr_devices/widget/custom_text.dart';
 
 class DetectedDevicesModal {

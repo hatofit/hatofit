@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-import 'package:polar_hr_devices/pages/setting/setting_controller.dart';
+import 'package:polar_hr_devices/controller/setting_controller.dart';
 import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
 
 class SettingPage extends GetView<SettingController> {

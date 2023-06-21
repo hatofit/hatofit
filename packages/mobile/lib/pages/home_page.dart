@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/pages/dashboard/dashboard_controller.dart';
-import 'package:polar_hr_devices/pages/home/home_controller.dart';
+import 'package:polar_hr_devices/controller/dashboard_controller.dart';
+import 'package:polar_hr_devices/controller/home_controller.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/widget/home/hr_lines_chart.dart';
 import 'package:polar_hr_devices/widget/home/bmi_chart_widget.dart';
