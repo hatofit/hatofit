@@ -5,7 +5,7 @@ import 'package:polar_hr_devices/pages/dashboard/dashboard_controller.dart';
 import 'package:polar_hr_devices/pages/excercise/excercise_detail_page.dart';
 import 'package:polar_hr_devices/pages/workout/workout_controller.dart';
 import 'package:polar_hr_devices/widget/choose_mode_widget.dart';
-import 'package:polar_hr_devices/widget/custom_app_bar.dart';
+import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
 import 'package:polar_hr_devices/widget/custom_text.dart';
 import 'package:polar_hr_devices/widget/day_calender_wrapper.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';

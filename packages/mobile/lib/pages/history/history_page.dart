@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-import 'package:polar_hr_devices/widget/custom_app_bar.dart';
+import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
 import 'package:polar_hr_devices/widget/custom_text.dart';
 import 'package:polar_hr_devices/widget/icon_wrapper.dart';
 

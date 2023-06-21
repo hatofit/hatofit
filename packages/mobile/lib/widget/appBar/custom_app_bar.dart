@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/pages/dashboard/dashboard_controller.dart';
-import 'package:polar_hr_devices/widget/detected_devices_modal.dart';
+import 'package:polar_hr_devices/widget/appBar/detected_devices_modal.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -50,7 +50,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       ),
       color: widget.screenColor,
       child: Material(
-        elevation: 8,
+        elevation: 4,
         borderRadius: BorderRadius.circular(32),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

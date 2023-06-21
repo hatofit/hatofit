@@ -7,7 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:polar/polar.dart';
 import 'package:polar_hr_devices/data/polar_image_dict.dart';
-import 'package:polar_hr_devices/widget/detected_devices_modal.dart';
+import 'package:polar_hr_devices/widget/appBar/detected_devices_modal.dart';
 
 class DashboardController extends GetxController {
   final isBluetoothOn = false.obs;
@@ -17,7 +17,7 @@ class DashboardController extends GetxController {
   final List<String> imageDictList = <String>[].obs;
   final List<double> distanceList = <double>[].obs;
 
-  var hrData = 0.obs;
+  var hrData = '--'.obs;
   final polar = Polar();
   final storage = GetStorage();
 
@@ -30,7 +30,7 @@ class DashboardController extends GetxController {
   void onInit() {
     super.onInit();
     getBluetoothStatus();
-  } 
+  }
 
   void showConnectingDialog() {
     showDialog(
@@ -115,7 +115,7 @@ class DashboardController extends GetxController {
     }
     if (availabletypes.contains(PolarDataType.hr)) {
       polar.startHrStreaming(deviceId).listen((e) {
-        hrData.value = e.samples.map((e) => e.hr).first;
+        hrData.value = e.samples.map((e) => e.hr).first.toString();
       });
     }
     if (availabletypes.contains(PolarDataType.ecg)) {
