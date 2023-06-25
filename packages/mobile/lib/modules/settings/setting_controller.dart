@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/main.dart';
+import 'package:polar_hr_devices/routes/app_routes.dart';
 
 class SettingController extends GetxController {
   final String title = 'Setting Title';
@@ -20,6 +21,6 @@ class SettingController extends GetxController {
 
   void clear() {
     storage.erase();
-    Get.offAllNamed('/inputUserInfo');
+    Get.offAllNamed(AppRoutes.greeting);
   }
 }

@@ -10,8 +10,9 @@ import 'package:polar_hr_devices/modules/settings/change_unit/change_unit_bindin
 import 'package:polar_hr_devices/modules/settings/change_unit/change_unit_page.dart';
 import 'package:polar_hr_devices/modules/settings/setting_binding.dart';
 import 'package:polar_hr_devices/modules/settings/setting_page.dart';
-import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info_page.dart';
-import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info_binding.dart';
+import 'package:polar_hr_devices/modules/splash/firstTime/greeting/greeting_page.dart';
+import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info/input_user_info_page.dart';
+import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info/input_user_info_binding.dart';
 import 'package:polar_hr_devices/modules/splash/loading_splash_screen.dart';
 import 'package:polar_hr_devices/modules/workout/workout_page.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
@@ -21,6 +22,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.splash,
       page: () => const LoadingSplashScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.greeting,
+      page: () => const GreetingPage(),
     ),
     GetPage(
       name: AppRoutes.inputUserInfo,

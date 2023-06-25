@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 
 class LoadingSplashScreen extends StatelessWidget {
   const LoadingSplashScreen({super.key});
@@ -7,6 +8,7 @@ class LoadingSplashScreen extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: ColorPalette.backgroundColor,
         body: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,

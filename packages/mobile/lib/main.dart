@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info_binding.dart';
+import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info/input_user_info_binding.dart';
 import 'package:polar_hr_devices/modules/splash/loading_splash_screen.dart';
 
 import 'package:polar_hr_devices/routes/app_pages.dart';
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
           } else {
             return GetMaterialApp(
               title: 'Hato Fit',
-              initialRoute: AppRoutes.inputUserInfo,
+              initialRoute: AppRoutes.greeting,
               initialBinding: InputUserInfoBinding(),
               getPages: AppPages.list,
               debugShowCheckedModeBanner: false,

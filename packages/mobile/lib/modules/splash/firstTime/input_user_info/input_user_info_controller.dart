@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:polar/polar.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
 
-import '../../../main.dart';
+import '../../../../main.dart';
 
 class InputUserInfoController extends GetxController {
+  final polar = Polar();
+
   RxString selectedGender = ''.obs;
   RxString selectedHeightUnitMeasure = 'cm'.obs;
   RxString selectedWeightUnitMeasure = 'kg'.obs;
@@ -49,6 +53,28 @@ class InputUserInfoController extends GetxController {
       storage.write('weightUnit', 'Lbs');
     }
     print(storage.read('name'));
-    Get.offAllNamed(AppRoutes.dashboard);
+    requestPermission();
+  }
+
+  requestPermission() {
+    Get.defaultDialog(
+      title: 'Permission',
+      middleText: 'Please allow all permissions to use this app',
+      textConfirm: 'OK',
+      confirmTextColor: Colors.white,
+      onConfirm: () {
+        polar.requestPermissions().then((value) => Permission.location
+            .request()
+            .then((value) => Permission.storage.request().then((value) {
+                  if (value.isGranted) {
+                    Get.offAllNamed(AppRoutes.dashboard);
+                  } else {
+                    requestPermission();
+                  }
+                })));
+
+        update();
+      },
+    );
   }
 }
