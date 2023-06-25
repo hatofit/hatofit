@@ -54,11 +54,13 @@ class StepsChartWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
                         children: [
                           CustomText(
                             text: '700',
                             fontWeight: FontWeight.w500,
-                            fontSize: 28,
+                            fontSize: 24,
                           ),
                           CustomText(
                             text: ' steps',
@@ -69,14 +71,16 @@ class StepsChartWidget extends StatelessWidget {
                       CustomText(
                         text: ' / ',
                         fontWeight: FontWeight.w500,
-                        fontSize: 28,
+                        fontSize: 24,
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
                         children: [
                           CustomText(
                             text: '6',
                             fontWeight: FontWeight.w500,
-                            fontSize: 28,
+                            fontSize: 24,
                           ),
                           CustomText(
                             text: ' km',

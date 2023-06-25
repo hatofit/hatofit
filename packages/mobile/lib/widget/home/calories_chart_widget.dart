@@ -7,7 +7,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 class CaloriesChartWidget extends StatelessWidget {
   final double width;
   final double height;
-  const CaloriesChartWidget({super.key, required this.width, required this.height});
+  const CaloriesChartWidget(
+      {super.key, required this.width, required this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -44,35 +45,30 @@ class CaloriesChartWidget extends StatelessWidget {
                 ),
               ],
             ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    height: height * 0.6,
-                    width: width * 0.85,
-                    child: const CaloriesPieChart(
-                      value: 555,
-                    ),
-                  ),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomText(
-                        text: 'of daily goal ',
-                        fontSize: 14,
-                        color: ColorPalette.black50,
-                      ),
-                      CustomText(
-                        text: '1980 kCal',
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ],
-                  ),
-                ],
+            SizedBox(
+              height: height * 0.64,
+              child: CaloriesPieChart(
+                value: 555,
+                height: height * 0.64,
               ),
-            )
+            ),
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                CustomText(
+                  text: 'of daily goal ',
+                  fontSize: 12,
+                  color: ColorPalette.black50,
+                ),
+                CustomText(
+                  text: '1980 Cal',
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ],
+            ),
           ],
         ));
   }
@@ -80,29 +76,34 @@ class CaloriesChartWidget extends StatelessWidget {
 
 class CaloriesPieChart extends StatelessWidget {
   final double value;
+  final double height;
 
-  const CaloriesPieChart({Key? key, required this.value}) : super(key: key);
+  const CaloriesPieChart({Key? key, required this.value, required this.height})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final displayValue = value;
+    final displayValue = value.toStringAsFixed(0);
     return SfCircularChart(
       annotations: <CircularChartAnnotation>[
         CircularChartAnnotation(
-          widget: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          widget: Stack(
+            alignment: Alignment.center,
             children: [
-              CustomText(
-                text: displayValue.toStringAsFixed(0),
-                fontSize: 28,
-                fontWeight: FontWeight.w500,
-                color: ColorPalette.black,
+              Positioned(
+                top: (height * 0.3),
+                child: CustomText(
+                  text: displayValue,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-              const CustomText(
-                text: 'kCal',
-                fontSize: 12,
-                fontWeight: FontWeight.normal,
-                color: ColorPalette.black75,
+              Positioned(
+                bottom: (height * 0.3),
+                child: const CustomText(
+                  text: 'Cal',
+                  fontSize: 14,
+                ),
               ),
             ],
           ),

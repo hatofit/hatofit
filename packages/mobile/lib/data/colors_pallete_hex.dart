@@ -9,7 +9,11 @@ class ColorPalette {
   static const Color black10 = Color(0xFFE6E6E6);
   static const Color black00 = Color(0xFFFFFFFF);
 
+  static const Color male = Color(0xFF2B3595);
+  static const Color female = Color(0xFFE14594);
+
   static const Color navBar = Color(0xFF6358E1);
+  static const Color backgroundColor = Color(0xFFF9F8FD);
 
   static const Color royalBlue = Color(0xFF4051E6);
   static const Color navyBlue = Color(0xFF1726B5);

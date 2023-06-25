@@ -15,7 +15,7 @@ class CustomText extends StatelessWidget {
     super.key,
     required this.text,
     this.color = ColorPalette.black,
-    this.fontFamily = 'Popins',
+    this.fontFamily = 'Poppins',
     this.fontSize = 16,
     this.fontWeight = FontWeight.normal,
     this.maxLines = 24,

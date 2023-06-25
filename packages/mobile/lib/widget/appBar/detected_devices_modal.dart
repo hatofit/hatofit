@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/controller/dashboard_controller.dart';
+import 'package:polar_hr_devices/main.dart';
+import 'package:polar_hr_devices/modules/dashboard/dashboard_controller.dart';
 import 'package:polar_hr_devices/widget/custom_text.dart';
 
 class DetectedDevicesModal {
@@ -52,13 +53,12 @@ class DetectedDevicesModal {
                           ),
                           CustomText(
                             text:
-                                '\tDistance : ± ${controller.distanceList[index]} m',
+                                ' RSSI : ${controller.detectedDevices[index].rssi}',
                             fontSize: 12,
                           ),
                         ],
                       ),
-                      trailing: controller.storage
-                                  .read('lastConnectedDeviceID') ==
+                      trailing: storage.read('lastConnectedDeviceID') ==
                               controller.detectedDevices[index].deviceId
                           ? TextButton(
                               style: ButtonStyle(

@@ -51,28 +51,32 @@ class SleepsInfoWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
                       children: [
                         CustomText(
                           text: '20',
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
                         ),
                         CustomText(
-                          text: 'hr',
+                          text: ' hr',
                           fontSize: 12,
                           fontWeight: FontWeight.normal,
                         ),
                       ],
                     ),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
                       children: [
                         CustomText(
                           text: '40',
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500,
                         ),
                         CustomText(
-                          text: 'mn',
+                          text: ' mn',
                           fontSize: 12,
                           fontWeight: FontWeight.normal,
                         ),

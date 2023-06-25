@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-import 'package:polar_hr_devices/controller/dashboard_controller.dart';
-import 'package:polar_hr_devices/pages/workout_details_page.dart';
+import 'package:polar_hr_devices/modules/dashboard/dashboard_controller.dart';
 import 'package:polar_hr_devices/widget/custom_text.dart';
 import 'package:polar_hr_devices/widget/icon_wrapper.dart';
 
+
 class ChooseModeWidget extends StatefulWidget {
-  const ChooseModeWidget({super.key});
+  const ChooseModeWidget(
+      {super.key, required String title, required Future? Function() onTap});
 
   @override
   State<ChooseModeWidget> createState() => _ChooseModeWidgetState();
@@ -127,7 +128,7 @@ class _ChooseModeWidgetState extends State<ChooseModeWidget> {
           MaterialButton(
             //Navigate to workout detail page
             onPressed: () {
-              Get.to(() => const WorkoutDetailPage());
+              // Get.to(() => const WorkoutDetailsPage());
             },
             color: ColorPalette.crimsonRed,
             textColor: ColorPalette.black00,

@@ -54,7 +54,7 @@ class BMIChartWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
-                    color: ColorPalette.aqua50,
+                    color: const Color(0xFFD6FFDD),
                   ),
                   child: const CustomText(
                     text: "You're Healthy",
@@ -140,7 +140,7 @@ class BMIChartWidget extends StatelessWidget {
                     const SizedBox(width: 8),
                     Container(
                       width: 1,
-                      height: height * 0.15,
+                      height: height * 0.2,
                       decoration: const BoxDecoration(
                         color: ColorPalette.aqua,
                       ),
@@ -178,7 +178,7 @@ class BMIChartWidget extends StatelessWidget {
                   children: [
                     Container(
                       width: 1,
-                      height: height * 0.15,
+                      height: height * 0.2,
                       decoration: const BoxDecoration(
                         color: ColorPalette.aqua,
                       ),

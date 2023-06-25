@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/controller/dashboard_controller.dart';
+import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/modules/dashboard/dashboard_controller.dart';
 import 'package:polar_hr_devices/widget/appBar/detected_devices_modal.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -14,7 +14,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.title = '',
     this.isSubPage = false,
     this.showSearchBar = false,
-    required this.screenColor,
+    this.screenColor = ColorPalette.backgroundColor,
     Key? key,
   }) : super(key: key);
 
@@ -28,29 +28,16 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   var controller = Get.find<DashboardController>();
 
-  void changeStatusBarColor(Color color) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: color),
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    changeStatusBarColor(widget.screenColor);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(
-        top: 12,
-        left: 12,
-        right: 12,
+        left: 4,
+        right: 4,
       ),
       color: widget.screenColor,
       child: Material(
-        elevation: 4,
+        color: widget.screenColor,
         borderRadius: BorderRadius.circular(32),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,7 +58,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   Text(
                     widget.title,
                     style: const TextStyle(
-                      fontFamily: 'Popins',
+                      fontFamily: 'Poppins',
                       fontSize: 20,
                       color: Colors.black,
                       fontWeight: FontWeight.w700,
