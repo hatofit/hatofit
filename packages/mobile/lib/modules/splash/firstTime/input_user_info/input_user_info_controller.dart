@@ -52,7 +52,6 @@ class InputUserInfoController extends GetxController {
     } else {
       storage.write('weightUnit', 'Lbs');
     }
-    print(storage.read('name'));
     requestPermission();
   }
 

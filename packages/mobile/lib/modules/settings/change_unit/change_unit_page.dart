@@ -40,9 +40,9 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
               () => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
+                  const Padding(
                     padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: CustomText(
                       text: 'Energy Unit',
                       fontSize: 12,
@@ -50,7 +50,7 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: 16),
+                    margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
                       color: ColorPalette.black00,
                       borderRadius: BorderRadius.circular(8),
@@ -65,12 +65,12 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                             );
                           },
                           trailing: controller.energyUnit.value == 'Calories'
-                              ? Icon(
+                              ? const Icon(
                                   FontAwesomeIcons.check,
                                   color: ColorPalette.crimsonRed,
                                   size: 16,
                                 )
-                              : SizedBox(),
+                              : const SizedBox(),
                         ),
                         const Divider(
                           color: ColorPalette.black10,
@@ -86,12 +86,12 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                           },
                           trailing:
                               controller.energyUnit.value == 'Kilocalories'
-                                  ? Icon(
+                                  ? const Icon(
                                       FontAwesomeIcons.check,
                                       color: ColorPalette.crimsonRed,
                                       size: 16,
                                     )
-                                  : SizedBox(),
+                                  : const SizedBox(),
                         ),
                         const Divider(
                           color: ColorPalette.black10,
@@ -106,19 +106,19 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                             );
                           },
                           trailing: controller.energyUnit.value == 'Kilojoules'
-                              ? Icon(
+                              ? const Icon(
                                   FontAwesomeIcons.check,
                                   color: ColorPalette.crimsonRed,
                                   size: 16,
                                 )
-                              : SizedBox(),
+                              : const SizedBox(),
                         ),
                       ],
                     ),
                   ),
-                  Padding(
+                  const Padding(
                     padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: CustomText(
                       text: 'Height Unit',
                       fontSize: 12,
@@ -126,7 +126,7 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: 16),
+                    margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
                       color: ColorPalette.black00,
                       borderRadius: BorderRadius.circular(8),
@@ -141,12 +141,12 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                             );
                           },
                           trailing: controller.heightUnit.value == 'Centimeters'
-                              ? Icon(
+                              ? const Icon(
                                   FontAwesomeIcons.check,
                                   color: ColorPalette.crimsonRed,
                                   size: 16,
                                 )
-                              : SizedBox(),
+                              : const SizedBox(),
                         ),
                         const Divider(
                           color: ColorPalette.black10,
@@ -161,12 +161,12 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                             );
                           },
                           trailing: controller.heightUnit.value == 'Feet'
-                              ? Icon(
+                              ? const Icon(
                                   FontAwesomeIcons.check,
                                   color: ColorPalette.crimsonRed,
                                   size: 16,
                                 )
-                              : SizedBox(),
+                              : const SizedBox(),
                         ),
                         const Divider(
                           color: ColorPalette.black10,
@@ -176,9 +176,9 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                       ],
                     ),
                   ),
-                  Padding(
+                  const Padding(
                     padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: CustomText(
                       text: 'Weight Unit',
                       fontSize: 12,
@@ -186,7 +186,7 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: 16),
+                    margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
                       color: ColorPalette.black00,
                       borderRadius: BorderRadius.circular(8),
@@ -201,12 +201,12 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                             );
                           },
                           trailing: controller.weightUnit.value == 'Kilograms'
-                              ? Icon(
+                              ? const Icon(
                                   FontAwesomeIcons.check,
                                   color: ColorPalette.crimsonRed,
                                   size: 16,
                                 )
-                              : SizedBox(),
+                              : const SizedBox(),
                         ),
                         const Divider(
                           color: ColorPalette.black10,
@@ -221,12 +221,12 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                             );
                           },
                           trailing: controller.weightUnit.value == 'Lbs'
-                              ? Icon(
+                              ? const Icon(
                                   FontAwesomeIcons.check,
                                   color: ColorPalette.crimsonRed,
                                   size: 16,
                                 )
-                              : SizedBox(),
+                              : const SizedBox(),
                         ),
                       ],
                     ),

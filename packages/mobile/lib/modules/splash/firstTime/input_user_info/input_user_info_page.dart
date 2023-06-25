@@ -13,7 +13,7 @@ class InputUserInfoPage extends GetView<InputUserInfoController> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
         statusBarColor: ColorPalette.backgroundColor,
       ),
     );

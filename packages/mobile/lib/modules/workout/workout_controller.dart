@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/models/workout_model.dart';
-import 'package:polar_hr_devices/modules/workout/workout_details_page.dart';
-import 'package:polar_hr_devices/modules/workout/workout_start.dart';
+import 'package:polar_hr_devices/modules/workout/workout_detail/workout_details_page.dart';
+import 'package:polar_hr_devices/modules/workout/workout_start/workout_start.dart';
 
 class WorkoutController extends GetxController {
   final String title = 'Workout';

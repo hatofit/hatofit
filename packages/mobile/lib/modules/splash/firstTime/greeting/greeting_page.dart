@@ -12,7 +12,7 @@ class GreetingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
+      const SystemUiOverlayStyle(
         statusBarColor: ColorPalette.backgroundColor,
       ),
     );
@@ -61,8 +61,8 @@ class GreetingPage extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -80,7 +80,7 @@ class GreetingPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 32, vertical: 16),
@@ -90,12 +90,6 @@ class GreetingPage extends StatelessWidget {
                         onPressed: () {
                           Get.offAllNamed(AppRoutes.inputUserInfo);
                         },
-                        child: CustomText(
-                          text: 'Get Started',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: ColorPalette.black,
-                        ),
                         style: OutlinedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
@@ -105,6 +99,12 @@ class GreetingPage extends StatelessWidget {
                             color: ColorPalette.black,
                             width: 2,
                           ),
+                        ),
+                        child: const CustomText(
+                          text: 'Get Started',
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: ColorPalette.black,
                         ),
                       ),
                     ),
