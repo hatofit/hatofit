@@ -34,6 +34,7 @@ const ExerciseSchema = new mongoose_1.Schema({
     description: String,
     difficulty: String,
     type: String,
+    thumbnail: String,
     instructions: [{
             type: String,
             name: String,

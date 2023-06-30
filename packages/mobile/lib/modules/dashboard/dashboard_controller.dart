@@ -24,7 +24,7 @@ class DashboardController extends GetxController {
   final FlutterBluePlus flutterBluePlus = FlutterBluePlus.instance;
   final double screenHeight = Get.height;
   final double screenWidth = Get.width;
-  var tabIndex = 3;
+  var tabIndex = 1;
 
   @override
   void onInit() {

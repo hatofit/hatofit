@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/models/workout_model.dart';
+import 'package:polar_hr_devices/models/exercise_model.dart';
 import 'package:polar_hr_devices/modules/dashboard/dashboard_controller.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class WorkoutStart extends StatefulWidget {
-  final WorkoutModel workout;
+  final ExerciseModel workout;
   const WorkoutStart({super.key, required this.workout});
 
   @override
@@ -22,7 +22,8 @@ class _WorkoutStartState extends State<WorkoutStart> {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     _youtubePlayerController = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(widget.workout.videoUrl)!,
+      initialVideoId: YoutubePlayer.convertUrlToId(
+          widget.workout.instructions[0].content!.video)!,
       flags: const YoutubePlayerFlags(
         autoPlay: true,
         mute: false,
@@ -87,44 +88,3 @@ class _WorkoutStartState extends State<WorkoutStart> {
     );
   }
 }
-
-Map<String, dynamic> jsonRequest = {
-  "exerciseId": "64905689c17f39d5002c2d94",
-  "startTime": 1686913335015,
-  "endTime": 1686913341097,
-  "timelines": [
-    {"name": "instruction_1", "startTime": 1686913335015},
-    {"name": "rest_1", "startTime": 1686913341097}
-  ],
-  "data": [
-    {
-      "second": 0,
-      "timeStamp": 1686913335064,
-      "devices": [
-        {
-          "type": "PolarDataType.hr",
-          "identifier": "BBADFE28",
-          "value": [
-            {
-              "hr": 92,
-              "rrsMs": [648]
-            }
-          ]
-        },
-        {
-          "type": "PolarDataType.ecg",
-          "identifier": "BBADFE28",
-          "value": [
-            {
-              "hr": 92,
-              "rrsMs": [648]
-            }
-          ]
-        }
-      ]
-    },
-  ]
-};
-
-//   SessionData sessionData = SessionData.fromJson(jsonRequest);
-//   print(sessionData.toJson());

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/modules/dashboard/dashboard_controller.dart';
 import 'package:polar_hr_devices/modules/history/history_page.dart';
 import 'package:polar_hr_devices/modules/home/home_page.dart';
 import 'package:polar_hr_devices/modules/settings/setting_page.dart';
 import 'package:polar_hr_devices/modules/workout/workout_page.dart';
 
-import '../../data/colors_pallete_hex.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});

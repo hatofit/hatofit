@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/main.dart';
 
-class ChangeUnitController extends GetxController { 
+class ChangeUnitController extends GetxController {
   RxString energyUnit = ''.obs;
   RxString heightUnit = ''.obs;
   RxString weightUnit = ''.obs;

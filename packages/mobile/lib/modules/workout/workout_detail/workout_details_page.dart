@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-import 'package:polar_hr_devices/models/workout_model.dart';
+import 'package:polar_hr_devices/models/exercise_model.dart';
 import 'package:polar_hr_devices/modules/workout/workout_controller.dart';
 import 'package:polar_hr_devices/widget/custom_text.dart';
 
 class WorkoutDetailsPage extends GetView<WorkoutController> {
-  final WorkoutModel workout;
+  final ExerciseModel workout;
 
   const WorkoutDetailsPage(this.workout, {super.key});
 
@@ -29,7 +29,7 @@ class WorkoutDetailsPage extends GetView<WorkoutController> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: CachedNetworkImageProvider(workout.image),
+            image: CachedNetworkImageProvider(workout.thumbnail),
             fit: BoxFit.fitHeight,
             colorFilter: ColorFilter.mode(
               Colors.black.withOpacity(0.5),
@@ -94,7 +94,7 @@ class WorkoutDetailsPage extends GetView<WorkoutController> {
                                 ),
                                 const SizedBox(width: 4),
                                 CustomText(
-                                  text: workout.duration,
+                                  text: "workout.duration",
                                   fontSize: 14,
                                 ),
                               ],
@@ -107,7 +107,7 @@ class WorkoutDetailsPage extends GetView<WorkoutController> {
                                 ),
                                 const SizedBox(width: 4),
                                 CustomText(
-                                  text: workout.excerciseCount.toString(),
+                                  text: "workout.excerciseCount.toString()",
                                   fontSize: 14,
                                 ),
                                 const CustomText(
@@ -124,7 +124,7 @@ class WorkoutDetailsPage extends GetView<WorkoutController> {
                           height: 120,
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: CachedNetworkImageProvider(workout.image),
+                              image: CachedNetworkImageProvider(workout.thumbnail),
                               fit: BoxFit.cover,
                             ),
                             borderRadius: BorderRadius.circular(10),

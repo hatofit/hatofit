@@ -7,6 +7,7 @@ exports.ExerciseSchema = zod_1.z.object({
     description: zod_1.z.string(),
     difficulty: zod_1.z.enum(['beginner', 'intermediate', 'advanced']),
     type: zod_1.z.string(),
+    thumbnail: zod_1.z.string(),
     instructions: zod_1.z.array(zod_1.z.object({
         type: zod_1.z.enum(['rest', 'instruction']),
         duration: zod_1.z.number(),

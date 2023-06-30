@@ -25,20 +25,30 @@ class HistoryPage extends GetView<HistoryController> {
       body: Center(
         child: SizedBox(
           width: dashboardController.screenWidth * 0.95,
-          child: Obx(
-            () => ListView.builder(
-              itemCount: controller.workouts.length,
-              itemBuilder: (context, index) {
-                var workout = controller.workouts[index];
-                return GestureDetector(
-                  onTap: () {
-                    Get.toNamed(AppRoutes.historyDetail, arguments: workout);
+          child: Column(
+            children: [
+              // Obx(
+              //   () => ListView.builder(
+              //     itemCount: controller.workouts.length,
+              //     itemBuilder: (context, index) {
+              //       var workout = controller.workouts[index];
+              //       return GestureDetector(
+              //         onTap: () {
+              //           Get.toNamed(AppRoutes.historyDetail,
+              //               arguments: workout);
+              //         },
+              //         child: buildWorkoutCard(
+              //             workout, dashboardController.screenHeight),
+              //       );
+              //     },
+              //   ),
+              // ),
+              TextButton(
+                  onPressed: () {
+                    controller.postSession();
                   },
-                  child: buildWorkoutCard(
-                      workout, dashboardController.screenHeight),
-                );
-              },
-            ),
+                  child: Text('Add Workout'))
+            ],
           ),
         ),
       ),

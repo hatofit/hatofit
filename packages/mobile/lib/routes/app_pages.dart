@@ -64,10 +64,6 @@ class AppPages {
       page: () => const ChangeGoalPage(),
       binding: ChangeGoalBinding(),
     ),
-    // GetPage(
-    //   name: AppRoutes.workoutDetail,
-    //   page: () => const WorkoutDetailsPage(),
-    // ),
     GetPage(
       name: AppRoutes.historyDetail,
       page: () => const HistoryDetailPage(),

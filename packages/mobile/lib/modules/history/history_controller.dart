@@ -19,6 +19,105 @@ class HistoryController extends GetxController {
   DateTime now = DateTime.now();
   Response<dynamic> response = const Response<dynamic>();
 
+  Future<void> postSession() async {
+    Response<dynamic> postRes = await _connectGetX.post(
+      'https://127.0.0.1/api/session',
+      {
+        "exerciseId": "test123",
+        "startTime": 0000054455,
+        "endTime": 0000054455032,
+        "timelines": [
+          {"name": "instruction_1", "startTime": 1686913335015},
+          {"name": "rest_1", "startTime": 1686913341097}
+        ],
+        "data": [
+          {
+            "second": 0,
+            "timeStamp": 1686913335064,
+            "devices": [
+              {
+                "type": "PolarDataType.hr",
+                "identifier": "BBADFE28",
+                "value": [
+                  {
+                    "hr": 92,
+                    "rrsMs": [648]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "second": 1,
+            "timeStamp": 1686913336106,
+            "devices": [
+              {
+                "type": "PolarDataType.hr",
+                "identifier": "BBADFE28",
+                "value": [
+                  {
+                    "hr": 93,
+                    "rrsMs": [660, 644]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "second": 2,
+            "timeStamp": 1686913337097,
+            "devices": [
+              {
+                "type": "PolarDataType.hr",
+                "identifier": "BBADFE28",
+                "value": [
+                  {
+                    "hr": 92,
+                    "rrsMs": [630]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "second": 3,
+            "timeStamp": 1686913338097,
+            "devices": [
+              {
+                "type": "PolarDataType.hr",
+                "identifier": "BBADFE28",
+                "value": [
+                  {
+                    "hr": 93,
+                    "rrsMs": [627, 640]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "second": 4,
+            "timeStamp": 1686913339097,
+            "devices": [
+              {
+                "type": "PolarDataType.hr",
+                "identifier": "BBADFE28",
+                "value": [
+                  {
+                    "hr": 93,
+                    "rrsMs": [647]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+    );
+    print(postRes.body);
+    print(postRes.statusCode);
+  }
+
   Future<void> _sendGetRequest() async {
     response =
         await _connectGetX.get('https://polar.viandwi24.site/api/exercise');
