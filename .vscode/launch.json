@@ -1,28 +1,34 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "mobile",
-            "cwd": "packages\\mobile",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "mobile (profile mode)",
-            "cwd": "packages\\mobile",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "mobile (release mode)",
-            "cwd": "packages\\mobile",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "mobile (debug mode)",
+      "cwd": "packages\\mobile",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "debug"
+    },
+    {
+      "name": "mobile (profile mode)",
+      "cwd": "packages\\mobile",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "mobile (release mode)",
+      "cwd": "packages\\mobile",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
+    {
+      "name": "Flutter (Redmi Note 9 Pro)",
+      "program": "lib/main.dart",
+      "cwd": "packages\\mobile",
+      "deviceId": "69541245",
+      "request": "launch",
+      "type": "dart"
+    }
+  ]
 }

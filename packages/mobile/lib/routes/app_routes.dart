@@ -1,4 +1,5 @@
-class AppRoutes {
+abstract class AppRoutes {
+  AppRoutes._();
   static const String splash = '/splash';
   static const String greeting = '/splash/greeting';
   static const String inputUserInfo = '/splash/inputUserInfo';
@@ -7,7 +8,8 @@ class AppRoutes {
   static const String home = '/home';
 
   static const String workout = '/workout';
-  static const String workoutDetail = '/workout/detail:workoutId';
+  static const String workoutDetail = '/workout/detail';
+  static const String workoutStart = '/workout/start';
 
   static const String history = '/history';
   static const String historyDetail = '/history/detail:workoutId';

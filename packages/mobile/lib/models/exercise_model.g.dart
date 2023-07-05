@@ -17,6 +17,7 @@ ExerciseModel _$ExerciseModelFromJson(Map<String, dynamic> json) =>
           .map((e) => Instruction.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['thumbnail'] as String,
+      json['duration'] as int,
     );
 
 Map<String, dynamic> _$ExerciseModelToJson(ExerciseModel instance) =>
@@ -26,6 +27,7 @@ Map<String, dynamic> _$ExerciseModelToJson(ExerciseModel instance) =>
       'description': instance.description,
       'difficulty': instance.difficulty,
       'type': instance.type,
+      'duration': instance.duration,
       'thumbnail': instance.thumbnail,
       'instructions': instance.instructions.map((e) => e.toJson()).toList(),
     };
@@ -38,14 +40,16 @@ Instruction _$InstructionFromJson(Map<String, dynamic> json) => Instruction(
       json['content'] == null
           ? null
           : Content.fromJson(json['content'] as Map<String, dynamic>),
+      json['description'] as String?,
     );
 
 Map<String, dynamic> _$InstructionToJson(Instruction instance) =>
     <String, dynamic>{
       '_id': instance.id,
       'type': instance.type,
-      'name': instance.name,
       'duration': instance.duration,
+      'name': instance.name,
+      'description': instance.description,
       'content': instance.content,
     };
 

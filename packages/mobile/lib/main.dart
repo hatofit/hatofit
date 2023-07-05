@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info/input_user_info_binding.dart';
-import 'package:polar_hr_devices/modules/splash/loading_splash_screen.dart';
-
 import 'package:polar_hr_devices/routes/app_pages.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
 
@@ -20,37 +17,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return GetMaterialApp(
-    //   title: 'HatoFit',
-    //   initialRoute: AppRoutes.dashboard,
-    //   getPages: AppPages.list,
-    //   debugShowCheckedModeBanner: false,
-    //   routingCallback: (value) {},
-    // );
-    return FutureBuilder(
-      future: Future.delayed(const Duration(seconds: 3)),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const LoadingSplashScreen();
-        } else {
-          if (storage.read('name') != null) {
-            return GetMaterialApp(
-              title: 'Hato Fit',
-              initialRoute: AppRoutes.dashboard,
-              getPages: AppPages.list,
-              debugShowCheckedModeBanner: false,
-            );
-          } else {
-            return GetMaterialApp(
-              title: 'Hato Fit',
-              initialRoute: AppRoutes.greeting,
-              initialBinding: InputUserInfoBinding(),
-              getPages: AppPages.list,
-              debugShowCheckedModeBanner: false,
-            );
-          }
-        }
-      },
+    return GetMaterialApp(
+      title: 'Hato Fit',
+      initialRoute: AppRoutes.splash,
+      getPages: AppPages.list,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

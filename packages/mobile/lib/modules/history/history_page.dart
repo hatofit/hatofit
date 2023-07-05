@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
 import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
 import 'package:polar_hr_devices/widget/custom_text.dart';
 
@@ -43,11 +42,7 @@ class HistoryPage extends GetView<HistoryController> {
               //     },
               //   ),
               // ),
-              TextButton(
-                  onPressed: () {
-                    controller.postSession();
-                  },
-                  child: Text('Add Workout'))
+              TextButton(onPressed: () {}, child: const Text('Add Workout'))
             ],
           ),
         ),

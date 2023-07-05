@@ -55,7 +55,7 @@ class DataModel {
 class DeviceModel {
   final String type;
   final String identifier;
-  final List<ValueModel> value;
+  final List<Map<String, dynamic>> value;
 
   DeviceModel(this.type, this.identifier, this.value);
 
@@ -63,44 +63,4 @@ class DeviceModel {
       _$DeviceModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$DeviceModelToJson(this);
-}
-
-@JsonSerializable(explicitToJson: true)
-class ValueModel {
-  final double? voltage;
-  final int? x;
-  final int? y;
-  final int? z;
-  final List<int>? channelSamples;
-  final double? gyroX;
-  final double? gyroY;
-  final double? gyroZ;
-  final double? magnetometerX;
-  final double? magnetometerY;
-  final double? magnetometerZ;
-  final int? hr;
-  final List<int>? rrsMs;
-  final String timeStamp;
-
-  ValueModel({
-    this.voltage,
-    this.x,
-    this.y,
-    this.z,
-    this.channelSamples,
-    this.gyroX,
-    this.gyroY,
-    this.gyroZ,
-    this.magnetometerX,
-    this.magnetometerY,
-    this.magnetometerZ,
-    this.hr,
-    this.rrsMs,
-    required this.timeStamp,
-  });
-
-  factory ValueModel.fromJson(Map<String, dynamic> json) =>
-      _$ValueModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ValueModelToJson(this);
 }

@@ -121,7 +121,7 @@ class WorkoutPage extends GetView<WorkoutController> {
                       ),
                     );
                   } else {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }

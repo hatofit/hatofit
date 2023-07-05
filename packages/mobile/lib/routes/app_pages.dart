@@ -10,18 +10,26 @@ import 'package:polar_hr_devices/modules/settings/change_unit/change_unit_bindin
 import 'package:polar_hr_devices/modules/settings/change_unit/change_unit_page.dart';
 import 'package:polar_hr_devices/modules/settings/setting_binding.dart';
 import 'package:polar_hr_devices/modules/settings/setting_page.dart';
-import 'package:polar_hr_devices/modules/splash/firstTime/greeting/greeting_page.dart';
-import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info/input_user_info_page.dart';
-import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info/input_user_info_binding.dart';
-import 'package:polar_hr_devices/modules/splash/loading_splash_screen.dart';
+import 'package:polar_hr_devices/modules/workout/splash/firstTime/greeting/greeting_page.dart';
+import 'package:polar_hr_devices/modules/workout/splash/firstTime/input_user_info/input_user_info_page.dart';
+import 'package:polar_hr_devices/modules/workout/splash/firstTime/input_user_info/input_user_info_binding.dart';
+import 'package:polar_hr_devices/modules/workout/splash/loading_splash_screen.dart';
+import 'package:polar_hr_devices/modules/workout/workout_detail/workout_details_binding.dart';
+import 'package:polar_hr_devices/modules/workout/workout_detail/workout_details_page.dart';
 import 'package:polar_hr_devices/modules/workout/workout_page.dart';
+import 'package:polar_hr_devices/modules/workout/workout_start/workout_start_binding.dart';
+import 'package:polar_hr_devices/modules/workout/workout_start/workout_start_page.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
+import 'package:polar_hr_devices/services/services_binding.dart';
+
 
 class AppPages {
+  AppPages._();
   static final list = [
     GetPage(
       name: AppRoutes.splash,
       page: () => const LoadingSplashScreen(),
+      binding: ServicesBinding(),
     ),
     GetPage(
       name: AppRoutes.greeting,
@@ -44,6 +52,16 @@ class AppPages {
     GetPage(
       name: AppRoutes.workout,
       page: () => const WorkoutPage(),
+    ),
+    GetPage(
+      name: AppRoutes.workoutDetail,
+      page: () => WorkoutDetailsPage(Get.arguments),
+      binding: WorkoutDetailsBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.workoutStart,
+      page: () => WorkoutStartPage(Get.arguments),
+      bindings: [WorkoutStartBinding(), DashboardBinding()],
     ),
     GetPage(
       name: AppRoutes.history,

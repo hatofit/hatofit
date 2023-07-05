@@ -57,7 +57,7 @@ DeviceModel _$DeviceModelFromJson(Map<String, dynamic> json) => DeviceModel(
       json['type'] as String,
       json['identifier'] as String,
       (json['value'] as List<dynamic>)
-          .map((e) => ValueModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => e as Map<String, dynamic>)
           .toList(),
     );
 
@@ -65,42 +65,5 @@ Map<String, dynamic> _$DeviceModelToJson(DeviceModel instance) =>
     <String, dynamic>{
       'type': instance.type,
       'identifier': instance.identifier,
-      'value': instance.value.map((e) => e.toJson()).toList(),
-    };
-
-ValueModel _$ValueModelFromJson(Map<String, dynamic> json) => ValueModel(
-      voltage: (json['voltage'] as num?)?.toDouble(),
-      x: json['x'] as int?,
-      y: json['y'] as int?,
-      z: json['z'] as int?,
-      channelSamples: (json['channelSamples'] as List<dynamic>?)
-          ?.map((e) => e as int)
-          .toList(),
-      gyroX: (json['gyroX'] as num?)?.toDouble(),
-      gyroY: (json['gyroY'] as num?)?.toDouble(),
-      gyroZ: (json['gyroZ'] as num?)?.toDouble(),
-      magnetometerX: (json['magnetometerX'] as num?)?.toDouble(),
-      magnetometerY: (json['magnetometerY'] as num?)?.toDouble(),
-      magnetometerZ: (json['magnetometerZ'] as num?)?.toDouble(),
-      hr: json['hr'] as int?,
-      rrsMs: (json['rrsMs'] as List<dynamic>?)?.map((e) => e as int).toList(),
-      timeStamp: json['timeStamp'] as String,
-    );
-
-Map<String, dynamic> _$ValueModelToJson(ValueModel instance) =>
-    <String, dynamic>{
-      'voltage': instance.voltage,
-      'x': instance.x,
-      'y': instance.y,
-      'z': instance.z,
-      'channelSamples': instance.channelSamples,
-      'gyroX': instance.gyroX,
-      'gyroY': instance.gyroY,
-      'gyroZ': instance.gyroZ,
-      'magnetometerX': instance.magnetometerX,
-      'magnetometerY': instance.magnetometerY,
-      'magnetometerZ': instance.magnetometerZ,
-      'hr': instance.hr,
-      'rrsMs': instance.rrsMs,
-      'timeStamp': instance.timeStamp,
+      'value': instance.value,
     };

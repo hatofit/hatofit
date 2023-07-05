@@ -10,6 +10,7 @@ class ExerciseModel {
   final String description;
   final String difficulty;
   final String type;
+  final int duration;
   final String thumbnail;
   final List<Instruction> instructions;
 
@@ -21,6 +22,7 @@ class ExerciseModel {
     this.type,
     this.instructions,
     this.thumbnail,
+    this.duration,
   );
 
   factory ExerciseModel.fromJson(Map<String, dynamic> json) =>
@@ -34,8 +36,9 @@ class Instruction {
   @JsonKey(name: '_id')
   final String id;
   final String type;
-  final String? name;
   final int duration;
+  final String? name;
+  final String? description;
   final Content? content;
 
   Instruction(
@@ -44,6 +47,7 @@ class Instruction {
     this.name,
     this.duration,
     this.content,
+    this.description,
   );
 
   factory Instruction.fromJson(Map<String, dynamic> json) =>

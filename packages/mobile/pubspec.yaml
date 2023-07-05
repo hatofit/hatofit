@@ -2,7 +2,7 @@ name: polar_hr_devices
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.2 <4.0.0'
+  sdk: ">=3.0.2 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,14 +31,12 @@ dependencies:
   flutter:
     sdk: flutter
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   polar: ^5.2.0
   intl: ^0.18.1
   fl_chart: ^0.63.0
   syncfusion_flutter_charts: ^21.2.6
-  permission_handler: ^10.3.0
   flutter_blue_plus: ^1.5.2
   get: ^4.6.5
   font_awesome_flutter: ^10.4.0
@@ -46,12 +44,12 @@ dependencies:
   lottie: ^2.4.0
   get_storage: ^2.1.1
   path_provider: ^2.0.15
-  flutter_svg: ^2.0.7
-  appinio_video_player: ^1.2.1
   youtube_player_flutter: ^8.1.2
   json_serializable: ^6.7.0
   json_annotation: ^4.8.1
   build_runner: ^2.4.5
+  flutter_svg: ^2.0.7
+  permission_handler: ^10.4.1
 
 dev_dependencies:
   flutter_test:
@@ -75,7 +73,6 @@ flutter_launcher_icons:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -86,7 +83,7 @@ flutter:
     - assets/
     - assets/images/
     - assets/images/logo/
-
+    - assets/animations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -102,15 +99,14 @@ flutter:
   fonts:
     - family: Poppins
       fonts:
-      - asset: assets/fonts/Poppins-Regular.ttf
-        weight: 400
-      - asset: assets/fonts/Poppins-Medium.ttf
-        weight: 500
-      - asset: assets/fonts/Poppins-SemiBold.ttf
-        weight: 600
-      - asset: assets/fonts/Poppins-Bold.ttf
-        weight: 700
-
+        - asset: assets/fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
 
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

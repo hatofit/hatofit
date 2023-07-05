@@ -9,7 +9,6 @@ import 'package:polar_hr_devices/modules/home/home_page.dart';
 import 'package:polar_hr_devices/modules/settings/setting_page.dart';
 import 'package:polar_hr_devices/modules/workout/workout_page.dart';
 
-
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
@@ -74,7 +73,7 @@ class DashboardPage extends StatelessWidget {
       case 0:
         return ColorPalette.crimsonRed20;
       default:
-        return ColorPalette.backgroundColor;
+        return Colors.transparent;
     }
   }
 
