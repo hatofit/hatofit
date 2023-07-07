@@ -15,7 +15,7 @@ class WorkoutController extends GetxController {
   Future fetchExercises() async {
     try {
       final response =
-          await _getConnect.get('http://192.168.223.169:3000/api/exercise');
+          await _getConnect.get('http://192.168.98.169:3000/api/exercise');
       if (response.statusCode == 200) {
         final List<dynamic> jsonResponse = response.body['exercises'];
         todayGoalWorkouts = jsonResponse.map<ExerciseModel>((json) {

@@ -122,12 +122,20 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
               ),
               SliverToBoxAdapter(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: CustomText(
-                      text: '${workout.instructions.length} steps',
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold),
-                ),
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      children: [
+                        CustomText(
+                            text: '${workout.duration} s',
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold),
+                        SizedBox(width: 8),
+                        CustomText(
+                            text: '${workout.instructions.length} steps',
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold),
+                      ],
+                    )),
               ),
               SliverList(
                 delegate: SliverChildBuilderDelegate(

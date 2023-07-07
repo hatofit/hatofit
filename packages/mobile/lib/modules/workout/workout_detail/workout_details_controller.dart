@@ -18,6 +18,8 @@ class WorkoutDetailsController extends GetxController
     Tab(text: 'Video'),
   ];
 
+  final workout = Get.arguments as ExerciseModel;
+
   @override
   void onInit() {
     scrollController = ScrollController();
@@ -34,7 +36,12 @@ class WorkoutDetailsController extends GetxController
     super.onClose();
   }
 
-  showDetailsModal(Instruction instruction) {
+  void convertToMinutes() {
+    final int duration = workout.duration;
+    if (duration >= 60) {}
+  }
+
+  void showDetailsModal(Instruction instruction) {
     if (instruction.content!.video != '') {
       videoURL = instruction.content!.video;
       _youtubePlayerController = YoutubePlayerController(
@@ -66,7 +73,8 @@ class WorkoutDetailsController extends GetxController
                             const SizedBox(height: 10),
                             CustomText(text: tab.text!),
                             Container(
-                              margin: const EdgeInsets.only(top: 10, bottom: 10),
+                              margin:
+                                  const EdgeInsets.only(top: 10, bottom: 10),
                               width: 100,
                               height: 10,
                               decoration: BoxDecoration(
@@ -90,7 +98,8 @@ class WorkoutDetailsController extends GetxController
                             const SizedBox(height: 10),
                             CustomText(text: tab.text!),
                             Container(
-                              margin: const EdgeInsets.only(top: 10, bottom: 10),
+                              margin:
+                                  const EdgeInsets.only(top: 10, bottom: 10),
                               width: 100,
                               height: 10,
                               decoration: BoxDecoration(

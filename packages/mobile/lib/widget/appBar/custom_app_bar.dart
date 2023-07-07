@@ -71,7 +71,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ? const Icon(Icons.bluetooth_connected)
                         : const Icon(Icons.bluetooth_disabled),
                     onPressed: () {
-                      if (bluetoothService.isBluetoothOn.value) {
+                      if (bluetoothService.isBluetoothOn.value == true) {
                         polarService.scanPolarDevices();
                         showModal();
                       } else {
@@ -79,6 +79,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                         Get.snackbar(
                             'Bluetooth is off', 'Please turn on bluetooth',
                             snackPosition: SnackPosition.TOP);
+                        polarService.scanPolarDevices();
+                        showModal();
                       }
                     },
                   ),

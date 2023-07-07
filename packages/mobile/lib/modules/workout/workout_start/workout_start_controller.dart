@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
 import 'package:polar_hr_devices/services/polar_service.dart';
@@ -21,13 +22,14 @@ class WorkoutStartController extends GetxController {
 
   @override
   void onInit() {
+    _polarService.isStartWorkout.toggle();
     _polarService.starWorkout(workout.id, workout.duration);
     super.onInit();
   }
 
   @override
   void onClose() {
-    _polarService.isStartWorkout.value = false;
+    _polarService.isStartWorkout.toggle();
     super.onClose();
   }
 }

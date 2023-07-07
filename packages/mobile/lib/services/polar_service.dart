@@ -20,11 +20,11 @@ class PolarService extends GetxController {
       List<Map<String, dynamic>>.empty(growable: true);
   final bluetoothService = Get.find<BluetoothService>();
 
-  final dataModel = [DataModel(0, 0, [])];
-  final deviceModelList = [DeviceModel('', '', [])];
+  var dataModel = [DataModel(0, 0, [])];
+  final List<DeviceModel> deviceModelList = [];
   var sessionModel = SessionModel('exerciseId', 0, 0, [], []);
 
-  var isStartWorkout = false.obs;
+  final isStartWorkout = false.obs;
   StreamSubscription<PolarStreamingData<PolarHrSample>>? hrSubscription;
   StreamSubscription<PolarStreamingData<PolarGyroSample>>? gyroSubscription;
   StreamSubscription<PolarStreamingData<PolarPpgSample>>? ppgSubscription;
@@ -54,7 +54,6 @@ class PolarService extends GetxController {
     polar.searchForDevice().listen((polardDeviceInfo) {
       bool isAlreadyDetected = detectedDevices.any((detectedDevice) =>
           detectedDevice['deviceId'] == polardDeviceInfo.deviceId);
-
       if (!isAlreadyDetected) {
         String nameReplace = '';
         String imageURLReplace = '';
@@ -101,40 +100,33 @@ class PolarService extends GetxController {
   }
 
   void streamCancelation() async {
-    await gyroSubscription!.cancel();
-    await ppgSubscription!.cancel();
-    await ppiSubscription!.cancel();
-    await magnetometerSubscription!.cancel();
-    await accSubscription!.cancel();
-    await ecgSubscription!.cancel();
-    isStartWorkout.value = false;
+    await gyroSubscription?.cancel();
+    await ppgSubscription?.cancel();
+    await ppiSubscription?.cancel();
+    await magnetometerSubscription?.cancel();
+    await accSubscription?.cancel();
+    await ecgSubscription?.cancel();
   }
-PolarStreamingData? data;
+
+  PolarStreamingData? data;
   void starWorkout(String exerciseId, int exerciseDuration) {
-    isStartWorkout.value = true;
     final now = DateTime.now().toUtc().microsecondsSinceEpoch;
     // logic now - exerciseDuration
     final startStream = now - (exerciseDuration * 1000000);
-    debugPrint(' DEVICE ID : ${connectedDeviceId.value}');
     var counter = 0;
     Timer.periodic(const Duration(seconds: 1), (timer) {
       dataModel.add(DataModel(counter, now, deviceModelList));
       polar.deviceDisconnected.listen((event) {
         timer.cancel();
       });
-      debugPrint('Start Workout');
       if (isStartWorkout.value == false) {
-        debugPrint('Save Data');
-
-        sessionModel =
-            SessionModel(exerciseId, startStream, now, [], dataModel);
+        sessionModel = SessionModel(
+            '64906224a4fd74f99b1e7046', startStream, now, [], dataModel);
         saveToJSON(connectedDeviceId.value, startStream);
 
         uploadData();
         timer.cancel();
       }
-      debugPrint('now: $now');
-      debugPrint('startStream: $startStream');
 
       counter++;
     });
@@ -150,123 +142,129 @@ PolarStreamingData? data;
 
     final availableTypes =
         await polar.getAvailableOnlineStreamDataTypes(deviceId);
-
-    bluetoothService.isBluetoothOn.value = true;
-
     if (availableTypes.contains(PolarDataType.hr)) {
       hrSubscription = polar.startHrStreaming(deviceId).listen((hrData) {
         heartRate.value = hrData.samples.first.hr.toString();
-        deviceModelList.add(DeviceModel('PolarDataType.hr', deviceId, [
-          {
-            'hr': hrData.samples.first.hr,
-            'rrsMs': hrData.samples.first.rrsMs,
+        if (isStartWorkout.value == true) {
+          // check if previous list already have hr data
+          if (!deviceModelList
+              .any((element) => element.type == 'PolarDataType.hr')) {
+            // if yes, add new data to the list
+            if (hrData.samples.first.rrsMs.isEmpty) {
+              deviceModelList.add(DeviceModel('PolarDataType.hr', deviceId, [
+                {
+                  'hr': hrData.samples.first.hr,
+                }
+              ]));
+            } else {
+              deviceModelList.add(DeviceModel('PolarDataType.hr', deviceId, [
+                {
+                  'hr': hrData.samples.first.hr,
+                  'rrsMs': hrData.samples.first.rrsMs,
+                }
+              ]));
+            }
           }
-        ]));
+        }
       });
-      if (availableTypes.contains(PolarDataType.gyro)) {
-        gyroSubscription =
-            polar.startGyroStreaming(deviceId).listen((gyroData) {
-          if (isStartWorkout.value == true) {
-            debugPrint('Received GYRO');
+    }
+    bluetoothService.isBluetoothOn.value = true;
+    if (availableTypes.contains(PolarDataType.acc)) {
+      accSubscription = polar.startAccStreaming(deviceId).listen((accData) {
+        if (isStartWorkout.value == true) {
+          if (!deviceModelList
+              .any((element) => element.type == 'PolarDataType.acc')) {
             deviceModelList.add(DeviceModel('PolarDataType.acc', deviceId, [
+              {
+                'x': accData.samples.first.x,
+                'y': accData.samples.first.y,
+                'z': accData.samples.first.z,
+              }
+            ]));
+          }
+        }
+      });
+    }
+    if (availableTypes.contains(PolarDataType.ecg)) {
+      ecgSubscription = polar.startEcgStreaming(deviceId).listen((ecgData) {
+        if (isStartWorkout.value == true) {
+          if (!deviceModelList
+              .any((element) => element.type == 'PolarDataType.ecg')) {
+            deviceModelList.add(DeviceModel('PolarDataType.ecg', deviceId, [
+              {
+                'voltage': ecgData.samples.first.voltage,
+              }
+            ]));
+          }
+        }
+      });
+    }
+    if (availableTypes.contains(PolarDataType.gyro)) {
+      gyroSubscription = polar.startGyroStreaming(deviceId).listen((gyroData) {
+        if (isStartWorkout.value == true) {
+          if (!deviceModelList
+              .any((element) => element.type == 'PolarDataType.gyro')) {
+            deviceModelList.add(DeviceModel('PolarDataType.gyro', deviceId, [
               {
                 'x': gyroData.samples.first.x,
                 'y': gyroData.samples.first.y,
                 'z': gyroData.samples.first.z,
               }
             ]));
-          } else {
-            gyroSubscription!.cancel();
           }
-        });
-      }
-      if (availableTypes.contains(PolarDataType.acc)) {
-        accSubscription = polar.startAccStreaming(deviceId).listen((accData) {
-          if (isStartWorkout.value == true) {
-            debugPrint('Received ACC');
-            deviceModelList.add(DeviceModel('PolarDataType.acc', deviceId, [
-              {
-                'timeStamp': accData.samples.first.timeStamp,
-                'x': accData.samples.first.x,
-                'y': accData.samples.first.y,
-                'z': accData.samples.first.z,
-              }
-            ]));
-          } else {
-            accSubscription!.cancel();
-          }
-        });
-      }
-      if (availableTypes.contains(PolarDataType.ecg)) {
-        ecgSubscription = polar.startEcgStreaming(deviceId).listen((ecgData) {
-          if (isStartWorkout.value == true) {
-            debugPrint('Received ECG');
-            deviceModelList.add(DeviceModel('PolarDataType.ecg', deviceId, [
-              {
-                'timeStamp': ecgData.samples.first.timeStamp,
-                'voltage': ecgData.samples.first.voltage,
-              }
-            ]));
-          } else {
-            ecgSubscription!.cancel();
-          }
-        });
-      }
-      if (availableTypes.contains(PolarDataType.magnetometer)) {
-        magnetometerSubscription = polar
-            .startMagnetometerStreaming(deviceId)
-            .listen((magnetometerData) {
-          if (isStartWorkout.value == true) {
-            debugPrint('Received ECG');
+        }
+      });
+    }
+    if (availableTypes.contains(PolarDataType.magnetometer)) {
+      magnetometerSubscription =
+          polar.startMagnetometerStreaming(deviceId).listen((magnetometerData) {
+        if (isStartWorkout.value == true) {
+          if (!deviceModelList
+              .any((element) => element.type == 'PolarDataType.magnetometer')) {
             deviceModelList
                 .add(DeviceModel('PolarDataType.magnetometer', deviceId, [
               {
-                'timeStamp': magnetometerData.samples.first.timeStamp,
                 'x': magnetometerData.samples.first.x,
                 'y': magnetometerData.samples.first.y,
                 'z': magnetometerData.samples.first.z,
               }
             ]));
-          } else {
-            magnetometerSubscription!.cancel();
           }
-        });
-      }
-      if (availableTypes.contains(PolarDataType.ppg)) {
-        ppgSubscription = polar.startPpgStreaming(deviceId).listen((ppgData) {
-          if (isStartWorkout.value == true) {
-            debugPrint('Received PPG');
+        }
+      });
+    }
+    // if (availableTypes.contains(PolarDataType.ppi)) {
+    //   ppiSubscription = polar.startPpiStreaming(deviceId).listen((ppiData) {
+    //     if (isStartWorkout.value == true) {
+    //       if (!deviceModelList
+    //           .any((element) => element.type == 'PolarDataType.ppi')) {
+    //         deviceModelList.add(DeviceModel('PolarDataType.ppi', deviceId, [
+    //           {
+    //             'ppi': ppiData.samples.first.ppi,
+    //             'errorEstimate': ppiData.samples.first.errorEstimate,
+    //             'blockerBit': ppiData.samples.first.blockerBit,
+    //             'skinContactStatus': ppiData.samples.first.skinContactStatus,
+    //             'skinContactSupported':
+    //                 ppiData.samples.first.skinContactSupported,
+    //           }
+    //         ]));
+    //       }
+    //     }
+    //   });
+    // }
+    if (availableTypes.contains(PolarDataType.ppg)) {
+      ppgSubscription = polar.startPpgStreaming(deviceId).listen((ppgData) {
+        if (isStartWorkout.value == true) {
+          if (!deviceModelList
+              .any((element) => element.type == 'PolarDataType.ppg')) {
             deviceModelList.add(DeviceModel('PolarDataType.ppg', deviceId, [
               {
-                'timeStamp': ppgData.samples.first.timeStamp,
                 'channelSamples': ppgData.samples.first.channelSamples,
               }
             ]));
-          } else {
-            ppgSubscription!.cancel();
           }
-        });
-      }
-      if (availableTypes.contains(PolarDataType.ppi)) {
-        ppiSubscription = polar.startPpiStreaming(deviceId).listen((ppiData) {
-          if (isStartWorkout.value == true) {
-            debugPrint('Received PPI');
-            deviceModelList.add(DeviceModel('PolarDataType.ppi', deviceId, [
-              {
-                'ppi': ppiData.samples.first.ppi,
-                'blockerBit': ppiData.samples.first.blockerBit,
-                'errorEstimate': ppiData.samples.first.errorEstimate,
-                'hr': ppiData.samples.first.hr,
-                'skinContactStatus': ppiData.samples.first.skinContactStatus,
-                'skinContactSupported':
-                    ppiData.samples.first.skinContactSupported,
-              }
-            ]));
-          } else {
-            ppiSubscription!.cancel();
-          }
-        });
-      }
+        }
+      });
     }
   }
 
@@ -289,12 +287,17 @@ PolarStreamingData? data;
   Future<void> uploadData() async {
     try {
       final response = await _getConnect.post(
-        'http://192.168.93.169:3000/api/session',
+        'https://polar.viandwi24.site/api/session',
         jsonEncode(sessionModel),
         headers: {
           'Content-Type': 'application/json',
         },
       );
+      // print response body with indent format
+      var json = jsonEncode(response.body);
+      JsonEncoder prettyPrint = const JsonEncoder.withIndent('  ');
+      var stringJson = prettyPrint.convert(json);
+      debugPrint(stringJson);
       if (response.statusCode == 200) {
         debugPrint('success');
         const GetSnackBar(
