@@ -9,6 +9,8 @@ const ExerciseSchema = new Schema({
   description: String,
   difficulty: String,
   type: String,
+  thumbnail: String,
+  duration: Number,
   instructions: [{
     type: String, // rest, instruction
     name: String,
@@ -17,6 +19,7 @@ const ExerciseSchema = new Schema({
     content: {
       video: String,
       image: String,
+      lottie: String,
     }
   }],
 }, {

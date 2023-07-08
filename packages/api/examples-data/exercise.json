@@ -3,6 +3,8 @@
   "description": "testing cardio exercise 2",
   "difficulty": "intermediate",
   "type": "cardio",
+  "thumbnail": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg",
+  "duration": 720,
   "instructions": [
       {
           "key": "instruction_1",
@@ -12,7 +14,8 @@
           "duration": 30,
           "content": {
               "video": "https://www.youtube.com/watch?v=LXuVHYAfyGU",
-              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg"
+              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg",
+              "lottie": "https://assets2.lottiefiles.com/packages/lf20_dwydvW8JJ7.json"
           }
       },
       {
@@ -28,7 +31,8 @@
           "duration": 30,
           "content": {
               "video": "https://www.youtube.com/watch?v=LXuVHYAfyGU",
-              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg"
+              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg",
+              "lottie": "https://assets2.lottiefiles.com/packages/lf20_dwydvW8JJ7.json"
           }
       },
       {
@@ -44,7 +48,8 @@
           "duration": 30,
           "content": {
               "video": "https://www.youtube.com/watch?v=LXuVHYAfyGU",
-              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg"
+              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg",
+              "lottie": "https://assets2.lottiefiles.com/packages/lf20_dwydvW8JJ7.json"
           }
       },
       {
@@ -60,7 +65,8 @@
           "duration": 30,
           "content": {
               "video": "https://www.youtube.com/watch?v=LXuVHYAfyGU",
-              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg"
+              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg",
+              "lottie": "https://assets2.lottiefiles.com/packages/lf20_dwydvW8JJ7.json"
           }
       },
       {
@@ -76,7 +82,8 @@
           "duration": 30,
           "content": {
               "video": "https://www.youtube.com/watch?v=LXuVHYAfyGU",
-              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg"
+              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg",
+              "lottie": "https://assets2.lottiefiles.com/packages/lf20_dwydvW8JJ7.json"
           }
       },
       {
@@ -92,7 +99,8 @@
           "duration": 30,
           "content": {
               "video": "https://www.youtube.com/watch?v=LXuVHYAfyGU",
-              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg"
+              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg",
+              "lottie": "https://assets2.lottiefiles.com/packages/lf20_dwydvW8JJ7.json"
           }
       },
       {
@@ -108,7 +116,8 @@
           "duration": 30,
           "content": {
               "video": "https://www.youtube.com/watch?v=LXuVHYAfyGU",
-              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg"
+              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg",
+              "lottie": "https://assets2.lottiefiles.com/packages/lf20_dwydvW8JJ7.json"
           }
       },
       {
@@ -124,7 +133,8 @@
           "duration": 30,
           "content": {
               "video": "https://www.youtube.com/watch?v=LXuVHYAfyGU",
-              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg"
+              "image": "https://static.vecteezy.com/system/resources/previews/005/178/354/original/woman-doing-jump-rope-skipping-cardio-exercise-flat-illustration-isolated-on-white-background-free-vector.jpg",
+              "lottie": "https://assets2.lottiefiles.com/packages/lf20_dwydvW8JJ7.json"
           }
       }
   ]

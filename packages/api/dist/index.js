@@ -25,7 +25,27 @@ const auth_1 = require("./api/auth");
 // set
 mongoose_1.default.set('strictQuery', true);
 dotenv_1.default.config();
+// args
+const args = process.argv.slice(2);
 (() => __awaiter(void 0, void 0, void 0, function* () {
+    // listen services
+    yield (0, db_1.MongoConnect)(process.env.MONGO_URL || '', {
+        auth: {
+            username: process.env.MONGO_USER || '',
+            password: process.env.MONGO_PASSWORD || '',
+        },
+        dbName: process.env.MONGO_DB_NAME || '',
+    });
+    console.log('📚 connected to mongodb');
+    // options
+    if (args.includes('--reset')) {
+        const collections = yield mongoose_1.default.connection.db.collections();
+        for (const collection of collections) {
+            yield collection.deleteMany({});
+        }
+        console.log('📚 reseted mongodb');
+    }
+    // api
     const app = (0, express_1.default)();
     // middlewares
     app.use((0, cors_1.default)());
@@ -43,14 +63,6 @@ dotenv_1.default.config();
     });
     app.use('/api', root.export());
     // listen
-    yield (0, db_1.MongoConnect)(process.env.MONGO_URL || '', {
-        auth: {
-            username: process.env.MONGO_USER || '',
-            password: process.env.MONGO_PASSWORD || '',
-        },
-        dbName: process.env.MONGO_DB_NAME || '',
-    });
-    console.log('📚 connected to mongodb');
     const port = parseInt(process.env.PORT || '3000') || 3000;
     app.listen(port, () => {
         console.log(`🚀 Server ready at http://localhost:${port}`);

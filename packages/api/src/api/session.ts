@@ -38,6 +38,7 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
       // validate exercise
       const exerciseId = req.body?.exerciseId
       if (!exerciseId || typeof exerciseId !== 'string' || exerciseId.length === 0) {
+        console.log('1')
         return res.json({
           success: false,
           message: 'Invalid exerciseId',
@@ -49,6 +50,7 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
       // validate exercise
       const exercise = await Exercise.findById(exerciseId)
       if (!exercise) {
+        console.log('2')
         return res.json({
           success: false,
           message: 'Exercise not found',
@@ -61,6 +63,7 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
         _id: new mongoose.Types.ObjectId().toHexString(),
         exercise,
       })
+      console.log('3')
 
       // resposne
       return res.json({
@@ -70,6 +73,7 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
         session,
       })
     } catch (error) {
+      console.log('4')
       // console.error(error)
       return res.status(400).json({ error })
     }
