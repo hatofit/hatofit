@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class WorkoutController extends GetxController {
   final String title = 'Workout';
@@ -14,13 +15,16 @@ class WorkoutController extends GetxController {
 
   Future fetchExercises() async {
     try {
-      final response =
-          await _getConnect.get('http://192.168.98.169:3000/api/exercise');
+      final url = "${dotenv.env['API_BASE_URL'] ?? ''}/exercise";
+      print(url);
+      final response = await _getConnect.get(url);
       if (response.statusCode == 200) {
+        print("1");
         final List<dynamic> jsonResponse = response.body['exercises'];
         todayGoalWorkouts = jsonResponse.map<ExerciseModel>((json) {
           return ExerciseModel.fromJson(json);
         }).toList();
+        print("2");
         return jsonResponse.map<ExerciseModel>((json) {
           return ExerciseModel.fromJson(json);
         }).toList();

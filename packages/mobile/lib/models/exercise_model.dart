@@ -60,8 +60,9 @@ class Instruction {
 class Content {
   final String video;
   final String image;
+  final String lottie;
 
-  Content(this.video, this.image);
+  Content(this.video, this.image, this.lottie);
 
   factory Content.fromJson(Map<String, dynamic> json) =>
       _$ContentFromJson(json);

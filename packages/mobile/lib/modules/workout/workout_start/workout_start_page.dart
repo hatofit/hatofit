@@ -16,33 +16,33 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
         body: Obx(
           () => Column(
             children: [
-          Lottie.network(workout
-              .instructions[controller.nowInstruction.value]
-              .content!
-              .image),
-          CustomText(
-              text: workout
-                  .instructions[controller.nowInstruction.value].duration
-                  .toString(),
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.black),
-          CustomText(
-            text: controller.countDownTimer.value.toString(),
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-          TextButton(
-            onPressed: () {
-              controller.nextInstruction(workout.instructions.length - 1);
-            },
-            child: const CustomText(
-              text: 'Next',
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          )
+              Lottie.network(workout
+                  .instructions[controller.nowInstruction.value]
+                  .content!
+                  .lottie),
+              CustomText(
+                  text: workout
+                      .instructions[controller.nowInstruction.value].duration
+                      .toString(),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+              CustomText(
+                text: controller.countDownTimer.value.toString(),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+              TextButton(
+                onPressed: () {
+                  controller.nextInstruction(workout.instructions.length - 1);
+                },
+                child: const CustomText(
+                  text: 'Next',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              )
             ],
           ),
         ),

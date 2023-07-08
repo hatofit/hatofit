@@ -8,6 +8,7 @@ import 'package:polar/polar.dart';
 import 'package:polar_hr_devices/data/polar_dict.dart';
 import 'package:polar_hr_devices/models/session_model.dart';
 import 'package:polar_hr_devices/services/bluetooth_service.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class PolarService extends GetxController {
   final _getConnect = GetConnect();
@@ -120,8 +121,8 @@ class PolarService extends GetxController {
         timer.cancel();
       });
       if (isStartWorkout.value == false) {
-        sessionModel = SessionModel(
-            '64906224a4fd74f99b1e7046', startStream, now, [], dataModel);
+        sessionModel =
+            SessionModel(exerciseId, startStream, now, [], dataModel);
         saveToJSON(connectedDeviceId.value, startStream);
 
         uploadData();
@@ -287,7 +288,7 @@ class PolarService extends GetxController {
   Future<void> uploadData() async {
     try {
       final response = await _getConnect.post(
-        'https://polar.viandwi24.site/api/session',
+        "${dotenv.env['API_BASE_URL'] ?? ''}/session",
         jsonEncode(sessionModel),
         headers: {
           'Content-Type': 'application/json',
