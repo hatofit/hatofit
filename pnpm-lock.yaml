@@ -93,6 +93,9 @@ importers:
       chart.js:
         specifier: ^4.3.0
         version: 4.3.0
+      dayjs:
+        specifier: ^1.11.8
+        version: 1.11.8
       eslint:
         specifier: 8.44.0
         version: 8.44.0
