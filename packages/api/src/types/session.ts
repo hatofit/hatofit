@@ -1,5 +1,19 @@
 import { z } from 'zod'
 
+export const SessionDataItemDeviceSchema = z.object({
+  type: z.string(),
+  identifier: z.string(),
+  value: z.any(),
+})
+
+export const SessionDataItemSchema = z.object({
+  second: z.number(),
+  timeStamp: z.number(),
+  devices: z.array(SessionDataItemDeviceSchema)
+})
+
+export const SessionDataSchema = z.array(SessionDataItemSchema)
+
 export const SessionSchema = z.object({
   startTime: z.number(),
   endTime: z.number(),
@@ -9,17 +23,5 @@ export const SessionSchema = z.object({
       startTime: z.number(),
     }),
   ),
-  data: z.array(
-    z.object({
-      second: z.number(),
-      timeStamp: z.number(),
-      devices: z.array(
-        z.object({
-          type: z.string(),
-          identifier: z.string(),
-          value: z.any(),
-        })
-      )
-    })
-  )
+  data: SessionDataSchema,
 })

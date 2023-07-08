@@ -22,6 +22,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const session_1 = require("./api/session");
 const exercise_1 = require("./api/exercise");
 const auth_1 = require("./api/auth");
+const report_1 = require("./api/report");
 // set
 mongoose_1.default.set('strictQuery', true);
 dotenv_1.default.config();
@@ -57,6 +58,7 @@ const args = process.argv.slice(2);
     root.group('/', (app) => {
         (0, exercise_1.ApiExercises)({ route: app });
         (0, session_1.ApiSession)({ route: app });
+        (0, report_1.ApiReport)({ route: app });
         app.group('/auth', (app) => {
             (0, auth_1.ApiAuth)({ route: app });
         });

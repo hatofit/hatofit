@@ -10,6 +10,7 @@ import dotenv from 'dotenv'
 import { ApiSession } from './api/session'
 import { ApiExercises } from './api/exercise'
 import { ApiAuth } from './api/auth';
+import { ApiReport } from './api/report';
 
 // set
 mongoose.set('strictQuery', true)
@@ -53,6 +54,7 @@ const args = process.argv.slice(2)
   root.group('/', (app) => {
     ApiExercises({ route: app })
     ApiSession({ route: app })
+    ApiReport({ route: app })
     app.group('/auth', (app) => {
       ApiAuth({ route: app })
     })

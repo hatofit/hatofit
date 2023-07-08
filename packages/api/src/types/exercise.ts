@@ -21,3 +21,4 @@ export const ExerciseSchema = z.object({
     })
   )
 })
+
