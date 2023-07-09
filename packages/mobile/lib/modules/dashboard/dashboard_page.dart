@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
@@ -16,12 +15,6 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<DashboardController>(
       builder: (controller) {
-        final statusBarColor = _getStatusBarColor(controller.tabIndex);
-        SystemChrome.setSystemUIOverlayStyle(
-          SystemUiOverlayStyle(
-            statusBarColor: statusBarColor,
-          ),
-        );
         return Scaffold(
           body: SafeArea(
             child: IndexedStack(
@@ -36,13 +29,12 @@ class DashboardPage extends StatelessWidget {
           ),
           bottomNavigationBar: BottomNavigationBar(
             unselectedItemColor: ColorPalette.black50,
-            selectedItemColor: ColorPalette.black,
+            selectedItemColor: Theme.of(context).primaryColor,
             onTap: controller.changeTabIndex,
             currentIndex: controller.tabIndex,
             showSelectedLabels: false,
             showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.white,
             elevation: 8,
             items: [
               _bottomNavigationBarItem(
@@ -68,14 +60,6 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Color _getStatusBarColor(int tabIndex) {
-    switch (tabIndex) {
-      case 0:
-        return ColorPalette.crimsonRed20;
-      default:
-        return Colors.transparent;
-    }
-  }
 
   _bottomNavigationBarItem({
     required IconData icon,

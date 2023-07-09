@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
 import 'package:polar_hr_devices/modules/workout/workout_start/workout_start_controller.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
 
 class WorkoutStartPage extends GetView<WorkoutStartController> {
   final ExerciseModel workout;
@@ -17,30 +16,26 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
           () => Column(
             children: [
               Lottie.network(workout
-                  .instructions[controller.nowInstruction.value]
-                  .content!
-                  .lottie),
-              CustomText(
-                  text: workout
-                      .instructions[controller.nowInstruction.value].duration
-                      .toString(),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-              CustomText(
-                text: controller.countDownTimer.value.toString(),
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+                      .instructions[controller.nowInstruction.value]
+                      .content!
+                      .lottie ??
+                  'https://assets3.lottiefiles.com/packages/lf20_uFIzQvYOGr.json'),
+              Text(
+                workout.instructions[controller.nowInstruction.value].duration
+                    .toString(),
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+              Text(
+                controller.countDownTimer.value.toString(),
+                style: Theme.of(context).textTheme.headlineLarge,
               ),
               TextButton(
                 onPressed: () {
                   controller.nextInstruction(workout.instructions.length - 1);
                 },
-                child: const CustomText(
-                  text: 'Next',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                child: Text(
+                  'Next',
+                  style: Theme.of(context).textTheme.headlineLarge,
                 ),
               )
             ],

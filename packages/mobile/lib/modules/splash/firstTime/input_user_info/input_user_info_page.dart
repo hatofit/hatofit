@@ -1,22 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-import 'package:polar_hr_devices/modules/workout/splash/firstTime/input_user_info/input_user_info_controller.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
+import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info/input_user_info_controller.dart';
 
 class InputUserInfoPage extends GetView<InputUserInfoController> {
   const InputUserInfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: ColorPalette.backgroundColor,
-      ),
-    );
     return SafeArea(
       child: Scaffold(
         body: Center(
@@ -24,18 +17,17 @@ class InputUserInfoPage extends GetView<InputUserInfoController> {
             () => Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      CustomText(
-                        text: 'Fill Form Below',
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
+                      Text(
+                        'Fill Form Below',
+                        style: Theme.of(context).textTheme.displayMedium,
                       ),
-                      CustomText(
-                        text: 'Find best workout based on your info',
-                        fontSize: 12,
+                      Text(
+                        'Find best workout based on your info',
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   ),
@@ -44,6 +36,7 @@ class InputUserInfoPage extends GetView<InputUserInfoController> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     buildGenderItem(
+                      context,
                       'assets/images/male.svg',
                       'male',
                       ColorPalette.male,
@@ -52,6 +45,7 @@ class InputUserInfoPage extends GetView<InputUserInfoController> {
                       width: 16,
                     ),
                     buildGenderItem(
+                      context,
                       'assets/images/female.svg',
                       'female',
                       ColorPalette.female,
@@ -90,7 +84,7 @@ class InputUserInfoPage extends GetView<InputUserInfoController> {
                           ),
                           suffix: const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: CustomText(text: 'y.o'),
+                            child: Text('y.o'),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -115,11 +109,11 @@ class InputUserInfoPage extends GetView<InputUserInfoController> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                buildUnitMeasure('height', 'cm'),
+                                buildUnitMeasure(context, 'height', 'cm'),
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                buildUnitMeasure('height', 'ft'),
+                                buildUnitMeasure(context, 'height', 'ft'),
                               ],
                             ),
                           ),
@@ -146,11 +140,11 @@ class InputUserInfoPage extends GetView<InputUserInfoController> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                buildUnitMeasure('weight', 'kg'),
+                                buildUnitMeasure(context, 'weight', 'kg'),
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                buildUnitMeasure('weight', 'lbs'),
+                                buildUnitMeasure(context, 'weight', 'lbs'),
                               ],
                             ),
                           ),
@@ -182,10 +176,9 @@ class InputUserInfoPage extends GetView<InputUserInfoController> {
                         ),
                         padding: const EdgeInsets.symmetric(vertical: 16),
                       ),
-                      child: const CustomText(
-                        text: 'Save',
-                        color: ColorPalette.black00,
-                        fontWeight: FontWeight.bold,
+                      child: Text(
+                        'Save',
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
                   ),
@@ -198,7 +191,8 @@ class InputUserInfoPage extends GetView<InputUserInfoController> {
     );
   }
 
-  Widget buildUnitMeasure(String type, String unitMeasure) {
+  Widget buildUnitMeasure(
+      BuildContext context, String type, String unitMeasure) {
     final InputUserInfoController inputUserInfoController =
         Get.put(InputUserInfoController());
     var isSelected = false;
@@ -231,17 +225,17 @@ class InputUserInfoPage extends GetView<InputUserInfoController> {
           ),
         ),
         child: Center(
-          child: CustomText(
-            text: unitMeasure,
-            fontWeight: FontWeight.w500,
-            color: ColorPalette.black,
+          child: Text(
+            unitMeasure,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
         ),
       ),
     );
   }
 
-  Widget buildGenderItem(String svgAsset, String gender, Color genderColor) {
+  Widget buildGenderItem(
+      BuildContext context, String svgAsset, String gender, Color genderColor) {
     final InputUserInfoController genderController =
         Get.put(InputUserInfoController());
     final isSelected = genderController.selectedGender.value == gender;
@@ -274,9 +268,9 @@ class InputUserInfoPage extends GetView<InputUserInfoController> {
               width: 84,
               height: 84,
             ),
-            CustomText(
-              text: gender.capitalizeFirst!,
-              fontWeight: FontWeight.w500,
+            Text(
+              gender.capitalizeFirst!,
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
           ],
         ),

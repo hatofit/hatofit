@@ -5,8 +5,8 @@ import 'package:polar_hr_devices/services/polar_service.dart';
 class BluetoothService extends GetxController {
   // call polar service
   final FlutterBluePlus flutterBluePlus = FlutterBluePlus.instance;
-  var isBluetoothOn = false.obs;
-  var isConnectedDevice = false.obs;
+  final isBluetoothOn = false.obs;
+  final isConnectedDevice = false.obs;
 
   @override
   void onReady() {
@@ -15,28 +15,27 @@ class BluetoothService extends GetxController {
     super.onReady();
   }
 
-
-  getBluetoothStatus() async {
-    isBluetoothOn.value = await flutterBluePlus.isOn;
+  Future<void> getBluetoothStatus() async {
+    flutterBluePlus.state.listen((event) async {
+      isBluetoothOn.value = await flutterBluePlus.isOn;
+    });
     update();
   }
 
-  getBluetoothPermission() {
+  void getBluetoothPermission() {
     PolarService().polar.requestPermissions();
     update();
   }
 
-  turnOnBluetooth() async {
+  Future<void> turnOnBluetooth() async {
     if (isBluetoothOn.value == false) {
       await flutterBluePlus.turnOn();
-      isBluetoothOn.value = await flutterBluePlus.isOn;
     }
   }
 
-  turnOffBluetooth() async {
+  Future<void> turnOffBluetooth() async {
     if (isBluetoothOn.value == true) {
       await flutterBluePlus.turnOff();
-      isBluetoothOn.value = await flutterBluePlus.isOn;
     }
   }
 }

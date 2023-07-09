@@ -4,7 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
 
-import '../../../../../main.dart';
+import '../../../../main.dart';
 
 class InputUserInfoController extends GetxController {
   final polar = Polar();

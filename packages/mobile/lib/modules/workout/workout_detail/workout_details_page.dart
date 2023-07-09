@@ -6,7 +6,6 @@ import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
 import 'package:polar_hr_devices/modules/workout/workout_detail/workout_details_controller.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
 
 class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
   final ExerciseModel workout;
@@ -40,7 +39,7 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
               Obx(
                 () => SliverAppBar(
                   elevation: 0,
-                  backgroundColor: ColorPalette.backgroundColor,
+                  backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   pinned: true,
                   expandedHeight: 275,
                   leading: IconButton(
@@ -53,15 +52,13 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                     },
                   ),
                   title: controller.isExpanded.value
-                      ? const CustomText(
-                          text: '',
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                      ? Text(
+                          '',
+                          style: Theme.of(context).textTheme.displaySmall,
                         )
-                      : CustomText(
-                          text: workout.name,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                      : Text(
+                          workout.name,
+                          style: Theme.of(context).textTheme.displaySmall,
                         ),
                   flexibleSpace: FlexibleSpaceBar(
                     title: controller.isExpanded.value
@@ -73,13 +70,16 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                             ),
                             child: Opacity(
                               opacity: controller.textTitleOpacity.value,
-                              child: CustomText(
-                                text: workout.name,
-                                fontSize: 18,
-                                color: controller.isExpanded.value
-                                    ? Colors.white
-                                    : Colors.black,
-                                fontWeight: FontWeight.bold,
+                              child: Text(
+                                workout.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displaySmall
+                                    ?.copyWith(
+                                      color: controller.isExpanded.value
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
                               ),
                             ),
                           )
@@ -101,9 +101,9 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                     child: Container(
                       height: 32.0,
                       alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        color: ColorPalette.backgroundColor,
-                        borderRadius: BorderRadius.only(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).scaffoldBackgroundColor,
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(32.0),
                           topRight: Radius.circular(32.0),
                         ),
@@ -125,15 +125,13 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       children: [
-                        CustomText(
-                            text: '${workout.duration} s',
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold),
-                        SizedBox(width: 8),
-                        CustomText(
-                            text: '${workout.instructions.length} steps',
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold),
+                        Text('${workout.duration} s',
+                          style: Theme.of(context).textTheme.displaySmall,
+                        ),
+                        const SizedBox(width: 8),
+                        Text('${workout.instructions.length} steps',
+                          style: Theme.of(context).textTheme.displaySmall,
+                        ),
                       ],
                     )),
               ),
@@ -148,9 +146,9 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
-                          decoration: const BoxDecoration(
-                            color: ColorPalette.backgroundColor,
-                            border: Border(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            border: const Border(
                               top: BorderSide(
                                 color: ColorPalette.black25,
                                 width: 1.0,
@@ -202,18 +200,18 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    CustomText(
-                                      text: workout.instructions[index].name
+                                    Text(
+                                      workout.instructions[index].name
                                           .toString(),
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.bold,
-                                      textOverflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall,
                                     ),
-                                    CustomText(
-                                      text:
-                                          '${workout.instructions[index].duration.toString()} s',
-                                      fontSize: 18.0,
+                                    Text(
+                                      '${workout.instructions[index].duration.toString()} s',
+                                    style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall,
                                     ),
                                   ],
                                 ),

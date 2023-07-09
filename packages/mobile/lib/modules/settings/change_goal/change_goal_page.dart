@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-import 'package:polar_hr_devices/modules/settings/change_goal/change_goal_controller.dart'; 
-import 'package:polar_hr_devices/widget/custom_text.dart';
+import 'package:polar_hr_devices/modules/settings/change_goal/change_goal_controller.dart';
 import 'package:polar_hr_devices/widget/setting/setting_list_tile_widget.dart';
 
 class ChangeGoalPage extends GetView<ChangeGoalController> {
@@ -13,7 +12,6 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      backgroundColor: ColorPalette.backgroundColor,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(
@@ -23,14 +21,12 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
           onPressed: () => Get.back(),
         ),
         elevation: 0,
-        title: const CustomText(
-          text: 'Change Unit',
-          color: ColorPalette.black,
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
+        title:   Text(
+            'Change Unit',
+             style: Theme.of(context).textTheme.displaySmall,
         ),
         centerTitle: true,
-        backgroundColor: ColorPalette.backgroundColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -40,13 +36,11 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
               () => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: CustomText(
-                      text: 'Energy Unit',
-                      fontSize: 12,
-                      color: ColorPalette.black50,
+                    Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: Text(
+                        'Energy Unit',
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Container(
@@ -116,13 +110,11 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: CustomText(
-                      text: 'Height Unit',
-                      fontSize: 12,
-                      color: ColorPalette.black50,
+                    Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: Text(
+                        'Height Unit',
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Container(
@@ -176,13 +168,11 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: CustomText(
-                      text: 'Weight Unit',
-                      fontSize: 12,
-                      color: ColorPalette.black50,
+                    Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: Text(
+                        'Weight Unit',
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Container(

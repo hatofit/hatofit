@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
+
 
 class DayWidget extends StatelessWidget {
   final String day;
@@ -22,10 +22,9 @@ class DayWidget extends StatelessWidget {
     return SizedBox(
       child: Column(
         children: [
-          CustomText(
-            text: day,
-            fontSize: 12,
-            color: ColorPalette.black00,
+          Text(
+              day,
+         style: Theme.of(context).textTheme.bodySmall,
           ),
           Container(
             height: 28,
@@ -35,10 +34,9 @@ class DayWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(4),
             ),
             child: Center(
-              child: CustomText(
-                text: date.toString(),
-                fontSize: 12,
-                color: ColorPalette.black00,
+              child: Text(
+                  date.toString(),
+             style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
           ),

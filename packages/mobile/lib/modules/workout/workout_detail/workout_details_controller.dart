@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
+
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class WorkoutDetailsController extends GetxController
@@ -13,9 +13,9 @@ class WorkoutDetailsController extends GetxController
   late TabController _tabController;
   late YoutubePlayerController _youtubePlayerController;
   late String videoURL;
-  final List<Tab> myTabs = const <Tab>[
-    Tab(text: 'Animation'),
-    Tab(text: 'Video'),
+  final List<Tab> myTabs = <Tab>[
+    const Tab(text: 'Animation'),
+    const Tab(text: 'Video'),
   ];
 
   final workout = Get.arguments as ExerciseModel;
@@ -71,7 +71,7 @@ class WorkoutDetailsController extends GetxController
                       ? Column(
                           children: [
                             const SizedBox(height: 10),
-                            CustomText(text: tab.text!),
+                            Text(tab.text!),
                             Container(
                               margin:
                                   const EdgeInsets.only(top: 10, bottom: 10),
@@ -90,13 +90,13 @@ class WorkoutDetailsController extends GetxController
                                 fit: BoxFit.cover,
                               ),
                             ),
-                            CustomText(text: instruction.name!)
+                            Text(instruction.name!)
                           ],
                         )
                       : Column(
                           children: [
                             const SizedBox(height: 10),
-                            CustomText(text: tab.text!),
+                            Text(tab.text!),
                             Container(
                               margin:
                                   const EdgeInsets.only(top: 10, bottom: 10),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
 
 class SettingListTileWidget extends StatelessWidget {
   final String title;
@@ -30,15 +29,14 @@ class SettingListTileWidget extends StatelessWidget {
     return ListTile(
       onTap: onTap,
       leading: showLeading ? leading : null,
-      title: CustomText(
-        text: title,
-        fontSize: 14,
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyMedium,
       ),
       subtitle: showSubtitle
-          ? CustomText(
-              text: subtitle,
-              color: ColorPalette.black50,
-              fontSize: 12,
+          ? Text(
+              subtitle,
+              style: Theme.of(context).textTheme.bodySmall,
             )
           : null,
       trailing: trailing,

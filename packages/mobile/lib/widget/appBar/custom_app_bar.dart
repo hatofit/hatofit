@@ -1,99 +1,115 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/services/bluetooth_service.dart';
 import 'package:polar_hr_devices/services/polar_service.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
 
-class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
   final bool showSearchBar;
   final bool isSubPage;
   final Color screenColor;
-  CustomAppBar({
+  const CustomAppBar({
     this.title = '',
     this.isSubPage = false,
     this.showSearchBar = false,
-    this.screenColor = ColorPalette.backgroundColor,
+    this.screenColor = Colors.transparent,
     Key? key,
   }) : super(key: key);
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+  @override
+  Size get preferredSize => const Size.fromHeight(68);
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
   final bluetoothService = Get.put(BluetoothService());
   final polarService = Get.put(PolarService());
+  @override
+  void initState() {
+    super.initState();
+    polarService.polar.deviceConnecting
+        .listen((_) => debugPrint('Device connecting'));
+    polarService.polar.batteryLevel
+        .listen((e) => debugPrint('ID : ${e.identifier}\nBattery: ${e.level}'));
+    polarService.polar.deviceConnected.listen((event) {
+      polarService.connectedDeviceId.value = event.deviceId;
+      bluetoothService.isConnectedDevice.value = true;
+      debugPrint(
+          'Device connected to ${event.deviceId} ${bluetoothService.isConnectedDevice.value}');
+    });
+    polarService.polar.deviceDisconnected.listen((event) {
+      polarService.connectedDeviceId.value = 'Device disconnected';
+      bluetoothService.isConnectedDevice.value = false;
+      debugPrint(
+          'Device disconnected from ${event.deviceId} ${bluetoothService.isConnectedDevice.value}');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(
-        left: 4,
-        right: 4,
-      ),
-      color: screenColor,
-      child: Material(
-        color: screenColor,
-        borderRadius: BorderRadius.circular(32),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            if (isSubPage)
-              IconButton(
-                icon: const Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              )
-            else
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-            Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.gps_fixed),
-                  onPressed: () {},
-                ),
-                Obx(
-                  () => IconButton(
-                    icon: bluetoothService.isConnectedDevice.value
-                        ? const Icon(Icons.bluetooth_connected)
-                        : const Icon(Icons.bluetooth_disabled),
-                    onPressed: () {
-                      if (bluetoothService.isBluetoothOn.value == true) {
-                        polarService.scanPolarDevices();
-                        showModal();
-                      } else {
-                        bluetoothService.turnOnBluetooth();
-                        Get.snackbar(
-                            'Bluetooth is off', 'Please turn on bluetooth',
-                            snackPosition: SnackPosition.TOP);
-                        polarService.scanPolarDevices();
-                        showModal();
-                      }
-                    },
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.notifications),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-          ],
+    return AppBar(
+      leading: widget.isSubPage
+          ? IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          : null,
+      title: widget.isSubPage
+          ? null
+          : Text(widget.title, style: Theme.of(context).textTheme.displaySmall),
+      actions: [
+        IconButton(
+          icon: const Icon(FontAwesomeIcons.locationDot),
+          onPressed: () {},
         ),
-      ),
+        Obx(
+          () => IconButton(
+            icon: bluetoothService.isBluetoothOn.value
+                ? Icon(
+                    FontAwesomeIcons.bluetooth,
+                    color: bluetoothService.isConnectedDevice.value
+                        ? Colors.blueAccent
+                        : Theme.of(context).iconTheme.color,
+                  )
+                : const Icon(Icons.bluetooth_disabled),
+            onPressed: () {
+              if (bluetoothService.isBluetoothOn.value) {
+                polarService.scanPolarDevices();
+                showModal();
+              } else {
+                Get.snackbar(
+                  'Turning on Bluetooth',
+                  'Allow Turn on Bluetooth',
+                  duration: const Duration(seconds: 5),
+                );
+                FutureBuilder<void>(
+                  future: bluetoothService.turnOnBluetooth(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      polarService.scanPolarDevices();
+                      return const SizedBox.shrink();
+                    }
+                  },
+                );
+              }
+            },
+          ),
+        ),
+        IconButton(
+          icon: const Icon(CupertinoIcons.bell_fill),
+          onPressed: () {},
+        ),
+      ],
     );
   }
 
@@ -116,74 +132,121 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               builder: (polarService) => SizedBox(
                 height: polarService.screenHeight / 5,
                 width: polarService.screenWidth,
-                child: ListView.builder(
-                  itemCount: polarService.detectedDevices.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      leading: CachedNetworkImage(
-                        imageUrl: polarService.detectedDevices[index]
-                            ['imageURL'],
-                        height: 50,
-                        width: 50,
-                        placeholder: (context, url) =>
-                            const CircularProgressIndicator(),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                      ),
-                      title: CustomText(
-                        text: polarService.detectedDevices[index]['name'],
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      subtitle: Row(
-                        children: [
-                          CustomText(
-                            text:
-                                'ID :${polarService.detectedDevices[index]['deviceId']}',
-                            fontSize: 12,
-                          ),
-                          CustomText(
-                            text:
-                                ' RSSI : ${polarService.detectedDevices[index]['rssi']}',
-                            fontSize: 12,
-                          ),
-                        ],
-                      ),
-                      trailing: Obx(
-                        () => bluetoothService.isConnectedDevice.value
-                            ? TextButton(
-                                style: ButtonStyle(
-                                    foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            ColorPalette.black00),
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            ColorPalette.crimsonRed)),
-                                child: const Text('Disconnect'),
-                                onPressed: () {
-                                  polarService.disconnectDevice(polarService
-                                      .detectedDevices[index]['deviceId']);
-                                  Get.back();
-                                },
-                              )
-                            : TextButton(
-                                style: ButtonStyle(
-                                    foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            ColorPalette.black00),
-                                    backgroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            ColorPalette.ceruleanBlue)),
-                                child: const Text('Connect'),
-                                onPressed: () {
-                                  polarService.connectDevice(polarService
-                                      .detectedDevices[index]['deviceId']);
-                                  Get.back();
-                                },
-                              ),
-                      ),
-                      onTap: () {},
-                    );
+                child: FutureBuilder(
+                  future: polarService.detectedDevices.isEmpty
+                      ? Future.delayed(const Duration(seconds: 3))
+                      : null,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text('Error:${snapshot.error}'),
+                      );
+                    } else if (polarService.detectedDevices.isEmpty) {
+                      return const Center(
+                        child: Text(
+                            "Didn't see any device🫣,\nmake sure your device is turn on"),
+                      );
+                    } else {
+                      return ListView.builder(
+                        itemCount: polarService.detectedDevices.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading: CachedNetworkImage(
+                              imageUrl: polarService.detectedDevices[index]
+                                  ['imageURL'],
+                              height: 50,
+                              width: 50,
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
+                            title: Text(
+                              polarService.detectedDevices[index]['name'],
+                              style: Theme.of(context).textTheme.displaySmall,
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  'ID :${polarService.detectedDevices[index]['deviceId']}',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                Text(
+                                  ' RSSI : ${polarService.detectedDevices[index]['rssi']}',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
+                            ),
+                            trailing: Obx(
+                              () => bluetoothService.isConnectedDevice.value
+                                  ? TextButton(
+                                      style: ButtonStyle(
+                                          foregroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  ColorPalette.black00),
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  ColorPalette.crimsonRed)),
+                                      child: const Text('Disconnect'),
+                                      onPressed: () {
+                                        polarService.disconnectDevice(
+                                            polarService.detectedDevices[index]
+                                                ['deviceId']);
+                                        Get.back();
+                                      },
+                                    )
+                                  : TextButton(
+                                      style: ButtonStyle(
+                                          foregroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  ColorPalette.black00),
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  ColorPalette.ceruleanBlue)),
+                                      child: const Text('Connect'),
+                                      onPressed: () {
+                                        bluetoothService.getBluetoothStatus();
+                                        polarService.connectDevice(
+                                            polarService.detectedDevices[index]
+                                                ['deviceId']);
+                                        Get.back();
+                                        Get.dialog(
+                                          Obx(
+                                            () => Center(
+                                                child: bluetoothService
+                                                            .isConnectedDevice
+                                                            .value ==
+                                                        false
+                                                    ? const Dialog(
+                                                        child:
+                                                            Text('Connecting'))
+                                                    : FutureBuilder(
+                                                        future: Future.delayed(
+                                                            const Duration(
+                                                                seconds: 3),
+                                                            () {
+                                                          Get.back();
+                                                        }),
+                                                        builder: (context,
+                                                                snapshot) =>
+                                                            const Dialog(
+                                                                child: Text(
+                                                                    'Connecting')),
+                                                      )),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                            ),
+                            onTap: () {},
+                          );
+                        },
+                      );
+                    }
                   },
                 ),
               ),
@@ -193,7 +256,4 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => const Size.fromHeight(68);
 }

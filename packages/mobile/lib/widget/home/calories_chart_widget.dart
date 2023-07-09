@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
+
 import 'package:polar_hr_devices/widget/icon_wrapper.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -30,15 +30,14 @@ class CaloriesChartWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Row(
+              Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(
-                  text: 'Calories',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                Text(
+                    'Calories',
+                   style: Theme.of(context).textTheme.displaySmall,
                 ),
-                IconWrapper(
+                const IconWrapper(
                   icon: Icons.local_fire_department,
                   backgroundColor: ColorPalette.purple35,
                   iconColor: ColorPalette.purple,
@@ -52,20 +51,18 @@ class CaloriesChartWidget extends StatelessWidget {
                 height: height * 0.64,
               ),
             ),
-            const Row(
+              Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
               children: [
-                CustomText(
-                  text: 'of daily goal ',
-                  fontSize: 12,
-                  color: ColorPalette.black50,
+                Text(
+                    'of daily goal ',
+                 style: Theme.of(context).textTheme.bodySmall,
                 ),
-                CustomText(
-                  text: '1980 Cal',
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+                Text(
+                    '1980 Cal',
+                  style: Theme.of(context).textTheme.headlineLarge,
                 ),
               ],
             ),
@@ -92,17 +89,16 @@ class CaloriesPieChart extends StatelessWidget {
             children: [
               Positioned(
                 top: (height * 0.3),
-                child: CustomText(
-                  text: displayValue,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500,
+                child: Text(
+                    displayValue,
+                  style: Theme.of(context).textTheme.displayMedium,
                 ),
               ),
               Positioned(
                 bottom: (height * 0.3),
-                child: const CustomText(
-                  text: 'Cal',
-                  fontSize: 14,
+                child:   Text(
+                    'Cal',
+               style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
             ],

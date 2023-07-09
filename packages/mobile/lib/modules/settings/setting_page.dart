@@ -7,7 +7,6 @@ import 'package:polar_hr_devices/main.dart';
 import 'package:polar_hr_devices/modules/settings/setting_controller.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
 import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
 import 'package:polar_hr_devices/widget/setting/setting_list_tile_widget.dart';
 
 class SettingPage extends GetView<SettingController> {
@@ -16,10 +15,8 @@ class SettingPage extends GetView<SettingController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorPalette.backgroundColor,
       appBar: CustomAppBar(
         title: controller.title,
-        screenColor: ColorPalette.backgroundColor,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -58,14 +55,13 @@ class SettingPage extends GetView<SettingController> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CustomText(
-                                text: controller.userName.toString(),
-                                fontSize: 16,
+                              Text(
+                                controller.userName.toString(),
+                                style: Theme.of(context).textTheme.bodyLarge,
                               ),
-                              CustomText(
-                                text: "${controller.userAge} years old",
-                                color: ColorPalette.black50,
-                                fontSize: 12,
+                              Text(
+                                "${controller.userAge} years old",
+                                style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ],
                           ),
@@ -99,10 +95,11 @@ class SettingPage extends GetView<SettingController> {
                             children: [
                               Row(
                                 children: [
-                                  const CustomText(
-                                    text: "Backup & Restore",
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
+                                  Text(
+                                    "Backup & Restore",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge,
                                   ),
                                   const SizedBox(
                                     width: 8,
@@ -120,10 +117,9 @@ class SettingPage extends GetView<SettingController> {
                                   )
                                 ],
                               ),
-                              const CustomText(
-                                text: 'Sign in and synchronize your data',
-                                color: ColorPalette.black50,
-                                fontSize: 12,
+                              Text(
+                                'Sign in and synchronize your data',
+                                style: Theme.of(context).textTheme.bodySmall,
                               )
                             ],
                           ),
@@ -153,9 +149,9 @@ class SettingPage extends GetView<SettingController> {
                               const SizedBox(
                                 width: 8,
                               ),
-                              const CustomText(
-                                text: "Sync to Google Fit",
-                                fontSize: 14,
+                              Text(
+                                "Sync to Google Fit",
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],
                           ),
@@ -281,14 +277,13 @@ class SettingPage extends GetView<SettingController> {
                     ],
                   ),
                 ),
-                const Align(
+                Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(top: 24, bottom: 24),
-                    child: CustomText(
-                      text: "Version 1.0.0",
-                      color: ColorPalette.black50,
-                      fontSize: 12,
+                    padding: const EdgeInsets.only(top: 24, bottom: 24),
+                    child: Text(
+                      "Version 1.0.0",
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                 ),

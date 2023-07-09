@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
 
 import '../dashboard/dashboard_controller.dart';
 import 'history_controller.dart';
@@ -16,10 +15,8 @@ class HistoryPage extends GetView<HistoryController> {
     DashboardController dashboardController = Get.put(DashboardController());
 
     return Scaffold(
-      backgroundColor: ColorPalette.backgroundColor,
       appBar: CustomAppBar(
         title: controller.title,
-        screenColor: ColorPalette.backgroundColor,
       ),
       body: Center(
         child: SizedBox(
@@ -50,7 +47,8 @@ class HistoryPage extends GetView<HistoryController> {
     );
   }
 
-  Widget buildWorkoutCard(Workout workout, double screenHeight) {
+  Widget buildWorkoutCard(
+      BuildContext context, Workout workout, double screenHeight) {
     return Container(
       margin: const EdgeInsets.only(top: 16),
       padding: const EdgeInsets.all(8),
@@ -74,17 +72,15 @@ class HistoryPage extends GetView<HistoryController> {
               Row(
                 children: [
                   const SizedBox(width: 8),
-                  CustomText(
-                    text: workout.name,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                  Text(
+                    workout.name,
+                    style: Theme.of(context).textTheme.headlineLarge,
                   ),
                 ],
               ),
-              CustomText(
-                text: workout.date,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
+              Text(
+                workout.date,
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ],
           ),
@@ -96,6 +92,7 @@ class HistoryPage extends GetView<HistoryController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               buildWorkoutMetricContainer(
+                  context,
                   'Average HR',
                   FontAwesomeIcons.heartPulse,
                   ColorPalette.crimsonRed,
@@ -104,6 +101,7 @@ class HistoryPage extends GetView<HistoryController> {
                   'bpm',
                   screenHeight),
               buildWorkoutMetricContainer(
+                  context,
                   'Calories',
                   FontAwesomeIcons.fire,
                   ColorPalette.purple,
@@ -112,6 +110,7 @@ class HistoryPage extends GetView<HistoryController> {
                   'kcal',
                   screenHeight),
               buildWorkoutMetricContainer(
+                context,
                 'Duration',
                 FontAwesomeIcons.stopwatch,
                 ColorPalette.aqua,
@@ -128,6 +127,7 @@ class HistoryPage extends GetView<HistoryController> {
   }
 
   Widget buildWorkoutMetricContainer(
+    BuildContext context,
     String title,
     IconData icon,
     Color iconColor,
@@ -165,10 +165,9 @@ class HistoryPage extends GetView<HistoryController> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(
-                  text: title,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+                Text(
+                   title,
+                  style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 const SizedBox(width: 8),
                 Icon(
@@ -183,15 +182,11 @@ class HistoryPage extends GetView<HistoryController> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CustomText(
-                text: value,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+              Text(value, style: Theme.of(context).textTheme.headlineLarge),
               const SizedBox(width: 4),
-              CustomText(
-                text: unit,
-                fontSize: 12,
+              Text(
+                unit,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           ),

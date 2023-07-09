@@ -1,5 +1,4 @@
 abstract class AppRoutes {
-  AppRoutes._();
   static const String splash = '/splash';
   static const String greeting = '/splash/greeting';
   static const String inputUserInfo = '/splash/inputUserInfo';

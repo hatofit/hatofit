@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/modules/settings/change_unit/change_unit_controller.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
+
 import 'package:polar_hr_devices/widget/setting/setting_list_tile_widget.dart';
 
 class ChangeUnitPage extends GetView<ChangeUnitController> {
@@ -13,25 +13,21 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      backgroundColor: ColorPalette.backgroundColor,
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: ColorPalette.black,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: ColorPalette.black,
+            ),
+            onPressed: () => Get.back(),
           ),
-          onPressed: () => Get.back(),
-        ),
-        elevation: 0,
-        title: const CustomText(
-          text: 'Change Unit',
-          color: ColorPalette.black,
-          fontWeight: FontWeight.bold,
-          fontSize: 18,
-        ),
-        centerTitle: true,
-        backgroundColor: ColorPalette.backgroundColor,
-      ),
+          elevation: 0,
+          title: Text(
+            'Change Unit',
+            style: Theme.of(context).textTheme.displaySmall,
+          ),
+          centerTitle: true,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: ListView(
@@ -40,14 +36,10 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
               () => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: CustomText(
-                      text: 'Energy Unit',
-                      fontSize: 12,
-                      color: ColorPalette.black50,
-                    ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: Text('Energy Unit',
+                        style: Theme.of(context).textTheme.bodySmall),
                   ),
                   Container(
                     margin: const EdgeInsets.only(bottom: 16),
@@ -116,13 +108,11 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: CustomText(
-                      text: 'Height Unit',
-                      fontSize: 12,
-                      color: ColorPalette.black50,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: Text(
+                      'Height Unit',
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Container(
@@ -176,13 +166,11 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                       ],
                     ),
                   ),
-                  const Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    child: CustomText(
-                      text: 'Weight Unit',
-                      fontSize: 12,
-                      color: ColorPalette.black50,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                    child: Text(
+                      'Weight Unit',
+                      style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Container(

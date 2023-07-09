@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
+
 
 class GoalWidget extends StatelessWidget {
   final double width;
@@ -29,17 +29,16 @@ class GoalWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Row(
+              Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(
-                  text: 'Goal',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                Text(
+                    'Goal',
+                  style: Theme.of(context).textTheme.displaySmall,
                 ),
-                CustomText(
-                  text: 'Leg Day',
-                  fontSize: 14,
+                Text(
+                    'Leg Day',
+                  style: Theme.of(context).textTheme.bodyMedium,
                 )
               ],
             ),

@@ -60,7 +60,7 @@ class Instruction {
 class Content {
   final String video;
   final String image;
-  final String lottie;
+  final String? lottie;
 
   Content(this.video, this.image, this.lottie);
 

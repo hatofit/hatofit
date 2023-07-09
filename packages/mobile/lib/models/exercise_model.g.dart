@@ -56,10 +56,11 @@ Map<String, dynamic> _$InstructionToJson(Instruction instance) =>
 Content _$ContentFromJson(Map<String, dynamic> json) => Content(
       json['video'] as String,
       json['image'] as String,
-      json['lottie'] as String,
+      json['lottie'] as String?,
     );
 
 Map<String, dynamic> _$ContentToJson(Content instance) => <String, dynamic>{
       'video': instance.video,
       'image': instance.image,
+      'lottie': instance.lottie,
     };

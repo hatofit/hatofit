@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
+
 import 'package:polar_hr_devices/widget/icon_wrapper.dart';
 
 class SleepsInfoWidget extends StatelessWidget {
@@ -29,15 +29,14 @@ class SleepsInfoWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(
-                  text: 'Sleeps',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                Text(
+                  'Sleeps',
+                  style: Theme.of(context).textTheme.displaySmall,
                 ),
-                IconWrapper(
+                const IconWrapper(
                   icon: Icons.bedtime,
                   backgroundColor: ColorPalette.orangeYellow35,
                   iconColor: ColorPalette.orangeYellow,
@@ -47,22 +46,20 @@ class SleepsInfoWidget extends StatelessWidget {
             SizedBox(
                 height: height * 0.4,
                 width: width * 0.85,
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
-                        CustomText(
-                          text: '20',
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500,
+                        Text(
+                          '20',
+                          style: Theme.of(context).textTheme.displayMedium,
                         ),
-                        CustomText(
-                          text: ' hr',
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
+                        Text(
+                          ' hr',
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
                     ),
@@ -70,15 +67,13 @@ class SleepsInfoWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
-                        CustomText(
-                          text: '40',
-                          fontSize: 24,
-                          fontWeight: FontWeight.w500,
+                        Text(
+                          '40',
+                          style: Theme.of(context).textTheme.displayMedium,
                         ),
-                        CustomText(
-                          text: ' mn',
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
+                        Text(
+                          ' mn',
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
                     ),

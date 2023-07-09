@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
+
 import 'package:polar_hr_devices/widget/icon_wrapper.dart';
 
 class BMIChartWidget extends StatelessWidget {
@@ -28,15 +28,14 @@ class BMIChartWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(
-                  text: 'BMI',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                Text(
+                  'BMI',
+                  style: Theme.of(context).textTheme.displaySmall,
                 ),
-                IconWrapper(
+                const IconWrapper(
                   icon: Icons.monitor_weight,
                   backgroundColor: ColorPalette.aqua35,
                   iconColor: ColorPalette.aqua,
@@ -46,9 +45,9 @@ class BMIChartWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const CustomText(
-                  text: '24.9',
-                  fontSize: 24,
+                Text(
+                  '24.9',
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 Container(
                   padding: const EdgeInsets.all(8),
@@ -56,9 +55,9 @@ class BMIChartWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     color: const Color(0xFFD6FFDD),
                   ),
-                  child: const CustomText(
-                    text: "You're Healthy",
-                    fontSize: 12,
+                  child: Text(
+                    "You're Healthy",
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
               ],
@@ -106,28 +105,28 @@ class BMIChartWidget extends StatelessWidget {
                 ),
               ],
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(
-                  text: '15',
-                  fontSize: 12,
+                Text(
+                  '15',
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                CustomText(
-                  text: '20',
-                  fontSize: 12,
+                Text(
+                  '20',
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                CustomText(
-                  text: '25',
-                  fontSize: 12,
+                Text(
+                  '25',
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                CustomText(
-                  text: '30',
-                  fontSize: 12,
+                Text(
+                  '30',
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
-                CustomText(
-                  text: '40',
-                  fontSize: 12,
+                Text(
+                  '40',
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],
             ),
@@ -146,26 +145,25 @@ class BMIChartWidget extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(width: 8),
-                        CustomText(
-                          text: 'Height',
-                          fontSize: 12,
+                        const SizedBox(width: 8),
+                        Text(
+                          'Height',
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           textBaseline: TextBaseline.alphabetic,
                           children: [
-                            CustomText(
-                              text: '170',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                            Text(
+                              '170',
+                              style: Theme.of(context).textTheme.headlineMedium,
                             ),
-                            CustomText(
-                              text: ' cm',
-                              fontSize: 12,
+                            Text(
+                              ' cm',
+                              style: Theme.of(context).textTheme.bodySmall,
                             )
                           ],
                         )
@@ -184,26 +182,25 @@ class BMIChartWidget extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(width: 8),
-                    const Column(
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(width: 8),
-                        CustomText(
-                          text: 'Weight',
-                          fontSize: 12,
+                        const SizedBox(width: 8),
+                        Text(
+                          'Weight',
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           textBaseline: TextBaseline.alphabetic,
                           children: [
-                            CustomText(
-                              text: '70',
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                            Text(
+                              '70',
+                              style: Theme.of(context).textTheme.headlineLarge,
                             ),
-                            CustomText(
-                              text: ' kg',
-                              fontSize: 12,
+                            Text(
+                              ' kg',
+                              style: Theme.of(context).textTheme.bodySmall,
                             )
                           ],
                         )

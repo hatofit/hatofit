@@ -7,7 +7,6 @@ import 'package:polar_hr_devices/widget/home/hr_lines_chart.dart';
 import 'package:polar_hr_devices/widget/home/bmi_chart_widget.dart';
 import 'package:polar_hr_devices/widget/home/calories_chart_widget.dart';
 import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
 import 'package:polar_hr_devices/widget/home/goal_widget.dart';
 import 'package:polar_hr_devices/widget/home/sleeps_info_widget.dart';
 import 'package:polar_hr_devices/widget/home/steps_chart_widget.dart';
@@ -22,10 +21,8 @@ class HomePage extends StatelessWidget {
     PolarService polarService = Get.put(PolarService());
     return GetBuilder<HomeController>(builder: (controller) {
       return Scaffold(
-        backgroundColor: ColorPalette.backgroundColor,
         appBar: CustomAppBar(
           title: controller.title,
-          screenColor: ColorPalette.crimsonRed20,
         ),
         body: ListView(
           children: [
@@ -38,9 +35,8 @@ class HomePage extends StatelessWidget {
                       BoxShadow(
                           color: ColorPalette.crimsonRed20,
                           offset: Offset(0, 3),
-                          blurRadius: 10)
+                          blurRadius: 5)
                     ],
-                    color: ColorPalette.crimsonRed20,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(32),
                       bottomRight: Radius.circular(32),
@@ -53,32 +49,32 @@ class HomePage extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Row(
+                            Row(
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   width: 34,
                                 ),
-                                IconWrapper(
+                                const IconWrapper(
                                     icon: Icons.favorite,
                                     backgroundColor: ColorPalette.crimsonRed35,
                                     iconColor: ColorPalette.crimsonRed),
-                                SizedBox(
+                                const SizedBox(
                                   width: 12,
                                 ),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CustomText(
-                                      text: 'Your',
-                                      color: ColorPalette.black75,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
+                                    Text(
+                                      'Your',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
                                     ),
-                                    CustomText(
-                                      text: 'Heart Rate',
-                                      color: ColorPalette.black,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
+                                    Text(
+                                      'Heart Rate',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium,
                                     ),
                                   ],
                                 ),
@@ -89,14 +85,17 @@ class HomePage extends StatelessWidget {
                                 Obx(() {
                                   return Row(
                                     children: [
-                                      CustomText(
-                                        text: polarService.heartRate.value,
-                                        fontSize: 48,
-                                        fontWeight: FontWeight.bold,
+                                      Text(
+                                        polarService.heartRate.value,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayLarge,
                                       ),
-                                      const CustomText(
-                                        text: ' bpm',
-                                        fontSize: 14,
+                                      Text(
+                                        ' bpm',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
                                       )
                                     ],
                                   );
@@ -124,14 +123,13 @@ class HomePage extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const CustomText(
-                            text: 'Today Activity',
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                          Text(
+                            'Today Activity',
+                            style: Theme.of(context).textTheme.displaySmall,
                           ),
-                          CustomText(
-                            text: controller.formattedDate,
-                            fontSize: 14,
+                          Text(
+                            controller.formattedDate,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
                       )),

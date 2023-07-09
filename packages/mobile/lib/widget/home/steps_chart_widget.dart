@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
+
 import 'package:polar_hr_devices/widget/icon_wrapper.dart';
 
 class StepsChartWidget extends StatelessWidget {
@@ -28,18 +28,17 @@ class StepsChartWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         padding: const EdgeInsets.all(8),
-        child: const Column(
+        child:   Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomText(
-                  text: 'Steps',
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                Text(
+                    'Steps',
+                style: Theme.of(context).textTheme.displaySmall,
                 ),
-                IconWrapper(
+                const IconWrapper(
                   icon: FontAwesomeIcons.ruler,
                   backgroundColor: ColorPalette.ceruleanBlue35,
                   iconColor: ColorPalette.ceruleanBlue,
@@ -49,7 +48,7 @@ class StepsChartWidget extends StatelessWidget {
             SizedBox(
               child: Column(
                 children: [
-                  StepsLineChart(),
+                  const StepsLineChart(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -57,34 +56,35 @@ class StepsChartWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
                         children: [
-                          CustomText(
-                            text: '700',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 24,
+                          Text(
+                              '700',
+                                     style: Theme.of(context).textTheme.displayMedium,
+
                           ),
-                          CustomText(
-                            text: ' steps',
-                            fontSize: 14,
+                          Text(
+                              ' steps',
+                                           style: Theme.of(context).textTheme.bodyMedium,
+
                           ),
                         ],
                       ),
-                      CustomText(
-                        text: ' / ',
-                        fontWeight: FontWeight.w500,
-                        fontSize: 24,
+                      Text(
+                          ' / ',
+                                    style: Theme.of(context).textTheme.displayMedium,
+
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
                         children: [
-                          CustomText(
-                            text: '6',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 24,
+                          Text(
+                              '6',
+                                    style: Theme.of(context).textTheme.displayMedium,
+
                           ),
-                          CustomText(
-                            text: ' km',
-                            fontSize: 14,
+                          Text(
+                              ' km',
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
                       )

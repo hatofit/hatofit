@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
+
 
 class GreetingPage extends StatelessWidget {
   const GreetingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: ColorPalette.backgroundColor,
-      ),
-    );
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorPalette.backgroundColor,
         body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -61,21 +54,19 @@ class GreetingPage extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32),
+                    Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CustomText(
-                          text: 'Healthy life,\nhappy life.\nGo Healthy!',
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
+                        Text(
+                            'Healthy life,\nhappy life.\nGo Healthy!',
+                          style: Theme.of(context).textTheme.displayLarge,
                         ),
-                        CustomText(
-                          text:
+                        Text(
+
                               'Elevate your workout experience with HatoFit today.',
-                          fontSize: 14,
-                          color: ColorPalette.black50,
+         style: Theme.of(context).textTheme.headlineMedium,
                         ),
                       ],
                     ),
@@ -100,11 +91,9 @@ class GreetingPage extends StatelessWidget {
                             width: 2,
                           ),
                         ),
-                        child: const CustomText(
-                          text: 'Get Started',
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: ColorPalette.black,
+                        child:   Text(
+                            'Get Started',
+                         style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
                     ),

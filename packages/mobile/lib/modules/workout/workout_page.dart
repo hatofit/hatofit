@@ -2,18 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
 import 'package:polar_hr_devices/modules/workout/workout_controller.dart';
 import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
-import 'package:polar_hr_devices/widget/custom_text.dart';
 
 class WorkoutPage extends GetView<WorkoutController> {
   const WorkoutPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorPalette.backgroundColor,
       appBar: CustomAppBar(
         title: controller.title,
       ),
@@ -34,7 +31,7 @@ class WorkoutPage extends GetView<WorkoutController> {
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(
-                      child: CustomText(text: '${snapshot.error}'),
+                      child: Text('${snapshot.error}'),
                     );
                   } else if (snapshot.hasData) {
                     var exercises = snapshot.data as List<ExerciseModel>;
@@ -66,11 +63,11 @@ class WorkoutPage extends GetView<WorkoutController> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    CustomText(
-                                      text: exercises[index].name,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
+                                    Text(
+                                      exercises[index].name,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall,
                                     ),
                                     const SizedBox(
                                       height: 8,
@@ -85,30 +82,32 @@ class WorkoutPage extends GetView<WorkoutController> {
                                         const SizedBox(
                                           width: 8,
                                         ),
-                                        CustomText(
-                                          text:
-                                              '${(exercises[index].instructions.length + 1) ~/ 2} sets',
-                                          fontSize: 12,
+                                        Text(
+                                          '${(exercises[index].instructions.length + 1) ~/ 2} sets',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
                                         ),
                                       ],
                                     ),
                                     const SizedBox(
                                       height: 4,
                                     ),
-                                    const Row(
+                                    Row(
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           FontAwesomeIcons.clock,
                                           color: Colors.white,
                                           size: 12,
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           width: 8,
                                         ),
-                                        CustomText(
-                                          text: '21 min',
-                                          color: Colors.white,
-                                          fontSize: 12,
+                                        Text(
+                                          '21 min',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .displaySmall,
                                         ),
                                       ],
                                     ),
@@ -157,8 +156,8 @@ class WorkoutPage extends GetView<WorkoutController> {
           //                 child: Column(
           //                   crossAxisAlignment: CrossAxisAlignment.start,
           //                   children: [
-          //                     CustomText(
-          //                       text: controller
+          //                     Text(
+          //                         controller
           //                           .topCollectionWorkouts[index].name,
           //                       fontSize: 18,
           //                       fontWeight: FontWeight.w600,
@@ -177,8 +176,8 @@ class WorkoutPage extends GetView<WorkoutController> {
           //                         SizedBox(
           //                           width: 8,
           //                         ),
-          //                         CustomText(
-          //                           text: '12 Exercises',
+          //                         Text(
+          //                             '12 Exercises',
           //                           color: Colors.white,
           //                           fontSize: 12,
           //                         ),
@@ -197,8 +196,8 @@ class WorkoutPage extends GetView<WorkoutController> {
           //                         SizedBox(
           //                           width: 8,
           //                         ),
-          //                         CustomText(
-          //                           text: '21 min',
+          //                         Text(
+          //                             '21 min',
           //                           color: Colors.white,
           //                           fontSize: 12,
           //                         ),
