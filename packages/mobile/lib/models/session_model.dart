@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:polar/polar.dart';
 
 part 'session_model.g.dart';
 
@@ -7,16 +8,16 @@ class SessionModel {
   final String exerciseId;
   final int startTime;
   final int endTime;
-  final List<TimelineModel> timelines;
-  final List<DataModel> data;
+  final List<SessionTimeline> timelines;
+  final List<SessionDataItem> data;
 
-  SessionModel(
-    this.exerciseId,
-    this.startTime,
-    this.endTime,
-    this.timelines,
-    this.data,
-  );
+  SessionModel({
+    required this.exerciseId,
+    required this.startTime,
+    required this.endTime,
+    required this.timelines,
+    required this.data,
+  });
 
   factory SessionModel.fromJson(Map<String, dynamic> json) =>
       _$SessionModelFromJson(json);
@@ -25,42 +26,50 @@ class SessionModel {
 }
 
 @JsonSerializable(explicitToJson: true)
-class TimelineModel {
+class SessionTimeline {
   final String name;
   final int startTime;
 
-  TimelineModel(this.name, this.startTime);
+  SessionTimeline(this.name, this.startTime);
 
-  factory TimelineModel.fromJson(Map<String, dynamic> json) =>
-      _$TimelineModelFromJson(json);
+  factory SessionTimeline.fromJson(Map<String, dynamic> json) =>
+      _$SessionTimelineFromJson(json);
 
-  Map<String, dynamic> toJson() => _$TimelineModelToJson(this);
+  Map<String, dynamic> toJson() => _$SessionTimelineToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class DataModel {
+class SessionDataItem {
   final int second;
   final int timeStamp;
-  final List<DeviceModel> devices;
+  final List<SessionDataItemDevice> devices;
 
-  DataModel(this.second, this.timeStamp, this.devices);
+  SessionDataItem({
+    required this.second,
+    required this.timeStamp,
+    required this.devices,
+  });
 
-  factory DataModel.fromJson(Map<String, dynamic> json) =>
-      _$DataModelFromJson(json);
+  factory SessionDataItem.fromJson(Map<String, dynamic> json) =>
+      _$SessionDataItemFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DataModelToJson(this);
+  Map<String, dynamic> toJson() => _$SessionDataItemToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)
-class DeviceModel {
-  final String type;
-  final String identifier;
-  final List<Map<String, dynamic>> value;
+class SessionDataItemDevice {
+  String type;
+  String identifier;
+  List<Map<String, dynamic>> value;
 
-  DeviceModel(this.type, this.identifier, this.value);
+  SessionDataItemDevice({
+    required this.type,
+    required this.identifier,
+    required this.value,
+  });
 
-  factory DeviceModel.fromJson(Map<String, dynamic> json) =>
-      _$DeviceModelFromJson(json);
+  factory SessionDataItemDevice.fromJson(Map<String, dynamic> json) =>
+      _$SessionDataItemDeviceFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DeviceModelToJson(this);
+  Map<String, dynamic> toJson() => _$SessionDataItemDeviceToJson(this);
 }
