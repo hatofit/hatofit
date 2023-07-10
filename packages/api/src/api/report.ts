@@ -37,16 +37,16 @@ export const DevicesRules = [
           }
         }
       },
-      {
-        type: 'acc',
-        evaluate: (item: z.input<typeof SessionDataItemDeviceSchema>) => {
-          if (item.type === 'PolarDataType.acc') {
-            const vals = (item.value || []) as { x: number, y: number, z: number }[]
-            const val = vals[0] ? [vals[0].x, vals[0].y, vals[0].z] : false
-            return val
-          }
-        }
-      },
+      // {
+      //   type: 'acc',
+      //   evaluate: (item: z.input<typeof SessionDataItemDeviceSchema>) => {
+      //     if (item.type === 'PolarDataType.acc') {
+      //       const vals = (item.value || []) as { x: number, y: number, z: number }[]
+      //       const val = vals[0] ? [vals[0].x, vals[0].y, vals[0].z] : false
+      //       return val
+      //     }
+      //   }
+      // },
       {
         type: 'ecg',
         evaluate: (item: z.input<typeof SessionDataItemDeviceSchema>) => {
@@ -131,6 +131,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
           }
 
           const parsed = getParsedFromDataDevice(device as z.input<typeof SessionDataItemDeviceSchema>)
+          // console.log('parsed', parsed.deviceName, device.type)
 
           // check if device already exists
           const deviceIndex = devices.findIndex((d) => d.identifier === device.identifier)
@@ -145,8 +146,8 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
           // check data
           const reportsToListAccepted = [
             'hr',
-            'ecg',
-            'acc',
+            // 'ecg',
+            // 'acc',
           ]
           for (const listreporttoacccepted of reportsToListAccepted) {
             const reportsItemsHr = parsed.reportsItems.filter((r) => r.type === listreporttoacccepted)
