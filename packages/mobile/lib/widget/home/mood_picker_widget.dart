@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/services/polar_service.dart';
 
 class MoodController extends GetxController {
   RxString selectedMood = ''.obs;
@@ -15,16 +16,26 @@ class MoodPickerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PolarService polarService = Get.put(PolarService());
     return Obx(
-      () => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          buildMoodItem('😄', 'happy'),
-          buildMoodItem('😊', 'good'),
-          buildMoodItem('😐', 'neutral'),
-          buildMoodItem('😔', 'sad'),
-          buildMoodItem('😢', 'awful'),
-        ],
+      () => Container(
+        width: polarService.screenWidth * 0.92,
+        decoration: BoxDecoration(
+          color: Get.isDarkMode
+              ? ColorPalette.darkContainer
+              : ColorPalette.lightContainer,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            buildMoodItem('😄', 'happy'),
+            buildMoodItem('😊', 'good'),
+            buildMoodItem('😐', 'neutral'),
+            buildMoodItem('😔', 'sad'),
+            buildMoodItem('😢', 'awful'),
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ColorPalette {
+  static const Color darkContainer = Color(0xFF333333);
+  static const Color lightContainer = Color(0xFFe6e6e6);
+
   static const Color black = Color(0xFF000000);
   static const Color black75 = Color(0xFF404040);
   static const Color black50 = Color(0xFF808080);
@@ -12,7 +15,7 @@ class ColorPalette {
   static const Color male = Color(0xFF2B3595);
   static const Color female = Color(0xFFE14594);
 
-  static const Color navBar = Color(0xFF6358E1); 
+  static const Color navBar = Color(0xFF6358E1);
 
   static const Color royalBlue = Color(0xFF4051E6);
   static const Color navyBlue = Color(0xFF1726B5);

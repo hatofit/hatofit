@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 
 import 'package:polar_hr_devices/widget/icon_wrapper.dart';
@@ -14,14 +15,9 @@ class BMIChartWidget extends StatelessWidget {
         height: height,
         width: width,
         decoration: BoxDecoration(
-          boxShadow: const [
-            BoxShadow(
-              color: ColorPalette.aqua20,
-              blurRadius: 5,
-              offset: Offset(0, 1),
-            ),
-          ],
-          color: ColorPalette.black00,
+          color: Get.isDarkMode
+              ? ColorPalette.darkContainer
+              : ColorPalette.lightContainer,
           borderRadius: BorderRadius.circular(8),
         ),
         padding: const EdgeInsets.all(8),
@@ -53,7 +49,9 @@ class BMIChartWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
-                    color: const Color(0xFFD6FFDD),
+                    color: Get.isDarkMode
+                        ? const Color(0xFFD6FFDD).withOpacity(0.1)
+                        : const Color(0xFFD6FFDD),
                   ),
                   child: Text(
                     "You're Healthy",

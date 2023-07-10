@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:fl_chart/fl_chart.dart';
 
@@ -17,26 +18,21 @@ class StepsChartWidget extends StatelessWidget {
         height: height,
         width: width,
         decoration: BoxDecoration(
-          boxShadow: const [
-            BoxShadow(
-              color: ColorPalette.ceruleanBlue20,
-              blurRadius: 5,
-              offset: Offset(0, 1),
-            ),
-          ],
-          color: ColorPalette.black00,
+          color: Get.isDarkMode
+              ? ColorPalette.darkContainer
+              : ColorPalette.lightContainer,
           borderRadius: BorderRadius.circular(8),
         ),
         padding: const EdgeInsets.all(8),
-        child:   Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                    'Steps',
-                style: Theme.of(context).textTheme.displaySmall,
+                  'Steps',
+                  style: Theme.of(context).textTheme.displaySmall,
                 ),
                 const IconWrapper(
                   icon: FontAwesomeIcons.ruler,
@@ -57,33 +53,29 @@ class StepsChartWidget extends StatelessWidget {
                         textBaseline: TextBaseline.alphabetic,
                         children: [
                           Text(
-                              '700',
-                                     style: Theme.of(context).textTheme.displayMedium,
-
+                            '700',
+                            style: Theme.of(context).textTheme.displayMedium,
                           ),
                           Text(
-                              ' steps',
-                                           style: Theme.of(context).textTheme.bodyMedium,
-
+                            ' steps',
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
                       ),
                       Text(
-                          ' / ',
-                                    style: Theme.of(context).textTheme.displayMedium,
-
+                        ' / ',
+                        style: Theme.of(context).textTheme.displayMedium,
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
                         children: [
                           Text(
-                              '6',
-                                    style: Theme.of(context).textTheme.displayMedium,
-
+                            '6',
+                            style: Theme.of(context).textTheme.displayMedium,
                           ),
                           Text(
-                              ' km',
+                            ' km',
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],

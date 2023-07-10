@@ -4,6 +4,8 @@ import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 class AppTheme {
   static ThemeData lightTheme = ThemeData.light().copyWith(
       useMaterial3: true,
+      primaryColorDark: ColorPalette.black,
+      primaryColorLight: ColorPalette.black00,
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -96,8 +98,10 @@ class AppTheme {
 
   static ThemeData darkTheme = ThemeData.dark().copyWith(
       useMaterial3: true,
+      primaryColorDark: ColorPalette.black00,
+      primaryColorLight: ColorPalette.black,
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: IconThemeData(
           color: Colors.white,
@@ -107,7 +111,7 @@ class AppTheme {
         color: Colors.white,
       ),
       brightness: Brightness.dark,
-      scaffoldBackgroundColor: Colors.black,
+      scaffoldBackgroundColor: Color(0xFF262626),
       primaryColor: ColorPalette.crimsonRed,
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,

@@ -104,7 +104,7 @@ class WorkoutPage extends GetView<WorkoutController> {
                                           width: 8,
                                         ),
                                         Text(
-                                          '21 min',
+                                          '${exercises[index].duration} sec',
                                           style: Theme.of(context)
                                               .textTheme
                                               .displaySmall,
@@ -133,82 +133,6 @@ class WorkoutPage extends GetView<WorkoutController> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
-          // Expanded(
-          //   child: ListView.builder(
-          //     itemCount: controller.topCollectionWorkouts.length,
-          //     itemBuilder: (context, index) {
-          //       return Padding(
-          //           padding:
-          //               const EdgeInsets.only(left: 8, right: 8, bottom: 16),
-          //           child: Container(
-          //               height: 150,
-          //               decoration: BoxDecoration(
-          //                 color: Colors.black.withOpacity(0.9),
-          //                 image: DecorationImage(
-          //                     image: CachedNetworkImageProvider(controller
-          //                         .topCollectionWorkouts[index].image),
-          //                     fit: BoxFit.cover,
-          //                     opacity: 0.4),
-          //                 borderRadius: BorderRadius.circular(8),
-          //               ),
-          //               child: Padding(
-          //                 padding: const EdgeInsets.all(16.0),
-          //                 child: Column(
-          //                   crossAxisAlignment: CrossAxisAlignment.start,
-          //                   children: [
-          //                     Text(
-          //                         controller
-          //                           .topCollectionWorkouts[index].name,
-          //                       fontSize: 18,
-          //                       fontWeight: FontWeight.w600,
-          //                       color: Colors.white,
-          //                     ),
-          //                     const SizedBox(
-          //                       height: 8,
-          //                     ),
-          //                     const Row(
-          //                       children: [
-          //                         Icon(
-          //                           FontAwesomeIcons.dumbbell,
-          //                           color: Colors.white,
-          //                           size: 12,
-          //                         ),
-          //                         SizedBox(
-          //                           width: 8,
-          //                         ),
-          //                         Text(
-          //                             '12 Exercises',
-          //                           color: Colors.white,
-          //                           fontSize: 12,
-          //                         ),
-          //                       ],
-          //                     ),
-          //                     const SizedBox(
-          //                       height: 4,
-          //                     ),
-          //                     const Row(
-          //                       children: [
-          //                         Icon(
-          //                           FontAwesomeIcons.clock,
-          //                           color: Colors.white,
-          //                           size: 12,
-          //                         ),
-          //                         SizedBox(
-          //                           width: 8,
-          //                         ),
-          //                         Text(
-          //                             '21 min',
-          //                           color: Colors.white,
-          //                           fontSize: 12,
-          //                         ),
-          //                       ],
-          //                     ),
-          //                   ],
-          //                 ),
-          //               )));
-          //     },
-          //   ),
-          // ),
         ],
       ),
     );

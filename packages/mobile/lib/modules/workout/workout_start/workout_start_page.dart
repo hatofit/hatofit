@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
 import 'package:polar_hr_devices/modules/workout/workout_start/workout_start_controller.dart';
+import 'package:polar_hr_devices/services/polar_service.dart';
 
 class WorkoutStartPage extends GetView<WorkoutStartController> {
   final ExerciseModel workout;
@@ -10,6 +11,7 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
 
   @override
   Widget build(BuildContext context) {
+    final PolarService polarService = Get.find<PolarService>();
     return SafeArea(
       child: Scaffold(
         body: Obx(
@@ -29,6 +31,13 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                 controller.countDownTimer.value.toString(),
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
+              Text.rich(TextSpan(text: 'BPM : ', children: <InlineSpan>[
+                TextSpan(
+                  text: polarService.heartRate.value,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
+                )
+              ])),
               TextButton(
                 onPressed: () {
                   controller.nextInstruction(workout.instructions.length - 1);

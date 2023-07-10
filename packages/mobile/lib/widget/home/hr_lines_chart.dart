@@ -91,7 +91,6 @@ class HrLinesChartState extends State<HrLinesChart> {
 
   Widget getTitles(double value, TitleMeta meta) {
     const style = TextStyle(
-      color: Colors.black,
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );

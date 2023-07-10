@@ -28,6 +28,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   final bluetoothService = Get.put(BluetoothService());
   final polarService = Get.put(PolarService());
+  final isDarkMode = Get.isDarkMode;
   @override
   void initState() {
     super.initState();
@@ -83,11 +84,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 polarService.scanPolarDevices();
                 showModal();
               } else {
-                Get.snackbar(
-                  'Turning on Bluetooth',
-                  'Allow Turn on Bluetooth',
-                  duration: const Duration(seconds: 5),
-                );
+                Get.snackbar('Turning on Bluetooth', 'Allow Turn on Bluetooth',
+                    duration: const Duration(seconds: 5),
+                    colorText: isDarkMode ? Colors.white : Colors.black,
+                    backgroundColor: isDarkMode
+                        ? ColorPalette.darkContainer.withOpacity(0.9)
+                        : ColorPalette.lightContainer.withOpacity(0.9));
                 FutureBuilder<void>(
                   future: bluetoothService.turnOnBluetooth(),
                   builder: (context, snapshot) {

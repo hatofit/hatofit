@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
 
-
 class GoalWidget extends StatelessWidget {
   final double width;
   final double height;
@@ -15,29 +14,24 @@ class GoalWidget extends StatelessWidget {
         height: height,
         width: width,
         decoration: BoxDecoration(
-          boxShadow: const [
-            BoxShadow(
-              color: ColorPalette.aqua20,
-              blurRadius: 5,
-              offset: Offset(0, 1),
-            ),
-          ],
-          color: ColorPalette.black00,
+          color: Get.isDarkMode
+              ? ColorPalette.darkContainer
+              : ColorPalette.lightContainer,
           borderRadius: BorderRadius.circular(8),
         ),
         padding: const EdgeInsets.all(8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-              Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                    'Goal',
+                  'Goal',
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
                 Text(
-                    'Leg Day',
+                  'Leg Day',
                   style: Theme.of(context).textTheme.bodyMedium,
                 )
               ],

@@ -30,14 +30,11 @@ class HomePage extends StatelessWidget {
               children: [
                 Container(
                   height: polarService.screenHeight * 0.32,
-                  decoration: const BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                          color: ColorPalette.crimsonRed20,
-                          offset: Offset(0, 3),
-                          blurRadius: 5)
-                    ],
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    color: Get.isDarkMode
+                        ? ColorPalette.darkContainer
+                        : ColorPalette.lightContainer,
+                    borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32),
                       bottomRight: Radius.circular(32),
                     ),
@@ -134,20 +131,7 @@ class HomePage extends StatelessWidget {
                         ],
                       )),
                 ),
-                Container(
-                    width: polarService.screenWidth * 0.92,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: const [
-                        BoxShadow(
-                          color: ColorPalette.ceruleanBlue20,
-                          blurRadius: 5,
-                          offset: Offset(0, 1),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const MoodPickerWidget()),
+                const MoodPickerWidget(),
                 SizedBox(height: polarService.screenHeight * 0.01),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

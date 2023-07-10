@@ -14,24 +14,27 @@ class SettingPage extends GetView<SettingController> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Get.isDarkMode;
     return Scaffold(
       appBar: CustomAppBar(
         title: controller.title,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
+        padding: EdgeInsets.symmetric(horizontal: 24),
         child: ListView(
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: const EdgeInsets.only(top: 24),
+                  margin: EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
-                    color: ColorPalette.black00,
+                    color: isDarkMode
+                        ? ColorPalette.darkContainer
+                        : ColorPalette.lightContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  padding: const EdgeInsets.all(8),
+                  padding: EdgeInsets.all(8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,16 +42,16 @@ class SettingPage extends GetView<SettingController> {
                     children: [
                       Row(
                         children: [
-                          const SizedBox(
+                          SizedBox(
                             width: 4,
                           ),
                           controller.isAuth
-                              ? const Text('Auth')
+                              ? Text('Auth')
                               : SvgPicture.asset(
                                   controller.genderAsset,
                                   width: 32,
                                 ),
-                          const SizedBox(
+                          SizedBox(
                             width: 16,
                           ),
                           Column(
@@ -69,7 +72,7 @@ class SettingPage extends GetView<SettingController> {
                       ),
                       IconButton(
                         onPressed: () {},
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.arrow_forward_ios,
                           color: ColorPalette.black50,
                           size: 16,
@@ -79,12 +82,14 @@ class SettingPage extends GetView<SettingController> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 24),
+                  margin: EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
-                    color: ColorPalette.black00,
+                    color: isDarkMode
+                        ? ColorPalette.darkContainer
+                        : ColorPalette.lightContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Column(
                     children: [
                       Row(
@@ -101,14 +106,14 @@ class SettingPage extends GetView<SettingController> {
                                         .textTheme
                                         .headlineLarge,
                                   ),
-                                  const SizedBox(
+                                  SizedBox(
                                     width: 8,
                                   ),
                                   SvgPicture.asset(
                                     'assets/images/logo/google.svg',
                                     width: 14,
                                   ),
-                                  const SizedBox(
+                                  SizedBox(
                                     width: 8,
                                   ),
                                   SvgPicture.asset(
@@ -125,15 +130,17 @@ class SettingPage extends GetView<SettingController> {
                           ),
                           IconButton(
                             onPressed: () {},
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.sync,
                               color: ColorPalette.black50,
                             ),
                           )
                         ],
                       ),
-                      const Divider(
-                        color: ColorPalette.black10,
+                      Divider(
+                        color: isDarkMode
+                            ? ColorPalette.darkContainer
+                            : ColorPalette.lightContainer,
                         thickness: 1,
                         height: 1,
                       ),
@@ -146,7 +153,7 @@ class SettingPage extends GetView<SettingController> {
                                 'assets/images/logo/google_fit.svg',
                                 width: 18,
                               ),
-                              const SizedBox(
+                              SizedBox(
                                 width: 8,
                               ),
                               Text(
@@ -169,9 +176,11 @@ class SettingPage extends GetView<SettingController> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 24),
+                  margin: EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
-                    color: ColorPalette.black00,
+                    color: isDarkMode
+                        ? ColorPalette.darkContainer
+                        : ColorPalette.lightContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
@@ -182,8 +191,10 @@ class SettingPage extends GetView<SettingController> {
                           Get.toNamed(AppRoutes.changeUnit);
                         },
                       ),
-                      const Divider(
-                        color: ColorPalette.black10,
+                      Divider(
+                        color: isDarkMode
+                            ? ColorPalette.darkContainer
+                            : ColorPalette.lightContainer,
                         thickness: 1,
                         height: 1,
                       ),
@@ -191,8 +202,10 @@ class SettingPage extends GetView<SettingController> {
                         title: 'Change Goal',
                         onTap: () {},
                       ),
-                      const Divider(
-                        color: ColorPalette.black10,
+                      Divider(
+                        color: isDarkMode
+                            ? ColorPalette.darkContainer
+                            : ColorPalette.lightContainer,
                         thickness: 1,
                         height: 1,
                       ),
@@ -204,14 +217,16 @@ class SettingPage extends GetView<SettingController> {
                   ),
                 ),
                 Container(
-                  margin: const EdgeInsets.only(top: 24),
+                  margin: EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
-                    color: ColorPalette.black00,
+                    color: isDarkMode
+                        ? ColorPalette.darkContainer
+                        : ColorPalette.lightContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: SettingListTileWidget(
                     showLeading: true,
-                    leading: const Icon(
+                    leading: Icon(
                       FontAwesomeIcons.trashCan,
                       textDirection: TextDirection.rtl,
                       opticalSize: 20,
@@ -237,18 +252,22 @@ class SettingPage extends GetView<SettingController> {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: ColorPalette.black00,
+                    color: isDarkMode
+                        ? ColorPalette.darkContainer
+                        : ColorPalette.lightContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  margin: const EdgeInsets.only(top: 24),
+                  margin: EdgeInsets.only(top: 24),
                   child: Column(
                     children: [
                       SettingListTileWidget(
                         title: 'About',
                         onTap: () {},
                       ),
-                      const Divider(
-                        color: ColorPalette.black10,
+                      Divider(
+                        color: isDarkMode
+                            ? ColorPalette.darkContainer
+                            : ColorPalette.lightContainer,
                         thickness: 1,
                         height: 1,
                       ),
@@ -256,8 +275,10 @@ class SettingPage extends GetView<SettingController> {
                         title: 'Privacy Policy',
                         onTap: () {},
                       ),
-                      const Divider(
-                        color: ColorPalette.black10,
+                      Divider(
+                        color: isDarkMode
+                            ? ColorPalette.darkContainer
+                            : ColorPalette.lightContainer,
                         thickness: 1,
                         height: 1,
                       ),
@@ -265,8 +286,10 @@ class SettingPage extends GetView<SettingController> {
                         title: 'Terms of Use',
                         onTap: () {},
                       ),
-                      const Divider(
-                        color: ColorPalette.black10,
+                      Divider(
+                        color: isDarkMode
+                            ? ColorPalette.darkContainer
+                            : ColorPalette.lightContainer,
                         thickness: 1,
                         height: 1,
                       ),
@@ -280,7 +303,7 @@ class SettingPage extends GetView<SettingController> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 24, bottom: 24),
+                    padding: EdgeInsets.only(top: 24, bottom: 24),
                     child: Text(
                       "Version 1.0.0",
                       style: Theme.of(context).textTheme.bodySmall,
