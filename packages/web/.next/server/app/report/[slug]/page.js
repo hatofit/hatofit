@@ -966,7 +966,7 @@ var utc_default = /*#__PURE__*/__webpack_require__.n(utc);
 
 dayjs_min_default().extend((utc_default()));
 async function getReportData(slug) {
-    const res = await fetch(`http://localhost:3000/api/report/${slug}`, {
+    const res = await fetch(`${process.env.API_BASE_URL}/api/report/${slug}`, {
         cache: "no-cache"
     });
     if (!res.ok) {
@@ -1087,7 +1087,7 @@ const __default__ = proxy.default;
 var __webpack_require__ = require("../../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [194,883,676,335], () => (__webpack_exec__(6568)));
+var __webpack_exports__ = __webpack_require__.X(0, [194,883,676,808], () => (__webpack_exec__(6568)));
 module.exports = __webpack_exports__;
 
 })();
