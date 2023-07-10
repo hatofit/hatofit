@@ -48,8 +48,8 @@ export function useParseReportData(data: any) {
               }
 
               for (const item of device?.value || []) {
-                const second = item[0] || 0
-                const value = item[1] || 0
+                const second = parseInt(item[0] || 0)
+                // const value = parseInt(item[1] || 0)
                 if (second > max_second) {
                   max_second = second
                 }
@@ -68,7 +68,7 @@ export function useParseReportData(data: any) {
               for (const item of device?.value || []) {
                 const second = item[0]
                 const value = item[1]
-                dataset.data[second] = value
+                dataset.data[second] = value ? parseInt(value) : 0
               }
             }
             return _data
@@ -78,11 +78,13 @@ export function useParseReportData(data: any) {
             let count = 0
             for (const item of data?.datasets || []) {
               for (const value of item?.data || []) {
-                sum += value
-                count += 1
+                sum += value ? parseInt(value) : 0
+                if (value) {
+                  count += 1
+                }
               }
             }
-            return sum / count
+            return Math.round(sum / count)
           }
           const getMax = (data: any) => {
             let max = -1
@@ -160,11 +162,13 @@ export function useParseReportData(data: any) {
             let count = 0
             for (const item of data?.datasets || []) {
               for (const value of item?.data || []) {
-                sum += value
-                count += 1
+                sum += value ? parseInt(value) : 0
+                if (value) {
+                  count += 1
+                }
               }
             }
-            return sum / count
+            return Math.round(sum / count)
           }
           const getMax = (data: any) => {
             let max = -1

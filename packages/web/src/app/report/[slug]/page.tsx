@@ -9,7 +9,7 @@ import { useEffect, useMemo } from 'react';
 dayjs.extend(dayjsutc)
 
 async function getReportData(slug: string) {
-  const res = await fetch(`${process.env.API_BASE_URL}/api/report/${slug}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/report/${slug}`, {
     cache: 'no-cache',
   })
 

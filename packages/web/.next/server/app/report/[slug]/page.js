@@ -282,6 +282,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ 2351:
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 4773, 23));
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 9887, 23));
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 9948, 23));
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 3946, 23));
+Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 5743, 23))
+
+/***/ }),
+
 /***/ 7145:
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -356,8 +367,8 @@ function useParseReportData(data) {
                                 });
                             }
                             for (const item of device?.value || []){
-                                const second = item[0] || 0;
-                                const value = item[1] || 0;
+                                const second = parseInt(item[0] || 0);
+                                // const value = parseInt(item[1] || 0)
                                 if (second > max_second) {
                                     max_second = second;
                                 }
@@ -376,7 +387,7 @@ function useParseReportData(data) {
                             for (const item of device?.value || []){
                                 const second = item[0];
                                 const value = item[1];
-                                dataset.data[second] = value;
+                                dataset.data[second] = value ? parseInt(value) : 0;
                             }
                         }
                         return _data;
@@ -386,11 +397,13 @@ function useParseReportData(data) {
                         let count = 0;
                         for (const item of data?.datasets || []){
                             for (const value of item?.data || []){
-                                sum += value;
-                                count += 1;
+                                sum += value ? parseInt(value) : 0;
+                                if (value) {
+                                    count += 1;
+                                }
                             }
                         }
-                        return sum / count;
+                        return Math.round(sum / count);
                     };
                     const getMax = (data)=>{
                         let max = -1;
@@ -462,11 +475,13 @@ function useParseReportData(data) {
                         let count = 0;
                         for (const item of data?.datasets || []){
                             for (const value of item?.data || []){
-                                sum += value;
-                                count += 1;
+                                sum += value ? parseInt(value) : 0;
+                                if (value) {
+                                    count += 1;
+                                }
                             }
                         }
-                        return sum / count;
+                        return Math.round(sum / count);
                     };
                     const getMax = (data)=>{
                         let max = -1;
@@ -966,7 +981,7 @@ var utc_default = /*#__PURE__*/__webpack_require__.n(utc);
 
 dayjs_min_default().extend((utc_default()));
 async function getReportData(slug) {
-    const res = await fetch(`${process.env.API_BASE_URL}/api/report/${slug}`, {
+    const res = await fetch(`${"http://localhost:3000"}/api/report/${slug}`, {
         cache: "no-cache"
     });
     if (!res.ok) {
@@ -1087,7 +1102,7 @@ const __default__ = proxy.default;
 var __webpack_require__ = require("../../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [194,883,676,808], () => (__webpack_exec__(6568)));
+var __webpack_exports__ = __webpack_require__.X(0, [194,883,676,609], () => (__webpack_exec__(6568)));
 module.exports = __webpack_exports__;
 
 })();
