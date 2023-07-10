@@ -48,9 +48,9 @@ const args = process.argv.slice(2);
     // api
     const app = (0, express_1.default)();
     // middlewares
-    app.use((0, cors_1.default)());
     app.use(express_1.default.json({ limit: '50mb' }));
     app.use(express_1.default.urlencoded({ limit: '50mb', extended: false }));
+    app.use((0, cors_1.default)());
     // app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }))
     // app.use(bodyParser.json())
     // app.use(express.json({limit: '25mb'}));
