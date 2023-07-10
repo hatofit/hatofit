@@ -37,11 +37,11 @@ class PolarService extends GetxController {
     timelines: [],
     data: [],
   );
-
+  final String identifier = 'C16E3B2F';
   @override
   void onReady() {
     _isDevelopment.toggle();
-    connectDevice('C16E3B2F');
+    connectDevice(identifier);
     debugPrint("=============================\n"
         "Is Development : ${_isDevelopment.value}\n"
         "=============================");
@@ -82,15 +82,14 @@ class PolarService extends GetxController {
         timeStamp: DateTime.now().microsecondsSinceEpoch,
         devices: List.from(currentSecondDataItem.devices),
       );
-
       if (currentSecond == 900) {
         sessionModel = SessionModel(
-            exerciseId: '30 Seconds Workout',
-            startTime: DateTime.now().microsecondsSinceEpoch - (30 * 1000000),
+            exerciseId: '15 Minutes Workout',
+            startTime: DateTime.now().microsecondsSinceEpoch - (900 * 1000000),
             endTime: DateTime.now().microsecondsSinceEpoch,
             timelines: [],
             data: List.from(sessionModel.data));
-        saveToJSON('C16E3B2F', 30);
+        saveToJSON(identifier, 900);
         print('${sessionModel.exerciseId} Workout Saved');
         Get.snackbar(
           'Saved',
@@ -101,13 +100,12 @@ class PolarService extends GetxController {
       }
       if (currentSecond == 1800) {
         sessionModel = SessionModel(
-            exerciseId: '1 Minutes Workout',
-            startTime: DateTime.now().microsecondsSinceEpoch - (60 * 1000000),
+            exerciseId: '30 Minutes Workout',
+            startTime: DateTime.now().microsecondsSinceEpoch - (1800 * 1000000),
             endTime: DateTime.now().microsecondsSinceEpoch,
             timelines: [],
             data: List.from(sessionModel.data));
-
-        saveToJSON('C16E3B2F', 60);
+        saveToJSON(identifier, 1800);
         print('${sessionModel.exerciseId} Workout Saved');
         Get.snackbar(
           'Saved',
@@ -118,13 +116,12 @@ class PolarService extends GetxController {
       }
       if (currentSecond == 2700) {
         sessionModel = SessionModel(
-            exerciseId: '1 Minutes Workout',
-            startTime: DateTime.now().microsecondsSinceEpoch - (60 * 1000000),
+            exerciseId: '45 Minutes Workout',
+            startTime: DateTime.now().microsecondsSinceEpoch - (2700 * 1000000),
             endTime: DateTime.now().microsecondsSinceEpoch,
             timelines: [],
             data: List.from(sessionModel.data));
-
-        saveToJSON('C16E3B2F', 60);
+        saveToJSON(identifier, 2700);
         print('${sessionModel.exerciseId} Workout Saved');
         Get.snackbar(
           'Saved',
@@ -135,13 +132,12 @@ class PolarService extends GetxController {
       }
       if (currentSecond == 3600) {
         sessionModel = SessionModel(
-            exerciseId: '1 Minutes Workout',
-            startTime: DateTime.now().microsecondsSinceEpoch - (60 * 1000000),
+            exerciseId: '60 Minutes Workout',
+            startTime: DateTime.now().microsecondsSinceEpoch - (3600 * 1000000),
             endTime: DateTime.now().microsecondsSinceEpoch,
             timelines: [],
             data: List.from(sessionModel.data));
-
-        saveToJSON('C16E3B2F', 60);
+        saveToJSON(identifier, 3600);
         print('${sessionModel.exerciseId} Workout Saved');
         Get.snackbar(
           'Saved',
@@ -152,6 +148,9 @@ class PolarService extends GetxController {
       }
 
       sessionModel.data.add(currentSecondDataItem);
+      debugPrint(
+          'Current Second $currentSecond');
+
       currentSecondDataItem.devices.clear();
       currentSecond++;
     });
