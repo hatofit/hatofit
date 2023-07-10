@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const express_route_grouping_1 = __importDefault(require("express-route-grouping"));
 const cors_1 = __importDefault(require("cors"));
-const body_parser_1 = __importDefault(require("body-parser"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const db_1 = require("./db");
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -50,9 +49,12 @@ const args = process.argv.slice(2);
     const app = (0, express_1.default)();
     // middlewares
     app.use((0, cors_1.default)());
-    app.use(express_1.default.json());
-    app.use(body_parser_1.default.urlencoded({ extended: false }));
-    app.use(body_parser_1.default.json());
+    app.use(express_1.default.json({ limit: '50mb' }));
+    app.use(express_1.default.urlencoded({ limit: '50mb', extended: false }));
+    // app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }))
+    // app.use(bodyParser.json())
+    // app.use(express.json({limit: '25mb'}));
+    // app.use(express.urlencoded({limit: '25mb'}));
     // routes
     const root = new express_route_grouping_1.default('/', express_1.default.Router());
     root.group('/', (app) => {
