@@ -1,8 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 
 class AppTheme {
+  final _isDarkMode = Get.isDarkMode;
+  final _screenHeight = Get.height;
+  final _screenWidth = Get.width;
+
+// getter for dark theme
+  get isDarkMode => _isDarkMode;
+  get screenHeight => _screenHeight;
+  get screenWidth => _screenWidth;
+
   static ThemeData lightTheme = ThemeData.light().copyWith(
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          textStyle: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+          foregroundColor: Get.isDarkMode ? Colors.black : Colors.white,
+          backgroundColor: ColorPalette.crimsonRed,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 16),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        prefixIconColor: MaterialStateColor.resolveWith((states) =>
+            states.contains(MaterialState.focused)
+                ? Colors.black
+                : Colors.grey),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        labelStyle: TextStyle(
+            fontFamily: 'Poppins', color: Colors.grey.withOpacity(0.5)),
+        hintStyle: TextStyle(
+            fontFamily: 'Poppins',
+            color: Get.isDarkMode ? Colors.white : Colors.black),
+        floatingLabelStyle:
+            TextStyle(color: Get.isDarkMode ? Colors.white : Colors.black),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+              width: 1, color: Get.isDarkMode ? Colors.white : Colors.black),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(width: 3, color: Colors.grey.withOpacity(0.5)),
+        ),
+      ),
       useMaterial3: true,
       primaryColorDark: ColorPalette.black,
       primaryColorLight: ColorPalette.black00,
@@ -18,9 +68,9 @@ class AppTheme {
       ),
       brightness: Brightness.light,
       scaffoldBackgroundColor: const Color(0xFFF9F8FD),
-      primaryColor: ColorPalette.ceruleanBlue,
+      primaryColor: ColorPalette.crimsonRed,
       highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,
+      splashColor: const Color(0xFF262626),
       textTheme: const TextTheme(
         displayLarge: TextStyle(
           fontFamily: 'Poppins',
@@ -97,6 +147,46 @@ class AppTheme {
       ));
 
   static ThemeData darkTheme = ThemeData.dark().copyWith(
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          textStyle: const TextStyle(
+            fontFamily: 'Poppins',
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+          foregroundColor: Get.isDarkMode ? Colors.black : Colors.white,
+          backgroundColor: ColorPalette.crimsonRed,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 16),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        prefixIconColor: MaterialStateColor.resolveWith((states) =>
+            states.contains(MaterialState.focused)
+                ? Colors.white
+                : Colors.grey),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        labelStyle: TextStyle(
+            fontFamily: 'Poppins', color: Colors.grey.withOpacity(0.5)),
+        hintStyle: TextStyle(
+            fontFamily: 'Poppins',
+            color: Get.isDarkMode ? Colors.black : Colors.white),
+        floatingLabelStyle:
+            TextStyle(color: Get.isDarkMode ? Colors.black : Colors.white),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(
+              width: 1, color: Get.isDarkMode ? Colors.black : Colors.white),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: BorderSide(width: 3, color: Colors.grey.withOpacity(0.5)),
+        ),
+      ),
       useMaterial3: true,
       primaryColorDark: ColorPalette.black00,
       primaryColorLight: ColorPalette.black,
@@ -111,10 +201,10 @@ class AppTheme {
         color: Colors.white,
       ),
       brightness: Brightness.dark,
-      scaffoldBackgroundColor: Color(0xFF262626),
+      scaffoldBackgroundColor: const Color(0xFF262626),
       primaryColor: ColorPalette.crimsonRed,
       highlightColor: Colors.transparent,
-      splashColor: Colors.transparent,
+      splashColor: const Color(0xFF262626),
       textTheme: const TextTheme(
         displayLarge: TextStyle(
           fontFamily: 'Poppins',

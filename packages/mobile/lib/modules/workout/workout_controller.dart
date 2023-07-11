@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
@@ -32,7 +31,7 @@ class WorkoutController extends GetxController {
         }).toList();
       } else {
         Get.snackbar('Error', 'Failed to load exercises',
-                 colorText: isDarkMode ? Colors.white : Colors.black,
+            colorText: isDarkMode ? Colors.white : Colors.black,
             backgroundColor: isDarkMode
                 ? ColorPalette.darkContainer.withOpacity(0.9)
                 : ColorPalette.lightContainer.withOpacity(0.9));

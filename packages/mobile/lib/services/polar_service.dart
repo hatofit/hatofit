@@ -37,11 +37,9 @@ class PolarService extends GetxController {
     timelines: [],
     data: [],
   );
-  final String identifier = 'C16E3B2F';
   @override
   void onReady() {
     _isDevelopment.toggle();
-    connectDevice(identifier);
     debugPrint("=============================\n"
         "Is Development : ${_isDevelopment.value}\n"
         "=============================");
@@ -58,103 +56,124 @@ class PolarService extends GetxController {
     super.onClose();
   }
 
-  void dummyDebugging() {
-    int counter = 0;
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      debugPrint("Starting in $counter");
-      if (counter == 3) {
-        isStartWorkout.toggle();
-        debugPrint("============================================\n"
-            "Date Time : ${DateTime.now().toString()}\n"
-            "============================================");
-        dummyWorkout(); // Start dummyWorkout after streamWhenReady
-        timer.cancel();
-      }
-      counter++;
-    });
-  }
-
-  void dummyWorkout() {
-    int currentSecond = 0;
+  void starWorkout(String exerciseId, int exerciseDuration) {
+    final now = DateTime.now().toUtc().microsecondsSinceEpoch;
+    // logic now - exerciseDuration
+    final startStream = now - (exerciseDuration * 1000000);
+    var currentSecond = 0;
     Timer.periodic(const Duration(seconds: 1), (timer) {
       currentSecondDataItem = SessionDataItem(
         second: currentSecond,
         timeStamp: DateTime.now().microsecondsSinceEpoch,
         devices: List.from(currentSecondDataItem.devices),
       );
-      if (currentSecond == 900) {
-        sessionModel = SessionModel(
-            exerciseId: '15 Minutes Workout',
-            startTime: DateTime.now().microsecondsSinceEpoch - (900 * 1000000),
-            endTime: DateTime.now().microsecondsSinceEpoch,
-            timelines: [],
-            data: List.from(sessionModel.data));
-        saveToJSON(identifier, 900);
-        print('${sessionModel.exerciseId} Workout Saved');
-        Get.snackbar(
-          'Saved',
-          '${sessionModel.exerciseId} Workout Saved',
-          colorText: isDarkMode ? Colors.white : Colors.black,
-          backgroundColor: isDarkMode ? Colors.black : Colors.white,
-        );
-      }
-      if (currentSecond == 1800) {
-        sessionModel = SessionModel(
-            exerciseId: '30 Minutes Workout',
-            startTime: DateTime.now().microsecondsSinceEpoch - (1800 * 1000000),
-            endTime: DateTime.now().microsecondsSinceEpoch,
-            timelines: [],
-            data: List.from(sessionModel.data));
-        saveToJSON(identifier, 1800);
-        print('${sessionModel.exerciseId} Workout Saved');
-        Get.snackbar(
-          'Saved',
-          '${sessionModel.exerciseId} Workout Saved',
-          colorText: isDarkMode ? Colors.white : Colors.black,
-          backgroundColor: isDarkMode ? Colors.black : Colors.white,
-        );
-      }
-      if (currentSecond == 2700) {
-        sessionModel = SessionModel(
-            exerciseId: '45 Minutes Workout',
-            startTime: DateTime.now().microsecondsSinceEpoch - (2700 * 1000000),
-            endTime: DateTime.now().microsecondsSinceEpoch,
-            timelines: [],
-            data: List.from(sessionModel.data));
-        saveToJSON(identifier, 2700);
-        print('${sessionModel.exerciseId} Workout Saved');
-        Get.snackbar(
-          'Saved',
-          '${sessionModel.exerciseId} Workout Saved',
-          colorText: isDarkMode ? Colors.white : Colors.black,
-          backgroundColor: isDarkMode ? Colors.black : Colors.white,
-        );
-      }
-      if (currentSecond == 3600) {
-        sessionModel = SessionModel(
-            exerciseId: '60 Minutes Workout',
-            startTime: DateTime.now().microsecondsSinceEpoch - (3600 * 1000000),
-            endTime: DateTime.now().microsecondsSinceEpoch,
-            timelines: [],
-            data: List.from(sessionModel.data));
-        saveToJSON(identifier, 3600);
-        print('${sessionModel.exerciseId} Workout Saved');
-        Get.snackbar(
-          'Saved',
-          '${sessionModel.exerciseId} Workout Saved',
-          colorText: isDarkMode ? Colors.white : Colors.black,
-          backgroundColor: isDarkMode ? Colors.black : Colors.white,
-        );
-      }
 
       sessionModel.data.add(currentSecondDataItem);
-      debugPrint(
-          'Current Second $currentSecond');
+      if (isStartWorkout.value == false) {
+        saveToJSON(connectedDeviceId.value, startStream);
+        uploadData();
+        currentSecond = 0;
+        timer.cancel();
+      }
 
       currentSecondDataItem.devices.clear();
       currentSecond++;
     });
   }
+
+  // void dummyDebugging() {
+  //   int counter = 0;
+  //   Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     debugPrint("Starting in $counter");
+  //     if (counter == 3) {
+  //       isStartWorkout.toggle();
+  //       debugPrint("============================================\n"
+  //           "Date Time : ${DateTime.now().toString()}\n"
+  //           "============================================");
+  //       dummyWorkout();
+  //       timer.cancel();
+  //     }
+  //     counter++;
+  //   });
+  // }
+
+  // void dummyWorkout() {
+  //   int currentSecond = 0;
+  //   Timer.periodic(const Duration(seconds: 1), (timer) {
+  //     currentSecondDataItem = SessionDataItem(
+  //       second: currentSecond,
+  //       timeStamp: DateTime.now().microsecondsSinceEpoch,
+  //       devices: List.from(currentSecondDataItem.devices),
+  //     );
+  //     if (currentSecond == 900) {
+  //       sessionModel = SessionModel(
+  //           exerciseId: '15 Minutes Workout',
+  //           startTime: DateTime.now().microsecondsSinceEpoch - (900 * 1000000),
+  //           endTime: DateTime.now().microsecondsSinceEpoch,
+  //           timelines: [],
+  //           data: List.from(sessionModel.data));
+  //       saveToJSON(identifier, 900);
+  //       print('${sessionModel.exerciseId} Workout Saved');
+  //       Get.snackbar(
+  //         'Saved',
+  //         '${sessionModel.exerciseId} Workout Saved',
+  //         colorText: isDarkMode ? Colors.white : Colors.black,
+  //         backgroundColor: isDarkMode ? Colors.black : Colors.white,
+  //       );
+  //     }
+  //     if (currentSecond == 1800) {
+  //       sessionModel = SessionModel(
+  //           exerciseId: '30 Minutes Workout',
+  //           startTime: DateTime.now().microsecondsSinceEpoch - (1800 * 1000000),
+  //           endTime: DateTime.now().microsecondsSinceEpoch,
+  //           timelines: [],
+  //           data: List.from(sessionModel.data));
+  //       saveToJSON(identifier, 1800);
+  //       print('${sessionModel.exerciseId} Workout Saved');
+  //       Get.snackbar(
+  //         'Saved',
+  //         '${sessionModel.exerciseId} Workout Saved',
+  //         colorText: isDarkMode ? Colors.white : Colors.black,
+  //         backgroundColor: isDarkMode ? Colors.black : Colors.white,
+  //       );
+  //     }
+  //     if (currentSecond == 2700) {
+  //       sessionModel = SessionModel(
+  //           exerciseId: '45 Minutes Workout',
+  //           startTime: DateTime.now().microsecondsSinceEpoch - (2700 * 1000000),
+  //           endTime: DateTime.now().microsecondsSinceEpoch,
+  //           timelines: [],
+  //           data: List.from(sessionModel.data));
+  //       saveToJSON(identifier, 2700);
+  //       print('${sessionModel.exerciseId} Workout Saved');
+  //       Get.snackbar(
+  //         'Saved',
+  //         '${sessionModel.exerciseId} Workout Saved',
+  //         colorText: isDarkMode ? Colors.white : Colors.black,
+  //         backgroundColor: isDarkMode ? Colors.black : Colors.white,
+  //       );
+  //     }
+  //     if (currentSecond == 3600) {
+  //       sessionModel = SessionModel(
+  //           exerciseId: '60 Minutes Workout',
+  //           startTime: DateTime.now().microsecondsSinceEpoch - (3600 * 1000000),
+  //           endTime: DateTime.now().microsecondsSinceEpoch,
+  //           timelines: [],
+  //           data: List.from(sessionModel.data));
+  //       saveToJSON(identifier, 3600);
+  //       print('${sessionModel.exerciseId} Workout Saved');
+  //       Get.snackbar(
+  //         'Saved',
+  //         '${sessionModel.exerciseId} Workout Saved',
+  //         colorText: isDarkMode ? Colors.white : Colors.black,
+  //         backgroundColor: isDarkMode ? Colors.black : Colors.white,
+  //       );
+  //     }
+  //     sessionModel.data.add(currentSecondDataItem);
+  //     currentSecondDataItem.devices.clear();
+  //     currentSecond++;
+  //   });
+  // }
 
   void streamWhenReady(String deviceId) async {
     await polar.sdkFeatureReady.firstWhere(
@@ -165,8 +184,13 @@ class PolarService extends GetxController {
 
     final availableTypes =
         await polar.getAvailableOnlineStreamDataTypes(deviceId);
-
-    dummyDebugging();
+    print('=====================================\n'
+        'Device Name : ${detectedDevices[0]['name']}\n'
+        'Available Types : \n');
+    for (var element in availableTypes) {
+      print('${element.toString()}\n');
+    }
+    print('=====================================');
 
     if (availableTypes.contains(PolarDataType.hr)) {
       Stream<PolarStreamingData<PolarHrSample>> hrSample =
@@ -271,6 +295,8 @@ class PolarService extends GetxController {
       Stream<PolarStreamingData<PolarGyroSample>> gyroData =
           polar.startGyroStreaming(deviceId);
       StreamSubscription gyroSubscription = gyroData.listen((gyroData) {
+        // calcute how much gyro data is available in a second
+
         if (isStartWorkout.value == true) {
           bool hasGyroDevice = currentSecondDataItem.devices
               .any((element) => element.type == 'PolarDataType.gyro');
@@ -443,35 +469,14 @@ class PolarService extends GetxController {
     }
   }
 
-  // void starWorkout(String exerciseId, int exerciseDuration) {
-  //   final now = DateTime.now().toUtc().microsecondsSinceEpoch;
-  //   // logic now - exerciseDuration
-  //   final startStream = now - (exerciseDuration * 1000000);
-  //   var currentSecond = 0;
-  //   Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     dataModel.add(DataModel(currentSecond, now, deviceModelList));
-
-  //     if (isStartWorkout.value == false) {
-  //       sessionModel =
-  //           SessionModel(exerciseId, startStream, now, [], dataModel);
-  //       saveToJSON(connectedDeviceId.value, startStream);
-
-  //       uploadData();
-  //       timer.cancel();
-  //     }
-
-  //     currentSecond++;
-  //   });
-  // }
-
   void saveToJSON(String deviceId, int startStream) async {
-    var json = sessionModel.toJson();
-    JsonEncoder prettyPrint = const JsonEncoder.withIndent('  ');
-    var stringJson = prettyPrint.convert(json);
-    debugPrint("=============================\n"
-        "JSON DATA\n"
-        "$stringJson"
-        "\n=============================");
+    // var json = sessionModel.toJson();
+    // JsonEncoder prettyPrint = const JsonEncoder.withIndent('  ');
+    // var stringJson = prettyPrint.convert(json);
+    // debugPrint("=============================\n"
+    //     "JSON DATA\n"
+    //     "$stringJson"
+    //     "\n=============================");
 
     String jsonString = jsonEncode(sessionModel);
 

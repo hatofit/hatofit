@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -20,21 +21,21 @@ class SettingPage extends GetView<SettingController> {
         title: controller.title,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         child: ListView(
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: EdgeInsets.only(top: 24),
+                  margin: const EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
                     color: isDarkMode
                         ? ColorPalette.darkContainer
                         : ColorPalette.lightContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,16 +43,14 @@ class SettingPage extends GetView<SettingController> {
                     children: [
                       Row(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             width: 4,
                           ),
-                          controller.isAuth
-                              ? Text('Auth')
-                              : SvgPicture.asset(
-                                  controller.genderAsset,
-                                  width: 32,
-                                ),
-                          SizedBox(
+                          SvgPicture.asset(
+                            controller.genderAsset,
+                            width: 32,
+                          ),
+                          const SizedBox(
                             width: 16,
                           ),
                           Column(
@@ -72,7 +71,7 @@ class SettingPage extends GetView<SettingController> {
                       ),
                       IconButton(
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_forward_ios,
                           color: ColorPalette.black50,
                           size: 16,
@@ -82,14 +81,14 @@ class SettingPage extends GetView<SettingController> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 24),
+                  margin: const EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
                     color: isDarkMode
                         ? ColorPalette.darkContainer
                         : ColorPalette.lightContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
                       Row(
@@ -106,14 +105,14 @@ class SettingPage extends GetView<SettingController> {
                                         .textTheme
                                         .headlineLarge,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 8,
                                   ),
                                   SvgPicture.asset(
                                     'assets/images/logo/google.svg',
                                     width: 14,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 8,
                                   ),
                                   SvgPicture.asset(
@@ -130,7 +129,7 @@ class SettingPage extends GetView<SettingController> {
                           ),
                           IconButton(
                             onPressed: () {},
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.sync,
                               color: ColorPalette.black50,
                             ),
@@ -153,7 +152,7 @@ class SettingPage extends GetView<SettingController> {
                                 'assets/images/logo/google_fit.svg',
                                 width: 18,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               Text(
@@ -163,11 +162,14 @@ class SettingPage extends GetView<SettingController> {
                             ],
                           ),
                           Obx(
-                            () => Switch(
-                              value: controller.isSync.value,
-                              onChanged: (value) {
-                                controller.isSync.value = value;
-                              },
+                            () => Transform.scale(
+                              scale: 0.8,
+                              child: CupertinoSwitch(
+                                value: controller.isSync.value,
+                                onChanged: (value) {
+                                  controller.isSync.value = value;
+                                },
+                              ),
                             ),
                           )
                         ],
@@ -176,7 +178,7 @@ class SettingPage extends GetView<SettingController> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 24),
+                  margin: const EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
                     color: isDarkMode
                         ? ColorPalette.darkContainer
@@ -217,7 +219,7 @@ class SettingPage extends GetView<SettingController> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 24),
+                  margin: const EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
                     color: isDarkMode
                         ? ColorPalette.darkContainer
@@ -226,7 +228,7 @@ class SettingPage extends GetView<SettingController> {
                   ),
                   child: SettingListTileWidget(
                     showLeading: true,
-                    leading: Icon(
+                    leading: const Icon(
                       FontAwesomeIcons.trashCan,
                       textDirection: TextDirection.rtl,
                       opticalSize: 20,
@@ -257,7 +259,7 @@ class SettingPage extends GetView<SettingController> {
                         : ColorPalette.lightContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  margin: EdgeInsets.only(top: 24),
+                  margin: const EdgeInsets.only(top: 24),
                   child: Column(
                     children: [
                       SettingListTileWidget(
@@ -303,7 +305,7 @@ class SettingPage extends GetView<SettingController> {
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: Padding(
-                    padding: EdgeInsets.only(top: 24, bottom: 24),
+                    padding: const EdgeInsets.only(top: 24, bottom: 24),
                     child: Text(
                       "Version 1.0.0",
                       style: Theme.of(context).textTheme.bodySmall,

@@ -13,6 +13,8 @@ import 'package:polar_hr_devices/modules/settings/setting_page.dart';
 import 'package:polar_hr_devices/modules/splash/firstTime/greeting/greeting_page.dart';
 import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info/input_user_info_page.dart';
 import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info/input_user_info_binding.dart';
+import 'package:polar_hr_devices/modules/splash/firstTime/input_user_metric/input_user_metric_binding.dart';
+import 'package:polar_hr_devices/modules/splash/firstTime/input_user_metric/input_user_metric_page.dart';
 import 'package:polar_hr_devices/modules/splash/loading_splash_screen.dart';
 import 'package:polar_hr_devices/modules/workout/workout_detail/workout_details_binding.dart';
 import 'package:polar_hr_devices/modules/workout/workout_detail/workout_details_page.dart';
@@ -38,6 +40,11 @@ class AppPages {
       name: AppRoutes.inputUserInfo,
       page: () => const InputUserInfoPage(),
       binding: InputUserInfoBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.inputUserMetric,
+      page: () => const InputUserMetricPage(),
+      binding: InputUserMetricBinding(),
     ),
     GetPage(
       name: AppRoutes.dashboard,
