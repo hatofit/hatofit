@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 
 class DayWidget extends StatelessWidget {
   final String day;
@@ -17,14 +16,14 @@ class DayWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Color color = Colors.transparent;
     if (isSelected) {
-      color = ColorPalette.navyBlue;
+      color = ColorConstants.navyBlue;
     }
     return SizedBox(
       child: Column(
         children: [
           Text(
-              day,
-         style: Theme.of(context).textTheme.bodySmall,
+            day,
+            style: Theme.of(context).textTheme.bodySmall,
           ),
           Container(
             height: 28,
@@ -35,8 +34,8 @@ class DayWidget extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                  date.toString(),
-             style: Theme.of(context).textTheme.bodySmall,
+                date.toString(),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
           ),

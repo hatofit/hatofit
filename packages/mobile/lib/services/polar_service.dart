@@ -1,17 +1,23 @@
-import 'dart:convert';
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:polar/polar.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-import 'package:polar_hr_devices/data/polar_dict.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:polar_hr_devices/models/session_model.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:polar_hr_devices/services/internet_service.dart';
 import 'package:polar_hr_devices/services/storage_service.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
+
+const Map<String, String> _deviceImageList = {
+  'Polar H10':
+      'assets/images/polar/polar-h10.webp',
+  'Polar OH1':
+      'assets/images/polar/polar-oh1.webp',
+  'Polar H9':
+      'assets/images/polar/polar-h9.webp',
+  'Polar Verity Sense':
+      'assets/images/polar/polar-verity-sense.webp',
+};
 
 class PolarService extends GetxController {
   final _polar = Polar();
@@ -24,11 +30,12 @@ class PolarService extends GetxController {
   final List<Stream<PolarStreamingData<dynamic>>> _availableDevices = [];
   final List<StreamSubscription> _availableSubscriptions = [];
 
-  String get heartRate => _heartRate.value;
   Polar get polar => _polar;
+  String get heartRate => _heartRate.value;
   String get connectedDeviceId => _connectedDeviceId.value;
   List<Map<String, dynamic>> get detectedDevices => _detectedDevices;
 
+  set heartRate(String value) => _heartRate.value = value;
   set connectedDeviceId(String value) => _connectedDeviceId.value = value;
 
   SessionDataItem _currentSecondDataItem = SessionDataItem(
@@ -196,13 +203,6 @@ class PolarService extends GetxController {
 
     final availableTypes =
         await _polar.getAvailableOnlineStreamDataTypes(deviceId);
-    print('=====================================\n'
-        'Device Name : ${_detectedDevices[0]['name']}\n'
-        'Available Types : \n');
-    for (var element in availableTypes) {
-      print('${element.toString()}\n');
-    }
-    print('=====================================');
 
     if (availableTypes.contains(PolarDataType.hr)) {
       Stream<PolarStreamingData<PolarHrSample>> hrSample =
@@ -404,7 +404,7 @@ class PolarService extends GetxController {
       if (!isAlreadyDetected) {
         String nameReplace = '';
         String imageURLReplace = '';
-        PolarDict.deviceImageList.forEach((name, imageURL) {
+        _deviceImageList.forEach((name, imageURL) {
           if (polardDeviceInfo.name.contains('Sense')) {
             nameReplace = name;
             imageURLReplace = imageURL;
@@ -420,6 +420,7 @@ class PolarService extends GetxController {
           'name': nameReplace,
           'isConnectable': polardDeviceInfo.isConnectable,
           'imageURL': imageURLReplace,
+          'battery': 0,
         });
         debugPrint('Detected Device: ${_detectedDevices.toString()}');
       }
@@ -440,8 +441,8 @@ class PolarService extends GetxController {
       Get.snackbar('Success', 'Yeay... Berhasil connect',
           colorText: ThemeManager().isDarkMode ? Colors.white : Colors.black,
           backgroundColor: ThemeManager().isDarkMode
-              ? ColorPalette.darkContainer.withOpacity(0.9)
-              : ColorPalette.lightContainer.withOpacity(0.9));
+              ? ColorConstants.darkContainer.withOpacity(0.9)
+              : ColorConstants.lightContainer.withOpacity(0.9));
     }).catchError((error) {
       debugPrint("============================================\n"
           "Error connecting $error"
@@ -451,8 +452,8 @@ class PolarService extends GetxController {
       Get.snackbar('Error', 'Waduh... Reconnect lagi',
           colorText: ThemeManager().isDarkMode ? Colors.white : Colors.black,
           backgroundColor: ThemeManager().isDarkMode
-              ? ColorPalette.darkContainer.withOpacity(0.9)
-              : ColorPalette.lightContainer.withOpacity(0.9));
+              ? ColorConstants.darkContainer.withOpacity(0.9)
+              : ColorConstants.lightContainer.withOpacity(0.9));
     });
   }
 

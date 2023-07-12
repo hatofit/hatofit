@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:polar_hr_devices/services/polar_service.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
 
@@ -20,11 +20,11 @@ class MoodPickerWidget extends StatelessWidget {
     PolarService polarService = Get.put(PolarService());
     return Obx(
       () => Container(
-        width: ThemeManager ( ).screenWidth * 0.92,
+        width: ThemeManager().screenWidth * 0.92,
         decoration: BoxDecoration(
           color: Get.isDarkMode
-              ? ColorPalette.darkContainer
-              : ColorPalette.lightContainer,
+              ? ColorConstants.darkContainer
+              : ColorConstants.lightContainer,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
@@ -55,7 +55,7 @@ class MoodPickerWidget extends StatelessWidget {
         margin: const EdgeInsets.only(left: 8, right: 8),
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: isSelected ? ColorPalette.royalBlue50 : null,
+          color: isSelected ? ColorConstants.royalBlue.withOpacity(0.5) : null,
           borderRadius: BorderRadius.circular(32),
         ),
         child: Text(

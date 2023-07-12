@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:polar_hr_devices/services/bluetooth_service.dart';
 import 'package:polar_hr_devices/services/polar_service.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
@@ -23,7 +23,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
   @override
-  Size get preferredSize => const Size.fromHeight(68);
+  Size get preferredSize => const Size.fromHeight(56.0);
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
@@ -35,8 +35,9 @@ class _CustomAppBarState extends State<CustomAppBar> {
     super.initState();
     polarService.polar.deviceConnecting
         .listen((_) => debugPrint('Device connecting'));
-    polarService.polar.batteryLevel
-        .listen((e) => debugPrint('ID : ${e.identifier}\nBattery: ${e.level}'));
+    polarService.polar.batteryLevel.listen((e) {
+      debugPrint('ID : ${e.identifier}\nBattery: ${e.level}');
+    });
     polarService.polar.deviceConnected.listen((event) {
       polarService.connectedDeviceId = event.deviceId;
       bluetoothService.isConnectedDevice.value = true;
@@ -45,6 +46,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     });
     polarService.polar.deviceDisconnected.listen((event) {
       polarService.connectedDeviceId = 'Device disconnected';
+      polarService.heartRate = '--';
       bluetoothService.isConnectedDevice.value = false;
       debugPrint(
           'Device disconnected from ${event.deviceId} ${bluetoothService.isConnectedDevice.value}');
@@ -85,21 +87,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     duration: const Duration(seconds: 5),
                     colorText: isDarkMode ? Colors.white : Colors.black,
                     backgroundColor: isDarkMode
-                        ? ColorPalette.darkContainer.withOpacity(0.9)
-                        : ColorPalette.lightContainer.withOpacity(0.9));
-                FutureBuilder<void>(
-                  future: bluetoothService.turnOnBluetooth(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      polarService.scanPolarDevices();
-                      return const SizedBox.shrink();
-                    }
-                  },
-                );
+                        ? ColorConstants.darkContainer.withOpacity(0.9)
+                        : ColorConstants.lightContainer.withOpacity(0.9));
+                bluetoothService.turnOnBluetooth().then((value) {
+                  polarService.scanPolarDevices();
+                });
               }
             },
           ),
@@ -156,13 +148,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         itemCount: polarService.detectedDevices.length,
                         itemBuilder: (context, index) {
                           return ListTile(
-                            leading: CachedNetworkImage(
-                              imageUrl: polarService.detectedDevices[index]
-                                  ['imageURL'],
+                            leading: Image.asset(
+                              polarService.detectedDevices[index]['imageURL'],
                               height: 50,
                               width: 50,
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
                             ),
                             title: Text(
                               polarService.detectedDevices[index]['name'],
@@ -186,10 +175,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                       style: ButtonStyle(
                                           foregroundColor:
                                               MaterialStateProperty.all<Color>(
-                                                  ColorPalette.black00),
+                                                  Colors.white),
                                           backgroundColor:
                                               MaterialStateProperty.all<Color>(
-                                                  ColorPalette.crimsonRed)),
+                                                  ColorConstants.crimsonRed)),
                                       child: const Text('Disconnect'),
                                       onPressed: () {
                                         polarService.disconnectDevice(
@@ -202,10 +191,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                       style: ButtonStyle(
                                           foregroundColor:
                                               MaterialStateProperty.all<Color>(
-                                                  ColorPalette.black00),
+                                                  Colors.white),
                                           backgroundColor:
                                               MaterialStateProperty.all<Color>(
-                                                  ColorPalette.ceruleanBlue)),
+                                                  ColorConstants.ceruleanBlue)),
                                       child: const Text('Connect'),
                                       onPressed: () {
                                         bluetoothService.getBluetoothStatus();
@@ -235,13 +224,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                                         context)
                                                                     .textTheme
                                                                     .bodyLarge),
-                                                            SizedBox(
+                                                            const SizedBox(
                                                               height: 32,
                                                             ),
-                                                            CupertinoActivityIndicator(
+                                                            const CupertinoActivityIndicator(
                                                               radius: 48,
                                                             ),
-                                                            SizedBox(
+                                                            const SizedBox(
                                                               height: 32,
                                                             ),
                                                             Text(
@@ -250,7 +239,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                                         context)
                                                                     .textTheme
                                                                     .displaySmall),
-                                                            SizedBox(
+                                                            const SizedBox(
                                                               height: 4,
                                                             ),
                                                             Text(

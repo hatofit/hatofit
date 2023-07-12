@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:polar_hr_devices/main.dart';
 import 'package:polar_hr_devices/modules/settings/setting_controller.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
@@ -31,8 +31,8 @@ class SettingPage extends GetView<SettingController> {
                   margin: const EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
                     color: isDarkMode
-                        ? ColorPalette.darkContainer
-                        : ColorPalette.lightContainer,
+                        ? ColorConstants.darkContainer
+                        : ColorConstants.lightContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   padding: const EdgeInsets.all(8),
@@ -73,7 +73,7 @@ class SettingPage extends GetView<SettingController> {
                         onPressed: () {},
                         icon: const Icon(
                           Icons.arrow_forward_ios,
-                          color: ColorPalette.black50,
+                          color: Colors.black54,
                           size: 16,
                         ),
                       )
@@ -84,8 +84,8 @@ class SettingPage extends GetView<SettingController> {
                   margin: const EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
                     color: isDarkMode
-                        ? ColorPalette.darkContainer
-                        : ColorPalette.lightContainer,
+                        ? ColorConstants.darkContainer
+                        : ColorConstants.lightContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   padding: const EdgeInsets.all(8.0),
@@ -131,15 +131,15 @@ class SettingPage extends GetView<SettingController> {
                             onPressed: () {},
                             icon: const Icon(
                               Icons.sync,
-                              color: ColorPalette.black50,
+                              color: Colors.black54,
                             ),
                           )
                         ],
                       ),
                       Divider(
                         color: isDarkMode
-                            ? ColorPalette.darkContainer
-                            : ColorPalette.lightContainer,
+                            ? ColorConstants.darkContainer
+                            : ColorConstants.lightContainer,
                         thickness: 1,
                         height: 1,
                       ),
@@ -181,8 +181,8 @@ class SettingPage extends GetView<SettingController> {
                   margin: const EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
                     color: isDarkMode
-                        ? ColorPalette.darkContainer
-                        : ColorPalette.lightContainer,
+                        ? ColorConstants.darkContainer
+                        : ColorConstants.lightContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
@@ -195,8 +195,8 @@ class SettingPage extends GetView<SettingController> {
                       ),
                       Divider(
                         color: isDarkMode
-                            ? ColorPalette.darkContainer
-                            : ColorPalette.lightContainer,
+                            ? ColorConstants.darkContainer
+                            : ColorConstants.lightContainer,
                         thickness: 1,
                         height: 1,
                       ),
@@ -206,8 +206,8 @@ class SettingPage extends GetView<SettingController> {
                       ),
                       Divider(
                         color: isDarkMode
-                            ? ColorPalette.darkContainer
-                            : ColorPalette.lightContainer,
+                            ? ColorConstants.darkContainer
+                            : ColorConstants.lightContainer,
                         thickness: 1,
                         height: 1,
                       ),
@@ -222,8 +222,8 @@ class SettingPage extends GetView<SettingController> {
                   margin: const EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
                     color: isDarkMode
-                        ? ColorPalette.darkContainer
-                        : ColorPalette.lightContainer,
+                        ? ColorConstants.darkContainer
+                        : ColorConstants.lightContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: SettingListTileWidget(
@@ -233,7 +233,7 @@ class SettingPage extends GetView<SettingController> {
                       textDirection: TextDirection.rtl,
                       opticalSize: 20,
                       size: 20,
-                      color: ColorPalette.black50,
+                      color: Colors.black54,
                     ),
                     title: 'Reset',
                     onTap: () {
@@ -243,8 +243,8 @@ class SettingPage extends GetView<SettingController> {
                         middleText: 'Are you sure want to reset?',
                         textConfirm: 'Yes',
                         textCancel: 'No',
-                        confirmTextColor: ColorPalette.black00,
-                        cancelTextColor: ColorPalette.black,
+                        confirmTextColor: Colors.white,
+                        cancelTextColor: Colors.black,
                         onConfirm: () {
                           controller.clear();
                         },
@@ -255,8 +255,8 @@ class SettingPage extends GetView<SettingController> {
                 Container(
                   decoration: BoxDecoration(
                     color: isDarkMode
-                        ? ColorPalette.darkContainer
-                        : ColorPalette.lightContainer,
+                        ? ColorConstants.darkContainer
+                        : ColorConstants.lightContainer,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   margin: const EdgeInsets.only(top: 24),
@@ -268,8 +268,8 @@ class SettingPage extends GetView<SettingController> {
                       ),
                       Divider(
                         color: isDarkMode
-                            ? ColorPalette.darkContainer
-                            : ColorPalette.lightContainer,
+                            ? ColorConstants.darkContainer
+                            : ColorConstants.lightContainer,
                         thickness: 1,
                         height: 1,
                       ),
@@ -279,8 +279,8 @@ class SettingPage extends GetView<SettingController> {
                       ),
                       Divider(
                         color: isDarkMode
-                            ? ColorPalette.darkContainer
-                            : ColorPalette.lightContainer,
+                            ? ColorConstants.darkContainer
+                            : ColorConstants.lightContainer,
                         thickness: 1,
                         height: 1,
                       ),
@@ -290,8 +290,8 @@ class SettingPage extends GetView<SettingController> {
                       ),
                       Divider(
                         color: isDarkMode
-                            ? ColorPalette.darkContainer
-                            : ColorPalette.lightContainer,
+                            ? ColorConstants.darkContainer
+                            : ColorConstants.lightContainer,
                         thickness: 1,
                         height: 1,
                       ),

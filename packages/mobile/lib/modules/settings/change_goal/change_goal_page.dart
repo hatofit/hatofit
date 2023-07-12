@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:polar_hr_devices/modules/settings/change_goal/change_goal_controller.dart';
 import 'package:polar_hr_devices/widget/setting/setting_list_tile_widget.dart';
 
@@ -16,14 +16,14 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios,
-            color: ColorPalette.black,
+            color: Colors.black,
           ),
           onPressed: () => Get.back(),
         ),
         elevation: 0,
-        title:   Text(
-            'Change Unit',
-             style: Theme.of(context).textTheme.displaySmall,
+        title: Text(
+          'Change Unit',
+          style: Theme.of(context).textTheme.displaySmall,
         ),
         centerTitle: true,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -36,17 +36,18 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
               () => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                    Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: Text(
-                        'Energy Unit',
+                      'Energy Unit',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
-                      color: ColorPalette.black00,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Column(
@@ -61,13 +62,13 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
                           trailing: controller.energyUnit.value == 'Calories'
                               ? const Icon(
                                   FontAwesomeIcons.check,
-                                  color: ColorPalette.crimsonRed,
+                                  color: ColorConstants.crimsonRed,
                                   size: 16,
                                 )
                               : const SizedBox(),
                         ),
                         const Divider(
-                          color: ColorPalette.black10,
+                          color: Colors.black12,
                           thickness: 1,
                           height: 1,
                         ),
@@ -82,13 +83,13 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
                               controller.energyUnit.value == 'Kilocalories'
                                   ? const Icon(
                                       FontAwesomeIcons.check,
-                                      color: ColorPalette.crimsonRed,
+                                      color: ColorConstants.crimsonRed,
                                       size: 16,
                                     )
                                   : const SizedBox(),
                         ),
                         const Divider(
-                          color: ColorPalette.black10,
+                          color: Colors.black12,
                           thickness: 1,
                           height: 1,
                         ),
@@ -102,7 +103,7 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
                           trailing: controller.energyUnit.value == 'Kilojoules'
                               ? const Icon(
                                   FontAwesomeIcons.check,
-                                  color: ColorPalette.crimsonRed,
+                                  color: ColorConstants.crimsonRed,
                                   size: 16,
                                 )
                               : const SizedBox(),
@@ -110,17 +111,18 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
                       ],
                     ),
                   ),
-                    Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: Text(
-                        'Height Unit',
+                      'Height Unit',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
-                      color: ColorPalette.black00,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Column(
@@ -135,13 +137,13 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
                           trailing: controller.heightUnit.value == 'Centimeters'
                               ? const Icon(
                                   FontAwesomeIcons.check,
-                                  color: ColorPalette.crimsonRed,
+                                  color: ColorConstants.crimsonRed,
                                   size: 16,
                                 )
                               : const SizedBox(),
                         ),
                         const Divider(
-                          color: ColorPalette.black10,
+                          color: Colors.black12,
                           thickness: 1,
                           height: 1,
                         ),
@@ -155,30 +157,31 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
                           trailing: controller.heightUnit.value == 'Feet'
                               ? const Icon(
                                   FontAwesomeIcons.check,
-                                  color: ColorPalette.crimsonRed,
+                                  color: ColorConstants.crimsonRed,
                                   size: 16,
                                 )
                               : const SizedBox(),
                         ),
                         const Divider(
-                          color: ColorPalette.black10,
+                          color: Colors.black12,
                           thickness: 1,
                           height: 1,
                         ),
                       ],
                     ),
                   ),
-                    Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     child: Text(
-                        'Weight Unit',
+                      'Weight Unit',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(bottom: 16),
                     decoration: BoxDecoration(
-                      color: ColorPalette.black00,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Column(
@@ -193,13 +196,13 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
                           trailing: controller.weightUnit.value == 'Kilograms'
                               ? const Icon(
                                   FontAwesomeIcons.check,
-                                  color: ColorPalette.crimsonRed,
+                                  color: ColorConstants.crimsonRed,
                                   size: 16,
                                 )
                               : const SizedBox(),
                         ),
                         const Divider(
-                          color: ColorPalette.black10,
+                          color: Colors.black12,
                           thickness: 1,
                           height: 1,
                         ),
@@ -213,7 +216,7 @@ class ChangeGoalPage extends GetView<ChangeGoalController> {
                           trailing: controller.weightUnit.value == 'Lbs'
                               ? const Icon(
                                   FontAwesomeIcons.check,
-                                  color: ColorPalette.crimsonRed,
+                                  color: ColorConstants.crimsonRed,
                                   size: 16,
                                 )
                               : const SizedBox(),

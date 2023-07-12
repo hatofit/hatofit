@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
 import 'package:polar_hr_devices/modules/workout/workout_detail/workout_details_controller.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
@@ -114,7 +114,7 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                         width: 40.0,
                         height: 5.0,
                         decoration: BoxDecoration(
-                          color: ColorPalette.black25,
+                          color: Colors.black26,
                           borderRadius: BorderRadius.circular(100.0),
                         ),
                       ),
@@ -132,7 +132,7 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                             Icon(CupertinoIcons.stopwatch,
                                 color: Theme.of(context).primaryColorDark,
                                 size: 16),
-                            SizedBox(width: 4),
+                            const SizedBox(width: 4),
                             Text(
                               '${workout.duration} s',
                               style: Theme.of(context).textTheme.bodyLarge,
@@ -145,7 +145,7 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                             Icon(CupertinoIcons.list_bullet,
                                 color: Theme.of(context).primaryColorDark,
                                 size: 16),
-                            SizedBox(width: 4),
+                            const SizedBox(width: 4),
                             Text(
                               '${workout.instructions.length} steps',
                               style: Theme.of(context).textTheme.bodyLarge,
@@ -171,7 +171,7 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                             color: Theme.of(context).scaffoldBackgroundColor,
                             border: const Border(
                               top: BorderSide(
-                                color: ColorPalette.black25,
+                                color: Colors.black26,
                                 width: 1.0,
                               ),
                             ),
@@ -221,13 +221,14 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                                     imageUrl:
                                         instructions[index].content!.image,
                                     fit: BoxFit.cover,
-                                    placeholder: (context, url) => Center(
+                                    placeholder: (context, url) => const Center(
                                       child: CupertinoActivityIndicator(
                                         radius: 16,
                                       ),
                                     ),
-                                    errorWidget: (context, url, error) => Icon(
-                                        CupertinoIcons.wifi_exclamationmark),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(CupertinoIcons
+                                            .wifi_exclamationmark),
                                   ),
                                 ),
                               Padding(
@@ -249,7 +250,7 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                                             color: Theme.of(context)
                                                 .primaryColorDark,
                                             size: 16),
-                                        SizedBox(width: 4),
+                                        const SizedBox(width: 4),
                                         Text(
                                           '${instructions[index].duration.toString()} s',
                                           style: Theme.of(context)
@@ -288,7 +289,7 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                 },
                 label: const Text('Start'),
                 icon: const Icon(Icons.play_arrow),
-                backgroundColor: ColorPalette.crimsonRed,
+                backgroundColor: ColorConstants.crimsonRed,
               ),
             ),
           ),

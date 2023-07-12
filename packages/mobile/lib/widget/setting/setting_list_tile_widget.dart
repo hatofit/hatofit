@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 
 class SettingListTileWidget extends StatelessWidget {
   final String title;
@@ -18,7 +18,7 @@ class SettingListTileWidget extends StatelessWidget {
     this.leading = const SizedBox(),
     this.trailing = const Icon(
       Icons.arrow_forward_ios,
-      color: ColorPalette.black50,
+      color: Colors.black54,
       size: 16,
     ),
     this.showLeading = false,

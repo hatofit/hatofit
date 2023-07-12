@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info/input_user_info_controller.dart';
 
 class InputUserInfoPage extends StatefulWidget {
@@ -55,7 +55,7 @@ class _InputUserInfoPageState extends State<InputUserInfoPage> {
                                   context,
                                   'assets/images/male.svg',
                                   'male',
-                                  ColorPalette.male,
+                                  ColorConstants.male,
                                 ),
                                 const SizedBox(
                                   width: 16,
@@ -64,7 +64,7 @@ class _InputUserInfoPageState extends State<InputUserInfoPage> {
                                   context,
                                   'assets/images/female.svg',
                                   'female',
-                                  ColorPalette.female,
+                                  ColorConstants.female,
                                 ),
                               ],
                             ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/modules/home/home_controller.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:polar_hr_devices/services/polar_service.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
 import 'package:polar_hr_devices/widget/home/hr_lines_chart.dart';
@@ -33,8 +33,8 @@ class HomePage extends StatelessWidget {
                   height: ThemeManager().screenHeight * 0.32,
                   decoration: BoxDecoration(
                     color: ThemeManager().isDarkMode
-                        ? ColorPalette.darkContainer
-                        : ColorPalette.lightContainer,
+                        ? ColorConstants.darkContainer
+                        : ColorConstants.lightContainer,
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(32),
                       bottomRight: Radius.circular(32),
@@ -52,10 +52,11 @@ class HomePage extends StatelessWidget {
                                 const SizedBox(
                                   width: 34,
                                 ),
-                                const IconWrapper(
+                                IconWrapper(
                                     icon: Icons.favorite,
-                                    backgroundColor: ColorPalette.crimsonRed35,
-                                    iconColor: ColorPalette.crimsonRed),
+                                    backgroundColor: ColorConstants.crimsonRed
+                                        .withOpacity(0.35),
+                                    iconColor: ColorConstants.crimsonRed),
                                 const SizedBox(
                                   width: 12,
                                 ),
@@ -106,7 +107,7 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         height: 164,
                         child: HrLinesChart(),
                       )

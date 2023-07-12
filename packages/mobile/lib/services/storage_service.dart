@@ -1,10 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 
-class StorageService extends GetxController {
+class StorageService {
   Future<void> saveToJSON(String filename, dynamic body) async {
     // var json = _sessionModel.toJson();
     // JsonEncoder prettyPrint = const JsonEncoder.withIndent('  ');
@@ -16,7 +14,6 @@ class StorageService extends GetxController {
 
     String jsonString = jsonEncode(body);
 
-    // save to file to local storage
     final Directory? directory = await getExternalStorageDirectory();
 
     if (directory != null) {

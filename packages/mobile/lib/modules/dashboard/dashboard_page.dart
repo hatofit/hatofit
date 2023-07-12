@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/modules/dashboard/dashboard_controller.dart';
 import 'package:polar_hr_devices/modules/history/history_page.dart';
 import 'package:polar_hr_devices/modules/home/home_page.dart';
@@ -28,7 +27,7 @@ class DashboardPage extends StatelessWidget {
             ),
           ),
           bottomNavigationBar: BottomNavigationBar(
-            unselectedItemColor: ColorPalette.black50,
+            unselectedItemColor: Colors.black54,
             selectedItemColor: Theme.of(context).primaryColor,
             onTap: controller.changeTabIndex,
             currentIndex: controller.tabIndex,
@@ -59,7 +58,6 @@ class DashboardPage extends StatelessWidget {
       },
     );
   }
-
 
   _bottomNavigationBarItem({
     required IconData icon,

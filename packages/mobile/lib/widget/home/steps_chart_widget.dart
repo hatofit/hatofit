@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import 'package:polar_hr_devices/widget/icon_wrapper.dart';
@@ -19,8 +19,8 @@ class StepsChartWidget extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           color: Get.isDarkMode
-              ? ColorPalette.darkContainer
-              : ColorPalette.lightContainer,
+              ? ColorConstants.darkContainer
+              : ColorConstants.lightContainer,
           borderRadius: BorderRadius.circular(8),
         ),
         padding: const EdgeInsets.all(8),
@@ -34,10 +34,11 @@ class StepsChartWidget extends StatelessWidget {
                   'Steps',
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
-                const IconWrapper(
+                IconWrapper(
                   icon: FontAwesomeIcons.ruler,
-                  backgroundColor: ColorPalette.ceruleanBlue35,
-                  iconColor: ColorPalette.ceruleanBlue,
+                  backgroundColor:
+                      ColorConstants.ceruleanBlue.withOpacity(0.35),
+                  iconColor: ColorConstants.ceruleanBlue,
                 ),
               ],
             ),
@@ -110,12 +111,12 @@ class StepsLineChart extends StatelessWidget {
 
   LineChartData _createData() {
     final List<Color> lineColors = [
-      ColorPalette.aqua,
-      ColorPalette.ceruleanBlue
+      ColorConstants.aqua,
+      ColorConstants.ceruleanBlue
     ];
     final List<Color> gradientColors = [
-      ColorPalette.black00,
-      ColorPalette.ceruleanBlue
+      Colors.white,
+      ColorConstants.ceruleanBlue
     ];
 
     return LineChartData(

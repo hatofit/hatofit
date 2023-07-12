@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 
 import 'package:polar_hr_devices/widget/icon_wrapper.dart';
 
@@ -16,8 +16,8 @@ class BMIChartWidget extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           color: Get.isDarkMode
-              ? ColorPalette.darkContainer
-              : ColorPalette.lightContainer,
+              ? ColorConstants.darkContainer
+              : ColorConstants.lightContainer,
           borderRadius: BorderRadius.circular(8),
         ),
         padding: const EdgeInsets.all(8),
@@ -31,10 +31,10 @@ class BMIChartWidget extends StatelessWidget {
                   'BMI',
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
-                const IconWrapper(
+                IconWrapper(
                   icon: Icons.monitor_weight,
-                  backgroundColor: ColorPalette.aqua35,
-                  iconColor: ColorPalette.aqua,
+                  backgroundColor: ColorConstants.aqua.withOpacity(0.35),
+                  iconColor: ColorConstants.aqua,
                 ),
               ],
             ),
@@ -139,7 +139,7 @@ class BMIChartWidget extends StatelessWidget {
                       width: 1,
                       height: height * 0.2,
                       decoration: const BoxDecoration(
-                        color: ColorPalette.aqua,
+                        color: ColorConstants.aqua,
                       ),
                     ),
                     const SizedBox(width: 8),
@@ -176,7 +176,7 @@ class BMIChartWidget extends StatelessWidget {
                       width: 1,
                       height: height * 0.2,
                       decoration: const BoxDecoration(
-                        color: ColorPalette.aqua,
+                        color: ColorConstants.aqua,
                       ),
                     ),
                     const SizedBox(width: 8),

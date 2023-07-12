@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
+
 class ThemeManager extends GetxController {
   final _isDarkMode = Get.isDarkMode;
   final _screenHeight = Get.height;
@@ -14,8 +15,8 @@ class ThemeManager extends GetxController {
     Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
   }
 }
-class AppTheme {
 
+class AppTheme {
   static ThemeData lightTheme = ThemeData.light().copyWith(
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -24,8 +25,8 @@ class AppTheme {
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
-          foregroundColor: Get.isDarkMode ? Colors.black : Colors.white,
-          backgroundColor: ColorPalette.crimsonRed,
+          foregroundColor: Colors.white,
+          backgroundColor: ColorConstants.crimsonRed,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -40,7 +41,7 @@ class AppTheme {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        labelStyle: TextStyle(fontFamily: 'Poppins', color: Colors.grey),
+        labelStyle: const TextStyle(fontFamily: 'Poppins', color: Colors.grey),
         hintStyle: TextStyle(
             fontFamily: 'Poppins',
             color: Get.isDarkMode ? Colors.white : Colors.black),
@@ -57,8 +58,8 @@ class AppTheme {
         ),
       ),
       useMaterial3: true,
-      primaryColorDark: ColorPalette.black,
-      primaryColorLight: ColorPalette.black00,
+      primaryColorDark: Colors.black,
+      primaryColorLight: Colors.white,
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -71,7 +72,7 @@ class AppTheme {
       ),
       brightness: Brightness.light,
       scaffoldBackgroundColor: const Color(0xFFF9F8FD),
-      primaryColor: ColorPalette.crimsonRed,
+      primaryColor: ColorConstants.crimsonRed,
       highlightColor: Colors.transparent,
       splashColor: const Color(0xFF262626),
       textTheme: const TextTheme(
@@ -157,8 +158,8 @@ class AppTheme {
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
-          foregroundColor: Get.isDarkMode ? Colors.black : Colors.white,
-          backgroundColor: ColorPalette.crimsonRed,
+          foregroundColor: Colors.white,
+          backgroundColor: ColorConstants.crimsonRed,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -191,8 +192,8 @@ class AppTheme {
         ),
       ),
       useMaterial3: true,
-      primaryColorDark: ColorPalette.black00,
-      primaryColorLight: ColorPalette.black,
+      primaryColorDark: Colors.white,
+      primaryColorLight: Colors.black,
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -205,7 +206,7 @@ class AppTheme {
       ),
       brightness: Brightness.dark,
       scaffoldBackgroundColor: const Color(0xFF262626),
-      primaryColor: ColorPalette.crimsonRed,
+      primaryColor: ColorConstants.crimsonRed,
       highlightColor: Colors.transparent,
       splashColor: const Color(0xFF262626),
       textTheme: const TextTheme(

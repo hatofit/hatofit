@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
 import 'package:polar_hr_devices/modules/workout/workout_detail/workout_details_controller.dart';
 import 'package:polar_hr_devices/modules/workout/workout_start/workout_start_controller.dart';
@@ -40,7 +40,7 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                   : IconButton(
                       style: ButtonStyle(
                           padding: MaterialStateProperty.all(
-                              EdgeInsets.only(right: 16))),
+                              const EdgeInsets.only(right: 16))),
                       onPressed: () {
                         workoutDetailsController.showDetailsModal(
                             context,
@@ -59,20 +59,20 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                         width: 80,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: ThemeManager ( ).isDarkMode
-                              ? ColorPalette.darkContainer
-                              : ColorPalette.lightContainer,
+                          color: ThemeManager().isDarkMode
+                              ? ColorConstants.darkContainer
+                              : ColorConstants.lightContainer,
                         ),
-                        margin: EdgeInsets.only(top: 100, left: 24),
-                        padding: EdgeInsets.all(8),
+                        margin: const EdgeInsets.only(top: 100, left: 24),
+                        padding: const EdgeInsets.all(8),
                         child: Column(children: [
                           Row(
                             children: [
-                              Icon(CupertinoIcons.heart_fill,
-                                  color: ColorPalette.crimsonRed),
-                              SizedBox(width: 8),
+                              const Icon(CupertinoIcons.heart_fill,
+                                  color: ColorConstants.crimsonRed),
+                              const SizedBox(width: 8),
                               Text(polarService.heartRate,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600))
@@ -89,9 +89,9 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                       ? Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8),
-                            color: ThemeManager ( ).isDarkMode
-                                ? ColorPalette.darkContainer
-                                : ColorPalette.lightContainer,
+                            color: ThemeManager().isDarkMode
+                                ? ColorConstants.darkContainer
+                                : ColorConstants.lightContainer,
                           ),
                           height: 350,
                           width: 350,
@@ -112,9 +112,9 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
-                                  color: ThemeManager ( ).isDarkMode
-                                      ? ColorPalette.darkContainer
-                                      : ColorPalette.lightContainer,
+                                  color: ThemeManager().isDarkMode
+                                      ? ColorConstants.darkContainer
+                                      : ColorConstants.lightContainer,
                                 ),
                                 height: 350,
                                 width: 350,
@@ -173,9 +173,9 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                                         controller.nowInstruction.value]
                                     .duration +
                                 1,
-                            ringColor: ThemeManager ( ).isDarkMode
-                                ? ColorPalette.darkContainer
-                                : ColorPalette.lightContainer,
+                            ringColor: ThemeManager().isDarkMode
+                                ? ColorConstants.darkContainer
+                                : ColorConstants.lightContainer,
                             fillColor: Theme.of(context).primaryColor,
                             controller: controller.countDownTimer.value,
                             strokeWidth: 16,
@@ -201,7 +201,7 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                             height: 16,
                           ),
                           SizedBox(
-                              width: ThemeManager ( ).screenWidth * 0.5,
+                              width: ThemeManager().screenWidth * 0.5,
                               child: controller.isNowExerciseFinish.value
                                   ? ElevatedButton(
                                       onPressed: () {
@@ -219,15 +219,18 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                                     )
                                   : ElevatedButton(
                                       onPressed: () {
-                                        controller.isPause.toggle();
-                                        controller.isPause.value
-                                            ? controller.countDownTimer.value
-                                                .resume()
-                                            : controller.countDownTimer.value
-                                                .pause();
+                                        if (controller.isPause.value == true) {
+                                          controller.countDownTimer.value
+                                              .resume();
+                                          controller.isPause.value = false;
+                                        } else {
+                                          controller.countDownTimer.value
+                                              .pause();
+                                          controller.isPause.value = true;
+                                        }
                                       },
                                       child: Text(
-                                        controller.isPause.value
+                                        controller.isPause.value == false
                                             ? 'Pause'
                                             : 'Resume',
                                         style: Theme.of(context)

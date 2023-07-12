@@ -83,7 +83,7 @@ class WorkoutDetailsController extends GetxController
                   ),
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                      padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
                       child: TabBarView(controller: _tabController, children: [
                         if (instruction.content!.image.endsWith('json'))
                           Lottie.network(instruction.content!.image,
@@ -92,13 +92,13 @@ class WorkoutDetailsController extends GetxController
                           CachedNetworkImage(
                             imageUrl: instruction.content!.image,
                             fit: BoxFit.fill,
-                            placeholder: (context, url) => Center(
+                            placeholder: (context, url) => const Center(
                               child: CupertinoActivityIndicator(
                                 radius: 16,
                               ),
                             ),
                             errorWidget: (context, url, error) =>
-                                Icon(CupertinoIcons.wifi_exclamationmark),
+                                const Icon(CupertinoIcons.wifi_exclamationmark),
                           ),
                         YoutubePlayer(
                           controller: _youtubePlayerController,
@@ -111,7 +111,7 @@ class WorkoutDetailsController extends GetxController
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     height: ThemeManager ( ).screenHeight * 0.4,
                     child: Column(
                       children: [

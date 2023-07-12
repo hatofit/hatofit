@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
 
 import '../dashboard/dashboard_controller.dart';
@@ -47,85 +45,6 @@ class HistoryPage extends GetView<HistoryController> {
     );
   }
 
-  Widget buildWorkoutCard(
-      BuildContext context, Workout workout, double screenHeight) {
-    return Container(
-      margin: const EdgeInsets.only(top: 16),
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: ColorPalette.black00,
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: const [
-          BoxShadow(
-            color: ColorPalette.black25,
-            blurRadius: 5,
-            offset: Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  const SizedBox(width: 8),
-                  Text(
-                    workout.name,
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  ),
-                ],
-              ),
-              Text(
-                workout.date,
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-            ],
-          ),
-          const Divider(
-            color: ColorPalette.black50,
-            thickness: 1,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              buildWorkoutMetricContainer(
-                  context,
-                  'Average HR',
-                  FontAwesomeIcons.heartPulse,
-                  ColorPalette.crimsonRed,
-                  ColorPalette.crimsonRed20,
-                  100.toString(),
-                  'bpm',
-                  screenHeight),
-              buildWorkoutMetricContainer(
-                  context,
-                  'Calories',
-                  FontAwesomeIcons.fire,
-                  ColorPalette.purple,
-                  ColorPalette.purple20,
-                  50.toString(),
-                  'kcal',
-                  screenHeight),
-              buildWorkoutMetricContainer(
-                context,
-                'Duration',
-                FontAwesomeIcons.stopwatch,
-                ColorPalette.aqua,
-                ColorPalette.aqua20,
-                10.toString(),
-                '',
-                screenHeight,
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget buildWorkoutMetricContainer(
     BuildContext context,
     String title,
@@ -140,7 +59,7 @@ class HistoryPage extends GetView<HistoryController> {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
-          color: ColorPalette.black00,
+          color: Colors.white,
           border: Border.all(
             color: backgroundColor,
             width: 1,
@@ -158,7 +77,7 @@ class HistoryPage extends GetView<HistoryController> {
             decoration: const BoxDecoration(
                 border: Border(
               bottom: BorderSide(
-                color: ColorPalette.black50,
+                color: Colors.black54  ,
                 width: 1,
               ),
             )),
@@ -166,7 +85,7 @@ class HistoryPage extends GetView<HistoryController> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                   title,
+                  title,
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
                 const SizedBox(width: 8),

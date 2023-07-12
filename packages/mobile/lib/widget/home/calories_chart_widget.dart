@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 
 import 'package:polar_hr_devices/widget/icon_wrapper.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -18,8 +18,8 @@ class CaloriesChartWidget extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           color: Get.isDarkMode
-              ? ColorPalette.darkContainer
-              : ColorPalette.lightContainer,
+              ? ColorConstants.darkContainer
+              : ColorConstants.lightContainer,
           borderRadius: BorderRadius.circular(8),
         ),
         padding: const EdgeInsets.all(8),
@@ -33,10 +33,10 @@ class CaloriesChartWidget extends StatelessWidget {
                   'Calories',
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
-                const IconWrapper(
+                IconWrapper(
                   icon: Icons.local_fire_department,
-                  backgroundColor: ColorPalette.purple35,
-                  iconColor: ColorPalette.purple,
+                  backgroundColor: ColorConstants.purple.withOpacity(0.35),
+                  iconColor: ColorConstants.purple,
                 ),
               ],
             ),
@@ -115,8 +115,8 @@ class CaloriesPieChart extends StatelessWidget {
           startAngle: 360,
           endAngle: 360,
           pointColorMapper: (ChartData data, _) => data.x == 'Remaining'
-              ? ColorPalette.purple
-              : ColorPalette.purple50,
+              ? ColorConstants.purple
+              : ColorConstants.purple.withOpacity(0.5),
           enableTooltip: false,
         ),
       ],

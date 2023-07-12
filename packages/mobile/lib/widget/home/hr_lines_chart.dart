@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 
 class HrLinesChart extends StatefulWidget {
-  const HrLinesChart({super.key});
-  final Color barBackgroundColor = ColorPalette.crimsonRed35;
-  final Color barColor = ColorPalette.crimsonRed50;
+  HrLinesChart({super.key});
+  final Color barBackgroundColor = ColorConstants.crimsonRed.withOpacity(0.35);
+  final Color barColor = ColorConstants.crimsonRed.withOpacity(0.5);
 
   @override
   State<StatefulWidget> createState() => HrLinesChartState();
@@ -29,12 +29,12 @@ class HrLinesChartState extends State<HrLinesChart> {
       barRods: [
         BarChartRodData(
           toY: y,
-          color: ColorPalette.crimsonRed,
+          color: ColorConstants.crimsonRed,
           width: width,
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             toY: 10,
-            color: ColorPalette.crimsonRed35,
+            color: ColorConstants.crimsonRed.withOpacity(0.35),
           ),
         ),
       ],

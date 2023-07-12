@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
 
 class GoalWidget extends StatelessWidget {
@@ -15,8 +15,8 @@ class GoalWidget extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           color: Get.isDarkMode
-              ? ColorPalette.darkContainer
-              : ColorPalette.lightContainer,
+              ? ColorConstants.darkContainer
+              : ColorConstants.lightContainer,
           borderRadius: BorderRadius.circular(8),
         ),
         padding: const EdgeInsets.all(8),
@@ -43,7 +43,7 @@ class GoalWidget extends StatelessWidget {
                   onPressed: () => {Get.toNamed(AppRoutes.setting)},
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        ColorPalette.crimsonRed),
+                        ColorConstants.crimsonRed),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -53,7 +53,7 @@ class GoalWidget extends StatelessWidget {
                   child: const Text(
                     'Start Now',
                     style: TextStyle(
-                      color: ColorPalette.black00,
+                      color: Colors.white,
                       fontSize: 14,
                     ),
                   ),

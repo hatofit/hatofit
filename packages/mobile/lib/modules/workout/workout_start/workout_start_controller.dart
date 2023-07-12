@@ -1,6 +1,7 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
+import 'package:polar_hr_devices/routes/app_routes.dart';
 import 'package:polar_hr_devices/services/polar_service.dart';
 
 class WorkoutStartController extends GetxController {
@@ -22,23 +23,23 @@ class WorkoutStartController extends GetxController {
       nowInstruction.value++;
     }
     if (nowInstruction.value == totalInstruction) {
-      _polarService.isStartWorkout.toggle();
+      _polarService.isStartWorkout.value = true;
       _polarService.streamPause();
-      isAllExerciseFinish.toggle();
-      Get.back();
+      isAllExerciseFinish.value = true;
+      Get.offNamed(AppRoutes.workout);
     }
   }
 
   @override
   void onInit() {
-    _polarService.isStartWorkout.toggle();
+    _polarService.isStartWorkout.value = true;
     _polarService.starWorkout(workout.id, workout.duration);
     super.onInit();
   }
 
   @override
   void onClose() {
-    _polarService.isStartWorkout.toggle();
+    _polarService.isStartWorkout.value = false;
     _polarService.streamPause();
     super.onClose();
   }

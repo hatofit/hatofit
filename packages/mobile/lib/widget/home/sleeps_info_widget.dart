@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
+import 'package:polar_hr_devices/themes/colors_constants.dart';
 
 import 'package:polar_hr_devices/widget/icon_wrapper.dart';
 
@@ -17,8 +17,8 @@ class SleepsInfoWidget extends StatelessWidget {
         width: width,
         decoration: BoxDecoration(
           color: Get.isDarkMode
-              ? ColorPalette.darkContainer
-              : ColorPalette.lightContainer,
+              ? ColorConstants.darkContainer
+              : ColorConstants.lightContainer,
           borderRadius: BorderRadius.circular(8),
         ),
         padding: const EdgeInsets.all(8),
@@ -32,10 +32,11 @@ class SleepsInfoWidget extends StatelessWidget {
                   'Sleeps',
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
-                const IconWrapper(
+                IconWrapper(
                   icon: Icons.bedtime,
-                  backgroundColor: ColorPalette.orangeYellow35,
-                  iconColor: ColorPalette.orangeYellow,
+                  backgroundColor:
+                      ColorConstants.orangeYellow.withOpacity(0.35),
+                  iconColor: ColorConstants.orangeYellow,
                 ),
               ],
             ),

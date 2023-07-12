@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
 
@@ -98,7 +97,7 @@ class GreetingPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(32),
                           ),
                           side: const BorderSide(
-                            color: ColorPalette.black,
+                            color: Colors.black,
                             width: 2,
                           ),
                         ),
