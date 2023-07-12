@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:polar_hr_devices/modules/home/home_controller.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/services/polar_service.dart';
+import 'package:polar_hr_devices/themes/app_theme.dart';
 import 'package:polar_hr_devices/widget/home/hr_lines_chart.dart';
 import 'package:polar_hr_devices/widget/home/bmi_chart_widget.dart';
 import 'package:polar_hr_devices/widget/home/calories_chart_widget.dart';
@@ -29,9 +30,9 @@ class HomePage extends StatelessWidget {
             Column(
               children: [
                 Container(
-                  height: polarService.screenHeight * 0.32,
+                  height: ThemeManager().screenHeight * 0.32,
                   decoration: BoxDecoration(
-                    color: Get.isDarkMode
+                    color: ThemeManager().isDarkMode
                         ? ColorPalette.darkContainer
                         : ColorPalette.lightContainer,
                     borderRadius: const BorderRadius.only(
@@ -83,7 +84,7 @@ class HomePage extends StatelessWidget {
                                   return Row(
                                     children: [
                                       Text(
-                                        polarService.heartRate.value,
+                                        polarService.heartRate,
                                         style: Theme.of(context)
                                             .textTheme
                                             .displayLarge,
@@ -112,7 +113,7 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: polarService.screenHeight * 0.01),
+                SizedBox(height: ThemeManager().screenHeight * 0.01),
                 Padding(
                   padding: const EdgeInsets.all(14),
                   child: Align(
@@ -132,39 +133,39 @@ class HomePage extends StatelessWidget {
                       )),
                 ),
                 const MoodPickerWidget(),
-                SizedBox(height: polarService.screenHeight * 0.01),
+                SizedBox(height: ThemeManager().screenHeight * 0.01),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
                       children: [
                         CaloriesChartWidget(
-                          width: polarService.screenWidth * 0.45,
-                          height: polarService.screenHeight * 0.23,
+                          width: ThemeManager().screenWidth * 0.45,
+                          height: ThemeManager().screenHeight * 0.23,
                         ),
-                        SizedBox(height: polarService.screenHeight * 0.01),
+                        SizedBox(height: ThemeManager().screenHeight * 0.01),
                         BMIChartWidget(
-                          width: polarService.screenWidth * 0.45,
-                          height: polarService.screenHeight * 0.23,
+                          width: ThemeManager().screenWidth * 0.45,
+                          height: ThemeManager().screenHeight * 0.23,
                         ),
                       ],
                     ),
-                    SizedBox(width: polarService.screenHeight * 0.01),
+                    SizedBox(width: ThemeManager().screenHeight * 0.01),
                     Column(
                       children: [
                         GoalWidget(
-                          width: polarService.screenWidth * 0.45,
-                          height: polarService.screenHeight * 0.11,
+                          width: ThemeManager().screenWidth * 0.45,
+                          height: ThemeManager().screenHeight * 0.11,
                         ),
-                        SizedBox(height: polarService.screenHeight * 0.01),
+                        SizedBox(height: ThemeManager().screenHeight * 0.01),
                         StepsChartWidget(
-                          width: polarService.screenWidth * 0.45,
-                          height: polarService.screenHeight * 0.23,
+                          width: ThemeManager().screenWidth * 0.45,
+                          height: ThemeManager().screenHeight * 0.23,
                         ),
-                        SizedBox(height: polarService.screenHeight * 0.01),
+                        SizedBox(height: ThemeManager().screenHeight * 0.01),
                         SleepsInfoWidget(
-                          width: polarService.screenWidth * 0.45,
-                          height: polarService.screenHeight * 0.11,
+                          width: ThemeManager().screenWidth * 0.45,
+                          height: ThemeManager().screenHeight * 0.11,
                         ),
                       ],
                     ),

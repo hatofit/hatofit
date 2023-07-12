@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
+import 'package:polar_hr_devices/themes/app_theme.dart';
 
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -14,8 +17,14 @@ class WorkoutDetailsController extends GetxController
   late YoutubePlayerController _youtubePlayerController;
   late String videoURL;
   final List<Tab> myTabs = <Tab>[
-    const Tab(text: 'Animation'),
-    const Tab(text: 'Video'),
+    const Tab(
+      icon: Icon(CupertinoIcons.photo),
+      text: 'Image',
+    ),
+    const Tab(
+      icon: Icon(CupertinoIcons.film),
+      text: 'Video',
+    ),
   ];
 
   final workout = Get.arguments as ExerciseModel;
@@ -41,7 +50,7 @@ class WorkoutDetailsController extends GetxController
     if (duration >= 60) {}
   }
 
-  void showDetailsModal(Instruction instruction) {
+  void showDetailsModal(BuildContext context, Instruction instruction) {
     if (instruction.content!.video != '') {
       videoURL = instruction.content!.video;
       _youtubePlayerController = YoutubePlayerController(
@@ -55,71 +64,67 @@ class WorkoutDetailsController extends GetxController
         isScrollControlled: true,
         SafeArea(
           child: Container(
-            height: Get.height * 0.9,
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20),
-                topRight: Radius.circular(20),
+              height: Get.height * 0.9,
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
               ),
-            ),
-            child: TabBarView(
-              controller: _tabController,
-              children: myTabs.map((Tab tab) {
-                return Center(
-                  child: tab.text == 'Animation'
-                      ? Column(
-                          children: [
-                            const SizedBox(height: 10),
-                            Text(tab.text!),
-                            Container(
-                              margin:
-                                  const EdgeInsets.only(top: 10, bottom: 10),
-                              width: 100,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(10),
+              child: Column(
+                children: [
+                  TabBar(
+                    tabs: myTabs,
+                    controller: _tabController,
+                    indicatorColor: Theme.of(context).primaryColor,
+                    labelColor: Theme.of(context).primaryColor,
+                    unselectedLabelColor: Colors.grey,
+                  ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(top: 16, left: 16, right: 16),
+                      child: TabBarView(controller: _tabController, children: [
+                        if (instruction.content!.image.endsWith('json'))
+                          Lottie.network(instruction.content!.image,
+                              fit: BoxFit.fill)
+                        else
+                          CachedNetworkImage(
+                            imageUrl: instruction.content!.image,
+                            fit: BoxFit.fill,
+                            placeholder: (context, url) => Center(
+                              child: CupertinoActivityIndicator(
+                                radius: 16,
                               ),
                             ),
-                            SizedBox(
-                              width: Get.width * 0.9,
-                              height: Get.width * 0.9,
-                              child: Lottie.network(
-                                instruction.content!.image,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Text(instruction.name!)
-                          ],
-                        )
-                      : Column(
-                          children: [
-                            const SizedBox(height: 10),
-                            Text(tab.text!),
-                            Container(
-                              margin:
-                                  const EdgeInsets.only(top: 10, bottom: 10),
-                              width: 100,
-                              height: 10,
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            YoutubePlayer(
-                              controller: _youtubePlayerController,
-                              showVideoProgressIndicator: true,
-                              onReady: () => _youtubePlayerController.play(),
-                              onEnded: (metaData) =>
-                                  _youtubePlayerController.pause(),
-                            ),
-                          ],
+                            errorWidget: (context, url, error) =>
+                                Icon(CupertinoIcons.wifi_exclamationmark),
+                          ),
+                        YoutubePlayer(
+                          controller: _youtubePlayerController,
+                          showVideoProgressIndicator: true,
+                          onReady: () => _youtubePlayerController.play(),
+                          onEnded: (metaData) =>
+                              _youtubePlayerController.pause(),
                         ),
-                );
-              }).toList(),
-            ),
-          ),
+                      ]),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    height: ThemeManager ( ).screenHeight * 0.4,
+                    child: Column(
+                      children: [
+                        Text(instruction.name!,
+                            style: Theme.of(context).textTheme.displayMedium),
+                        const SizedBox(height: 16),
+                        Text(instruction.description!,
+                            style: Theme.of(context).textTheme.bodyMedium),
+                      ],
+                    ),
+                  ),
+                ],
+              )),
         ),
         backgroundColor: Colors.transparent,
       );

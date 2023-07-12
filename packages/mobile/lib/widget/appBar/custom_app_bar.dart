@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/services/bluetooth_service.dart';
 import 'package:polar_hr_devices/services/polar_service.dart';
+import 'package:polar_hr_devices/themes/app_theme.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -37,13 +38,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
     polarService.polar.batteryLevel
         .listen((e) => debugPrint('ID : ${e.identifier}\nBattery: ${e.level}'));
     polarService.polar.deviceConnected.listen((event) {
-      polarService.connectedDeviceId.value = event.deviceId;
+      polarService.connectedDeviceId = event.deviceId;
       bluetoothService.isConnectedDevice.value = true;
       debugPrint(
           'Device connected to ${event.deviceId} ${bluetoothService.isConnectedDevice.value}');
     });
     polarService.polar.deviceDisconnected.listen((event) {
-      polarService.connectedDeviceId.value = 'Device disconnected';
+      polarService.connectedDeviceId = 'Device disconnected';
       bluetoothService.isConnectedDevice.value = false;
       debugPrint(
           'Device disconnected from ${event.deviceId} ${bluetoothService.isConnectedDevice.value}');
@@ -65,10 +66,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ? null
           : Text(widget.title, style: Theme.of(context).textTheme.displaySmall),
       actions: [
-        IconButton(
-          icon: const Icon(FontAwesomeIcons.locationDot),
-          onPressed: () {},
-        ),
         Obx(
           () => IconButton(
             icon: bluetoothService.isBluetoothOn.value
@@ -132,8 +129,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
             ),
             GetBuilder<PolarService>(
               builder: (polarService) => SizedBox(
-                height: polarService.screenHeight / 5,
-                width: polarService.screenWidth,
+                height: ThemeManager().screenHeight / 5,
+                width: ThemeManager().screenWidth,
                 child: FutureBuilder(
                   future: polarService.detectedDevices.isEmpty
                       ? Future.delayed(const Duration(seconds: 3))
@@ -223,9 +220,48 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                             .isConnectedDevice
                                                             .value ==
                                                         false
-                                                    ? const Dialog(
-                                                        child:
-                                                            Text('Connecting'))
+                                                    ? Dialog(
+                                                        child: SizedBox(
+                                                        height: 300,
+                                                        width: 150,
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                                'Connecting to',
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodyLarge),
+                                                            SizedBox(
+                                                              height: 32,
+                                                            ),
+                                                            CupertinoActivityIndicator(
+                                                              radius: 48,
+                                                            ),
+                                                            SizedBox(
+                                                              height: 32,
+                                                            ),
+                                                            Text(
+                                                                '${polarService.detectedDevices[index]['name']}',
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .displaySmall),
+                                                            SizedBox(
+                                                              height: 4,
+                                                            ),
+                                                            Text(
+                                                                'Device ID : ${polarService.detectedDevices[index]['deviceId']}',
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodyMedium),
+                                                          ],
+                                                        ),
+                                                      ))
                                                     : FutureBuilder(
                                                         future: Future.delayed(
                                                             const Duration(

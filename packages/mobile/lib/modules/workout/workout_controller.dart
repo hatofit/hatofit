@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
@@ -12,36 +16,25 @@ class WorkoutController extends GetxController {
   final isDarkMode = Get.isDarkMode;
   @override
   void onInit() {
-    fetchExercises();
     super.onInit();
   }
 
-  Future fetchExercises() async {
-    try {
-      final url = "${dotenv.env['API_BASE_URL'] ?? ''}/exercise";
-
-      final response = await _getConnect.get(url);
-      if (response.statusCode == 200) {
-        final List<dynamic> jsonResponse = response.body['exercises'];
-        todayGoalWorkouts = jsonResponse.map<ExerciseModel>((json) {
-          return ExerciseModel.fromJson(json);
-        }).toList();
-        return jsonResponse.map<ExerciseModel>((json) {
-          return ExerciseModel.fromJson(json);
-        }).toList();
-      } else {
-        Get.snackbar('Error', 'Failed to load exercises',
-            colorText: isDarkMode ? Colors.white : Colors.black,
-            backgroundColor: isDarkMode
-                ? ColorPalette.darkContainer.withOpacity(0.9)
-                : ColorPalette.lightContainer.withOpacity(0.9));
-      }
-    } catch (e) {
-      debugPrint('Error: $e');
-    }
+  @override
+  void onClose() {
+    _getConnect.dispose();
+    super.onClose();
   }
+
+
 
   goToWorkoutDetail(ExerciseModel exercise) {
     Get.toNamed(AppRoutes.workoutDetail, arguments: exercise);
   }
+}
+
+Future<void> saveExercise(List<dynamic> response) async {
+  String jsonString = jsonEncode(response);
+  final Directory? directory = await getExternalStorageDirectory();
+  final File file = File('${directory?.path}/exercise.json');
+  await file.writeAsString(jsonString);
 }

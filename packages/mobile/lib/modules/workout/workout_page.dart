@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
 import 'package:polar_hr_devices/modules/workout/workout_controller.dart';
+import 'package:polar_hr_devices/services/internet_service.dart';
 import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
 
 class WorkoutPage extends GetView<WorkoutController> {
@@ -27,7 +29,7 @@ class WorkoutPage extends GetView<WorkoutController> {
           SizedBox(
               height: 150,
               child: FutureBuilder(
-                future: controller.fetchExercises(),
+                future: InternetService().fetchExercises(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(
@@ -44,7 +46,7 @@ class WorkoutPage extends GetView<WorkoutController> {
                           return GestureDetector(
                             onTap: () {
                               controller
-                                  .goToWorkoutDetail(snapshot.data[index]);
+                                  .goToWorkoutDetail(snapshot.data![index]);
                             },
                             child: Container(
                               margin: const EdgeInsets.all(8.0),
@@ -67,7 +69,10 @@ class WorkoutPage extends GetView<WorkoutController> {
                                       exercises[index].name,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .displaySmall,
+                                          .displaySmall
+                                          ?.copyWith(
+                                            color: Colors.white,
+                                          ),
                                     ),
                                     const SizedBox(
                                       height: 8,
@@ -86,7 +91,10 @@ class WorkoutPage extends GetView<WorkoutController> {
                                           '${(exercises[index].instructions.length + 1) ~/ 2} sets',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodySmall,
+                                              .bodySmall
+                                              ?.copyWith(
+                                                color: Colors.white,
+                                              ),
                                         ),
                                       ],
                                     ),
@@ -107,7 +115,10 @@ class WorkoutPage extends GetView<WorkoutController> {
                                           '${exercises[index].duration} sec',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .displaySmall,
+                                              .bodySmall
+                                              ?.copyWith(
+                                                color: Colors.white,
+                                              ),
                                         ),
                                       ],
                                     ),
@@ -121,8 +132,9 @@ class WorkoutPage extends GetView<WorkoutController> {
                     );
                   } else {
                     return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                        child: CupertinoActivityIndicator(
+                      radius: 16.0,
+                    ));
                   }
                 },
               )),

@@ -72,7 +72,7 @@ class HrLinesChartState extends State<HrLinesChart> {
           sideTitles: SideTitles(
             showTitles: true,
             getTitlesWidget: getTitles,
-            reservedSize: 30,
+            reservedSize: 32,
           ),
         ),
         leftTitles: const AxisTitles(

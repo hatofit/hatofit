@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -14,11 +15,12 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
 
   @override
   Widget build(BuildContext context) {
+    List<Instruction> instructions = [];
+
     for (var i = 0; i < workout.instructions.length; i++) {
-      if (workout.instructions[i].type == 'rest') {
-        workout.instructions.removeAt(i);
+      if (workout.instructions[i].type == 'instruction') {
+        instructions.add(workout.instructions[i]);
       }
-      if (i == workout.instructions.length) {}
     }
     controller.scrollController.addListener(() {
       if (controller.scrollController.offset > 170) {
@@ -122,15 +124,33 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
               ),
               SliverToBoxAdapter(
                 child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
                     child: Row(
                       children: [
-                        Text('${workout.duration} s',
-                          style: Theme.of(context).textTheme.displaySmall,
+                        Row(
+                          children: [
+                            Icon(CupertinoIcons.stopwatch,
+                                color: Theme.of(context).primaryColorDark,
+                                size: 16),
+                            SizedBox(width: 4),
+                            Text(
+                              '${workout.duration} s',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 8),
-                        Text('${workout.instructions.length} steps',
-                          style: Theme.of(context).textTheme.displaySmall,
+                        const SizedBox(width: 16),
+                        Row(
+                          children: [
+                            Icon(CupertinoIcons.list_bullet,
+                                color: Theme.of(context).primaryColorDark,
+                                size: 16),
+                            SizedBox(width: 4),
+                            Text(
+                              '${workout.instructions.length} steps',
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
                         ),
                       ],
                     )),
@@ -140,11 +160,12 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                   (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        controller
-                            .showDetailsModal(workout.instructions[index]);
+                        controller.showDetailsModal(
+                            context, instructions[index]);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.only(
+                            left: 8, right: 8, top: 8, bottom: 8),
                         child: Container(
                           decoration: BoxDecoration(
                             color: Theme.of(context).scaffoldBackgroundColor,
@@ -157,30 +178,39 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                           ),
                           child: Row(
                             children: [
-                              if (workout.instructions[index].content!.image
+                              if (instructions[index]
+                                  .content!
+                                  .image
                                   .endsWith('json'))
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsets.only(
+                                      top: 16, left: 16, right: 16),
                                   child: SizedBox(
-                                    width: 100,
-                                    height: 100,
-                                    child: FutureBuilder(
+                                      width: 100,
+                                      height: 100,
+                                      child: FutureBuilder(
                                         future: Future.delayed(
                                             const Duration(seconds: 1)),
                                         builder: (context, snapshot) => snapshot
                                                     .connectionState ==
                                                 ConnectionState.done
-                                            ? Lottie.network(
-                                                workout.instructions[index]
-                                                    .content!.image,
+                                            ? Container(
                                                 width: 100,
                                                 height: 100,
-                                                fit: BoxFit.cover,
+                                                color: Colors.white,
+                                                child: Lottie.network(
+                                                  instructions[index]
+                                                      .content!
+                                                      .image,
+                                                  fit: BoxFit.cover,
+                                                ),
                                               )
                                             : const Center(
                                                 child:
-                                                    CircularProgressIndicator())),
-                                  ),
+                                                    CupertinoActivityIndicator(
+                                                radius: 16.0,
+                                              )),
+                                      )),
                                 )
                               else
                                 Padding(
@@ -188,9 +218,16 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                                   child: CachedNetworkImage(
                                     width: 100,
                                     height: 100,
-                                    imageUrl: workout
-                                        .instructions[index].content!.image,
+                                    imageUrl:
+                                        instructions[index].content!.image,
                                     fit: BoxFit.cover,
+                                    placeholder: (context, url) => Center(
+                                      child: CupertinoActivityIndicator(
+                                        radius: 16,
+                                      ),
+                                    ),
+                                    errorWidget: (context, url, error) => Icon(
+                                        CupertinoIcons.wifi_exclamationmark),
                                   ),
                                 ),
                               Padding(
@@ -201,17 +238,25 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      workout.instructions[index].name
-                                          .toString(),
+                                      instructions[index].name.toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .displaySmall,
                                     ),
-                                    Text(
-                                      '${workout.instructions[index].duration.toString()} s',
-                                    style: Theme.of(context)
-                                          .textTheme
-                                          .displaySmall,
+                                    Row(
+                                      children: [
+                                        Icon(CupertinoIcons.stopwatch,
+                                            color: Theme.of(context)
+                                                .primaryColorDark,
+                                            size: 16),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          '${instructions[index].duration.toString()} s',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -222,7 +267,7 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
                       ),
                     );
                   },
-                  childCount: workout.instructions.length,
+                  childCount: instructions.length,
                 ),
               ),
               SliverToBoxAdapter(

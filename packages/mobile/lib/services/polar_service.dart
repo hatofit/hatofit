@@ -9,28 +9,35 @@ import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/data/polar_dict.dart';
 import 'package:polar_hr_devices/models/session_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:polar_hr_devices/services/internet_service.dart';
+import 'package:polar_hr_devices/services/storage_service.dart';
+import 'package:polar_hr_devices/themes/app_theme.dart';
 
 class PolarService extends GetxController {
-  final _getConnect = GetConnect();
-  final polar = Polar();
-  final screenHeight = Get.height;
-  final screenWidth = Get.width;
-  var heartRate = '--'.obs;
-  var connectedDeviceId = 'No Device'.obs;
-  final detectedDevices = List<Map<String, dynamic>>.empty(growable: true);
-  final isDarkMode = Get.isDarkMode;
+  final _polar = Polar();
+  final _heartRate = '--'.obs;
+  final _connectedDeviceId = 'No Device'.obs;
+  final _detectedDevices = List<Map<String, dynamic>>.empty(growable: true);
+
   final _isDevelopment = false.obs;
   final isStartWorkout = false.obs;
-  List<Stream<PolarStreamingData<dynamic>>> availableDevices = [];
-  List<StreamSubscription> availableSubscriptions = [];
+  final List<Stream<PolarStreamingData<dynamic>>> _availableDevices = [];
+  final List<StreamSubscription> _availableSubscriptions = [];
 
-  SessionDataItem currentSecondDataItem = SessionDataItem(
+  String get heartRate => _heartRate.value;
+  Polar get polar => _polar;
+  String get connectedDeviceId => _connectedDeviceId.value;
+  List<Map<String, dynamic>> get detectedDevices => _detectedDevices;
+
+  set connectedDeviceId(String value) => _connectedDeviceId.value = value;
+
+  SessionDataItem _currentSecondDataItem = SessionDataItem(
     second: 0,
     timeStamp: DateTime.now().microsecondsSinceEpoch,
     devices: [],
   );
 
-  SessionModel sessionModel = SessionModel(
+  SessionModel _sessionModel = SessionModel(
     exerciseId: 'BoilerPlating',
     startTime: DateTime.now().microsecondsSinceEpoch,
     endTime: 0,
@@ -57,26 +64,31 @@ class PolarService extends GetxController {
   }
 
   void starWorkout(String exerciseId, int exerciseDuration) {
-    final now = DateTime.now().toUtc().microsecondsSinceEpoch;
-    // logic now - exerciseDuration
-    final startStream = now - (exerciseDuration * 1000000);
     var currentSecond = 0;
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      currentSecondDataItem = SessionDataItem(
+      _currentSecondDataItem = SessionDataItem(
         second: currentSecond,
         timeStamp: DateTime.now().microsecondsSinceEpoch,
-        devices: List.from(currentSecondDataItem.devices),
+        devices: List.from(_currentSecondDataItem.devices),
       );
-
-      sessionModel.data.add(currentSecondDataItem);
+      _sessionModel.data.add(_currentSecondDataItem);
       if (isStartWorkout.value == false) {
-        saveToJSON(connectedDeviceId.value, startStream);
-        uploadData();
+        final startStream = DateTime.now().microsecondsSinceEpoch -
+            (exerciseDuration * 1000000);
+        _sessionModel = SessionModel(
+            exerciseId: exerciseId,
+            startTime: startStream,
+            endTime: DateTime.now().microsecondsSinceEpoch,
+            timelines: [],
+            data: List.from(_sessionModel.data));
         currentSecond = 0;
+        StorageService().saveToJSON(
+            'log-${_sessionModel.exerciseId}-$_connectedDeviceId-$startStream',
+            _sessionModel);
+        InternetService().postSession(_sessionModel);
         timer.cancel();
       }
-
-      currentSecondDataItem.devices.clear();
+      _currentSecondDataItem.devices.clear();
       currentSecond++;
     });
   }
@@ -100,92 +112,92 @@ class PolarService extends GetxController {
   // void dummyWorkout() {
   //   int currentSecond = 0;
   //   Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     currentSecondDataItem = SessionDataItem(
+  //     _currentSecondDataItem = SessionDataItem(
   //       second: currentSecond,
   //       timeStamp: DateTime.now().microsecondsSinceEpoch,
-  //       devices: List.from(currentSecondDataItem.devices),
+  //       devices: List.from(_currentSecondDataItem.devices),
   //     );
   //     if (currentSecond == 900) {
-  //       sessionModel = SessionModel(
+  //       _sessionModel = SessionModel(
   //           exerciseId: '15 Minutes Workout',
   //           startTime: DateTime.now().microsecondsSinceEpoch - (900 * 1000000),
   //           endTime: DateTime.now().microsecondsSinceEpoch,
   //           timelines: [],
-  //           data: List.from(sessionModel.data));
+  //           data: List.from(_sessionModel.data));
   //       saveToJSON(identifier, 900);
-  //       print('${sessionModel.exerciseId} Workout Saved');
+  //       print('${_sessionModel.exerciseId} Workout Saved');
   //       Get.snackbar(
   //         'Saved',
-  //         '${sessionModel.exerciseId} Workout Saved',
-  //         colorText: isDarkMode ? Colors.white : Colors.black,
-  //         backgroundColor: isDarkMode ? Colors.black : Colors.white,
+  //         '${_sessionModel.exerciseId} Workout Saved',
+  //         colorText: ThemeManager ( ).isDarkMode ? Colors.white : Colors.black,
+  //         backgroundColor: ThemeManager ( ).isDarkMode ? Colors.black : Colors.white,
   //       );
   //     }
   //     if (currentSecond == 1800) {
-  //       sessionModel = SessionModel(
+  //       _sessionModel = SessionModel(
   //           exerciseId: '30 Minutes Workout',
   //           startTime: DateTime.now().microsecondsSinceEpoch - (1800 * 1000000),
   //           endTime: DateTime.now().microsecondsSinceEpoch,
   //           timelines: [],
-  //           data: List.from(sessionModel.data));
+  //           data: List.from(_sessionModel.data));
   //       saveToJSON(identifier, 1800);
-  //       print('${sessionModel.exerciseId} Workout Saved');
+  //       print('${_sessionModel.exerciseId} Workout Saved');
   //       Get.snackbar(
   //         'Saved',
-  //         '${sessionModel.exerciseId} Workout Saved',
-  //         colorText: isDarkMode ? Colors.white : Colors.black,
-  //         backgroundColor: isDarkMode ? Colors.black : Colors.white,
+  //         '${_sessionModel.exerciseId} Workout Saved',
+  //         colorText: ThemeManager ( ).isDarkMode ? Colors.white : Colors.black,
+  //         backgroundColor: ThemeManager ( ).isDarkMode ? Colors.black : Colors.white,
   //       );
   //     }
   //     if (currentSecond == 2700) {
-  //       sessionModel = SessionModel(
+  //       _sessionModel = SessionModel(
   //           exerciseId: '45 Minutes Workout',
   //           startTime: DateTime.now().microsecondsSinceEpoch - (2700 * 1000000),
   //           endTime: DateTime.now().microsecondsSinceEpoch,
   //           timelines: [],
-  //           data: List.from(sessionModel.data));
+  //           data: List.from(_sessionModel.data));
   //       saveToJSON(identifier, 2700);
-  //       print('${sessionModel.exerciseId} Workout Saved');
+  //       print('${_sessionModel.exerciseId} Workout Saved');
   //       Get.snackbar(
   //         'Saved',
-  //         '${sessionModel.exerciseId} Workout Saved',
-  //         colorText: isDarkMode ? Colors.white : Colors.black,
-  //         backgroundColor: isDarkMode ? Colors.black : Colors.white,
+  //         '${_sessionModel.exerciseId} Workout Saved',
+  //         colorText: ThemeManager ( ).isDarkMode ? Colors.white : Colors.black,
+  //         backgroundColor: ThemeManager ( ).isDarkMode ? Colors.black : Colors.white,
   //       );
   //     }
   //     if (currentSecond == 3600) {
-  //       sessionModel = SessionModel(
+  //       _sessionModel = SessionModel(
   //           exerciseId: '60 Minutes Workout',
   //           startTime: DateTime.now().microsecondsSinceEpoch - (3600 * 1000000),
   //           endTime: DateTime.now().microsecondsSinceEpoch,
   //           timelines: [],
-  //           data: List.from(sessionModel.data));
+  //           data: List.from(_sessionModel.data));
   //       saveToJSON(identifier, 3600);
-  //       print('${sessionModel.exerciseId} Workout Saved');
+  //       print('${_sessionModel.exerciseId} Workout Saved');
   //       Get.snackbar(
   //         'Saved',
-  //         '${sessionModel.exerciseId} Workout Saved',
-  //         colorText: isDarkMode ? Colors.white : Colors.black,
-  //         backgroundColor: isDarkMode ? Colors.black : Colors.white,
+  //         '${_sessionModel.exerciseId} Workout Saved',
+  //         colorText: ThemeManager ( ).isDarkMode ? Colors.white : Colors.black,
+  //         backgroundColor: ThemeManager ( ).isDarkMode ? Colors.black : Colors.white,
   //       );
   //     }
-  //     sessionModel.data.add(currentSecondDataItem);
-  //     currentSecondDataItem.devices.clear();
+  //     _sessionModel.data.add(_currentSecondDataItem);
+  //     _currentSecondDataItem.devices.clear();
   //     currentSecond++;
   //   });
   // }
 
   void streamWhenReady(String deviceId) async {
-    await polar.sdkFeatureReady.firstWhere(
+    await _polar.sdkFeatureReady.firstWhere(
       (e) =>
           e.identifier == deviceId &&
           e.feature == PolarSdkFeature.onlineStreaming,
     );
 
     final availableTypes =
-        await polar.getAvailableOnlineStreamDataTypes(deviceId);
+        await _polar.getAvailableOnlineStreamDataTypes(deviceId);
     print('=====================================\n'
-        'Device Name : ${detectedDevices[0]['name']}\n'
+        'Device Name : ${_detectedDevices[0]['name']}\n'
         'Available Types : \n');
     for (var element in availableTypes) {
       print('${element.toString()}\n');
@@ -194,17 +206,17 @@ class PolarService extends GetxController {
 
     if (availableTypes.contains(PolarDataType.hr)) {
       Stream<PolarStreamingData<PolarHrSample>> hrSample =
-          polar.startHrStreaming(deviceId);
+          _polar.startHrStreaming(deviceId);
       StreamSubscription hrSubscription = hrSample.listen((hrData) {
-        heartRate.value = hrData.samples.last.hr.toString();
+        _heartRate.value = hrData.samples.last.hr.toString();
 
         if (isStartWorkout.value == true) {
-          bool hasHrDevice = currentSecondDataItem.devices
+          bool hasHrDevice = _currentSecondDataItem.devices
               .any((element) => element.type == 'PolarDataType.hr');
 
           if (!hasHrDevice) {
             if (hrData.samples.last.rrsMs.isEmpty) {
-              currentSecondDataItem.devices.add(
+              _currentSecondDataItem.devices.add(
                 SessionDataItemDevice(
                   type: 'PolarDataType.hr',
                   identifier: deviceId,
@@ -214,7 +226,7 @@ class PolarService extends GetxController {
                 ),
               );
             } else {
-              currentSecondDataItem.devices.add(
+              _currentSecondDataItem.devices.add(
                 SessionDataItemDevice(
                   type: 'PolarDataType.hr',
                   identifier: deviceId,
@@ -230,19 +242,19 @@ class PolarService extends GetxController {
           }
         }
       });
-      availableDevices.add(hrSample);
-      availableSubscriptions.add(hrSubscription);
+      _availableDevices.add(hrSample);
+      _availableSubscriptions.add(hrSubscription);
     }
     if (availableTypes.contains(PolarDataType.acc)) {
       Stream<PolarStreamingData<PolarAccSample>> accData =
-          polar.startAccStreaming(deviceId);
+          _polar.startAccStreaming(deviceId);
       StreamSubscription accSubscription = accData.listen((accData) {
         if (isStartWorkout.value == true) {
-          bool hasAccDevice = currentSecondDataItem.devices
+          bool hasAccDevice = _currentSecondDataItem.devices
               .any((element) => element.type == 'PolarDataType.acc');
 
           if (!hasAccDevice) {
-            currentSecondDataItem.devices.add(
+            _currentSecondDataItem.devices.add(
               SessionDataItemDevice(
                 type: 'PolarDataType.acc',
                 identifier: deviceId,
@@ -260,19 +272,19 @@ class PolarService extends GetxController {
           }
         }
       });
-      availableDevices.add(accData);
-      availableSubscriptions.add(accSubscription);
+      _availableDevices.add(accData);
+      _availableSubscriptions.add(accSubscription);
     }
     if (availableTypes.contains(PolarDataType.ecg)) {
       Stream<PolarStreamingData<PolarEcgSample>> ecgData =
-          polar.startEcgStreaming(deviceId);
+          _polar.startEcgStreaming(deviceId);
       StreamSubscription ecgSubscription = ecgData.listen((ecgData) {
         if (isStartWorkout.value == true) {
-          bool hasEcgDevice = currentSecondDataItem.devices
+          bool hasEcgDevice = _currentSecondDataItem.devices
               .any((element) => element.type == 'PolarDataType.ecg');
 
           if (!hasEcgDevice) {
-            currentSecondDataItem.devices.add(
+            _currentSecondDataItem.devices.add(
               SessionDataItemDevice(
                 type: 'PolarDataType.ecg',
                 identifier: deviceId,
@@ -288,21 +300,21 @@ class PolarService extends GetxController {
           }
         }
       });
-      availableDevices.add(ecgData);
-      availableSubscriptions.add(ecgSubscription);
+      _availableDevices.add(ecgData);
+      _availableSubscriptions.add(ecgSubscription);
     }
     if (availableTypes.contains(PolarDataType.gyro)) {
       Stream<PolarStreamingData<PolarGyroSample>> gyroData =
-          polar.startGyroStreaming(deviceId);
+          _polar.startGyroStreaming(deviceId);
       StreamSubscription gyroSubscription = gyroData.listen((gyroData) {
         // calcute how much gyro data is available in a second
 
         if (isStartWorkout.value == true) {
-          bool hasGyroDevice = currentSecondDataItem.devices
+          bool hasGyroDevice = _currentSecondDataItem.devices
               .any((element) => element.type == 'PolarDataType.gyro');
 
           if (!hasGyroDevice) {
-            currentSecondDataItem.devices.add(
+            _currentSecondDataItem.devices.add(
               SessionDataItemDevice(
                 type: 'PolarDataType.gyro',
                 identifier: deviceId,
@@ -320,20 +332,20 @@ class PolarService extends GetxController {
           }
         }
       });
-      availableDevices.add(gyroData);
-      availableSubscriptions.add(gyroSubscription);
+      _availableDevices.add(gyroData);
+      _availableSubscriptions.add(gyroSubscription);
     }
     if (availableTypes.contains(PolarDataType.magnetometer)) {
       Stream<PolarStreamingData<PolarMagnetometerSample>> magnetometerData =
-          polar.startMagnetometerStreaming(deviceId);
+          _polar.startMagnetometerStreaming(deviceId);
       StreamSubscription magnetometerSubscription =
           magnetometerData.listen((magnetometerData) {
         if (isStartWorkout.value == true) {
-          bool hasMagnetometerDevice = currentSecondDataItem.devices
+          bool hasMagnetometerDevice = _currentSecondDataItem.devices
               .any((element) => element.type == 'PolarDataType.magnetometer');
 
           if (!hasMagnetometerDevice) {
-            currentSecondDataItem.devices.add(
+            _currentSecondDataItem.devices.add(
               SessionDataItemDevice(
                 type: 'PolarDataType.magnetometer',
                 identifier: deviceId,
@@ -351,19 +363,19 @@ class PolarService extends GetxController {
           }
         }
       });
-      availableDevices.add(magnetometerData);
-      availableSubscriptions.add(magnetometerSubscription);
+      _availableDevices.add(magnetometerData);
+      _availableSubscriptions.add(magnetometerSubscription);
     }
     if (availableTypes.contains(PolarDataType.ppg)) {
       Stream<PolarStreamingData<PolarPpgSample>> ppgData =
-          polar.startPpgStreaming(deviceId);
+          _polar.startPpgStreaming(deviceId);
       StreamSubscription ppgSubscription = ppgData.listen((ppgData) {
         if (isStartWorkout.value == true) {
-          bool hasPpgDevice = currentSecondDataItem.devices
+          bool hasPpgDevice = _currentSecondDataItem.devices
               .any((element) => element.type == 'PolarDataType.ppg');
 
           if (!hasPpgDevice) {
-            currentSecondDataItem.devices.add(
+            _currentSecondDataItem.devices.add(
               SessionDataItemDevice(
                 type: 'PolarDataType.ppg',
                 identifier: deviceId,
@@ -379,15 +391,15 @@ class PolarService extends GetxController {
           }
         }
       });
-      availableDevices.add(ppgData);
-      availableSubscriptions.add(ppgSubscription);
+      _availableDevices.add(ppgData);
+      _availableSubscriptions.add(ppgSubscription);
     }
   }
 
-  // sacan detected polar devices
+  // sacan detected _polar devices
   void scanPolarDevices() {
-    polar.searchForDevice().listen((polardDeviceInfo) {
-      bool isAlreadyDetected = detectedDevices.any((detectedDevice) =>
+    _polar.searchForDevice().listen((polardDeviceInfo) {
+      bool isAlreadyDetected = _detectedDevices.any((detectedDevice) =>
           detectedDevice['deviceId'] == polardDeviceInfo.deviceId);
       if (!isAlreadyDetected) {
         String nameReplace = '';
@@ -401,7 +413,7 @@ class PolarService extends GetxController {
             imageURLReplace = imageURL;
           }
         });
-        detectedDevices.add({
+        _detectedDevices.add({
           'deviceId': polardDeviceInfo.deviceId,
           'address': polardDeviceInfo.address,
           'rssi': polardDeviceInfo.rssi,
@@ -409,15 +421,15 @@ class PolarService extends GetxController {
           'isConnectable': polardDeviceInfo.isConnectable,
           'imageURL': imageURLReplace,
         });
-        debugPrint('Detected Device: ${detectedDevices.toString()}');
+        debugPrint('Detected Device: ${_detectedDevices.toString()}');
       }
       update();
     });
   }
 
   void connectDevice(String deviceId) {
-    final connectFuture = polar.connectToDevice(deviceId);
-    final deviceConnectedFuture = polar.deviceConnected.first;
+    final connectFuture = _polar.connectToDevice(deviceId);
+    final deviceConnectedFuture = _polar.deviceConnected.first;
 
     // Wait for either connection or timeout
     Future.wait([connectFuture, deviceConnectedFuture])
@@ -426,99 +438,46 @@ class PolarService extends GetxController {
       streamWhenReady(deviceId);
       Get.back();
       Get.snackbar('Success', 'Yeay... Berhasil connect',
-          colorText: isDarkMode ? Colors.white : Colors.black,
-          backgroundColor: isDarkMode
+          colorText: ThemeManager().isDarkMode ? Colors.white : Colors.black,
+          backgroundColor: ThemeManager().isDarkMode
               ? ColorPalette.darkContainer.withOpacity(0.9)
               : ColorPalette.lightContainer.withOpacity(0.9));
     }).catchError((error) {
       debugPrint("============================================\n"
           "Error connecting $error"
           "============================================");
-      polar.disconnectFromDevice(deviceId);
+      _polar.disconnectFromDevice(deviceId);
       Get.back();
       Get.snackbar('Error', 'Waduh... Reconnect lagi',
-          colorText: isDarkMode ? Colors.white : Colors.black,
-          backgroundColor: isDarkMode
+          colorText: ThemeManager().isDarkMode ? Colors.white : Colors.black,
+          backgroundColor: ThemeManager().isDarkMode
               ? ColorPalette.darkContainer.withOpacity(0.9)
               : ColorPalette.lightContainer.withOpacity(0.9));
     });
   }
 
-  // disconnect from polar device by device id
+  // disconnect from _polar device by device id
   void disconnectDevice(String deviceId) {
     _streamCancelation();
-    polar.disconnectFromDevice(deviceId);
-    polar.deviceDisconnected.last;
+    _polar.disconnectFromDevice(deviceId);
+    _polar.deviceDisconnected.last;
   }
 
   void streamResume() {
-    for (var element in availableSubscriptions) {
+    for (var element in _availableSubscriptions) {
       element.resume();
     }
   }
 
   void streamPause() {
-    for (var element in availableSubscriptions) {
+    for (var element in _availableSubscriptions) {
       element.pause();
     }
   }
 
   Future<void> _streamCancelation() async {
-    for (var element in availableSubscriptions) {
+    for (var element in _availableSubscriptions) {
       await element.cancel();
-    }
-  }
-
-  void saveToJSON(String deviceId, int startStream) async {
-    // var json = sessionModel.toJson();
-    // JsonEncoder prettyPrint = const JsonEncoder.withIndent('  ');
-    // var stringJson = prettyPrint.convert(json);
-    // debugPrint("=============================\n"
-    //     "JSON DATA\n"
-    //     "$stringJson"
-    //     "\n=============================");
-
-    String jsonString = jsonEncode(sessionModel);
-
-    // save to file to local storage
-    final Directory? directory = await getExternalStorageDirectory();
-
-    if (directory != null) {
-      String path = '${directory.path}/log-$deviceId-$startStream.json';
-      await File(path).writeAsString(jsonString);
-    }
-  }
-
-  Future<void> uploadData() async {
-    try {
-      final response = await _getConnect.post(
-        "${dotenv.env['API_BASE_URL'] ?? ''}/session",
-        jsonEncode(sessionModel),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      );
-      if (response.statusCode == 200) {
-        Get.snackbar('Alhamdulillah', 'Success upload data to server',
-            colorText: isDarkMode ? Colors.white : Colors.black,
-            backgroundColor: isDarkMode
-                ? ColorPalette.darkContainer.withOpacity(0.9)
-                : ColorPalette.lightContainer.withOpacity(0.9));
-      } else {
-        final dynamic jsonResponse = jsonDecode(response.body);
-        debugPrint(jsonResponse['message']);
-        Get.snackbar('Astaghfirullah', 'Failed upload data to server',
-            colorText: isDarkMode ? Colors.white : Colors.black,
-            backgroundColor: isDarkMode
-                ? ColorPalette.darkContainer.withOpacity(0.9)
-                : ColorPalette.lightContainer.withOpacity(0.9));
-      }
-    } catch (e) {
-      Get.snackbar('Astaghfirullah', 'Internet connection error',
-          colorText: isDarkMode ? Colors.white : Colors.black,
-          backgroundColor: isDarkMode
-              ? ColorPalette.darkContainer.withOpacity(0.9)
-              : ColorPalette.lightContainer.withOpacity(0.9));
     }
   }
 }

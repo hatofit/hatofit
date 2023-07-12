@@ -1,9 +1,16 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
+import 'package:polar_hr_devices/modules/workout/workout_detail/workout_details_controller.dart';
 import 'package:polar_hr_devices/modules/workout/workout_start/workout_start_controller.dart';
+import 'package:polar_hr_devices/services/bluetooth_service.dart';
 import 'package:polar_hr_devices/services/polar_service.dart';
+import 'package:polar_hr_devices/themes/app_theme.dart';
 
 class WorkoutStartPage extends GetView<WorkoutStartController> {
   final ExerciseModel workout;
@@ -11,139 +18,236 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
 
   @override
   Widget build(BuildContext context) {
+    final WorkoutDetailsController workoutDetailsController =
+        Get.find<WorkoutDetailsController>();
+    final BluetoothService bluetoothService = Get.find<BluetoothService>();
     final PolarService polarService = Get.find<PolarService>();
-    return SafeArea(
-      child: Scaffold(
-        body: Obx(
-          () => Column(
-            children: [
-              Lottie.network(workout
-                      .instructions[controller.nowInstruction.value]
-                      .content!
-                      .lottie ??
-                  'https://assets3.lottiefiles.com/packages/lf20_uFIzQvYOGr.json'),
-              Text(
-                workout.instructions[controller.nowInstruction.value].duration
-                    .toString(),
-                style: Theme.of(context).textTheme.headlineLarge,
+    return Obx(
+      () => Scaffold(
+        appBar: AppBar(
+            title: workout.instructions[controller.nowInstruction.value].type ==
+                    'rest'
+                ? Text('Rest', style: Theme.of(context).textTheme.displayMedium)
+                : Text(
+                    workout.instructions[controller.nowInstruction.value].name
+                        .toString(),
+                    style: Theme.of(context).textTheme.displayMedium),
+            centerTitle: true,
+            actions: [
+              workout.instructions[controller.nowInstruction.value].type ==
+                      'rest'
+                  ? Container()
+                  : IconButton(
+                      style: ButtonStyle(
+                          padding: MaterialStateProperty.all(
+                              EdgeInsets.only(right: 16))),
+                      onPressed: () {
+                        workoutDetailsController.showDetailsModal(
+                            context,
+                            workout
+                                .instructions[controller.nowInstruction.value]);
+                      },
+                      icon: const Icon(CupertinoIcons.film))
+            ]),
+        body: Stack(
+          children: [
+            Align(
+                alignment: Alignment.centerLeft,
+                child: bluetoothService.isConnectedDevice.value
+                    ? Container(
+                        height: 40,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: ThemeManager ( ).isDarkMode
+                              ? ColorPalette.darkContainer
+                              : ColorPalette.lightContainer,
+                        ),
+                        margin: EdgeInsets.only(top: 100, left: 24),
+                        padding: EdgeInsets.all(8),
+                        child: Column(children: [
+                          Row(
+                            children: [
+                              Icon(CupertinoIcons.heart_fill,
+                                  color: ColorPalette.crimsonRed),
+                              SizedBox(width: 8),
+                              Text(polarService.heartRate,
+                                  style: TextStyle(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600))
+                            ],
+                          )
+                        ]),
+                      )
+                    : Container()),
+            Center(
+              child: Column(
+                children: [
+                  workout.instructions[controller.nowInstruction.value].type ==
+                          'rest'
+                      ? Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: ThemeManager ( ).isDarkMode
+                                ? ColorPalette.darkContainer
+                                : ColorPalette.lightContainer,
+                          ),
+                          height: 350,
+                          width: 350,
+                          padding: const EdgeInsets.only(
+                            left: 32,
+                          ),
+                          child: Center(
+                            child: Lottie.asset('assets/animations/rest.json',
+                                fit: BoxFit.cover),
+                          ))
+                      : SizedBox(
+                          child: Column(children: [
+                            if (workout
+                                .instructions[controller.nowInstruction.value]
+                                .content!
+                                .image
+                                .endsWith('json'))
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: ThemeManager ( ).isDarkMode
+                                      ? ColorPalette.darkContainer
+                                      : ColorPalette.lightContainer,
+                                ),
+                                height: 350,
+                                width: 350,
+                                padding: const EdgeInsets.all(16),
+                                child: Center(
+                                  child: Lottie.network(
+                                    workout
+                                        .instructions[
+                                            controller.nowInstruction.value]
+                                        .content!
+                                        .image,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
+                            else
+                              Container(
+                                padding: const EdgeInsets.only(
+                                    top: 16, left: 16, right: 16),
+                                child: CachedNetworkImage(
+                                  width: 100,
+                                  height: 100,
+                                  imageUrl: workout
+                                      .instructions[
+                                          controller.nowInstruction.value]
+                                      .content!
+                                      .image,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                          ]),
+                        ),
+                  Expanded(
+                    child: Container(
+                      padding:
+                          const EdgeInsets.only(top: 16, left: 16, right: 16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          workout.instructions[controller.nowInstruction.value]
+                                      .type ==
+                                  'rest'
+                              ? Text(
+                                  'Next : ${workout.instructions[controller.nowInstruction.value + 1].name.toString()}',
+                                  style:
+                                      Theme.of(context).textTheme.displayMedium)
+                              : Container(),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          CircularCountDownTimer(
+                            width: 150,
+                            height: 150,
+                            duration: workout
+                                    .instructions[
+                                        controller.nowInstruction.value]
+                                    .duration +
+                                1,
+                            ringColor: ThemeManager ( ).isDarkMode
+                                ? ColorPalette.darkContainer
+                                : ColorPalette.lightContainer,
+                            fillColor: Theme.of(context).primaryColor,
+                            controller: controller.countDownTimer.value,
+                            strokeWidth: 16,
+                            strokeCap: StrokeCap.round,
+                            textStyle: Theme.of(context).textTheme.displayLarge,
+                            isReverse: true,
+                            onComplete: () {
+                              controller.isNowExerciseFinish.toggle();
+                            },
+                            onChange: (value) {
+                              // if (value == '0') {
+                              //   controller.isNowExerciseFinish.value = true;
+                              // } else {
+                              //   controller.isNowExerciseFinish.value = false;
+                              // }
+                            },
+                            onStart: () {
+                              // controller.isPause.value = false;
+                              // controller.isNowExerciseFinish.value = false;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          SizedBox(
+                              width: ThemeManager ( ).screenWidth * 0.5,
+                              child: controller.isNowExerciseFinish.value
+                                  ? ElevatedButton(
+                                      onPressed: () {
+                                        controller.nextInstruction(
+                                            workout.instructions.length - 1);
+                                      },
+                                      child: Text(
+                                        controller.isNowExerciseFinish.value
+                                            ? 'Next'
+                                            : 'Finish',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineLarge,
+                                      ),
+                                    )
+                                  : ElevatedButton(
+                                      onPressed: () {
+                                        controller.isPause.toggle();
+                                        controller.isPause.value
+                                            ? controller.countDownTimer.value
+                                                .resume()
+                                            : controller.countDownTimer.value
+                                                .pause();
+                                      },
+                                      child: Text(
+                                        controller.isPause.value
+                                            ? 'Pause'
+                                            : 'Resume',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineLarge,
+                                      ),
+                                    )),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                controller.countDownTimer.value.toString(),
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-              Text.rich(TextSpan(text: 'BPM : ', children: <InlineSpan>[
-                TextSpan(
-                  text: polarService.heartRate.value,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
-                )
-              ])),
-              TextButton(
-                onPressed: () {
-                  controller.nextInstruction(workout.instructions.length - 1);
-                },
-                child: Text(
-                  'Next',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-              )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
-
-
-
-// class WorkoutStartPage extends StatefulWidget {
-//   final ExerciseModel workout;
-//   const WorkoutStartPage({super.key, required this.workout});
-
-//   @override
-//   State<WorkoutStartPage> createState() => _WorkoutStartPageState();
-// }
-
-// class _WorkoutStartPageState extends State<WorkoutStartPage> {
-//   DashboardController dashboardController = Get.put(DashboardController());
-//   late YoutubePlayerController _youtubePlayerController;
-//   @override
-//   void initState() {
-//     super.initState();
-//     SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
-//     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
-//     _youtubePlayerController = YoutubePlayerController(
-//       initialVideoId: YoutubePlayer.convertUrlToId(
-//           widget.workout.instructions[0].content!.video)!,
-//       flags: const YoutubePlayerFlags(
-//         autoPlay: true,
-//         mute: false,
-//       ),
-//     );
-//   }
-
-//   @override
-//   void dispose() {
-//     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-//     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-//     _youtubePlayerController.dispose();
-//     super.dispose();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Scaffold(
-//         appBar: AppBar(
-//           leading: IconButton(
-//             onPressed: () {
-//               Get.back();
-//             },
-//             icon: const Icon(Icons.arrow_back_ios),
-//           ),
-//           title: Text(
-//             widget.workout.name,
-//           ),
-//           centerTitle: true,
-//         ),
-//         body: Stack(
-//           children: [
-//             YoutubePlayer(
-//               onReady: () {
-//                 print('YT ready');
-//                 _youtubePlayerController.play();
-//               },
-//               onEnded: (YoutubeMetaData metaData) {
-//                 print('YT ended');
-//                 _youtubePlayerController.pause();
-//               },
-//               controller: _youtubePlayerController,
-//               showVideoProgressIndicator: true,
-//             ),
-//             Obx(
-//               () => Positioned(
-//                 top: 0,
-//                 right: 0,
-//                 child: Container(
-//                   width: 50,
-//                   height: 50,
-//                   color: Colors.black.withOpacity(0.5),
-//                   alignment: Alignment.center,
-//                   child: Text(
-//                     dashboardController.hrValue.toString(),
-//                     style: const TextStyle(
-//                       color: Colors.red,
-//                       fontSize: 24,
-//                       fontWeight: FontWeight.bold,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
-
-class AppTheme {
+class ThemeManager extends GetxController {
   final _isDarkMode = Get.isDarkMode;
   final _screenHeight = Get.height;
   final _screenWidth = Get.width;
 
-// getter for dark theme
   get isDarkMode => _isDarkMode;
   get screenHeight => _screenHeight;
   get screenWidth => _screenWidth;
+  void changeTheme() {
+    isDarkMode.value = !isDarkMode.value;
+    Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
+  }
+}
+class AppTheme {
 
   static ThemeData lightTheme = ThemeData.light().copyWith(
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -36,8 +40,7 @@ class AppTheme {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
         ),
-        labelStyle: TextStyle(
-            fontFamily: 'Poppins', color: Colors.grey.withOpacity(0.5)),
+        labelStyle: TextStyle(fontFamily: 'Poppins', color: Colors.grey),
         hintStyle: TextStyle(
             fontFamily: 'Poppins',
             color: Get.isDarkMode ? Colors.white : Colors.black),

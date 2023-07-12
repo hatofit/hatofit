@@ -44,7 +44,7 @@ class GreetingPage extends StatelessWidget {
                               'assets/images/logo/title.png',
                               width: 166,
                               // block asset image with black color
-                              color: AppTheme().isDarkMode
+                              color: ThemeManager().isDarkMode
                                   ? Colors.grey[100]
                                   : null,
                             ),

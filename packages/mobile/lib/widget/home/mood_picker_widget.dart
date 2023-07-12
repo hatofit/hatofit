@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/data/colors_pallete_hex.dart';
 import 'package:polar_hr_devices/services/polar_service.dart';
+import 'package:polar_hr_devices/themes/app_theme.dart';
 
 class MoodController extends GetxController {
   RxString selectedMood = ''.obs;
@@ -19,7 +20,7 @@ class MoodPickerWidget extends StatelessWidget {
     PolarService polarService = Get.put(PolarService());
     return Obx(
       () => Container(
-        width: polarService.screenWidth * 0.92,
+        width: ThemeManager ( ).screenWidth * 0.92,
         decoration: BoxDecoration(
           color: Get.isDarkMode
               ? ColorPalette.darkContainer

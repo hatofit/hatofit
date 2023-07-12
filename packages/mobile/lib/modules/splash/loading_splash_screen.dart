@@ -30,7 +30,7 @@ class LoadingSplashScreen extends StatelessWidget {
               children: [
                 Image.asset('assets/images/logo/title.png',
                     width: 166,
-                    color: AppTheme().isDarkMode ? Colors.grey[300] : null),
+                    color: ThemeManager ( ).isDarkMode ? Colors.grey[300] : null),
                 const SizedBox(height: 10),
                 Image.asset(
                   'assets/images/logo/subtitle.png',

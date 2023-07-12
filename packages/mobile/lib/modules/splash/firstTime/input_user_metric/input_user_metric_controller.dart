@@ -52,7 +52,7 @@ class InputUserMetricController extends GetxController {
       titleStyle: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 24,
-          color: AppTheme().isDarkMode ? Colors.white : Colors.black),
+          color: ThemeManager ( ).isDarkMode ? Colors.white : Colors.black),
       onConfirm: () {
         polar.requestPermissions().then((value) => Permission.location
             .request()

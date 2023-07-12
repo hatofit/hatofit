@@ -50,9 +50,9 @@ class InputUserMetricPage extends GetView<InputUserMetricController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buildUnitMeasure(context, 'height', 'cm'),
+                          _buildUnitMeasure(context, 'weight', 'kg'),
                           const SizedBox(width: 32),
-                          _buildUnitMeasure(context, 'height', 'ft'),
+                          _buildUnitMeasure(context, 'weight', 'lbs'),
                         ],
                       ),
                     ),
@@ -87,9 +87,9 @@ class InputUserMetricPage extends GetView<InputUserMetricController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buildUnitMeasure(context, 'weight', 'kg'),
+                          _buildUnitMeasure(context, 'height', 'cm'),
                           const SizedBox(width: 32),
-                          _buildUnitMeasure(context, 'weight', 'lbs'),
+                          _buildUnitMeasure(context, 'height', 'ft'),
                         ],
                       ),
                     ),

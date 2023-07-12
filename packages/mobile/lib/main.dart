@@ -20,7 +20,6 @@ void main() async {
       theme:  AppTheme.lightTheme,
       darkTheme:  AppTheme.darkTheme,
       themeMode: storage.read('theme') ?? ThemeMode.system,
-
     ),
   );
 }
