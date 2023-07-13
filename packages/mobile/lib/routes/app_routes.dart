@@ -16,5 +16,5 @@ abstract class AppRoutes {
 
   static const String setting = '/setting';
   static const String changeUnit = '/setting/changeUnit';
-  static const String changeGoal = '/setting/changeGoal';
+  static const String userInfo = '/setting/userInfo';
 }

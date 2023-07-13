@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
-import 'package:polar_hr_devices/main.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
+import 'package:polar_hr_devices/services/polar_service.dart';
 import 'package:polar_hr_devices/services/storage_service.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
 
 class InputUserMetricController extends GetxController {
-  final polar = Polar();
-  RxString selectedHeightUnitMeasure = ''.obs;
-  RxString selectedWeightUnitMeasure = ''.obs;
-  final userWeight = 0.obs;
-  final userHeight = 0.obs;
+  final selectedHeightUnitMeasure = ''.obs;
+  final selectedWeightUnitMeasure = ''.obs;
+  final userWeight = 100.obs;
+  final userHeight = 150.obs;
   final isUserWeightSelected = false.obs;
   final isUserHeightSelected = false.obs;
 
@@ -38,7 +37,8 @@ class InputUserMetricController extends GetxController {
     } else {
       storage.write('weightUnit', 'Lbs');
     }
-    storage.write('height', userWeight.value);
+    storage.write('energyUnit', 'Kcal');
+    storage.write('height', userHeight.value);
     storage.write('weight', userWeight.value);
     requestPermission();
   }
@@ -56,7 +56,8 @@ class InputUserMetricController extends GetxController {
           fontSize: 24,
           color: ThemeManager().isDarkMode ? Colors.white : Colors.black),
       onConfirm: () {
-        polar.requestPermissions().then((value) => Permission.location
+        PolarService().polar.requestPermissions().then((value) => Permission
+            .location
             .request()
             .then((value) => Permission.storage.request().then((value) {
                   if (value.isGranted) {

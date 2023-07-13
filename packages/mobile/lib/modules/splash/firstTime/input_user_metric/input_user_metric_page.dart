@@ -31,8 +31,8 @@ class InputUserMetricPage extends GetView<InputUserMetricController> {
                     ),
                     HorizontalPicker(
                       minValue: 0,
-                      maxValue: 250,
-                      divisions: 250,
+                      maxValue: 200,
+                      divisions: 200,
                       height: 150,
                       showCursor: true,
                       backgroundColor:
@@ -67,15 +67,15 @@ class InputUserMetricPage extends GetView<InputUserMetricController> {
                     ),
                     HorizontalPicker(
                       minValue: 0,
-                      maxValue: 250,
-                      divisions: 250,
+                      maxValue: 300,
+                      divisions: 300,
                       height: 150,
                       showCursor: true,
                       backgroundColor:
                           Theme.of(context).scaffoldBackgroundColor,
                       activeItemTextColor: Theme.of(context).primaryColor,
                       onChanged: (value) {
-                        controller.userHeight.value = value.toInt();
+                        controller.userHeight.value = value.toInt(); 
                       },
                     ),
                     const SizedBox(

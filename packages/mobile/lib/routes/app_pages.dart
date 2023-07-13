@@ -5,12 +5,12 @@ import 'package:polar_hr_devices/modules/history/detail_page/history_detail_page
 import 'package:polar_hr_devices/modules/history/detail_page/histpry_detail_binding.dart';
 import 'package:polar_hr_devices/modules/history/history_page.dart';
 import 'package:polar_hr_devices/modules/home/home_page.dart';
-import 'package:polar_hr_devices/modules/settings/change_goal/change_goal_binding.dart';
-import 'package:polar_hr_devices/modules/settings/change_goal/change_goal_page.dart';
 import 'package:polar_hr_devices/modules/settings/change_unit/change_unit_binding.dart';
 import 'package:polar_hr_devices/modules/settings/change_unit/change_unit_page.dart';
 import 'package:polar_hr_devices/modules/settings/setting_binding.dart';
 import 'package:polar_hr_devices/modules/settings/setting_page.dart';
+import 'package:polar_hr_devices/modules/settings/user_info/user_info_binding.dart';
+import 'package:polar_hr_devices/modules/settings/user_info/user_info_page.dart';
 import 'package:polar_hr_devices/modules/splash/firstTime/greeting/greeting_page.dart';
 import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info/input_user_info_page.dart';
 import 'package:polar_hr_devices/modules/splash/firstTime/input_user_info/input_user_info_binding.dart';
@@ -90,9 +90,9 @@ class AppPages {
       binding: ChangeUnitBinding(),
     ),
     GetPage(
-      name: AppRoutes.changeGoal,
-      page: () => const ChangeGoalPage(),
-      binding: ChangeGoalBinding(),
-    ),
+      name: AppRoutes.userInfo,
+      page: () =>UserInfoPage(),
+      binding: UserInfoBinding(),
+    )
   ];
 }

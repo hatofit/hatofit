@@ -6,7 +6,6 @@ class SettingListTileWidget extends StatelessWidget {
   final bool showSubtitle;
   final bool showLeading;
   final Widget leading;
-  final Widget trailing;
   final VoidCallback onTap;
   const SettingListTileWidget({
     super.key,
@@ -15,11 +14,6 @@ class SettingListTileWidget extends StatelessWidget {
     this.showSubtitle = false,
     required this.onTap,
     this.leading = const SizedBox(),
-    this.trailing = const Icon(
-      Icons.arrow_forward_ios,
-      color: Colors.black54,
-      size: 16,
-    ),
     this.showLeading = false,
   });
 
@@ -38,7 +32,11 @@ class SettingListTileWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.bodySmall,
             )
           : null,
-      trailing: trailing,
+      trailing: Icon(
+        Icons.arrow_forward_ios,
+        size: 16,
+        color: Theme.of(context).iconTheme.color?.withOpacity(0.5),
+      ),
     );
   }
 }

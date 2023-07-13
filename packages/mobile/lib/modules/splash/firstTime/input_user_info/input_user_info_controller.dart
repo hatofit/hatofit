@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
 import 'package:polar_hr_devices/services/storage_service.dart';
 
-import '../../../../main.dart';
 
 class InputUserInfoController extends GetxController {
   final formKey = GlobalKey<FormState>();

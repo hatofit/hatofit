@@ -10,15 +10,15 @@ import 'package:polar_hr_devices/themes/app_theme.dart';
 void main() async {
   await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
-  GetStorage.init();
+  GetStorage.init(); 
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Hato Fit',
       initialRoute: AppRoutes.splash,
       getPages: AppPages.list,
-      theme:  AppTheme.lightTheme,
-      darkTheme:  AppTheme.darkTheme,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       themeMode: StorageService().storage.read('theme') ?? ThemeMode.system,
     ),
   );

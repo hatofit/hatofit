@@ -4,10 +4,10 @@ import 'package:get_storage/get_storage.dart';
 import 'package:path_provider/path_provider.dart';
 
 class StorageService {
+  final initStorage = GetStorage.init();
+  final _storage = GetStorage();
 
-final _storage = GetStorage();
-
-GetStorage get storage => _storage;
+  GetStorage get storage => _storage;
 
   void initializeDirectory() async {
     final List<String> requiredDiretories = [
@@ -22,7 +22,7 @@ GetStorage get storage => _storage;
         final Directory newDirectory = Directory('${dir.path}/$directory');
 
         if (!await newDirectory.exists()) {
- await newDirectory.create(recursive: true);
+          await newDirectory.create(recursive: true);
         }
       }
     }

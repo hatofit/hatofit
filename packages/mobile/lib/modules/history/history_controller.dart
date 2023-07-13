@@ -2,10 +2,6 @@ import 'package:get/get.dart';
 
 class HistoryController extends GetxController {
   final String title = 'History';
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   String dateConverter(String datetime) {
     final date = DateTime.parse(datetime);

@@ -59,7 +59,7 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                               '${exercise['name']}',
                               style: Theme.of(context).textTheme.displaySmall,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
                             Row(
@@ -69,7 +69,7 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                                   'Average HR: ${averageHr.toStringAsFixed(0)}',
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 8,
                                 ),
                                 Text(
@@ -109,7 +109,7 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                                 color: Colors.red,
                                 width: 5,
                                 markerSettings:
-                                    MarkerSettings(isVisible: false),
+                                    const MarkerSettings(isVisible: false),
                               )
                             ],
                           ),
@@ -118,10 +118,10 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                     ],
                   );
                 } else {
-                  return Text('No HR report found.');
+                  return const Text('No HR report found.');
                 }
               } else {
-                return CupertinoActivityIndicator(
+                return const CupertinoActivityIndicator(
                   radius: 16,
                 );
               }

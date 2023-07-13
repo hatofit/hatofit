@@ -17,160 +17,146 @@ class _InputUserInfoPageState extends State<InputUserInfoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: Obx(
-        () => SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
-            child: Form(
-              key: _inputUserController.formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 32),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Fill Form Below',
-                          style: Theme.of(context)
-                              .textTheme
-                              .displayMedium
-                              ?.copyWith(
-                                letterSpacing: 1.5,
+        () => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+          child: Form(
+            key: _inputUserController.formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 32),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Fill Form Below',
+                        style:
+                            Theme.of(context).textTheme.displayMedium?.copyWith(
+                                  letterSpacing: 1.5,
+                                ),
+                      ),
+                      Text(
+                        'Find best workout based on your info',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      const SizedBox(height: 48),
+                      Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              _buildGenderItem(
+                                context,
+                                'assets/images/male.svg',
+                                'male',
+                                ColorConstants.male,
                               ),
-                        ),
-                        Text(
-                          'Find best workout based on your info',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        const SizedBox(height: 48),
-                        Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                _buildGenderItem(
-                                  context,
-                                  'assets/images/male.svg',
-                                  'male',
-                                  ColorConstants.male,
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                _buildGenderItem(
-                                  context,
-                                  'assets/images/female.svg',
-                                  'female',
-                                  ColorConstants.female,
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 48),
-                            TextFormField(
-                              onChanged: (value) {
-                                _inputUserController.ageController.text.isEmpty
-                                    ? _inputUserController.isAgeEmpty.value =
-                                        true
-                                    : _inputUserController.isAgeEmpty.value =
-                                        false;
-                                _inputUserController.nameController.text.isEmpty
-                                    ? _inputUserController.isNameEmpty.value =
-                                        true
-                                    : _inputUserController.isNameEmpty.value =
-                                        false;
-                              },
-                              controller: _inputUserController.nameController,
-                              keyboardType: TextInputType.name,
-                              decoration: const InputDecoration(
-                                prefixIcon: Icon(
-                                  FontAwesomeIcons.user,
-                                  size: 16,
-                                ),
-                                labelText: 'Name',
-                                hintText: 'Enter your name',
+                              const SizedBox(
+                                width: 16,
                               ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                            TextFormField(
-                              onChanged: (value) {
-                                _inputUserController.nameController.text.isEmpty
-                                    ? _inputUserController.isNameEmpty.value =
-                                        true
-                                    : _inputUserController.isNameEmpty.value =
-                                        false;
-                                _inputUserController.ageController.text.isEmpty
-                                    ? _inputUserController.isAgeEmpty.value =
-                                        true
-                                    : _inputUserController.isAgeEmpty.value =
-                                        false;
-                              },
-                              controller: _inputUserController.ageController,
-                              keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                prefixIcon: Icon(
-                                  FontAwesomeIcons.calendar,
-                                  size: 16,
-                                ),
-                                suffix: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  child: Text('y.o'),
-                                ),
-                                labelText: 'Age',
-                                hintText: 'Enter your age',
+                              _buildGenderItem(
+                                context,
+                                'assets/images/female.svg',
+                                'female',
+                                ColorConstants.female,
                               ),
-                            ),
-                            const SizedBox(
-                              height: 16,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  _inputUserController.isAgeEmpty.value ==
-                                              true ||
-                                          _inputUserController
-                                                  .isNameEmpty.value ==
-                                              true ||
-                                          _inputUserController
-                                                  .isGenderSelected.value ==
-                                              false
-                                      ? Theme.of(context)
-                                          .primaryColorDark
-                                          .withOpacity(0.2)
-                                      : Theme.of(context).primaryColor,
-                            ),
-                            onPressed: () {
-                              if (_inputUserController.isAgeEmpty.value ==
-                                      false &&
-                                  _inputUserController.isNameEmpty.value ==
-                                      false &&
-                                  _inputUserController.isGenderSelected.value ==
-                                      true) {
-                                _inputUserController.saveUserInfo();
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Info data empty')));
-                              }
+                            ],
+                          ),
+                          const SizedBox(height: 48),
+                          TextFormField(
+                            onChanged: (value) {
+                              _inputUserController.ageController.text.isEmpty
+                                  ? _inputUserController.isAgeEmpty.value = true
+                                  : _inputUserController.isAgeEmpty.value =
+                                      false;
+                              _inputUserController.nameController.text.isEmpty
+                                  ? _inputUserController.isNameEmpty.value =
+                                      true
+                                  : _inputUserController.isNameEmpty.value =
+                                      false;
                             },
-                            child: const Text(
-                              'Next',
+                            controller: _inputUserController.nameController,
+                            keyboardType: TextInputType.name,
+                            decoration: const InputDecoration(
+                              prefixIcon: Icon(
+                                FontAwesomeIcons.user,
+                                size: 16,
+                              ),
+                              labelText: 'Name',
+                              hintText: 'Enter your name',
                             ),
                           ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          TextFormField(
+                            onChanged: (value) {
+                              _inputUserController.nameController.text.isEmpty
+                                  ? _inputUserController.isNameEmpty.value =
+                                      true
+                                  : _inputUserController.isNameEmpty.value =
+                                      false;
+                              _inputUserController.ageController.text.isEmpty
+                                  ? _inputUserController.isAgeEmpty.value = true
+                                  : _inputUserController.isAgeEmpty.value =
+                                      false;
+                            },
+                            controller: _inputUserController.ageController,
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              prefixIcon: Icon(
+                                FontAwesomeIcons.calendar,
+                                size: 16,
+                              ),
+                              suffix: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: Text('y.o'),
+                              ),
+                              labelText: 'Age',
+                              hintText: 'Enter your age',
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                _inputUserController.isAgeEmpty.value == true ||
+                                        _inputUserController
+                                                .isNameEmpty.value ==
+                                            true ||
+                                        _inputUserController
+                                                .isGenderSelected.value ==
+                                            false
+                                    ? Theme.of(context)
+                                        .primaryColorDark
+                                        .withOpacity(0.2)
+                                    : Theme.of(context).primaryColor,
+                          ),
+                          onPressed: () {
+                            if (_inputUserController.isAgeEmpty.value ==
+                                    false &&
+                                _inputUserController.isNameEmpty.value ==
+                                    false) {
+                              _inputUserController.saveUserInfo();
+                            }
+                          },
+                          child: const Text(
+                            'Next',
+                          ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

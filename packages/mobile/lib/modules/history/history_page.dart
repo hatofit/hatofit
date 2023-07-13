@@ -35,7 +35,7 @@ class HistoryPage extends GetView<HistoryController> {
                       padding: const EdgeInsets.all(8),
                       width: 100,
                       height: 104,
-                      margin: EdgeInsets.only(bottom: 16),
+                      margin: const EdgeInsets.only(bottom: 16),
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Theme.of(context).dividerColor,
@@ -89,7 +89,7 @@ class HistoryPage extends GetView<HistoryController> {
                                       ),
                                       Row(
                                         children: [
-                                          Icon(
+                                          const Icon(
                                             CupertinoIcons.calendar,
                                             size: 18,
                                           ),
@@ -108,7 +108,7 @@ class HistoryPage extends GetView<HistoryController> {
                                       ),
                                       Row(
                                         children: [
-                                          Icon(
+                                          const Icon(
                                             CupertinoIcons.time,
                                             size: 18,
                                           ),
@@ -136,7 +136,7 @@ class HistoryPage extends GetView<HistoryController> {
                                   .color
                                   ?.withOpacity(0.5),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             )
                           ],
