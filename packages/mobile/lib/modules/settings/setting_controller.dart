@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/main.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
+import 'package:polar_hr_devices/services/storage_service.dart';
 
 class SettingController extends GetxController {
   final String title = 'Setting Title';
@@ -10,6 +11,7 @@ class SettingController extends GetxController {
   bool isAuth = false.obs.value;
   String genderAsset = ''.obs.value;
 
+  final storage = StorageService().storage;
   @override
   void onInit() {
     isAuth = storage.read('isAuth');

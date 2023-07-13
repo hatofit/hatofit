@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
+import 'package:polar_hr_devices/services/storage_service.dart';
 
 import '../../../../main.dart';
 
@@ -13,6 +14,7 @@ class InputUserInfoController extends GetxController {
   final isNameEmpty = true.obs;
   final isAgeEmpty = true.obs;
 
+  final storage = StorageService().storage;
   @override
   void onClose() {
     nameController.dispose();

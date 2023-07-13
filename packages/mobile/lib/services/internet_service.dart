@@ -73,7 +73,7 @@ class InternetService {
     final response = await _getConnect.get(url);
     try {
       if (response.statusCode == 200) {
-        Map<String, dynamic> jsonResponse = response.body['report'];
+        Map<String, dynamic> jsonResponse = response.body;
 
         return jsonResponse;
       } else {

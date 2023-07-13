@@ -4,9 +4,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:polar_hr_devices/routes/app_pages.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:polar_hr_devices/services/storage_service.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
 
-final storage = GetStorage();
 void main() async {
   await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +19,7 @@ void main() async {
       getPages: AppPages.list,
       theme:  AppTheme.lightTheme,
       darkTheme:  AppTheme.darkTheme,
-      themeMode: storage.read('theme') ?? ThemeMode.system,
+      themeMode: StorageService().storage.read('theme') ?? ThemeMode.system,
     ),
   );
 }

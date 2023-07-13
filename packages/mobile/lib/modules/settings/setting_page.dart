@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:polar_hr_devices/services/storage_service.dart';
 import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:polar_hr_devices/main.dart';
 import 'package:polar_hr_devices/modules/settings/setting_controller.dart';
@@ -237,7 +238,7 @@ class SettingPage extends GetView<SettingController> {
                     ),
                     title: 'Reset',
                     onTap: () {
-                      storage.erase();
+                      controller.storage.erase();
                       Get.defaultDialog(
                         title: 'Reset',
                         middleText: 'Are you sure want to reset?',

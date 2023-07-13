@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
 import 'package:polar_hr_devices/main.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
+import 'package:polar_hr_devices/services/storage_service.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
 
 class InputUserMetricController extends GetxController {
@@ -15,6 +16,7 @@ class InputUserMetricController extends GetxController {
   final isUserWeightSelected = false.obs;
   final isUserHeightSelected = false.obs;
 
+  final storage = StorageService().storage;
   void selectHeightUnitMeasure(String unitMeasure) {
     selectedHeightUnitMeasure.value = unitMeasure;
     isUserHeightSelected.value = true;
@@ -52,7 +54,7 @@ class InputUserMetricController extends GetxController {
       titleStyle: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 24,
-          color: ThemeManager ( ).isDarkMode ? Colors.white : Colors.black),
+          color: ThemeManager().isDarkMode ? Colors.white : Colors.black),
       onConfirm: () {
         polar.requestPermissions().then((value) => Permission.location
             .request()

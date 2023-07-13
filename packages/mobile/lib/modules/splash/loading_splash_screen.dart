@@ -9,6 +9,7 @@ class LoadingSplashScreen extends StatelessWidget {
   const LoadingSplashScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    final storage = StorageService().storage;
     StorageService().initializeDirectory();
     Future.delayed(const Duration(seconds: 3), () {
       if (storage.read('height') != null) {

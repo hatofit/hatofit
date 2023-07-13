@@ -135,8 +135,8 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                                 padding: const EdgeInsets.only(
                                     top: 16, left: 16, right: 16),
                                 child: CachedNetworkImage(
-                                  width: 100,
-                                  height: 100,
+                                  height: 350,
+                                  width: 350,
                                   imageUrl: workout
                                       .instructions[
                                           controller.nowInstruction.value]

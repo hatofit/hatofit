@@ -1,16 +1,23 @@
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/main.dart';
+import 'package:polar_hr_devices/services/storage_service.dart';
 
 class ChangeUnitController extends GetxController {
-  RxString energyUnit = ''.obs;
-  RxString heightUnit = ''.obs;
-  RxString weightUnit = ''.obs;
+  final energyUnit = ''.obs;
+  final heightUnit = ''.obs;
+  final weightUnit = ''.obs;
 
+  final storage = StorageService().storage;
   @override
   void onInit() {
     energyUnit.value = storage.read('energyUnit');
     heightUnit.value = storage.read('heightUnit');
     weightUnit.value = storage.read('weightUnit');
+    print('=====================\n'
+        'energyUnit: ${StorageService().storage.read('energyUnit')}\n'
+        'heightUnit: ${StorageService().storage.read('heightUnit')}\n'
+        'weightUnit: ${StorageService().storage.read('weightUnit')}\n'
+        '=====================');
     super.onInit();
   }
 
