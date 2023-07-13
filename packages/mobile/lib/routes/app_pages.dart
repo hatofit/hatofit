@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:polar_hr_devices/modules/dashboard/dashboard_binding.dart';
 import 'package:polar_hr_devices/modules/dashboard/dashboard_page.dart';
 import 'package:polar_hr_devices/modules/history/detail_page/history_detail_page.dart';
+import 'package:polar_hr_devices/modules/history/detail_page/histpry_detail_binding.dart';
 import 'package:polar_hr_devices/modules/history/history_page.dart';
 import 'package:polar_hr_devices/modules/home/home_page.dart';
 import 'package:polar_hr_devices/modules/settings/change_goal/change_goal_binding.dart';
@@ -74,6 +75,11 @@ class AppPages {
       page: () => const HistoryPage(),
     ),
     GetPage(
+      name: AppRoutes.historyDetail,
+      page: () => HistoryDetailPage(Get.arguments),
+      binding: HistoryDetailBinding(),
+    ),
+    GetPage(
       name: AppRoutes.setting,
       page: () => const SettingPage(),
       binding: SettingBinding(),
@@ -87,10 +93,6 @@ class AppPages {
       name: AppRoutes.changeGoal,
       page: () => const ChangeGoalPage(),
       binding: ChangeGoalBinding(),
-    ),
-    GetPage(
-      name: AppRoutes.historyDetail,
-      page: () => const HistoryDetailPage(),
     ),
   ];
 }

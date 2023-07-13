@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/themes/colors_constants.dart';
-import 'package:polar_hr_devices/services/polar_service.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
 
 class MoodController extends GetxController {
@@ -17,7 +16,6 @@ class MoodPickerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PolarService polarService = Get.put(PolarService());
     return Obx(
       () => Container(
         width: ThemeManager().screenWidth * 0.92,

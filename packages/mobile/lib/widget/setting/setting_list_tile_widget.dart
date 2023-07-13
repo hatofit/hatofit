@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
 
 class SettingListTileWidget extends StatelessWidget {
   final String title;

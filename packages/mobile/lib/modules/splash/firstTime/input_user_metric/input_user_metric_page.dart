@@ -40,7 +40,6 @@ class InputUserMetricPage extends GetView<InputUserMetricController> {
                       activeItemTextColor: Theme.of(context).primaryColor,
                       onChanged: (value) {
                         controller.userWeight.value = value.toInt();
-                        print('Weight ${controller.userWeight.value}');
                       },
                     ),
                     const SizedBox(
@@ -76,7 +75,6 @@ class InputUserMetricPage extends GetView<InputUserMetricController> {
                           Theme.of(context).scaffoldBackgroundColor,
                       activeItemTextColor: Theme.of(context).primaryColor,
                       onChanged: (value) {
-                        print('Height ${controller.userHeight.value}');
                         controller.userHeight.value = value.toInt();
                       },
                     ),

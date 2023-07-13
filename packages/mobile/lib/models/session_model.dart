@@ -4,6 +4,7 @@ part 'session_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SessionModel {
+  @JsonKey(name: '_id')
   final String exerciseId;
   final int startTime;
   final int endTime;

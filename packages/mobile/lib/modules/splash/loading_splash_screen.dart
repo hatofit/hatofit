@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/main.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
+import 'package:polar_hr_devices/services/storage_service.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
 
 class LoadingSplashScreen extends StatelessWidget {
   const LoadingSplashScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    StorageService().initializeDirectory();
     Future.delayed(const Duration(seconds: 3), () {
       if (storage.read('height') != null) {
         Get.offAllNamed(AppRoutes.dashboard);
@@ -30,7 +32,7 @@ class LoadingSplashScreen extends StatelessWidget {
               children: [
                 Image.asset('assets/images/logo/title.png',
                     width: 166,
-                    color: ThemeManager ( ).isDarkMode ? Colors.grey[300] : null),
+                    color: ThemeManager().isDarkMode ? Colors.grey[300] : null),
                 const SizedBox(height: 10),
                 Image.asset(
                   'assets/images/logo/subtitle.png',

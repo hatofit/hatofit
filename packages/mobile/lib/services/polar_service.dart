@@ -8,15 +8,12 @@ import 'package:polar_hr_devices/services/internet_service.dart';
 import 'package:polar_hr_devices/services/storage_service.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
 
+
 const Map<String, String> _deviceImageList = {
-  'Polar H10':
-      'assets/images/polar/polar-h10.webp',
-  'Polar OH1':
-      'assets/images/polar/polar-oh1.webp',
-  'Polar H9':
-      'assets/images/polar/polar-h9.webp',
-  'Polar Verity Sense':
-      'assets/images/polar/polar-verity-sense.webp',
+  'Polar H10': 'assets/images/polar/polar-h10.webp',
+  'Polar OH1': 'assets/images/polar/polar-oh1.webp',
+  'Polar H9': 'assets/images/polar/polar-h9.webp',
+  'Polar Verity Sense': 'assets/images/polar/polar-verity-sense.webp',
 };
 
 class PolarService extends GetxController {
@@ -61,6 +58,7 @@ class PolarService extends GetxController {
         "Date Time : ${DateTime.now().toString()}\n"
         "=============================");
     scanPolarDevices();
+
     super.onReady();
   }
 
@@ -90,7 +88,7 @@ class PolarService extends GetxController {
             data: List.from(_sessionModel.data));
         currentSecond = 0;
         StorageService().saveToJSON(
-            'log-${_sessionModel.exerciseId}-$_connectedDeviceId-$startStream',
+            'session/raw/log-${_sessionModel.exerciseId}-$_connectedDeviceId-$startStream',
             _sessionModel);
         InternetService().postSession(_sessionModel);
         timer.cancel();

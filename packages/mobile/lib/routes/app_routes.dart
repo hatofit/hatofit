@@ -12,7 +12,7 @@ abstract class AppRoutes {
   static const String workoutStart = '/workout/start';
 
   static const String history = '/history';
-  static const String historyDetail = '/history/detail:workoutId';
+  static const String historyDetail = '/history/detail';
 
   static const String setting = '/setting';
   static const String changeUnit = '/setting/changeUnit';
