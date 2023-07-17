@@ -33,7 +33,7 @@ export const DevicesRules = [
           if (item.type === 'PolarDataType.hr') {
             const vals = (item.value || []) as { hr: number }[]
             const val = vals[0]?.hr || false
-            return [val]
+            return val ? [val] : false
           }
         }
       },
@@ -53,7 +53,7 @@ export const DevicesRules = [
           if (item.type === 'PolarDataType.ecg') {
             const vals = (item.value || []) as { voltage: number }[]
             const val = vals[0]?.voltage || false
-            return [val]
+            return val ? [val] : false
           }
         }
       }
@@ -146,7 +146,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
           // check data
           const reportsToListAccepted = [
             'hr',
-            // 'ecg',
+            'ecg',
             // 'acc',
           ]
           for (const listreporttoacccepted of reportsToListAccepted) {
@@ -156,7 +156,14 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
               if (ri) {
                 const riDevice = ri.data.find(item => item.device === device.identifier)
                 if (riDevice) {
-                  riDevice.value.push([item.second, ...reportItem.value])
+                  const arg = reportItem.value
+                  try {
+                    if (Array.isArray(arg)) {
+                      riDevice.value.push([item.second, ...arg])
+                    }
+                  } catch (error) {
+                    riDevice.value.push([item.second])
+                  }
                 } else {
                   ri.data.push({
                     device: device.identifier,
