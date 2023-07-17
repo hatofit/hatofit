@@ -261,9 +261,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                                 snapshot) =>
                                                             const Dialog(
                                                                 child: Text(
-                                                                    'Connecting')),
+                                                                    'Connected')),
                                                       )),
                                           ),
+                                          transitionCurve:
+                                              Curves.easeInOutCubic,
                                         );
                                       },
                                     ),

@@ -88,7 +88,7 @@ class GreetingPage extends StatelessWidget {
                       width: double.infinity,
                       child: OutlinedButton(
                         onPressed: () {
-                          Get.offAllNamed(AppRoutes.inputUserInfo);
+                          Get.toNamed(AppRoutes.login);
                         },
                         style: OutlinedButton.styleFrom(
                           backgroundColor: Colors.black,

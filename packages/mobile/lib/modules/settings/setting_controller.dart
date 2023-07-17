@@ -14,8 +14,9 @@ class SettingController extends GetxController {
   @override
   void onInit() {
     isAuth.value = storage.read('isAuth');
-    userName.value = storage.read('name');
-    userAge.value = storage.read('age');
+    userName.value = storage.read('fullName');
+    final age = DateTime.now().year - storage.read('dateOfBirth').year;
+    userAge.value = age.toString();
     genderAsset.value = storage.read('genderAsset');
     super.onInit();
   }

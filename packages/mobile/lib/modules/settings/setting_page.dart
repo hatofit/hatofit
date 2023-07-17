@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:polar_hr_devices/modules/settings/setting_controller.dart';
@@ -28,7 +27,9 @@ class SettingPage extends GetView<SettingController> {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.toNamed(AppRoutes.userInfo);
+                    Get.toNamed(
+                      AppRoutes.profile,
+                    );
                   },
                   child: Container(
                     margin: const EdgeInsets.only(top: 24),
@@ -51,7 +52,7 @@ class SettingPage extends GetView<SettingController> {
                             ),
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: SvgPicture.asset(
+                              child: Image.asset(
                                 controller.genderAsset.value,
                                 width: 64,
                               ),

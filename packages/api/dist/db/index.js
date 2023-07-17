@@ -58,7 +58,10 @@ const UserSchema = new mongoose_1.Schema({
     password: String,
     firstName: String,
     lastName: String,
+    gender : String,
     birthDate: Date,
+    height: Number,
+    weight: Number,
 }, {
     typeKey: '$type',
     timestamps: true,

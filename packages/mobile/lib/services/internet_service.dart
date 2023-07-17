@@ -83,4 +83,54 @@ class InternetService {
       return List<dynamic>.empty();
     }
   }
+
+  Future<String> registerUser(dynamic body) {
+    final url = "${dotenv.env['API_BASE_URL'] ?? ''}/auth/register";
+    try {
+      final response = _getConnect.post(
+        url,
+        jsonEncode(body),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+      return response.then((value) {
+        if (value.statusCode == 200) {
+          return 'Success Register';
+        } else {
+          return 'Failed Register';
+        }
+      });
+    } catch (e) {
+      return Future.value('Error $e');
+    }
+  }
+
+  Future<String> loginUser(String email, String password) {
+    final url = "${dotenv.env['API_BASE_URL'] ?? ''}/auth/login";
+    try {
+      final response = _getConnect.post(
+        url,
+        jsonEncode({
+          'email': email,
+          'password': password,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+      return response.then((value) {
+        if (value.statusCode == 200) {
+          // Parse the API response to retrieve the token
+          // final token = jsonDecode(value.body)['token'];
+
+          return value.body['token'];
+        } else {
+          return 'Failed Login';
+        }
+      });
+    } catch (e) {
+      return Future.value('Error $e');
+    }
+  }
 }

@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:path_provider/path_provider.dart';
 
-class StorageService {
-  final initStorage = GetStorage.init();
+class StorageService extends GetxController{
   final _storage = GetStorage();
 
   GetStorage get storage => _storage;
+   initStorage() async {
+    await GetStorage.init();
+  }
 
   void initializeDirectory() async {
     final List<String> requiredDiretories = [

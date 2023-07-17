@@ -181,14 +181,24 @@ class AppTheme {
             color: Get.isDarkMode ? Colors.black : Colors.white),
         floatingLabelStyle:
             TextStyle(color: Get.isDarkMode ? Colors.black : Colors.white),
+        filled: true,
+        fillColor: ThemeManager().isDarkMode
+            ? ColorConstants.lightContainer
+            : ColorConstants.darkContainer,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(
-              width: 1, color: Get.isDarkMode ? Colors.black : Colors.white),
+            color: ThemeManager().isDarkMode
+                ? ColorConstants.darkContainer.withOpacity(0.5)
+                : ColorConstants.lightContainer.withOpacity(0.5),
+            width: 1,
+          ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(width: 3, color: Colors.grey.withOpacity(0.5)),
+          borderSide: const BorderSide(
+            width: 0,
+          ),
         ),
       ),
       useMaterial3: true,

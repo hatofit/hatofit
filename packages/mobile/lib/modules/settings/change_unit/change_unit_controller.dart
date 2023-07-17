@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
 import 'package:polar_hr_devices/services/storage_service.dart';
 
 class ChangeUnitController extends GetxController {
@@ -62,14 +61,5 @@ class ChangeUnitController extends GetxController {
       storage.write('height', userWeight.value);
       storage.write('weight', userWeight.value);
     }
-    // print all user info
-    print("=====================\n "
-        "Name: ${storage.read('name')} \n"
-        "Age : ${storage.read('age')}\n"
-        "Height: ${storage.read('height')}\n"
-        "Weight: ${storage.read('weight')}\n"
-        "Heigh Unit : ${storage.read('heightUnit')}\n"
-        "Weight Unit: ${storage.read('weightUnit')}\n"
-        "Energy Unit: ${storage.read('energyUnit')}\n");
   }
 }

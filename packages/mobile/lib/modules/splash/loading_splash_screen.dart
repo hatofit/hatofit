@@ -8,10 +8,15 @@ class LoadingSplashScreen extends StatelessWidget {
   const LoadingSplashScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final storage = StorageService().storage;
+    StorageService().initStorage();
     StorageService().initializeDirectory();
+    final storage = StorageService().storage;
+    final userToken = storage.read('fullName');
+    print("====================\n"
+        "UserToken : $userToken\n"
+        "=============================\n");
     Future.delayed(const Duration(seconds: 3), () {
-      if (storage.read('height') != null) {
+      if (userToken != null) {
         Get.offAllNamed(AppRoutes.dashboard);
       } else {
         Get.offAllNamed(AppRoutes.greeting);

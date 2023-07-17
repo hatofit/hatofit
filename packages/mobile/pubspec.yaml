@@ -57,6 +57,8 @@ dependencies:
     git:
       url: https://github.com/ceranco/circular_countdown_timer
       ref: on_change_fix
+  image_picker: ^1.0.1
+  video_player: ^2.7.0
 
 dev_dependencies:
   flutter_test:
@@ -93,6 +95,7 @@ flutter:
     - assets/images/logo/
     - assets/images/polar/
     - assets/animations/
+    - assets/videos/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -9,8 +9,8 @@ import 'package:polar_hr_devices/themes/app_theme.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
+  await GetStorage.init();
   WidgetsFlutterBinding.ensureInitialized();
-  GetStorage.init(); 
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
