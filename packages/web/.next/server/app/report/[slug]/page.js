@@ -394,22 +394,31 @@ function useParseReportData(data) {
                         }
                         return Math.round(sum / count);
                     };
-                    const getMax = (data)=>{
+                    const getMinMax = (data)=>{
                         let max = -1;
+                        let min = Infinity;
                         for (const item of data?.datasets || []){
                             for (const value of item?.data || []){
                                 if (value > max) {
                                     max = value;
                                 }
+                                if (value < min) {
+                                    min = value;
+                                }
                             }
                         }
-                        return max;
+                        return [
+                            min,
+                            max
+                        ];
                     };
                     const data = getData(item);
+                    const [min, max] = getMinMax(data);
                     return {
                         data,
                         average: getAverage(data),
-                        max: getMax(data)
+                        max,
+                        min
                     };
                 }
             },
@@ -472,22 +481,31 @@ function useParseReportData(data) {
                         }
                         return Math.round(sum / count);
                     };
-                    const getMax = (data)=>{
+                    const getMinMax = (data)=>{
                         let max = -1;
+                        let min = Infinity;
                         for (const item of data?.datasets || []){
                             for (const value of item?.data || []){
                                 if (value > max) {
                                     max = value;
                                 }
+                                if (value < min) {
+                                    min = value;
+                                }
                             }
                         }
-                        return max;
+                        return [
+                            min,
+                            max
+                        ];
                     };
                     const data = getData(item);
+                    const [min, max] = getMinMax(data);
                     return {
                         data,
                         average: getAverage(data),
-                        max: getMax(data)
+                        max,
+                        min
                     };
                 }
             }
@@ -504,6 +522,14 @@ function useParseReportData(data) {
                 data: parser.evaluate(item)
             });
         }
+        // sort by priority [hr, ecg]
+        _reports.sort((a, b)=>{
+            const priority = [
+                "hr",
+                "ecg"
+            ];
+            return priority.indexOf(a?.type) - priority.indexOf(b?.type);
+        });
         return _reports;
     }, [
         data
@@ -512,7 +538,7 @@ function useParseReportData(data) {
         reports
     };
 }
-function DetailReportHr({ data, average, max }) {
+function DetailReportHr({ data, average, max, min }) {
     return /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
         className: "dark:bg-gray-950 p-8 rounded-lg shadow",
         children: [
@@ -563,8 +589,21 @@ function DetailReportHr({ data, average, max }) {
                 ]
             }),
             /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
-                className: "grid grid-cols-2 my-8",
+                className: "grid grid-cols-3 my-8",
                 children: [
+                    /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
+                        className: "text-center",
+                        children: [
+                            /*#__PURE__*/ jsx_runtime_.jsx("div", {
+                                className: "font-thin text-gray-300",
+                                children: "Minimal"
+                            }),
+                            /*#__PURE__*/ jsx_runtime_.jsx("div", {
+                                className: "font-semibold text-xl",
+                                children: min
+                            })
+                        ]
+                    }),
                     /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
                         className: "text-center",
                         children: [
@@ -643,7 +682,7 @@ function DetailReportHr({ data, average, max }) {
         ]
     });
 }
-function DetailReportEcg({ data, average, max }) {
+function DetailReportEcg({ data, average, max, min }) {
     return /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
         className: "dark:bg-gray-950 p-8 rounded-lg shadow",
         children: [
@@ -688,8 +727,21 @@ function DetailReportEcg({ data, average, max }) {
                 ]
             }),
             /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
-                className: "grid grid-cols-2 my-8",
+                className: "grid grid-cols-3 my-8",
                 children: [
+                    /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
+                        className: "text-center",
+                        children: [
+                            /*#__PURE__*/ jsx_runtime_.jsx("div", {
+                                className: "font-thin text-gray-300",
+                                children: "Minimal"
+                            }),
+                            /*#__PURE__*/ jsx_runtime_.jsx("div", {
+                                className: "font-semibold text-xl",
+                                children: min
+                            })
+                        ]
+                    }),
                     /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
                         className: "text-center",
                         children: [
@@ -906,12 +958,14 @@ function ReportMainSection(props) {
                                         report?.type === "hr" && /*#__PURE__*/ jsx_runtime_.jsx(DetailReportHr, {
                                             data: report?.data?.data,
                                             average: report?.data?.average,
-                                            max: report?.data?.max
+                                            max: report?.data?.max,
+                                            min: report?.data?.min
                                         }),
                                         report?.type === "ecg" && /*#__PURE__*/ jsx_runtime_.jsx(DetailReportEcg, {
                                             data: report?.data?.data,
                                             average: report?.data?.average,
-                                            max: report?.data?.max
+                                            max: report?.data?.max,
+                                            min: report?.data?.min
                                         })
                                     ]
                                 }, Math.random()))
@@ -970,7 +1024,8 @@ var utc_default = /*#__PURE__*/__webpack_require__.n(utc);
 
 dayjs_min_default().extend((utc_default()));
 async function getReportData(slug) {
-    const res = await fetch(`${"https://polar.viandwi24.site"}/api/report/${slug}`, {
+    const url = `${"https://polar.viandwi24.site"}/api/report/${slug}`;
+    const res = await fetch(url, {
         cache: "no-cache"
     });
     if (!res.ok) {
@@ -1091,7 +1146,7 @@ const __default__ = proxy.default;
 var __webpack_require__ = require("../../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [194,883,676,335], () => (__webpack_exec__(6568)));
+var __webpack_exports__ = __webpack_require__.X(0, [194,883,676,437], () => (__webpack_exec__(6568)));
 module.exports = __webpack_exports__;
 
 })();

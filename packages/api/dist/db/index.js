@@ -81,8 +81,7 @@ const SessionSchema = new mongoose_1.Schema({
             devices: [{
                     type: String,
                     identifier: String,
-                    value: mongoose_1.Schema.
-                    Types.Mixed,
+                    value: mongoose_1.Schema.Types.Mixed,
                 }]
         }]
 }, {

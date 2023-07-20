@@ -25,7 +25,7 @@ exports.DevicesRules = [
                     if (item.type === 'PolarDataType.hr') {
                         const vals = (item.value || []);
                         const val = ((_a = vals[0]) === null || _a === void 0 ? void 0 : _a.hr) || false;
-                        return [val];
+                        return val ? [val] : false;
                     }
                 }
             },
@@ -46,7 +46,7 @@ exports.DevicesRules = [
                     if (item.type === 'PolarDataType.ecg') {
                         const vals = (item.value || []);
                         const val = ((_a = vals[0]) === null || _a === void 0 ? void 0 : _a.voltage) || false;
-                        return [val];
+                        return val ? [val] : false;
                     }
                 }
             }
@@ -127,7 +127,7 @@ const ApiReport = ({ route }) => {
                     // check data
                     const reportsToListAccepted = [
                         'hr',
-                        // 'ecg',
+                        'ecg',
                         // 'acc',
                     ];
                     for (const listreporttoacccepted of reportsToListAccepted) {
@@ -137,7 +137,15 @@ const ApiReport = ({ route }) => {
                             if (ri) {
                                 const riDevice = ri.data.find(item => item.device === device.identifier);
                                 if (riDevice) {
-                                    riDevice.value.push([item.second, ...reportItem.value]);
+                                    const arg = reportItem.value;
+                                    try {
+                                        if (Array.isArray(arg)) {
+                                            riDevice.value.push([item.second, ...arg]);
+                                        }
+                                    }
+                                    catch (error) {
+                                        riDevice.value.push([item.second]);
+                                    }
                                 }
                                 else {
                                     ri.data.push({

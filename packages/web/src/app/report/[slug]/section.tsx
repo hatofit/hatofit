@@ -86,24 +86,30 @@ export function useParseReportData(data: any) {
             }
             return Math.round(sum / count)
           }
-          const getMax = (data: any) => {
+          const getMinMax = (data: any) => {
             let max = -1
+            let min = Infinity
             for (const item of data?.datasets || []) {
               for (const value of item?.data || []) {
                 if (value > max) {
                   max = value
                 }
+                if (value < min) {
+                  min = value
+                }
               }
             }
-            return max
+            return [min, max]
           }
 
           const data = getData(item)
+          const [min, max] = getMinMax(data)
 
           return {
             data,
             average: getAverage(data),
-            max: getMax(data),
+            max,
+            min,
           }
         }
       },
@@ -170,24 +176,30 @@ export function useParseReportData(data: any) {
             }
             return Math.round(sum / count)
           }
-          const getMax = (data: any) => {
+          const getMinMax = (data: any) => {
             let max = -1
+            let min = Infinity
             for (const item of data?.datasets || []) {
               for (const value of item?.data || []) {
                 if (value > max) {
                   max = value
                 }
+                if (value < min) {
+                  min = value
+                }
               }
             }
-            return max
+            return [min, max]
           }
 
           const data = getData(item)
+          const [min, max] = getMinMax(data)
 
           return {
             data,
             average: getAverage(data),
-            max: getMax(data),
+            max,
+            min,
           }
         }
       }
@@ -206,6 +218,12 @@ export function useParseReportData(data: any) {
       })
     }
 
+    // sort by priority [hr, ecg]
+    _reports.sort((a, b) => {
+      const priority = ['hr', 'ecg']
+      return priority.indexOf(a?.type) - priority.indexOf(b?.type)
+    })
+
     return _reports
   }, [data])
 
@@ -214,7 +232,7 @@ export function useParseReportData(data: any) {
   }
 }
 
-export function DetailReportHr({ data, average, max }: { data: any, average: number, max: number }) {
+export function DetailReportHr({ data, average, max, min }: { data: any, average: number, max: number, min: number }) {
 
   return (
     <div className="dark:bg-gray-950 p-8 rounded-lg shadow">
@@ -255,7 +273,11 @@ export function DetailReportHr({ data, average, max }: { data: any, average: num
           </Menu>
         </div>
       </div>
-      <div className="grid grid-cols-2 my-8">
+      <div className="grid grid-cols-3 my-8">
+        <div className="text-center">
+          <div className="font-thin text-gray-300">Minimal</div>
+          <div className="font-semibold text-xl">{min}</div>
+        </div>
         <div className="text-center">
           <div className="font-thin text-gray-300">Rata - Rata</div>
           <div className="font-semibold text-xl">{average}</div>
@@ -316,7 +338,7 @@ export function DetailReportHr({ data, average, max }: { data: any, average: num
   )
 }
 
-export function DetailReportEcg({ data, average, max }: { data: any, average: number, max: number }) {
+export function DetailReportEcg({ data, average, max, min }: { data: any, average: number, max: number, min: number }) {
   return (
     <div className="dark:bg-gray-950 p-8 rounded-lg shadow">
       <div className="mb-4 flex justify-between items-center">
@@ -355,7 +377,11 @@ export function DetailReportEcg({ data, average, max }: { data: any, average: nu
           </Menu>
         </div>
       </div>
-      <div className="grid grid-cols-2 my-8">
+      <div className="grid grid-cols-3 my-8">
+        <div className="text-center">
+          <div className="font-thin text-gray-300">Minimal</div>
+          <div className="font-semibold text-xl">{min}</div>
+        </div>
         <div className="text-center">
           <div className="font-thin text-gray-300">Rata - Rata</div>
           <div className="font-semibold text-xl">{average}</div>
@@ -520,10 +546,10 @@ export function ReportMainSection(props: {
             {reports.map((report) => (
               <Fragment key={Math.random()}>
                 {report?.type === 'hr' && (
-                  <DetailReportHr data={report?.data?.data} average={report?.data?.average} max={report?.data?.max} />
+                  <DetailReportHr data={report?.data?.data} average={report?.data?.average} max={report?.data?.max} min={report?.data?.min} />
                 )}
                 {report?.type === 'ecg' && (
-                  <DetailReportEcg data={report?.data?.data} average={report?.data?.average} max={report?.data?.max} />
+                  <DetailReportEcg data={report?.data?.data} average={report?.data?.average} max={report?.data?.max} min={report?.data?.min} />
                 )}
               </Fragment>
             ))}

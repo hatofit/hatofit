@@ -290,7 +290,7 @@ const _createinitialrouterstate = __webpack_require__(4513);
 const _isbot = __webpack_require__(1897);
 const _addbasepath = __webpack_require__(2894);
 const _approuterannouncer = __webpack_require__(4066);
-const _redirectboundary = __webpack_require__(7759);
+const _redirectboundary = __webpack_require__(8035);
 const _notfoundboundary = __webpack_require__(4872);
 const _findheadincache = __webpack_require__(1527);
 const _infinitepromise = __webpack_require__(7417);
@@ -944,7 +944,7 @@ const _infinitepromise = __webpack_require__(7417);
 const _errorboundary = __webpack_require__(3946);
 const _matchsegments = __webpack_require__(3032);
 const _handlesmoothscroll = __webpack_require__(1668);
-const _redirectboundary = __webpack_require__(7759);
+const _redirectboundary = __webpack_require__(8035);
 const _notfoundboundary = __webpack_require__(4872);
 const _getsegmentvalue = __webpack_require__(5865);
 const _createroutercachekey = __webpack_require__(2800);
@@ -1708,7 +1708,7 @@ if ((typeof exports.default === "function" || typeof exports.default === "object
 
 /***/ }),
 
-/***/ 7759:
+/***/ 8035:
 /***/ ((module, exports, __webpack_require__) => {
 
 "use strict";
@@ -1891,7 +1891,7 @@ if ((typeof exports.default === "function" || typeof exports.default === "object
 
 /***/ }),
 
-/***/ 8035:
+/***/ 9948:
 /***/ ((module, exports, __webpack_require__) => {
 
 "use strict";
