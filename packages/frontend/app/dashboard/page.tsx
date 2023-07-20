@@ -52,7 +52,7 @@ export default function Home() {
       <Link
         passHref
         href={`/dashboard/create`}
-        className="m-8 bg-green-500 text-white rounded-lg font-medium px-8 py-4 mt-2 text-lg"
+        className="btn btn-primary btn-block"
       >
         Create New
       </Link>

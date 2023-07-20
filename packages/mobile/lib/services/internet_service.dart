@@ -67,7 +67,7 @@ class InternetService {
     }
   }
 
-  Future<dynamic> fetchReport(String exerciseId) async {
+  Future<Map<String, dynamic>> fetchReport(String exerciseId) async {
     final url = "${dotenv.env['API_BASE_URL'] ?? ''}/report/$exerciseId";
 
     final response = await _getConnect.get(url);
@@ -77,10 +77,10 @@ class InternetService {
 
         return jsonResponse;
       } else {
-        return List<dynamic>.empty();
+        return List<dynamic>.empty() as Map<String, dynamic>;
       }
     } catch (e) {
-      return List<dynamic>.empty();
+      return List<dynamic>.empty() as Map<String, dynamic>;
     }
   }
 
@@ -102,11 +102,16 @@ class InternetService {
         }
       });
     } catch (e) {
+      print(
+        "========\n"
+        "Error $e\n"
+        "========\n",
+      );
       return Future.value('Error $e');
     }
   }
 
-  Future<String> loginUser(String email, String password) {
+  Future<dynamic> loginUser(String email, String password) {
     final url = "${dotenv.env['API_BASE_URL'] ?? ''}/auth/login";
     try {
       final response = _getConnect.post(
@@ -121,10 +126,7 @@ class InternetService {
       );
       return response.then((value) {
         if (value.statusCode == 200) {
-          // Parse the API response to retrieve the token
-          // final token = jsonDecode(value.body)['token'];
-
-          return value.body['token'];
+          return value.body;
         } else {
           return 'Failed Login';
         }

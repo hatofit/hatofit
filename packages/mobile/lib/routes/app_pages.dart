@@ -7,6 +7,8 @@ import 'package:polar_hr_devices/modules/history/history_page.dart';
 import 'package:polar_hr_devices/modules/home/home_page.dart';
 import 'package:polar_hr_devices/modules/settings/change_unit/change_unit_binding.dart';
 import 'package:polar_hr_devices/modules/settings/change_unit/change_unit_page.dart';
+import 'package:polar_hr_devices/modules/settings/device_integration/device_integration_binding.dart';
+import 'package:polar_hr_devices/modules/settings/device_integration/device_integration_page.dart';
 import 'package:polar_hr_devices/modules/settings/setting_binding.dart';
 import 'package:polar_hr_devices/modules/settings/setting_page.dart';
 import 'package:polar_hr_devices/modules/settings/profile/profile_binding.dart';
@@ -118,5 +120,11 @@ class AppPages {
       binding: ProfileBinding(),
       transition: Transition.cupertino,
     ),
+    GetPage(
+      name: AppRoutes.deviceIntegration,
+      page: () => DeviceIntegrationPage(),
+      binding: DeviceIntegrationBinding(),
+      transition: Transition.cupertino,
+    )
   ];
 }

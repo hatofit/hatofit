@@ -8,7 +8,6 @@ import 'package:polar_hr_devices/services/internet_service.dart';
 import 'package:polar_hr_devices/services/storage_service.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
 
-
 const Map<String, String> _deviceImageList = {
   'Polar H10': 'assets/images/polar/polar-h10.webp',
   'Polar OH1': 'assets/images/polar/polar-oh1.webp',
@@ -22,7 +21,6 @@ class PolarService extends GetxController {
   final _connectedDeviceId = 'No Device'.obs;
   final _detectedDevices = List<Map<String, dynamic>>.empty(growable: true);
 
-  final _isDevelopment = false.obs;
   final isStartWorkout = false.obs;
   final List<Stream<PolarStreamingData<dynamic>>> _availableDevices = [];
   final List<StreamSubscription> _availableSubscriptions = [];
@@ -50,15 +48,7 @@ class PolarService extends GetxController {
   );
   @override
   void onReady() {
-    _isDevelopment.toggle();
-    debugPrint("=============================\n"
-        "Is Development : ${_isDevelopment.value}\n"
-        "=============================");
-    debugPrint("=============================\n"
-        "Date Time : ${DateTime.now().toString()}\n"
-        "=============================");
     scanPolarDevices();
-
     super.onReady();
   }
 
@@ -70,6 +60,14 @@ class PolarService extends GetxController {
 
   void starWorkout(String exerciseId, int exerciseDuration) {
     var currentSecond = 0;
+    final endStream =
+        DateTime.now().microsecondsSinceEpoch + (exerciseDuration * 1000000);
+    _sessionModel = SessionModel(
+        exerciseId: exerciseId,
+        startTime: DateTime.now().microsecondsSinceEpoch,
+        endTime: endStream,
+        timelines: [],
+        data: []);
     Timer.periodic(const Duration(seconds: 1), (timer) {
       _currentSecondDataItem = SessionDataItem(
         second: currentSecond,
@@ -78,17 +76,9 @@ class PolarService extends GetxController {
       );
       _sessionModel.data.add(_currentSecondDataItem);
       if (isStartWorkout.value == false) {
-        final startStream = DateTime.now().microsecondsSinceEpoch -
-            (exerciseDuration * 1000000);
-        _sessionModel = SessionModel(
-            exerciseId: exerciseId,
-            startTime: startStream,
-            endTime: DateTime.now().microsecondsSinceEpoch,
-            timelines: [],
-            data: List.from(_sessionModel.data));
         currentSecond = 0;
         StorageService().saveToJSON(
-            'session/raw/log-${_sessionModel.exerciseId}-$_connectedDeviceId-$startStream',
+            'session/raw/log-${_sessionModel.exerciseId}-$_connectedDeviceId-${DateTime.now().microsecondsSinceEpoch - (exerciseDuration * 1000000)}',
             _sessionModel);
         InternetService().postSession(_sessionModel);
         timer.cancel();
@@ -97,100 +87,6 @@ class PolarService extends GetxController {
       currentSecond++;
     });
   }
-
-  // void dummyDebugging() {
-  //   int counter = 0;
-  //   Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     debugPrint("Starting in $counter");
-  //     if (counter == 3) {
-  //       isStartWorkout.toggle();
-  //       debugPrint("============================================\n"
-  //           "Date Time : ${DateTime.now().toString()}\n"
-  //           "============================================");
-  //       dummyWorkout();
-  //       timer.cancel();
-  //     }
-  //     counter++;
-  //   });
-  // }
-
-  // void dummyWorkout() {
-  //   int currentSecond = 0;
-  //   Timer.periodic(const Duration(seconds: 1), (timer) {
-  //     _currentSecondDataItem = SessionDataItem(
-  //       second: currentSecond,
-  //       timeStamp: DateTime.now().microsecondsSinceEpoch,
-  //       devices: List.from(_currentSecondDataItem.devices),
-  //     );
-  //     if (currentSecond == 900) {
-  //       _sessionModel = SessionModel(
-  //           exerciseId: '15 Minutes Workout',
-  //           startTime: DateTime.now().microsecondsSinceEpoch - (900 * 1000000),
-  //           endTime: DateTime.now().microsecondsSinceEpoch,
-  //           timelines: [],
-  //           data: List.from(_sessionModel.data));
-  //       saveToJSON(identifier, 900);
-  //       print('${_sessionModel.exerciseId} Workout Saved');
-  //       Get.snackbar(
-  //         'Saved',
-  //         '${_sessionModel.exerciseId} Workout Saved',
-  //         colorText: ThemeManager ( ).isDarkMode ? Colors.white : Colors.black,
-  //         backgroundColor: ThemeManager ( ).isDarkMode ? Colors.black : Colors.white,
-  //       );
-  //     }
-  //     if (currentSecond == 1800) {
-  //       _sessionModel = SessionModel(
-  //           exerciseId: '30 Minutes Workout',
-  //           startTime: DateTime.now().microsecondsSinceEpoch - (1800 * 1000000),
-  //           endTime: DateTime.now().microsecondsSinceEpoch,
-  //           timelines: [],
-  //           data: List.from(_sessionModel.data));
-  //       saveToJSON(identifier, 1800);
-  //       print('${_sessionModel.exerciseId} Workout Saved');
-  //       Get.snackbar(
-  //         'Saved',
-  //         '${_sessionModel.exerciseId} Workout Saved',
-  //         colorText: ThemeManager ( ).isDarkMode ? Colors.white : Colors.black,
-  //         backgroundColor: ThemeManager ( ).isDarkMode ? Colors.black : Colors.white,
-  //       );
-  //     }
-  //     if (currentSecond == 2700) {
-  //       _sessionModel = SessionModel(
-  //           exerciseId: '45 Minutes Workout',
-  //           startTime: DateTime.now().microsecondsSinceEpoch - (2700 * 1000000),
-  //           endTime: DateTime.now().microsecondsSinceEpoch,
-  //           timelines: [],
-  //           data: List.from(_sessionModel.data));
-  //       saveToJSON(identifier, 2700);
-  //       print('${_sessionModel.exerciseId} Workout Saved');
-  //       Get.snackbar(
-  //         'Saved',
-  //         '${_sessionModel.exerciseId} Workout Saved',
-  //         colorText: ThemeManager ( ).isDarkMode ? Colors.white : Colors.black,
-  //         backgroundColor: ThemeManager ( ).isDarkMode ? Colors.black : Colors.white,
-  //       );
-  //     }
-  //     if (currentSecond == 3600) {
-  //       _sessionModel = SessionModel(
-  //           exerciseId: '60 Minutes Workout',
-  //           startTime: DateTime.now().microsecondsSinceEpoch - (3600 * 1000000),
-  //           endTime: DateTime.now().microsecondsSinceEpoch,
-  //           timelines: [],
-  //           data: List.from(_sessionModel.data));
-  //       saveToJSON(identifier, 3600);
-  //       print('${_sessionModel.exerciseId} Workout Saved');
-  //       Get.snackbar(
-  //         'Saved',
-  //         '${_sessionModel.exerciseId} Workout Saved',
-  //         colorText: ThemeManager ( ).isDarkMode ? Colors.white : Colors.black,
-  //         backgroundColor: ThemeManager ( ).isDarkMode ? Colors.black : Colors.white,
-  //       );
-  //     }
-  //     _sessionModel.data.add(_currentSecondDataItem);
-  //     _currentSecondDataItem.devices.clear();
-  //     currentSecond++;
-  //   });
-  // }
 
   void streamWhenReady(String deviceId) async {
     await _polar.sdkFeatureReady.firstWhere(

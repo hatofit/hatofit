@@ -7,7 +7,7 @@ part of 'session_model.dart';
 // **************************************************************************
 
 SessionModel _$SessionModelFromJson(Map<String, dynamic> json) => SessionModel(
-      exerciseId: json['_id'] as String,
+      exerciseId: json['exerciseId'] as String,
       startTime: json['startTime'] as int,
       endTime: json['endTime'] as int,
       timelines: (json['timelines'] as List<dynamic>)
@@ -20,7 +20,7 @@ SessionModel _$SessionModelFromJson(Map<String, dynamic> json) => SessionModel(
 
 Map<String, dynamic> _$SessionModelToJson(SessionModel instance) =>
     <String, dynamic>{
-      '_id': instance.exerciseId,
+      'exerciseId': instance.exerciseId,
       'startTime': instance.startTime,
       'endTime': instance.endTime,
       'timelines': instance.timelines.map((e) => e.toJson()).toList(),

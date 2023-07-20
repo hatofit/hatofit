@@ -18,4 +18,5 @@ abstract class AppRoutes {
   static const String setting = '/setting';
   static const String changeUnit = '/setting/changeUnit';
   static const String profile = '/setting/profile';
+  static const String deviceIntegration = '/setting/deviceIntegration';
 }

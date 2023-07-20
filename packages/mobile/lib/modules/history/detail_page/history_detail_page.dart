@@ -22,7 +22,7 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
               if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
-                final data = snapshot.data['report'] as Map<String, dynamic>;
+                final data = snapshot.data?['report'] as Map<String, dynamic>;
                 final reports = data['reports'] as List<dynamic>;
                 final hrReport = reports.firstWhere(
                   (report) => report['type'] == 'hr',
@@ -46,7 +46,7 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                       .map((value) => value[1].toDouble())
                       .reduce((a, b) => a > b ? a : b);
                   final exercise =
-                      snapshot.data['exercise'] as Map<String, dynamic>;
+                      snapshot.data?['exercise'] as Map<String, dynamic>;
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

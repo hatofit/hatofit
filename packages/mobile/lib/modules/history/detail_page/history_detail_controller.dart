@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/services/internet_service.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -15,7 +17,7 @@ class HistoryDetailController extends GetxController {
   ZoomPanBehavior get zoomPanBehavior => _zoomPanBehavior;
 
   @override
-  void onReady() {
+  void onReady() async {
     InternetService().fetchReport(argument);
     super.onReady();
   }

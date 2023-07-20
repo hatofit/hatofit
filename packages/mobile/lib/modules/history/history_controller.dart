@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:polar_hr_devices/services/internet_service.dart';
 
 class HistoryController extends GetxController {
   final String title = 'History';
+  Future<void> refreshData() async {
+    await InternetService().fetchHistory();
+  }
 
   String dateConverter(String datetime) {
     final date = DateTime.parse(datetime);

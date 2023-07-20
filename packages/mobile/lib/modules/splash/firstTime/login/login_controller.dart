@@ -41,10 +41,13 @@ class LoginController extends GetxController {
       passwordController.value.text,
     )
         .then((value) {
-      if (value.contains('Failed') || value.contains('Error')) {
+      print("===================\n"
+          "Value: $value\n"
+          "===================");
+      if (value['success'] == false) {
         Get.snackbar(
           'Error',
-          value,
+          value['message'],
           backgroundColor: Colors.red,
           colorText: Colors.white,
         );
@@ -52,11 +55,19 @@ class LoginController extends GetxController {
         print("===================\n"
             "LoginController.login() value: $value\n"
             "===================");
-        storage.write('userToken', value);
+        storage.write('userToken', value['token']);
+        storage.write('fullName',
+            value['user']['firstName'] + ' ' + value['user']['lastName']);
+        storage.write('dateOfBirth', value['user']['birthDate']);
+        storage.write('height', value['user']['height']);
+        storage.write('weight', value['user']['weight']);
+        storage.write('gender', value['user']['gender']);
+        storage.write('email', value['user']['email']);
+
         PolarService().polar.requestPermissions().then(
               (value) => Permission.location.request().then(
                     (value) => Permission.storage.request().then(
-                      (value) async {
+                      (value) {
                         if (value.isGranted) {
                           Get.offAllNamed(AppRoutes.dashboard);
                         }

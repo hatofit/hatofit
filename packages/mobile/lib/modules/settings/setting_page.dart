@@ -225,7 +225,9 @@ class SettingPage extends GetView<SettingController> {
                       ),
                       SettingListTileWidget(
                         title: 'Device Integration',
-                        onTap: () {},
+                        onTap: () {
+                          Get.toNamed(AppRoutes.deviceIntegration);
+                        },
                       ),
                     ],
                   ),

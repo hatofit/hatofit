@@ -149,24 +149,24 @@ class ProfilePage extends GetView<ProfileController> {
                 const SizedBox(
                   height: 16,
                 ),
-                DropdownButtonFormField<String>(
-                  value: controller.userGender.value,
-                  onChanged: (value) {
-                    controller.userGender.value = value!;
-                    controller.refreshController();
-                  },
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(CupertinoIcons.person),
-                    labelText: 'Gender',
-                  ),
-                  items: controller.genders
-                      .map<DropdownMenuItem<String>>((String gender) {
-                    return DropdownMenuItem<String>(
-                      value: gender,
-                      child: Text(gender),
-                    );
-                  }).toList(),
-                ),
+                // DropdownButtonFormField<String>(
+                //   value: controller.userGender.value,
+                //   onChanged: (value) {
+                //     controller.userGender.value = value!;
+                //     controller.refreshController();
+                //   },
+                //   decoration: const InputDecoration(
+                //     prefixIcon: Icon(CupertinoIcons.person),
+                //     labelText: 'Gender',
+                //   ),
+                //   items: controller.genders
+                //       .map<DropdownMenuItem<String>>((String gender) {
+                //     return DropdownMenuItem<String>(
+                //       value: gender,
+                //       child: Text(gender),
+                //     );
+                //   }).toList(),
+                // ),
                 const SizedBox(
                   height: 16,
                 ),

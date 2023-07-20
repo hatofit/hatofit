@@ -7,17 +7,31 @@ class SettingController extends GetxController {
   final userName = ''.obs;
   final userAge = ''.obs;
   final isSync = false.obs;
-  final isAuth = false.obs;
   final genderAsset = ''.obs;
 
   final storage = StorageService().storage;
   @override
   void onInit() {
-    isAuth.value = storage.read('isAuth');
+    print(
+      "===================\n"
+      "dateOfBirth: ${storage.read('dateOfBirth')}\n"
+      "===================\n",
+    );
     userName.value = storage.read('fullName');
-    final age = DateTime.now().year - storage.read('dateOfBirth').year;
+    final dateOfBirth = DateTime.parse(storage.read('dateOfBirth'));
+    final age = DateTime.now().year - dateOfBirth.year;
     userAge.value = age.toString();
-    genderAsset.value = storage.read('genderAsset');
+    final asset = storage.read('genderAsset');
+    if (asset == null) {
+      final gender = storage.read('gender');
+      if (gender == 'male') {
+        genderAsset.value = 'assets/images/male.png';
+      } else {
+        genderAsset.value = 'assets/images/female.png';
+      }
+    } else {
+      genderAsset.value = asset;
+    }
     super.onInit();
   }
 

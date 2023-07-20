@@ -8,7 +8,7 @@ exports.UserSchema = zod_1.z.object({
   firstName: zod_1.z.string(),
   lastName: zod_1.z.string(),
   gender: zod_1.z.string(),
-  dateOfBirth: zod_1.z.date(),
+  birthDate: zod_1.z.date(),
   height: zod_1.z.number(),
   weight: zod_1.z.number(),
 });

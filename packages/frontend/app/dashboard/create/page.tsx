@@ -44,7 +44,7 @@ export default function CreateExercise() {
         <tr key={index}>
           <td className="border border-gray-400 p-2">
             <select
-              className="border border-gray-400 p-2 w-full text-black"
+              className="input input-bordered w-full"
               value={exercise.instructions[index]?.type || ""}
               required
               onChange={(event) =>
@@ -69,7 +69,7 @@ export default function CreateExercise() {
           <td className="border border-gray-400 p-2">
             <input
               type="number"
-              className="border border-gray-400 p-2 w-full text-black"
+              className="input input-bordered w-full"
               placeholder="Instruction Duration"
               value={exercise.instructions[index]?.duration || ""}
               required
@@ -96,7 +96,7 @@ export default function CreateExercise() {
               <td className="border border-gray-400 p-2">
                 <input
                   type="text"
-                  className="border border-gray-400 p-2 w-full text-black"
+                  className="input input-bordered w-full"
                   placeholder="Instruction Name"
                   value={exercise.instructions[index]?.name || ""}
                   minLength={3}
@@ -119,7 +119,7 @@ export default function CreateExercise() {
               </td>
               <td className="border border-gray-400 p-2">
                 <textarea
-                  className="border border-gray-400 p-2 w-full text-black"
+                  className="input input-bordered w-full"
                   placeholder="Instruction Description"
                   value={exercise.instructions[index]?.description || ""}
                   minLength={3}
@@ -143,7 +143,7 @@ export default function CreateExercise() {
               <td className="border border-gray-400 p-2">
                 <input
                   type="text"
-                  className="border border-gray-400 p-2 w-full text-black"
+                  className="input input-bordered w-full"
                   placeholder="Instruction Video"
                   value={exercise.instructions[index]?.content?.video || ""}
                   onChange={(event) =>
@@ -169,7 +169,7 @@ export default function CreateExercise() {
               <td className="border border-gray-400 p-2">
                 <input
                   type="text"
-                  className="border border-gray-400 p-2 w-full text-black"
+                  className="input input-bordered w-full"
                   placeholder="Instruction Image"
                   value={exercise.instructions[index]?.content?.image || ""}
                   onChange={(event) =>
@@ -208,16 +208,13 @@ export default function CreateExercise() {
             <div className="w-1/4 p-4">
               {/* Left column */}
               <div className="mb-4">
-                <label
-                  htmlFor="exerciseName"
-                  className="text-center text-lg font-medium mb-2"
-                >
+                <label htmlFor="exerciseName" className="label">
                   Exercise Name
                 </label>
                 <input
                   type="text"
                   id="exerciseName"
-                  className="border border-gray-400 p-2 w-full text-black"
+                  className="input input-bordered w-full"
                   placeholder="Exercise Name"
                   value={exercise.name}
                   minLength={3}
@@ -232,15 +229,12 @@ export default function CreateExercise() {
               </div>
 
               <div className="mb-4">
-                <label
-                  htmlFor="exerciseDescription"
-                  className="text-center text-lg font-medium mb-2"
-                >
+                <label htmlFor="exerciseDescription" className="label">
                   Exercise Description
                 </label>
                 <textarea
                   id="exerciseDescription"
-                  className="border border-gray-400 p-2 w-full text-black"
+                  className="input input-bordered w-full"
                   placeholder="Exercise Description"
                   value={exercise.description}
                   minLength={3}
@@ -254,15 +248,12 @@ export default function CreateExercise() {
               </div>
 
               <div className="mb-4">
-                <label
-                  htmlFor="exerciseDifficulty"
-                  className="text-center text-lg font-medium mb-2"
-                >
+                <label htmlFor="exerciseDifficulty" className="label">
                   Exercise Difficulty
                 </label>
                 <select
                   id="exerciseDifficulty"
-                  className="border border-gray-400 p-2 w-full text-black"
+                  className="input input-bordered w-full"
                   value={exercise.difficulty}
                   onChange={(e) =>
                     setExercise((prevExercise) => ({
@@ -279,16 +270,13 @@ export default function CreateExercise() {
               </div>
 
               <div className="mb-4">
-                <label
-                  htmlFor="exerciseType"
-                  className="text-center text-lg font-medium mb-2"
-                >
+                <label htmlFor="exerciseType" className="label">
                   Exercise Type
                 </label>
                 <input
                   type="text"
                   id="exerciseType"
-                  className="border border-gray-400 p-2 w-full text-black"
+                  className="input input-bordered w-full"
                   placeholder="Exercise Type"
                   value={exercise.type}
                   minLength={3}
@@ -302,16 +290,13 @@ export default function CreateExercise() {
               </div>
 
               <div className="mb-4">
-                <label
-                  htmlFor="exerciseThumbnail"
-                  className="text-center text-lg font-medium mb-2"
-                >
+                <label htmlFor="exerciseThumbnail" className="label">
                   Exercise Thumbnail
                 </label>
                 <input
                   type="text"
                   id="exerciseThumbnail"
-                  className="border border-gray-400 p-2 w-full text-black"
+                  className="input input-bordered w-full"
                   placeholder="Exercise Thumbnail"
                   value={exercise.thumbnail}
                   minLength={3}
@@ -329,16 +314,13 @@ export default function CreateExercise() {
                 />
               </div>
               <div className="mb-4">
-                <label
-                  htmlFor="setTotalInstruction"
-                  className="text-center text-lg font-medium mb-2"
-                >
+                <label htmlFor="setTotalInstruction" className="label">
                   Total Instructions
                 </label>
                 <input
                   type="number"
                   id="setTotalInstruction"
-                  className="border border-gray-400 p-2 w-full text-black"
+                  className="input input-bordered w-full"
                   placeholder="Total Instructions"
                   value={totalInstructions}
                   min={0}
@@ -350,10 +332,10 @@ export default function CreateExercise() {
             </div>
 
             <div className="w-3/4 p-4">
-              <h1 className="text-center text-lg font-bold mb-2">
+              <h1 className="text-center overflow-x-auto text-lg font-bold mb-2">
                 Instructions
               </h1>
-              <table className="border-collapse border border-gray-400 w-full">
+              <table className="table table-zebra ">
                 <thead>
                   <tr>
                     <th className="border border-gray-400 p-2">Type</th>

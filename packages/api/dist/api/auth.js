@@ -93,9 +93,9 @@ const ApiAuth = ({ route }) => {
       req.body.password = hashedPassword;
 
       // dateOfBirth
-      const dateOfBirth = req.body.dateOfBirth || "";
-      req.body.dateOfBirth = dayjs_1
-        .default(dateOfBirth, "mm/dd/yyyy")
+      const birthDate  = req.body.birthDate  || "";
+      req.body.birthDate  = dayjs_1
+        .default(birthDate , "mm/dd/yyyy")
         .toDate();
 
       const user = user_1.UserSchema.parse(req.body);

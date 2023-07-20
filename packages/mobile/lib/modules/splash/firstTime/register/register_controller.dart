@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
 import 'package:polar_hr_devices/services/storage_service.dart';
 
@@ -40,20 +41,13 @@ class RegisterController extends GetxController {
     storage.write('EnergyUnit', 'Kilocalories');
     storage.write('fullName',
         '${firstNameController.value.text} ${lastNameController.value.text}');
-    storage.write('dateOfBirth', userDateOfBirth.value);
     storage.write('gender', selectedGender.value);
     storage.write('email', emailController.value.text);
-    if (selectedGender.value == 'male') {
-      storage.write('genderAsset', 'assets/images/male.png');
-    } else {
-      storage.write('genderAsset', 'assets/images/female.png');
-    }
-    // make all data in map string dynamic
     final Map<String, dynamic> data = {
       "firstName": firstNameController.value.text,
       "lastName": lastNameController.value.text,
       "gender": selectedGender.value,
-      "dateOfBirth": formattedDate.value,
+      "birthDate": userDateOfBirth.value.toString(),
       "email": emailController.value.text,
       "password": passwordController.value.text,
       "confirmPassword": confirmPasswordController.value.text,

@@ -20,9 +20,6 @@ class ProfileController extends GetxController {
     dateOfBirthController.refresh();
     emailController.refresh();
     passwordController.refresh();
-    storage.write('fullName', fullNameController.value.text);
-    storage.write('dateOfBirth', userDateOfBirth);
-    storage.write('email', emailController.value.text);
   }
 
   Future<void> pickImage() async {
@@ -38,12 +35,23 @@ class ProfileController extends GetxController {
   @override
   void onInit() {
     fullNameController.value.text = storage.read('fullName');
-    userDateOfBirth.value = storage.read('dateOfBirth');
+    userDateOfBirth.value = DateTime.parse(storage.read('dateOfBirth'));
     dateOfBirthController.value.text =
         DateFormat('dd-MM-yyyy').format(userDateOfBirth.value).toString();
     userGender.value = storage.read('gender');
     emailController.value.text = storage.read('email');
-    genderAsset.value = storage.read('genderAsset');
+    final asset = storage.read('genderAsset');
+    if (asset == null) {
+      final gender = storage.read('gender');
+      if (gender == 'male') {
+        genderAsset.value = 'assets/images/male.png';
+      } else {
+        genderAsset.value = 'assets/images/female.png';
+      }
+    } else {
+      genderAsset.value = asset;
+    }
+    passwordController.value.text = '********';
     super.onInit();
   }
 }

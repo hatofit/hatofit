@@ -79,11 +79,10 @@ class InputUserMetricController extends GetxController {
                             await InternetService()
                                 .loginUser(email!, password!)
                                 .then((value) {
-                              if (value.contains('Failed') ||
-                                  value.contains('Error')) {
+                              if (value['success'] == false) {
                                 Get.snackbar(
                                   'Error',
-                                  value,
+                                  value['message'],
                                   backgroundColor: Colors.red,
                                   colorText: Colors.white,
                                 );
@@ -91,7 +90,21 @@ class InputUserMetricController extends GetxController {
                                 print("===================\n"
                                     "InputUserMetricController . login user . value: $value\n"
                                     "===================");
-                                storage.write('userToken', value);
+                                storage.write('userToken', value['token']);
+                                storage.write(
+                                    'fullName',
+                                    value['user']['firstName'] +
+                                        ' ' +
+                                        value['user']['lastName']);
+                                storage.write(
+                                    'dateOfBirth', value['user']['birthDate']);
+                                storage.write(
+                                    'height', value['user']['height']);
+                                storage.write(
+                                    'weight', value['user']['weight']);
+                                storage.write(
+                                    'gender', value['user']['gender']);
+                                storage.write('email', value['user']['email']);
                                 Get.offAllNamed(AppRoutes.dashboard);
                               }
                             });
