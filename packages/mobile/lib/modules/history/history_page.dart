@@ -11,7 +11,7 @@ import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
 import 'history_controller.dart';
 
 class HistoryPage extends GetView<HistoryController> {
-  const HistoryPage({Key? key});
+  const HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {

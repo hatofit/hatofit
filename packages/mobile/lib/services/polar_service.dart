@@ -29,8 +29,7 @@ class PolarService extends GetxController {
   String get heartRate => _heartRate.value;
   String get connectedDeviceId => _connectedDeviceId.value;
   List<Map<String, dynamic>> get detectedDevices => _detectedDevices;
-
-  set heartRate(String value) => _heartRate.value = value;
+  set heartRate(String value)  => _heartRate.value = value;
   set connectedDeviceId(String value) => _connectedDeviceId.value = value;
 
   SessionDataItem _currentSecondDataItem = SessionDataItem(
