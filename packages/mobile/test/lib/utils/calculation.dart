@@ -536,8 +536,7 @@ void svToLocal(
     hrCsv.add([
       '',
       DateFormat('HH:mm:ss')
-          .format(DateTime.fromMicrosecondsSinceEpoch(hrData.timestamp))
-          .toString(),
+          .format(DateTime.fromMicrosecondsSinceEpoch(hrData.timestamp)),
       hrData.hr,
       hrData.rrsMs.isNotEmpty ? hrData.rrsMs.join(',') : '',
     ]);
@@ -554,8 +553,7 @@ void svToLocal(
     accCsv.add([
       '',
       DateFormat('HH:mm:ss')
-          .format(DateTime.fromMicrosecondsSinceEpoch(accData.timestamp))
-          .toString(),
+          .format(DateTime.fromMicrosecondsSinceEpoch(accData.timestamp)),
       accData.x,
       accData.y,
       accData.z,
@@ -573,8 +571,7 @@ void svToLocal(
     ppgCsv.add([
       '',
       DateFormat('HH:mm:ss')
-          .format(DateTime.fromMicrosecondsSinceEpoch(ppgData.tS))
-          .toString(),
+          .format(DateTime.fromMicrosecondsSinceEpoch(ppgData.tS)),
       ppgData.cS.isNotEmpty ? ppgData.cS.join(',') : '',
     ]);
   }
@@ -598,9 +595,9 @@ void svToLocal(
   for (final ppiData in streamingModel.ppiData) {
     ppiCsv.add([
       '',
-      DateFormat('HH:mm:ss')
-          .format(DateTime.fromMicrosecondsSinceEpoch(ppiData.tS))
-          .toString(),
+      DateFormat('HH:mm:ss').format(DateTime.fromMicrosecondsSinceEpoch(
+        ppiData.tS,
+      )),
       ppiData.ppi,
       ppiData.errorEstimate,
       ppiData.hr,
@@ -620,9 +617,9 @@ void svToLocal(
   for (final gyroData in streamingModel.gyroData) {
     gyroCsv.add([
       '',
-      DateFormat('HH:mm:ss')
-          .format(DateTime.fromMicrosecondsSinceEpoch(gyroData.tS))
-          .toString(),
+      DateFormat('HH:mm:ss').format(DateTime.fromMicrosecondsSinceEpoch(
+        gyroData.tS,
+      )),
       gyroData.x,
       gyroData.y,
       gyroData.z,
@@ -639,9 +636,9 @@ void svToLocal(
   for (final magnData in streamingModel.magnData) {
     magnCsv.add([
       '',
-      DateFormat('HH:mm:ss')
-          .format(DateTime.fromMicrosecondsSinceEpoch(magnData.tS))
-          .toString(),
+      DateFormat('HH:mm:ss').format(DateTime.fromMicrosecondsSinceEpoch(
+        magnData.tS,
+      )),
       magnData.x,
       magnData.y,
       magnData.z,
@@ -659,22 +656,46 @@ void svToLocal(
   for (final ecgData in streamingModel.ecgData) {
     ecgCsv.add([
       '',
-      DateFormat('HH:mm:ss')
-          .format(DateTime.fromMicrosecondsSinceEpoch(ecgData.tS))
-          .toString(),
+      DateFormat('HH:mm:ss').format(DateTime.fromMicrosecondsSinceEpoch(
+        ecgData.tS,
+      )),
       ecgData.voltage,
     ]);
   }
   final DateTime now = DateTime.now();
   final String date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
 
-  List<List<dynamic>> mergedData = headerCsv
-    ..addAll([hrCsv, accCsv, ppgCsv, ppiCsv, gyroCsv, magnCsv, ecgCsv]);
+  List<List<dynamic>> mergedHr = headerCsv..addAll(hrCsv);
+  List<List<dynamic>> mergedAcc = headerCsv..addAll(accCsv);
+  List<List<dynamic>> mergedPpg = headerCsv..addAll(ppgCsv);
+  List<List<dynamic>> mergedPpi = headerCsv..addAll(ppiCsv);
+  List<List<dynamic>> mergedGyro = headerCsv..addAll(gyroCsv);
+  List<List<dynamic>> mergedMagn = headerCsv..addAll(magnCsv);
+  List<List<dynamic>> mergedEcg = headerCsv..addAll(ecgCsv);
 
-  final File hrFile = File('${dir?.path}/$date-$name.csv');
+  // final File hrFile = File('${dir?.path}/$date-$name-hr.csv');
+  // final File accFile = File('${dir?.path}/$date-$name-acc.csv');
+  // final File ppgFile = File('${dir?.path}/$date-$name-ppg.csv');
+  // final File ppiFile = File('${dir?.path}/$date-$name-ppi.csv');
+  // final File gyroFile = File('${dir?.path}/$date-$name-gyro.csv');
+  // final File magnFile = File('${dir?.path}/$date-$name-magn.csv');
+  final File ecgFile = File('${dir?.path}/$date-$name.csv');
 
-  final csvHr = const ListToCsvConverter().convert(mergedData);
-  hrFile.writeAsString(csvHr);
+  // final csvHr = const ListToCsvConverter().convert(mergedHr);
+  // final csvAcc = const ListToCsvConverter().convert(mergedAcc);
+  // final csvPpg = const ListToCsvConverter().convert(mergedPpg);
+  // final csvPpi = const ListToCsvConverter().convert(mergedPpi);
+  // final csvGyro = const ListToCsvConverter().convert(mergedGyro);
+  // final csvMagn = const ListToCsvConverter().convert(mergedMagn);
+  final csvEcg = const ListToCsvConverter().convert(mergedEcg);
+
+  // hrFile.writeAsString(csvHr);
+  // accFile.writeAsString(csvAcc);
+  // ppgFile.writeAsString(csvPpg);
+  // ppiFile.writeAsString(csvPpi);
+  // gyroFile.writeAsString(csvGyro);
+  // magnFile.writeAsString(csvMagn);
+  ecgFile.writeAsString(csvEcg);
 
   sendPort
       .send(['Success', '${dir?.path}/$name.json', '${dir?.path}/$name-.csv']);
