@@ -39,13 +39,13 @@ dependencies:
   flutter_blue_plus: ^1.8.5
   syncfusion_flutter_charts: ^21.2.10
   intl: ^0.18.1
-  excel: ^2.1.0
   path_provider: ^2.0.15
   json_serializable: ^6.7.0
   json_annotation: ^4.8.1
   get: ^4.6.5
   device_info_plus: ^9.0.2
   fl_chart: ^0.63.0
+  csv: ^5.0.2
 
 dev_dependencies:
   flutter_test:

@@ -324,9 +324,6 @@ class PolarService extends GetxController {
               ? ColorConstants.darkContainer.withOpacity(0.9)
               : ColorConstants.lightContainer.withOpacity(0.9));
     }).catchError((error) {
-      debugPrint("============================================\n"
-          "Error connecting $error"
-          "============================================");
       _polar.disconnectFromDevice(deviceId);
       Get.back();
       Get.snackbar('Error', 'Waduh... Reconnect lagi',

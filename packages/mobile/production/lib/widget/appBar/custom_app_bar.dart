@@ -33,7 +33,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   void initState() {
     super.initState();
     polarService.polar.deviceConnecting
-        .listen((_) => debugPrint('Device connecting'));
+        .listen((event) => debugPrint('Device connecting'));
     polarService.polar.batteryLevel.listen((e) {
       debugPrint('ID : ${e.identifier}\nBattery: ${e.level}');
     });

@@ -18,7 +18,6 @@ class PolarController extends GetxController {
   final Polar _polar = Polar();
   PolarDeviceInfo? _connectedDevice;
   Set<PolarDataType> availableTypes = {};
-  final RxString polarState = 'Unknown'.obs;
 
   Polar get polar => _polar;
   PolarDeviceInfo? get connectedDevice => _connectedDevice;
@@ -52,84 +51,74 @@ class PolarController extends GetxController {
     }
   }
 
-  Future<bool> connectToDevice(PolarDeviceInfo device) async {
-    try {
-      _polar.connectToDevice(device.deviceId);
-      Future.delayed(const Duration(seconds: 5));
-      _bleCon.device = BluetoothDevice.fromId(device.address);
-      _bleCon.device!.connect();
-      _connectedDevice = device;
-      return true;
-    } catch (e) {
-      final disconn = await disconnectFromDevice(device);
-      if (disconn == true) {
-        await connectToDevice(device);
-      }
-      return false;
-    }
-  }
+  void connectToDevice(PolarDeviceInfo device) {
+    _bleCon.device = BluetoothDevice.fromId(device.address);
+    final connectFuture = _polar.connectToDevice(device.deviceId);
 
-  Future<bool> disconnectFromDevice(PolarDeviceInfo device) async {
-    try {
+    Future.wait([connectFuture])
+        .timeout(const Duration(seconds: 10)) // Set the timeout duration
+        .then((_) async {
+      _connectedDevice = device;
+      _bleCon.device!.connect();
+      await getPolarType();
+      Get.back();
+    }).catchError((error) {
       _polar.disconnectFromDevice(device.deviceId);
       _bleCon.device!.disconnect();
-      _bleCon.device!.clearGattCache();
-      return true;
-    } catch (e) {
-      return false;
-    }
+      Get.back();
+    });
+  }
+
+  void disconnectFromDevice(PolarDeviceInfo device) {
+    _polar.disconnectFromDevice(device.deviceId);
+    _bleCon.device!.disconnect();
+    _bleCon.device!.clearGattCache();
   }
 
   Future<Set> getPolarType() async {
-    if (availableTypes.isEmpty) {
-      await _polar.sdkFeatureReady.firstWhere(
-        (e) =>
-            e.identifier == _connectedDevice!.deviceId &&
-            e.feature == PolarSdkFeature.onlineStreaming,
-      );
-      availableTypes = await _polar
-          .getAvailableOnlineStreamDataTypes(_connectedDevice!.deviceId);
-      addStreamingModel(
-        StreamingModel(
-            phoneInfo: PhoneInfo(
-              os: phoneInfo['os']!,
-              manufacturer: phoneInfo['manufacturer']!,
-              type: phoneInfo['model']!,
-              deviceId: _bleCon.device!.id.toString(),
-              totalProcessors: 1,
-            ),
-            polarDeviceInfo: PolarDeviceInfo(
-              name: _connectedDevice!.name,
-              deviceId: _connectedDevice!.deviceId,
-              address: _connectedDevice!.address,
-              rssi: _connectedDevice!.rssi,
-              isConnectable: _connectedDevice!.isConnectable,
-            ),
-            hrData: [],
-            accData: [],
-            ppgData: [],
-            ppiData: [],
-            gyroData: [],
-            magnData: [],
-            ecgData: []),
-      );
+    if (availableTypes.contains(PolarDataType.hr)) {
+      return availableTypes;
     }
+    await _polar.sdkFeatureReady.firstWhere(
+      (e) =>
+          e.identifier == _connectedDevice!.deviceId &&
+          e.feature == PolarSdkFeature.onlineStreaming,
+    );
+    availableTypes = await _polar
+        .getAvailableOnlineStreamDataTypes(_connectedDevice!.deviceId);
+    addStreamingModel(
+      StreamingModel(
+          phoneInfo: PhoneInfo(
+            os: phoneInfo['os']!,
+            manufacturer: phoneInfo['manufacturer']!,
+            type: phoneInfo['model']!,
+            deviceId: _bleCon.device!.id.toString(),
+            totalProcessors: 1,
+          ),
+          polarDeviceInfo: PolarDeviceInfo(
+            name: _connectedDevice!.name,
+            deviceId: _connectedDevice!.deviceId,
+            address: _connectedDevice!.address,
+            rssi: _connectedDevice!.rssi,
+            isConnectable: _connectedDevice!.isConnectable,
+          ),
+          hrData: [],
+          accData: [],
+          ppgData: [],
+          ppiData: [],
+          gyroData: [],
+          magnData: [],
+          ecgData: []),
+    );
+
     return availableTypes;
   }
 
-  String getPolarState() {
-    _polar.deviceDisconnected.last.then((value) {
-      polarState.value = 'Disconnected';
-      return polarState.value;
-    });
-    _polar.deviceConnecting.last.then((value) {
-      polarState.value = 'Connecting';
-    });
-    _polar.deviceConnected.last.then((value) {
-      polarState.value = 'Connected';
-    });
-
-    return polarState.value;
+  final isConnected = false.obs;
+  final state = ''.obs;
+  @override
+  void onReady() {
+    getPhoneInfo();
   }
 
   final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -158,13 +147,6 @@ class PolarController extends GetxController {
     return phoneInfo;
   }
 
-  @override
-  void onReady() {
-    getPhoneInfo();
-
-    super.onReady();
-  }
-
   StreamController<PolarHrData> hrStrmCon = StreamController<PolarHrData>();
   StreamController<PolarAccData> accStrmCon = StreamController<PolarAccData>();
   StreamController<PolarPpgData> ppgStrmCon = StreamController<PolarPpgData>();
@@ -189,6 +171,7 @@ class PolarController extends GetxController {
         .listen((data) {
       hrStrmCon.add(data);
     });
+    hrSubscription;
   }
 
   void startAccStream() {
@@ -199,6 +182,7 @@ class PolarController extends GetxController {
         .listen((data) {
       accStrmCon.add(data);
     });
+    accSubscription;
   }
 
   void startPpgStream() {
@@ -209,6 +193,7 @@ class PolarController extends GetxController {
         .listen((data) {
       ppgStrmCon.add(data);
     });
+    ppgSubscription;
   }
 
   void startPpiStream() {
@@ -219,6 +204,7 @@ class PolarController extends GetxController {
         .listen((data) {
       ppiStrmCon.add(data);
     });
+    ppiSubscription;
   }
 
   void startGyroStream() {
@@ -229,6 +215,7 @@ class PolarController extends GetxController {
         .listen((data) {
       gyroStrmCon.add(data);
     });
+    gyroSubscription;
   }
 
   void startMagnStream() {
@@ -239,12 +226,18 @@ class PolarController extends GetxController {
         .listen((data) {
       magnStrmCon.add(data);
     });
+    magnSubscription;
   }
 
   void startEcgStream() {
-    _polar.startEcgStreaming(connectedDevice!.deviceId).listen((data) {
+    ecgSubscription = _polar
+        .startEcgStreaming(
+      connectedDevice!.deviceId,
+    )
+        .listen((data) {
       ecgStrmCon.add(data);
     });
+    ecgSubscription;
   }
 
   List<StreamingModel> streamingModel = [];
@@ -294,5 +287,27 @@ class PolarController extends GetxController {
     final DateTime last = DateTime.fromMicrosecondsSinceEpoch(lastTime);
 
     return last.difference(start);
+  }
+
+  final TextEditingController textEditingController = TextEditingController();
+  @override
+  void onClose() {
+    hrSubscription?.cancel();
+    accSubscription?.cancel();
+    ppgSubscription?.cancel();
+    ppiSubscription?.cancel();
+    gyroSubscription?.cancel();
+    magnSubscription?.cancel();
+    ecgSubscription?.cancel();
+    hrStrmCon.close();
+    accStrmCon.close();
+    ppgStrmCon.close();
+    ppiStrmCon.close();
+    gyroStrmCon.close();
+    magnStrmCon.close();
+    ecgStrmCon.close();
+
+    textEditingController.dispose();
+    super.onClose();
   }
 }

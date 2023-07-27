@@ -27,7 +27,7 @@ void main() {
         primarySwatch: Colors.blue,
       ),
       darkTheme: ThemeData.dark(),
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.dark,
       getPages: AppPages.pages,
       initialBinding: Binder(),
       home: const MyApp(),
@@ -82,7 +82,7 @@ class OnScreen extends StatelessWidget {
           const SizedBox(height: defaultMargin),
           ElevatedButton(
             onPressed: () {
-              Get.offAllNamed(AppRoutes.findDevices);
+              Get.toNamed(AppRoutes.findDevices);
             },
             child: const Text('Find Devices'),
           ),

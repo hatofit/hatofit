@@ -18,6 +18,10 @@ class DeviceDetail extends GetView<PolarController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => saveDialog(context),
+          backgroundColor: Colors.blue,
+          child: const Icon(Icons.download)),
       appBar: AppBar(
         title: const Text('Streaming Data'),
         centerTitle: true,
@@ -121,6 +125,43 @@ class DeviceDetail extends GetView<PolarController> {
         ),
       ),
     );
+  }
+
+  void saveDialog(BuildContext context) {
+    Get.dialog(
+      Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: controller.textEditingController,
+                decoration: const InputDecoration(
+                  labelText: 'Enter File Name',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  Get.back(result: controller.textEditingController.text);
+                },
+                child: const Text('Save'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ).then((result) {
+      if (result != null) {
+        controller.calcCon
+            .saveData(controller.streamingModel[index], result, index);
+      }
+    });
   }
 
   // Future _buildExpanded() {
@@ -574,7 +615,7 @@ class DeviceDetail extends GetView<PolarController> {
             controller.calcCon.calcHr(controller.streamingModel[index], index);
             return FutureBuilder(
                 future: Future.microtask(() =>
-                    controller.streamingModel[index].hrData.length > 2
+                    controller.streamingModel[index].hrData.length > 4
                         ? true
                         : false),
                 builder: (context, ftr) {
@@ -723,11 +764,7 @@ class DeviceDetail extends GetView<PolarController> {
                         ));
                   } else {
                     return _buildHeader(
-                      Image.asset(
-                        'assets/images/hr.png',
-                        width: 24,
-                        height: 24,
-                      ),
+                      const Icon(Icons.favorite),
                       'Heart Rate',
                     );
                   }
@@ -756,7 +793,7 @@ class DeviceDetail extends GetView<PolarController> {
           controller.calcCon.calcAcc(controller.streamingModel[index], index);
           return FutureBuilder(
             future: Future.microtask(() =>
-                controller.streamingModel[index].accData.length > 2
+                controller.streamingModel[index].accData.length > 4
                     ? true
                     : false),
             builder: (context, ftr) {
@@ -1057,7 +1094,7 @@ class DeviceDetail extends GetView<PolarController> {
           controller.calcCon.calcPpg(controller.streamingModel[index], index);
           return FutureBuilder(
               future: Future.microtask(() =>
-                  controller.streamingModel[index].ppgData.length > 2
+                  controller.streamingModel[index].ppgData.length > 4
                       ? true
                       : false),
               builder: (context, ftr) {
@@ -1438,7 +1475,7 @@ class DeviceDetail extends GetView<PolarController> {
           controller.calcCon.calcPpi(controller.streamingModel[index], index);
           return FutureBuilder(
             future: Future.microtask(() =>
-                controller.streamingModel[index].ppiData.length > 2
+                controller.streamingModel[index].ppiData.length > 4
                     ? true
                     : false),
             builder: (context, ftr) {
@@ -1738,7 +1775,7 @@ class DeviceDetail extends GetView<PolarController> {
           controller.calcCon.calcGyro(controller.streamingModel[index], index);
           return FutureBuilder(
             future: Future.microtask(() =>
-                controller.streamingModel[index].gyroData.length > 2
+                controller.streamingModel[index].gyroData.length > 4
                     ? true
                     : false),
             builder: (context, ftr) {
@@ -2049,7 +2086,7 @@ class DeviceDetail extends GetView<PolarController> {
           controller.calcCon.calcMagn(controller.streamingModel[index], index);
           return FutureBuilder(
             future: Future.microtask(
-              () => controller.streamingModel[index].magnData.length > 2
+              () => controller.streamingModel[index].magnData.length > 4
                   ? true
                   : false,
             ),
@@ -2359,7 +2396,7 @@ class DeviceDetail extends GetView<PolarController> {
           controller.calcCon.calcEcg(controller.streamingModel[index], index);
           return FutureBuilder(
             future: Future.microtask(() =>
-                controller.streamingModel[index].ecgData.length > 2
+                controller.streamingModel[index].ecgData.length > 4
                     ? true
                     : false),
             builder: (context, ftr) {

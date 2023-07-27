@@ -1,5 +1,6 @@
 import 'dart:isolate';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/models/streaming_model.dart';
 
@@ -198,6 +199,40 @@ class CalcCon extends GetxController {
           i.kill(priority: Isolate.immediate);
           rp.close();
         });
+      },
+      cancelOnError: true,
+    );
+  }
+
+  Future<void> saveData(StreamingModel sm, String name, int index) async {
+    RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
+    final ReceivePort rp = ReceivePort();
+    final Isolate i = await Isolate.spawn(
+        svToLocal,
+        (
+          rp.sendPort,
+          sm,
+          name,
+          hrStats[index],
+          accStats[index],
+          ppgStats[index],
+          ppiStats[index],
+          gyroStats[index],
+          magnStats[index],
+          ecgStats[index],
+          rootIsolateToken,
+        ),
+        debugName: 'svToLocal');
+    rp.listen(
+      (mes) {
+
+        if (mes[0] == 'Success') {
+          Get.snackbar('Saved', mes[1]);
+          Future.delayed(const Duration(seconds: 1), () {
+            i.kill(priority: Isolate.immediate);
+            rp.close();
+          });
+        }
       },
       cancelOnError: true,
     );

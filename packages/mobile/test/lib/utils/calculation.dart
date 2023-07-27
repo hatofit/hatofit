@@ -1,8 +1,14 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:isolate';
 
+import 'package:csv/csv.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/services.dart';
 import 'package:hatofit/controller/calc_con.dart';
 import 'package:hatofit/models/streaming_model.dart';
+import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 
 void hrCalc((SendPort, StreamingModel) args) {
   final SendPort sendPort = args.$1;
@@ -469,4 +475,207 @@ void ecgCalc((SendPort, StreamingModel) args) {
     stats = stats;
   }
   sendPort.send(stats);
+}
+
+void svToLocal(
+    (
+      SendPort,
+      StreamingModel,
+      String,
+      HrStats,
+      AccStats,
+      PpgStats,
+      PpiStats,
+      GyroStats,
+      MagnStats,
+      EcgStats,
+      RootIsolateToken,
+    ) args) async {
+  final RootIsolateToken iT = args.$11;
+  BackgroundIsolateBinaryMessenger.ensureInitialized(iT);
+  final SendPort sendPort = args.$1;
+  final StreamingModel streamingModel = args.$2;
+  final String name = args.$3;
+  final HrStats hrStats = args.$4;
+  final AccStats accStats = args.$5;
+  final PpgStats ppgStats = args.$6;
+  final PpiStats ppiStats = args.$7;
+  final GyroStats gyroStats = args.$8;
+  final MagnStats magnStats = args.$9;
+  final EcgStats ecgStats = args.$10;
+  final Directory? dir = await getExternalStorageDirectory();
+  final File file = File('${dir?.path}/$name.json');
+  final String json = jsonEncode({
+    'generateTime': DateTime.now().toString(),
+    'data': streamingModel.toJson(),
+  });
+  await file.writeAsString(json);
+
+  final List<List<dynamic>> headerCsv = [];
+  headerCsv.add(['Phone Information:']);
+  headerCsv.add(['Opertaing System', streamingModel.phoneInfo.os]);
+  headerCsv.add(['Manufacturer', streamingModel.phoneInfo.manufacturer]);
+  headerCsv.add(['Type', streamingModel.phoneInfo.type]);
+  headerCsv.add(['Device ID', streamingModel.phoneInfo.deviceId]);
+  headerCsv.add(['Processors', streamingModel.phoneInfo.totalProcessors]);
+
+  headerCsv.add(['Polar Information:']);
+  headerCsv.add(['Name', streamingModel.polarDeviceInfo.name]);
+  headerCsv.add(['Device ID', streamingModel.polarDeviceInfo.deviceId]);
+  headerCsv.add(['Address', streamingModel.polarDeviceInfo.address]);
+  headerCsv.add(['Data:']);
+
+  final List<List<dynamic>> hrCsv = [];
+  hrCsv.add(['Heart Rate Data']);
+  hrCsv.add(['Latest', hrStats.latestHr]);
+  hrCsv.add(['Minimum', hrStats.minHr]);
+  hrCsv.add(['Maximum', hrStats.maxHr]);
+  hrCsv.add(['Average', hrStats.avgHr]);
+  hrCsv.add(['', 'Time Stamp', 'HR', 'RRSMS']);
+  for (final hrData in streamingModel.hrData) {
+    hrCsv.add([
+      '',
+      DateFormat('HH:mm:ss')
+          .format(DateTime.fromMicrosecondsSinceEpoch(hrData.timestamp))
+          .toString(),
+      hrData.hr,
+      hrData.rrsMs.isNotEmpty ? hrData.rrsMs.join(',') : '',
+    ]);
+  }
+
+  final List<List<dynamic>> accCsv = [];
+  accCsv.add(['Accelerometer Data']);
+  accCsv.add(['Latest', accStats.latestAcc]);
+  accCsv.add(['Minimum', accStats.minAcc]);
+  accCsv.add(['Maximum', accStats.maxAcc]);
+  accCsv.add(['Average', accStats.avgAcc]);
+  accCsv.add(['', 'Time Stamp', 'X', 'Y', 'Z']);
+  for (final accData in streamingModel.accData) {
+    accCsv.add([
+      '',
+      DateFormat('HH:mm:ss')
+          .format(DateTime.fromMicrosecondsSinceEpoch(accData.timestamp))
+          .toString(),
+      accData.x,
+      accData.y,
+      accData.z,
+    ]);
+  }
+
+  final List<List<dynamic>> ppgCsv = [];
+  ppgCsv.add(['PPG Data']);
+  ppgCsv.add(['Latest', ppgStats.latestPpg]);
+  ppgCsv.add(['Minimum', ppgStats.minPpg]);
+  ppgCsv.add(['Maximum', ppgStats.maxPpg]);
+  ppgCsv.add(['Average', ppgStats.avgPpg]);
+  ppgCsv.add(['', 'Time Stamp', 'PPG']);
+  for (final ppgData in streamingModel.ppgData) {
+    ppgCsv.add([
+      '',
+      DateFormat('HH:mm:ss')
+          .format(DateTime.fromMicrosecondsSinceEpoch(ppgData.tS))
+          .toString(),
+      ppgData.cS.isNotEmpty ? ppgData.cS.join(',') : '',
+    ]);
+  }
+
+  final List<List<dynamic>> ppiCsv = [];
+  ppiCsv.add(['PPI Data']);
+  ppiCsv.add(['Latest', ppiStats.latestPpi]);
+  ppiCsv.add(['Minimum', ppiStats.minPpi]);
+  ppiCsv.add(['Maximum', ppiStats.maxPpi]);
+  ppiCsv.add(['Average', ppiStats.avgPpi]);
+  ppiCsv.add([
+    '',
+    'Time Stamp',
+    'PPI',
+    'Error Estimate',
+    'HR',
+    'Blocker Bit',
+    'Skin Contact Status',
+    'Skin Contact Supported'
+  ]);
+  for (final ppiData in streamingModel.ppiData) {
+    ppiCsv.add([
+      '',
+      DateFormat('HH:mm:ss')
+          .format(DateTime.fromMicrosecondsSinceEpoch(ppiData.tS))
+          .toString(),
+      ppiData.ppi,
+      ppiData.errorEstimate,
+      ppiData.hr,
+      ppiData.blockerBit,
+      ppiData.skinContactStatus,
+      ppiData.skinContactSupported,
+    ]);
+  }
+
+  final List<List<dynamic>> gyroCsv = [];
+  gyroCsv.add(['Gyroscope Data']);
+  gyroCsv.add(['Latest', gyroStats.latestGyro]);
+  gyroCsv.add(['Minimum', gyroStats.minGyro]);
+  gyroCsv.add(['Maximum', gyroStats.maxGyro]);
+  gyroCsv.add(['Average', gyroStats.avgGyro]);
+  gyroCsv.add(['', 'Time Stamp', 'X', 'Y', 'Z']);
+  for (final gyroData in streamingModel.gyroData) {
+    gyroCsv.add([
+      '',
+      DateFormat('HH:mm:ss')
+          .format(DateTime.fromMicrosecondsSinceEpoch(gyroData.tS))
+          .toString(),
+      gyroData.x,
+      gyroData.y,
+      gyroData.z,
+    ]);
+  }
+
+  final List<List<dynamic>> magnCsv = [];
+  magnCsv.add(['Magnetometer Data']);
+  magnCsv.add(['Latest', magnStats.latestMagn]);
+  magnCsv.add(['Minimum', magnStats.minMagn]);
+  magnCsv.add(['Maximum', magnStats.maxMagn]);
+  magnCsv.add(['Average', magnStats.avgMagn]);
+  magnCsv.add(['', 'Time Stamp', 'X', 'Y', 'Z']);
+  for (final magnData in streamingModel.magnData) {
+    magnCsv.add([
+      '',
+      DateFormat('HH:mm:ss')
+          .format(DateTime.fromMicrosecondsSinceEpoch(magnData.tS))
+          .toString(),
+      magnData.x,
+      magnData.y,
+      magnData.z,
+    ]);
+  }
+
+  final List<List<dynamic>> ecgCsv = [];
+  ecgCsv.add(['ECG Data']);
+  ecgCsv.add(['Latest', ecgStats.latestEcg]);
+  ecgCsv.add(['Minimum', ecgStats.minEcg]);
+  ecgCsv.add(['Maximum', ecgStats.maxEcg]);
+  ecgCsv.add(['Average', ecgStats.avgEcg]);
+  ecgCsv.add(['', 'Time Stamp', 'Voltage']);
+
+  for (final ecgData in streamingModel.ecgData) {
+    ecgCsv.add([
+      '',
+      DateFormat('HH:mm:ss')
+          .format(DateTime.fromMicrosecondsSinceEpoch(ecgData.tS))
+          .toString(),
+      ecgData.voltage,
+    ]);
+  }
+  final DateTime now = DateTime.now();
+  final String date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+
+  List<List<dynamic>> mergedData = headerCsv
+    ..addAll([hrCsv, accCsv, ppgCsv, ppiCsv, gyroCsv, magnCsv, ecgCsv]);
+
+  final File hrFile = File('${dir?.path}/$date-$name.csv');
+
+  final csvHr = const ListToCsvConverter().convert(mergedData);
+  hrFile.writeAsString(csvHr);
+
+  sendPort
+      .send(['Success', '${dir?.path}/$name.json', '${dir?.path}/$name-.csv']);
 }

@@ -2,33 +2,46 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "mobile (debug mode)",
-      "cwd": "packages\\mobile",
+      "name": "production (debug mode)",
+      "cwd": "packages\\mobile\\production",
       "request": "launch",
       "type": "dart",
       "flutterMode": "debug"
     },
     {
-      "name": "mobile (profile mode)",
-      "cwd": "packages\\mobile",
+      "name": "production (profile mode)",
+      "cwd": "packages\\mobile\\production",
       "request": "launch",
       "type": "dart",
       "flutterMode": "profile"
     },
     {
-      "name": "mobile (release mode)",
-      "cwd": "packages\\mobile",
+      "name": "production (release mode)",
+      "cwd": "packages\\mobile\\production",
       "request": "launch",
       "type": "dart",
       "flutterMode": "release"
     },
     {
-      "name": "Flutter (Redmi Note 9 Pro)",
-      "program": "lib/main.dart",
-      "cwd": "packages\\mobile",
-      "deviceId": "69541245",
+      "name": "test (debug mode)",
+      "cwd": "packages\\mobile\\test",
       "request": "launch",
-      "type": "dart"
-    }
+      "type": "dart",
+      "flutterMode": "debug"
+    },
+    {
+      "name": "test (profile mode)",
+      "cwd": "packages\\mobile\\test",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "test (release mode)",
+      "cwd": "packages\\mobile\\test",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    },
   ]
 }

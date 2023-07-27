@@ -2,12 +2,38 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/constants/style.dart';
+import 'package:polar/polar.dart';
 
 import '../controller/polar_controller.dart';
 import '../routes/routes.dart';
 
-class FindDevicesPage extends GetView<PolarController> {
+class FindDevicesPage extends StatefulWidget {
   const FindDevicesPage({super.key});
+
+  @override
+  State<FindDevicesPage> createState() => _FindDevicesPageState();
+}
+
+class _FindDevicesPageState extends State<FindDevicesPage> {
+  final PolarController controller = Get.put(PolarController());
+  @override
+  void initState() {
+    super.initState();
+    controller.polar.deviceDisconnected.listen((event) {
+      controller.isConnected.value = false;
+      controller.state.value = 'Disconnected from ${event.deviceId}';
+      Get.snackbar('Disconnected', controller.state.value);
+    });
+    controller.polar.deviceConnecting.last.then((value) {
+      controller.state.value = 'Connecting to ${value.deviceId}';
+      Get.snackbar('Connecting', controller.state.value);
+    });
+    controller.polar.deviceConnected.last.then((value) {
+      controller.isConnected.value = true;
+      controller.state.value = 'Connected to ${value.deviceId}';
+      Get.snackbar('Connected', controller.state.value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,10 +134,16 @@ class FindDevicesPage extends GetView<PolarController> {
                                     ],
                                   ),
                                   ElevatedButton(
-                                      onPressed: () async {
-                                        final conn = await controller
+                                      onPressed: () {
+                                        controller
                                             .connectToDevice(snapshot.data!);
-
+                                        Future.delayed(
+                                            const Duration(seconds: 5), () {
+                                          if (controller.availableTypes
+                                              .contains(PolarDataType.hr)) {
+                                            _toggleService();
+                                          }
+                                        });
                                         Get.dialog(
                                           Dialog(
                                             backgroundColor: Colors.transparent,
@@ -127,40 +159,19 @@ class FindDevicesPage extends GetView<PolarController> {
                                               ),
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
-                                                  Obx(
-                                                    () => Text(
-                                                        '${controller.getPolarState()} to ${snapshot.data!.name}...'),
-                                                  ),
+                                                  const CircularProgressIndicator(),
                                                   const SizedBox(
                                                       height: defaultMargin),
-                                                  const CircularProgressIndicator(),
+                                                  Text(
+                                                      'Connecting to ${snapshot.data!.name}'),
                                                 ],
                                               ),
                                             ),
                                           ),
                                         );
-
-                                        if (conn == true) {
-                                          Get.snackbar(
-                                            'Success',
-                                            'Successfully connected to ${snapshot.data!.name}',
-                                            backgroundColor: Color(
-                                                Theme.of(context)
-                                                    .primaryColor
-                                                    .value),
-                                          );
-                                          _toggleService();
-                                        } else {
-                                          Get.snackbar(
-                                            'Error',
-                                            'Failed to connect to ${snapshot.data!.name}',
-                                            backgroundColor: Color(
-                                                Theme.of(context)
-                                                    .primaryColor
-                                                    .value),
-                                          );
-                                        }
                                       },
                                       child: const Text('Connect')),
                                 ]),
