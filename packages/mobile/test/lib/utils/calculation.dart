@@ -672,8 +672,16 @@ void svToLocal(
   // List<List<dynamic>> mergedPpi = headerCsv..addAll(ppiCsv);
   // List<List<dynamic>> mergedGyro = headerCsv..addAll(gyroCsv);
   // List<List<dynamic>> mergedMagn = headerCsv..addAll(magnCsv);
-  List<List<dynamic>> mergedEcg = headerCsv..addAll(ecgCsv);
+  // List<List<dynamic>> mergedEcg = headerCsv..addAll(ecgCsv);
 
+  List<List<dynamic>> mergedAll = headerCsv
+    ..addAll(hrCsv)
+    ..addAll(accCsv)
+    ..addAll(ppgCsv)
+    ..addAll(ppiCsv)
+    ..addAll(gyroCsv)
+    ..addAll(magnCsv)
+    ..addAll(ecgCsv);
   // final File hrFile = File('${dir?.path}/$date-$name-hr.csv');
   // final File accFile = File('${dir?.path}/$date-$name-acc.csv');
   // final File ppgFile = File('${dir?.path}/$date-$name-ppg.csv');
@@ -688,7 +696,7 @@ void svToLocal(
   // final csvPpi = const ListToCsvConverter().convert(mergedPpi);
   // final csvGyro = const ListToCsvConverter().convert(mergedGyro);
   // final csvMagn = const ListToCsvConverter().convert(mergedMagn);
-  final csvEcg = const ListToCsvConverter().convert(mergedEcg);
+  final csvEcg = const ListToCsvConverter().convert(mergedAll);
 
   // hrFile.writeAsString(csvHr);
   // accFile.writeAsString(csvAcc);
