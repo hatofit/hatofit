@@ -237,6 +237,40 @@ class CalcCon extends GetxController {
       cancelOnError: true,
     );
   }
+
+  Future<void> saveExcel(StreamingModel sm, String name, int index)async{
+    RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
+    final ReceivePort rp = ReceivePort();
+    final Isolate i = await Isolate.spawn(
+        svToExcel,
+        (
+          rp.sendPort,
+          sm,
+          name,
+          hrStats[index],
+          accStats[index],
+          ppgStats[index],
+          ppiStats[index],
+          gyroStats[index],
+          magnStats[index],
+          ecgStats[index],
+          rootIsolateToken,
+        ),
+        debugName: 'svToExcel');
+    rp.listen(
+      (mes) {
+
+        if (mes[0] == 'done') {
+          Get.snackbar('Saved', mes[1]);
+          Future.delayed(const Duration(seconds: 1), () {
+            i.kill(priority: Isolate.immediate);
+            rp.close();
+          });
+        }
+      },
+      cancelOnError: true,
+    );
+  }
 }
 
 class HrStats {

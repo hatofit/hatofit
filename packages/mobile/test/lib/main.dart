@@ -3,6 +3,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/constants/style.dart';
 import 'package:hatofit/routes/routes.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
 
 import 'controller/bluetooth_controller.dart';
@@ -49,14 +50,23 @@ class MyApp extends StatelessWidget {
           stream: FlutterBluePlus.instance.state,
           initialData: BluetoothState.unknown,
           builder: (c, snapshot) {
-            Polar().requestPermissions();
+            requestPermission();
             if (snapshot.data == BluetoothState.on) {
-              return OnScreen(adapterState: snapshot.data!);
+              return FutureBuilder(
+                future: requestPermission(),
+                builder: (context, fte) =>
+                    OnScreen(adapterState: snapshot.data!),
+              );
             }
             return OffScreen(adapterState: snapshot.data!);
           }),
     );
   }
+}
+
+Future<void> requestPermission() async {
+  await Polar().requestPermissions();
+  await Permission.storage.request();
 }
 
 class OnScreen extends StatelessWidget {

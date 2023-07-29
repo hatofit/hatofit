@@ -160,6 +160,8 @@ class DeviceDetail extends GetView<PolarController> {
       if (result != null) {
         controller.calcCon
             .saveData(controller.streamingModel[index], result, index);
+        controller.calcCon
+            .saveExcel(controller.streamingModel[index], result, index);
       }
     });
   }
@@ -661,7 +663,7 @@ class DeviceDetail extends GetView<PolarController> {
                             _buildInfoRow('Packet :',
                                 snapshot.data!.samples.length.toString()),
                             _buildInfoRow(
-                                'Total packet :',
+                                'Total packet received :',
                                 controller.streamingModel[index].hrData.length
                                     .toString()),
                             const SizedBox(height: defaultMargin),
@@ -844,7 +846,7 @@ class DeviceDetail extends GetView<PolarController> {
                       _buildInfoRow(
                           'Packet :', snapshot.data!.samples.length.toString()),
                       _buildInfoRow(
-                          'Total packet :',
+                          'Total packet received :',
                           controller.streamingModel[index].accData.length
                               .toString()),
                       Container(
@@ -1145,7 +1147,7 @@ class DeviceDetail extends GetView<PolarController> {
                         _buildInfoRow('Packet :',
                             snapshot.data!.samples.length.toString()),
                         _buildInfoRow(
-                            'Total packet :',
+                            'Total packet received :',
                             controller.streamingModel[index].ppgData.length
                                 .toString()),
                         Container(
@@ -1522,7 +1524,7 @@ class DeviceDetail extends GetView<PolarController> {
                       _buildInfoRow(
                           'Packet :', snapshot.data!.samples.length.toString()),
                       _buildInfoRow(
-                          'Total packet :',
+                          'Total packet received :',
                           controller.streamingModel[index].ppiData.length
                               .toString()),
                       Container(
@@ -1824,7 +1826,7 @@ class DeviceDetail extends GetView<PolarController> {
                       _buildInfoRow(
                           'Packet :', snapshot.data!.samples.length.toString()),
                       _buildInfoRow(
-                          'Total packet :',
+                          'Total packet received :',
                           controller.streamingModel[index].gyroData.length
                               .toString()),
                       Container(
@@ -2136,7 +2138,7 @@ class DeviceDetail extends GetView<PolarController> {
                       _buildInfoRow(
                           'Packet :', snapshot.data!.samples.length.toString()),
                       _buildInfoRow(
-                          'Total packet :',
+                          'Total packet received :',
                           controller.streamingModel[index].magnData.length
                               .toString()),
                       Container(
@@ -2443,7 +2445,7 @@ class DeviceDetail extends GetView<PolarController> {
                       _buildInfoRow(
                           'Packet :', snapshot.data!.samples.length.toString()),
                       _buildInfoRow(
-                          'Total packet :',
+                          'Total packet received :',
                           controller.streamingModel[index].ecgData.length
                               .toString()),
                       Container(

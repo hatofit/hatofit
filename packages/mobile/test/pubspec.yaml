@@ -37,7 +37,7 @@ dependencies:
   polar: ^5.2.1
   permission_handler: ^10.4.3
   flutter_blue_plus: ^1.8.5
-  syncfusion_flutter_charts: ^21.2.10
+  syncfusion_flutter_charts: ^22.2.5
   intl: ^0.18.1
   path_provider: ^2.0.15
   json_serializable: ^6.7.0
@@ -46,6 +46,8 @@ dependencies:
   device_info_plus: ^9.0.2
   fl_chart: ^0.63.0
   csv: ^5.0.2
+  syncfusion_flutter_xlsio: ^22.2.5
+  syncfusion_officechart: ^22.2.5
 
 dev_dependencies:
   flutter_test:
