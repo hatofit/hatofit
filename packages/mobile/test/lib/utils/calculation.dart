@@ -507,7 +507,7 @@ void svToLocal(
   final DateTime now = DateTime.now();
   final String date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
   final Directory? dir = await getExternalStorageDirectory();
-  final File file = File('${dir?.path}/$date/$name.json');
+  final File file = File('${dir?.path}/$date-$name.json');
   final String json = jsonEncode({
     'generateTime': DateTime.now().toString(),
     'data': streamingModel.toJson(),
@@ -698,8 +698,11 @@ void svToLocal(
   // magnFile.writeAsString(csvMagn);
   ecgFile.writeAsString(csvEcg);
 
-  sendPort
-      .send(['Success', '${dir?.path}/$name.json', '${dir?.path}/$name-.csv']);
+  sendPort.send([
+    'Success',
+    '${dir?.path}/$date-$name.json',
+    '${dir?.path}/$date-$name.csv'
+  ]);
 }
 
 void svToExcel(
