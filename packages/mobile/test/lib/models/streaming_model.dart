@@ -13,6 +13,7 @@ class StreamingModel {
   final List<PpgData> ppgData;
   final List<PpiData> ppiData;
   final List<GyroData> gyroData;
+  final List<RssiData> rssiData;
 
   /// basically magnetometer data was same like [GyroData]. so it can reuse one
   final List<GyroData> magnData;
@@ -27,7 +28,8 @@ class StreamingModel {
       required this.ppiData,
       required this.gyroData,
       required this.magnData,
-      required this.ecgData});
+      required this.ecgData,
+      required this.rssiData});
 
   factory StreamingModel.fromJson(Map<String, dynamic> json) =>
       _$StreamingModelFromJson(json);
@@ -55,6 +57,19 @@ class PhoneInfo {
       _$PhoneInfoFromJson(json);
 
   Map<String, dynamic> toJson() => _$PhoneInfoToJson(this);
+}
+
+@JsonSerializable()
+class RssiData {
+  final int timestamp;
+  final int rssi;
+
+  RssiData({required this.timestamp, required this.rssi});
+
+  factory RssiData.fromJson(Map<String, dynamic> json) =>
+      _$RssiDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RssiDataToJson(this);
 }
 
 @JsonSerializable()

@@ -108,7 +108,8 @@ class PolarController extends GetxController {
           ppiData: [],
           gyroData: [],
           magnData: [],
-          ecgData: []),
+          ecgData: [],
+          rssiData: []),
     );
 
     return availableTypes;

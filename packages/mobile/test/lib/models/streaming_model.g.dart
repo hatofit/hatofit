@@ -32,6 +32,9 @@ StreamingModel _$StreamingModelFromJson(Map<String, dynamic> json) =>
       ecgData: (json['ecgData'] as List<dynamic>)
           .map((e) => EcgData.fromJson(e as Map<String, dynamic>))
           .toList(),
+      rssiData: (json['rssiData'] as List<dynamic>)
+          .map((e) => RssiData.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$StreamingModelToJson(StreamingModel instance) =>
@@ -43,6 +46,7 @@ Map<String, dynamic> _$StreamingModelToJson(StreamingModel instance) =>
       'ppgData': instance.ppgData.map((e) => e.toJson()).toList(),
       'ppiData': instance.ppiData.map((e) => e.toJson()).toList(),
       'gyroData': instance.gyroData.map((e) => e.toJson()).toList(),
+      'rssiData': instance.rssiData.map((e) => e.toJson()).toList(),
       'magnData': instance.magnData.map((e) => e.toJson()).toList(),
       'ecgData': instance.ecgData.map((e) => e.toJson()).toList(),
     };
@@ -61,6 +65,16 @@ Map<String, dynamic> _$PhoneInfoToJson(PhoneInfo instance) => <String, dynamic>{
       'type': instance.type,
       'deviceId': instance.deviceId,
       'totalProcessors': instance.totalProcessors,
+    };
+
+RssiData _$RssiDataFromJson(Map<String, dynamic> json) => RssiData(
+      timestamp: json['timestamp'] as int,
+      rssi: json['rssi'] as int,
+    );
+
+Map<String, dynamic> _$RssiDataToJson(RssiData instance) => <String, dynamic>{
+      'timestamp': instance.timestamp,
+      'rssi': instance.rssi,
     };
 
 HrData _$HrDataFromJson(Map<String, dynamic> json) => HrData(

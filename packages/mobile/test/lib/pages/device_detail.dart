@@ -63,6 +63,7 @@ class DeviceDetail extends GetView<PolarController> {
                         children: [
                           _buildPhoneInfo(),
                           _buildDeviceInfo(),
+                          _buildRssiInfo(),
                           if (controller.hrStream.value == true &&
                               snapshot.data!.contains(PolarDataType.hr))
                             _buildHrInfo(),
@@ -551,6 +552,14 @@ class DeviceDetail extends GetView<PolarController> {
                       future: controller.getRssi(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
+                          controller.streamingModel[index].rssiData.add(
+                            RssiData(
+                                timestamp:
+                                    DateTime.now().microsecondsSinceEpoch,
+                                rssi: snapshot.data!),
+                          );
+                          controller.calcCon.calcRssi(
+                              controller.streamingModel[index], index);
                           return _buildInfoRow(
                               'RSSI:', '${snapshot.data.toString()} dBm');
                         } else {
@@ -599,6 +608,170 @@ class DeviceDetail extends GetView<PolarController> {
         ],
       ),
     );
+  }
+
+  Widget _buildRssiInfo() {
+    return _buildContainer(StreamBuilder(
+      stream: Stream.periodic(const Duration(seconds: 1), (i) => i),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return FutureBuilder(
+              future: Future.microtask(() =>
+                  controller.streamingModel[index].rssiData.length > 4
+                      ? true
+                      : false),
+              builder: (context, ftr) {
+                if (ftr.data == true) {
+                  return _buildHeader(const Icon(Icons.favorite), 'RSSI',
+                      child: Column(
+                        children: [
+                          const SizedBox(height: defaultMargin / 2),
+                          _buildInfoRow(
+                            'First Data Time :',
+                            DateTime.fromMicrosecondsSinceEpoch(
+                              controller.streamingModel[index].rssiData.first
+                                  .timestamp,
+                            ).toString().substring(11, 23),
+                          ),
+                          _buildInfoRow(
+                            'Last Data Time :',
+                            DateTime.fromMicrosecondsSinceEpoch(
+                              controller.streamingModel[index].rssiData.last
+                                  .timestamp,
+                            ).toString().substring(11, 23),
+                          ),
+                          FutureBuilder(
+                              future: controller.elapsedTime(
+                                  controller.streamingModel[index].rssiData
+                                      .first.timestamp,
+                                  controller.streamingModel[index].rssiData.last
+                                      .timestamp),
+                              builder: (context, snapshot) {
+                                return _buildInfoRow(
+                                  'Elapsed Time :',
+                                  snapshot.hasData
+                                      ? snapshot.data!
+                                          .toString()
+                                          .split(
+                                            '.',
+                                          )[0]
+                                          .padLeft(8, '0')
+                                      : '',
+                                );
+                              }),
+                          _buildInfoRow('Packet :', '1'),
+                          _buildInfoRow(
+                              'Total packet received :',
+                              controller.streamingModel[index].rssiData.length
+                                  .toString()),
+                          const SizedBox(height: defaultMargin),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _buildStatInfo(
+                                  'Last',
+                                  controller.calcCon.rssiStats[index].latestRssi
+                                      .toString()),
+                              _buildStatInfo(
+                                  'Min',
+                                  controller.calcCon.rssiStats[index].minRssi
+                                      .toString()),
+                              _buildStatInfo(
+                                  'Max',
+                                  controller.calcCon.rssiStats[index].maxRssi
+                                      .toString()),
+                              _buildStatInfo(
+                                  'Avg',
+                                  controller.calcCon.rssiStats[index].avgRssi
+                                      .toStringAsFixed(0)),
+                            ],
+                          ),
+                          const SizedBox(height: defaultMargin),
+                          Container(
+                            padding: const EdgeInsets.only(
+                                top: defaultMargin, bottom: defaultMargin),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[900],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: AspectRatio(
+                              aspectRatio: 2,
+                              child: LineChart(
+                                LineChartData(
+                                  lineTouchData: LineTouchData(
+                                    handleBuiltInTouches: true,
+                                    touchTooltipData: LineTouchTooltipData(
+                                      tooltipBgColor:
+                                          Colors.blueGrey.withOpacity(0.5),
+                                    ),
+                                  ),
+                                  borderData: FlBorderData(
+                                    show: true,
+                                    border: const Border(
+                                      bottom: BorderSide(color: Colors.white),
+                                      left: BorderSide(color: Colors.white),
+                                      right:
+                                          BorderSide(color: Colors.transparent),
+                                      top:
+                                          BorderSide(color: Colors.transparent),
+                                    ),
+                                  ),
+                                  titlesData: FlTitlesData(
+                                    bottomTitles: AxisTitles(
+                                      sideTitles: SideTitles(
+                                        showTitles: true,
+                                        getTitlesWidget: (value, meta) {
+                                          String time = DateFormat('mm:ss')
+                                              .format(DateTime
+                                                  .fromMicrosecondsSinceEpoch(
+                                                      value.toInt()));
+                                          return bottomTitleWidgets(time, meta);
+                                        },
+                                      ),
+                                    ),
+                                    rightTitles: const AxisTitles(
+                                      sideTitles: SideTitles(showTitles: false),
+                                    ),
+                                    topTitles: const AxisTitles(
+                                      sideTitles: SideTitles(showTitles: false),
+                                    ),
+                                  ),
+                                  lineBarsData: [
+                                    LineChartBarData(
+                                      spots: controller
+                                          .calcCon.rssiStats[index].rssiSpots,
+                                      isCurved: false,
+                                      belowBarData:
+                                          BarAreaData(applyCutOffY: true),
+                                      isStrokeCapRound: false,
+                                      isStrokeJoinRound: false,
+                                      barWidth: 3,
+                                      color: Colors.red,
+                                      dotData: const FlDotData(show: false),
+                                    ),
+                                  ],
+                                ),
+                                duration: const Duration(seconds: 1),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ));
+                } else {
+                  return _buildHeader(
+                    const Icon(Icons.wifi),
+                    'RSSI',
+                  );
+                }
+              });
+        } else {
+          return _buildHeader(
+            const Icon(Icons.wifi),
+            'RSSI',
+          );
+        }
+      },
+    ));
   }
 
   Widget _buildHrInfo() {

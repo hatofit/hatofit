@@ -11,6 +11,46 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_xlsio/xlsio.dart';
 
+void rssiCalc((SendPort, StreamingModel) args) {
+  final SendPort sendPort = args.$1;
+  final StreamingModel sM = args.$2;
+  final List<int> rssiList = sM.rssiData.map((e) => e.rssi).toList();
+  RssiStats stats = RssiStats(
+    latestRssi: 0,
+    minRssi: 0,
+    maxRssi: 0,
+    avgRssi: 0,
+    rssiSpots: [],
+  );
+  if (sM.rssiData.length > 2) {
+    final minRssi = rssiList.reduce((curr, next) => curr < next ? curr : next);
+    final maxRssi = rssiList.reduce((curr, next) => curr > next ? curr : next);
+    final avgRssi = rssiList.reduce((curr, next) => curr + next) ~/ rssiList.length;
+    final latestRssi = rssiList.last;
+    List<FlSpot> rssiSpots = [];
+    if (rssiList.length > 30) {
+      rssiSpots = sM.rssiData
+          .sublist(sM.rssiData.length - 30)
+          .map((e) => FlSpot(e.timestamp.toDouble(), e.rssi.toDouble()))
+          .toList();
+    } else {
+      rssiSpots = sM.rssiData
+          .map((e) => FlSpot(e.timestamp.toDouble(), e.rssi.toDouble()))
+          .toList();
+    }
+    stats = RssiStats(
+      latestRssi: latestRssi,
+      minRssi: minRssi,
+      maxRssi: maxRssi,
+      avgRssi: avgRssi,
+      rssiSpots: rssiSpots,
+    );
+  } else {
+    stats = stats;
+  }
+  sendPort.send(stats);
+}
+
 void hrCalc((SendPort, StreamingModel) args) {
   final SendPort sendPort = args.$1;
   final StreamingModel sM = args.$2;
@@ -674,14 +714,7 @@ void svToLocal(
   // List<List<dynamic>> mergedMagn = headerCsv..addAll(magnCsv);
   // List<List<dynamic>> mergedEcg = headerCsv..addAll(ecgCsv);
 
-  List<List<dynamic>> mergedAll = headerCsv
-    ..addAll(hrCsv)
-    ..addAll(accCsv)
-    ..addAll(ppgCsv)
-    ..addAll(ppiCsv)
-    ..addAll(gyroCsv)
-    ..addAll(magnCsv)
-    ..addAll(ecgCsv);
+List<List<dynamic>> mergedAll = headerCsv..addAll(hrCsv)..addAll(accCsv)..addAll(ppgCsv)..addAll(ppiCsv)..addAll(gyroCsv)..addAll(magnCsv)..addAll(ecgCsv);
   // final File hrFile = File('${dir?.path}/$date-$name-hr.csv');
   // final File accFile = File('${dir?.path}/$date-$name-acc.csv');
   // final File ppgFile = File('${dir?.path}/$date-$name-ppg.csv');

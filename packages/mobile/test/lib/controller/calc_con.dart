@@ -7,6 +7,33 @@ import 'package:hatofit/models/streaming_model.dart';
 import '../utils/calculation.dart';
 
 class CalcCon extends GetxController {
+  final rssiStats = <RssiStats>[
+    RssiStats(
+      minRssi: 0,
+      maxRssi: 0,
+      avgRssi: 0,
+      latestRssi: 0,
+      rssiSpots: [
+        const FlSpot(0, 0),
+      ],
+    ),
+  ].obs;
+  Future<void> calcRssi(StreamingModel sm, int index) async {
+    final ReceivePort rp = ReceivePort();
+    final Isolate i = await Isolate.spawn(rssiCalc, (rp.sendPort, sm),
+        debugName: 'rssiCalc$index');
+    rp.listen(
+      (mes) {
+        rssiStats[index] = mes;
+        Future.delayed(const Duration(seconds: 1), () {
+          i.kill(priority: Isolate.immediate);
+          rp.close();
+        });
+      },
+      cancelOnError: true,
+    );
+  }
+
   final hrStats = <HrStats>[
     HrStats(
       minHr: 0,
@@ -225,7 +252,6 @@ class CalcCon extends GetxController {
         debugName: 'svToLocal');
     rp.listen(
       (mes) {
-
         if (mes[0] == 'Success') {
           Get.snackbar('Saved', mes[1]);
           Future.delayed(const Duration(seconds: 1), () {
@@ -238,7 +264,7 @@ class CalcCon extends GetxController {
     );
   }
 
-  Future<void> saveExcel(StreamingModel sm, String name, int index)async{
+  Future<void> saveExcel(StreamingModel sm, String name, int index) async {
     RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
     final ReceivePort rp = ReceivePort();
     final Isolate i = await Isolate.spawn(
@@ -259,7 +285,6 @@ class CalcCon extends GetxController {
         debugName: 'svToExcel');
     rp.listen(
       (mes) {
-
         if (mes[0] == 'done') {
           Get.snackbar('Saved', mes[1]);
           Future.delayed(const Duration(seconds: 1), () {
@@ -271,6 +296,22 @@ class CalcCon extends GetxController {
       cancelOnError: true,
     );
   }
+}
+
+class RssiStats {
+  final int minRssi;
+  final int maxRssi;
+  final int avgRssi;
+  final int latestRssi;
+  final List<FlSpot> rssiSpots;
+
+  RssiStats({
+    required this.minRssi,
+    required this.maxRssi,
+    required this.avgRssi,
+    required this.latestRssi,
+    required this.rssiSpots,
+  });
 }
 
 class HrStats {
