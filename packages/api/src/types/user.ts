@@ -6,4 +6,6 @@ export const UserSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   dateOfBirth: z.date(),
+  weight: z.number(),
+  height: z.number(),
 })

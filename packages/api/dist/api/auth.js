@@ -12,23 +12,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ApiAuth = exports.exceptObjectProp = void 0;
+exports.ApiAuth = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const db_1 = require("../db");
 const user_1 = require("../types/user");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const dayjs_1 = __importDefault(require("dayjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const exceptObjectProp = (obj, exceptsNotation) => {
-    const result = {};
-    Object.keys(obj).forEach((key) => {
-        if (!exceptsNotation.includes(key)) {
-            result[key] = obj[key];
-        }
-    });
-    return result;
-};
-exports.exceptObjectProp = exceptObjectProp;
+const obj_1 = require("../utils/obj");
+const auth_1 = require("../middlewares/auth");
 const ApiAuth = ({ route }) => {
     route.post('/register', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log('DATA BODY', req.body);
@@ -42,10 +34,18 @@ const ApiAuth = ({ route }) => {
                     message: 'Password and confirm password do not match',
                 });
             }
+            // check poassword must filled
+            // remove whitespace
+            if (password.trim() === '') {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Password must not be empty',
+                });
+            }
             // input schema
-            // password
-            const saltRounds = 10;
             const rawPlainPassword = req.body.password || '';
+            // password
+            const saltRounds = parseInt(process.env.HASH_PASSWORD_SALT || '10');
             const hasingPasssword = yield new Promise((res) => {
                 bcrypt_1.default.hash(rawPlainPassword, saltRounds, function (err, hash) {
                     return res(hash);
@@ -56,6 +56,16 @@ const ApiAuth = ({ route }) => {
             const dateOfBirth = req.body.dateOfBirth || '';
             req.body.dateOfBirth = (0, dayjs_1.default)(dateOfBirth, 'mm/dd/yyyy').toDate();
             const user = user_1.UserSchema.parse(req.body);
+            // check in db
+            const userInDb = yield db_1.User.findOne({
+                email: user.email,
+            });
+            if (userInDb) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Email already exists',
+                });
+            }
             console.log('USER', user);
             // save to db
             const created = yield db_1.User.create(Object.assign(Object.assign({}, user), { _id: new mongoose_1.default.Types.ObjectId().toHexString() }));
@@ -64,7 +74,7 @@ const ApiAuth = ({ route }) => {
                 success: true,
                 message: 'User created successfully',
                 id: created._id,
-                user: (0, exports.exceptObjectProp)(created.toObject(), ['password']),
+                user: (0, obj_1.exceptObjectProp)(created.toObject(), ['password']),
             });
         }
         catch (error) {
@@ -101,13 +111,14 @@ const ApiAuth = ({ route }) => {
                 });
             }
             // generate token
-            var token = jsonwebtoken_1.default.sign({ id: found._id }, 'polar', {
-                expiresIn: 86400 // 24 hours
+            const jwtSecret = process.env.JWT_SECRET_KEY || 'polar';
+            const token = jsonwebtoken_1.default.sign({ id: found._id }, jwtSecret, {
+                expiresIn: 86400 // 1 month in seconds
             });
             return res.json({
                 success: true,
                 message: 'User found',
-                user: (0, exports.exceptObjectProp)(found.toObject(), ['password']),
+                user: (0, obj_1.exceptObjectProp)(found.toObject(), ['password']),
                 token,
             });
         }
@@ -115,6 +126,13 @@ const ApiAuth = ({ route }) => {
             // console.error(error)
             return res.status(400).json({ error });
         }
+    }));
+    route.get('/me', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        return res.json({
+            success: true,
+            message: 'User found',
+            auth: req.auth,
+        });
     }));
 };
 exports.ApiAuth = ApiAuth;

@@ -16,16 +16,20 @@ exports.ApiSession = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const db_1 = require("../db");
 const session_1 = require("../types/session");
+const auth_1 = require("../middlewares/auth");
 const ApiSession = ({ route }) => {
-    route.get('/session/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const sessions = yield db_1.Session.find();
+    route.get('/session/', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _a, _b;
+        const sessions = yield db_1.Session.find({
+            userId: (_b = (_a = req.auth) === null || _a === void 0 ? void 0 : _a.user) === null || _b === void 0 ? void 0 : _b._id,
+        });
         return res.json({
             success: true,
             message: 'Sessions found',
             sessions,
         });
     }));
-    route.get('/session/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.get('/session/:id', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = req.params;
             const session = yield db_1.Session.findById(id);
@@ -46,14 +50,21 @@ const ApiSession = ({ route }) => {
             return res.status(500).json({ error });
         }
     }));
-    route.post('/session', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        var _a;
+    route.post('/session', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _c, _d, _e;
         console.log('DATA BODY', req.body);
         try {
+            // validate user
+            const userId = (_d = (_c = req.auth) === null || _c === void 0 ? void 0 : _c.user) === null || _d === void 0 ? void 0 : _d._id;
+            if (!userId || typeof userId !== 'string' || userId.length === 0) {
+                return res.json({
+                    success: false,
+                    message: 'Invalid userId',
+                });
+            }
             // validate exercise
-            const exerciseId = (_a = req.body) === null || _a === void 0 ? void 0 : _a.exerciseId;
+            const exerciseId = (_e = req.body) === null || _e === void 0 ? void 0 : _e.exerciseId;
             if (!exerciseId || typeof exerciseId !== 'string' || exerciseId.length === 0) {
-                console.log('1');
                 return res.json({
                     success: false,
                     message: 'Invalid exerciseId',
@@ -61,18 +72,25 @@ const ApiSession = ({ route }) => {
             }
             // validate input
             const session = session_1.SessionSchema.parse(req.body);
-            // validate exercise
+            // get
+            // get exercise
             const exercise = yield db_1.Exercise.findById(exerciseId);
             if (!exercise) {
-                console.log('2');
                 return res.json({
                     success: false,
                     message: 'Exercise not found',
                 });
             }
+            // get user
+            const user = yield db_1.User.findById(userId);
+            if (!user) {
+                return res.json({
+                    success: false,
+                    message: 'User not found',
+                });
+            }
             // save to db
-            const created = yield db_1.Session.create(Object.assign(Object.assign({}, session), { _id: new mongoose_1.default.Types.ObjectId().toHexString(), exercise }));
-            console.log('3');
+            const created = yield db_1.Session.create(Object.assign(Object.assign({}, session), { _id: new mongoose_1.default.Types.ObjectId().toHexString(), userId: user._id, exercise }));
             // resposne
             return res.json({
                 success: true,

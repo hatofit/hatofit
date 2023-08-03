@@ -4,16 +4,28 @@ import http from 'http'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import { z } from 'zod'
+import jwt from 'jsonwebtoken'
 import mongoose, { Schema, Model } from 'mongoose'
-import { MongoConnect } from './db'
+import { MongoConnect, User } from './db'
 import dotenv from 'dotenv'
 import { ApiSession } from './api/session'
 import { ApiExercises } from './api/exercise'
 import { ApiAuth } from './api/auth';
 import { ApiReport } from './api/report';
+import { exceptObjectProp } from './utils/obj'
+import { RequestAuth } from './middlewares/auth';
+
+// types
+// create types for request Request<{}, any, any, QueryString.ParsedQs, Record<string, any>> to have req.auth
+declare global {
+  namespace Express {
+    interface Request {
+      auth: RequestAuth
+    }
+  }
+}
 
 // set
-mongoose.set('strictQuery', true)
 dotenv.config()
 
 // args
@@ -47,14 +59,15 @@ const args = process.argv.slice(2)
   app.use(express.json({ limit: '50mb' }))
   app.use(express.urlencoded({ limit: '50mb', extended: false }))
   app.use(cors())
-  // app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }))
-  // app.use(bodyParser.json())
-  // app.use(express.json({limit: '25mb'}));
-  // app.use(express.urlencoded({limit: '25mb'}));
 
   // routes
   const root = new RouteGroup('/', express.Router())
   root.group('/', (app) => {
+    app.get('/', (req, res) => {
+      res.json({
+        message: '🚀',
+      })
+    })
     ApiExercises({ route: app })
     ApiSession({ route: app })
     ApiReport({ route: app })

@@ -1,18 +1,21 @@
 import express from 'express'
 import mongoose from 'mongoose'
-import { Exercise, Session } from '../db'
+import { Exercise, Session, User } from '../db'
 import { SessionSchema } from '../types/session'
+import { AuthJwtMiddleware } from '../middlewares/auth'
 
 export const ApiSession = ({ route }: { route: express.Router }) => {
-  route.get('/session/', async (req, res) => {
-    const sessions = await Session.find()
+  route.get('/session/', AuthJwtMiddleware, async (req, res) => {
+    const sessions = await Session.find({
+      userId: req.auth?.user?._id,
+    })
     return res.json({
       success: true,
       message: 'Sessions found',
       sessions,
     })
   })
-  route.get('/session/:id', async (req, res) => {
+  route.get('/session/:id', AuthJwtMiddleware, async (req, res) => {
     try {
       const { id } = req.params
       const session = await Session.findById(id)
@@ -32,13 +35,20 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
       return res.status(500).json({ error })
     }
   })
-  route.post('/session', async (req, res) => {
+  route.post('/session', AuthJwtMiddleware, async (req, res) => {
     console.log('DATA BODY', req.body)
     try {
+      // validate user
+      const userId = req.auth?.user?._id
+      if (!userId || typeof userId !== 'string' || userId.length === 0) {
+        return res.json({
+          success: false,
+          message: 'Invalid userId',
+        })
+      }
       // validate exercise
       const exerciseId = req.body?.exerciseId
       if (!exerciseId || typeof exerciseId !== 'string' || exerciseId.length === 0) {
-        console.log('1')
         return res.json({
           success: false,
           message: 'Invalid exerciseId',
@@ -47,13 +57,21 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
       // validate input
       const session = SessionSchema.parse(req.body)
 
-      // validate exercise
+      // get
+      // get exercise
       const exercise = await Exercise.findById(exerciseId)
       if (!exercise) {
-        console.log('2')
         return res.json({
           success: false,
           message: 'Exercise not found',
+        })
+      }
+      // get user
+      const user = await User.findById(userId)
+      if (!user) {
+        return res.json({
+          success: false,
+          message: 'User not found',
         })
       }
 
@@ -61,9 +79,9 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
       const created = await Session.create({
         ...session,
         _id: new mongoose.Types.ObjectId().toHexString(),
+        userId: user._id,
         exercise,
       })
-      console.log('3')
 
       // resposne
       return res.json({

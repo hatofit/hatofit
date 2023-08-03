@@ -23,7 +23,6 @@ const exercise_1 = require("./api/exercise");
 const auth_1 = require("./api/auth");
 const report_1 = require("./api/report");
 // set
-mongoose_1.default.set('strictQuery', true);
 dotenv_1.default.config();
 // args
 const args = process.argv.slice(2);
@@ -51,13 +50,14 @@ const args = process.argv.slice(2);
     app.use(express_1.default.json({ limit: '50mb' }));
     app.use(express_1.default.urlencoded({ limit: '50mb', extended: false }));
     app.use((0, cors_1.default)());
-    // app.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }))
-    // app.use(bodyParser.json())
-    // app.use(express.json({limit: '25mb'}));
-    // app.use(express.urlencoded({limit: '25mb'}));
     // routes
     const root = new express_route_grouping_1.default('/', express_1.default.Router());
     root.group('/', (app) => {
+        app.get('/', (req, res) => {
+            res.json({
+                message: '🚀',
+            });
+        });
         (0, exercise_1.ApiExercises)({ route: app });
         (0, session_1.ApiSession)({ route: app });
         (0, report_1.ApiReport)({ route: app });

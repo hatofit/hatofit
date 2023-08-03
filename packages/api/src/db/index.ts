@@ -1,4 +1,7 @@
-import mongoose, { Schema, Model } from 'mongoose'
+import mongoose, { Schema, Model, mongo } from 'mongoose'
+
+mongoose.set('strictQuery', true)
+mongoose.set('strictPopulate', true)
 
 export const MongoConnect = (url: string, opts?: mongoose.ConnectOptions) => mongoose.connect(url, opts)
 
@@ -26,6 +29,8 @@ const ExerciseSchema = new Schema({
   typeKey: '$type',
   timestamps: true,
 })
+export const Exercise = mongoose.model('Exercise', ExerciseSchema)
+
 const UserSchema = new Schema({
   _id: String,
   name: String,
@@ -34,12 +39,17 @@ const UserSchema = new Schema({
   firstName: String,
   lastName: String,
   birthDate: Date,
+  weight: Number,
+  height: Number,
 }, {
   typeKey: '$type',
   timestamps: true,
 })
+export const User = mongoose.model('User', UserSchema)
+
 const SessionSchema = new Schema({
   _id: String,
+  userId: String,
   exercise: ExerciseSchema,
   startTime: Number,
   endTime: Number,
@@ -60,9 +70,4 @@ const SessionSchema = new Schema({
   typeKey: '$type',
   timestamps: true,
 })
-
-// MODEL
-export const User = mongoose.model('User', UserSchema)
-export const Exercise = mongoose.model('Exercise', ExerciseSchema)
 export const Session = mongoose.model('Session', SessionSchema)
-

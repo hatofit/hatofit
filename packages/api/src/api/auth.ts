@@ -6,16 +6,8 @@ import { UserSchema } from '../types/user'
 import bcrypt from 'bcrypt'
 import dayjs from 'dayjs'
 import jwt from 'jsonwebtoken'
-
-export const exceptObjectProp = (obj: any, exceptsNotation: string[]) => {
-  const result: any = {}
-  Object.keys(obj).forEach((key) => {
-    if (!exceptsNotation.includes(key)) {
-      result[key] = obj[key]
-    }
-  })
-  return result
-}
+import { exceptObjectProp } from '../utils/obj'
+import { AuthJwtMiddleware } from '../middlewares/auth'
 
 export const ApiAuth = ({ route }: { route: express.Router }) => {
   route.post('/register', async (req, res) => {
@@ -30,11 +22,19 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
           message: 'Password and confirm password do not match',
         })
       }
+      // check poassword must filled
+      // remove whitespace
+      if (password.trim() === '') {
+        return res.status(400).json({
+          success: false,
+          message: 'Password must not be empty',
+        })
+      }
 
       // input schema
+      const rawPlainPassword: string = req.body.password || '' as string
       // password
-      const saltRounds = 10
-      const rawPlainPassword = req.body.password || ''
+      const saltRounds = parseInt(process.env.HASH_PASSWORD_SALT || '10')
       const hasingPasssword = await new Promise((res) => {
         bcrypt.hash(rawPlainPassword, saltRounds, function(err: any, hash: any) {
           return res(hash)
@@ -45,6 +45,19 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
       const dateOfBirth = req.body.dateOfBirth || ''
       req.body.dateOfBirth = dayjs(dateOfBirth, 'mm/dd/yyyy').toDate()
       const user = UserSchema.parse(req.body)
+
+
+      // check in db
+      const userInDb = await User.findOne({
+        email: user.email,
+      })
+      if (userInDb) {
+        return res.status(400).json({
+          success: false,
+          message: 'Email already exists',
+        })
+      }
+
       console.log('USER', user)
 
       // save to db
@@ -97,8 +110,9 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
       }
 
       // generate token
-      var token = jwt.sign({ id: found._id }, 'polar', {
-        expiresIn: 86400 // 24 hours
+      const jwtSecret = process.env.JWT_SECRET_KEY || 'polar'
+      const token = jwt.sign({ id: found._id }, jwtSecret, {
+        expiresIn: 86400 // 1 month in seconds
       })
 
       return res.json({
@@ -111,5 +125,12 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
       // console.error(error)
       return res.status(400).json({ error })
     }
+  })
+  route.get('/me', AuthJwtMiddleware, async (req, res) => {
+    return res.json({
+      success: true,
+      message: 'User found',
+      auth: req.auth,
+    })
   })
 }
