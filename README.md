@@ -13,7 +13,7 @@
 - ```pnpm dev``` (using pnpm start dev)
 ### Todo
 - [ ] Auth
-  - [ ] Login
+  - [x] Login
     url: `/api/auth/login`  
     method: `POST`  
     body:  
@@ -23,7 +23,7 @@
       "password": "password"
     }
     ```
-  - [ ] Register
+  - [x] Register
     url: `/api/auth/login`  
     method: `POST`  
     body:  
@@ -34,10 +34,12 @@
       "confirmPassword": "password",
       "firstName": "Test",
       "lastName": "User",
-      "dateOfBirth": "04/24/2023"
+      "dateOfBirth": "04/24/2023",
+      "weight": 55,
+      "height": 170,
     }
     ```
-  - [ ] Me
+  - [x] Me
     url: `/api/auth/me`  
     method: `GET`
   
