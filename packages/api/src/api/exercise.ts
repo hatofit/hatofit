@@ -56,4 +56,44 @@ export const ApiExercises = ({ route }: { route: express.Router }) => {
       return res.status(400).json({ error })
     }
   })
+  route.put('/exercise/:id', async (req, res) => {
+    try {
+      // validate input
+      const exercise = ExerciseSchema.parse(req.body)
+      delete (exercise as any)?._id;
+
+      // save to db
+      const updated = await Exercise.findByIdAndUpdate(req.params.id, exercise)
+
+      // resposne
+      return res.json({
+        success: true,
+        message: 'Exercise updated successfully',
+        id: updated?._id,
+        exercise,
+      })
+    } catch (error) {
+      // console.error(error)
+      return res.status(400).json({ error })
+    }
+  })
+  route.delete('/exercise/:id', async (req, res) => {
+    try {
+      // validate input
+      const { id } = req.params
+
+      // save to db
+      const deleted = await Exercise.findByIdAndDelete(id)
+
+      // resposne
+      return res.json({
+        success: true,
+        message: 'Exercise deleted successfully',
+        id: deleted?._id,
+      })
+    } catch (error) {
+      // console.error(error)
+      return res.status(400).json({ error })
+    }
+  })
 }

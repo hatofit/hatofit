@@ -66,5 +66,43 @@ const ApiExercises = ({ route }) => {
             return res.status(400).json({ error });
         }
     }));
+    route.put('/exercise/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            // validate input
+            const exercise = exercise_1.ExerciseSchema.parse(req.body);
+            exercise === null || exercise === void 0 ? true : delete exercise._id;
+            // save to db
+            const updated = yield db_1.Exercise.findByIdAndUpdate(req.params.id, exercise);
+            // resposne
+            return res.json({
+                success: true,
+                message: 'Exercise updated successfully',
+                id: updated === null || updated === void 0 ? void 0 : updated._id,
+                exercise,
+            });
+        }
+        catch (error) {
+            // console.error(error)
+            return res.status(400).json({ error });
+        }
+    }));
+    route.delete('/exercise/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            // validate input
+            const { id } = req.params;
+            // save to db
+            const deleted = yield db_1.Exercise.findByIdAndDelete(id);
+            // resposne
+            return res.json({
+                success: true,
+                message: 'Exercise deleted successfully',
+                id: deleted === null || deleted === void 0 ? void 0 : deleted._id,
+            });
+        }
+        catch (error) {
+            // console.error(error)
+            return res.status(400).json({ error });
+        }
+    }));
 };
 exports.ApiExercises = ApiExercises;

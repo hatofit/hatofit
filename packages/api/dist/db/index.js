@@ -65,6 +65,11 @@ const UserSchema = new mongoose_1.Schema({
     weight: Number,
     height: Number,
     gender: String,
+    metricUnits: {
+        energyUnits: String,
+        weightUnits: String,
+        heightUnits: String,
+    },
 }, {
     typeKey: '$type',
     timestamps: true,

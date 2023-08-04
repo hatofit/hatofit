@@ -9,4 +9,9 @@ export const UserSchema = z.object({
   weight: z.number(),
   height: z.number(),
   gender: z.enum(['male', 'female']),
+  metricUnits: z.object({
+    energyUnits: z.string(),
+    weightUnits: z.string(),
+    heightUnits: z.string(),
+  }),
 })
