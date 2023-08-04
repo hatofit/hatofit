@@ -8,4 +8,5 @@ export const UserSchema = z.object({
   dateOfBirth: z.date(),
   weight: z.number(),
   height: z.number(),
+  gender: z.enum(['male', 'female']),
 })

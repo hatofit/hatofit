@@ -41,6 +41,7 @@ const UserSchema = new Schema({
   birthDate: Date,
   weight: Number,
   height: Number,
+  gender: String,
 }, {
   typeKey: '$type',
   timestamps: true,
