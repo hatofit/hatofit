@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
+import 'package:polar_hr_devices/models/auth_model.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
 import 'package:polar_hr_devices/services/storage_service.dart';
 
@@ -9,14 +10,17 @@ class InternetService {
   final _getConnect = GetConnect();
 
   GetConnect get getConnect => _getConnect;
+  final storage = StorageService().storage;
 
   Future postSession(dynamic body) async {
+    final token = storage.read('userToken');
     try {
       final response = await _getConnect.post(
         "${dotenv.env['API_BASE_URL'] ?? ''}/session",
         jsonEncode(body),
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
         },
       );
       if (response.statusCode == 200) {
@@ -31,6 +35,7 @@ class InternetService {
 
   Future<List<ExerciseModel>> fetchExercises() async {
     final url = "${dotenv.env['API_BASE_URL'] ?? ''}/exercise";
+
     final response = await _getConnect.get(url);
     try {
       if (response.statusCode == 200) {
@@ -52,10 +57,12 @@ class InternetService {
   }
 
   Future<List<dynamic>> fetchHistory() async {
+    final token = storage.read('userToken');
     try {
-      final response = await _getConnect.get(
-        "${dotenv.env['API_BASE_URL'] ?? ''}/session",
-      );
+      final response = await _getConnect
+          .get("${dotenv.env['API_BASE_URL'] ?? ''}/session", headers: {
+        'Authorization': 'Bearer $token',
+      });
       if (response.statusCode == 200) {
         final List<dynamic> jsonResponse = response.body['sessions'];
         return jsonResponse;
@@ -84,32 +91,29 @@ class InternetService {
     }
   }
 
-  Future<String> registerUser(dynamic body) {
+  Future<Response> registerUser(AuthModel request) async {
     final url = "${dotenv.env['API_BASE_URL'] ?? ''}/auth/register";
+    final AuthModel data = request;
     try {
-      final response = _getConnect.post(
+      final response = await _getConnect.post(
         url,
-        jsonEncode(body),
+        jsonEncode(data.toJson()),
         headers: {
           'Content-Type': 'application/json',
         },
       );
-      return response.then((value) {
-        if (value.statusCode == 200) {
-          return 'Success Register';
-        } else {
-          return 'Failed Register';
-        }
-      });
-    } catch (e) { 
-      return Future.value('Error $e');
+      return response;
+    } catch (e) {
+      return Response(body: 'Error $e');
     }
   }
 
-  Future<dynamic> loginUser(String email, String password) {
+  Future<Response> loginUser(AuthModel request) async {
     final url = "${dotenv.env['API_BASE_URL'] ?? ''}/auth/login";
+    final String email = request.email!;
+    final String password = request.password!;
     try {
-      final response = _getConnect.post(
+      final response = await _getConnect.post(
         url,
         jsonEncode({
           'email': email,
@@ -119,15 +123,9 @@ class InternetService {
           'Content-Type': 'application/json',
         },
       );
-      return response.then((value) {
-        if (value.statusCode == 200) {
-          return value.body;
-        } else {
-          return value.statusText;
-        }
-      });
+      return response;
     } catch (e) {
-      return Future.value('Error $e');
+      return Response(body: 'Error $e');
     }
   }
 }

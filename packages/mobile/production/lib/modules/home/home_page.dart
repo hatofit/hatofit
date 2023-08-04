@@ -79,24 +79,21 @@ class HomePage extends GetView<HomeController> {
                           ),
                           Row(
                             children: [
-                              Obx(() {
-                                return Row(
-                                  children: [
-                                    Text(
-                                      polarService.heartRate,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayLarge,
-                                    ),
-                                    Text(
-                                      ' bpm',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    )
-                                  ],
-                                );
-                              }),
+                              Row(
+                                children: [
+                                  Obx(() => Text(
+                                        polarService.heartRate,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayLarge,
+                                      )),
+                                  Text(
+                                    ' bpm',
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  )
+                                ],
+                              ),
                               const SizedBox(
                                 width: 34,
                               ),

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
+import 'package:polar_hr_devices/models/auth_model.dart';
 import 'package:polar_hr_devices/services/internet_service.dart';
 import 'package:polar_hr_devices/services/polar_service.dart';
 import 'package:polar_hr_devices/services/storage_service.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
 
+import '../../../../routes/app_routes.dart';
+
 class InputUserMetricController extends GetxController {
-  final Map<String, dynamic> previousData = Get.arguments ?? {};
+  final AuthModel previousData = Get.arguments;
 
   final selectedHeightUnitMeasure = ''.obs;
   final selectedWeightUnitMeasure = ''.obs;
@@ -29,27 +31,17 @@ class InputUserMetricController extends GetxController {
   }
 
   void saveUserInfo() {
-    if (selectedHeightUnitMeasure.value == 'cm') {
-      storage.write('heightUnit', 'Centimeters');
-    } else {
-      storage.write('heightUnit', 'Feet');
-    }
-    if (selectedWeightUnitMeasure.value == 'kg') {
-      storage.write('weightUnit', 'Kilograms');
-    } else {
-      storage.write('weightUnit', 'Lbs');
-    }
-    storage.write('energyUnit', 'Kcal');
-    storage.write('height', userHeight.value);
-    storage.write('weight', userWeight.value);
-    previousData.addAll({
-      'height': userHeight.value,
-      'weight': userWeight.value,
-    });
+    previousData.height = userHeight.value;
+    previousData.weight = userWeight.value;
+    previousData.metricUnits = MetricUnits(
+      energyUnits: 'Kcal',
+      heightUnits: selectedHeightUnitMeasure.value,
+      weightUnits: selectedWeightUnitMeasure.value,
+    );
     requestPermission();
   }
 
-  requestPermission() {
+  void requestPermission() {
     Get.defaultDialog(
       title: 'Permission',
       middleText:
@@ -67,54 +59,55 @@ class InputUserMetricController extends GetxController {
             .request()
             .then((value) => Permission.storage.request().then((value) async {
                   if (value.isGranted) {
-                    if (storage.read('height') != null &&
-                        storage.read('weight') != null) {
-                      await InternetService()
-                          .registerUser(previousData)
-                          .then((value) {
-                        if (value == 'Success Register') {
-                          final email = previousData['email'];
-                          final password = previousData['password'];
-                          Future.delayed(const Duration(seconds: 1), () async {
-                            await InternetService()
-                                .loginUser(email!, password!)
-                                .then((value) {
-                              if (value['success'] == false) {
-                                Get.snackbar(
-                                  'Error',
-                                  value['message'],
-                                  backgroundColor: Colors.red,
-                                  colorText: Colors.white,
-                                );
-                              } else {
-                                storage.write('userToken', value['token']);
-                                storage.write(
-                                    'fullName',
-                                    value['user']['firstName'] +
-                                        ' ' +
-                                        value['user']['lastName']);
-                                storage.write('dateOfBirth',
-                                    value['user']['dateOfBirth']);
-                                storage.write(
-                                    'height', value['user']['height']);
-                                storage.write(
-                                    'weight', value['user']['weight']);
-                                storage.write(
-                                    'gender', value['user']['gender']);
-                                storage.write('email', value['user']['email']);
-                                Get.offAllNamed(AppRoutes.dashboard);
-                              }
-                            });
-                          });
-                        } else {
-                          Get.snackbar(
-                            'Error',
-                            value,
-                            backgroundColor: Colors.red,
-                            colorText: Colors.white,
-                          );
-                        }
-                      });
+                    final Response response =
+                        await InternetService().registerUser(previousData);
+
+                    if (response.body['success'] == true) {
+                      final response =
+                          await InternetService().loginUser(previousData);
+
+                      if (response.body['success'] == true) {
+                        final body = response.body;
+                        storage.write('userToken', body['token']);
+                        storage.write(
+                            'fullName',
+                            body['user']['firstName'] +
+                                ' ' +
+                                body['user']['lastName']);
+                        storage.write('email', body['user']['email']);
+                        storage.write('gender', body['user']['gender']);
+                        storage.write(
+                            'dateOfBirth', body['user']['dateOfBirth']);
+                        storage.write('height', body['user']['height']);
+                        storage.write('weight', body['user']['weight']);
+                        storage.write(
+                            'metricUnits', body['user']['metricUnits']);
+                        storage.write('createdAt', body['user']['createdAt']);
+                        storage.write('updatedAt', body['user']['updatedAt']);
+
+                        Get.snackbar(
+                          'Success',
+                          'User registered successfully',
+                          backgroundColor: Colors.green,
+                          colorText: Colors.white,
+                        );
+
+                        Get.offAllNamed(AppRoutes.dashboard);
+                      } else {
+                        Get.snackbar(
+                          'Error Login',
+                          response.body['message'],
+                          backgroundColor: Colors.red,
+                          colorText: Colors.white,
+                        );
+                      }
+                    } else {
+                      Get.snackbar(
+                        'Error Register',
+                        response.body['message'],
+                        backgroundColor: Colors.red,
+                        colorText: Colors.white,
+                      );
                     }
                   } else {
                     requestPermission();

@@ -18,19 +18,19 @@ class WorkoutStartController extends GetxController {
   final HistoryController _historyController = Get.find<HistoryController>();
 
   void nextInstruction(totalInstruction) {
-    if (nowInstruction.value - 1 < totalInstruction) {
-      countDownTimer.value.restart(
-          duration: workout.instructions[nowInstruction.value].duration);
-      isNowExerciseFinish.value = false;
-      nowInstruction.value++;
-    }
-    if (nowInstruction.value - 1 == totalInstruction) {
+    if (nowInstruction.value + 1 >= totalInstruction) {
       countDownTimer.value.reset();
       _polarService.isStartWorkout.value = false;
       _polarService.streamPause();
       isAllExerciseFinish.value = true;
-      Get.toNamed(AppRoutes.dashboard);
+      Get.offNamed(AppRoutes.dashboard);
       _historyController.refreshData();
+    }
+    if ((nowInstruction.value + 1) < totalInstruction) {
+      countDownTimer.value.restart(
+          duration: workout.instructions[nowInstruction.value].duration);
+      isNowExerciseFinish.value = false;
+      nowInstruction.value++;
     }
   }
 

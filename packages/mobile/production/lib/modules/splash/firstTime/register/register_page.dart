@@ -63,11 +63,14 @@ class RegisterPage extends GetView<RegisterController> {
                             ),
                             const SizedBox(height: 48),
                             TextFormField(
-                              onChanged: (value) {
-                                controller.refreshController();
-                              },
-                              controller: controller.firstNameController.value,
+                              controller: controller.firstNameController,
                               keyboardType: TextInputType.name,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter your first name';
+                                }
+                                return null;
+                              },
                               decoration: const InputDecoration(
                                 prefixIcon: Icon(
                                   FontAwesomeIcons.user,
@@ -81,8 +84,14 @@ class RegisterPage extends GetView<RegisterController> {
                               height: 16,
                             ),
                             TextFormField(
-                              controller: controller.lastNameController.value,
+                              controller: controller.lastNameController,
                               keyboardType: TextInputType.name,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter your last name';
+                                }
+                                return null;
+                              },
                               decoration: const InputDecoration(
                                 prefixIcon: Icon(
                                   FontAwesomeIcons.user,
@@ -91,7 +100,6 @@ class RegisterPage extends GetView<RegisterController> {
                                 labelText: 'Last Name',
                                 hintText: 'Enter your last name',
                               ),
-                              onChanged: (value) {},
                             ),
                             const SizedBox(
                               height: 16,
@@ -99,11 +107,13 @@ class RegisterPage extends GetView<RegisterController> {
                             Stack(
                               children: [
                                 TextFormField(
-                                  onChanged: (value) {
-                                    controller.refreshController();
+                                  controller: controller.dateOfBirthController,
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Please enter your date of birth';
+                                    }
+                                    return null;
                                   },
-                                  controller:
-                                      controller.dateOfBirthController.value,
                                   enabled: false,
                                   keyboardType: TextInputType.datetime,
                                   style: TextStyle(
@@ -135,12 +145,12 @@ class RegisterPage extends GetView<RegisterController> {
                                         if (pickedDate != null) {
                                           String formattedDate =
                                               '${pickedDate.day}-${pickedDate.month}-${pickedDate.year}';
-                                          controller.dateOfBirthController.value
+                                          controller.dateOfBirthController
                                               .text = formattedDate;
                                           controller.formattedDate.value =
                                               '${pickedDate.year}-${pickedDate.day}-${pickedDate.month}';
-                                              controller.userDateOfBirth.value = pickedDate;
-                                          controller.refreshController();
+                                          controller.userDateOfBirth.value =
+                                              pickedDate;
                                         }
                                       });
                                     },
@@ -160,8 +170,18 @@ class RegisterPage extends GetView<RegisterController> {
                             ),
                             // email
                             TextFormField(
-                              controller: controller.emailController.value,
+                              controller: controller.emailController,
                               keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter your email';
+                                }
+                                if (value.isEmail == false) {
+                                  return 'Please enter valid email';
+                                }
+
+                                return null;
+                              },
                               decoration: const InputDecoration(
                                 prefixIcon: Icon(
                                   FontAwesomeIcons.envelope,
@@ -170,16 +190,22 @@ class RegisterPage extends GetView<RegisterController> {
                                 labelText: 'Email',
                                 hintText: 'Enter your email',
                               ),
-                              onChanged: (value) {
-                                controller.refreshController();
-                              },
                             ),
                             const SizedBox(
                               height: 16,
                             ),
                             // password
                             TextFormField(
-                              controller: controller.passwordController.value,
+                              controller: controller.passwordController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter your password';
+                                }
+                                if (value.length < 8) {
+                                  return 'Password must be at least 8 characters';
+                                }
+                                return null;
+                              },
                               keyboardType: TextInputType.visiblePassword,
                               obscureText: true,
                               decoration: const InputDecoration(
@@ -191,17 +217,26 @@ class RegisterPage extends GetView<RegisterController> {
                                 hintText: 'Enter your password',
                                 // suffix icon for reveal password
                               ),
-                              onChanged: (value) {
-                                controller.refreshController();
-                              },
                             ),
                             const SizedBox(
                               height: 16,
                             ),
                             // confirm password
                             TextFormField(
-                              controller:
-                                  controller.confirmPasswordController.value,
+                              controller: controller.confirmPasswordController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Please enter your password';
+                                }
+                                if (value.length < 8) {
+                                  return 'Password must be at least 8 characters';
+                                }
+                                if (value !=
+                                    controller.passwordController.text) {
+                                  return 'Password does not match';
+                                }
+                                return null;
+                              },
                               keyboardType: TextInputType.visiblePassword,
                               obscureText: true,
                               decoration: const InputDecoration(
@@ -212,9 +247,6 @@ class RegisterPage extends GetView<RegisterController> {
                                 labelText: 'Confirm Password',
                                 hintText: 'Enter your password',
                               ),
-                              onChanged: (value) {
-                                controller.refreshController();
-                              },
                             ),
                             const SizedBox(
                               height: 16,
@@ -225,59 +257,22 @@ class RegisterPage extends GetView<RegisterController> {
                           width: double.infinity,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: controller.firstNameController
-                                          .value.value.text.isEmpty ||
-                                      controller.lastNameController.value.value
-                                          .text.isEmpty ||
-                                      controller.dateOfBirthController.value
-                                          .value.text.isEmpty ||
-                                      controller.emailController.value.value
-                                          .text.isEmpty ||
-                                      controller.passwordController.value.value
-                                          .text.isEmpty ||
-                                      controller.confirmPasswordController.value
-                                          .value.text.isEmpty ||
-                                      controller.isGenderSelected.value == false
-                                  ? Theme.of(context)
-                                      .primaryColorDark
-                                      .withOpacity(0.2)
-                                  : Theme.of(context).primaryColor,
-                            ),
+                                backgroundColor:
+                                    Theme.of(context).primaryColor),
                             onPressed: () {
-                              controller.refreshController();
-                              if (controller.firstNameController.value.value
-                                      .text.isEmpty ||
-                                  controller.lastNameController.value.value.text
-                                      .isEmpty ||
-                                  controller.dateOfBirthController.value.value
-                                      .text.isEmpty ||
-                                  controller.emailController.value.value.text
-                                      .isEmpty ||
-                                  controller.passwordController.value.value.text
-                                      .isEmpty ||
-                                  controller.confirmPasswordController.value
-                                      .value.text.isEmpty ||
-                                  controller.isGenderSelected.value == false) {
+                              controller.formKey.currentState!.validate();
+                              if (controller.passwordController.text !=
+                                  controller.confirmPasswordController.text) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text(
-                                      'Please fill all fields',
+                                      'Password and confirm password does not match',
                                     ),
                                   ),
                                 );
                               } else {
-                                if (controller
-                                        .passwordController.value.value.text !=
-                                    controller.confirmPasswordController.value
-                                        .value.text) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Password and confirm password does not match',
-                                      ),
-                                    ),
-                                  );
-                                } else {
+                                if (controller.formKey.currentState!
+                                    .validate()) {
                                   controller.saveUserInfo();
                                 }
                               }

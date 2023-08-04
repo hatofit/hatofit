@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
-import 'package:polar_hr_devices/services/internet_service.dart';
-import 'package:polar_hr_devices/services/polar_service.dart';
+import 'package:polar_hr_devices/models/auth_model.dart';
 import 'package:polar_hr_devices/services/storage_service.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../../routes/app_routes.dart';
+import '../../../../services/internet_service.dart';
+import '../../../../services/polar_service.dart';
+
 class LoginController extends GetxController {
-  final emailController = TextEditingController().obs;
-  final passwordController = TextEditingController().obs;
+  final formKey = GlobalKey<FormState>();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   final storage = StorageService().storage;
   VideoPlayerController videoPlayerController =
       VideoPlayerController.asset('assets/videos/login.mp4');
@@ -28,48 +31,60 @@ class LoginController extends GetxController {
 
   @override
   void onClose() {
-    emailController.value.dispose();
+    emailController.dispose();
     videoPlayerController.dispose();
-    passwordController.value.dispose();
+    passwordController.dispose();
     super.onClose();
   }
 
-  void login() async {
-    await InternetService()
-        .loginUser(
-      emailController.value.text,
-      passwordController.value.text,
-    )
-        .then((value) {
-      if (value['success'] == false) {
-        Get.snackbar(
-          'Error',
-          value['message'],
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-      } else {
-        storage.write('userToken', value['token']);
-        storage.write('fullName',
-            value['user']['firstName'] + ' ' + value['user']['lastName']);
-        storage.write('dateOfBirth', value['user']['dateOfBirth']);
-        storage.write('height', value['user']['height']);
-        storage.write('weight', value['user']['weight']);
-        storage.write('gender', value['user']['gender']);
-        storage.write('email', value['user']['email']);
+  void login() {
+    FocusManager.instance.primaryFocus?.unfocus();
+    final AuthModel authModel = AuthModel(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+    PolarService().polar.requestPermissions().then(
+          (value) => Permission.location.request().then(
+                (value) => Permission.storage.request().then(
+                  (value) async {
+                    final response =
+                        await InternetService().loginUser(authModel);
+                    final body = response.body;
+                    if (body['success'] == true) {
+                      storage.write('userToken', body['token']);
+                      storage.write(
+                          'fullName',
+                          body['user']['firstName'] +
+                              ' ' +
+                              body['user']['lastName']);
+                      storage.write('email', body['user']['email']);
+                      storage.write('gender', body['user']['gender']);
+                      storage.write('dateOfBirth', body['user']['dateOfBirth']);
+                      storage.write('height', body['user']['height']);
+                      storage.write('weight', body['user']['weight']);
+                      storage.write('metricUnits', body['user']['metricUnits']);
+                      storage.write('createdAt', body['user']['createdAt']);
+                      storage.write('updatedAt', body['user']['updatedAt']);
 
-        PolarService().polar.requestPermissions().then(
-              (value) => Permission.location.request().then(
-                    (value) => Permission.storage.request().then(
-                      (value) {
-                        if (value.isGranted) {
-                          Get.offAllNamed(AppRoutes.dashboard);
-                        }
-                      },
-                    ),
-                  ),
-            );
-      }
-    });
+                      Get.snackbar(
+                        'Success',
+                        'Welcome back ${body['user']['firstName']}',
+                        backgroundColor: Colors.green,
+                        colorText: Colors.white,
+                      );
+
+                      Get.offAllNamed(AppRoutes.dashboard);
+                    } else {
+                      Get.snackbar(
+                        'Error',
+                        body['message'],
+                        backgroundColor: Colors.red,
+                        colorText: Colors.white,
+                      );
+                    }
+                  },
+                ),
+              ),
+        );
   }
 }

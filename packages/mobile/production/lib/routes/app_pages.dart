@@ -66,7 +66,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.dashboard,
       page: () => const DashboardPage(),
-      binding: DashboardBinding(),
+      bindings: [DashboardBinding(), ServicesBinding()],
       transition: Transition.cupertino,
     ),
     GetPage(

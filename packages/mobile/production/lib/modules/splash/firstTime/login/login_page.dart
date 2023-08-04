@@ -77,68 +77,94 @@ class LoginPage extends GetView<LoginController> {
                 ),
               ],
             ),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 16),
-                    Text(
-                      'Login',
-                      style: Theme.of(context).textTheme.displayMedium,
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: controller.emailController.value,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(
-                          CupertinoIcons.mail,
-                          size: 24,
-                        ),
-                        labelText: 'Email',
-                        hintText: 'Enter your email',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+            Form(
+              key: controller.formKey,
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 16),
+                      Text(
+                        'Login',
+                        style: Theme.of(context).textTheme.displayMedium,
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: controller.emailController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          if (value.isEmail == false) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
+                            CupertinoIcons.mail,
+                            size: 24,
+                          ),
+                          labelText: 'Email',
+                          hintText: 'Enter your email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: controller.passwordController.value,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        prefixIcon: const Icon(
-                          CupertinoIcons.lock_fill,
-                          size: 24,
-                        ),
-                        labelText: 'Password',
-                        hintText: 'Enter your password',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: controller.passwordController,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          if (value.length < 8) {
+                            return 'Password must be at least 8 characters';
+                          }
+                          return null;
+                        },
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(
+                            CupertinoIcons.lock_fill,
+                            size: 24,
+                          ),
+                          labelText: 'Password',
+                          hintText: 'Enter your password',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () => controller.login(),
-                        child: const Text('Login'),
+                      const SizedBox(height: 16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            controller.formKey.currentState!.validate();
+                            if (controller.formKey.currentState!.validate()) {
+                              controller.login();
+                            }
+                          },
+                          child: const Text('Login'),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text('Don\'t have an account?'),
-                        TextButton(
-                          onPressed: () => Get.toNamed(AppRoutes.register),
-                          child: const Text('Register'),
-                        )
-                      ],
-                    )
-                  ],
-                ))
+                      const SizedBox(height: 16),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Don\'t have an account?'),
+                          TextButton(
+                            onPressed: () => Get.toNamed(AppRoutes.register),
+                            child: const Text('Register'),
+                          )
+                        ],
+                      )
+                    ],
+                  )),
+            )
           ],
         ),
       ),

@@ -18,8 +18,6 @@ class WorkoutController extends GetxController {
     super.onClose();
   }
 
-
-
   goToWorkoutDetail(ExerciseModel exercise) {
     Get.toNamed(AppRoutes.workoutDetail, arguments: exercise);
   }

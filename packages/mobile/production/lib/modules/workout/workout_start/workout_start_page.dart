@@ -206,7 +206,7 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                                   ? ElevatedButton(
                                       onPressed: () {
                                         controller.nextInstruction(
-                                            workout.instructions.length - 1);
+                                            workout.instructions.length);
                                       },
                                       child: Text(
                                         controller.isNowExerciseFinish.value
