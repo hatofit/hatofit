@@ -68,23 +68,24 @@ class InputUserMetricController extends GetxController {
 
                       if (response.body['success'] == true) {
                         final body = response.body;
+                        final AuthModel authModel =
+                            AuthModel.fromJson(body['user']);
+                        print("===***===\n"
+                            "$body\n"
+                            "${authModel.firstName} ${authModel.lastName}\n"
+                            "===***===");
                         storage.write('userToken', body['token']);
-                        storage.write(
-                            'fullName',
-                            body['user']['firstName'] +
-                                ' ' +
-                                body['user']['lastName']);
-                        storage.write('email', body['user']['email']);
-                        storage.write('gender', body['user']['gender']);
-                        storage.write(
-                            'dateOfBirth', body['user']['dateOfBirth']);
-                        storage.write('height', body['user']['height']);
-                        storage.write('weight', body['user']['weight']);
-                        storage.write(
-                            'metricUnits', body['user']['metricUnits']);
-                        storage.write('createdAt', body['user']['createdAt']);
-                        storage.write('updatedAt', body['user']['updatedAt']);
-
+                        storage.write('fullName',
+                            '${authModel.firstName} ${authModel.lastName}');
+                        storage.write('email', authModel.email);
+                        storage.write('gender', authModel.gender);
+                        storage.write('dateOfBirth', authModel.dateOfBirth);
+                        storage.write('height', authModel.height);
+                        storage.write('weight', authModel.weight);
+                        storage.write('metricUnits', authModel.metricUnits);
+                        storage.write('createdAt', authModel.createdAt);
+                        storage.write('updatedAt', authModel.updatedAt);
+                        storage.write('id', authModel.id);
                         Get.snackbar(
                           'Success',
                           'User registered successfully',

@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
+import 'package:polar_hr_devices/models/auth_model.dart';
 import 'package:polar_hr_devices/services/storage_service.dart';
 
 class ChangeUnitController extends GetxController {
   final String title = 'Change Unit';
+  MetricUnits metricUnits = MetricUnits();
   final energyUnit = ''.obs;
   final heightUnit = ''.obs;
   final weightUnit = ''.obs;
@@ -15,51 +17,38 @@ class ChangeUnitController extends GetxController {
   final storage = StorageService().storage;
 
   @override
-  void onReady() {
-    energyUnit.value = storage.read('energyUnit');
-    heightUnit.value = storage.read('heightUnit');
-    weightUnit.value = storage.read('weightUnit');
-    userWeight.value = storage.read('weight');
+  void onInit() {
+    metricUnits = MetricUnits.fromJson(storage.read('metricUnits'));
     userHeight.value = storage.read('height');
-    super.onReady();
+    userWeight.value = storage.read('weight');
+    energyUnit.value = metricUnits.energyUnits!;
+    heightUnit.value = metricUnits.heightUnits!;
+    weightUnit.value = metricUnits.weightUnits!;
+    super.onInit();
   }
 
   void changeEnergyUnit(String unitMeasure) {
     energyUnit.value = unitMeasure;
     isUserEnergySelected.value = true;
-    storage.write('energyUnit', unitMeasure);
+    metricUnits.energyUnits = unitMeasure;
   }
 
   void changeHeightUnit(String unitMeasure) {
     heightUnit.value = unitMeasure;
     isUserHeightSelected.value = true;
-    storage.write('heightUnit', unitMeasure);
-    storage.write('height', userHeight.value);
+    metricUnits.heightUnits = unitMeasure;
   }
 
   void changeWeightUnit(String unitMeasure) {
     weightUnit.value = unitMeasure;
     isUserWeightSelected.value = true;
-    storage.write('weightUnit', unitMeasure);
-    storage.write('weight', userWeight.value);
+    metricUnits.weightUnits = unitMeasure;
   }
 
   void saveUserInfo() {
-    if (heightUnit.value == 'cm') {
-      storage.write('heightUnit', 'Centimeters');
-    } else {
-      storage.write('heightUnit', 'Feet');
-    }
-    if (heightUnit.value == 'kg') {
-      storage.write('weightUnit', 'Kilograms');
-    } else {
-      storage.write('weightUnit', 'Lbs');
-    }
-    if (energyUnit.value == 'Kcal') {
-      storage.write('energyUnit', 'Kcal');
-      storage.write('energyUnit', 'Kcal');
-      storage.write('height', userWeight.value);
-      storage.write('weight', userWeight.value);
-    }
+    storage.write('metricUnits', metricUnits.toJson());
+    storage.write('height', userHeight.value);
+    storage.write('weight', userWeight.value);
+    Get.back();
   }
 }

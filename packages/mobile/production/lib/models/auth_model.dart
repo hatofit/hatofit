@@ -4,6 +4,8 @@ part 'auth_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class AuthModel {
+  @JsonKey(name: '_id')
+  String? id;
   String? firstName;
   String? lastName;
   String? gender;
@@ -40,14 +42,14 @@ class AuthModel {
 
 @JsonSerializable(explicitToJson: true)
 class MetricUnits {
-  final String energyUnits;
-  final String heightUnits;
-  final String weightUnits;
+  String? energyUnits;
+  String? heightUnits;
+  String? weightUnits;
 
   MetricUnits({
-    required this.energyUnits,
-    required this.heightUnits,
-    required this.weightUnits,
+    this.energyUnits,
+    this.heightUnits,
+    this.weightUnits,
   });
 
   factory MetricUnits.fromJson(Map<String, dynamic> json) =>

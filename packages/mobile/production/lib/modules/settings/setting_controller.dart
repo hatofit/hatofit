@@ -13,7 +13,7 @@ class SettingController extends GetxController {
   @override
   void onInit() {
     userName.value = storage.read('fullName');
-    final dateOfBirth = DateTime.parse(storage.read('dateOfBirth'));
+    final dateOfBirth = storage.read('dateOfBirth');
     final age = DateTime.now().year - dateOfBirth.year;
     userAge.value = age.toString();
     final asset = storage.read('genderAsset');

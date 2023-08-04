@@ -52,11 +52,14 @@ class MyApp extends StatelessWidget {
           builder: (c, snapshot) {
             requestPermission();
             if (snapshot.data == BluetoothState.on) {
-              return FutureBuilder(
-                future: requestPermission(),
-                builder: (context, fte) =>
-                    OnScreen(adapterState: snapshot.data!),
-              );
+              Polar().requestPermissions().then((value) => Permission.location
+                  .request()
+                  .then((value) =>
+                      Permission.storage.request().then((value) async {
+                        if (value.isGranted) {
+                          return OnScreen(adapterState: snapshot.data!);
+                        }
+                      })));
             }
             return OffScreen(adapterState: snapshot.data!);
           }),

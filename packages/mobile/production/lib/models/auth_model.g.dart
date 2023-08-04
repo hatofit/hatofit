@@ -27,9 +27,10 @@ AuthModel _$AuthModelFromJson(Map<String, dynamic> json) => AuthModel(
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
-    );
+    )..id = json['_id'] as String?;
 
 Map<String, dynamic> _$AuthModelToJson(AuthModel instance) => <String, dynamic>{
+      '_id': instance.id,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'gender': instance.gender,

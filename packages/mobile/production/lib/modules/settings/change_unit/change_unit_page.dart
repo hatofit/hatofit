@@ -109,9 +109,9 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buildUnitMeasure(context, 'energy', 'Kiocalories'),
+                          _buildUnitMeasure(context, 'energy', 'Kcal'),
                           const SizedBox(width: 32),
-                          _buildUnitMeasure(context, 'energy', 'Kilojoules'),
+                          _buildUnitMeasure(context, 'energy', 'KJ'),
                         ],
                       ),
                     )
@@ -125,7 +125,11 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                     backgroundColor: controller.isUserHeightSelected.value ==
                                 true ||
                             controller.isUserWeightSelected.value == true ||
-                            controller.isUserEnergySelected.value == true
+                            controller.isUserEnergySelected.value == true ||
+                            controller.userWeight.value !=
+                                controller.storage.read('weight') ||
+                            controller.userHeight.value !=
+                                controller.storage.read('height')
                         ? Theme.of(context).primaryColor
                         : Theme.of(context).primaryColorDark.withOpacity(0.2),
                   ),
