@@ -50,26 +50,16 @@ class MyApp extends StatelessWidget {
           stream: FlutterBluePlus.instance.state,
           initialData: BluetoothState.unknown,
           builder: (c, snapshot) {
-            requestPermission();
+            Polar().requestPermissions().then((value) => Permission.location
+                .request()
+                .then((value) => Permission.storage.request()));
             if (snapshot.data == BluetoothState.on) {
-              Polar().requestPermissions().then((value) => Permission.location
-                  .request()
-                  .then((value) =>
-                      Permission.storage.request().then((value) async {
-                        if (value.isGranted) {
-                          return OnScreen(adapterState: snapshot.data!);
-                        }
-                      })));
+              return OnScreen(adapterState: snapshot.data!);
             }
             return OffScreen(adapterState: snapshot.data!);
           }),
     );
   }
-}
-
-Future<void> requestPermission() async {
-  await Polar().requestPermissions();
-  await Permission.storage.request();
 }
 
 class OnScreen extends StatelessWidget {
