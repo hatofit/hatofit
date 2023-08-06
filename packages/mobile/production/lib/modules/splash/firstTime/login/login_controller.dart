@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polar_hr_devices/models/auth_model.dart';
-import 'package:polar_hr_devices/services/storage_service.dart';
+import 'package:polar_hr_devices/utils/image_utils.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../routes/app_routes.dart';
 import '../../../../services/internet_service.dart';
 import '../../../../services/polar_service.dart';
+import '../../../../utils/preferences_provider.dart';
 
 class LoginController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final storage = StorageService().storage;
+
   VideoPlayerController videoPlayerController =
       VideoPlayerController.asset('assets/videos/login.mp4');
 
@@ -38,50 +39,76 @@ class LoginController extends GetxController {
   }
 
   void login() {
+    final prefs = PreferencesProvider();
     FocusManager.instance.primaryFocus?.unfocus();
     final AuthModel authModel = AuthModel(
       email: emailController.text,
       password: passwordController.text,
     );
+
     PolarService().polar.requestPermissions().then(
           (value) => Permission.location.request().then(
                 (value) => Permission.storage.request().then(
                   (value) async {
-                    final response =
-                        await InternetService().loginUser(authModel);
-                    final body = response.body;
-                    if (body['success'] == true) {
-                      final AuthModel authModel =
-                          AuthModel.fromJson(body['user']);
-                      print("===***===\n"
-                          "$body\n"
-                          "${authModel.firstName} ${authModel.lastName}\n"
-                          "===***===");
-                      storage.write('userToken', body['token']);
-                      storage.write('fullName',
-                          '${authModel.firstName} ${authModel.lastName}');
-                      storage.write('email', authModel.email);
-                      storage.write('gender', authModel.gender);
-                      storage.write('dateOfBirth', authModel.dateOfBirth);
-                      storage.write('height', authModel.height);
-                      storage.write('weight', authModel.weight);
-                      storage.write('metricUnits', authModel.metricUnits);
-                      storage.write('createdAt', authModel.createdAt);
-                      storage.write('updatedAt', authModel.updatedAt);
-                      storage.write('id', authModel.id);
+                    try {
+                      final response =
+                          await InternetService().loginUser(authModel);
+                      final body = response.body;
+                      if (body['success'] == true) {
+                        final AuthModel authModel =
+                            AuthModel.fromJson(body['user']);
 
-                      Get.snackbar(
-                        'Success',
-                        'Welcome back ${body['user']['firstName']}',
-                        backgroundColor: Colors.green,
-                        colorText: Colors.white,
-                      );
+                        prefs.setUserToken(body['token']);
+                        prefs.setFirstName(authModel.firstName!);
+                        prefs.setLastName(authModel.lastName!);
+                        prefs.setEmail(authModel.email!);
+                        prefs.setDateOfBirth(
+                            authModel.dateOfBirth!.toIso8601String());
+                        prefs.setGender(authModel.gender!);
+                        prefs.setHeight(authModel.height!);
+                        prefs.setWeight(authModel.weight!);
+                        prefs.setMetricUnits([
+                          authModel.metricUnits!.energyUnits!,
+                          authModel.metricUnits!.heightUnits!,
+                          authModel.metricUnits!.weightUnits!,
+                        ]);
+                        prefs.setCreatedAt(
+                            authModel.createdAt!.toIso8601String());
+                        prefs.setUpdatedAt(
+                            authModel.updatedAt!.toIso8601String());
 
-                      Get.offAllNamed(AppRoutes.dashboard);
-                    } else {
+                        if (authModel.photo!.isEmpty) {
+                          if (authModel.gender == 'male') {
+                            await ImageUtils.saveFromAsset(
+                                'assets/images/male.png');
+                          } else {
+                            await ImageUtils.saveFromAsset(
+                                'assets/images/female.png');
+                          }
+                        } else {
+                          ImageUtils.fromBase64(authModel.photo!);
+                        }
+
+                        Get.snackbar(
+                          'Success',
+                          'Welcome back ${authModel.firstName}',
+                          backgroundColor: Colors.green,
+                          colorText: Colors.white,
+                        );
+
+                        Get.offAllNamed(AppRoutes.dashboard);
+                      } else {
+                        Get.snackbar(
+                          'Error',
+                          body['message'],
+                          backgroundColor: Colors.red,
+                          colorText: Colors.white,
+                        );
+                      }
+                    } catch (error) {
                       Get.snackbar(
                         'Error',
-                        body['message'],
+                        'An error occurred during the login process: HatoFit server is not responding',
                         backgroundColor: Colors.red,
                         colorText: Colors.white,
                       );

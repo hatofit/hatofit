@@ -25,8 +25,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Session = exports.User = exports.Exercise = exports.MongoConnect = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-mongoose_1.default.set('strictQuery', true);
-mongoose_1.default.set('strictPopulate', true);
+mongoose_1.default.set("strictQuery", true);
+mongoose_1.default.set("strictPopulate", true);
 const MongoConnect = (url, opts) => mongoose_1.default.connect(url, opts);
 exports.MongoConnect = MongoConnect;
 // SCHEMA
@@ -38,7 +38,8 @@ const ExerciseSchema = new mongoose_1.Schema({
     type: String,
     thumbnail: String,
     duration: Number,
-    instructions: [{
+    instructions: [
+        {
             type: String,
             name: String,
             description: String,
@@ -47,13 +48,14 @@ const ExerciseSchema = new mongoose_1.Schema({
                 video: String,
                 image: String,
                 lottie: String,
-            }
-        }],
+            },
+        },
+    ],
 }, {
-    typeKey: '$type',
+    typeKey: "$type",
     timestamps: true,
 });
-exports.Exercise = mongoose_1.default.model('Exercise', ExerciseSchema);
+exports.Exercise = mongoose_1.default.model("Exercise", ExerciseSchema);
 const UserSchema = new mongoose_1.Schema({
     _id: String,
     name: String,
@@ -61,7 +63,8 @@ const UserSchema = new mongoose_1.Schema({
     password: String,
     firstName: String,
     lastName: String,
-    birthDate: Date,
+    dateOfBirth: Date,
+    photo: String,
     weight: Number,
     height: Number,
     gender: String,
@@ -71,31 +74,37 @@ const UserSchema = new mongoose_1.Schema({
         heightUnits: String,
     },
 }, {
-    typeKey: '$type',
+    typeKey: "$type",
     timestamps: true,
 });
-exports.User = mongoose_1.default.model('User', UserSchema);
+exports.User = mongoose_1.default.model("User", UserSchema);
 const SessionSchema = new mongoose_1.Schema({
     _id: String,
     userId: String,
     exercise: ExerciseSchema,
     startTime: Number,
     endTime: Number,
-    timelines: [{
+    timelines: [
+        {
             name: String,
             startTime: Number,
-        }],
-    data: [{
+        },
+    ],
+    data: [
+        {
             second: Number,
             timeStamp: Number,
-            devices: [{
+            devices: [
+                {
                     type: String,
                     identifier: String,
                     value: mongoose_1.Schema.Types.Mixed,
-                }]
-        }]
+                },
+            ],
+        },
+    ],
 }, {
-    typeKey: '$type',
+    typeKey: "$type",
     timestamps: true,
 });
-exports.Session = mongoose_1.default.model('Session', SessionSchema);
+exports.Session = mongoose_1.default.model("Session", SessionSchema);

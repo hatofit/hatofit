@@ -13,6 +13,7 @@ class AuthModel {
   final String? password;
   String? confirmPassword;
   DateTime? dateOfBirth;
+  String? photo;
   MetricUnits? metricUnits;
   int? height;
   int? weight;
@@ -27,6 +28,7 @@ class AuthModel {
     required this.password,
     this.confirmPassword,
     this.dateOfBirth,
+    this.photo,
     this.metricUnits,
     this.height,
     this.weight,

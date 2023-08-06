@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -50,29 +52,40 @@ class SettingPage extends GetView<SettingController> {
                             const SizedBox(
                               width: 4,
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              child: Image.asset(
-                                controller.genderAsset.value,
-                                width: 64,
+                            Container(
+                              height: 48,
+                              width: 48,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(666),
+                                color: Colors.white,
+                                image: DecorationImage(
+                                  image: FileImage(File(
+                                      '/storage/emulated/0/Android/data/com.example.polar_hr_devices/files/photo-profile.jpg')),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
+                              padding: const EdgeInsets.symmetric(vertical: 8),
                             ),
                             const SizedBox(
                               width: 16,
                             ),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  controller.userName.toString(),
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                Text(
-                                  "${controller.userAge} years old",
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                              ],
+                            Obx(
+                              () => Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    controller.userName.toString(),
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  Text(
+                                    "${controller.userAge} years old",
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -251,7 +264,6 @@ class SettingPage extends GetView<SettingController> {
                             ?.withOpacity(0.5)),
                     title: 'Reset',
                     onTap: () {
-                      controller.storage.erase();
                       Get.defaultDialog(
                         title: 'Reset',
                         middleText: 'Are you sure want to reset?',

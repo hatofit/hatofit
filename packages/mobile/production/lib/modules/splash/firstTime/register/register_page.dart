@@ -41,6 +41,65 @@ class RegisterPage extends GetView<RegisterController> {
                         const SizedBox(height: 48),
                         Column(
                           children: [
+                            // profile image picker
+                            InkWell(
+                              onTap: () {
+                                controller.pickImage();
+                              },
+                              child: SizedBox(
+                                height: 150,
+                                width: 150,
+                                child: Stack(
+                                  fit: StackFit.expand,
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    controller.pickedImage.value.path.isEmpty
+                                        ? const Icon(
+                                            FontAwesomeIcons.user,
+                                            size: 75,
+                                            color: Colors.grey,
+                                          )
+                                        : CircleAvatar(
+                                            backgroundImage: FileImage(
+                                              controller.pickedImage.value,
+                                            ),
+                                          ),
+                                    Positioned(
+                                      right: -8,
+                                      bottom: 0,
+                                      child: SizedBox(
+                                        height: 46,
+                                        width: 46,
+                                        child: TextButton(
+                                          style: TextButton.styleFrom(
+                                            foregroundColor: Theme.of(context)
+                                                .iconTheme
+                                                .color,
+                                            shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(50)),
+                                              side: BorderSide(
+                                                color: Colors.transparent,
+                                                width: 3,
+                                              ),
+                                            ),
+                                            backgroundColor:
+                                                ColorConstants.crimsonRed,
+                                          ),
+                                          onPressed: () {
+                                            controller.pickImage();
+                                          },
+                                          child: const Icon(
+                                            CupertinoIcons.photo_camera,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 16),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

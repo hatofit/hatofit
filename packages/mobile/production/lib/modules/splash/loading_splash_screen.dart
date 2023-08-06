@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
+import 'package:polar_hr_devices/utils/preferences_provider.dart';
 import 'package:polar_hr_devices/services/storage_service.dart';
 import 'package:polar_hr_devices/themes/app_theme.dart';
 
@@ -9,11 +10,10 @@ class LoadingSplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     StorageService().initializeDirectory();
-    final storage = StorageService().storage;
+    final prefs = PreferencesProvider();
 
     Future.delayed(const Duration(seconds: 1), () async {
-      StorageService().initStorage();
-      final userToken = await storage.read('userToken');
+      final userToken = await prefs.getUserToken();
       if (userToken != null) {
         Get.offAllNamed(AppRoutes.dashboard);
       } else {

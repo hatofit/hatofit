@@ -4,16 +4,18 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/models/auth_model.dart';
 import 'package:polar_hr_devices/models/exercise_model.dart';
+import 'package:polar_hr_devices/utils/preferences_provider.dart';
 import 'package:polar_hr_devices/services/storage_service.dart';
 
 class InternetService {
   final _getConnect = GetConnect();
 
   GetConnect get getConnect => _getConnect;
-  final storage = StorageService().storage;
+
+  final _prefs = PreferencesProvider();
 
   Future postSession(dynamic body) async {
-    final token = storage.read('userToken');
+    final token = await _prefs.getUserToken();
     try {
       final response = await _getConnect.post(
         "${dotenv.env['API_BASE_URL'] ?? ''}/session",
@@ -57,7 +59,7 @@ class InternetService {
   }
 
   Future<List<dynamic>> fetchHistory() async {
-    final token = storage.read('userToken');
+    final token = await _prefs.getUserToken();
     try {
       final response = await _getConnect
           .get("${dotenv.env['API_BASE_URL'] ?? ''}/session", headers: {

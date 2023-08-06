@@ -8,9 +8,10 @@ exports.UserSchema = zod_1.z.object({
     firstName: zod_1.z.string(),
     lastName: zod_1.z.string(),
     dateOfBirth: zod_1.z.date(),
+    photo: zod_1.z.string(),
     weight: zod_1.z.number(),
     height: zod_1.z.number(),
-    gender: zod_1.z.enum(['male', 'female']),
+    gender: zod_1.z.enum(["male", "female"]),
     metricUnits: zod_1.z.object({
         energyUnits: zod_1.z.string(),
         weightUnits: zod_1.z.string(),

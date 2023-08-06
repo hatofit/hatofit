@@ -16,6 +16,7 @@ AuthModel _$AuthModelFromJson(Map<String, dynamic> json) => AuthModel(
       dateOfBirth: json['dateOfBirth'] == null
           ? null
           : DateTime.parse(json['dateOfBirth'] as String),
+      photo: json['photo'] as String?,
       metricUnits: json['metricUnits'] == null
           ? null
           : MetricUnits.fromJson(json['metricUnits'] as Map<String, dynamic>),
@@ -38,6 +39,7 @@ Map<String, dynamic> _$AuthModelToJson(AuthModel instance) => <String, dynamic>{
       'password': instance.password,
       'confirmPassword': instance.confirmPassword,
       'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
+      'photo': instance.photo,
       'metricUnits': instance.metricUnits?.toJson(),
       'height': instance.height,
       'weight': instance.weight,
@@ -46,9 +48,9 @@ Map<String, dynamic> _$AuthModelToJson(AuthModel instance) => <String, dynamic>{
     };
 
 MetricUnits _$MetricUnitsFromJson(Map<String, dynamic> json) => MetricUnits(
-      energyUnits: json['energyUnits'] as String,
-      heightUnits: json['heightUnits'] as String,
-      weightUnits: json['weightUnits'] as String,
+      energyUnits: json['energyUnits'] as String?,
+      heightUnits: json['heightUnits'] as String?,
+      weightUnits: json['weightUnits'] as String?,
     );
 
 Map<String, dynamic> _$MetricUnitsToJson(MetricUnits instance) =>

@@ -35,10 +35,10 @@ class ProfilePage extends GetView<ProfileController> {
                       fit: StackFit.expand,
                       clipBehavior: Clip.none,
                       children: [
-                        CircleAvatar(
-                          backgroundImage:
-                              AssetImage(controller.genderAsset.value),
-                        ),
+                        // CircleAvatar(
+                        //   backgroundImage:
+                        //       AssetImage(controller.genderAsset.value),
+                        // ),
                         Positioned(
                           right: -8,
                           bottom: 0,

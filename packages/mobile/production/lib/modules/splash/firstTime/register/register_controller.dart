@@ -1,23 +1,26 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar_hr_devices/models/auth_model.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
-import 'package:polar_hr_devices/services/storage_service.dart';
+import 'package:polar_hr_devices/utils/image_utils.dart';
 
 class RegisterController extends GetxController {
   final formKey = GlobalKey<FormState>();
   final selectedGender = ''.obs;
-  final firstNameController = TextEditingController() ;
-  final lastNameController = TextEditingController() ;
-  final dateOfBirthController = TextEditingController() ;
-  final emailController = TextEditingController() ;
-  final passwordController = TextEditingController() ;
-  final confirmPasswordController = TextEditingController() ;
+  final firstNameController = TextEditingController();
+  final lastNameController = TextEditingController();
+  final dateOfBirthController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
   final userDateOfBirth = DateTime.now().obs;
   final formattedDate = ''.obs;
   final isGenderSelected = false.obs;
 
-  final storage = StorageService().storage;
+  final pickedImageBase64 = ''.obs;
+  final Rx<File> pickedImage = Rx<File>(File(''));
 
   @override
   void onClose() {
@@ -31,6 +34,12 @@ class RegisterController extends GetxController {
     super.onClose();
   }
 
+  void pickImage() async {
+    final image = await ImageUtils.imagePicker();
+    pickedImage.value = File(image!.path);
+    pickedImageBase64.value = await ImageUtils.toBase64(image);
+  }
+
   void selectGender(String gender) {
     selectedGender.value = gender;
     isGenderSelected.value = true;
@@ -42,6 +51,7 @@ class RegisterController extends GetxController {
       lastName: lastNameController.text,
       gender: selectedGender.value,
       dateOfBirth: userDateOfBirth.value,
+      photo: pickedImageBase64.value,
       email: emailController.text,
       password: passwordController.text,
       confirmPassword: confirmPasswordController.text,
@@ -52,5 +62,4 @@ class RegisterController extends GetxController {
       arguments: authModel,
     );
   }
- 
 }

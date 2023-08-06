@@ -122,14 +122,7 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: controller.isUserHeightSelected.value ==
-                                true ||
-                            controller.isUserWeightSelected.value == true ||
-                            controller.isUserEnergySelected.value == true ||
-                            controller.userWeight.value !=
-                                controller.storage.read('weight') ||
-                            controller.userHeight.value !=
-                                controller.storage.read('height')
+                    backgroundColor: controller.isAllTrue.value
                         ? Theme.of(context).primaryColor
                         : Theme.of(context).primaryColorDark.withOpacity(0.2),
                   ),
