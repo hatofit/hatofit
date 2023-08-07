@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import express from 'express'
 import mongoose from 'mongoose'
-import { Exercise, Session } from '../db'
+import { Exercise, ReportShare, Session, User } from '../db'
 import { SessionSchema, SessionDataItemSchema, SessionDataItemDeviceSchema } from '../types/session'
 import {
   ReportSchema,
@@ -11,6 +11,7 @@ import {
   ReportTypeHRSchema,
   ReportTypeGyroSchema,
 } from '../types/report'
+import { AuthJwtMiddleware } from '../middlewares/auth'
 
 export interface DeviceRule {
   name: string
@@ -207,6 +208,58 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
     } catch (error) {
       console.error(error)
       return res.status(500).json({ error })
+    }
+  })
+  route.post('/report/share', AuthJwtMiddleware, async (req, res) => {
+    try {
+      // validate user
+      const userId = req.auth?.user?._id
+      if (!userId || typeof userId !== 'string' || userId.length === 0) {
+        return res.json({
+          success: false,
+          message: 'Invalid userId',
+        })
+      }
+
+      // validate body
+      const emailUserToAllow = req.body.emailUserToAllow
+      if (!emailUserToAllow || typeof emailUserToAllow !== 'string' || emailUserToAllow.length === 0) {
+        return res.json({
+          success: false,
+          message: 'Invalid emailUserToAllow',
+        })
+      }
+
+      // search user by email
+      const userByEmail = await User.findOne({ email: emailUserToAllow })
+      if (!userByEmail) {
+        return res.json({
+          success: false,
+          message: 'User not found',
+        })
+      }
+
+
+      // insert user to allow
+      const userToAllow = await ReportShare.create({
+        userShareId: userId,
+        userViewId: userByEmail._id || userByEmail.id,
+      })
+      if (!userToAllow) {
+        return res.json({
+          success: false,
+          message: 'User not found',
+        })
+      }
+      return res.json({
+        success: true,
+        message: 'User allowed',
+        user: userByEmail.email,
+      })
+
+      // street email
+    } catch (error) {
+      return res.status(400).json({ error })
     }
   })
 }

@@ -96,3 +96,17 @@ const SessionSchema = new Schema(
   }
 );
 export const Session = mongoose.model("Session", SessionSchema);
+
+// this is a schema for user can share their report and allow other user to see it
+export const ReportShareSchema = new Schema(
+  {
+    _id: String,
+    userShareId: String,
+    userViewId: String,
+  },
+  {
+    typeKey: "$type",
+    timestamps: true,
+  }
+);
+export const ReportShare = mongoose.model("ReportShare", ReportShareSchema);

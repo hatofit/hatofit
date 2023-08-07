@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiReport = exports.getParsedFromDataDevice = exports.getDeviceNameFromDataDeviceType = exports.DevicesRules = void 0;
 const db_1 = require("../db");
 const report_1 = require("../types/report");
+const auth_1 = require("../middlewares/auth");
 exports.DevicesRules = [
     // for polar
     {
@@ -190,6 +191,55 @@ const ApiReport = ({ route }) => {
         catch (error) {
             console.error(error);
             return res.status(500).json({ error });
+        }
+    }));
+    route.post('/report/share', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _b, _c;
+        try {
+            // validate user
+            const userId = (_c = (_b = req.auth) === null || _b === void 0 ? void 0 : _b.user) === null || _c === void 0 ? void 0 : _c._id;
+            if (!userId || typeof userId !== 'string' || userId.length === 0) {
+                return res.json({
+                    success: false,
+                    message: 'Invalid userId',
+                });
+            }
+            // validate body
+            const emailUserToAllow = req.body.emailUserToAllow;
+            if (!emailUserToAllow || typeof emailUserToAllow !== 'string' || emailUserToAllow.length === 0) {
+                return res.json({
+                    success: false,
+                    message: 'Invalid emailUserToAllow',
+                });
+            }
+            // search user by email
+            const userByEmail = yield db_1.User.findOne({ email: emailUserToAllow });
+            if (!userByEmail) {
+                return res.json({
+                    success: false,
+                    message: 'User not found',
+                });
+            }
+            // insert user to allow
+            const userToAllow = yield db_1.ReportShare.create({
+                userShareId: userId,
+                userViewId: userByEmail._id || userByEmail.id,
+            });
+            if (!userToAllow) {
+                return res.json({
+                    success: false,
+                    message: 'User not found',
+                });
+            }
+            return res.json({
+                success: true,
+                message: 'User allowed',
+                user: userByEmail.email,
+            });
+            // street email
+        }
+        catch (error) {
+            return res.status(400).json({ error });
         }
     }));
 };

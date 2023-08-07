@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Session = exports.User = exports.Exercise = exports.MongoConnect = void 0;
+exports.ReportShare = exports.ReportShareSchema = exports.Session = exports.User = exports.Exercise = exports.MongoConnect = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 mongoose_1.default.set("strictQuery", true);
 mongoose_1.default.set("strictPopulate", true);
@@ -108,3 +108,13 @@ const SessionSchema = new mongoose_1.Schema({
     timestamps: true,
 });
 exports.Session = mongoose_1.default.model("Session", SessionSchema);
+// this is a schema for user can share their report and allow other user to see it
+exports.ReportShareSchema = new mongoose_1.Schema({
+    _id: String,
+    userShareId: String,
+    userViewId: String,
+}, {
+    typeKey: "$type",
+    timestamps: true,
+});
+exports.ReportShare = mongoose_1.default.model("ReportShare", exports.ReportShareSchema);
