@@ -1,5 +1,3 @@
 {
-  "/page": "app/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/report/[slug]/page": "app/report/[slug]/page.js"
+  "/login/page": "app/login/page.js"
 }
