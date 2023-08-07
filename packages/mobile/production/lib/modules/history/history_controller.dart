@@ -1,11 +1,24 @@
-
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/services/internet_service.dart';
+
+import '../../services/internet_service.dart';
 
 class HistoryController extends GetxController {
   final String title = 'History';
-  Future<void> refreshData() async {
-    await InternetService().fetchHistory();
+  final RxList<dynamic> historyData = [].obs;
+
+  @override
+  void onInit() {
+    fetchHistory();
+    super.onInit();
+  }
+
+  Future<List<dynamic>> fetchHistory() async {
+    List<dynamic> data = await InternetService().fetchHistory();
+    historyData.value = data;
+    print("===***===\n"
+        "historyData: $historyData\n"
+        "===***===");
+    return data;
   }
 
   String dateConverter(String datetime) {

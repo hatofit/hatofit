@@ -31,63 +31,88 @@ class DeviceDetail extends GetView<PolarController> {
           future: controller.getPolarType(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              if (controller.hrStream.value == true) {
+              // if (controller.hrStream.value == true) {
+              //   controller.startHrStream();
+              // }
+              // if (controller.accStream.value == true) {
+              //   controller.startAccStream();
+              // }
+              // if (controller.ppgStream.value == true) {
+              //   controller.startPpgStream();
+              // }
+              // if (controller.ppiStream.value == true) {
+              //   controller.startPpiStream();
+              // }
+              // if (controller.gyroStream.value == true) {
+              //   controller.startGyroStream();
+              // }
+              // if (controller.magnStream.value == true) {
+              //   controller.startMagnStream();
+              // }
+              // if (controller.ecgStream.value == true) {
+              //   controller.startEcgStream();
+              // }
+              if (snapshot.data!.contains(PolarDataType.hr)) {
                 controller.startHrStream();
               }
-              if (controller.accStream.value == true) {
+              if (snapshot.data!.contains(PolarDataType.acc)) {
                 controller.startAccStream();
               }
-              if (controller.ppgStream.value == true) {
+              if (snapshot.data!.contains(PolarDataType.ppg)) {
                 controller.startPpgStream();
               }
-              if (controller.ppiStream.value == true) {
+              if (snapshot.data!.contains(PolarDataType.ppi)) {
                 controller.startPpiStream();
               }
-              if (controller.gyroStream.value == true) {
+              if (snapshot.data!.contains(PolarDataType.gyro)) {
                 controller.startGyroStream();
               }
-              if (controller.magnStream.value == true) {
+              if (snapshot.data!.contains(PolarDataType.magnetometer)) {
                 controller.startMagnStream();
               }
-              if (controller.ecgStream.value == true) {
+              if (snapshot.data!.contains(PolarDataType.ecg)) {
                 controller.startEcgStream();
               }
-
               return Stack(
                 children: [
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
-                    child: Obx(
-                      () => Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildPhoneInfo(),
-                          _buildDeviceInfo(),
-                          _buildRssiInfo(),
-                          if (controller.hrStream.value == true &&
-                              snapshot.data!.contains(PolarDataType.hr))
-                            _buildHrInfo(),
-                          if (controller.accStream.value == true &&
-                              snapshot.data!.contains(PolarDataType.acc))
-                            _buildAccInfo(),
-                          if (controller.ppgStream.value == true &&
-                              snapshot.data!.contains(PolarDataType.ppg))
-                            _buildPpgInfo(),
-                          if (controller.ppiStream.value == true &&
-                              snapshot.data!.contains(PolarDataType.ppi))
-                            _buildPpiInfo(),
-                          if (controller.gyroStream.value == true &&
-                              snapshot.data!.contains(PolarDataType.gyro))
-                            _buildGyroInfo(),
-                          if (controller.magnStream.value == true &&
-                              snapshot.data!
-                                  .contains(PolarDataType.magnetometer))
-                            _buildMagnInfo(),
-                          if (controller.ecgStream.value == true &&
-                              snapshot.data!.contains(PolarDataType.ecg))
-                            _buildEcgInfo(),
-                        ],
-                      ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        _buildPhoneInfo(),
+                        _buildDeviceInfo(),
+                        _buildRssiInfo(),
+                        // if (controller.hrStream.value == true &&
+                        //     snapshot.data!.contains(PolarDataType.hr))
+                        if (snapshot.data!.contains(PolarDataType.hr))
+                          _buildHrInfo(),
+                        // if (controller.accStream.value == true &&
+                        //     snapshot.data!.contains(PolarDataType.acc))
+                        if (snapshot.data!.contains(PolarDataType.acc))
+                          _buildAccInfo(),
+                        // if (controller.ppgStream.value == true &&
+                        //     snapshot.data!.contains(PolarDataType.ppg))
+                        if (snapshot.data!.contains(PolarDataType.ppg))
+                          _buildPpgInfo(),
+                        // if (controller.ppiStream.value == true &&
+                        //     snapshot.data!.contains(PolarDataType.ppi))
+                        if (snapshot.data!.contains(PolarDataType.ppi))
+                          _buildPpiInfo(),
+                        // if (controller.gyroStream.value == true &&
+                        //     snapshot.data!.contains(PolarDataType.gyro))
+                        if (snapshot.data!.contains(PolarDataType.gyro))
+                          _buildGyroInfo(),
+                        // if (controller.magnStream.value == true &&
+                        //     snapshot.data!
+                        //         .contains(PolarDataType.magnetometer))
+                        if (snapshot.data!.contains(PolarDataType.magnetometer))
+                          _buildMagnInfo(),
+                        // if (controller.ecgStream.value == true &&
+                        //     snapshot.data!.contains(PolarDataType.ecg))
+                        if (snapshot.data!.contains(PolarDataType.ecg))
+                          _buildEcgInfo(),
+                      ],
                     ),
                   ),
                   Align(
@@ -698,6 +723,8 @@ class DeviceDetail extends GetView<PolarController> {
                               aspectRatio: 2,
                               child: LineChart(
                                 LineChartData(
+                                  maxY: 0,
+                                  minY: -100,
                                   lineTouchData: LineTouchData(
                                     handleBuiltInTouches: true,
                                     touchTooltipData: LineTouchTooltipData(
@@ -1793,7 +1820,7 @@ class DeviceDetail extends GetView<PolarController> {
                         child: Column(
                           children: [
                             const Text(
-                              'z',
+                              'Heart Rate',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
@@ -1918,11 +1945,11 @@ class DeviceDetail extends GetView<PolarController> {
               } else {
                 return _buildHeader(
                   Image.asset(
-                    'assets/images/acc.png',
+                    'assets/images/ppi.png',
                     width: 24,
                     height: 24,
                   ),
-                  'Accelerometer',
+                  'Pulse-to-Pulse Interval',
                 );
               }
             },

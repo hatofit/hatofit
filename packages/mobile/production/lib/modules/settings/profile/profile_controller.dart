@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -37,23 +36,16 @@ class ProfileController extends GetxController {
       //
       final File file = File('${directory?.path}/${pickedImage.name}');
       await file.writeAsBytes(await pickedImage.readAsBytes());
-      print('===***===\n'
-          'path: ${pickedImage.path}\n'
-          'pickedImage: \n'
-          'saved path: ${file.path}\n'
-          '===***===');
-      final convert = await _convertImageToBase64(file.path);
-      print('convert: $convert');
+      // print('===***===\n'
+      //     'path: ${pickedImage.path}\n'
+      //     'pickedImage: \n'
+      //     'saved path: ${file.path}\n'
+      //     '===***===');
+      // final convert = await _convertImageToBase64(file.path);
+      // print('convert: $convert');
       // storage.write('genderAsset', file.path);
       update();
     }
-  }
-
-  Future<String> _convertImageToBase64(String path) async {
-    final File file = File(path);
-    final bytes = await file.readAsBytes();
-    final base64 = base64Encode(bytes);
-    return base64;
   }
 
   final _prefs = PreferencesProvider();

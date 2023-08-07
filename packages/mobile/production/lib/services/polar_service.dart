@@ -341,17 +341,17 @@ class PolarService extends GetxController {
     _polar.deviceDisconnected.last;
   }
 
-  void streamResume() {
-    for (var element in _availableSubscriptions) {
-      element.resume();
-    }
-  }
+  // void streamResume() {
+  //   for (var element in _availableSubscriptions) {
+  //     element.resume();
+  //   }
+  // }
 
-  void streamPause() {
-    for (var element in _availableSubscriptions) {
-      element.pause();
-    }
-  }
+  // void streamPause() {
+  //   for (var element in _availableSubscriptions) {
+  //     element.pause();
+  //   }
+  // }
 
   Future<void> _streamCancelation() async {
     for (var element in _availableSubscriptions) {

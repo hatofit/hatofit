@@ -275,13 +275,13 @@ class PolarController extends GetxController {
     streamingModel[index].ecgData.add(nED);
   }
 
-  final hrStream = false.obs;
-  final accStream = false.obs;
-  final ppgStream = false.obs;
-  final ppiStream = false.obs;
-  final gyroStream = false.obs;
-  final magnStream = false.obs;
-  final ecgStream = false.obs;
+  // final hrStream = false.obs;
+  // final accStream = false.obs;
+  // final ppgStream = false.obs;
+  // final ppiStream = false.obs;
+  // final gyroStream = false.obs;
+  // final magnStream = false.obs;
+  // final ecgStream = false.obs;
 
   Future<Duration> elapsedTime(int startTime, int lastTime) async {
     final DateTime start = DateTime.fromMicrosecondsSinceEpoch(startTime);

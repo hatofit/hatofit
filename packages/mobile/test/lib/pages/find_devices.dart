@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/constants/style.dart';
@@ -141,7 +140,8 @@ class _FindDevicesPageState extends State<FindDevicesPage> {
                                             const Duration(seconds: 5), () {
                                           if (controller.availableTypes
                                               .contains(PolarDataType.hr)) {
-                                            _toggleService();
+                                            Get.toNamed(AppRoutes.deviceDetail);
+                                            // _toggleService();
                                           }
                                         });
                                         Get.dialog(
@@ -204,282 +204,282 @@ class _FindDevicesPageState extends State<FindDevicesPage> {
     );
   }
 
-  Future _toggleService() {
-    return Get.bottomSheet(
-        Container(
-          height: Get.height * 0.8,
-          padding: const EdgeInsets.all(defaultPadding),
-          decoration: BoxDecoration(
-              color: Colors.grey[800],
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(32),
-                topRight: Radius.circular(32),
-              )),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.close,
-                          color: Colors.transparent,
-                        ),
-                      ),
-                      const Text('Select Initial Streaming',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          )),
-                      IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: const Icon(Icons.close),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Divider(
-                color: Colors.grey[700],
-                thickness: 1,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Row(
-                    children: [
-                      Icon(
-                        CupertinoIcons.heart,
-                        color: Colors.redAccent,
-                      ),
-                      SizedBox(width: defaultMargin / 2),
-                      Text('Heart Rate'),
-                    ],
-                  ),
-                  Transform.scale(
-                    scale: 0.75,
-                    child: Obx(
-                      () => CupertinoSwitch(
-                        value: controller.hrStream.value,
-                        onChanged: (value) {
-                          controller.hrStream.value = value;
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Divider(
-                color: Colors.grey[700],
-                thickness: 1,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/acc.png',
-                        height: 24,
-                        width: 24,
-                      ),
-                      const SizedBox(width: defaultMargin / 2),
-                      const Text('Accelerometer'),
-                    ],
-                  ),
-                  Transform.scale(
-                    scale: 0.75,
-                    child: Obx(
-                      () => CupertinoSwitch(
-                        value: controller.accStream.value,
-                        onChanged: (value) {
-                          controller.accStream.value = value;
-                        },
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Divider(
-                color: Colors.grey[700],
-                thickness: 1,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/ppg.png',
-                        height: 24,
-                        width: 24,
-                      ),
-                      const SizedBox(width: defaultMargin / 2),
-                      const Text('Photoplethysmography'),
-                    ],
-                  ),
-                  Transform.scale(
-                    scale: 0.75,
-                    child: Obx(
-                      () => CupertinoSwitch(
-                        value: controller.ppgStream.value,
-                        onChanged: (value) {
-                          controller.ppgStream.value = value;
-                        },
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Divider(
-                color: Colors.grey[700],
-                thickness: 1,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/ppi.png',
-                        height: 24,
-                        width: 24,
-                      ),
-                      const SizedBox(width: defaultMargin / 2),
-                      const Text('Pulse to Pulse Interval'),
-                    ],
-                  ),
-                  Transform.scale(
-                    scale: 0.75,
-                    child: Obx(
-                      () => CupertinoSwitch(
-                        value: controller.ppiStream.value,
-                        onChanged: (value) {
-                          controller.ppiStream.value = value;
-                        },
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Divider(
-                color: Colors.grey[700],
-                thickness: 1,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/gyro.png',
-                        height: 24,
-                        width: 24,
-                      ),
-                      const SizedBox(width: defaultMargin / 2),
-                      const Text('Gyroscope'),
-                    ],
-                  ),
-                  Transform.scale(
-                    scale: 0.75,
-                    child: Obx(
-                      () => CupertinoSwitch(
-                        value: controller.gyroStream.value,
-                        onChanged: (value) {
-                          controller.gyroStream.value = value;
-                        },
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Divider(
-                color: Colors.grey[700],
-                thickness: 1,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/magn.png',
-                        height: 24,
-                        width: 24,
-                      ),
-                      const SizedBox(width: defaultMargin / 2),
-                      const Text('Magnetometer'),
-                    ],
-                  ),
-                  Transform.scale(
-                    scale: 0.75,
-                    child: Obx(
-                      () => CupertinoSwitch(
-                        value: controller.magnStream.value,
-                        onChanged: (value) {
-                          controller.magnStream.value = value;
-                        },
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              Divider(
-                color: Colors.grey[700],
-                thickness: 1,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/ecg.png',
-                        height: 24,
-                        width: 24,
-                      ),
-                      const SizedBox(width: defaultMargin / 2),
-                      const Text('Electrocardiography'),
-                    ],
-                  ),
-                  Transform.scale(
-                    scale: 0.75,
-                    child: Obx(
-                      () => CupertinoSwitch(
-                        value: controller.ecgStream.value,
-                        onChanged: (value) {
-                          controller.ecgStream.value = value;
-                        },
-                      ),
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                    onPressed: () {
-                      Get.toNamed(AppRoutes.deviceDetail);
-                    },
-                    child: const Text(
-                      'Start Streaming',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    )),
-              ),
-            ],
-          ),
-        ),
-        isScrollControlled: true);
-  }
+  // Future _toggleService() {
+  //   return Get.bottomSheet(
+  //       Container(
+  //         height: Get.height * 0.8,
+  //         padding: const EdgeInsets.all(defaultPadding),
+  //         decoration: BoxDecoration(
+  //             color: Colors.grey[800],
+  //             borderRadius: const BorderRadius.only(
+  //               topLeft: Radius.circular(32),
+  //               topRight: Radius.circular(32),
+  //             )),
+  //         child: Column(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Column(
+  //               children: [
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     IconButton(
+  //                       onPressed: () {},
+  //                       icon: const Icon(
+  //                         Icons.close,
+  //                         color: Colors.transparent,
+  //                       ),
+  //                     ),
+  //                     const Text('Select Initial Streaming',
+  //                         style: TextStyle(
+  //                           fontSize: 18,
+  //                           fontWeight: FontWeight.bold,
+  //                         )),
+  //                     IconButton(
+  //                       onPressed: () {
+  //                         Get.back();
+  //                       },
+  //                       icon: const Icon(Icons.close),
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ],
+  //             ),
+  //             Divider(
+  //               color: Colors.grey[700],
+  //               thickness: 1,
+  //             ),
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 const Row(
+  //                   children: [
+  //                     Icon(
+  //                       CupertinoIcons.heart,
+  //                       color: Colors.redAccent,
+  //                     ),
+  //                     SizedBox(width: defaultMargin / 2),
+  //                     Text('Heart Rate'),
+  //                   ],
+  //                 ),
+  //                 Transform.scale(
+  //                   scale: 0.75,
+  //                   child: Obx(
+  //                     () => CupertinoSwitch(
+  //                       value: controller.hrStream.value,
+  //                       onChanged: (value) {
+  //                         controller.hrStream.value = value;
+  //                       },
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //             Divider(
+  //               color: Colors.grey[700],
+  //               thickness: 1,
+  //             ),
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Row(
+  //                   children: [
+  //                     Image.asset(
+  //                       'assets/images/acc.png',
+  //                       height: 24,
+  //                       width: 24,
+  //                     ),
+  //                     const SizedBox(width: defaultMargin / 2),
+  //                     const Text('Accelerometer'),
+  //                   ],
+  //                 ),
+  //                 Transform.scale(
+  //                   scale: 0.75,
+  //                   child: Obx(
+  //                     () => CupertinoSwitch(
+  //                       value: controller.accStream.value,
+  //                       onChanged: (value) {
+  //                         controller.accStream.value = value;
+  //                       },
+  //                     ),
+  //                   ),
+  //                 )
+  //               ],
+  //             ),
+  //             Divider(
+  //               color: Colors.grey[700],
+  //               thickness: 1,
+  //             ),
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Row(
+  //                   children: [
+  //                     Image.asset(
+  //                       'assets/images/ppg.png',
+  //                       height: 24,
+  //                       width: 24,
+  //                     ),
+  //                     const SizedBox(width: defaultMargin / 2),
+  //                     const Text('Photoplethysmography'),
+  //                   ],
+  //                 ),
+  //                 Transform.scale(
+  //                   scale: 0.75,
+  //                   child: Obx(
+  //                     () => CupertinoSwitch(
+  //                       value: controller.ppgStream.value,
+  //                       onChanged: (value) {
+  //                         controller.ppgStream.value = value;
+  //                       },
+  //                     ),
+  //                   ),
+  //                 )
+  //               ],
+  //             ),
+  //             Divider(
+  //               color: Colors.grey[700],
+  //               thickness: 1,
+  //             ),
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Row(
+  //                   children: [
+  //                     Image.asset(
+  //                       'assets/images/ppi.png',
+  //                       height: 24,
+  //                       width: 24,
+  //                     ),
+  //                     const SizedBox(width: defaultMargin / 2),
+  //                     const Text('Pulse to Pulse Interval'),
+  //                   ],
+  //                 ),
+  //                 Transform.scale(
+  //                   scale: 0.75,
+  //                   child: Obx(
+  //                     () => CupertinoSwitch(
+  //                       value: controller.ppiStream.value,
+  //                       onChanged: (value) {
+  //                         controller.ppiStream.value = value;
+  //                       },
+  //                     ),
+  //                   ),
+  //                 )
+  //               ],
+  //             ),
+  //             Divider(
+  //               color: Colors.grey[700],
+  //               thickness: 1,
+  //             ),
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Row(
+  //                   children: [
+  //                     Image.asset(
+  //                       'assets/images/gyro.png',
+  //                       height: 24,
+  //                       width: 24,
+  //                     ),
+  //                     const SizedBox(width: defaultMargin / 2),
+  //                     const Text('Gyroscope'),
+  //                   ],
+  //                 ),
+  //                 Transform.scale(
+  //                   scale: 0.75,
+  //                   child: Obx(
+  //                     () => CupertinoSwitch(
+  //                       value: controller.gyroStream.value,
+  //                       onChanged: (value) {
+  //                         controller.gyroStream.value = value;
+  //                       },
+  //                     ),
+  //                   ),
+  //                 )
+  //               ],
+  //             ),
+  //             Divider(
+  //               color: Colors.grey[700],
+  //               thickness: 1,
+  //             ),
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Row(
+  //                   children: [
+  //                     Image.asset(
+  //                       'assets/images/magn.png',
+  //                       height: 24,
+  //                       width: 24,
+  //                     ),
+  //                     const SizedBox(width: defaultMargin / 2),
+  //                     const Text('Magnetometer'),
+  //                   ],
+  //                 ),
+  //                 Transform.scale(
+  //                   scale: 0.75,
+  //                   child: Obx(
+  //                     () => CupertinoSwitch(
+  //                       value: controller.magnStream.value,
+  //                       onChanged: (value) {
+  //                         controller.magnStream.value = value;
+  //                       },
+  //                     ),
+  //                   ),
+  //                 )
+  //               ],
+  //             ),
+  //             Divider(
+  //               color: Colors.grey[700],
+  //               thickness: 1,
+  //             ),
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Row(
+  //                   children: [
+  //                     Image.asset(
+  //                       'assets/images/ecg.png',
+  //                       height: 24,
+  //                       width: 24,
+  //                     ),
+  //                     const SizedBox(width: defaultMargin / 2),
+  //                     const Text('Electrocardiography'),
+  //                   ],
+  //                 ),
+  //                 Transform.scale(
+  //                   scale: 0.75,
+  //                   child: Obx(
+  //                     () => CupertinoSwitch(
+  //                       value: controller.ecgStream.value,
+  //                       onChanged: (value) {
+  //                         controller.ecgStream.value = value;
+  //                       },
+  //                     ),
+  //                   ),
+  //                 )
+  //               ],
+  //             ),
+  //             const SizedBox(
+  //               height: 20,
+  //             ),
+  //             SizedBox(
+  //               width: double.infinity,
+  //               height: 50,
+  //               child: ElevatedButton(
+  //                   onPressed: () {
+  //                     Get.toNamed(AppRoutes.deviceDetail);
+  //                   },
+  //                   child: const Text(
+  //                     'Start Streaming',
+  //                     style:
+  //                         TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+  //                   )),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //       isScrollControlled: true);
+  // }
 }
