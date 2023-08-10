@@ -15,9 +15,6 @@ class HistoryController extends GetxController {
   Future<List<dynamic>> fetchHistory() async {
     List<dynamic> data = await InternetService().fetchHistory();
     historyData.value = data;
-    print("===***===\n"
-        "historyData: $historyData\n"
-        "===***===");
     return data;
   }
 

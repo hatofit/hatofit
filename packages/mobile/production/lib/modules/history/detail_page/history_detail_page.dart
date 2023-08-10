@@ -47,7 +47,9 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                       .reduce((a, b) => a > b ? a : b);
                   final exercise =
                       snapshot.data?['exercise'] as Map<String, dynamic>;
-
+                  debugPrint("===***===\n"
+                      "exercise : $exercise\n"
+                      "===***===\n");
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -55,6 +57,13 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                         padding: const EdgeInsets.symmetric(horizontal: 48),
                         child: Column(
                           children: [
+                            Text(
+                              '${exercise['name']}',
+                              style: Theme.of(context).textTheme.displaySmall,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
                             Text(
                               '${exercise['name']}',
                               style: Theme.of(context).textTheme.displaySmall,
