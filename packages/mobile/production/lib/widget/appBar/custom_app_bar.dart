@@ -45,7 +45,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     });
     polarService.polar.deviceDisconnected.listen((event) {
       polarService.connectedDeviceId = 'Device disconnected';
-      polarService.heartRate = '--';
+      polarService.heartRate.value = '--';
       bluetoothService.isConnectedDevice.value = false;
       debugPrint(
           'Device disconnected from ${event.deviceId} ${bluetoothService.isConnectedDevice.value}');

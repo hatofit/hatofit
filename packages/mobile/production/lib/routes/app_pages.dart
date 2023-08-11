@@ -21,6 +21,7 @@ import 'package:polar_hr_devices/modules/splash/firstTime/register/register_bind
 import 'package:polar_hr_devices/modules/splash/firstTime/input_user_metric/input_user_metric_binding.dart';
 import 'package:polar_hr_devices/modules/splash/firstTime/input_user_metric/input_user_metric_page.dart';
 import 'package:polar_hr_devices/modules/splash/loading_splash_screen.dart';
+import 'package:polar_hr_devices/modules/free_workout/free_workout_binding.dart';
 import 'package:polar_hr_devices/modules/workout/workout_detail/workout_details_binding.dart';
 import 'package:polar_hr_devices/modules/workout/workout_detail/workout_details_page.dart';
 import 'package:polar_hr_devices/modules/workout/workout_page.dart';
@@ -28,6 +29,8 @@ import 'package:polar_hr_devices/modules/workout/workout_start/workout_start_bin
 import 'package:polar_hr_devices/modules/workout/workout_start/workout_start_page.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
 import 'package:polar_hr_devices/services/services_binding.dart';
+
+import '../modules/free_workout/free_workout_page.dart';
 
 class AppPages {
   AppPages._();
@@ -89,6 +92,12 @@ class AppPages {
       name: AppRoutes.workoutStart,
       page: () => WorkoutStartPage(Get.arguments),
       binding: WorkoutStartBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: AppRoutes.freeWorkout,
+      page: () => const FreeWorkoutPage(),
+      binding: FreeWorkoutBinding(),
       transition: Transition.cupertino,
     ),
     GetPage(

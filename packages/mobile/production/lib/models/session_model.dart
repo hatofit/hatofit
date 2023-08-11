@@ -4,7 +4,7 @@ part 'session_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SessionModel {
-  final String exerciseId;
+  String exerciseId;
   final int startTime;
   final int endTime;
   final List<SessionTimeline> timelines;

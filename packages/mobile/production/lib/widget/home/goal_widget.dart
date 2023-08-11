@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:polar_hr_devices/services/bluetooth_service.dart';
 import 'package:polar_hr_devices/themes/colors_constants.dart';
 import 'package:polar_hr_devices/routes/app_routes.dart';
 
@@ -10,6 +11,7 @@ class GoalWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final BluetoothService _bCon = Get.find<BluetoothService>();
     return Container(
         height: height,
         width: width,
@@ -22,42 +24,46 @@ class GoalWidget extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Goal',
-                  style: Theme.of(context).textTheme.displaySmall,
-                ),
-                Text(
-                  'Leg Day',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                )
-              ],
+            Text(
+              'Free Workout',
+              style: Theme.of(context).textTheme.displaySmall,
             ),
-            SizedBox(
-                height: height * 0.4,
-                width: width * 0.85,
-                child: TextButton(
-                  onPressed: () => {Get.toNamed(AppRoutes.setting)},
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                        ColorConstants.crimsonRed),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
+            Center(
+              child: SizedBox(
+                  height: height * 0.4,
+                  width: width * 0.85,
+                  child: TextButton(
+                    onPressed: () {
+                      if(_bCon.isConnectedDevice.value == true){
+                      Get.toNamed(AppRoutes.freeWorkout);}
+                      else{
+                        Get.snackbar('No Device Connected', 'Please connect to a device to start a workout',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.white,
+                        colorText: Colors.black,
+                        );
+                      }
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          ColorConstants.crimsonRed),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                        ),
                       ),
                     ),
-                  ),
-                  child: const Text(
-                    'Start Now',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
+                    child: const Text(
+                      'Start Now',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                      ),
                     ),
-                  ),
-                ))
+                  )),
+            )
           ],
         ));
   }

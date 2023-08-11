@@ -71,7 +71,7 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                               const Icon(CupertinoIcons.heart_fill,
                                   color: ColorConstants.crimsonRed),
                               const SizedBox(width: 8),
-                              Text(polarService.heartRate,
+                              Text(polarService.heartRate.value,
                                   style: const TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 16,

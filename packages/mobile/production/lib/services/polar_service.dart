@@ -17,7 +17,7 @@ const Map<String, String> _deviceImageList = {
 
 class PolarService extends GetxController {
   final _polar = Polar();
-  final _heartRate = '--'.obs;
+  final heartRate = '0'.obs;
   final _connectedDeviceId = 'No Device'.obs;
   final _detectedDevices = List<Map<String, dynamic>>.empty(growable: true);
 
@@ -25,10 +25,8 @@ class PolarService extends GetxController {
   final List<StreamSubscription> _availableSubscriptions = [];
 
   Polar get polar => _polar;
-  String get heartRate => _heartRate.value;
   String get connectedDeviceId => _connectedDeviceId.value;
   List<Map<String, dynamic>> get detectedDevices => _detectedDevices;
-  set heartRate(String value) => _heartRate.value = value;
   set connectedDeviceId(String value) => _connectedDeviceId.value = value;
 
   SessionDataItem _currentSecondDataItem = SessionDataItem(
@@ -37,13 +35,13 @@ class PolarService extends GetxController {
     devices: [],
   );
 
-  SessionModel _sessionModel = SessionModel(
+  var sessMod = SessionModel(
     exerciseId: 'BoilerPlating',
     startTime: DateTime.now().microsecondsSinceEpoch,
     endTime: 0,
     timelines: [],
     data: [],
-  );
+  ).obs;
   @override
   void onReady() {
     scanPolarDevices();
@@ -56,11 +54,12 @@ class PolarService extends GetxController {
     super.onClose();
   }
 
-  void starWorkout(String exerciseId, int exerciseDuration) {
+  void starWorkout(
+      String exerciseId, int exerciseDuration, String exerciseName) {
     var currentSecond = 0;
     final endStream =
         DateTime.now().microsecondsSinceEpoch + (exerciseDuration * 1000000);
-    _sessionModel = SessionModel(
+    sessMod.value = SessionModel(
         exerciseId: exerciseId,
         startTime: DateTime.now().microsecondsSinceEpoch,
         endTime: endStream,
@@ -72,13 +71,27 @@ class PolarService extends GetxController {
         timeStamp: DateTime.now().microsecondsSinceEpoch,
         devices: List.from(_currentSecondDataItem.devices),
       );
-      _sessionModel.data.add(_currentSecondDataItem);
+      sessMod.value.data.add(_currentSecondDataItem);
       if (isStartWorkout.value == false) {
         currentSecond = 0;
+        var exeName = exerciseName;
+        if (exeName == 'EMPTY') {
+          exeName = exerciseId;
+        } else {
+          exeName = exerciseName;
+          sessMod.value.exerciseId = '(Custom) $exerciseName';
+        }
+        if (exerciseDuration == 0) {
+          final endTime = DateTime.now();
+          final startTIme =
+              DateTime.fromMicrosecondsSinceEpoch(sessMod.value.startTime);
+          final difference = endTime.difference(startTIme);
+          exerciseDuration = difference.inSeconds;
+        }
         StorageService().saveToJSON(
-            'session/raw/log-${_sessionModel.exerciseId}-$_connectedDeviceId-${DateTime.now().microsecondsSinceEpoch - (exerciseDuration * 1000000)}',
-            _sessionModel);
-        InternetService().postSession(_sessionModel);
+            'session/raw/log-$exeName-$_connectedDeviceId-${DateTime.now().microsecondsSinceEpoch - (exerciseDuration * 1000000)}',
+            sessMod);
+        InternetService().postSession(sessMod);
         timer.cancel();
       }
       _currentSecondDataItem.devices.clear();
@@ -92,14 +105,15 @@ class PolarService extends GetxController {
           e.identifier == deviceId &&
           e.feature == PolarSdkFeature.onlineStreaming,
     );
-
     final availableTypes =
         await _polar.getAvailableOnlineStreamDataTypes(deviceId);
-
+    debugPrint("===***===\n"
+        "availableTypes: $availableTypes\n"
+        "===***===\n");
     if (availableTypes.contains(PolarDataType.hr)) {
       StreamSubscription hrSubscription =
           _polar.startHrStreaming(deviceId).listen((hrData) {
-        _heartRate.value = hrData.samples.last.hr.toString();
+        heartRate.value = hrData.samples.last.hr.toString();
 
         if (isStartWorkout.value == true) {
           bool hasHrDevice = _currentSecondDataItem.devices

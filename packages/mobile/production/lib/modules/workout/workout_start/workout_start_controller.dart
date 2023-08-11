@@ -20,7 +20,7 @@ class WorkoutStartController extends GetxController {
   void nextInstruction(totalInstruction) {
     if (nowInstruction.value + 1 >= totalInstruction) {
       countDownTimer.value.reset();
-      _polarService.isStartWorkout.value = false; 
+      _polarService.isStartWorkout.value = false;
       isAllExerciseFinish.value = true;
       Get.offNamed(AppRoutes.dashboard);
       _historyController.fetchHistory();
@@ -36,7 +36,7 @@ class WorkoutStartController extends GetxController {
   @override
   void onInit() {
     _polarService.isStartWorkout.value = true;
-    _polarService.starWorkout(workout.id, workout.duration);
+    _polarService.starWorkout(workout.id, workout.duration ,'EMPTY');
     super.onInit();
   }
 }

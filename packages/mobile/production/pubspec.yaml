@@ -50,6 +50,10 @@ dependencies:
   path_provider: ^2.0.15
   permission_handler: ^10.4.1
   flutter_dotenv: ^5.1.0
+  background_fetch: ^1.2.0
+
+  # Notifications
+  flutter_local_notifications: ^15.1.0+1
 
 dev_dependencies:
   flutter_test:
