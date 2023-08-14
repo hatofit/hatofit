@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../core/services/polar_service.dart';
-import 'free_workout_controller.dart';
+import '../controllers/free_workout_controller.dart';
 
 class FreeWorkoutPage extends StatelessWidget {
   const FreeWorkoutPage({super.key});

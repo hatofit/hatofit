@@ -6,8 +6,9 @@ import 'package:get/get.dart';
 import 'package:polar_hr_devices/core/services/polar_service.dart';
 import 'package:polar_hr_devices/core/services/storage_service.dart';
 
-import '../../data/models/session_model.dart';
-import '../../core/services/internet_service.dart';
+import '../../../../core/services/internet_service.dart';
+import '../../../../data/models/session_model.dart';
+
 
 class FreeWorkoutController extends GetxController {
   final PolarService _pCon = Get.find<PolarService>();

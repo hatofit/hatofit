@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../../core/services/polar_service.dart';
+import '../../../../core/services/polar_service.dart';
 import 'free_workout_controller.dart';
 
 class FreeWorkoutPage extends StatelessWidget {

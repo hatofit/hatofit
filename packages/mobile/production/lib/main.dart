@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/routes/app_pages.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
+import 'package:polar_hr_devices/core/routes/app_pages.dart';
+import 'package:polar_hr_devices/core/routes/app_routes.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:polar_hr_devices/themes/app_theme.dart';
+import 'package:polar_hr_devices/core/themes/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
