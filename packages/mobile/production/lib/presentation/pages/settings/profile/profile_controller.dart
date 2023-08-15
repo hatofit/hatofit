@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../../../core/utils/preferences_provider.dart';
+import '../../../../app/utils/preferences_provider.dart';
 
 
 class ProfileController extends GetxController {

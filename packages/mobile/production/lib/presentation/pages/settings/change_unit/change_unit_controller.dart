@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../../core/utils/preferences_provider.dart';
+import '../../../../app/utils/preferences_provider.dart';
 import '../../../../data/models/auth_model.dart';
 
 

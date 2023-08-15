@@ -3,10 +3,10 @@ import 'dart:isolate';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/core/services/polar_service.dart';
-import 'package:polar_hr_devices/core/services/storage_service.dart';
 
-import '../../../../core/services/internet_service.dart';
+import '../../../../app/services/internet_service.dart';
+import '../../../../app/services/polar_service.dart';
+import '../../../../app/services/storage_service.dart';
 import '../../../../data/models/session_model.dart';
 
 

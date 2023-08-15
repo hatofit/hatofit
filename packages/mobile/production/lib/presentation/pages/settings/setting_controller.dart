@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/core/routes/app_routes.dart';
 
-import '../../../core/utils/preferences_provider.dart';
+import '../../../app/routes/app_routes.dart';
+import '../../../app/utils/preferences_provider.dart';
 
 class SettingController extends GetxController {
   final String title = 'Setting Title';

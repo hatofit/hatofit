@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/core/routes/app_routes.dart';
-import 'package:polar_hr_devices/core/themes/app_theme.dart';
 import 'package:video_player/video_player.dart';
 
+import '../../../../../app/routes/app_routes.dart';
+import '../../../../../app/themes/app_theme.dart';
 import 'login_controller.dart';
 
 class LoginPage extends GetView<LoginController> {

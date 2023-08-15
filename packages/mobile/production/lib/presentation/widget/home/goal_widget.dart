@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/core/services/bluetooth_service.dart';
-import 'package:polar_hr_devices/core/themes/colors_constants.dart';
-import 'package:polar_hr_devices/core/routes/app_routes.dart';
+
+import '../../../app/routes/app_routes.dart';
+import '../../../app/services/bluetooth_service.dart';
+import '../../../app/themes/colors_constants.dart';
 
 class GoalWidget extends StatelessWidget {
   final double width;

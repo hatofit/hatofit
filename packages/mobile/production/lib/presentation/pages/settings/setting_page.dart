@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/core/themes/colors_constants.dart';
-import 'package:polar_hr_devices/core/routes/app_routes.dart';
-import 'package:polar_hr_devices/presentation/widget/appBar/custom_app_bar.dart';
-import 'package:polar_hr_devices/presentation/widget/setting/setting_list_tile_widget.dart';
 
+import '../../../app/routes/app_routes.dart';
+import '../../../app/themes/colors_constants.dart';
+import '../../widget/appBar/custom_app_bar.dart';
+import '../../widget/setting/setting_list_tile_widget.dart';
 import 'setting_controller.dart';
 
 class SettingPage extends GetView<SettingController> {

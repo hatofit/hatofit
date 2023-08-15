@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:polar_hr_devices/core/utils/image_utils.dart';
 import 'package:video_player/video_player.dart';
 
-import '../../../../../core/routes/app_routes.dart';
-import '../../../../../core/services/internet_service.dart';
-import '../../../../../core/services/polar_service.dart';
-import '../../../../../core/utils/preferences_provider.dart';
+import '../../../../../app/routes/app_routes.dart';
+import '../../../../../app/services/internet_service.dart';
+import '../../../../../app/services/polar_service.dart';
+import '../../../../../app/utils/image_utils.dart';
+import '../../../../../app/utils/preferences_provider.dart';
 import '../../../../../data/models/auth_model.dart';
 
 class LoginController extends GetxController {

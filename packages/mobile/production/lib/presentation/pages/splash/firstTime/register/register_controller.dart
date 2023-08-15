@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/core/routes/app_routes.dart';
-import 'package:polar_hr_devices/core/utils/image_utils.dart';
 
+import '../../../../../app/routes/app_routes.dart';
+import '../../../../../app/utils/image_utils.dart';
 import '../../../../../data/models/auth_model.dart';
 
 

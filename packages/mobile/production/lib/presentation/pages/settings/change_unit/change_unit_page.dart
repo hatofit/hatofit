@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
-import 'package:polar_hr_devices/core/routes/app_routes.dart';
 
+import '../../../../app/routes/app_routes.dart';
 import 'change_unit_controller.dart';
 
 class ChangeUnitPage extends GetView<ChangeUnitController> {

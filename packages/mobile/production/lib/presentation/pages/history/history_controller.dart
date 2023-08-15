@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../core/services/internet_service.dart';
+import '../../../app/services/internet_service.dart';
 
 
 class HistoryController extends GetxController {

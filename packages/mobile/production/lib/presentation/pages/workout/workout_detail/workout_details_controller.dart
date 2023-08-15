@@ -3,10 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:polar_hr_devices/core/themes/app_theme.dart';
-import 'package:polar_hr_devices/data/models/exercise_model.dart';
 
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+import '../../../../app/themes/app_theme.dart';
+import '../../../../data/models/exercise_model.dart';
 
 class WorkoutDetailsController extends GetxController
     with GetSingleTickerProviderStateMixin {

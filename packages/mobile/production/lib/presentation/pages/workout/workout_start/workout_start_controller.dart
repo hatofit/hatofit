@@ -1,8 +1,8 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/core/routes/app_routes.dart';
-import 'package:polar_hr_devices/core/services/polar_service.dart';
 
+import '../../../../app/routes/app_routes.dart';
+import '../../../../app/services/polar_service.dart';
 import '../../../../data/models/exercise_model.dart';
 import '../../history/history_controller.dart';
 

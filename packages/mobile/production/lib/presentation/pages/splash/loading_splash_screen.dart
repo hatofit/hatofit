@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/core/routes/app_routes.dart';
-import 'package:polar_hr_devices/core/utils/preferences_provider.dart';
-import 'package:polar_hr_devices/core/services/storage_service.dart';
-import 'package:polar_hr_devices/core/themes/app_theme.dart';
 
+import '../../../app/routes/app_routes.dart';
+import '../../../app/services/storage_service.dart';
+import '../../../app/themes/app_theme.dart';
+import '../../../app/utils/preferences_provider.dart';
 class LoadingSplashScreen extends StatelessWidget {
   const LoadingSplashScreen({super.key});
   @override

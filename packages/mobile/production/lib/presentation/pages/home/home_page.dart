@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/core/themes/colors_constants.dart';
-import 'package:polar_hr_devices/core/services/polar_service.dart';
-import 'package:polar_hr_devices/core/themes/app_theme.dart';
-import 'package:polar_hr_devices/presentation/widget/home/hr_lines_chart.dart';
-import 'package:polar_hr_devices/presentation/widget/home/bmi_chart_widget.dart';
-import 'package:polar_hr_devices/presentation/widget/home/calories_chart_widget.dart';
-import 'package:polar_hr_devices/presentation/widget/appBar/custom_app_bar.dart';
-import 'package:polar_hr_devices/presentation/widget/home/goal_widget.dart';
-import 'package:polar_hr_devices/presentation/widget/home/sleeps_info_widget.dart';
-import 'package:polar_hr_devices/presentation/widget/home/steps_chart_widget.dart';
-import 'package:polar_hr_devices/presentation/widget/icon_wrapper.dart';
-import 'package:polar_hr_devices/presentation/widget/home/mood_picker_widget.dart';
 
+import '../../../app/services/polar_service.dart';
+import '../../../app/themes/app_theme.dart';
+import '../../../app/themes/colors_constants.dart';
+import '../../widget/appBar/custom_app_bar.dart';
+import '../../widget/home/bmi_chart_widget.dart';
+import '../../widget/home/calories_chart_widget.dart';
+import '../../widget/home/goal_widget.dart';
+import '../../widget/home/hr_lines_chart.dart';
+import '../../widget/home/mood_picker_widget.dart';
+import '../../widget/home/sleeps_info_widget.dart';
+import '../../widget/home/steps_chart_widget.dart';
+import '../../widget/icon_wrapper.dart';
 import 'home_controller.dart';
 
 class HomePage extends GetView<HomeController> {

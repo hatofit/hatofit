@@ -1,7 +1,8 @@
 
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/core/services/internet_service.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+
+import '../../../../app/services/internet_service.dart';
 
 class HistoryDetailController extends GetxController {
   final String title = 'History Detail';

@@ -3,8 +3,8 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:polar_hr_devices/core/routes/app_routes.dart';
 
+import '../../../app/routes/app_routes.dart';
 import '../../../data/models/exercise_model.dart';
 
 

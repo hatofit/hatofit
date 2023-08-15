@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:polar_hr_devices/core/themes/colors_constants.dart';
-import 'package:polar_hr_devices/core/routes/app_routes.dart';
 
+import '../../../../app/routes/app_routes.dart';
+import '../../../../app/themes/colors_constants.dart';
 import '../../../../data/models/exercise_model.dart';
 import 'workout_details_controller.dart';
 

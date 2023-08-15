@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:polar_hr_devices/core/themes/colors_constants.dart';
+
+import '../../app/themes/colors_constants.dart';
 
 class DayWidget extends StatelessWidget {
   final String day;

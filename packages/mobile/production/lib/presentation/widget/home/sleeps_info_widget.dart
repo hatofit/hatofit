@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/core/themes/colors_constants.dart';
 
-import 'package:polar_hr_devices/presentation/widget/icon_wrapper.dart';
+import '../../../app/themes/colors_constants.dart';
+import '../icon_wrapper.dart';
 
 class SleepsInfoWidget extends StatelessWidget {
   final double width;

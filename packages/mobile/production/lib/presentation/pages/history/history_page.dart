@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/core/routes/app_routes.dart';
-import 'package:polar_hr_devices/core/themes/app_theme.dart';
-import 'package:polar_hr_devices/core/themes/colors_constants.dart';
-import 'package:polar_hr_devices/presentation/widget/appBar/custom_app_bar.dart';
 
+import '../../../app/routes/app_routes.dart';
+import '../../../app/themes/app_theme.dart';
+import '../../../app/themes/colors_constants.dart';
+import '../../widget/appBar/custom_app_bar.dart';
 import 'history_controller.dart';
 
 class HistoryPage extends GetView<HistoryController> {

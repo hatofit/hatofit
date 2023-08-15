@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:polar_hr_devices/core/themes/colors_constants.dart';
-import 'package:polar_hr_devices/core/services/bluetooth_service.dart';
-import 'package:polar_hr_devices/core/services/polar_service.dart';
-import 'package:polar_hr_devices/core/themes/app_theme.dart';
 
+import '../../../../app/services/bluetooth_service.dart';
+import '../../../../app/services/polar_service.dart';
+import '../../../../app/themes/app_theme.dart';
+import '../../../../app/themes/colors_constants.dart';
 import '../../../../data/models/exercise_model.dart';
 import '../workout_detail/workout_details_controller.dart';
 import 'workout_start_controller.dart';

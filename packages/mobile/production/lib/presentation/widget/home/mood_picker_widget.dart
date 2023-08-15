@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/core/themes/colors_constants.dart';
-import 'package:polar_hr_devices/core/themes/app_theme.dart';
+
+import '../../../app/themes/app_theme.dart';
+import '../../../app/themes/colors_constants.dart';
 
 class MoodController extends GetxController {
   RxString selectedMood = ''.obs;
