@@ -1,18 +1,16 @@
+import 'package:dartz/dartz.dart';
 
 import '../../app/core/domain/failure.dart';
+import '../../app/core/domain/success.dart';
 import '../../domain/entities/user.dart';
 import '../../domain/repositories/auth_repo_abs.dart';
 import '../sources/api/auth_api.dart';
 
 class AuthRepoIml extends AuthRepoAbs {
   @override
-  Future<User> login(User user) async {
-    final res = await AuthApi.login(user: user).request();
-    if (res is Failure) {
-      throw res;
-    } else {
-      return User.fromJson(res);
-    }
+  Future<Either<Failure, Success>> login(String email, String password) async {
+    final res = await AuthApi.login(email: email, password: password).request();
+    return res;
   }
 
   @override
@@ -26,13 +24,9 @@ class AuthRepoIml extends AuthRepoAbs {
   }
 
   @override
-  Future<User> register(User user) async {
+  Future<Either<Failure, Success>> register(User user) async {
     final res = await AuthApi.register(user: user).request();
-    if (res is Failure) {
-      throw res;
-    } else {
-      return User.fromJson(res);
-    }
+    return res;
   }
 
   @override

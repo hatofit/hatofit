@@ -20,7 +20,6 @@ import '../../presentation/pages/settings/setting_page.dart';
 import '../../presentation/pages/splash/firstTime/greeting/greeting_page.dart';
 import '../../presentation/pages/splash/firstTime/register/input_user_metric/input_user_metric_binding.dart';
 import '../../presentation/pages/splash/firstTime/register/input_user_metric/input_user_metric_page.dart';
-import '../../presentation/pages/splash/firstTime/login/login_binding.dart';
 import '../../presentation/pages/splash/firstTime/login/login_page.dart';
 import '../../presentation/pages/splash/firstTime/register/register_binding.dart';
 import '../../presentation/pages/splash/firstTime/register/register_page.dart';
@@ -55,8 +54,8 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.login,
-      page: () => const LoginPage(),
-      binding: LoginBinding(),
+      page: () => LoginPage(),
+      // binding: LoginBinding(),
       transition: Transition.fade,
       transitionDuration: const Duration(seconds: 1),
     ),

@@ -12,7 +12,6 @@ import '../../../../data/models/session_model.dart';
 
 class FreeWorkoutController extends GetxController {
   final PolarService _pCon = Get.find<PolarService>();
-  DateTime _startTime = DateTime.now();
   final title = 'Free Workout';
   final List<Map<String, dynamic>> hrList = [];
 
@@ -29,7 +28,6 @@ class FreeWorkoutController extends GetxController {
 
   @override
   void onInit() {
-    _startTime = DateTime.now();
     _pCon.isStartWorkout.value = true;
     _pCon.starWorkout('EMPTY', 0, 'EMPTY');
     super.onInit();

@@ -10,18 +10,24 @@ enum AuthType { login, register, logout, updateUser }
 class AuthApi implements APIRequest {
   final AuthType type;
   final User? user;
+  final String? email;
+  final String? password;
 
   AuthApi._({
     required this.type,
     this.user,
+    this.email,
+    this.password,
   });
 
   factory AuthApi.login({
-    required User user,
+    required String email,
+    required String password,
   }) =>
       AuthApi._(
         type: AuthType.login,
-        user: user,
+        email: email,
+        password: password,
       );
 
   factory AuthApi.register({
@@ -74,7 +80,21 @@ class AuthApi implements APIRequest {
 
   @override
   Map<String, dynamic> get body {
-    return user!.toJson();
+    switch (type) {
+      case AuthType.login:
+        return {
+          'email': email,
+          'password': password,
+        };
+      case AuthType.register:
+        return user!.toJson();
+      case AuthType.logout:
+        return {
+          'email': user!.email,
+        };
+      case AuthType.updateUser:
+        return user!.toJson();
+    }
   }
 
   @override

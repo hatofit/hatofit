@@ -5,13 +5,23 @@ import 'package:video_player/video_player.dart';
 
 import '../../../../../app/routes/app_routes.dart';
 import '../../../../../app/themes/app_theme.dart';
-import 'login_controller.dart';
+import '../../../../controller/auth/auth_con.dart';
 
-class LoginPage extends GetView<LoginController> {
-  const LoginPage({super.key});
+class LoginPage extends GetView<AuthCon> {
+  LoginPage({super.key});
+  final _emailCon = TextEditingController();
+  final _passCon = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
+  final _vidPlaCon = VideoPlayerController.asset('assets/videos/login.mp4');
   @override
   Widget build(BuildContext context) {
+    _vidPlaCon.initialize().then((_) {
+      _vidPlaCon.play();
+      _vidPlaCon.setLooping(true);
+    });
+    _emailCon.text = 'a@amcccasc.com';
+    _passCon.text = 'asdfasdfasdf';
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
@@ -27,7 +37,7 @@ class LoginPage extends GetView<LoginController> {
                       Colors.black.withOpacity(0.5),
                       BlendMode.srcOver,
                     ),
-                    child: VideoPlayer(controller.videoPlayerController),
+                    child: VideoPlayer(_vidPlaCon),
                   ),
                 ),
                 Positioned.fill(
@@ -79,7 +89,7 @@ class LoginPage extends GetView<LoginController> {
               ],
             ),
             Form(
-              key: controller.formKey,
+              key: _formKey,
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
@@ -92,7 +102,7 @@ class LoginPage extends GetView<LoginController> {
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
-                        controller: controller.emailController,
+                        controller: _emailCon,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter your email';
@@ -116,7 +126,7 @@ class LoginPage extends GetView<LoginController> {
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
-                        controller: controller.passwordController,
+                        controller: _passCon,
                         obscureText: true,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -144,9 +154,11 @@ class LoginPage extends GetView<LoginController> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            controller.formKey.currentState!.validate();
-                            if (controller.formKey.currentState!.validate()) {
-                              controller.login();
+                            _formKey.currentState!.validate();
+                            if (_formKey.currentState!.validate()) {
+                              controller.login(
+                                  email: _emailCon.text,
+                                  password: _passCon.text);
                             }
                           },
                           child: const Text('Login'),

@@ -1,3 +1,5 @@
 {
-    "dart.flutterSdkPath": "C:\\src\\flutter_3.10.6"
+    "dart.flutterSdkPath": "C:\\src\\flutter_3.10.6",
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/3557fd28-7ed8-44be-a047-0be05785b008/resourceGroups/appsvc_linux_centralus_basic/providers/Microsoft.Web/sites/hatofit-dev",
+    "appService.deploySubpath": "packages\\api"
 }

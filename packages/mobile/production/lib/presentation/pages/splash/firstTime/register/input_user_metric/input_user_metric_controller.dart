@@ -16,12 +16,7 @@ class InputUserMetricController extends GetxController {
   final RegisterUC _registerUC;
   InputUserMetricController(this._registerUC);
   reg(User user) async {
-    try {
-      final res = await _registerUC.execute(user);
-      if (res.id != null) {
-        print('User registered successfully');
-      } else {}
-    } catch (e) {}
+    await _registerUC.execute(user);
   }
 
   final previousData = Get.arguments;
