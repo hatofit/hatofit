@@ -3,10 +3,10 @@ import 'package:hatofit/data/sources/api/base/api_path.dart';
 
 import '../../../app/core/domain/failure.dart';
 import '../../../app/core/domain/success.dart';
-import 'base/api_request.dart';
+import 'base/api_request_repo_abs.dart';
 import 'base/api_source.dart';
 
-class ExerciseApi implements APIRequest {
+class ExerciseApiRepoIml implements ApiRequestRepoAbs {
   @override
   get body => null;
 

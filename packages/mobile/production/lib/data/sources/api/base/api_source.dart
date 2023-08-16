@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../../../../app/core/domain/failure.dart';
 import '../../../../app/core/domain/success.dart';
 import '../../../../app/utils/handle_response.dart';
-import 'api_request.dart';
+import 'api_request_repo_abs.dart';
 
 class ApiSource {
   static const rto = Duration(seconds: 15);
@@ -15,7 +15,7 @@ class ApiSource {
   static final _singleton = ApiSource();
   static ApiSource get instance => _singleton;
 
-  Future<Either<Failure, Success<Map<String, dynamic>>>> request(APIRequest request) async {
+  Future<Either<Failure, Success<Map<String, dynamic>>>> request(ApiRequestRepoAbs request) async {
     final response = await _client.request(
       request.url,
       request.method.string,

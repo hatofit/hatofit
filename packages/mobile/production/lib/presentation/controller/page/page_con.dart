@@ -57,7 +57,14 @@ class PageCon extends GetxController {
   Future<List<Exercise>> fetchExercises() async {
     var exercises = <Exercise>[].obs;
     final data = await _exerciseApiUC.execute();
-
+    data.fold((l) {
+      Get.snackbar(l.message, l.details);
+      Get.snackbar('Alert', 'Using local data');
+    }, (r) {
+      exercises.value = r.data['exercises']
+          .map<Exercise>((e) => Exercise.fromJson(e))
+          .toList();
+    });
     return exercises;
   }
 

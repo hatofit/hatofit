@@ -9,7 +9,7 @@ class ExerciseLocalUC extends NoParamUseCase {
   final ExerciseRepoAbs _exerciseRepoAbs;
   ExerciseLocalUC(this._exerciseRepoAbs);
   @override
-  Future<Either<Failure, Success>> execute() {
-    return _exerciseRepoAbs.localWorkouts();
+  Future<Either<Failure, Success<Map<String, dynamic>>>> execute() {
+    return _exerciseRepoAbs.fetchLocalWorkouts();
   }
 }

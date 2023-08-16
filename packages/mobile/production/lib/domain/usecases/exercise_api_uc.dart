@@ -10,6 +10,6 @@ class ExerciseApiUC extends NoParamUseCase {
   ExerciseApiUC(this._exerciseRepoAbs);
   @override
   Future<Either<Failure, Success<Map<String, dynamic>>>> execute() {
-    return _exerciseRepoAbs.apiWorkouts();
+    return _exerciseRepoAbs.fetchApiWorkouts();
   }
 }

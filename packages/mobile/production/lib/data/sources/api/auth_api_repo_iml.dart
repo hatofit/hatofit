@@ -7,54 +7,54 @@ import '../../../app/core/domain/failure.dart';
 import '../../../app/core/domain/success.dart';
 import '../../models/user.dart';
 import 'base/api_path.dart';
-import 'base/api_request.dart';
+import 'base/api_request_repo_abs.dart';
 import 'base/api_source.dart';
 
 enum AuthType { login, register, logout, updateUser }
 
-class AuthApi implements APIRequest {
+class AuthApiRepoIml implements ApiRequestRepoAbs {
   final AuthType type;
   final User? user;
   final String? email;
   final String? password;
 
-  AuthApi._({
+  AuthApiRepoIml._({
     required this.type,
     this.user,
     this.email,
     this.password,
   });
 
-  factory AuthApi.login({
+  factory AuthApiRepoIml.login({
     required String email,
     required String password,
   }) =>
-      AuthApi._(
+      AuthApiRepoIml._(
         type: AuthType.login,
         email: email,
         password: password,
       );
 
-  factory AuthApi.register({
+  factory AuthApiRepoIml.register({
     required User user,
   }) =>
-      AuthApi._(
+      AuthApiRepoIml._(
         type: AuthType.register,
         user: user,
       );
 
-  factory AuthApi.logout({
+  factory AuthApiRepoIml.logout({
     required User user,
   }) =>
-      AuthApi._(
+      AuthApiRepoIml._(
         type: AuthType.logout,
         user: user,
       );
 
-  factory AuthApi.updateUser({
+  factory AuthApiRepoIml.updateUser({
     required User user,
   }) =>
-      AuthApi._(
+      AuthApiRepoIml._(
         type: AuthType.updateUser,
         user: user,
       );
