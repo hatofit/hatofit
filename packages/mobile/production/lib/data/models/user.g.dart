@@ -49,9 +49,9 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
     };
 
 MetricsUnits _$MetricsUnitsFromJson(Map<String, dynamic> json) => MetricsUnits(
-      json['energyUnits'] as String,
-      json['heightUnits'] as String,
-      json['weightUnits'] as String,
+      energyUnits: json['energyUnits'] as String,
+      heightUnits: json['heightUnits'] as String,
+      weightUnits: json['weightUnits'] as String,
     );
 
 Map<String, dynamic> _$MetricsUnitsToJson(MetricsUnits instance) =>

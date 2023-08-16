@@ -7,7 +7,7 @@ import 'package:lottie/lottie.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../../app/themes/app_theme.dart';
-import '../../../../data/models/exercise_model.dart';
+import '../../../../data/models/exercise.dart';
 
 class WorkoutDetailsController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -28,7 +28,7 @@ class WorkoutDetailsController extends GetxController
     ),
   ];
 
-  final workout = Get.arguments as ExerciseModel;
+  final workout = Get.arguments as Exercise;
 
   @override
   void onInit() {

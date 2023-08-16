@@ -3,19 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/presentation/controller/page/page_con.dart';
 
-import '../../../app/services/internet_service.dart';
-import '../../../data/models/exercise_model.dart';
+import '../../../data/models/exercise.dart';
 import '../../widget/appBar/custom_app_bar.dart';
-import 'workout_controller.dart';
 
-class WorkoutPage extends GetView<WorkoutController> {
+class WorkoutPage extends GetView<PageCon> {
   const WorkoutPage({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: controller.title,
+      appBar: const CustomAppBar(
+        title: 'Workout',
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,14 +29,14 @@ class WorkoutPage extends GetView<WorkoutController> {
           SizedBox(
               height: 150,
               child: FutureBuilder(
-                future: InternetService().fetchExercises(),
+                future: controller.fetchExercises(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(
                       child: Text('${snapshot.error}'),
                     );
                   } else if (snapshot.hasData) {
-                    var exercises = snapshot.data as List<ExerciseModel>;
+                    var exercises = snapshot.data as List<Exercise>;
                     return SizedBox(
                       height: 150,
                       child: ListView.builder(

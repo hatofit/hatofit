@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../app/routes/app_routes.dart';
-import '../../../app/services/storage_service.dart';
+import '../../../app/services/local_storage.dart';
 import '../../../app/themes/app_theme.dart';
-import '../../../app/utils/preferences_provider.dart';
+import '../../../domain/usecases/login_uc.dart';
+import '../../../domain/usecases/register_uc.dart';
+
 class LoadingSplashScreen extends StatelessWidget {
   const LoadingSplashScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    StorageService().initializeDirectory();
-    final prefs = PreferencesProvider();
-
+    final store = Get.put(LocalStorageService());
     Future.delayed(const Duration(seconds: 1), () async {
-      final userToken = await prefs.getUserToken();
-      if (userToken != null) {
+      if (store.token != null) {
         Get.offAllNamed(AppRoutes.dashboard);
+        
       } else {
         Get.offAllNamed(AppRoutes.greeting);
       }

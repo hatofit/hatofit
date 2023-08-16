@@ -6,11 +6,11 @@ import 'package:lottie/lottie.dart';
 
 import '../../../../app/routes/app_routes.dart';
 import '../../../../app/themes/colors_constants.dart';
-import '../../../../data/models/exercise_model.dart';
+import '../../../../data/models/exercise.dart';
 import 'workout_details_controller.dart';
 
 class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
-  final ExerciseModel workout;
+  final Exercise workout;
 
   const WorkoutDetailsPage(this.workout, {super.key});
 

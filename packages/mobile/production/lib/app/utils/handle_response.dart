@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:get/get_connect/http/src/response/response.dart';
-import '../../app/core/domain/failure.dart';
-import '../../app/core/domain/success.dart';
+import '../core/domain/failure.dart';
+import '../core/domain/success.dart';
 
-Either<Failure, Success> handleResponse(Response<dynamic> response) {
+Either<Failure, Success<Map<String, dynamic>>> handleResponse(
+    Response<dynamic> response) {
   if (response.statusCode == null) {
     final error =
         response.statusText!.split('SocketException: ')[1].split(' ')[0];
@@ -23,7 +24,7 @@ Either<Failure, Success> handleResponse(Response<dynamic> response) {
   } else {
     switch (response.statusCode) {
       case 200:
-        return Right(Success(
+        return Right(Success<Map<String, dynamic>>(
           code: 'OK',
           message: response.body['message'],
           data: response.body,

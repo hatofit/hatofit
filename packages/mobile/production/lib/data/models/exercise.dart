@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'exercise_model.g.dart';
+part 'exercise.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class ExerciseModel {
+class Exercise {
   @JsonKey(name: '_id')
   final String id;
   final String name;
@@ -14,7 +14,7 @@ class ExerciseModel {
   final String thumbnail;
   final List<Instruction> instructions;
 
-  ExerciseModel(
+  Exercise(
     this.id,
     this.name,
     this.description,
@@ -25,10 +25,10 @@ class ExerciseModel {
     this.duration,
   );
 
-  factory ExerciseModel.fromJson(Map<String, dynamic> json) =>
-      _$ExerciseModelFromJson(json);
+  factory Exercise.fromJson(Map<String, dynamic> json) =>
+      _$ExerciseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ExerciseModelToJson(this);
+  Map<String, dynamic> toJson() => _$ExerciseToJson(this);
 }
 
 @JsonSerializable()

@@ -36,11 +36,5 @@ class BluetoothService extends GetxController {
     if (isBluetoothOn.value == false) {
       await FlutterBluePlus.turnOn();
     }
-  }
-
-  Future<void> turnOffBluetooth() async {
-    if (isBluetoothOn.value == true) {
-      await FlutterBluePlus.turnOff();
-    }
-  }
+  } 
 }

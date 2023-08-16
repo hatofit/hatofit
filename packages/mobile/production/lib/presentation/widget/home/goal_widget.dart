@@ -12,7 +12,7 @@ class GoalWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final BluetoothService _bCon = Get.find<BluetoothService>();
+    final BluetoothService bCon = Get.find<BluetoothService>();
     return Container(
         height: height,
         width: width,
@@ -37,7 +37,7 @@ class GoalWidget extends StatelessWidget {
                   width: width * 0.85,
                   child: TextButton(
                     onPressed: () {
-                      if(_bCon.isConnectedDevice.value == true){
+                      if(bCon.isConnectedDevice.value == true){
                       Get.toNamed(AppRoutes.freeWorkout);}
                       else{
                         Get.snackbar('No Device Connected', 'Please connect to a device to start a workout',

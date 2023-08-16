@@ -2,8 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import '../../data/models/auth_model.dart';
-import '../../data/models/exercise_model.dart';
+import '../../data/models/exercise.dart';
 import '../utils/preferences_provider.dart';
 import 'storage_service.dart';
 
@@ -35,26 +34,26 @@ class InternetService {
     }
   }
 
-  Future<List<ExerciseModel>> fetchExercises() async {
+  Future<List<Exercise>> fetchExercises() async {
     final url = "${dotenv.env['API_BASE_URL'] ?? ''}/exercise";
-
+    print('url: $url');
     final response = await _getConnect.get(url);
     try {
       if (response.statusCode == 200) {
         final List<dynamic> jsonResponse = response.body['exercises'];
         StorageService().saveToJSON('exercise/exercise', jsonResponse);
-        return jsonResponse.map<ExerciseModel>((json) {
-          return ExerciseModel.fromJson(json);
+        return jsonResponse.map<Exercise>((json) {
+          return Exercise.fromJson(json);
         }).toList();
       } else {
         List<dynamic> jsonResponse =
             await StorageService().readFromJSON('exercise/exercise');
-        return jsonResponse.map<ExerciseModel>((json) {
-          return ExerciseModel.fromJson(json);
+        return jsonResponse.map<Exercise>((json) {
+          return Exercise.fromJson(json);
         }).toList();
       }
     } catch (e) {
-      return List<ExerciseModel>.empty();
+      return List<Exercise>.empty();
     }
   }
 
@@ -90,44 +89,6 @@ class InternetService {
       }
     } catch (e) {
       return List<dynamic>.empty() as Map<String, dynamic>;
-    }
-  }
-
-  Future<Response> registerUser(AuthModel request) async {
-    final url = "${dotenv.env['API_BASE_URL'] ?? ''}/auth/register";
-    final AuthModel data = request;
-    try {
-      final response = await _getConnect.post(
-        url,
-        jsonEncode(data.toJson()),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      );
-      return response;
-    } catch (e) {
-      return Response(body: 'Error $e');
-    }
-  }
-
-  Future<Response> loginUser(AuthModel request) async {
-    final url = "${dotenv.env['API_BASE_URL'] ?? ''}/auth/login";
-    final String email = request.email!;
-    final String password = request.password!;
-    try {
-      final response = await _getConnect.post(
-        url,
-        jsonEncode({
-          'email': email,
-          'password': password,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      );
-      return response;
-    } catch (e) {
-      return Response(body: 'Error $e');
     }
   }
 }

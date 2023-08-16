@@ -20,8 +20,8 @@ class LoginPage extends GetView<AuthCon> {
       _vidPlaCon.play();
       _vidPlaCon.setLooping(true);
     });
-    _emailCon.text = 'a@amcccasc.com';
-    _passCon.text = 'asdfasdfasdf';
+    _emailCon.text = 'rhmat@gmail.com';
+    _passCon.text = 'password';
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
@@ -157,8 +157,9 @@ class LoginPage extends GetView<AuthCon> {
                             _formKey.currentState!.validate();
                             if (_formKey.currentState!.validate()) {
                               controller.login(
-                                  email: _emailCon.text,
-                                  password: _passCon.text);
+                                email: _emailCon.text,
+                                password: _passCon.text,
+                              );
                             }
                           },
                           child: const Text('Login'),
@@ -183,6 +184,7 @@ class LoginPage extends GetView<AuthCon> {
       ),
     );
   }
+
 }
 
 class BreathingAnimation extends StatefulWidget {

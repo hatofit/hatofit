@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 
 class StorageService extends GetxController {
-  void initializeDirectory() async {
+  Future<StorageService> init() async {
     final List<String> requiredDiretories = [
       'exercise',
       'session',
@@ -21,6 +21,7 @@ class StorageService extends GetxController {
         }
       }
     }
+    return this;
   }
 
   Future<void> saveToJSON(String filename, dynamic body) async {

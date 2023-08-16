@@ -47,11 +47,11 @@ class MetricsUnits {
   final String heightUnits;
   final String weightUnits;
 
-  MetricsUnits(
-    this.energyUnits,
-    this.heightUnits,
-    this.weightUnits,
-  );
+  MetricsUnits({
+   required this.energyUnits,
+   required this.heightUnits,
+   required this.weightUnits,
+  });
 
   factory MetricsUnits.fromJson(Map<String, dynamic> json) =>
       _$MetricsUnitsFromJson(json);

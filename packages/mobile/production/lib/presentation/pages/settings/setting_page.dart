@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,19 +5,19 @@ import 'package:get/get.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../app/themes/colors_constants.dart';
+import '../../controller/page/page_con.dart';
 import '../../widget/appBar/custom_app_bar.dart';
 import '../../widget/setting/setting_list_tile_widget.dart';
-import 'setting_controller.dart';
 
-class SettingPage extends GetView<SettingController> {
+class SettingPage extends GetView<PageCon> {
   const SettingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Get.isDarkMode;
     return Scaffold(
-      appBar: CustomAppBar(
-        title: controller.title,
+      appBar: const CustomAppBar(
+        title: 'Settings',
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -60,8 +58,7 @@ class SettingPage extends GetView<SettingController> {
                                 borderRadius: BorderRadius.circular(666),
                                 color: Colors.white,
                                 image: DecorationImage(
-                                  image: FileImage(File(
-                                      '/storage/emulated/0/Android/data/com.example.polar_hr_devices/files/photo-profile.jpg')),
+                                  image: controller.userImage,
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -76,7 +73,7 @@ class SettingPage extends GetView<SettingController> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    controller.userName.toString(),
+                                    controller.user.value!.firstName!,
                                     style:
                                         Theme.of(context).textTheme.bodyLarge,
                                   ),
@@ -197,17 +194,17 @@ class SettingPage extends GetView<SettingController> {
                                 ),
                               ],
                             ),
-                            Obx(
-                              () => Transform.scale(
-                                scale: 0.8,
-                                child: CupertinoSwitch(
-                                  value: controller.isSync.value,
-                                  onChanged: (value) {
-                                    controller.isSync.value = value;
-                                  },
-                                ),
-                              ),
-                            )
+                            // Obx(
+                            //   () => Transform.scale(
+                            //     scale: 0.8,
+                            //     child: CupertinoSwitch(
+                            //       value: controller.isSync.value,
+                            //       onChanged: (value) {
+                            //         controller.isSync.value = value;
+                            //       },
+                            //     ),
+                            //   ),
+                            // )
                           ],
                         ),
                       ),
@@ -273,7 +270,7 @@ class SettingPage extends GetView<SettingController> {
                         confirmTextColor: Colors.white,
                         cancelTextColor: Colors.black,
                         onConfirm: () {
-                          controller.clear();
+                          controller.logout();
                         },
                       );
                     },

@@ -10,6 +10,5 @@ class AuthBind extends Bindings {
     Get.lazyPut(() => RegisterUC(Get.find<AuthRepoIml>()));
     Get.lazyPut(() => LoginUC(Get.find<AuthRepoIml>()));
     Get.put(AuthCon(Get.find<RegisterUC>(), Get.find<LoginUC>()));
-
   }
 }

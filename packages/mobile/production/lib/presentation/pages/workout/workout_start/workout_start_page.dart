@@ -9,13 +9,13 @@ import '../../../../app/services/bluetooth_service.dart';
 import '../../../../app/services/polar_service.dart';
 import '../../../../app/themes/app_theme.dart';
 import '../../../../app/themes/colors_constants.dart';
-import '../../../../data/models/exercise_model.dart';
+import '../../../../data/models/exercise.dart';
 import '../workout_detail/workout_details_controller.dart';
 import 'workout_start_controller.dart';
 
 
 class WorkoutStartPage extends GetView<WorkoutStartController> {
-  final ExerciseModel workout;
+  final Exercise workout;
   const WorkoutStartPage(this.workout, {super.key});
 
   @override

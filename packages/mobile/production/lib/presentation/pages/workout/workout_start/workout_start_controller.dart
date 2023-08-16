@@ -3,12 +3,10 @@ import 'package:get/get.dart';
 
 import '../../../../app/routes/app_routes.dart';
 import '../../../../app/services/polar_service.dart';
-import '../../../../data/models/exercise_model.dart';
-import '../../history/history_controller.dart';
-
+import '../../../../data/models/exercise.dart';
 
 class WorkoutStartController extends GetxController {
-  final workout = Get.arguments as ExerciseModel;
+  final workout = Get.arguments as Exercise;
 
   final nowInstruction = 0.obs;
   final countDownTimer = CountDownController().obs;
@@ -17,7 +15,6 @@ class WorkoutStartController extends GetxController {
   final isAllExerciseFinish = false.obs;
 
   final PolarService _polarService = Get.find<PolarService>();
-  final HistoryController _historyController = Get.find<HistoryController>();
 
   void nextInstruction(totalInstruction) {
     if (nowInstruction.value + 1 >= totalInstruction) {
@@ -25,7 +22,6 @@ class WorkoutStartController extends GetxController {
       _polarService.isStartWorkout.value = false;
       isAllExerciseFinish.value = true;
       Get.offNamed(AppRoutes.dashboard);
-      _historyController.fetchHistory();
     }
     if ((nowInstruction.value + 1) < totalInstruction) {
       countDownTimer.value.restart(
@@ -38,7 +34,7 @@ class WorkoutStartController extends GetxController {
   @override
   void onInit() {
     _polarService.isStartWorkout.value = true;
-    _polarService.starWorkout(workout.id, workout.duration ,'EMPTY');
+    _polarService.starWorkout(workout.id, workout.duration, 'EMPTY');
     super.onInit();
   }
 }

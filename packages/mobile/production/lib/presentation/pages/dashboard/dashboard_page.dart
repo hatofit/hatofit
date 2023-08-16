@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/presentation/controller/page/page_con.dart';
 import '../history/history_page.dart';
 import '../home/home_page.dart';
 import '../settings/setting_page.dart';
 import '../workout/workout_page.dart';
-import 'dashboard_controller.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<DashboardController>(
+    return GetBuilder<PageCon>(
       builder: (controller) {
         return Scaffold(
           body: SafeArea(

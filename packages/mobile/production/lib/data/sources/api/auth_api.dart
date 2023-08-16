@@ -1,6 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
-import '../../../domain/entities/user.dart';
+import 'package:dartz/dartz.dart';
+
+import '../../../app/core/domain/failure.dart';
+import '../../../app/core/domain/success.dart';
+import '../../models/user.dart';
 import 'base/api_path.dart';
 import 'base/api_request.dart';
 import 'base/api_source.dart';
@@ -98,7 +103,7 @@ class AuthApi implements APIRequest {
   }
 
   @override
-  Future request() async {
+  Future<Either<Failure, Success<Map<String, dynamic>>>> request() async {
     return ApiSource.instance.request(this);
   }
 }

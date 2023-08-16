@@ -2,21 +2,22 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/presentation/controller/page/page_con.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../app/themes/app_theme.dart';
 import '../../../app/themes/colors_constants.dart';
 import '../../widget/appBar/custom_app_bar.dart';
-import 'history_controller.dart';
 
-class HistoryPage extends GetView<HistoryController> {
+
+class HistoryPage extends GetView<PageCon> {
   const HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: controller.title,
+      appBar: const CustomAppBar(
+        title: 'History',
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -96,7 +97,7 @@ class HistoryPage extends GetView<HistoryController> {
                                           width: 8,
                                         ),
                                         Text(
-                                          controller.dateConverter(
+                                          controller.formattedDateHistory(
                                               controller.historyData[index]
                                                   ['exercise']['createdAt']),
                                           style: Theme.of(context)
