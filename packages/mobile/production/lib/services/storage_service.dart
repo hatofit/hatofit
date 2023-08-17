@@ -12,13 +12,12 @@ class StorageService extends GetxController {
       'session/processed',
     ];
     for (String directory in requiredDiretories) {
-      final Directory? dir = await getExternalStorageDirectory();
-      if (dir != null) {
-        final Directory newDirectory = Directory('${dir.path}/$directory');
+      // final Directory? dir = await getExternalStorageDirectory();
+      final Directory dir = await getApplicationDocumentsDirectory();
+      final Directory newDirectory = Directory('${dir.path}/$directory');
 
-        if (!await newDirectory.exists()) {
-          await newDirectory.create(recursive: true);
-        }
+      if (!await newDirectory.exists()) {
+        await newDirectory.create(recursive: true);
       }
     }
   }

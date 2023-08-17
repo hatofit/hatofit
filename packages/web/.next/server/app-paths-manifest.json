@@ -1,3 +1,7 @@
 {
-  "/login/page": "app/login/page.js"
+  "/page": "app/page.js",
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/dashboard/setting/profile/page": "app/dashboard/setting/profile/page.js",
+  "/dashboard/report/[slug]/page": "app/dashboard/report/[slug]/page.js"
 }
