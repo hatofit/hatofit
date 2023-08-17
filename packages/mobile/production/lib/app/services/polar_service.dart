@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:polar/polar.dart';
 
-import '../../data/models/session_model.dart';
+import '../../data/models/session.dart';
 import '../themes/app_theme.dart';
 import '../themes/colors_constants.dart';
-import 'internet_service.dart';
-import 'storage_service.dart';
 
 const Map<String, String> _deviceImageList = {
   'Polar H10': 'assets/images/polar/polar-h10.webp',
@@ -36,7 +34,7 @@ class PolarService extends GetxController {
     devices: [],
   );
 
-  var sessMod = SessionModel(
+  var sessMod = Session(
     exerciseId: 'BoilerPlating',
     startTime: DateTime.now().microsecondsSinceEpoch,
     endTime: 0,
@@ -45,7 +43,7 @@ class PolarService extends GetxController {
   ).obs;
   @override
   void onReady() {
-    scanPolarDevices();
+    
     super.onReady();
   }
 
@@ -60,7 +58,7 @@ class PolarService extends GetxController {
     var currentSecond = 0;
     final endStream =
         DateTime.now().microsecondsSinceEpoch + (exerciseDuration * 1000000);
-    sessMod.value = SessionModel(
+    sessMod.value = Session(
         exerciseId: exerciseId,
         startTime: DateTime.now().microsecondsSinceEpoch,
         endTime: endStream,
@@ -101,198 +99,198 @@ class PolarService extends GetxController {
   }
 
   void streamWhenReady(String deviceId) async {
-    await _polar.sdkFeatureReady.firstWhere(
-      (e) =>
-          e.identifier == deviceId &&
-          e.feature == PolarSdkFeature.onlineStreaming,
-    );
-    final availableTypes =
-        await _polar.getAvailableOnlineStreamDataTypes(deviceId);
-    debugPrint("===***===\n"
-        "availableTypes: $availableTypes\n"
-        "===***===\n");
-    if (availableTypes.contains(PolarDataType.hr)) {
-      StreamSubscription hrSubscription =
-          _polar.startHrStreaming(deviceId).listen((hrData) {
-        heartRate.value = hrData.samples.last.hr.toString();
+    // await _polar.sdkFeatureReady.firstWhere(
+    //   (e) =>
+    //       e.identifier == deviceId &&
+    //       e.feature == PolarSdkFeature.onlineStreaming,
+    // );
+    // final availableTypes =
+    //     await _polar.getAvailableOnlineStreamDataTypes(deviceId);
+    // debugPrint("===***===\n"
+    //     "availableTypes: $availableTypes\n"
+    //     "===***===\n");
+    // if (availableTypes.contains(PolarDataType.hr)) {
+    //   StreamSubscription hrSubscription =
+    //       _polar.startHrStreaming(deviceId).listen((hrData) {
+    //     heartRate.value = hrData.samples.last.hr.toString();
 
-        if (isStartWorkout.value == true) {
-          bool hasHrDevice = _currentSecondDataItem.devices
-              .any((element) => element.type == 'PolarDataType.hr');
+    //     if (isStartWorkout.value == true) {
+    //       bool hasHrDevice = _currentSecondDataItem.devices
+    //           .any((element) => element.type == 'PolarDataType.hr');
 
-          if (!hasHrDevice) {
-            if (hrData.samples.last.rrsMs.isEmpty) {
-              _currentSecondDataItem.devices.add(
-                SessionDataItemDevice(
-                  type: 'PolarDataType.hr',
-                  identifier: deviceId,
-                  value: [
-                    {'hr': hrData.samples.last.hr}
-                  ],
-                ),
-              );
-            } else {
-              _currentSecondDataItem.devices.add(
-                SessionDataItemDevice(
-                  type: 'PolarDataType.hr',
-                  identifier: deviceId,
-                  value: [
-                    {
-                      'hr': hrData.samples.last.hr,
-                      'rrsMs': hrData.samples.last.rrsMs
-                    }
-                  ],
-                ),
-              );
-            }
-          }
-        }
-      });
-      _availableSubscriptions.add(hrSubscription);
-    }
-    if (availableTypes.contains(PolarDataType.acc)) {
-      StreamSubscription accSubscription =
-          _polar.startAccStreaming(deviceId).listen((accData) {
-        if (isStartWorkout.value == true) {
-          bool hasAccDevice = _currentSecondDataItem.devices
-              .any((element) => element.type == 'PolarDataType.acc');
+    //       if (!hasHrDevice) {
+    //         if (hrData.samples.last.rrsMs.isEmpty) {
+    //           _currentSecondDataItem.devices.add(
+    //             SessionDataItemDevice(
+    //               type: 'PolarDataType.hr',
+    //               identifier: deviceId,
+    //               value: [
+    //                 {'hr': hrData.samples.last.hr}
+    //               ],
+    //             ),
+    //           );
+    //         } else {
+    //           _currentSecondDataItem.devices.add(
+    //             SessionDataItemDevice(
+    //               type: 'PolarDataType.hr',
+    //               identifier: deviceId,
+    //               value: [
+    //                 {
+    //                   'hr': hrData.samples.last.hr,
+    //                   'rrsMs': hrData.samples.last.rrsMs
+    //                 }
+    //               ],
+    //             ),
+    //           );
+    //         }
+    //       }
+    //     }
+    //   });
+    //   _availableSubscriptions.add(hrSubscription);
+    // }
+    // if (availableTypes.contains(PolarDataType.acc)) {
+    //   StreamSubscription accSubscription =
+    //       _polar.startAccStreaming(deviceId).listen((accData) {
+    //     if (isStartWorkout.value == true) {
+    //       bool hasAccDevice = _currentSecondDataItem.devices
+    //           .any((element) => element.type == 'PolarDataType.acc');
 
-          if (!hasAccDevice) {
-            _currentSecondDataItem.devices.add(
-              SessionDataItemDevice(
-                type: 'PolarDataType.acc',
-                identifier: deviceId,
-                value: [
-                  {
-                    'timeStamp':
-                        accData.samples.last.timeStamp.microsecondsSinceEpoch,
-                    'x': accData.samples.last.x,
-                    'y': accData.samples.last.y,
-                    'z': accData.samples.last.z,
-                  }
-                ],
-              ),
-            );
-          }
-        }
-      });
-      _availableSubscriptions.add(accSubscription);
-    }
-    if (availableTypes.contains(PolarDataType.ecg)) {
-      StreamSubscription ecgSubscription =
-          _polar.startEcgStreaming(deviceId).listen((ecgData) {
-        if (isStartWorkout.value == true) {
-          bool hasEcgDevice = _currentSecondDataItem.devices
-              .any((element) => element.type == 'PolarDataType.ecg');
+    //       if (!hasAccDevice) {
+    //         _currentSecondDataItem.devices.add(
+    //           SessionDataItemDevice(
+    //             type: 'PolarDataType.acc',
+    //             identifier: deviceId,
+    //             value: [
+    //               {
+    //                 'timeStamp':
+    //                     accData.samples.last.timeStamp.microsecondsSinceEpoch,
+    //                 'x': accData.samples.last.x,
+    //                 'y': accData.samples.last.y,
+    //                 'z': accData.samples.last.z,
+    //               }
+    //             ],
+    //           ),
+    //         );
+    //       }
+    //     }
+    //   });
+    //   _availableSubscriptions.add(accSubscription);
+    // }
+    // if (availableTypes.contains(PolarDataType.ecg)) {
+    //   StreamSubscription ecgSubscription =
+    //       _polar.startEcgStreaming(deviceId).listen((ecgData) {
+    //     if (isStartWorkout.value == true) {
+    //       bool hasEcgDevice = _currentSecondDataItem.devices
+    //           .any((element) => element.type == 'PolarDataType.ecg');
 
-          if (!hasEcgDevice) {
-            _currentSecondDataItem.devices.add(
-              SessionDataItemDevice(
-                type: 'PolarDataType.ecg',
-                identifier: deviceId,
-                value: [
-                  {
-                    'timeStamp':
-                        ecgData.samples.last.timeStamp.microsecondsSinceEpoch,
-                    'voltage': ecgData.samples.last.voltage,
-                  }
-                ],
-              ),
-            );
-          }
-        }
-      });
-      _availableSubscriptions.add(ecgSubscription);
-    }
-    if (availableTypes.contains(PolarDataType.gyro)) {
-      StreamSubscription gyroSubscription =
-          _polar.startGyroStreaming(deviceId).listen((gyroData) {
-        // calcute how much gyro data is available in a second
+    //       if (!hasEcgDevice) {
+    //         _currentSecondDataItem.devices.add(
+    //           SessionDataItemDevice(
+    //             type: 'PolarDataType.ecg',
+    //             identifier: deviceId,
+    //             value: [
+    //               {
+    //                 'timeStamp':
+    //                     ecgData.samples.last.timeStamp.microsecondsSinceEpoch,
+    //                 'voltage': ecgData.samples.last.voltage,
+    //               }
+    //             ],
+    //           ),
+    //         );
+    //       }
+    //     }
+    //   });
+    //   _availableSubscriptions.add(ecgSubscription);
+    // }
+    // if (availableTypes.contains(PolarDataType.gyro)) {
+    //   StreamSubscription gyroSubscription =
+    //       _polar.startGyroStreaming(deviceId).listen((gyroData) {
+    //     // calcute how much gyro data is available in a second
 
-        if (isStartWorkout.value == true) {
-          bool hasGyroDevice = _currentSecondDataItem.devices
-              .any((element) => element.type == 'PolarDataType.gyro');
+    //     if (isStartWorkout.value == true) {
+    //       bool hasGyroDevice = _currentSecondDataItem.devices
+    //           .any((element) => element.type == 'PolarDataType.gyro');
 
-          if (!hasGyroDevice) {
-            _currentSecondDataItem.devices.add(
-              SessionDataItemDevice(
-                type: 'PolarDataType.gyro',
-                identifier: deviceId,
-                value: [
-                  {
-                    'timeStamp':
-                        gyroData.samples.last.timeStamp.microsecondsSinceEpoch,
-                    'x': gyroData.samples.last.x,
-                    'y': gyroData.samples.last.y,
-                    'z': gyroData.samples.last.z,
-                  }
-                ],
-              ),
-            );
-          }
-        }
-      });
-      _availableSubscriptions.add(gyroSubscription);
-    }
-    if (availableTypes.contains(PolarDataType.magnetometer)) {
-      StreamSubscription magnetometerSubscription = _polar
-          .startMagnetometerStreaming(deviceId)
-          .listen((magnetometerData) {
-        if (isStartWorkout.value == true) {
-          bool hasMagnetometerDevice = _currentSecondDataItem.devices
-              .any((element) => element.type == 'PolarDataType.magnetometer');
+    //       if (!hasGyroDevice) {
+    //         _currentSecondDataItem.devices.add(
+    //           SessionDataItemDevice(
+    //             type: 'PolarDataType.gyro',
+    //             identifier: deviceId,
+    //             value: [
+    //               {
+    //                 'timeStamp':
+    //                     gyroData.samples.last.timeStamp.microsecondsSinceEpoch,
+    //                 'x': gyroData.samples.last.x,
+    //                 'y': gyroData.samples.last.y,
+    //                 'z': gyroData.samples.last.z,
+    //               }
+    //             ],
+    //           ),
+    //         );
+    //       }
+    //     }
+    //   });
+    //   _availableSubscriptions.add(gyroSubscription);
+    // }
+    // if (availableTypes.contains(PolarDataType.magnetometer)) {
+    //   StreamSubscription magnetometerSubscription = _polar
+    //       .startMagnetometerStreaming(deviceId)
+    //       .listen((magnetometerData) {
+    //     if (isStartWorkout.value == true) {
+    //       bool hasMagnetometerDevice = _currentSecondDataItem.devices
+    //           .any((element) => element.type == 'PolarDataType.magnetometer');
 
-          if (!hasMagnetometerDevice) {
-            _currentSecondDataItem.devices.add(
-              SessionDataItemDevice(
-                type: 'PolarDataType.magnetometer',
-                identifier: deviceId,
-                value: [
-                  {
-                    'timeStamp': magnetometerData
-                        .samples.last.timeStamp.microsecondsSinceEpoch,
-                    'x': magnetometerData.samples.last.x,
-                    'y': magnetometerData.samples.last.y,
-                    'z': magnetometerData.samples.last.z,
-                  }
-                ],
-              ),
-            );
-          }
-        }
-      });
-      _availableSubscriptions.add(magnetometerSubscription);
-    }
-    if (availableTypes.contains(PolarDataType.ppg)) {
-      StreamSubscription ppgSubscription =
-          _polar.startPpgStreaming(deviceId).listen((ppgData) {
-        if (isStartWorkout.value == true) {
-          bool hasPpgDevice = _currentSecondDataItem.devices
-              .any((element) => element.type == 'PolarDataType.ppg');
+    //       if (!hasMagnetometerDevice) {
+    //         _currentSecondDataItem.devices.add(
+    //           SessionDataItemDevice(
+    //             type: 'PolarDataType.magnetometer',
+    //             identifier: deviceId,
+    //             value: [
+    //               {
+    //                 'timeStamp': magnetometerData
+    //                     .samples.last.timeStamp.microsecondsSinceEpoch,
+    //                 'x': magnetometerData.samples.last.x,
+    //                 'y': magnetometerData.samples.last.y,
+    //                 'z': magnetometerData.samples.last.z,
+    //               }
+    //             ],
+    //           ),
+    //         );
+    //       }
+    //     }
+    //   });
+    //   _availableSubscriptions.add(magnetometerSubscription);
+    // }
+    // if (availableTypes.contains(PolarDataType.ppg)) {
+    //   StreamSubscription ppgSubscription =
+    //       _polar.startPpgStreaming(deviceId).listen((ppgData) {
+    //     if (isStartWorkout.value == true) {
+    //       bool hasPpgDevice = _currentSecondDataItem.devices
+    //           .any((element) => element.type == 'PolarDataType.ppg');
 
-          if (!hasPpgDevice) {
-            _currentSecondDataItem.devices.add(
-              SessionDataItemDevice(
-                type: 'PolarDataType.ppg',
-                identifier: deviceId,
-                value: [
-                  {
-                    'timeStamp':
-                        ppgData.samples.last.timeStamp.microsecondsSinceEpoch,
-                    'channelSamples': ppgData.samples.last.channelSamples,
-                  }
-                ],
-              ),
-            );
-          }
-        }
-      });
-      _availableSubscriptions.add(ppgSubscription);
-    }
+    //       if (!hasPpgDevice) {
+    //         _currentSecondDataItem.devices.add(
+    //           SessionDataItemDevice(
+    //             type: 'PolarDataType.ppg',
+    //             identifier: deviceId,
+    //             value: [
+    //               {
+    //                 'timeStamp':
+    //                     ppgData.samples.last.timeStamp.microsecondsSinceEpoch,
+    //                 'channelSamples': ppgData.samples.last.channelSamples,
+    //               }
+    //             ],
+    //           ),
+    //         );
+    //       }
+    //     }
+    //   });
+    //   _availableSubscriptions.add(ppgSubscription);
+    // }
   }
 
   // sacan detected _polar devices
-  void scanPolarDevices() {
+  void scan () {
     _polar.searchForDevice().listen((polardDeviceInfo) {
       bool isAlreadyDetected = _detectedDevices.any((detectedDevice) =>
           detectedDevice['deviceId'] == polardDeviceInfo.deviceId);

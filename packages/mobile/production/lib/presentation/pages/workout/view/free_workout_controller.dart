@@ -6,9 +6,7 @@ import 'package:get/get.dart';
 
 import '../../../../app/services/internet_service.dart';
 import '../../../../app/services/polar_service.dart';
-import '../../../../app/services/storage_service.dart';
-import '../../../../data/models/session_model.dart';
-
+import '../../../../data/models/session.dart';
 
 class FreeWorkoutController extends GetxController {
   final PolarService _pCon = Get.find<PolarService>();
@@ -24,7 +22,7 @@ class FreeWorkoutController extends GetxController {
     return elapsed.toString().split('.')[0];
   }
 
-  SessionModel? session;
+  Session? session;
 
   @override
   void onInit() {

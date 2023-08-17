@@ -9,7 +9,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../../../app/core/domain/failure.dart';
 import '../../../../app/core/domain/success.dart';
-import '../../../models/session_model.dart';
+import '../../../models/session.dart';
 
 enum LocalType { fetchWorkout, saveWorkout, fetchSession, saveSession }
 
@@ -50,8 +50,8 @@ class LocalSource {
             code: 'ERROR', message: 'No local data found', details: ''));
       }
     } catch (e) {
-      return Left(
-          Failure(code: 'ERROR', message: 'Cant access local data', details: ''));
+      return Left(Failure(
+          code: 'ERROR', message: 'Cant access local data', details: ''));
     }
   }
 
@@ -80,19 +80,19 @@ class LocalSource {
     }
   }
 
-  Future<Either<Failure, Success<List<SessionModel>>>> fetchSession(
+  Future<Either<Failure, Success<List<Session>>>> fetchSession(
       LocalPayloadRepoAbs request) async {
     try {
       final Directory? dir = await getExternalStorageDirectory();
       final String targetDir = '${dir!.path}/${request.path}';
       //read all json files in the directory using loop
       final read = await Directory(targetDir).list().toList();
-      final sessions = <SessionModel>[];
+      final sessions = <Session>[];
       for (var item in read) {
         final jsonFile = File(item.path);
         if (jsonFile.existsSync()) {
           final json = jsonDecode(jsonFile.readAsStringSync());
-          sessions.add(SessionModel.fromJson(json));
+          sessions.add(Session.fromJson(json));
         }
       }
       return Right(

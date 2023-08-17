@@ -37,7 +37,7 @@ class GoalWidget extends StatelessWidget {
                   width: width * 0.85,
                   child: TextButton(
                     onPressed: () {
-                      if(bCon.isConnectedDevice.value == true){
+                      if(bCon.isAdptrContd.value == true){
                       Get.toNamed(AppRoutes.freeWorkout);}
                       else{
                         Get.snackbar('No Device Connected', 'Please connect to a device to start a workout',

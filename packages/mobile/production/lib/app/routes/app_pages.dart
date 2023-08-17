@@ -1,12 +1,11 @@
 import 'package:get/get.dart';
 import 'package:hatofit/presentation/controller/auth/auth_bind.dart';
-import 'package:hatofit/presentation/pages/splash/firstTime/register/view/input_user_metric_page.dart';
+import 'package:hatofit/presentation/pages/splash/view/register/view/input_user_metric_page.dart';
 
 import '../../presentation/controller/page/page_bind.dart';
 import '../../presentation/controller/reg/reg_bind.dart';
 import '../services/services_binding.dart';
 import 'app_routes.dart';
-import '../../presentation/pages/free_workout/free_workout_page.dart';
 import '../../presentation/pages/dashboard/dashboard_page.dart';
 import '../../presentation/pages/history/detail_page/history_detail_page.dart';
 import '../../presentation/pages/history/detail_page/histpry_detail_binding.dart';
@@ -20,16 +19,11 @@ import '../../presentation/pages/settings/profile/profile_binding.dart';
 import '../../presentation/pages/settings/profile/profile_page.dart';
 import '../../presentation/pages/settings/setting_binding.dart';
 import '../../presentation/pages/settings/setting_page.dart';
-import '../../presentation/pages/splash/firstTime/greeting/greeting_page.dart';
-import '../../presentation/pages/splash/firstTime/login/login_page.dart';
-import '../../presentation/pages/splash/firstTime/register/register_page.dart';
+import '../../presentation/pages/splash/view/greeting/greeting_page.dart';
+import '../../presentation/pages/splash/view/login/login_page.dart';
+import '../../presentation/pages/splash/view/register/register_page.dart';
 import '../../presentation/pages/splash/loading_splash_screen.dart';
-import '../../presentation/pages/workout/workout_detail/workout_details_binding.dart';
-import '../../presentation/pages/workout/workout_detail/workout_details_page.dart';
 import '../../presentation/pages/workout/workout_page.dart';
-import '../../presentation/pages/workout/workout_start/workout_start_binding.dart';
-import '../../presentation/pages/workout/free_workout/free_workout_binding.dart';
-import '../../presentation/pages/workout/workout_start/workout_start_page.dart';
 
 class AppPages {
   AppPages._();
@@ -79,24 +73,6 @@ class AppPages {
     GetPage(
       name: AppRoutes.workout,
       page: () => const WorkoutPage(),
-      transition: Transition.cupertino,
-    ),
-    GetPage(
-      name: AppRoutes.workoutDetail,
-      page: () => WorkoutDetailsPage(Get.arguments),
-      binding: WorkoutDetailsBinding(),
-      transition: Transition.cupertino,
-    ),
-    GetPage(
-      name: AppRoutes.workoutStart,
-      page: () => WorkoutStartPage(Get.arguments),
-      binding: WorkoutStartBinding(),
-      transition: Transition.cupertino,
-    ),
-    GetPage(
-      name: AppRoutes.freeWorkout,
-      page: () => const FreeWorkoutPage(),
-      binding: FreeWorkoutBinding(),
       transition: Transition.cupertino,
     ),
     GetPage(

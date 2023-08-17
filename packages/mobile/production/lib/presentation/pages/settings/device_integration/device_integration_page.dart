@@ -82,7 +82,7 @@ class DeviceIntegrationPage extends GetView<DeviceIntegrationController> {
                             ],
                           ),
                           trailing: Obx(
-                            () => bluetoothService.isConnectedDevice.value
+                            () => bluetoothService.isAdptrContd.value
                                 ? TextButton(
                                     style: ButtonStyle(
                                         foregroundColor:
@@ -108,7 +108,6 @@ class DeviceIntegrationPage extends GetView<DeviceIntegrationController> {
                                                 ColorConstants.ceruleanBlue)),
                                     child: const Text('Connect'),
                                     onPressed: () {
-                                      bluetoothService.getBluetoothStatus();
                                       polarService.connectDevice(polarService
                                           .detectedDevices[index]['deviceId']);
                                       Get.back();
@@ -116,7 +115,7 @@ class DeviceIntegrationPage extends GetView<DeviceIntegrationController> {
                                         Obx(
                                           () => Center(
                                               child: bluetoothService
-                                                          .isConnectedDevice
+                                                          .isAdptrContd
                                                           .value ==
                                                       false
                                                   ? Dialog(

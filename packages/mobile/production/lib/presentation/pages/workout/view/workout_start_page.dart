@@ -10,7 +10,7 @@ import '../../../../app/services/polar_service.dart';
 import '../../../../app/themes/app_theme.dart';
 import '../../../../app/themes/colors_constants.dart';
 import '../../../../data/models/exercise.dart';
-import '../workout_detail/workout_details_controller.dart';
+import 'workout_details_controller.dart';
 import 'workout_start_controller.dart';
 
 
@@ -55,7 +55,7 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
           children: [
             Align(
                 alignment: Alignment.centerLeft,
-                child: bluetoothService.isConnectedDevice.value
+                child: bluetoothService.isAdptrContd.value
                     ? Container(
                         height: 40,
                         width: 80,
