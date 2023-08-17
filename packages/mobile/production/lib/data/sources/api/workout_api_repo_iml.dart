@@ -6,7 +6,7 @@ import '../../../app/core/domain/success.dart';
 import 'base/api_payload_repo_abs.dart';
 import 'base/api_source.dart';
 
-class ExerciseApiRepoIml implements ApiPayloadRepoAbs {
+class WorkoutApiRepoIml implements ApiPayloadRepoAbs {
   @override
   get body => null;
 

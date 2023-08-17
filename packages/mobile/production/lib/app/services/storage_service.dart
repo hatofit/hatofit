@@ -6,10 +6,8 @@ import 'package:path_provider/path_provider.dart';
 class StorageService extends GetxController {
   Future<StorageService> init() async {
     final List<String> requiredDiretories = [
-      'exercise',
+      'workout',
       'session',
-      'session/raw',
-      'session/processed',
     ];
     for (String directory in requiredDiretories) {
       final Directory? dir = await getExternalStorageDirectory();
@@ -24,23 +22,23 @@ class StorageService extends GetxController {
     return this;
   }
 
-  Future<void> saveToJSON(String filename, dynamic body) async {
-    // var json = _sessionModel.toJson();
-    // JsonEncoder prettyPrint = const JsonEncoder.withIndent('  ');
-    // var stringJson = prettyPrint.convert(json);
-    // debugPrint("=============================\n"
-    //     "JSON DATA\n"
-    //     "$stringJson"
-    //     "\n=============================");
+  // Future<void> saveToJSON(String filename, dynamic body) async {
+  //   // var json = _sessionModel.toJson();
+  //   // JsonEncoder prettyPrint = const JsonEncoder.withIndent('  ');
+  //   // var stringJson = prettyPrint.convert(json);
+  //   // debugPrint("=============================\n"
+  //   //     "JSON DATA\n"
+  //   //     "$stringJson"
+  //   //     "\n=============================");
 
-    String jsonString = jsonEncode(body);
-    final Directory? directory = await getExternalStorageDirectory();
+  //   String jsonString = jsonEncode(body);
+  //   final Directory? directory = await getExternalStorageDirectory();
 
-    if (directory != null) {
-      String path = '${directory.path}/$filename.json';
-      await File(path).writeAsString(jsonString);
-    }
-  }
+  //   if (directory != null) {
+  //     String path = '${directory.path}/$filename.json';
+  //     await File(path).writeAsString(jsonString);
+  //   }
+  // }
 
   Future<dynamic> readFromJSON(String filename) async {
     final Directory? directory = await getExternalStorageDirectory();

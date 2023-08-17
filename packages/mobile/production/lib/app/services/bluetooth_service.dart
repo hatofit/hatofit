@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'polar_service.dart';
 
 class BluetoothService extends GetxController {
-  // call polar service
   final FlutterBluePlus flutterBluePlus = FlutterBluePlus();
   final isBluetoothOn = false.obs;
   final isConnectedDevice = false.obs;
@@ -36,5 +35,5 @@ class BluetoothService extends GetxController {
     if (isBluetoothOn.value == false) {
       await FlutterBluePlus.turnOn();
     }
-  } 
+  }
 }

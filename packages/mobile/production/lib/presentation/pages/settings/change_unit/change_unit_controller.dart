@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
 
-import '../../../../app/utils/preferences_provider.dart';
-import '../../../../data/models/user.dart';
 
 
 class ChangeUnitController extends GetxController {

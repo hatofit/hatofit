@@ -89,11 +89,11 @@ class PolarService extends GetxController {
           final difference = endTime.difference(startTIme);
           exerciseDuration = difference.inSeconds;
         }
-        StorageService().saveToJSON(
-            'session/raw/log-$exeName-$_connectedDeviceId-${DateTime.now().microsecondsSinceEpoch - (exerciseDuration * 1000000)}',
-            sessMod);
-        InternetService().postSession(sessMod);
-        timer.cancel();
+        // StorageService().saveToJSON(
+        //     'session/raw/log-$exeName-$_connectedDeviceId-${DateTime.now().microsecondsSinceEpoch - (exerciseDuration * 1000000)}',
+        //     sessMod);
+        // InternetService().postSession(sessMod);
+        // timer.cancel();
       }
       _currentSecondDataItem.devices.clear();
       currentSecond++;

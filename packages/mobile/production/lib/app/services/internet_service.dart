@@ -34,28 +34,28 @@ class InternetService {
     }
   }
 
-  Future<List<Exercise>> fetchExercises() async {
-    final url = "${dotenv.env['API_BASE_URL'] ?? ''}/exercise";
-    print('url: $url');
-    final response = await _getConnect.get(url);
-    try {
-      if (response.statusCode == 200) {
-        final List<dynamic> jsonResponse = response.body['exercises'];
-        StorageService().saveToJSON('exercise/exercise', jsonResponse);
-        return jsonResponse.map<Exercise>((json) {
-          return Exercise.fromJson(json);
-        }).toList();
-      } else {
-        List<dynamic> jsonResponse =
-            await StorageService().readFromJSON('exercise/exercise');
-        return jsonResponse.map<Exercise>((json) {
-          return Exercise.fromJson(json);
-        }).toList();
-      }
-    } catch (e) {
-      return List<Exercise>.empty();
-    }
-  }
+  // Future<List<Exercise>> fetchExercises() async {
+  //   final url = "${dotenv.env['API_BASE_URL'] ?? ''}/exercise";
+  //   print('url: $url');
+  //   final response = await _getConnect.get(url);
+  //   try {
+  //     if (response.statusCode == 200) {
+  //       final List<dynamic> jsonResponse = response.body['exercises'];
+  //       StorageService().saveToJSON('exercise/exercise', jsonResponse);
+  //       return jsonResponse.map<Exercise>((json) {
+  //         return Exercise.fromJson(json);
+  //       }).toList();
+  //     } else {
+  //       List<dynamic> jsonResponse =
+  //           await StorageService().readFromJSON('exercise/exercise');
+  //       return jsonResponse.map<Exercise>((json) {
+  //         return Exercise.fromJson(json);
+  //       }).toList();
+  //     }
+  //   } catch (e) {
+  //     return List<Exercise>.empty();
+  //   }
+  // }
 
   Future<List<dynamic>> fetchHistory() async {
     final token = await _prefs.getUserToken();

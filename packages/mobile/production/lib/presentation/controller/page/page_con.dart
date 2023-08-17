@@ -4,16 +4,17 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/services/local_storage.dart';
 import 'package:hatofit/app/utils/date_utils.dart';
+import 'package:hatofit/domain/usecases/workout/save_workout_local_uc.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../app/services/internet_service.dart';
 import '../../../data/models/exercise.dart';
 import '../../../data/models/user.dart';
-import '../../../domain/usecases/exercise_api_uc.dart';
-import '../../../domain/usecases/exercise_local_uc.dart';
+import '../../../domain/usecases/workout/workout_api_uc.dart';
+import '../../../domain/usecases/workout/workout_local_uc.dart';
 
 class PageCon extends GetxController {
-  PageCon(this._exerciseLocalUC, this._exerciseApiUC);
+  PageCon(this._workoutLocalUC, this._workoutApiUC, this._saveWorkoutLocalUC);
 
   ///
   ///General Data
@@ -48,22 +49,27 @@ class PageCon extends GetxController {
   String get formattedDate => '${_now.day}/${_now.month}/${_now.year}';
 
   /// Workout Page Controller
-  final ExerciseLocalUC _exerciseLocalUC;
-  final ExerciseApiUC _exerciseApiUC;
+  final WorkoutLocalUC _workoutLocalUC;
+  final WorkoutApiUC _workoutApiUC;
+  final SaveWorkoutLocalUC _saveWorkoutLocalUC;
   goToWorkoutDetail(Exercise exercise) {
     Get.toNamed(AppRoutes.workoutDetail, arguments: exercise);
   }
 
+  var exercises = <Exercise>[].obs;
   Future<List<Exercise>> fetchExercises() async {
-    var exercises = <Exercise>[].obs;
-    final data = await _exerciseApiUC.execute();
-    data.fold((l) {
+    final data = await _workoutApiUC.execute();
+    data.fold((l) async {
       Get.snackbar(l.message, l.details);
       Get.snackbar('Alert', 'Using local data');
+      final data = await _workoutLocalUC.execute();
+      data.fold((l) => Get.snackbar(l.code, l.message),
+          (r) => exercises.value = r.data);
     }, (r) {
       exercises.value = r.data['exercises']
           .map<Exercise>((e) => Exercise.fromJson(e))
           .toList();
+      _saveWorkoutLocalUC.execute(r.data);
     });
     return exercises;
   }

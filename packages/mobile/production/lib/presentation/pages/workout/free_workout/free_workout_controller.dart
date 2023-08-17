@@ -67,8 +67,8 @@ class FreeWorkoutController extends GetxController {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  StorageService().saveToJSON(
-                      'session/raw/log-${titleController.text}.json', session);
+                  // StorageService().saveToJSON(
+                  //     'session/raw/log-${titleController.text}.json', session);
                   InternetService().postSession(session);
                   Get.back();
                 },

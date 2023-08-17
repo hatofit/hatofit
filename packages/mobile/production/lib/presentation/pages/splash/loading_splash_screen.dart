@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import '../../../app/routes/app_routes.dart';
 import '../../../app/services/local_storage.dart';
 import '../../../app/themes/app_theme.dart';
-import '../../../domain/usecases/login_uc.dart';
-import '../../../domain/usecases/register_uc.dart';
 
 class LoadingSplashScreen extends StatelessWidget {
   const LoadingSplashScreen({super.key});
