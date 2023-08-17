@@ -7,12 +7,12 @@ import '../../../app/core/domain/failure.dart';
 import '../../../app/core/domain/success.dart';
 import '../../models/user.dart';
 import 'base/api_path.dart';
-import 'base/api_request_repo_abs.dart';
+import 'base/api_payload_repo_abs.dart';
 import 'base/api_source.dart';
 
 enum AuthType { login, register, logout, updateUser }
 
-class AuthApiRepoIml implements ApiRequestRepoAbs {
+class AuthApiRepoIml implements ApiPayloadRepoAbs {
   final AuthType type;
   final User? user;
   final String? email;

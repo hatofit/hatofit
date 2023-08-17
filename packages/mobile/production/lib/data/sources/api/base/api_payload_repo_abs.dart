@@ -17,7 +17,7 @@ extension HTTPMethodString on HTTPMethod {
   }
 }
 
-abstract class ApiRequestRepoAbs {
+abstract class ApiPayloadRepoAbs {
   String get url;
   String get path;
   HTTPMethod get method;
