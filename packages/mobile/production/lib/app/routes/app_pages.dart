@@ -4,6 +4,7 @@ import 'package:hatofit/presentation/pages/splash/view/register/view/input_user_
 
 import '../../presentation/controller/page/page_bind.dart';
 import '../../presentation/controller/reg/reg_bind.dart';
+import '../../presentation/controller/wo/wo_bind.dart';
 import '../services/services_binding.dart';
 import 'app_routes.dart';
 import '../../presentation/pages/dashboard/dashboard_page.dart';
@@ -62,7 +63,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.dashboard,
       page: () => const DashboardPage(),
-      bindings: [PageBind(), ServicesBinding()],
+      bindings: [PageBind(), ServicesBinding() ,WoBind()],
       transition: Transition.cupertino,
     ),
     GetPage(

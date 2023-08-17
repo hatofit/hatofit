@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../../app/services/bluetooth_service.dart';
 import '../../../app/themes/app_theme.dart';
@@ -29,28 +28,6 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   final bluetoothService = Get.put(BluetoothService());
   final isDarkMode = Get.isDarkMode;
-  @override
-  void initState() {
-    // super.initState();
-    // bluetoothService.polar.deviceConnecting
-    //     .listen((event) => debugPrint('Device connecting'));
-    // bluetoothService.polar.batteryLevel.listen((e) {
-    //   debugPrint('ID : ${e.identifier}\nBattery: ${e.level}');
-    // });
-    // bluetoothService.polar.deviceConnected.listen((event) {
-    //   bluetoothService.connectedDeviceId = event.deviceId;
-    //   bluetoothService.isAdptrContd.value = true;
-    //   debugPrint(
-    //       'Device connected to ${event.deviceId} ${bluetoothService.isAdptrContd.value}');
-    // });
-    // bluetoothService.polar.deviceDisconnected.listen((event) {
-    //   bluetoothService.connectedDeviceId = 'Device disconnected';
-    //   bluetoothService.heartRate.value = '--';
-    //   bluetoothService.isAdptrContd.value = false;
-    //   debugPrint(
-    //       'Device disconnected from ${event.info.deviceId} ${bluetoothService.isAdptrContd.value}');
-    // });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -224,40 +201,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                 .deviceId);
                                         Get.back();
                                         Get.dialog(
-                                          Center(
-                                              child: bluetoothService
-                                                          .isAdptrContd.value ==
-                                                      false
-                                                  ? connecting(
-                                                      deviceName:
-                                                          bluetoothService
-                                                              .detectedDevices[
-                                                                  index]
-                                                              .name,
-                                                      deviceId: bluetoothService
-                                                          .detectedDevices[
-                                                              index]
-                                                          .deviceId)
-                                                  : FutureBuilder(
-                                                      future: Future.delayed(
-                                                          const Duration(
-                                                              seconds: 3), () {
-                                                        Get.back();
-                                                      }),
-                                                      builder: (context,
-                                                              snapshot) =>
-                                                          connected(
-                                                              deviceName:
-                                                                  bluetoothService
-                                                                      .detectedDevices[
-                                                                          index]
-                                                                      .name,
-                                                              deviceId:
-                                                                  bluetoothService
-                                                                      .detectedDevices[
-                                                                          index]
-                                                                      .deviceId),
-                                                    )),
+                                          connecting(
+                                              deviceName: bluetoothService
+                                                  .detectedDevices[index].name,
+                                              deviceId: bluetoothService
+                                                  .detectedDevices[index]
+                                                  .deviceId),
                                           transitionCurve:
                                               Curves.easeInOutCubic,
                                         );
@@ -278,40 +227,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ),
       ),
     );
-  }
-
-  Dialog connected({required String deviceName, required String deviceId}) {
-    return Dialog(
-        child: SizedBox(
-      height: 300,
-      width: 150,
-      child: FutureBuilder(
-        future: Future.delayed(const Duration(seconds: 3)),
-        builder: (context, snapshot) => Column(
-          children: [
-            Text('Connected', style: Theme.of(context).textTheme.bodyLarge),
-            const SizedBox(
-              height: 32,
-            ),
-            LottieBuilder.asset(
-              'assets/animations/ble-success.json',
-              height: 100,
-              width: 100,
-            ),
-            const SizedBox(
-              height: 32,
-            ),
-            Text('Device Name : $deviceName',
-                style: Theme.of(context).textTheme.bodyMedium),
-            const SizedBox(
-              height: 4,
-            ),
-            Text('Device ID : $deviceId',
-                style: Theme.of(context).textTheme.bodyMedium),
-          ],
-        ),
-      ),
-    ));
   }
 
   Dialog connecting({required String deviceName, required String deviceId}) {

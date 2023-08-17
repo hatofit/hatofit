@@ -5,7 +5,8 @@ import '../../../app/core/domain/failure.dart';
 import '../../../app/core/domain/success.dart';
 import '../../repositories/workout_repo_abs.dart';
 
-class SaveWorkoutLocalUC extends ParamUseCase<dynamic, Map<String, dynamic>> {
+class SaveWorkoutLocalUC
+    extends ParamUseCase<Either<Failure, Success>, Map<String, dynamic>> {
   final WorkoutRepoAbs _workoutRepoAbs;
   SaveWorkoutLocalUC(this._workoutRepoAbs);
   @override

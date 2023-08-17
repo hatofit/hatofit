@@ -6,7 +6,7 @@ import '../../app/core/usecases/param_uc.dart';
 import '../../data/models/user.dart';
 import '../repositories/auth_repo_abs.dart';
 
-class RegisterUC extends ParamUseCase<dynamic, User> {
+class RegisterUC extends ParamUseCase<Either<Failure, Success>, User> {
   final AuthRepoAbs _authRepoAbs;
   RegisterUC(this._authRepoAbs);
   @override

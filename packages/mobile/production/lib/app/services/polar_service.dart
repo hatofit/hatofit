@@ -6,6 +6,8 @@ import 'package:polar/polar.dart';
 import '../../data/models/session.dart';
 import '../themes/app_theme.dart';
 import '../themes/colors_constants.dart';
+import 'internet_service.dart';
+import 'storage_service.dart';
 
 const Map<String, String> _deviceImageList = {
   'Polar H10': 'assets/images/polar/polar-h10.webp',
@@ -43,7 +45,7 @@ class PolarService extends GetxController {
   ).obs;
   @override
   void onReady() {
-    
+    scanPolarDevices();
     super.onReady();
   }
 
@@ -290,7 +292,7 @@ class PolarService extends GetxController {
   }
 
   // sacan detected _polar devices
-  void scan () {
+  void scanPolarDevices() {
     _polar.searchForDevice().listen((polardDeviceInfo) {
       bool isAlreadyDetected = _detectedDevices.any((detectedDevice) =>
           detectedDevice['deviceId'] == polardDeviceInfo.deviceId);

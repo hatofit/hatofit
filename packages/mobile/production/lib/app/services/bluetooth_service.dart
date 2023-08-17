@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
-import 'package:hatofit/app/core/domain/failure.dart';
-import 'package:hatofit/app/core/domain/success.dart';
 import 'package:hatofit/data/models/polar_device.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
 
 import '../../data/models/session.dart';
+import '../themes/app_theme.dart';
+import '../themes/colors_constants.dart';
 
 class BluetoothService extends GetxService {
   final FlutterBluePlus flutterBluePlus = FlutterBluePlus();
@@ -24,6 +24,7 @@ class BluetoothService extends GetxService {
   }
 
   Future<void> init() async {
+    print('====&&&====\nBLUETOOTH SERVICE INIT\n====&&&====\n');
     await _polarBLE.requestPermissions();
     await Permission.location.request();
     await Permission.storage.request();
@@ -34,6 +35,23 @@ class BluetoothService extends GetxService {
         isAdptrOn.value = false;
       }
     });
+    _polarBLE.deviceConnecting
+        .listen((event) => debugPrint('Device connecting'));
+    _polarBLE.batteryLevel.listen((e) {
+      debugPrint('ID : ${e.identifier}\nBattery: ${e.level}');
+    });
+    _polarBLE.deviceConnected.listen((event) {
+      //  connectedDeviceId = event.deviceId;
+      isAdptrContd.value = true;
+      debugPrint('Device connected to ${event.deviceId} ${isAdptrContd.value}');
+    });
+    _polarBLE.deviceDisconnected.listen((event) {
+      //  heartRate.value = '--';
+      //  connectedDeviceId = 'Device disconnected';
+      isAdptrContd.value = false;
+      debugPrint(
+          'Device disconnected from ${event.info.deviceId} ${isAdptrContd.value}');
+    });
   }
 
   Future<void> turnOnBluetooth() async {
@@ -43,8 +61,12 @@ class BluetoothService extends GetxService {
   }
 
   final _availableSubscriptions = <StreamSubscription>[];
-  final heartRate = Rx<int?>(null);
-  final _currentSecondDataItem = Rx<SessionDataItem?>(null);
+  final heartRate = Rx<int>(0);
+  SessionDataItem currSecDataItem = SessionDataItem(
+    second: 0,
+    timeStamp: DateTime.now().microsecondsSinceEpoch,
+    devices: [],
+  );
 
   void streamWhenReady(String deviceId) async {
     await _polarBLE.sdkFeatureReady.firstWhere(
@@ -60,12 +82,12 @@ class BluetoothService extends GetxService {
           _polarBLE.startHrStreaming(deviceId).listen((hrData) {
         heartRate.value = hrData.samples.last.hr;
 
-        bool hasHrDevice = _currentSecondDataItem.value!.devices
+        bool hasHrDevice = currSecDataItem.devices
             .any((element) => element.type == 'PolarDataType.hr');
 
         if (!hasHrDevice) {
           if (hrData.samples.last.rrsMs.isEmpty) {
-            _currentSecondDataItem.value!.devices.add(
+            currSecDataItem.devices.add(
               SessionDataItemDevice(
                 type: 'PolarDataType.hr',
                 identifier: deviceId,
@@ -78,7 +100,7 @@ class BluetoothService extends GetxService {
               ),
             );
           } else {
-            _currentSecondDataItem.value!.devices.add(
+            currSecDataItem.devices.add(
               SessionDataItemDevice(
                 type: 'PolarDataType.hr',
                 identifier: deviceId,
@@ -93,17 +115,20 @@ class BluetoothService extends GetxService {
             );
           }
         }
+        print('=========START STREAMING=========\n'
+            'Stored Data: ${currSecDataItem.toJson()}\n'
+            '=========START STREAMING=========\n');
       });
       _availableSubscriptions.add(hrSubscription);
     }
     if (availableTypes.contains(PolarDataType.acc)) {
       StreamSubscription accSubscription =
           _polarBLE.startAccStreaming(deviceId).listen((accData) {
-        bool hasAccDevice = _currentSecondDataItem.value!.devices
+        bool hasAccDevice = currSecDataItem.devices
             .any((element) => element.type == 'PolarDataType.acc');
 
         if (!hasAccDevice) {
-          _currentSecondDataItem.value!.devices.add(
+          currSecDataItem.devices.add(
             SessionDataItemDevice(
               type: 'PolarDataType.acc',
               identifier: deviceId,
@@ -124,11 +149,11 @@ class BluetoothService extends GetxService {
     if (availableTypes.contains(PolarDataType.ecg)) {
       StreamSubscription ecgSubscription =
           _polarBLE.startEcgStreaming(deviceId).listen((ecgData) {
-        bool hasEcgDevice = _currentSecondDataItem.value!.devices
+        bool hasEcgDevice = currSecDataItem.devices
             .any((element) => element.type == 'PolarDataType.ecg');
 
         if (!hasEcgDevice) {
-          _currentSecondDataItem.value!.devices.add(
+          currSecDataItem.devices.add(
             SessionDataItemDevice(
               type: 'PolarDataType.ecg',
               identifier: deviceId,
@@ -149,11 +174,11 @@ class BluetoothService extends GetxService {
           _polarBLE.startGyroStreaming(deviceId).listen((gyroData) {
         // calcute how much gyro data is available in a second
 
-        bool hasGyroDevice = _currentSecondDataItem.value!.devices
+        bool hasGyroDevice = currSecDataItem.devices
             .any((element) => element.type == 'PolarDataType.gyro');
 
         if (!hasGyroDevice) {
-          _currentSecondDataItem.value!.devices.add(
+          currSecDataItem.devices.add(
             SessionDataItemDevice(
               type: 'PolarDataType.gyro',
               identifier: deviceId,
@@ -175,11 +200,11 @@ class BluetoothService extends GetxService {
       StreamSubscription magnetometerSubscription = _polarBLE
           .startMagnetometerStreaming(deviceId)
           .listen((magnetometerData) {
-        bool hasMagnetometerDevice = _currentSecondDataItem.value!.devices
+        bool hasMagnetometerDevice = currSecDataItem.devices
             .any((element) => element.type == 'PolarDataType.magnetometer');
 
         if (!hasMagnetometerDevice) {
-          _currentSecondDataItem.value!.devices.add(
+          currSecDataItem.devices.add(
             SessionDataItemDevice(
               type: 'PolarDataType.magnetometer',
               identifier: deviceId,
@@ -200,11 +225,11 @@ class BluetoothService extends GetxService {
     if (availableTypes.contains(PolarDataType.ppg)) {
       StreamSubscription ppgSubscription =
           _polarBLE.startPpgStreaming(deviceId).listen((ppgData) {
-        bool hasPpgDevice = _currentSecondDataItem.value!.devices
+        bool hasPpgDevice = currSecDataItem.devices
             .any((element) => element.type == 'PolarDataType.ppg');
 
         if (!hasPpgDevice) {
-          _currentSecondDataItem.value!.devices.add(
+          currSecDataItem.devices.add(
             SessionDataItemDevice(
               type: 'PolarDataType.ppg',
               identifier: deviceId,
@@ -269,29 +294,39 @@ class BluetoothService extends GetxService {
     });
   }
 
-  Future<Either<Failure, Success>> connectDevice(String deviceId) async {
-    try {
-      await _polarBLE.connectToDevice(deviceId);
-      return Right(Success(code: 'OK', message: 'Connected', data: deviceId));
-    } catch (e) {
-      await _polarBLE.disconnectFromDevice(deviceId);
-      return Left(
-          Failure(code: 'ERR', message: 'Disconnected', details: e.toString()));
-    }
+  void connectDevice(String deviceId) {
+    final connectFuture = _polarBLE.connectToDevice(deviceId);
+    final deviceConnectedFuture = _polarBLE.deviceConnected.first;
+
+    // Wait for either connection or timeout
+    Future.wait([connectFuture, deviceConnectedFuture])
+        .timeout(const Duration(seconds: 10)) // Set the timeout duration
+        .then((_) {
+      streamWhenReady(deviceId);
+      Get.back();
+      Get.snackbar('Success', 'Yeay... Berhasil connect',
+          colorText: ThemeManager().isDarkMode ? Colors.white : Colors.black,
+          backgroundColor: ThemeManager().isDarkMode
+              ? ColorConstants.darkContainer.withOpacity(0.9)
+              : ColorConstants.lightContainer.withOpacity(0.9));
+      isAdptrContd.value = true;
+    }).catchError((error) {
+      _polarBLE.disconnectFromDevice(deviceId);
+      Get.back();
+      Get.snackbar('Sorry', 'Failed to connect ',
+          colorText: ThemeManager().isDarkMode ? Colors.white : Colors.black,
+          backgroundColor: ThemeManager().isDarkMode
+              ? ColorConstants.darkContainer.withOpacity(0.9)
+              : ColorConstants.lightContainer.withOpacity(0.9));
+    });
   }
 
-  Future<Either<Failure, Success>> disconnectDevice(String deviceId) async {
-    try {
-      _streamCancelation();
-      await _polarBLE.disconnectFromDevice(deviceId);
-      return Right(
-          Success(code: 'OK', message: 'Disconnected', data: deviceId));
-    } catch (e) {
-      return Left(
-          Failure(code: 'ERR', message: 'Disconnected', details: e.toString()));
-    }
+  // disconnect from _polarBLE device by device id
+  void disconnectDevice(String deviceId) {
+    _streamCancelation();
+    _polarBLE.disconnectFromDevice(deviceId);
+    _polarBLE.deviceDisconnected.last;
   }
-
   // void streamResume() {
   //   for (var element in _availableSubscriptions) {
   //     element.resume();

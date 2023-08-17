@@ -6,7 +6,7 @@ import '../../app/core/domain/failure.dart';
 import '../../app/core/domain/success.dart';
 import '../../app/core/usecases/param_uc.dart';
 
-class ImageCameraUC extends ParamUseCase<dynamic, ImageSource> {
+class ImageCameraUC extends ParamUseCase<Either<Failure, Success>, ImageSource> {
   final ImageRepoAbs _imageRepoAbs;
   ImageCameraUC(this._imageRepoAbs);
   @override
