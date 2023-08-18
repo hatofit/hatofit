@@ -177,7 +177,7 @@ const ApiReport = ({ route }) => {
                 startTime: session.startTime,
                 endTime: session.endTime,
                 devices,
-                exerciseId: (_a = session.exercise) === null || _a === void 0 ? void 0 : _a._id,
+                exerciseId: ((_a = session.exercise) === null || _a === void 0 ? void 0 : _a._id) || null,
                 sessionId: session._id,
                 reports: reportsItems,
             });
