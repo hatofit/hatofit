@@ -125,7 +125,7 @@ importers:
         version: 10.16.0(react-dom@18.2.0)(react@18.2.0)
       next:
         specifier: 13.4.17
-        version: 13.4.17(react-dom@18.2.0)(react@18.2.0)
+        version: 13.4.17(react-dom@18.2.0)(react@18.2.0)(sass@1.66.0)
       next-themes:
         specifier: ^0.2.1
         version: 0.2.1(next@13.4.17)(react-dom@18.2.0)(react@18.2.0)
@@ -144,6 +144,9 @@ importers:
       react-icons:
         specifier: ^4.10.1
         version: 4.10.1(react@18.2.0)
+      sass:
+        specifier: ^1.66.0
+        version: 1.66.0
       tailwindcss:
         specifier: 3.3.3
         version: 3.3.3
@@ -624,7 +627,7 @@ packages:
       '@chakra-ui/react': 2.8.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.20)(framer-motion@10.16.0)(react-dom@18.2.0)(react@18.2.0)
       '@emotion/cache': 11.11.0
       '@emotion/react': 11.11.1(@types/react@18.2.20)(react@18.2.0)
-      next: 13.4.17(react-dom@18.2.0)(react@18.2.0)
+      next: 13.4.17(react-dom@18.2.0)(react@18.2.0)(sass@1.66.0)
       react: 18.2.0
     dev: false
 
@@ -5212,6 +5215,10 @@ packages:
     engines: {node: '>= 4'}
     dev: false
 
+  /immutable@4.3.2:
+    resolution: {integrity: sha512-oGXzbEDem9OOpDWZu88jGiYCvIsLHMvGw+8OXlpsvTFvIQplQbjg1B1cvKg8f7Hoch6+NGjpPsH1Fr+Mc2D1aA==}
+    dev: false
+
   /import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -6422,12 +6429,12 @@ packages:
       react: '*'
       react-dom: '*'
     dependencies:
-      next: 13.4.17(react-dom@18.2.0)(react@18.2.0)
+      next: 13.4.17(react-dom@18.2.0)(react@18.2.0)(sass@1.66.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /next@13.4.17(react-dom@18.2.0)(react@18.2.0):
+  /next@13.4.17(react-dom@18.2.0)(react@18.2.0)(sass@1.66.0):
     resolution: {integrity: sha512-f0L+lbQA+GFkHu9wpupiURLFIEEPSVQhUuR+5lQNI+aFzbCbCGl7h0Vurs1jA4wtP7T7fEO0iSWmt37+88wIZA==}
     engines: {node: '>=16.8.0'}
     hasBin: true
@@ -6449,6 +6456,7 @@ packages:
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
+      sass: 1.66.0
       styled-jsx: 5.1.1(react@18.2.0)
       watchpack: 2.4.0
       zod: 3.21.4
@@ -7916,6 +7924,16 @@ packages:
       sparse-bitfield: 3.0.3
     dev: false
     optional: true
+
+  /sass@1.66.0:
+    resolution: {integrity: sha512-C3U+RgpAAlTXULZkWwzfysgbbBBo8IZudNAOJAVBLslFbIaZv4MBPkTqhuvpK4lqgdoFiWhnOGMoV4L1FyOBag==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.5.3
+      immutable: 4.3.2
+      source-map-js: 1.0.2
+    dev: false
 
   /scheduler@0.23.0:
     resolution: {integrity: sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==}
