@@ -57,7 +57,8 @@ export const ReportItemsType = z.union([ReportTypeHRSchema, ReportTypeEcgSchema,
 export const ReportItemsSchema = z.array(ReportItemsType)
 
 export const ReportSchema = z.object({
-  exerciseId: z.string(),
+  // string or null undefined
+  exerciseId: z.string().nullable(),
   sessionId: z.string(),
   startTime: z.number(),
   endTime: z.number(),

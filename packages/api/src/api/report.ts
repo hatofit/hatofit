@@ -194,7 +194,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         startTime: session.startTime,
         endTime: session.endTime,
         devices,
-        exerciseId: session.exercise?._id,
+        exerciseId: session.exercise?._id || null,
         sessionId: session._id,
         reports: reportsItems,
       } as z.input<typeof ReportSchema>)

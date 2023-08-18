@@ -103,6 +103,7 @@ const SessionSchema = new mongoose_1.Schema({
             ],
         },
     ],
+    withoutExercise: Boolean,
 }, {
     typeKey: "$type",
     timestamps: true,
