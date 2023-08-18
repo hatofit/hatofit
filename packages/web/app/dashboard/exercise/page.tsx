@@ -8,13 +8,8 @@ export default async function SessionPage() {
   console.log('session', session)
 
   return (
-    <main className="flex min-h-[calc(100vh_-_72px)] py-4">
-      <Container className="flex gap-4">
-        <Sidebar />
-        <div className="flex-1">
-          <ExerciseList />
-        </div>
-      </Container>
+    <main className="flex-1 flex flex-col">
+      <ExerciseList />
     </main>
   )
 }

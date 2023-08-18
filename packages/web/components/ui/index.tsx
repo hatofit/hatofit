@@ -1,3 +1,5 @@
+import { allObjExcept } from "@/utils/obj"
+
 export function Button(props: React.ComponentProps<'button'>) {
   return (
     <button
@@ -6,4 +8,21 @@ export function Button(props: React.ComponentProps<'button'>) {
       {...props}
     />
   )
+}
+
+export namespace Card {
+  export function Wrapper(props: React.ComponentProps<'div'>) {
+    return (
+      <div
+        className={`bg-transparent rounded-lg shadow-lg p-6 border-2 border-gray-800 ${props?.className}`}
+        {...allObjExcept(props, ['className'])}
+      />
+    )
+  }
+
+  export function HeaderTitle (props: React.ComponentProps<'div'>) {
+    return (
+      <div className="text-xl font-bold mb-4">{props?.children}</div>
+    );
+  }
 }

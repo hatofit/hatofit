@@ -1,17 +1,11 @@
-import Container from "@/components/layout/container";
-import Sidebar from "../../sidebar";
+import { Card } from "@/components/ui";
 
 export default function DashboardPage() {
   return (
-    <main className="flex min-h-[calc(100vh_-_72px)] py-4">
-      <Container className="flex gap-4">
-        <Sidebar />
-        <div className="flex-1">
-          <div className="bg-gray-800 rounded-lg shadow-lg p-4">
-            Setting {">"} Profile Page
-          </div>
-        </div>
-      </Container>
+    <main className="flex-1 flex flex-col">
+      <Card.Wrapper>
+        Setting {">"} Profile Page
+      </Card.Wrapper>
     </main>
   )
 }

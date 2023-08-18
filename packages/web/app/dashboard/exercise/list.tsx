@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react"
 import dayjs from 'dayjs'
 import dayjsutc from 'dayjs/plugin/utc'
 import Link from 'next/link'
+import { Card } from '@/components/ui'
 
 dayjs.extend(dayjsutc)
 
@@ -44,9 +45,9 @@ export default function ExerciseList() {
 
   if (status === 'loading') return <div>Loading...</div>
   return (
-    <div className="bg-gray-800 rounded-lg shadow-lg p-4 flex flex-col gap-2">
+    <Card.Wrapper className="flex flex-col gap-2">
       <div>
-        <span className="font-semibold text-xl">My Exercises</span>
+        <Card.HeaderTitle>My Exercises</Card.HeaderTitle>
       </div>
       {sessions.map((session, index) => (
         <Link href={`/dashboard/report/${session?._id}`} key={index} className="flex flex-col border border-gray-700 px-4 py-2 rounded hover:bg-gray-700 cursor-pointer">
@@ -56,6 +57,6 @@ export default function ExerciseList() {
           </div>
         </Link>
       ))}
-    </div>
+    </Card.Wrapper>
   )
 }
