@@ -16,6 +16,7 @@ async function getReportData(slug: string) {
 
   if (!res.ok) {
     // This will activate the closest `error.js` Error Boundary
+    console.log('res', slug)
     throw new Error('Failed to fetch data')
   }
 

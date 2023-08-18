@@ -23,8 +23,12 @@ export default function Navbar() {
     return await signOut()
   }
 
+  useEffect(() => {
+    console.log(data, status)
+  }, [data, status])
+
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 h-[72px] border-b-2 border-gray-800 shadow">
+    <div className="bg-gray-100 dark:bg-black h-[72px] border-b-2 border-gray-900 shadow">
       <Container className="flex items-center h-full justify-between">
         <div className="flex items-center">
           <Link href="/" className="cursor-pointer font-mono text-xl font-bold">HATOFIT</Link>
@@ -40,7 +44,7 @@ export default function Navbar() {
             <>
               <Menu as="div" className="relative inline-block text-left">
                 <Menu.Button>
-                  {data?.user?.name}
+                  {data?.user?.name || 'Unknown'}
                 </Menu.Button>
                 <Menu.Items className="absolute text-left w-48">
                   <div className="relative overflow-hidden flex flex-col space-y-1 py-1 rounded-md shadow-lg bg-white dark:bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none">

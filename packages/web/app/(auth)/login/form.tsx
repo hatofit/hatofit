@@ -4,8 +4,8 @@ import { signIn } from "next-auth/react";
 
 export default function LoginForm() {
   const [input, setInput] = useState({
-    email: '',
-    password: '',
+    email: 'viandwicyber@gmail.com',
+    password: 'password',
   })
 
   const login = async () => {

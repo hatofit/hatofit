@@ -1,10 +1,9 @@
 'use client'
 
-import { ThemeProvider } from 'next-themes';
-import { CacheProvider } from '@chakra-ui/next-js'
-import { ChakraProvider, ColorModeScript, useColorMode, useTheme } from '@chakra-ui/react'
+import { ThemeProvider } from 'next-themes'
+import { useTheme } from '@chakra-ui/react'
 import { useDarkMode } from '@/hooks/use-dark-mode'
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react"
 import { SessionProvider } from "next-auth/react"
 // import theme from './theme'
 
@@ -25,7 +24,7 @@ export function Providers({
     } else {
       window.document.body.parentElement?.classList.remove('dark')
     }
-  }, [])
+  }, [currentTheme])
 
   if (!mounted) return null
 

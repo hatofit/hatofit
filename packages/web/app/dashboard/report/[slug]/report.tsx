@@ -22,7 +22,7 @@ export default function ReportSection({ reportData }: { reportData: any }) {
         <div className="flex flex-col max-w-screen-lg w-full mx-auto py-6">
           <div className="flex justify-between items-center mb-2">
             <div>
-              <Link href={`/dashboard`} className="text-xs flex items-center mb-2">
+              <Link href={`/dashboard/exercise`} className="text-xs flex items-center mb-2">
                 <Icon icon="uil:arrow-left" className="text-lg" />
                 <span>back</span>
               </Link>
