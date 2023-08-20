@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:hatofit/app/app.dart';
 import 'package:hatofit/data/models/session.dart';
 
 import '../../../app/core/domain/failure.dart';
@@ -59,9 +60,6 @@ class SessionApiRepoIml implements ApiPayloadRepoAbs {
       HttpHeaders.contentTypeHeader: 'application/json',
       'Authorization': 'Bearer $token',
     };
-    print('====== SESSION API HEADER ======\n'
-        '$header\n'
-        '=================================\n');
     switch (type) {
       case SessionType.fetch:
         return header;

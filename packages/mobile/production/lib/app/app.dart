@@ -6,6 +6,7 @@ import 'package:hatofit/app/services/local_storage.dart';
 import 'package:hatofit/app/services/storage_service.dart';
 import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:hatofit/presentation/controller/auth/auth_bind.dart';
+import 'package:logger/logger.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 class App extends StatelessWidget {
@@ -29,6 +30,16 @@ class App extends StatelessWidget {
   }
 }
 
+final logger = Logger(
+  printer: PrettyPrinter(
+    methodCount: 0,
+    errorMethodCount: 8,
+    lineLength: 120,
+    colors: true,
+    printEmojis: true,
+    printTime: true,
+  ),
+);
 initServices() async {
   await Get.putAsync(() => LocalStorageService().init());
   await Get.putAsync(() => StorageService().init());

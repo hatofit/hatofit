@@ -13,6 +13,5 @@ abstract class SessionRepoAbs {
   Future<Either<Failure, Success<Map<String, dynamic>>>> saveSessionApi(
       Session session, String token);
 
-  Future<Either<Failure, Success<Map<String, dynamic>>>> fetchSessionApi(
-      String token);
+  Future<Either<Failure, Success>> fetchSessionApi(String token);
 }

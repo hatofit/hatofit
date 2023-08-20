@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/services/local_storage.dart';
 import 'package:hatofit/app/utils/date_utils.dart';
+import 'package:hatofit/domain/usecases/api/sesion/fetch_session_api_uc.dart';
 import 'package:hatofit/domain/usecases/local/workout/save_workout_local_uc.dart';
 
 import '../../../app/routes/app_routes.dart';
@@ -14,7 +15,12 @@ import '../../../domain/usecases/api/workout/fetch_workout_api_uc.dart';
 import '../../../domain/usecases/local/workout/fetch_workout_local_uc.dart';
 
 class PageCon extends GetxController {
-  PageCon(this._fetchWorkoutLocalUC, this._fetchWorkoutApiUC, this._saveWorkoutLocalUC);
+  PageCon(
+    this._fetchWorkoutLocalUC,
+    this._fetchWorkoutApiUC,
+    this._saveWorkoutLocalUC,
+    this._fetchSessionApiUC,
+  );
 
   ///
   ///General Data
@@ -32,7 +38,7 @@ class PageCon extends GetxController {
     homeTitle.value = 'Hi, ${user.value?.firstName}';
 
     /// History Page
-    fetchHistory();
+    // fetchHistory();
     super.onInit();
   }
 
@@ -75,11 +81,22 @@ class PageCon extends GetxController {
   }
 
   /// History Page Controller
+
+  final FetchSessionApiUC _fetchSessionApiUC;
+
   final RxList<dynamic> historyData = [].obs;
-  Future<List<dynamic>> fetchHistory() async {
-    List<dynamic> data = await InternetService().fetchHistory();
-    historyData.value = data;
-    return data;
+  Future<List<dynamic>> fetchHistory(String token) async {
+    final data = await _fetchSessionApiUC.execute(token);
+    data.fold((l) async {
+      Get.snackbar(l.message, l.details);
+      Get.snackbar('Alert', 'Using local data');
+      final data = await _fetchWorkoutLocalUC.execute();
+      data.fold((l) => Get.snackbar(l.code, l.message),
+          (r) => historyData.value = r.data);
+    }, (r) {
+      historyData.value = r.data['sessions'];
+    });
+    return historyData;
   }
 
   String formattedDateHistory(String date) {

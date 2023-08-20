@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/presentation/controller/wo/wo_con.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../app/services/polar_service.dart';
@@ -13,8 +14,8 @@ class FreeWorkoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PolarService pCon = Get.find<PolarService>();
-    final FreeWorkoutController fWCon = Get.put(FreeWorkoutController());
+    final pCon = Get.find<PolarService>();
+    final woCon = Get.find<WoCon>();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -27,7 +28,7 @@ class FreeWorkoutPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              fWCon.savePrompt();
+              _savePrompt();
             },
             icon: const Icon(Icons.save),
           ),
@@ -128,6 +129,49 @@ class FreeWorkoutPage extends StatelessWidget {
             }),
           ],
         ),
+      ),
+    );
+  }
+
+  Future _savePrompt(WoCon con) {
+    final woCon = con;
+    woCon.getData();
+    final TextEditingController titleController = TextEditingController();
+    return Get.defaultDialog(
+      title: 'Save Workout',
+      content: Column(
+        children: [
+          const Text('Save Workout?'),
+          const SizedBox(height: 16),
+          TextField(
+            controller: titleController,
+            decoration: const InputDecoration(
+              labelText: 'Title',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  // StorageService().saveToJSON(
+                  //     'session/raw/log-${titleController.text}.json', session);
+                  woCon.postSession(woCon.session!);
+                  Get.back();
+                },
+                child: const Text('No'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: const Text('Yes'),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

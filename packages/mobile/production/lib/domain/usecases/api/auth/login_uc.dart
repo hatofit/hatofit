@@ -12,7 +12,8 @@ class LoginUC extends ParamUseCase<
 
   @override
   Future<Either<Failure, Success<Map<String, dynamic>>>> execute(
-      Tuple2<String, String> param) {
+    Tuple2<String, String> param,
+  ) {
     return _authRepoAbs.login(param.value1, param.value2);
   }
 }

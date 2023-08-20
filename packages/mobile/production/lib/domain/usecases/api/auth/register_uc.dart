@@ -11,7 +11,9 @@ class RegisterUC extends ParamUseCase<Either<Failure, Success>, User> {
   RegisterUC(this._authRepoAbs);
 
   @override
-  Future<Either<Failure, Success>> execute(User param) {
+  Future<Either<Failure, Success>> execute(
+    User param,
+  ) {
     return _authRepoAbs.register(param);
   }
 }

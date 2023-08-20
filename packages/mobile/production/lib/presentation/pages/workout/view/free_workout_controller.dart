@@ -9,7 +9,6 @@ import '../../../../app/services/polar_service.dart';
 import '../../../../data/models/session.dart';
 
 class FreeWorkoutController extends GetxController {
-  final PolarService _pCon = Get.find<PolarService>();
   final title = 'Free Workout';
   final List<Map<String, dynamic>> hrList = [];
 
@@ -22,7 +21,6 @@ class FreeWorkoutController extends GetxController {
     return elapsed.toString().split('.')[0];
   }
 
-  Session? session;
 
   @override
   void onInit() {
@@ -35,55 +33,9 @@ class FreeWorkoutController extends GetxController {
   void onClose() {
     _pCon.isStartWorkout.value = false;
     hrList.clear();
-    savePrompt();
     super.onClose();
   }
 
-  void getData() {
-    session = _pCon.sessMod.value;
-  }
-
-  void savePrompt() {
-    getData();
-    final TextEditingController titleController = TextEditingController();
-    Get.defaultDialog(
-      title: 'Save Workout',
-      content: Column(
-        children: [
-          const Text('Save Workout?'),
-          const SizedBox(height: 16),
-          TextField(
-            controller: titleController,
-            decoration: const InputDecoration(
-              labelText: 'Title',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  // StorageService().saveToJSON(
-                  //     'session/raw/log-${titleController.text}.json', session);
-                  InternetService().postSession(session);
-                  Get.back();
-                },
-                child: const Text('No'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Get.back();
-                },
-                child: const Text('Yes'),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 
   void add(int time, int hr) {
     hrList.add({'time': time, 'hr': hr});
