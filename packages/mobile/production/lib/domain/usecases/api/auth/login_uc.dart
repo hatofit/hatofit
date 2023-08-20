@@ -9,6 +9,7 @@ class LoginUC extends ParamUseCase<
     Either<Failure, Success<Map<String, dynamic>>>, Tuple2<String, String>> {
   final AuthRepoAbs _authRepoAbs;
   LoginUC(this._authRepoAbs);
+
   @override
   Future<Either<Failure, Success<Map<String, dynamic>>>> execute(
       Tuple2<String, String> param) {
