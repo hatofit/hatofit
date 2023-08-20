@@ -64,11 +64,11 @@ class RegCon extends GetxController {
       gender: selectedGender.value,
       height: userHeight.value,
       weight: userWeight.value,
-      // metricUnits: MetricsUnits(
-      //   heightUnits: selectedHeightUnitMeasure.value,
-      //   weightUnits: selectedWeightUnitMeasure.value,
-      //   energyUnits: 'kcal',
-      // ),
+      metricUnits: MetricsUnits(
+        heightUnits: selectedHeightUnitMeasure.value,
+        weightUnits: selectedWeightUnitMeasure.value,
+        energyUnits: EnergyUnits.kCal,
+      ),
     );
     return user;
   }
@@ -79,19 +79,19 @@ class RegCon extends GetxController {
     update();
   }
 
-  final selectedHeightUnitMeasure = ''.obs;
-  final selectedWeightUnitMeasure = ''.obs;
+  final selectedHeightUnitMeasure = HeightUnits.cm.obs;
+  final selectedWeightUnitMeasure = WeightUnits.kg.obs;
   final userWeight = 100.obs;
   final userHeight = 150.obs;
   final isUserWeightSelected = false.obs;
   final isUserHeightSelected = false.obs;
 
-  void selectHeightUnitMeasure(String unitMeasure) {
+  void selectHeightUnitMeasure(HeightUnits unitMeasure) {
     selectedHeightUnitMeasure.value = unitMeasure;
     isUserHeightSelected.value = true;
   }
 
-  void selectWeightUnitMeasure(String unitMeasure) {
+  void selectWeightUnitMeasure(WeightUnits unitMeasure) {
     selectedWeightUnitMeasure.value = unitMeasure;
     isUserWeightSelected.value = true;
   }

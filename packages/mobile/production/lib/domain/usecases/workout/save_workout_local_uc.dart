@@ -9,6 +9,7 @@ class SaveWorkoutLocalUC
     extends ParamUseCase<Either<Failure, Success>, Map<String, dynamic>> {
   final WorkoutRepoAbs _workoutRepoAbs;
   SaveWorkoutLocalUC(this._workoutRepoAbs);
+
   @override
   Future<Either<Failure, Success>> execute(param) {
     return _workoutRepoAbs.saveLocalWorkouts(param);

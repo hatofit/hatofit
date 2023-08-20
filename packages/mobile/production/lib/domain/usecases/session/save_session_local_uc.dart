@@ -10,6 +10,7 @@ class SaveSessionLocalUc
     extends ParamUseCase<Either<Failure, Success>, Session> {
   final SessionRepoAbs _sessionRepoAbs;
   SaveSessionLocalUc(this._sessionRepoAbs);
+
   @override
   Future<Either<Failure, Success>> execute(Session param) {
     return _sessionRepoAbs.saveSessionLocal(param);

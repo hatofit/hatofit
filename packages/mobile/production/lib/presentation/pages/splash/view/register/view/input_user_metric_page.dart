@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/data/models/user.dart';
 import 'package:hatofit/presentation/controller/auth/auth_con.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
 
@@ -51,14 +52,14 @@ class InputUserMetricPage extends GetView<RegCon> {
                                     children: [
                                   _buildUnitMeasure(
                                       context: context,
-                                      type: 'weight',
-                                      unitMeasure: 'kg',
+                                      type: WeightUnits,
+                                      unitMeasure: WeightUnits.kg,
                                       regCon: controller),
                                   const SizedBox(width: 32),
                                   _buildUnitMeasure(
                                       context: context,
-                                      type: 'weight',
-                                      unitMeasure: 'lbs',
+                                      type: WeightUnits,
+                                      unitMeasure: WeightUnits.lbs,
                                       regCon: controller)
                                 ])),
                             const SizedBox(height: 84),
@@ -89,14 +90,14 @@ class InputUserMetricPage extends GetView<RegCon> {
                                     children: [
                                   _buildUnitMeasure(
                                       context: context,
-                                      type: 'height',
-                                      unitMeasure: 'cm',
+                                      type: HeightUnits,
+                                      unitMeasure: HeightUnits.cm,
                                       regCon: controller),
                                   const SizedBox(width: 32),
                                   _buildUnitMeasure(
                                       context: context,
-                                      type: 'height',
-                                      unitMeasure: 'ft',
+                                      type: HeightUnits,
+                                      unitMeasure: HeightUnits.ft,
                                       regCon: controller)
                                 ]))
                           ])),
@@ -127,21 +128,21 @@ class InputUserMetricPage extends GetView<RegCon> {
 
   Widget _buildUnitMeasure(
       {required BuildContext context,
-      required String type,
-      required String unitMeasure,
+      required Type type,
+      required dynamic unitMeasure,
       required RegCon regCon}) {
     var isSelected = false;
 
-    if (type == 'height') {
+    if (type == HeightUnits) {
       isSelected = regCon.selectedHeightUnitMeasure.value == unitMeasure;
-    } else if (type == 'weight') {
+    } else if (type == WeightUnits) {
       isSelected = regCon.selectedWeightUnitMeasure.value == unitMeasure;
     }
     return GestureDetector(
         onTap: () {
-          if (type == 'height') {
+          if (type == HeightUnits) {
             regCon.selectHeightUnitMeasure(unitMeasure);
-          } else if (type == 'weight') {
+          } else if (type == WeightUnits) {
             regCon.selectWeightUnitMeasure(unitMeasure);
           }
         },

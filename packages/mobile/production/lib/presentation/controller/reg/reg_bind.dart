@@ -10,8 +10,4 @@ class RegBind extends Bindings {
     Get.lazyPut(() => ImageCameraUC(Get.put(ImageRepoIml())));
     Get.put(RegCon(Get.find<ImageCameraUC>()));
   }
-  // @override
-  // void dependencies() {
-  //   Get.lazyPut<RegisterController>(() => RegisterController());
-  // }
 }

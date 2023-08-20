@@ -9,9 +9,9 @@ import '../../../data/models/exercise.dart';
 class WorkoutLocalUC extends NoParamUseCase {
   final WorkoutRepoAbs _workoutRepoAbs;
   WorkoutLocalUC(this._workoutRepoAbs);
-  @override
 
-  Future<Either<Failure, Success<List<Exercise>>>>  execute() {
+  @override
+  Future<Either<Failure, Success<List<Exercise>>>> execute() {
     return _workoutRepoAbs.fetchLocalWorkouts();
   }
 }
