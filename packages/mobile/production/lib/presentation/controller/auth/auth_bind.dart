@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:hatofit/data/repos/auth_repo_iml.dart';
-import 'package:hatofit/domain/usecases/login_uc.dart';
-import 'package:hatofit/domain/usecases/register_uc.dart';
+import 'package:hatofit/domain/usecases/api/auth/login_uc.dart';
+import 'package:hatofit/domain/usecases/api/auth/register_uc.dart';
 import 'package:hatofit/presentation/controller/auth/auth_con.dart';
 
 class AuthBind extends Bindings {

@@ -9,8 +9,8 @@ import 'package:polar/polar.dart';
 import '../../../app/services/local_storage.dart';
 import '../../../app/themes/app_theme.dart';
 import '../../../data/models/user.dart';
-import '../../../domain/usecases/login_uc.dart';
-import '../../../domain/usecases/register_uc.dart';
+import '../../../domain/usecases/api/auth/login_uc.dart';
+import '../../../domain/usecases/api/auth/register_uc.dart';
 
 class AuthCon extends GetxController {
   final RegisterUC _registerUC;

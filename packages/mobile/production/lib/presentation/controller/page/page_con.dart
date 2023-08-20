@@ -4,17 +4,17 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/services/local_storage.dart';
 import 'package:hatofit/app/utils/date_utils.dart';
-import 'package:hatofit/domain/usecases/workout/save_workout_local_uc.dart';
+import 'package:hatofit/domain/usecases/local/workout/save_workout_local_uc.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../app/services/internet_service.dart';
 import '../../../data/models/exercise.dart';
 import '../../../data/models/user.dart';
-import '../../../domain/usecases/workout/workout_api_uc.dart';
-import '../../../domain/usecases/workout/workout_local_uc.dart';
+import '../../../domain/usecases/api/workout/fetch_workout_api_uc.dart';
+import '../../../domain/usecases/local/workout/fetch_workout_local_uc.dart';
 
 class PageCon extends GetxController {
-  PageCon(this._workoutLocalUC, this._workoutApiUC, this._saveWorkoutLocalUC);
+  PageCon(this._fetchWorkoutLocalUC, this._fetchWorkoutApiUC, this._saveWorkoutLocalUC);
 
   ///
   ///General Data
@@ -49,8 +49,8 @@ class PageCon extends GetxController {
   String get formattedDate => '${_now.day}/${_now.month}/${_now.year}';
 
   /// Workout Page Controller
-  final WorkoutLocalUC _workoutLocalUC;
-  final WorkoutApiUC _workoutApiUC;
+  final FetchWorkoutLocalUC _fetchWorkoutLocalUC;
+  final FetchWorkoutApiUC _fetchWorkoutApiUC;
   final SaveWorkoutLocalUC _saveWorkoutLocalUC;
   goToWorkoutDetail(Exercise exercise) {
     Get.toNamed(AppRoutes.workoutDetail, arguments: exercise);
@@ -58,11 +58,11 @@ class PageCon extends GetxController {
 
   var exercises = <Exercise>[].obs;
   Future<List<Exercise>> fetchExercises() async {
-    final data = await _workoutApiUC.execute();
+    final data = await _fetchWorkoutApiUC.execute();
     data.fold((l) async {
       Get.snackbar(l.message, l.details);
       Get.snackbar('Alert', 'Using local data');
-      final data = await _workoutLocalUC.execute();
+      final data = await _fetchWorkoutLocalUC.execute();
       data.fold((l) => Get.snackbar(l.code, l.message),
           (r) => exercises.value = r.data);
     }, (r) {

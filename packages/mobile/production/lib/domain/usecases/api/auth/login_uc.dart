@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
 
-import '../../app/core/domain/failure.dart';
-import '../../app/core/domain/success.dart';
-import '../../app/core/usecases/param_uc.dart';
-import '../repos/auth_repo_abs.dart';
+import '../../../../app/core/domain/failure.dart';
+import '../../../../app/core/domain/success.dart';
+import '../../../../app/core/usecases/param_uc.dart';
+import '../../../repos/auth_repo_abs.dart';
 
 class LoginUC extends ParamUseCase<
     Either<Failure, Success<Map<String, dynamic>>>, Tuple2<String, String>> {
