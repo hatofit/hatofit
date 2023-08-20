@@ -21,7 +21,7 @@ class BluetoothController extends GetxController {
 
   @override
   void onInit() {
-    
+
     super.onInit();
     _bluetoothState.bindStream(_flutterBluePlus.state);
   }

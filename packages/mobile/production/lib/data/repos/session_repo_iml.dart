@@ -3,7 +3,7 @@ import 'package:hatofit/app/core/domain/failure.dart';
 import 'package:hatofit/app/core/domain/success.dart';
 import 'package:hatofit/data/models/session.dart';
 import 'package:hatofit/data/sources/api/session_api_repo_iml.dart';
-import 'package:hatofit/domain/repositories/session_repo_abs.dart';
+import 'package:hatofit/domain/repos/session_repo_abs.dart';
 
 class SessionRepoIml implements SessionRepoAbs {
   @override

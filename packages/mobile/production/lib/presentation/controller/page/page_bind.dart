@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:hatofit/data/repository/workout_repo_iml.dart';
+import 'package:hatofit/data/repos/workout_repo_iml.dart';
 import 'package:hatofit/domain/usecases/workout/save_workout_local_uc.dart';
 import 'package:hatofit/domain/usecases/workout/workout_local_uc.dart';
 

@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../../app/core/domain/failure.dart';
 import '../../app/core/domain/success.dart';
 import '../models/user.dart';
-import '../../domain/repositories/auth_repo_abs.dart';
+import '../../domain/repos/auth_repo_abs.dart';
 import '../sources/api/auth_api_repo_iml.dart';
 
 class AuthRepoIml extends AuthRepoAbs {

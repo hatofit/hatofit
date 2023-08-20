@@ -3,7 +3,7 @@ import 'package:hatofit/data/sources/api/workout_api_repo_iml.dart';
 
 import '../../app/core/domain/failure.dart';
 import '../../app/core/domain/success.dart';
-import '../../domain/repositories/workout_repo_abs.dart';
+import '../../domain/repos/workout_repo_abs.dart';
 import '../models/exercise.dart';
 import '../sources/local/local_repo_iml.dart';
 

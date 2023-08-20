@@ -5,7 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../app/core/domain/failure.dart';
 import '../../app/core/domain/success.dart';
-import '../../domain/repositories/image_repo_abs.dart';
+import '../../domain/repos/image_repo_abs.dart';
 
 class ImageRepoIml implements ImageRepoAbs {
   @override

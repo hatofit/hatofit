@@ -7,7 +7,7 @@ import 'package:hatofit/presentation/controller/reg/reg_con.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../../app/themes/colors_constants.dart';
-import '../../../../../data/repository/image_repo_iml.dart';
+import '../../../../../data/repos/image_repo_iml.dart';
 import '../../../../widget/custom_text_field.dart';
 
 class RegisterPage extends StatelessWidget {

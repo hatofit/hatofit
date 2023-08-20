@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:hatofit/domain/repositories/image_repo_abs.dart';
+import 'package:hatofit/domain/repos/image_repo_abs.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../app/core/domain/failure.dart';

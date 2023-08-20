@@ -4,7 +4,7 @@ import '../../app/core/domain/failure.dart';
 import '../../app/core/domain/success.dart';
 import '../../app/core/usecases/param_uc.dart';
 import '../../data/models/user.dart';
-import '../repositories/auth_repo_abs.dart';
+import '../repos/auth_repo_abs.dart';
 
 class RegisterUC extends ParamUseCase<Either<Failure, Success>, User> {
   final AuthRepoAbs _authRepoAbs;
