@@ -6,8 +6,6 @@ import 'package:polar/polar.dart';
 import '../../data/models/session.dart';
 import '../themes/app_theme.dart';
 import '../themes/colors_constants.dart';
-import 'internet_service.dart';
-import 'storage_service.dart';
 
 const Map<String, String> _deviceImageList = {
   'Polar H10': 'assets/images/polar/polar-h10.webp',

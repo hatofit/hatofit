@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import '../../data/models/exercise.dart';
 import '../utils/preferences_provider.dart';
-import 'storage_service.dart';
 
 class InternetService {
   final _getConnect = GetConnect();

@@ -64,11 +64,11 @@ class RegCon extends GetxController {
       gender: selectedGender.value,
       height: userHeight.value,
       weight: userWeight.value,
-      metricUnits: MetricsUnits(
-        heightUnits: selectedHeightUnitMeasure.value,
-        weightUnits: selectedWeightUnitMeasure.value,
-        energyUnits: 'kcal',
-      ),
+      // metricUnits: MetricsUnits(
+      //   heightUnits: selectedHeightUnitMeasure.value,
+      //   weightUnits: selectedWeightUnitMeasure.value,
+      //   energyUnits: 'kcal',
+      // ),
     );
     return user;
   }

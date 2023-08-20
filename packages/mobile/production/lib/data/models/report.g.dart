@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'report_model.dart';
+part of 'report.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
+Report _$ReportFromJson(Map<String, dynamic> json) => Report(
       exerciseId: json['exerciseId'] as String,
       sessionId: json['sessionId'] as String,
       startTime: json['startTime'] as int,
@@ -19,8 +19,7 @@ ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
           .toList(),
     );
 
-Map<String, dynamic> _$ReportModelToJson(ReportModel instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ReportToJson(Report instance) => <String, dynamic>{
       'exerciseId': instance.exerciseId,
       'sessionId': instance.sessionId,
       'startTime': instance.startTime,

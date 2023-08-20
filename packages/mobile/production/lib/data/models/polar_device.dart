@@ -4,6 +4,7 @@ class PolarDevice {
   final String deviceId;
   final int rssi;
   final String imageAsset;
+  bool? isConnected;
   bool? isConnectable;
   int? battery;
   String? firmware;
@@ -14,6 +15,7 @@ class PolarDevice {
     required this.deviceId,
     required this.rssi,
     required this.imageAsset,
+    this.isConnected,
     this.isConnectable,
     this.battery,
     this.firmware,

@@ -2,20 +2,20 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class User {
   final String email;
-  final String? password;
+  final String password;
   final String? id;
+  final String? confirmPassword;
   final String? firstName;
   final String? lastName;
-  final String? gender;
-  final String? confirmPassword;
   final DateTime? dateOfBirth;
+  final String? gender;
   final String? photo;
-  final MetricsUnits? metricUnits;
   final int? height;
   final int? weight;
+  final MetricsUnits? metricUnits;
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
@@ -23,15 +23,15 @@ class User {
     required this.email,
     required this.password,
     this.id,
+    this.confirmPassword,
     this.firstName,
     this.lastName,
-    this.gender,
-    this.confirmPassword,
     this.dateOfBirth,
+    this.gender,
     this.photo,
-    this.metricUnits,
     this.height,
     this.weight,
+    this.metricUnits,
     this.createdAt,
     this.updatedAt,
   });
@@ -41,20 +41,25 @@ class User {
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }
 
-@JsonSerializable(explicitToJson: true)
-class MetricsUnits {
-  final String energyUnits;
-  final String heightUnits;
-  final String weightUnits;
+enum EnergyUnits { kCal, kJ }
+
+enum HeightUnits { cm, ft }
+
+enum WeightUnits { kg, lbs }
+
+@JsonSerializable()
+class MetricsUnits  {
+  final EnergyUnits energyUnits;
+  final HeightUnits heightUnits;
+  final WeightUnits weightUnits;
 
   MetricsUnits({
-   required this.energyUnits,
-   required this.heightUnits,
-   required this.weightUnits,
+    required this.energyUnits,
+    required this.heightUnits,
+    required this.weightUnits,
   });
 
-  factory MetricsUnits.fromJson(Map<String, dynamic> json) =>
-      _$MetricsUnitsFromJson(json);
+  factory MetricsUnits.fromJson(Map<String, dynamic> json) => _$MetricsUnitsFromJson(json);
 
   Map<String, dynamic> toJson() => _$MetricsUnitsToJson(this);
 }
