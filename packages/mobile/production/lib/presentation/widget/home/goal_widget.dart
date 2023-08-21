@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/presentation/pages/workout/view/free_workout_page.dart';
 
-import '../../../app/routes/app_routes.dart';
 import '../../../app/services/bluetooth_service.dart';
 import '../../../app/themes/colors_constants.dart';
 
@@ -37,13 +37,16 @@ class GoalWidget extends StatelessWidget {
                   width: width * 0.85,
                   child: TextButton(
                     onPressed: () {
-                      if(bCon.isAdptrContd.value == true){
-                      Get.toNamed(AppRoutes.freeWorkout);}
-                      else{
-                        Get.snackbar('No Device Connected', 'Please connect to a device to start a workout',
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Colors.white,
-                        colorText: Colors.black,
+                      if (bCon.isAdptrContd.value == true) {
+                        Get.to(() => const FreeWorkoutPage());
+                        // Get.toNamed(AppRoutes.freeWorkout);
+                      } else {
+                        Get.snackbar(
+                          'No Device Connected',
+                          'Please connect to a device to start a workout',
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Colors.white,
+                          colorText: Colors.black,
                         );
                       }
                     },

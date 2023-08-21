@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/services/local_storage.dart';
-import 'package:hatofit/app/services/polar_service.dart';
 import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:hatofit/data/models/exercise.dart';
 import 'package:hatofit/data/models/session.dart';
@@ -17,7 +16,7 @@ import 'package:hatofit/domain/usecases/api/sesion/save_session_api_uc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class WoCon extends GetxController     with GetSingleTickerProviderStateMixin {
+class WoCon extends GetxController with GetSingleTickerProviderStateMixin {
   final SaveSessionApiUc _saveSessionApiUc;
   WoCon(this._saveSessionApiUc);
   final store = Get.find<LocalStorageService>();
@@ -26,7 +25,7 @@ class WoCon extends GetxController     with GetSingleTickerProviderStateMixin {
   /// General
   ///
   final isWOStart = false.obs;
-  final PolarService _pCon = Get.find<PolarService>();
+  // final PolarService _pCon = Get.find<PolarService>();
 
   Future<void> postSession(Session session) async {
     try {
@@ -60,7 +59,7 @@ class WoCon extends GetxController     with GetSingleTickerProviderStateMixin {
   }
 
   void getData() {
-    session = _pCon.sessMod.value;
+    // session = _pCon.sessMod.value;
   }
 
   final hrStats = HrStats(avg: 0, max: 0, min: 0, last: 0, flSpot: []).obs;
@@ -100,7 +99,6 @@ class WoCon extends GetxController     with GetSingleTickerProviderStateMixin {
     ),
   ];
 
-  final workout = Get.arguments as Exercise;
   void showDetailsModal(BuildContext context, Instruction instruction) {
     if (instruction.content!.video != '') {
       videoURL = instruction.content!.video;
@@ -193,18 +191,16 @@ class WoCon extends GetxController     with GetSingleTickerProviderStateMixin {
   final isNowExerciseFinish = false.obs;
   final isAllExerciseFinish = false.obs;
 
-  final PolarService _polarService = Get.find<PolarService>();
-
   void nextInstruction(totalInstruction) {
     if (nowInstruction.value + 1 >= totalInstruction) {
       countDownTimer.value.reset();
-      _polarService.isStartWorkout.value = false;
+      // _polarService.isStartWorkout.value = false;
       isAllExerciseFinish.value = true;
       Get.offNamed(AppRoutes.dashboard);
     }
     if ((nowInstruction.value + 1) < totalInstruction) {
-      countDownTimer.value.restart(
-          duration: workout.instructions[nowInstruction.value].duration);
+      // countDownTimer.value.restart(
+      //     duration: workout.instructions[nowInstruction.value].duration);
       isNowExerciseFinish.value = false;
       nowInstruction.value++;
     }
@@ -214,8 +210,8 @@ class WoCon extends GetxController     with GetSingleTickerProviderStateMixin {
   void onInit() {
     _youtubePlayerController = YoutubePlayerController(initialVideoId: '');
     _tabController = TabController(vsync: this, length: myTabs.length);
-    _polarService.isStartWorkout.value = true;
-    _polarService.starWorkout(workout.id, workout.duration, 'EMPTY');
+    // _polarService.isStartWorkout.value = true;
+    // _polarService.starWorkout(workout.id, workout.duration, 'EMPTY');
     super.onInit();
   }
 

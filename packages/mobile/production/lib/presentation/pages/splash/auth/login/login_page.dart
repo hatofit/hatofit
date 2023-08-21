@@ -44,11 +44,11 @@ class LoginPage extends GetView<AuthCon> {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
                             Colors.transparent,
-                            Theme.of(context).scaffoldBackgroundColor,
+                            Color(0xFF262626),
                           ],
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -184,7 +184,6 @@ class LoginPage extends GetView<AuthCon> {
       ),
     );
   }
-
 }
 
 class BreathingAnimation extends StatefulWidget {

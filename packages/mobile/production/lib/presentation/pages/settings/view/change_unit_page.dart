@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'change_unit_controller.dart';
-
-class ChangeUnitPage extends GetView<ChangeUnitController> {
+class ChangeUnitPage extends StatelessWidget {
   const ChangeUnitPage({super.key});
 
   @override

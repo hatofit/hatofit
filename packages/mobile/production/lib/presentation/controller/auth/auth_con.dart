@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/app/app.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/utils/image_utils.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -71,7 +72,7 @@ class AuthCon extends GetxController {
         Get.snackbar(failure.message, failure.details);
       }, (success) {
         if (success.code == 'OK') {
-          login(email: user.email, password: user.password);
+          login(email: user.email, password: user.password!);
         }
       });
     } catch (e) {
@@ -85,6 +86,7 @@ class AuthCon extends GetxController {
       res.fold((failure) {
         Get.snackbar(failure.message, failure.details);
       }, (success) async {
+        logger.i(success.data);
         final user = User.fromJson(success.data['user']);
         store.user = user;
         store.token = success.data['token'];

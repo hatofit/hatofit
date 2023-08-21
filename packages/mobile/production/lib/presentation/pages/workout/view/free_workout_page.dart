@@ -3,18 +3,19 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/presentation/controller/wo/wo_con.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../app/services/polar_service.dart';
 
 class FreeWorkoutPage extends StatelessWidget {
   const FreeWorkoutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final pCon = Get.find<PolarService>();
+    // final pCon = Get.find<PolarService>();
     final woCon = Get.find<WoCon>();
+    final bCon = Get.find<BluetoothService>();
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -38,31 +39,30 @@ class FreeWorkoutPage extends StatelessWidget {
         child: ListView(
           children: [
             Obx(() {
-              woCon.add(DateTime.now().millisecondsSinceEpoch,
-                  int.parse(pCon.heartRate.value));
+              woCon.add(
+                  DateTime.now().millisecondsSinceEpoch, bCon.heartRate.value);
               if (woCon.hrList.length % 2 == 0) {
                 woCon.calcHr();
               }
               return Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text('Elapsed ${woCon.findElapsed(
-                        woCon.hrList.first['time'],
-                        woCon.hrList.last['time'],
-                      )}'),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text('Now ${woCon.hrStats.value.last}'),
-                      Text('Min ${woCon.hrStats.value.min}'),
-                      Text('Max ${woCon.hrStats.value.max}'),
-                      Text('Avg ${woCon.hrStats.value.avg}'),
-                    ],
-                  ),
+                  woCon.hrList.isEmpty
+                      ? const SizedBox()
+                      : Text('Elapsed ${woCon.findElapsed(
+                          woCon.hrList.first['time'],
+                          woCon.hrList.last['time'],
+                        )}'),
+                  woCon.hrList.isEmpty
+                      ? const SizedBox()
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text('Now ${woCon.hrStats.value.last}'),
+                            Text('Min ${woCon.hrStats.value.min}'),
+                            Text('Max ${woCon.hrStats.value.max}'),
+                            Text('Avg ${woCon.hrStats.value.avg}'),
+                          ],
+                        ),
                   Container(
                     padding: const EdgeInsets.only(top: 16, bottom: 16),
                     decoration: BoxDecoration(

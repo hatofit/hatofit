@@ -19,6 +19,7 @@ class ThemeManager extends GetxController {
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData.light().copyWith(
+
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           textStyle: const TextStyle(

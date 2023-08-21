@@ -7,7 +7,6 @@ import 'package:hatofit/presentation/controller/wo/wo_con.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../app/services/bluetooth_service.dart';
-import '../../../../app/services/polar_service.dart';
 import '../../../../app/themes/app_theme.dart';
 import '../../../../app/themes/colors_constants.dart';
 import '../../../../data/models/exercise.dart';
@@ -19,7 +18,7 @@ class WorkoutStartPage extends GetView<WoCon> {
   @override
   Widget build(BuildContext context) {
     final BluetoothService bluetoothService = Get.find<BluetoothService>();
-    final PolarService polarService = Get.find<PolarService>();
+    // final PolarService polarService = Get.find<PolarService>();
     return Obx(
       () => Scaffold(
         appBar: AppBar(
@@ -69,7 +68,7 @@ class WorkoutStartPage extends GetView<WoCon> {
                               const Icon(CupertinoIcons.heart_fill,
                                   color: ColorConstants.crimsonRed),
                               const SizedBox(width: 8),
-                              Text(polarService.heartRate.value,
+                              Text(bluetoothService.heartRate.value.toString(),
                                   style: const TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 16,

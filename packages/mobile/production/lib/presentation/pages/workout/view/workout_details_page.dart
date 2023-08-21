@@ -3,16 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/presentation/controller/wo/wo_con.dart';
+import 'package:hatofit/presentation/pages/workout/view/workout_start_page.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../../app/routes/app_routes.dart';
 import '../../../../app/themes/colors_constants.dart';
-import '../../../../data/models/exercise.dart'; 
+import '../../../../data/models/exercise.dart';
 
 class WorkoutDetailsPage extends GetView<WoCon> {
   final Exercise workout;
 
-  const WorkoutDetailsPage(this.workout, {super.key});
+  const WorkoutDetailsPage({required this.workout, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +287,7 @@ class WorkoutDetailsPage extends GetView<WoCon> {
               child: FloatingActionButton.extended(
                 extendedPadding: const EdgeInsets.symmetric(horizontal: 32.0),
                 onPressed: () {
-                  Get.toNamed(AppRoutes.workoutStart, arguments: workout);
+                  Get.to(WorkoutStartPage(workout));
                 },
                 label: const Text('Start'),
                 icon: const Icon(Icons.play_arrow),

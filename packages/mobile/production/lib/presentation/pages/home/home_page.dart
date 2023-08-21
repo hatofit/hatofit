@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/presentation/controller/page/page_con.dart';
 
-import '../../../app/services/polar_service.dart';
 import '../../../app/themes/app_theme.dart';
 import '../../../app/themes/colors_constants.dart';
 import '../../widget/appBar/custom_app_bar.dart';
@@ -21,7 +20,6 @@ class HomePage extends GetView<PageCon> {
 
   @override
   Widget build(BuildContext context) {
-    final polarService = Get.find<PolarService>();
     final bleService = Get.find<BluetoothService>();
     return Scaffold(
       appBar: CustomAppBar(

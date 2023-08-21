@@ -52,10 +52,11 @@ class WorkoutPage extends GetView<PageCon> {
                               margin: const EdgeInsets.all(8.0),
                               width: 200,
                               decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.9),
+                                color: Colors.black,
                                 image: DecorationImage(
                                     image: CachedNetworkImageProvider(
-                                        exercises[index].thumbnail),
+                                      exercises[index].thumbnail,
+                                    ),
                                     fit: BoxFit.cover,
                                     opacity: 0.4),
                                 borderRadius: BorderRadius.circular(8),

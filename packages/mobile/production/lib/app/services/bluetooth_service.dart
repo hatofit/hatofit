@@ -24,7 +24,6 @@ class BluetoothService extends GetxService {
   }
 
   Future<void> init() async {
-    print('====&&&====\nBLUETOOTH SERVICE INIT\n====&&&====\n');
     await _polarBLE.requestPermissions();
     await Permission.location.request();
     await Permission.storage.request();
@@ -41,13 +40,10 @@ class BluetoothService extends GetxService {
       debugPrint('ID : ${e.identifier}\nBattery: ${e.level}');
     });
     _polarBLE.deviceConnected.listen((event) {
-      //  connectedDeviceId = event.deviceId;
       isAdptrContd.value = true;
       debugPrint('Device connected to ${event.deviceId} ${isAdptrContd.value}');
     });
     _polarBLE.deviceDisconnected.listen((event) {
-      //  heartRate.value = '--';
-      //  connectedDeviceId = 'Device disconnected';
       isAdptrContd.value = false;
       debugPrint(
           'Device disconnected from ${event.info.deviceId} ${isAdptrContd.value}');
@@ -115,9 +111,6 @@ class BluetoothService extends GetxService {
             );
           }
         }
-        print('=========START STREAMING=========\n'
-            'Stored Data: ${currSecDataItem.toJson()}\n'
-            '=========START STREAMING=========\n');
       });
       _availableSubscriptions.add(hrSubscription);
     }
@@ -172,7 +165,6 @@ class BluetoothService extends GetxService {
     if (availableTypes.contains(PolarDataType.gyro)) {
       StreamSubscription gyroSubscription =
           _polarBLE.startGyroStreaming(deviceId).listen((gyroData) {
-        // calcute how much gyro data is available in a second
 
         bool hasGyroDevice = currSecDataItem.devices
             .any((element) => element.type == 'PolarDataType.gyro');
@@ -298,7 +290,6 @@ class BluetoothService extends GetxService {
     final connectFuture = _polarBLE.connectToDevice(deviceId);
     final deviceConnectedFuture = _polarBLE.deviceConnected.first;
 
-    // Wait for either connection or timeout
     Future.wait([connectFuture, deviceConnectedFuture])
         .timeout(const Duration(seconds: 10)) // Set the timeout duration
         .then((_) {
@@ -321,7 +312,6 @@ class BluetoothService extends GetxService {
     });
   }
 
-  // disconnect from _polarBLE device by device id
   void disconnectDevice(String deviceId) {
     _streamCancelation();
     _polarBLE.disconnectFromDevice(deviceId);

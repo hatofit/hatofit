@@ -10,14 +10,6 @@ import 'app_routes.dart';
 import '../../presentation/pages/dashboard/dashboard_page.dart';
 import '../../presentation/pages/history/history_page.dart';
 import '../../presentation/pages/home/home_page.dart';
-import '../../presentation/pages/settings/change_unit/change_unit_binding.dart';
-import '../../presentation/pages/settings/change_unit/change_unit_page.dart';
-import '../../presentation/pages/settings/device_integration/device_integration_binding.dart';
-import '../../presentation/pages/settings/device_integration/device_integration_page.dart';
-import '../../presentation/pages/settings/profile/profile_binding.dart';
-import '../../presentation/pages/settings/profile/profile_page.dart';
-import '../../presentation/pages/settings/setting_binding.dart';
-import '../../presentation/pages/settings/setting_page.dart';
 import '../../presentation/pages/splash/view/greeting_page.dart';
 import '../../presentation/pages/splash/auth/login/login_page.dart';
 import '../../presentation/pages/splash/auth/register/register_page.dart';
@@ -61,7 +53,7 @@ class AppPages {
     GetPage(
       name: AppRoutes.dashboard,
       page: () => const DashboardPage(),
-      bindings: [PageBind(), ServicesBinding() ,WoBind()],
+      bindings: [PageBind(), ServicesBinding(), WoBind()],
       transition: Transition.cupertino,
     ),
     GetPage(
@@ -79,29 +71,5 @@ class AppPages {
       page: () => const HistoryPage(),
       transition: Transition.cupertino,
     ),
-    GetPage(
-      name: AppRoutes.setting,
-      page: () => const SettingPage(),
-      binding: SettingBinding(),
-      transition: Transition.cupertino,
-    ),
-    GetPage(
-      name: AppRoutes.changeUnit,
-      page: () => const ChangeUnitPage(),
-      binding: ChangeUnitBinding(),
-      transition: Transition.cupertino,
-    ),
-    GetPage(
-      name: AppRoutes.profile,
-      page: () => const ProfilePage(),
-      binding: ProfileBinding(),
-      transition: Transition.cupertino,
-    ),
-    GetPage(
-      name: AppRoutes.deviceIntegration,
-      page: () => const DeviceIntegrationPage(),
-      binding: DeviceIntegrationBinding(),
-      transition: Transition.cupertino,
-    )
   ];
 }

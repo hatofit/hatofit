@@ -4,10 +4,14 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/services/local_storage.dart';
 import 'package:hatofit/app/utils/date_utils.dart';
+import 'package:hatofit/app/utils/image_utils.dart';
 import 'package:hatofit/domain/usecases/api/report/fetch_report_api_uc.dart';
 import 'package:hatofit/domain/usecases/api/sesion/fetch_session_api_uc.dart';
+import 'package:hatofit/domain/usecases/image_camera_uc.dart';
 import 'package:hatofit/domain/usecases/local/workout/save_workout_local_uc.dart';
 import 'package:hatofit/presentation/pages/history/view/history_detail_page.dart';
+import 'package:hatofit/presentation/pages/workout/view/workout_details_page.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../data/models/exercise.dart';
@@ -22,10 +26,11 @@ class PageCon extends GetxController {
     this._saveWorkoutLocalUC,
     this._fetchSessionApiUC,
     this._fetchReportApiUC,
+    this._imageCameraUC,
   );
 
   ///
-  ///General Data
+  /// [General] Data
   ///
   final LocalStorageService _store = Get.find<LocalStorageService>();
   var user = Rx<User?>(null);
@@ -45,7 +50,7 @@ class PageCon extends GetxController {
   }
 
   ///
-  /// Bottom navigation bar Controller
+  /// [Bottom] navigation bar Controller
   ///
   var tabIndex = 0;
 
@@ -55,19 +60,24 @@ class PageCon extends GetxController {
   }
 
   ///
-  /// Home Page Controller
+  /// [Home] Page Controller
   ///
   final homeTitle = ''.obs;
   String get formattedDate => '${_now.day}/${_now.month}/${_now.year}';
 
   ///
-  /// Workout Page Controller
+  /// [Workout] Page Controller
   ///
   final FetchWorkoutLocalUC _fetchWorkoutLocalUC;
   final FetchWorkoutApiUC _fetchWorkoutApiUC;
   final SaveWorkoutLocalUC _saveWorkoutLocalUC;
   goToWorkoutDetail(Exercise exercise) {
-    Get.toNamed(AppRoutes.workoutDetail, arguments: exercise);
+    Get.to(
+      () => WorkoutDetailsPage(
+        workout: exercise,
+      ),
+      transition: Transition.cupertino,
+    );
   }
 
   var exercises = <Exercise>[].obs;
@@ -89,7 +99,7 @@ class PageCon extends GetxController {
   }
 
   ///
-  /// History Page Controller
+  /// [History] Page Controller
   ///
 
   final FetchSessionApiUC _fetchSessionApiUC;
@@ -123,7 +133,7 @@ class PageCon extends GetxController {
   }
 
   ///
-  /// Setting Page Controller
+  /// [Setting] Page Controller
   ///
   int get userAge => _now.year - (user.value?.dateOfBirth?.year ?? 0);
   ImageProvider<Object> get userImage {
@@ -142,5 +152,17 @@ class PageCon extends GetxController {
   void logout() async {
     await _store.clear();
     Get.offAllNamed(AppRoutes.greeting);
+  }
+
+  var pickedImage = Rx(File(''));
+
+  final ImageCameraUC _imageCameraUC;
+  Future<void> pickImage(ImageSource src) async {
+    final res = await _imageCameraUC.execute(src);
+    res.fold(
+      (failure) => Get.snackbar(failure.code, failure.message),
+      (success) async =>
+          pickedImage.value = await ImageUtils.toFile(success.data),
+    );
   }
 }
