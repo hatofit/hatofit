@@ -2,7 +2,6 @@ import 'dart:isolate';
 
 import 'package:dartz/dartz.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/services/local_storage.dart';
 import 'package:hatofit/app/services/polar_service.dart';

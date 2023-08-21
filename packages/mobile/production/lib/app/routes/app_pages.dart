@@ -8,7 +8,6 @@ import '../../presentation/controller/wo/wo_bind.dart';
 import '../services/services_binding.dart';
 import 'app_routes.dart';
 import '../../presentation/pages/dashboard/dashboard_page.dart';
-import '../../presentation/pages/history/view/history_detail_page.dart';
 import '../../presentation/pages/history/history_page.dart';
 import '../../presentation/pages/home/home_page.dart';
 import '../../presentation/pages/settings/change_unit/change_unit_binding.dart';

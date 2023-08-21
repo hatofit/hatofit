@@ -1,9 +1,4 @@
-import 'dart:convert';
 
-import 'package:get/get.dart';
-import 'package:hatofit/app/services/storage_service.dart';
-import 'package:hatofit/data/models/exercise.dart';
-import '../utils/preferences_provider.dart';
 
 class InternetService {
   // final _getConnect = GetConnect();

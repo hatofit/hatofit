@@ -10,7 +10,6 @@ import 'package:hatofit/domain/usecases/local/workout/save_workout_local_uc.dart
 import 'package:hatofit/presentation/pages/history/view/history_detail_page.dart';
 
 import '../../../app/routes/app_routes.dart';
-import '../../../app/services/internet_service.dart';
 import '../../../data/models/exercise.dart';
 import '../../../data/models/user.dart';
 import '../../../domain/usecases/api/workout/fetch_workout_api_uc.dart';

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/presentation/controller/page/page_con.dart';
 
-import '../../../app/routes/app_routes.dart';
 import '../../../app/themes/app_theme.dart';
 import '../../../app/themes/colors_constants.dart';
 import '../../widget/appBar/custom_app_bar.dart';

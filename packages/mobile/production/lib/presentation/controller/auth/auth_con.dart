@@ -71,7 +71,7 @@ class AuthCon extends GetxController {
         Get.snackbar(failure.message, failure.details);
       }, (success) {
         if (success.code == 'OK') {
-          login(email: user.email, password: user.password!);
+          login(email: user.email, password: user.password);
         }
       });
     } catch (e) {

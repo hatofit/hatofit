@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:hatofit/app/app.dart';
 import 'package:hatofit/data/models/session.dart';
 
 import '../../../app/core/domain/failure.dart';
