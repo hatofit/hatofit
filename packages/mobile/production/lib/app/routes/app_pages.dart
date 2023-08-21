@@ -8,8 +8,7 @@ import '../../presentation/controller/wo/wo_bind.dart';
 import '../services/services_binding.dart';
 import 'app_routes.dart';
 import '../../presentation/pages/dashboard/dashboard_page.dart';
-import '../../presentation/pages/history/detail_page/history_detail_page.dart';
-import '../../presentation/pages/history/detail_page/histpry_detail_binding.dart';
+import '../../presentation/pages/history/view/history_detail_page.dart';
 import '../../presentation/pages/history/history_page.dart';
 import '../../presentation/pages/home/home_page.dart';
 import '../../presentation/pages/settings/change_unit/change_unit_binding.dart';
@@ -80,13 +79,7 @@ class AppPages {
       name: AppRoutes.history,
       page: () => const HistoryPage(),
       transition: Transition.cupertino,
-    ),
-    GetPage(
-      name: AppRoutes.historyDetail,
-      page: () => HistoryDetailPage(Get.arguments),
-      binding: HistoryDetailBinding(),
-      transition: Transition.cupertino,
-    ),
+    ), 
     GetPage(
       name: AppRoutes.setting,
       page: () => const SettingPage(),

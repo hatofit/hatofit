@@ -24,5 +24,5 @@ class WorkoutApiRepoIml implements ApiPayloadRepoAbs {
 
   @override
   Future<Either<Failure, Success<Map<String, dynamic>>>> request() async =>
-      ApiSource.instance.request(this);
+      await ApiSource.instance.request(this);
 }

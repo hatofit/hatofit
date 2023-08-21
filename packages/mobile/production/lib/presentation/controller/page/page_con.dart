@@ -4,8 +4,10 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/services/local_storage.dart';
 import 'package:hatofit/app/utils/date_utils.dart';
+import 'package:hatofit/domain/usecases/api/report/fetch_report_api_uc.dart';
 import 'package:hatofit/domain/usecases/api/sesion/fetch_session_api_uc.dart';
 import 'package:hatofit/domain/usecases/local/workout/save_workout_local_uc.dart';
+import 'package:hatofit/presentation/pages/history/view/history_detail_page.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../app/services/internet_service.dart';
@@ -20,6 +22,7 @@ class PageCon extends GetxController {
     this._fetchWorkoutApiUC,
     this._saveWorkoutLocalUC,
     this._fetchSessionApiUC,
+    this._fetchReportApiUC,
   );
 
   ///
@@ -42,7 +45,9 @@ class PageCon extends GetxController {
     super.onInit();
   }
 
+  ///
   /// Bottom navigation bar Controller
+  ///
   var tabIndex = 0;
 
   void changeTabIndex(int index) {
@@ -50,11 +55,15 @@ class PageCon extends GetxController {
     update();
   }
 
+  ///
   /// Home Page Controller
+  ///
   final homeTitle = ''.obs;
   String get formattedDate => '${_now.day}/${_now.month}/${_now.year}';
 
+  ///
   /// Workout Page Controller
+  ///
   final FetchWorkoutLocalUC _fetchWorkoutLocalUC;
   final FetchWorkoutApiUC _fetchWorkoutApiUC;
   final SaveWorkoutLocalUC _saveWorkoutLocalUC;
@@ -80,13 +89,17 @@ class PageCon extends GetxController {
     return exercises;
   }
 
+  ///
   /// History Page Controller
+  ///
 
   final FetchSessionApiUC _fetchSessionApiUC;
+  final FetchReportApiUC _fetchReportApiUC;
 
   final RxList<dynamic> historyData = [].obs;
-  Future<List<dynamic>> fetchHistory(String token) async {
-    final data = await _fetchSessionApiUC.execute(token);
+  Future<List<dynamic>> fetchHistory() async {
+    final token = _store.token;
+    final data = await _fetchSessionApiUC.execute(token!);
     data.fold((l) async {
       Get.snackbar(l.message, l.details);
       Get.snackbar('Alert', 'Using local data');
@@ -99,11 +112,17 @@ class PageCon extends GetxController {
     return historyData;
   }
 
+  void navigateHistoryDetail(String id) {
+    Get.to(() => HistoryDetailPage(_fetchReportApiUC.execute(id)));
+  }
+
   String formattedDateHistory(String date) {
     return DateUtils.monthToWord(date);
   }
 
+  ///
   /// Setting Page Controller
+  ///
   int get userAge => _now.year - (user.value?.dateOfBirth?.year ?? 0);
   ImageProvider<Object> get userImage {
     if (user.value!.photo == 'No Photo') {

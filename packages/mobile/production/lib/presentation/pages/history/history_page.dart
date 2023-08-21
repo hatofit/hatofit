@@ -9,7 +9,6 @@ import '../../../app/themes/app_theme.dart';
 import '../../../app/themes/colors_constants.dart';
 import '../../widget/appBar/custom_app_bar.dart';
 
-
 class HistoryPage extends GetView<PageCon> {
   const HistoryPage({super.key});
 
@@ -46,9 +45,8 @@ class HistoryPage extends GetView<PageCon> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        Get.toNamed(
-                          AppRoutes.historyDetail,
-                          arguments: controller.historyData[index]['_id'],
+                        controller.navigateHistoryDetail(
+                          controller.historyData[index]['_id'],
                         );
                       },
                       child: Row(

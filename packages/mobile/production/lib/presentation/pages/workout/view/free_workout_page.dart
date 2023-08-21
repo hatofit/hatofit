@@ -7,7 +7,6 @@ import 'package:hatofit/presentation/controller/wo/wo_con.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../app/services/polar_service.dart';
-import 'free_workout_controller.dart';
 
 class FreeWorkoutPage extends StatelessWidget {
   const FreeWorkoutPage({super.key});
@@ -20,15 +19,15 @@ class FreeWorkoutPage extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            fWCon.savePrompt();
+            _savePrompt(woCon);
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        title: Text(fWCon.title),
+        title: const Text('Free Workout'),
         actions: [
           IconButton(
             onPressed: () {
-              _savePrompt();
+              _savePrompt(woCon);
             },
             icon: const Icon(Icons.save),
           ),
@@ -39,26 +38,29 @@ class FreeWorkoutPage extends StatelessWidget {
         child: ListView(
           children: [
             Obx(() {
-              fWCon.add(DateTime.now().millisecondsSinceEpoch,
+              woCon.add(DateTime.now().millisecondsSinceEpoch,
                   int.parse(pCon.heartRate.value));
-              if (fWCon.hrList.length % 2 == 0) {
-                fWCon.calcHr();
+              if (woCon.hrList.length % 2 == 0) {
+                woCon.calcHr();
               }
               return Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text('Elapsed ${fWCon.findElapsed()}'),
+                      Text('Elapsed ${woCon.findElapsed(
+                        woCon.hrList.first['time'],
+                        woCon.hrList.last['time'],
+                      )}'),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text('Now ${fWCon.hrStats.value.last}'),
-                      Text('Min ${fWCon.hrStats.value.min}'),
-                      Text('Max ${fWCon.hrStats.value.max}'),
-                      Text('Avg ${fWCon.hrStats.value.avg}'),
+                      Text('Now ${woCon.hrStats.value.last}'),
+                      Text('Min ${woCon.hrStats.value.min}'),
+                      Text('Max ${woCon.hrStats.value.max}'),
+                      Text('Avg ${woCon.hrStats.value.avg}'),
                     ],
                   ),
                   Container(
@@ -107,7 +109,7 @@ class FreeWorkoutPage extends StatelessWidget {
                           ),
                           lineBarsData: [
                             LineChartBarData(
-                              spots: fWCon.hrStats.value.flSpot,
+                              spots: woCon.hrStats.value.flSpot,
                               isCurved: false,
                               belowBarData: BarAreaData(applyCutOffY: true),
                               isStrokeCapRound: false,

@@ -9,16 +9,14 @@ import '../sources/api/auth_api_repo_iml.dart';
 class AuthRepoIml extends AuthRepoAbs {
   @override
   Future<Either<Failure, Success<Map<String, dynamic>>>> login(
-      String email, String password) async {
-    final res = await AuthApiRepoIml.login(email: email, password: password).request();
-    return res;
-  }
+          String email, String password) async =>
+      await AuthApiRepoIml.login(email: email, password: password).request();
 
   @override
-  Future<Either<Failure, Success>> register(User user) async {
-    final res = await AuthApiRepoIml.register(user: user).request();
-    return res;
-  }
+  Future<Either<Failure, Success>> register(User user) async =>
+   await AuthApiRepoIml.register(user: user).request();
+
+
 
   @override
   Future<bool> logout(User user) {

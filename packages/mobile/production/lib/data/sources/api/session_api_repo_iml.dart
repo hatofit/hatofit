@@ -79,7 +79,6 @@ class SessionApiRepoIml implements ApiPayloadRepoAbs {
   }
 
   @override
-  Future<Either<Failure, Success<Map<String, dynamic>>>> request() async {
-    return ApiSource.instance.request(this);
-  }
+  Future<Either<Failure, Success<Map<String, dynamic>>>> request() async =>
+      await ApiSource.instance.request(this);
 }

@@ -7,4 +7,5 @@ class ApiPath {
 
   static const String exercise = "/exercise";
   static const String session = "/session";
+  static const String report = "/report/";
 }

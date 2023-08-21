@@ -46,10 +46,6 @@ class WorkoutDetailsController extends GetxController
     super.onClose();
   }
 
-  void convertToMinutes() {
-    final int duration = workout.duration;
-    if (duration >= 60) {}
-  }
 
   void showDetailsModal(BuildContext context, Instruction instruction) {
     if (instruction.content!.video != '') {

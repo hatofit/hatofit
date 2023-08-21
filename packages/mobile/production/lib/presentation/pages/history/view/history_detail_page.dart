@@ -5,20 +5,26 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../app/services/internet_service.dart';
-import 'history_detail_controller.dart';
 
-class HistoryDetailPage extends GetView<HistoryDetailController> {
-  final String exerciseId;
-  const HistoryDetailPage(this.exerciseId, {Key? key}) : super(key: key);
+class HistoryDetailPage extends StatelessWidget {
+  final Future future;
+  const HistoryDetailPage(this.future, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final ZoomPanBehavior zoomPanBehavior = ZoomPanBehavior(
+      enablePinching: true,
+      enableDoubleTapZooming: true,
+      zoomMode: ZoomMode.xy,
+      enablePanning: true,
+    );
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 64),
         child: Center(
           child: FutureBuilder(
-            future: InternetService().fetchReport(exerciseId),
+            future: future,
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
@@ -100,7 +106,7 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                             bottom: 12,
                           ),
                           child: SfCartesianChart(
-                            zoomPanBehavior: controller.zoomPanBehavior,
+                            zoomPanBehavior: zoomPanBehavior,
                             primaryXAxis: NumericAxis(
                               numberFormat: NumberFormat('#'),
                             ),

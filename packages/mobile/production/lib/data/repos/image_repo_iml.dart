@@ -14,8 +14,7 @@ class ImageRepoIml implements ImageRepoAbs {
     if (status.isDenied) {
       await Permission.camera.request();
     }
-    final res = await LocalImagePicker.camera(sourceType: source).call();
-    return res;
+    return await LocalImagePicker.camera(sourceType: source).call();
   }
 
   @override

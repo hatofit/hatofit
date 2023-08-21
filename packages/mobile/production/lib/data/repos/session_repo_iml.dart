@@ -8,18 +8,13 @@ import 'package:hatofit/domain/repos/session_repo_abs.dart';
 class SessionRepoIml implements SessionRepoAbs {
   @override
   Future<Either<Failure, Success<Map<String, dynamic>>>> saveSessionApi(
-      Session session, String token) async {
-    final res =
-        await SessionApiRepoIml.save(session: session, token: token).request();
-    return res;
-  }
+          Session session, String token) async =>
+      await SessionApiRepoIml.save(session: session, token: token).request();
 
   @override
   Future<Either<Failure, Success<Map<String, dynamic>>>> fetchSessionApi(
-      String token) async {
-    final res = await SessionApiRepoIml.fetch(token: token).request();
-    return res;
-  }
+          String token) async =>
+      await SessionApiRepoIml.fetch(token: token).request();
 
   @override
   Future<Either<Failure, Success<Map<String, dynamic>>>> fetchSessionLocal() {
