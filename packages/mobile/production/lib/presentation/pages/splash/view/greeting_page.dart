@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../../../../../app/routes/app_routes.dart';
-import '../../../../../app/themes/app_theme.dart';
+import '../../../../app/routes/app_routes.dart';
+import '../../../../app/themes/app_theme.dart';
 
 class GreetingPage extends StatelessWidget {
   const GreetingPage({super.key});

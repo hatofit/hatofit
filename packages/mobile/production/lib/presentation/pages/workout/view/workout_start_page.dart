@@ -3,6 +3,7 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/presentation/controller/wo/wo_con.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../app/services/bluetooth_service.dart';
@@ -10,18 +11,13 @@ import '../../../../app/services/polar_service.dart';
 import '../../../../app/themes/app_theme.dart';
 import '../../../../app/themes/colors_constants.dart';
 import '../../../../data/models/exercise.dart';
-import 'workout_details_controller.dart';
-import 'workout_start_controller.dart';
 
-
-class WorkoutStartPage extends GetView<WorkoutStartController> {
+class WorkoutStartPage extends GetView<WoCon> {
   final Exercise workout;
   const WorkoutStartPage(this.workout, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final WorkoutDetailsController workoutDetailsController =
-        Get.find<WorkoutDetailsController>();
     final BluetoothService bluetoothService = Get.find<BluetoothService>();
     final PolarService polarService = Get.find<PolarService>();
     return Obx(
@@ -44,7 +40,7 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                           padding: MaterialStateProperty.all(
                               const EdgeInsets.only(right: 16))),
                       onPressed: () {
-                        workoutDetailsController.showDetailsModal(
+                        controller.showDetailsModal(
                             context,
                             workout
                                 .instructions[controller.nowInstruction.value]);

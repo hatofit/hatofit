@@ -2,14 +2,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/presentation/controller/wo/wo_con.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../app/routes/app_routes.dart';
 import '../../../../app/themes/colors_constants.dart';
-import '../../../../data/models/exercise.dart';
-import 'workout_details_controller.dart';
+import '../../../../data/models/exercise.dart'; 
 
-class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
+class WorkoutDetailsPage extends GetView<WoCon> {
   final Exercise workout;
 
   const WorkoutDetailsPage(this.workout, {super.key});
@@ -18,17 +18,18 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
   Widget build(BuildContext context) {
     List<Instruction> instructions = [];
 
+    final scrollController = ScrollController();
     for (var i = 0; i < workout.instructions.length; i++) {
       if (workout.instructions[i].type == 'instruction') {
         instructions.add(workout.instructions[i]);
       }
     }
-    controller.scrollController.addListener(() {
-      if (controller.scrollController.offset > 170) {
+    scrollController.addListener(() {
+      if (scrollController.offset > 170) {
         controller.isExpanded.value = false;
       } else {
         controller.textTitleOpacity.value =
-            1.0 - (controller.scrollController.offset / 200);
+            1.0 - (scrollController.offset / 200);
         controller.isExpanded.value = true;
       }
     });
@@ -37,7 +38,7 @@ class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
       body: Stack(
         children: [
           CustomScrollView(
-            controller: controller.scrollController,
+            controller: scrollController,
             slivers: [
               Obx(
                 () => SliverAppBar(

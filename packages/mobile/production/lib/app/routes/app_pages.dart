@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hatofit/presentation/controller/auth/auth_bind.dart';
-import 'package:hatofit/presentation/pages/splash/view/register/view/input_user_metric_page.dart';
+import 'package:hatofit/presentation/pages/splash/auth/register/view/input_user_metric_page.dart';
 
 import '../../presentation/controller/page/page_bind.dart';
 import '../../presentation/controller/reg/reg_bind.dart';
@@ -18,9 +18,9 @@ import '../../presentation/pages/settings/profile/profile_binding.dart';
 import '../../presentation/pages/settings/profile/profile_page.dart';
 import '../../presentation/pages/settings/setting_binding.dart';
 import '../../presentation/pages/settings/setting_page.dart';
-import '../../presentation/pages/splash/view/greeting/greeting_page.dart';
-import '../../presentation/pages/splash/view/login/login_page.dart';
-import '../../presentation/pages/splash/view/register/register_page.dart';
+import '../../presentation/pages/splash/view/greeting_page.dart';
+import '../../presentation/pages/splash/auth/login/login_page.dart';
+import '../../presentation/pages/splash/auth/register/register_page.dart';
 import '../../presentation/pages/splash/loading_splash_screen.dart';
 import '../../presentation/pages/workout/workout_page.dart';
 
@@ -78,7 +78,7 @@ class AppPages {
       name: AppRoutes.history,
       page: () => const HistoryPage(),
       transition: Transition.cupertino,
-    ), 
+    ),
     GetPage(
       name: AppRoutes.setting,
       page: () => const SettingPage(),

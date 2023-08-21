@@ -112,7 +112,10 @@ class PageCon extends GetxController {
   }
 
   void navigateHistoryDetail(String id) {
-    Get.to(() => HistoryDetailPage(_fetchReportApiUC.execute(id)));
+    Get.to(
+      () => HistoryDetailPage(_fetchReportApiUC.execute(id)),
+      transition: Transition.cupertino,
+    );
   }
 
   String formattedDateHistory(String date) {
