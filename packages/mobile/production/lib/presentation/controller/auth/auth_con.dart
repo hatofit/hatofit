@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hatofit/app/app.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/utils/image_utils.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -37,6 +36,40 @@ class AuthCon extends GetxController {
     }
   }
 
+  Future<void> login({required String email, required String password}) async {
+    try {
+      final res = await _loginUC.execute(Tuple2(email, password));
+      res.fold((failure) {
+        Get.snackbar(failure.message, failure.details);
+      }, (success) async {
+        final user = User.fromJson(success.data['user']);
+        store.user = user;
+        store.token = success.data['token'];
+        if (user.photo != 'No Photo') {
+          await ImageUtils.fromBase64(user.photo!);
+        }
+        await _permDialog(user.firstName!);
+      });
+    } catch (e) {
+      Get.snackbar('Error', 'Something went wrong');
+    }
+  }
+
+  Future<void> register(User user) async {
+    try {
+      final res = await _registerUC.execute(user);
+      res.fold((failure) {
+        Get.snackbar(failure.message, failure.details);
+      }, (success) {
+        if (success.code == 'OK') {
+          login(email: user.email, password: user.password!);
+        }
+      });
+    } catch (e) {
+      Get.snackbar('Error', 'Something went wrong');
+    }
+  }
+
   Future _permDialog(String firstName) async {
     return Get.defaultDialog(
       title: 'Permission',
@@ -63,40 +96,5 @@ class AuthCon extends GetxController {
         }
       },
     );
-  }
-
-  Future<void> register(User user) async {
-    try {
-      final res = await _registerUC.execute(user);
-      res.fold((failure) {
-        Get.snackbar(failure.message, failure.details);
-      }, (success) {
-        if (success.code == 'OK') {
-          login(email: user.email, password: user.password!);
-        }
-      });
-    } catch (e) {
-      Get.snackbar('Error', 'Something went wrong');
-    }
-  }
-
-  Future<void> login({required String email, required String password}) async {
-    try {
-      final res = await _loginUC.execute(Tuple2(email, password));
-      res.fold((failure) {
-        Get.snackbar(failure.message, failure.details);
-      }, (success) async {
-        logger.i(success.data);
-        final user = User.fromJson(success.data['user']);
-        store.user = user;
-        store.token = success.data['token'];
-        if (user.photo != 'No Photo') {
-          await ImageUtils.fromBase64(user.photo!);
-        }
-        await _permDialog(user.firstName!);
-      });
-    } catch (e) {
-      Get.snackbar('Error', 'Something went wrong');
-    }
   }
 }

@@ -17,6 +17,15 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final regCon = Get.find<RegCon>();
     Get.put(() => ImageRepoIml());
+    regCon.fNameCon.text = 'Rahmat';
+    regCon.lNameCon.text = 'Hidayat';
+    regCon.emailCon.text = 'rhmat@gmail.com';
+    regCon.passwordCon.text = 'password';
+    regCon.confirmPasswordCon.text = 'password';
+    regCon.dateOfBirthCon.text = '12-12-1999';
+    regCon.formattedDate.value = '1999-12-12';
+    regCon.userDateOfBirth.value = DateTime(1999, 12, 12); 
+regCon.selectGender('male');
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(

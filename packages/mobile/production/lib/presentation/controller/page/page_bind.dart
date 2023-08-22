@@ -15,19 +15,25 @@ import 'page_con.dart';
 class PageBind extends Bindings {
   @override
   void dependencies() async {
+    Get.lazyPut(() => WorkoutRepoIml());
+    Get.lazyPut(() => SessionRepoIml());
+    Get.lazyPut(() => ReportRepoIml());
+    Get.lazyPut(() => ImageRepoIml());
+
     Get.lazyPut(() => FetchWorkoutLocalUC(Get.find<WorkoutRepoIml>()));
     Get.lazyPut(() => FetchWorkoutApiUC(Get.find<WorkoutRepoIml>()));
     Get.lazyPut(() => SaveWorkoutLocalUC(Get.find<WorkoutRepoIml>()));
     Get.lazyPut(() => FetchSessionApiUC(Get.find<SessionRepoIml>()));
     Get.lazyPut(() => FetchReportApiUC(Get.find<ReportRepoIml>()));
     Get.lazyPut(() => ImageCameraUC(Get.put(ImageRepoIml())));
-    Get.put(PageCon(
+  
+    Get.lazyPut(() => PageCon(
       Get.find<FetchWorkoutLocalUC>(),
       Get.find<FetchWorkoutApiUC>(),
       Get.find<SaveWorkoutLocalUC>(),
       Get.find<FetchSessionApiUC>(),
       Get.find<FetchReportApiUC>(),
       Get.find<ImageCameraUC>(),
-    ));
+    ),);
   }
 }

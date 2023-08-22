@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/app/app.dart';
 import 'package:hatofit/data/models/user.dart';
 import 'package:hatofit/presentation/controller/auth/auth_con.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
@@ -131,8 +132,7 @@ class InputUserMetricPage extends GetView<RegCon> {
       required Type type,
       required dynamic unitMeasure,
       required RegCon regCon}) {
-    var isSelected = false;
-
+    var isSelected = false; 
     if (type == HeightUnits) {
       isSelected = regCon.selectedHeightUnitMeasure.value == unitMeasure;
     } else if (type == WeightUnits) {
@@ -158,7 +158,7 @@ class InputUserMetricPage extends GetView<RegCon> {
             height: 48,
             width: 148,
             child: Center(
-                child: Text(unitMeasure,
+                child: Text(unitMeasure.toString().split('.').last,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: isSelected ? Colors.white : Colors.black,
                         fontSize: 16)))));

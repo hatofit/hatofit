@@ -65,8 +65,8 @@ class RegCon extends GetxController {
       height: userHeight.value,
       weight: userWeight.value,
       metricUnits: MetricsUnits(
-        heightUnits: selectedHeightUnitMeasure.value,
-        weightUnits: selectedWeightUnitMeasure.value,
+        heightUnits: selectedHeightUnitMeasure.value!,
+        weightUnits: selectedWeightUnitMeasure.value!,
         energyUnits: EnergyUnits.kCal,
       ),
     );
@@ -79,8 +79,8 @@ class RegCon extends GetxController {
     update();
   }
 
-  final selectedHeightUnitMeasure = HeightUnits.cm.obs;
-  final selectedWeightUnitMeasure = WeightUnits.kg.obs;
+  final selectedHeightUnitMeasure =Rx<HeightUnits?>(null);
+  final selectedWeightUnitMeasure = Rx<WeightUnits?>(null);
   final userWeight = 100.obs;
   final userHeight = 150.obs;
   final isUserWeightSelected = false.obs;

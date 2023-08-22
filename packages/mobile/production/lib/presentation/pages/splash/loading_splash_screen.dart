@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
+import 'package:hatofit/app/utils/di.dart';
 
 import '../../../app/routes/app_routes.dart';
 import '../../../app/services/local_storage.dart';
@@ -10,7 +11,7 @@ class LoadingSplashScreen extends StatelessWidget {
   const LoadingSplashScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => BluetoothService());
+    Get.lazyPut(() => BluetoothService()); 
     final store = Get.put(LocalStorageService());
 
     Future.delayed(const Duration(seconds: 1), () async {

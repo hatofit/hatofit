@@ -6,7 +6,8 @@ import 'package:hatofit/presentation/controller/wo/wo_con.dart';
 class WoBind extends Bindings {
   @override
   void dependencies() {
+    Get.lazyPut(() => SessionRepoIml());
     Get.lazyPut(() => SaveSessionApiUc(Get.find<SessionRepoIml>()));
-    Get.put(WoCon(Get.find<SaveSessionApiUc>()));
+     Get.lazyPut(() =>WoCon(Get.find<SaveSessionApiUc>()));
   }
 }
