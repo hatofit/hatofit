@@ -17,7 +17,7 @@ void main() {
 
     tearDown(() {
       endTime = DateTime.now();
-      testlogger.i(
+      testLogger.i(
           'Test Duration: ${endTime!.difference(startTime!).inMilliseconds} ms');
     });
 
@@ -30,7 +30,7 @@ void main() {
       result.fold(
         (f) {},
         (s) {
-          testlogger.d('+++ Fetch Session Success with right parameter +++\n'
+          testLogger.d('+++ Fetch Session Success with right parameter +++\n'
               'Parameter: \n'
               'Token: $param\n'
               'Type: ${s.runtimeType}\n'
@@ -47,7 +47,7 @@ void main() {
       final result = await sessionUC.execute(param);
       result.fold(
         (f) {
-          testlogger.e('+++ Fetch Session Failure with wrong parameter +++\n'
+          testLogger.e('+++ Fetch Session Failure with wrong parameter +++\n'
               'Parameter \n'
               'Token: $param\n'
               'Type: ${f.runtimeType}\n'

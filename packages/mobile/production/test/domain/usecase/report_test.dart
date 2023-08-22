@@ -16,7 +16,7 @@ void main() {
 
     tearDown(() {
       endTime = DateTime.now();
-      testlogger.i(
+      testLogger.i(
           'Test Duration: ${endTime!.difference(startTime!).inMilliseconds} ms');
     });
 
@@ -28,7 +28,7 @@ void main() {
       result.fold(
         (f) {},
         (s) {
-          testlogger.d('+++ Fetch Report Success with right parameter +++\n'
+          testLogger.d('+++ Fetch Report Success with right parameter +++\n'
               'Parameter: \n'
               'Report Id: $param\n'
               'Type: ${s.runtimeType}\n'
@@ -45,7 +45,7 @@ void main() {
       final result = await reportUC.execute(param);
       result.fold(
         (f) {
-          testlogger.e('+++ Fetch Report Failure with wrong parameter +++\n'
+          testLogger.e('+++ Fetch Report Failure with wrong parameter +++\n'
               'Parameter \n'
               'Report Id: $param\n'
               'Type: ${f.runtimeType}\n'

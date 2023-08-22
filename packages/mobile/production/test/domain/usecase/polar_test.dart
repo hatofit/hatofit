@@ -18,7 +18,7 @@ void main() {
 
     tearDown(() {
       endTime = DateTime.now();
-      testlogger.i(
+      testLogger.i(
           'Test Duration: ${endTime!.difference(startTime!).inMilliseconds} ms');
     });
 

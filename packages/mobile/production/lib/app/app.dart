@@ -17,8 +17,8 @@ class App extends StatelessWidget {
       initialRoute: AppRoutes.splash,
       initialBinding: AuthBind(),
       getPages: AppPages.list,
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
+      // theme: AppTheme.lightTheme,
+      // darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.system,
     );
   }

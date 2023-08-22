@@ -19,7 +19,7 @@ void main() {
 
     tearDown(() {
       endTime = DateTime.now();
-      testlogger.i(
+      testLogger.i(
           'Test Duration: ${endTime!.difference(startTime!).inMilliseconds} ms');
     });
     test('login with right parameter', () async {
@@ -31,7 +31,7 @@ void main() {
       result.fold(
         (f) {},
         (s) {
-          testlogger.d('+++ Login Success with right parameter +++\n'
+          testLogger.d('+++ Login Success with right parameter +++\n'
               'Parameter: \n'
               'Email: ${param.value1}\n'
               'Password: ${param.value2}\n'
@@ -49,7 +49,7 @@ void main() {
       final result = await loginUC.execute(param);
       result.fold(
         (f) {
-          testlogger.e('+++ Login Failure with wrong parameter +++\n'
+          testLogger.e('+++ Login Failure with wrong parameter +++\n'
               'Parameter \n'
               'Email: ${param.value1}\n'
               'Password: ${param.value2}\n'
@@ -84,7 +84,7 @@ void main() {
       );
       final result = await registerUC.execute(param);
       result.fold((l) {}, (r) {
-        testlogger.d('+++ Register Success with right parameter +++\n'
+        testLogger.d('+++ Register Success with right parameter +++\n'
             'Parameter \n'
             'First Name: ${param.firstName}\n'
             'Last Name: ${param.lastName}\n'
@@ -108,7 +108,7 @@ void main() {
       final result = await registerUC.execute(param);
       result.fold(
         (l) {
-          testlogger.e('+++ Register Failure with wrong parameter +++\n'
+          testLogger.e('+++ Register Failure with wrong parameter +++\n'
               'Parameter \n'
               'First Name: ${param.firstName}\n'
               'Last Name: ${param.lastName}\n'
