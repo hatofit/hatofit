@@ -7,8 +7,9 @@ import 'package:hatofit/presentation/controller/auth/auth_con.dart';
 class AuthBind extends Bindings {
   @override
   void dependencies() {
+    Get.lazyPut(() => AuthRepoIml());
     Get.lazyPut(() => RegisterUC(Get.find<AuthRepoIml>()));
     Get.lazyPut(() => LoginUC(Get.find<AuthRepoIml>()));
-    Get.put(AuthCon(Get.find<RegisterUC>(), Get.find<LoginUC>()));
+    Get.lazyPut(() => AuthCon(Get.find<RegisterUC>(), Get.find<LoginUC>()));
   }
 }

@@ -12,8 +12,8 @@ import '../../../../app/themes/colors_constants.dart';
 import '../../../../data/models/exercise.dart';
 
 class WorkoutStartPage extends GetView<WoCon> {
-  final Exercise workout;
-  const WorkoutStartPage(this.workout, {super.key});
+  final Exercise exercise;
+  const WorkoutStartPage(this.exercise, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +22,17 @@ class WorkoutStartPage extends GetView<WoCon> {
     return Obx(
       () => Scaffold(
         appBar: AppBar(
-            title: workout.instructions[controller.nowInstruction.value].type ==
+            title: exercise
+                        .instructions[controller.nowInstruction.value].type ==
                     'rest'
                 ? Text('Rest', style: Theme.of(context).textTheme.displayMedium)
                 : Text(
-                    workout.instructions[controller.nowInstruction.value].name
+                    exercise.instructions[controller.nowInstruction.value].name
                         .toString(),
                     style: Theme.of(context).textTheme.displayMedium),
             centerTitle: true,
             actions: [
-              workout.instructions[controller.nowInstruction.value].type ==
+              exercise.instructions[controller.nowInstruction.value].type ==
                       'rest'
                   ? Container()
                   : IconButton(
@@ -41,7 +42,7 @@ class WorkoutStartPage extends GetView<WoCon> {
                       onPressed: () {
                         controller.showDetailsModal(
                             context,
-                            workout
+                            exercise
                                 .instructions[controller.nowInstruction.value]);
                       },
                       icon: const Icon(CupertinoIcons.film))
@@ -81,7 +82,7 @@ class WorkoutStartPage extends GetView<WoCon> {
             Center(
               child: Column(
                 children: [
-                  workout.instructions[controller.nowInstruction.value].type ==
+                  exercise.instructions[controller.nowInstruction.value].type ==
                           'rest'
                       ? Container(
                           decoration: BoxDecoration(
@@ -101,7 +102,7 @@ class WorkoutStartPage extends GetView<WoCon> {
                           ))
                       : SizedBox(
                           child: Column(children: [
-                            if (workout
+                            if (exercise
                                 .instructions[controller.nowInstruction.value]
                                 .content!
                                 .image
@@ -118,7 +119,7 @@ class WorkoutStartPage extends GetView<WoCon> {
                                 padding: const EdgeInsets.all(16),
                                 child: Center(
                                   child: Lottie.network(
-                                    workout
+                                    exercise
                                         .instructions[
                                             controller.nowInstruction.value]
                                         .content!
@@ -134,7 +135,7 @@ class WorkoutStartPage extends GetView<WoCon> {
                                 child: CachedNetworkImage(
                                   height: 350,
                                   width: 350,
-                                  imageUrl: workout
+                                  imageUrl: exercise
                                       .instructions[
                                           controller.nowInstruction.value]
                                       .content!
@@ -151,11 +152,11 @@ class WorkoutStartPage extends GetView<WoCon> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          workout.instructions[controller.nowInstruction.value]
+                          exercise.instructions[controller.nowInstruction.value]
                                       .type ==
                                   'rest'
                               ? Text(
-                                  'Next : ${workout.instructions[controller.nowInstruction.value + 1].name.toString()}',
+                                  'Next : ${exercise.instructions[controller.nowInstruction.value + 1].name.toString()}',
                                   style:
                                       Theme.of(context).textTheme.displayMedium)
                               : Container(),
@@ -165,7 +166,7 @@ class WorkoutStartPage extends GetView<WoCon> {
                           CircularCountDownTimer(
                             width: 150,
                             height: 150,
-                            duration: workout
+                            duration: exercise
                                     .instructions[
                                         controller.nowInstruction.value]
                                     .duration +
@@ -203,7 +204,8 @@ class WorkoutStartPage extends GetView<WoCon> {
                                   ? ElevatedButton(
                                       onPressed: () {
                                         controller.nextInstruction(
-                                            workout.instructions.length);
+                                            exercise.instructions.length,
+                                            exercise);
                                       },
                                       child: Text(
                                         controller.isNowExerciseFinish.value

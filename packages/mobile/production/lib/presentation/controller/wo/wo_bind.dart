@@ -8,6 +8,6 @@ class WoBind extends Bindings {
   void dependencies() {
     Get.lazyPut(() => SessionRepoIml());
     Get.lazyPut(() => SaveSessionApiUc(Get.find<SessionRepoIml>()));
-     Get.lazyPut(() =>WoCon(Get.find<SaveSessionApiUc>()));
+    Get.lazyPut(() => WoCon(Get.find<SaveSessionApiUc>()));
   }
 }

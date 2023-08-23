@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:isolate';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -10,22 +11,59 @@ import 'package:get/get.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/services/local_storage.dart';
 import 'package:hatofit/app/themes/app_theme.dart';
+import 'package:hatofit/app/themes/colors_constants.dart';
+import 'package:hatofit/app/types/free_workout_type.dart';
 import 'package:hatofit/data/models/exercise.dart';
 import 'package:hatofit/data/models/session.dart';
 import 'package:hatofit/domain/usecases/api/sesion/save_session_api_uc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:vibration/vibration.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class WoCon extends GetxController with GetSingleTickerProviderStateMixin {
   final SaveSessionApiUc _saveSessionApiUc;
   WoCon(this._saveSessionApiUc);
   final store = Get.find<LocalStorageService>();
+  List<SessionDataItem> sessionData = [];
 
   ///
   /// General
   ///
   final isWOStart = false.obs;
-  // final PolarService _pCon = Get.find<PolarService>();
+
+  @override
+  void onInit() {
+    hrList.clear();
+    hrStats.value = null;
+    _youtubePlayerController = YoutubePlayerController(initialVideoId: '');
+    _tabController = TabController(vsync: this, length: myTabs.length);
+    // _polarService.isStartWorkout.value = true;
+    // _polarService.starWorkout(workout.id, workout.duration, 'EMPTY');
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    hrList.clear();
+    hrStats.value = null;
+    _tabController.dispose();
+    _youtubePlayerController.dispose();
+    super.onClose();
+  }
+
+  void saveSession(String? id) {
+    final session = Session(
+      exerciseId: null,
+      startTime: hrList.first['time'],
+      endTime: hrList.last['time'],
+      timelines: [],
+      data: sessionData,
+    );
+    if (id != null) {
+      session.exerciseId = id;
+    }
+    postSession(session);
+  }
 
   Future<void> postSession(Session session) async {
     try {
@@ -48,21 +86,54 @@ class WoCon extends GetxController with GetSingleTickerProviderStateMixin {
     return elapsed.toString().split('.')[0];
   }
 
+  String currentZone = '';
+
+  hrZone(int hr) {
+    final userDateOfBirth = store.user!.dateOfBirth;
+    final age = DateTime.now().year - userDateOfBirth!.year;
+    final maxHR = 220 - age;
+    String newZone = '';
+
+    if (hr < (maxHR * 0.5)) {
+      newZone = 'Very light';
+    } else if (hr < (maxHR * 0.6)) {
+      newZone = 'Light';
+    } else if (hr < (maxHR * 0.7)) {
+      newZone = 'Moderate';
+    } else if (hr < (maxHR * 0.8)) {
+      newZone = 'Hard';
+    } else {
+      newZone = 'Maximum';
+    }
+
+    if (currentZone != newZone) {
+      currentZone = newZone;
+      handleSnackBar(newZone);
+    }
+  }
+
+  void handleSnackBar(String zone) {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      Get.snackbar(
+        'Zone',
+        zone,
+        margin: const EdgeInsets.all(16),
+        duration: const Duration(seconds: 2),
+      );
+      Vibration.vibrate(duration: 1000, amplitude: 128);
+    });
+  }
+
   ///
   /// Free Workout
   ///
-  Session? session;
-
   final List<Map<String, dynamic>> hrList = [];
+
   void add(int time, int hr) {
     hrList.add({'time': time, 'hr': hr});
   }
 
-  void getData() {
-    // session = _pCon.sessMod.value;
-  }
-
-  final hrStats = HrStats(avg: 0, max: 0, min: 0, last: 0, flSpot: []).obs;
+  final hrStats = Rx<HrStats?>(null);
   Future<void> calcHr() async {
     final ReceivePort rp = ReceivePort();
     final Isolate i = await Isolate.spawn(hrCalc, (rp.sendPort, hrList));
@@ -77,6 +148,98 @@ class WoCon extends GetxController with GetSingleTickerProviderStateMixin {
         i.kill(priority: Isolate.immediate);
         rp.close();
       },
+    );
+  }
+
+  Future savePrompt(BuildContext context) {
+    return Get.defaultDialog(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      title: 'Select Workout Type',
+      titlePadding: const EdgeInsets.all(16),
+      titleStyle: TextStyle(
+        color: Theme.of(context).textTheme.bodyLarge!.color,
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+      content: SizedBox(
+        height: ThemeManager().screenHeight * 0.75,
+        width: ThemeManager().screenWidth * 0.75,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                'Select Last Workout Type you did',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              const SizedBox(height: 16),
+              const Divider(thickness: 1),
+              Column(
+                children: FreeWorkoutType.values.map((type) {
+                  return InkWell(
+                    onTap: () {
+                      saveSession(type.title.toLowerCase());
+                      Get.offNamed(AppRoutes.dashboard);
+                      onClose();
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 50,
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Transform.scale(
+                                scale: 1.5,
+                                child: ColorFiltered(
+                                  colorFilter: ColorFilter.mode(
+                                    Get.isDarkMode
+                                        ? Colors.white
+                                        : Colors.black,
+                                    BlendMode.srcATop,
+                                  ),
+                                  child: type.gifImage,
+                                )),
+                          ),
+                          Text(type.title,
+                              style: Theme.of(context).textTheme.bodyLarge),
+                          Container(
+                              width: 38,
+                              height: 38,
+                              decoration: BoxDecoration(
+                                color: Get.isDarkMode
+                                    ? ColorConstants.darkContainer
+                                    : ColorConstants.lightContainer,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: IconButton(
+                                onPressed: () {
+                                  saveSession(type.title.toLowerCase());
+                                  Get.offNamed(AppRoutes.dashboard);
+                                  onClose();
+                                },
+                                icon: const Icon(CupertinoIcons.right_chevron),
+                              ))
+                        ],
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -189,38 +352,19 @@ class WoCon extends GetxController with GetSingleTickerProviderStateMixin {
   final countDownTimer = CountDownController().obs;
   final isPause = false.obs;
   final isNowExerciseFinish = false.obs;
-  final isAllExerciseFinish = false.obs;
-
-  void nextInstruction(totalInstruction) {
+  void nextInstruction(int totalInstruction, Exercise exercise) {
     if (nowInstruction.value + 1 >= totalInstruction) {
       countDownTimer.value.reset();
-      // _polarService.isStartWorkout.value = false;
-      isAllExerciseFinish.value = true;
+      isNowExerciseFinish.value = true;
+      saveSession(exercise.id);
       Get.offNamed(AppRoutes.dashboard);
     }
     if ((nowInstruction.value + 1) < totalInstruction) {
-      // countDownTimer.value.restart(
-      //     duration: workout.instructions[nowInstruction.value].duration);
+      countDownTimer.value.restart(
+          duration: exercise.instructions[nowInstruction.value].duration);
       isNowExerciseFinish.value = false;
       nowInstruction.value++;
     }
-  }
-
-  @override
-  void onInit() {
-    _youtubePlayerController = YoutubePlayerController(initialVideoId: '');
-    _tabController = TabController(vsync: this, length: myTabs.length);
-    // _polarService.isStartWorkout.value = true;
-    // _polarService.starWorkout(workout.id, workout.duration, 'EMPTY');
-    super.onInit();
-  }
-
-  @override
-  void onClose() {
-    // scrollController.dispose();
-    _tabController.dispose();
-    _youtubePlayerController.dispose();
-    super.onClose();
   }
 }
 
@@ -244,32 +388,21 @@ void hrCalc((SendPort, List<Map<String, dynamic>>) args) {
   final SendPort sendPort = args.$1;
   final List<Map<String, dynamic>> hrList = args.$2;
 
-  if (hrList.length > 2) {
-    final min = hrList
-        .reduce((curr, next) => curr['hr'] < next['hr'] ? curr : next)['hr'];
-    final max = hrList
-        .reduce((curr, next) => curr['hr'] > next['hr'] ? curr : next)['hr'];
-    final avg =
-        hrList.map((e) => e['hr']).reduce((curr, next) => curr + next) ~/
-            hrList.length;
-    final last = hrList.last['hr'];
-    final List<FlSpot> flSpot = hrList
-        .map((e) => FlSpot(e['time'].toDouble(), e['hr'].toDouble()))
-        .toList();
-    sendPort.send(HrStats(
-      avg: avg,
-      max: max,
-      min: min,
-      last: last,
-      flSpot: flSpot,
-    ));
-  } else {
-    sendPort.send(HrStats(
-      avg: 0,
-      max: 0,
-      min: 0,
-      last: 0,
-      flSpot: [],
-    ));
-  }
+  final min = hrList
+      .reduce((curr, next) => curr['hr'] < next['hr'] ? curr : next)['hr'];
+  final max = hrList
+      .reduce((curr, next) => curr['hr'] > next['hr'] ? curr : next)['hr'];
+  final avg = hrList.map((e) => e['hr']).reduce((curr, next) => curr + next) ~/
+      hrList.length;
+  final last = hrList.last['hr'];
+  final List<FlSpot> flSpot = hrList
+      .map((e) => FlSpot(e['time'].toDouble(), e['hr'].toDouble()))
+      .toList();
+  sendPort.send(HrStats(
+    avg: avg,
+    max: max,
+    min: min,
+    last: last,
+    flSpot: flSpot,
+  ));
 }

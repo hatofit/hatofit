@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/presentation/controller/wo/wo_bind.dart';
 import 'package:hatofit/presentation/pages/workout/view/free_workout_page.dart';
 
 import '../../../app/services/bluetooth_service.dart';
@@ -38,8 +39,10 @@ class GoalWidget extends StatelessWidget {
                   child: TextButton(
                     onPressed: () {
                       if (bCon.isAdptrContd.value == true) {
-                        Get.to(() => const FreeWorkoutPage());
-                        // Get.toNamed(AppRoutes.freeWorkout);
+                        Get.to(
+                          () => const FreeWorkoutPage(),
+                          binding: WoBind(),
+                        );
                       } else {
                         Get.snackbar(
                           'No Device Connected',

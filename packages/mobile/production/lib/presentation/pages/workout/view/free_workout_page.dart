@@ -7,173 +7,141 @@ import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/presentation/controller/wo/wo_con.dart';
 import 'package:intl/intl.dart';
 
-
-class FreeWorkoutPage extends StatelessWidget {
+class FreeWorkoutPage extends GetView<WoCon> {
   const FreeWorkoutPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     // final pCon = Get.find<PolarService>();
-    final woCon = Get.find<WoCon>();
+    final woCon = controller;
     final bCon = Get.find<BluetoothService>();
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            _savePrompt(woCon);
-          },
-          icon: const Icon(Icons.arrow_back),
-        ),
-        title: const Text('Free Workout'),
-        actions: [
-          IconButton(
+    woCon.currentZone = '';
+    return WillPopScope(
+      onWillPop: () async {
+        woCon.savePrompt(context);
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
             onPressed: () {
-              _savePrompt(woCon);
+              woCon.savePrompt(context);
             },
-            icon: const Icon(Icons.save),
+            icon: const Icon(Icons.arrow_back),
           ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: ListView(
-          children: [
-            Obx(() {
-              woCon.add(
-                  DateTime.now().millisecondsSinceEpoch, bCon.heartRate.value);
-              if (woCon.hrList.length % 2 == 0) {
-                woCon.calcHr();
-              }
-              return Column(
-                children: [
-                  woCon.hrList.isEmpty
-                      ? const SizedBox()
-                      : Text('Elapsed ${woCon.findElapsed(
-                          woCon.hrList.first['time'],
-                          woCon.hrList.last['time'],
-                        )}'),
-                  woCon.hrList.isEmpty
-                      ? const SizedBox()
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Text('Now ${woCon.hrStats.value.last}'),
-                            Text('Min ${woCon.hrStats.value.min}'),
-                            Text('Max ${woCon.hrStats.value.max}'),
-                            Text('Avg ${woCon.hrStats.value.avg}'),
-                          ],
-                        ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 16, bottom: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[900],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: AspectRatio(
-                      aspectRatio: 2,
-                      child: LineChart(
-                        LineChartData(
-                          lineTouchData: LineTouchData(
-                            handleBuiltInTouches: true,
-                            touchTooltipData: LineTouchTooltipData(
-                              tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
-                            ),
-                          ),
-                          borderData: FlBorderData(
-                            show: true,
-                            border: const Border(
-                              bottom: BorderSide(color: Colors.white),
-                              left: BorderSide(color: Colors.white),
-                              right: BorderSide(color: Colors.transparent),
-                              top: BorderSide(color: Colors.transparent),
-                            ),
-                          ),
-                          titlesData: FlTitlesData(
-                            bottomTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                showTitles: true,
-                                getTitlesWidget: (value, meta) {
-                                  String time = DateFormat('mm:ss').format(
-                                      DateTime.fromMicrosecondsSinceEpoch(
-                                          value.toInt()));
-                                  return bottomTitleWidgets(time, meta);
-                                },
-                              ),
-                            ),
-                            rightTitles: const AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
-                            ),
-                            topTitles: const AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
-                            ),
-                          ),
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: woCon.hrStats.value.flSpot,
-                              isCurved: false,
-                              belowBarData: BarAreaData(applyCutOffY: true),
-                              isStrokeCapRound: false,
-                              isStrokeJoinRound: false,
-                              barWidth: 3,
-                              color: Colors.red,
-                              dotData: const FlDotData(show: false),
-                            ),
-                          ],
-                          minY: 0,
-                          maxY: 200,
-                        ),
-                        duration: const Duration(seconds: 1),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            }),
+          title: const Text('Free Workout'),
+          actions: [
+            IconButton(
+              onPressed: () {
+                woCon.savePrompt(context);
+              },
+              icon: const Icon(Icons.save),
+            ),
           ],
         ),
-      ),
-    );
-  }
-
-  Future _savePrompt(WoCon con) {
-    final woCon = con;
-    woCon.getData();
-    final TextEditingController titleController = TextEditingController();
-    return Get.defaultDialog(
-      title: 'Save Workout',
-      content: Column(
-        children: [
-          const Text('Save Workout?'),
-          const SizedBox(height: 16),
-          TextField(
-            controller: titleController,
-            decoration: const InputDecoration(
-              labelText: 'Title',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+        body: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ListView(
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  // StorageService().saveToJSON(
-                  //     'session/raw/log-${titleController.text}.json', session);
-                  woCon.postSession(woCon.session!);
-                  Get.back();
-                },
-                child: const Text('No'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Get.back();
-                },
-                child: const Text('Yes'),
-              ),
+              Obx(() {
+                woCon.add(DateTime.now().microsecondsSinceEpoch,
+                    bCon.heartRate.value);
+                if (woCon.hrList.length % 2 == 0) {
+                  woCon.calcHr();
+                }
+                woCon.hrZone(bCon.heartRate.value);
+                woCon.sessionData.add(bCon.currSecDataItem);
+                return woCon.hrStats.value == null
+                    ? const SizedBox()
+                    : Column(
+                        children: [
+                          Text('Elapsed ${woCon.findElapsed(
+                            woCon.hrList.first['time'],
+                            woCon.hrList.last['time'],
+                          )}'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text('Now ${woCon.hrStats.value!.last}'),
+                              Text('Min ${woCon.hrStats.value!.min}'),
+                              Text('Max ${woCon.hrStats.value!.max}'),
+                              Text('Avg ${woCon.hrStats.value!.avg}'),
+                            ],
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(top: 16, bottom: 16),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[900],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: AspectRatio(
+                              aspectRatio: 2,
+                              child: LineChart(
+                                LineChartData(
+                                  lineTouchData: LineTouchData(
+                                    handleBuiltInTouches: true,
+                                    touchTooltipData: LineTouchTooltipData(
+                                      tooltipBgColor:
+                                          Colors.blueGrey.withOpacity(0.5),
+                                    ),
+                                  ),
+                                  borderData: FlBorderData(
+                                    show: true,
+                                    border: const Border(
+                                      bottom: BorderSide(color: Colors.white),
+                                      left: BorderSide(color: Colors.white),
+                                      right:
+                                          BorderSide(color: Colors.transparent),
+                                      top:
+                                          BorderSide(color: Colors.transparent),
+                                    ),
+                                  ),
+                                  titlesData: FlTitlesData(
+                                    bottomTitles: AxisTitles(
+                                      sideTitles: SideTitles(
+                                        showTitles: true,
+                                        getTitlesWidget: (value, meta) {
+                                          String time = DateFormat('mm:ss')
+                                              .format(DateTime
+                                                  .fromMicrosecondsSinceEpoch(
+                                                      value.toInt()));
+                                          return bottomTitleWidgets(time, meta);
+                                        },
+                                      ),
+                                    ),
+                                    rightTitles: const AxisTitles(
+                                      sideTitles: SideTitles(showTitles: false),
+                                    ),
+                                    topTitles: const AxisTitles(
+                                      sideTitles: SideTitles(showTitles: false),
+                                    ),
+                                  ),
+                                  lineBarsData: [
+                                    LineChartBarData(
+                                      spots: woCon.hrStats.value!.flSpot,
+                                      isCurved: false,
+                                      belowBarData:
+                                          BarAreaData(applyCutOffY: true),
+                                      isStrokeCapRound: false,
+                                      isStrokeJoinRound: false,
+                                      barWidth: 3,
+                                      color: Colors.red,
+                                      dotData: const FlDotData(show: false),
+                                    ),
+                                  ],
+                                  minY: 0,
+                                  maxY: 200,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Text(woCon.currentZone),
+                        ],
+                      );
+              }),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

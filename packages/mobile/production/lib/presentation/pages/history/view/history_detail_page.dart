@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hatofit/app/app.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 
 class HistoryDetailPage extends StatelessWidget {
   final Future future;
@@ -24,6 +24,7 @@ class HistoryDetailPage extends StatelessWidget {
           child: FutureBuilder(
             future: future,
             builder: (context, snapshot) {
+              logger.i(snapshot.data);
               if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {

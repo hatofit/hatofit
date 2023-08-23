@@ -8,6 +8,7 @@ import '../../data/models/user.dart';
 enum _Key {
   user,
   token,
+  lastDevice,
 }
 
 class LocalStorageService extends GetxService {
@@ -45,7 +46,18 @@ class LocalStorageService extends GetxService {
     }
   }
 
+  String? get lastDevice => _sharedPreferences?.getString(_Key.lastDevice.toString());
+
+  set lastDevice(String? value) {
+    if (value != null) {
+      _sharedPreferences?.setString(_Key.lastDevice.toString(), value);
+    } else {
+      _sharedPreferences?.remove(_Key.lastDevice.toString());
+    }
+  }
+
   Future<void> clear() async {
     await _sharedPreferences?.clear();
   }
+
 }

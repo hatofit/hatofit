@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/app/app.dart';
+import 'package:hatofit/app/services/local_storage.dart';
 import 'package:hatofit/data/models/polar_device.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
@@ -12,10 +14,11 @@ import '../themes/app_theme.dart';
 import '../themes/colors_constants.dart';
 
 class BluetoothService extends GetxService {
-  final FlutterBluePlus flutterBluePlus = FlutterBluePlus();
+  final LocalStorageService _store = Get.find<LocalStorageService>();
   final _polarBLE = Polar();
   final isAdptrOn = Rx<bool>(false);
   final isAdptrContd = Rx<bool>(false);
+  final contdDevice = Rx<String?>(null);
 
   @override
   void onInit() {
@@ -23,7 +26,7 @@ class BluetoothService extends GetxService {
     super.onInit();
   }
 
-  Future<void> init() async {
+  Future<BluetoothService> init() async {
     await _polarBLE.requestPermissions();
     await Permission.location.request();
     await Permission.storage.request();
@@ -34,20 +37,30 @@ class BluetoothService extends GetxService {
         isAdptrOn.value = false;
       }
     });
+
     _polarBLE.deviceConnecting
         .listen((event) => debugPrint('Device connecting'));
     _polarBLE.batteryLevel.listen((e) {
-      debugPrint('ID : ${e.identifier}\nBattery: ${e.level}');
+      logger.i('ID : ${e.identifier}\nBattery: ${e.level}');
     });
     _polarBLE.deviceConnected.listen((event) {
       isAdptrContd.value = true;
-      debugPrint('Device connected to ${event.deviceId} ${isAdptrContd.value}');
+      logger.i('Device connected to ${event.deviceId} ${isAdptrContd.value}');
+      contdDevice.value = event.deviceId;
+      _store.lastDevice = event.deviceId;
     });
     _polarBLE.deviceDisconnected.listen((event) {
       isAdptrContd.value = false;
-      debugPrint(
+      contdDevice.value = null;
+      logger.i(
           'Device disconnected from ${event.info.deviceId} ${isAdptrContd.value}');
+      heartRate.value = 0;
+      _store.lastDevice = null;
     });
+    if (_store.lastDevice != null) {
+      disconnectDevice(_store.lastDevice!);
+    }
+    return this;
   }
 
   Future<void> turnOnBluetooth() async {
@@ -165,7 +178,6 @@ class BluetoothService extends GetxService {
     if (availableTypes.contains(PolarDataType.gyro)) {
       StreamSubscription gyroSubscription =
           _polarBLE.startGyroStreaming(deviceId).listen((gyroData) {
-
         bool hasGyroDevice = currSecDataItem.devices
             .any((element) => element.type == 'PolarDataType.gyro');
 
@@ -248,11 +260,10 @@ class BluetoothService extends GetxService {
   };
 
   final detectedDevices = <PolarDevice>[];
-
-  void scanPolarDevices() {
-    detectedDevices.clear();
-    StreamSubscription search =
-        _polarBLE.searchForDevice().listen((polardDeviceInfo) {
+  Future<List<PolarDevice>> scanPolarDevices() async {
+    // detectedDevices.clear();
+    // StreamSubscription search =
+    _polarBLE.searchForDevice().listen((polardDeviceInfo) {
       String? nameReplace;
       String? imageAsset;
       final bool isAlreadyAdded = detectedDevices
@@ -281,12 +292,18 @@ class BluetoothService extends GetxService {
         );
       }
     });
-    Future.delayed(const Duration(seconds: 10), () async {
-      await search.cancel();
+    return Future.delayed(const Duration(seconds: 1), () {
+      return detectedDevices;
     });
+    // Future.delayed(const Duration(seconds: 10), () async {
+    //   await search.cancel();
+    // });
   }
 
   void connectDevice(String deviceId) {
+    if (_store.lastDevice != null) {
+      disconnectDevice(_store.lastDevice!);
+    }
     final connectFuture = _polarBLE.connectToDevice(deviceId);
     final deviceConnectedFuture = _polarBLE.deviceConnected.first;
 
@@ -316,6 +333,8 @@ class BluetoothService extends GetxService {
     _streamCancelation();
     _polarBLE.disconnectFromDevice(deviceId);
     _polarBLE.deviceDisconnected.last;
+    isAdptrContd.value = false;
+    heartRate.value = 0;
   }
   // void streamResume() {
   //   for (var element in _availableSubscriptions) {

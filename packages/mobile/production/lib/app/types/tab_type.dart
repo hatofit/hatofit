@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+
 enum TabType { home, workout, history, profile }
 
 extension TabItem on TabType {

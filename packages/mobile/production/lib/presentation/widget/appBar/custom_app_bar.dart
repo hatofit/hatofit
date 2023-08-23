@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+import '../../../app/app.dart';
 import '../../../app/services/bluetooth_service.dart';
 import '../../../app/themes/app_theme.dart';
 import '../../../app/themes/colors_constants.dart';
+import '../../../data/models/polar_device.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -57,6 +59,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
             onPressed: () {
               if (bluetoothService.isAdptrOn.value) {
                 bluetoothService.scanPolarDevices();
+
                 showModal();
               } else {
                 Get.snackbar('Turning on Bluetooth', 'Allow Turn on Bluetooth',
@@ -67,6 +70,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         : ColorConstants.lightContainer.withOpacity(0.9));
                 bluetoothService.turnOnBluetooth().then((value) {
                   bluetoothService.scanPolarDevices();
+
                 });
               }
             },
@@ -131,102 +135,110 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   borderRadius: BorderRadius.circular(124)),
             ),
             SizedBox(
-                height: ThemeManager().screenHeight / 2,
-                width: ThemeManager().screenWidth,
-                child: FutureBuilder(
-                  future: Future.delayed(const Duration(seconds: 3)),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.connectionState ==
-                        ConnectionState.done) {
-                      if (bluetoothService.detectedDevices.isEmpty) {
-                        return _noDevice();
-                      } else {
-                        return ListView.builder(
-                          itemCount: bluetoothService.detectedDevices.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                              leading: Image.asset(bluetoothService
-                                  .detectedDevices[index].imageAsset),
-                              title: Text(
-                                bluetoothService.detectedDevices[index].name,
-                                style: Theme.of(context).textTheme.displaySmall,
-                              ),
-                              subtitle: Row(
-                                children: [
-                                  Text(
-                                    'ID :${bluetoothService.detectedDevices[index].deviceId}',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  Text(
-                                    ' RSSI : ${bluetoothService.detectedDevices[index].rssi}',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                ],
-                              ),
-                              trailing: bluetoothService.isAdptrContd.value
-                                  ? TextButton(
-                                      style: ButtonStyle(
-                                          foregroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.white),
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  ColorConstants.crimsonRed)),
-                                      child: const Text('Disconnect'),
-                                      onPressed: () {
-                                        bluetoothService.disconnectDevice(
-                                            bluetoothService
-                                                .detectedDevices[index]
-                                                .deviceId);
-                                        Get.back();
-                                      },
-                                    )
-                                  : TextButton(
-                                      style: ButtonStyle(
-                                          foregroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.white),
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  ColorConstants.ceruleanBlue)),
-                                      child: const Text('Connect'),
-                                      onPressed: () {
-                                        bluetoothService.connectDevice(
-                                            bluetoothService
-                                                .detectedDevices[index]
-                                                .deviceId);
-                                        Get.back();
-                                        Get.dialog(
-                                          connecting(
-                                              deviceName: bluetoothService
-                                                  .detectedDevices[index].name,
-                                              deviceId: bluetoothService
-                                                  .detectedDevices[index]
-                                                  .deviceId),
-                                          transitionCurve:
-                                              Curves.easeInOutCubic,
-                                        );
-                                      },
-                                    ),
-                            );
-                          },
-                        );
-                      }
+              height: ThemeManager().screenHeight / 2,
+              width: ThemeManager().screenWidth,
+              child: FutureBuilder(
+                future: bluetoothService.scanPolarDevices(),
+                builder: (context, snapshot) { 
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.data!.isEmpty) {
+                      return _noDevice();
+                    } else {
+                      return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading:
+                                Image.asset(snapshot.data![index].imageAsset),
+                            title: Text(
+                              snapshot.data![index].name,
+                              style: Theme.of(context).textTheme.displaySmall,
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  'ID :${snapshot.data![index].deviceId}',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                                Text(
+                                  ' RSSI : ${snapshot.data![index].rssi}',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
+                              ],
+                            ),
+                            trailing: handleConnection(snapshot.data![index]),
+                          );
+                        },
+                      );
                     }
-                    return SizedBox(
-                        height: ThemeManager().screenHeight / 2,
-                        width: ThemeManager().screenWidth,
-                        child: _noDevice());
-                  },
-                ))
+                  }
+                  return SizedBox(
+                      height: ThemeManager().screenHeight / 2,
+                      width: ThemeManager().screenWidth,
+                      child: _noDevice());
+                },
+              ),
+            )
           ],
         ),
       ),
     );
+  }
+
+  Widget handleConnection(PolarDevice device) {
+    if (bluetoothService.contdDevice.value == null) {
+      return TextButton(
+        style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            backgroundColor:
+                MaterialStateProperty.all<Color>(ColorConstants.ceruleanBlue)),
+        child: const Text('Connect'),
+        onPressed: () {
+          bluetoothService.connectDevice(device.deviceId);
+          Get.back();
+          Get.dialog(
+            connecting(
+              deviceName: device.name,
+              deviceId: device.deviceId,
+            ),
+            transitionCurve: Curves.easeInOutCubic,
+          );
+        },
+      );
+    } else if (bluetoothService.contdDevice.value! == device.deviceId) {
+      return TextButton(
+        style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            backgroundColor:
+                MaterialStateProperty.all<Color>(ColorConstants.crimsonRed)),
+        child: const Text('Disconnect'),
+        onPressed: () {
+          bluetoothService.disconnectDevice(device.deviceId);
+          Get.back();
+        },
+      );
+    } else {
+      return TextButton(
+        style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            backgroundColor:
+                MaterialStateProperty.all<Color>(ColorConstants.ceruleanBlue)),
+        child: const Text('Connect'),
+        onPressed: () {
+          bluetoothService.connectDevice(device.deviceId);
+          Get.back();
+          Get.dialog(
+            connecting(
+              deviceName: device.name,
+              deviceId: device.deviceId,
+            ),
+            transitionCurve: Curves.easeInOutCubic,
+          );
+        },
+      );
+    }
   }
 
   Dialog connecting({required String deviceName, required String deviceId}) {

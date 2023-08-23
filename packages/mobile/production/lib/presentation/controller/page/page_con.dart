@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/app/app.dart';
 import 'package:hatofit/app/services/local_storage.dart';
 import 'package:hatofit/app/utils/date_utils.dart';
 import 'package:hatofit/app/utils/image_utils.dart';
@@ -90,9 +91,11 @@ class PageCon extends GetxController {
       data.fold((l) => Get.snackbar(l.code, l.message),
           (r) => exercises.value = r.data);
     }, (r) {
-      exercises.value = r.data['exercises']
+      final raw = r.data['exercises']
           .map<Exercise>((e) => Exercise.fromJson(e))
           .toList();
+      exercises.value = raw.where((element) => element.type != '').toList();
+ 
       _saveWorkoutLocalUC.execute(r.data);
     });
     return exercises;

@@ -28,7 +28,7 @@ final logger = Logger(
   printer: PrettyPrinter(
     methodCount: 0,
     errorMethodCount: 8,
-    lineLength: 120,
+    lineLength: 55,
     colors: true,
     printEmojis: true,
     printTime: true,
