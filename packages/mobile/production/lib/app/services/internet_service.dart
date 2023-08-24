@@ -1,39 +1,32 @@
 import 'dart:convert';
 
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/exercise_model.dart';
 import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/app/services/storage_service.dart';
-
-enum ApiPath {
-  exercise,
-  session,
-  report,
-  register,
-  login,
-}
+import 'package:hatofit/utils/debug_logger.dart';
 
 class InternetService extends GetConnect {
-  final _prefs = PreferencesService();
-  String? get token => _prefs.token;
-
+  final store = Get.find<PreferencesService>();
+  String get token => store.token ?? '';
   Future<InternetService> init() async {
-    await dotenv.load(fileName: ".env");
     return this;
   }
 
-  @override
-  void onInit() {
-    httpClient.baseUrl = dotenv.env['API_BASE_URL'];
-    super.onInit();
-  }
+  static const String _base = 'http://192.168.215.169:3000/api';
+
+  static const String _sesion = '/session';
+  static const String _exercise = '/exercise';
+  static const String _report = '/report';
+  static const String _register = '/auth/register';
+  static const String _login = '/auth/login';
 
   Future postSession(dynamic body) async {
+    logger.d('Post Session\n$body\n/${_base + _sesion}}\n token:$token');
     try {
       final response = await post(
-        '/${ApiPath.session}',
+        _base + _sesion,
         jsonEncode(body),
         headers: {
           'Content-Type': 'application/json',
@@ -52,7 +45,7 @@ class InternetService extends GetConnect {
 
   Future<List<ExerciseModel>> fetchExercises() async {
     final response = await get(
-      '/${ApiPath.exercise}',
+      _base + _exercise,
     );
     try {
       if (response.statusCode == 200) {
@@ -76,7 +69,7 @@ class InternetService extends GetConnect {
   Future<List<dynamic>> fetchHistory() async {
     try {
       final response = await get(
-        "/${ApiPath.session}",
+        _base + _sesion,
         headers: {
           'Userorization': 'Bearer $token',
         },
@@ -93,10 +86,10 @@ class InternetService extends GetConnect {
   }
 
   Future<Map<String, dynamic>> fetchReport(String exerciseId) async {
-    final url = "${dotenv.env['API_BASE_URL'] ?? ''}/report/$exerciseId";
-
-    final response = await get(url);
     try {
+      final response = await get(
+        '$_base$_report/$exerciseId',
+      );
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = response.body;
 
@@ -110,12 +103,14 @@ class InternetService extends GetConnect {
   }
 
   Future<Response> registerUser(UserModel request) async {
-    final url = "${dotenv.env['API_BASE_URL'] ?? ''}/User/register";
-    final UserModel data = request;
+    final bodyMap = request.toJson();
+    bodyMap.removeWhere((key, value) => value == null);
+    logger.i(
+        'Register User\n$bodyMap\n/${_base + _register}} /n base:${httpClient.baseUrl}}');
     try {
       final response = await post(
-        url,
-        jsonEncode(data.toJson()),
+        _base + _register,
+        jsonEncode(bodyMap),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -127,15 +122,12 @@ class InternetService extends GetConnect {
   }
 
   Future<Response> loginUser(UserModel request) async {
-    final url = "${dotenv.env['API_BASE_URL'] ?? ''}/User/login";
-    final String email = request.email!;
-    final String password = request.password!;
     try {
       final response = await post(
-        url,
+        _base + _login,
         jsonEncode({
-          'email': email,
-          'password': password,
+          'email': request.email,
+          'password': request.password,
         }),
         headers: {
           'Content-Type': 'application/json',

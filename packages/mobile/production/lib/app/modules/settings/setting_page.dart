@@ -60,7 +60,7 @@ class SettingPage extends GetView<SettingController> {
                                 color: Colors.white,
                                 image: DecorationImage(
                                   image: FileImage(File(
-                                      '/storage/emulated/0/Android/data/com.example.hatofit/files/photo-profile.jpg')),
+                                      '/storage/emulated/0/Android/data/dev.erhahahaa.hatofit/files/photo-profile.jpg')),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -120,71 +120,10 @@ class SettingPage extends GetView<SettingController> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      "Backup & Restore",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineLarge,
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    SvgPicture.asset(
-                                      'assets/images/logo/google.svg',
-                                      width: 14,
-                                    ),
-                                    const SizedBox(
-                                      width: 8,
-                                    ),
-                                    SvgPicture.asset(
-                                      'assets/images/logo/apple.svg',
-                                      width: 14,
-                                    )
-                                  ],
-                                ),
-                                Text(
-                                  'Sign in and synchronize your data',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                )
-                              ],
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.sync,
-                                color: Theme.of(context)
-                                    .iconTheme
-                                    .color
-                                    ?.withOpacity(0.5),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Divider(
-                          color: isDarkMode
-                              ? ColorConstants.lightContainer.withOpacity(0.1)
-                              : ColorConstants.darkContainer.withOpacity(0.1),
-                          thickness: 1,
-                          height: 1,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
                             Row(
                               children: [
                                 SvgPicture.asset(
-                                  'assets/images/logo/google_fit.svg',
+                                  'assets/images/icons/google-fit.svg',
                                   width: 18,
                                 ),
                                 const SizedBox(

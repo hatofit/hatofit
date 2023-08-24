@@ -1,19 +1,24 @@
+import 'dart:async';
 import 'dart:isolate';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/session_model.dart';
-import 'package:hatofit/app/services/polar_service.dart';
+import 'package:hatofit/app/routes/app_routes.dart';
+import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/app/services/storage_service.dart';
+import 'package:hatofit/utils/debug_logger.dart';
+import 'package:intl/intl.dart';
 
 import '../../../services/internet_service.dart';
 
 class FreeWorkoutController extends GetxController {
-  final PolarService _pCon = Get.find<PolarService>();
-  DateTime _startTime = DateTime.now();
+  final BluetoothService bleService = Get.find<BluetoothService>();
+  final int _startTime = DateTime.now().microsecondsSinceEpoch;
   final title = 'Free Workout';
   final List<Map<String, dynamic>> hrList = [];
+
   String findElapsed() {
     final DateTime startTime =
         DateTime.fromMicrosecondsSinceEpoch(hrList.first['time']);
@@ -23,30 +28,44 @@ class FreeWorkoutController extends GetxController {
     return elapsed.toString().split('.')[0];
   }
 
-  SessionModel? session;
-
   @override
   void onInit() {
-    _startTime = DateTime.now();
-    _pCon.isStartWorkout.value = true;
-    _pCon.starWorkout('EMPTY', 0, 'EMPTY');
+    hrList.clear();
+    bleService.sesionValue.clear();
+    bleService.isStartWorkout.value = true;
     super.onInit();
   }
 
   @override
   void onClose() {
-    _pCon.isStartWorkout.value = false;
     hrList.clear();
+    bleService.sesionValue.clear();
+    bleService.isStartWorkout.value = true;
     savePrompt();
     super.onClose();
   }
 
-  void getData() {
-    session = _pCon.sessMod.value;
+  final sessionDataItem = <SessionDataItem>[];
+
+  startWorkout() {
+    int counter = 0;
+    Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (bleService.isStartWorkout.value == false) {
+        timer.cancel();
+      } else {
+        sessionDataItem.add(SessionDataItem(
+          second: counter,
+          timeStamp: DateTime.now().microsecondsSinceEpoch,
+          devices: bleService.sesionValue,
+        ));
+      }
+      bleService.sesionValue.clear();
+      counter++;
+    });
   }
 
   void savePrompt() {
-    getData();
+    // getData();
     final TextEditingController titleController = TextEditingController();
     Get.defaultDialog(
       title: 'Save Workout',
@@ -67,16 +86,29 @@ class FreeWorkoutController extends GetxController {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  StorageService().saveToJSON(
-                      'session/raw/log-${titleController.text}.json', session);
-                  InternetService().postSession(session);
-                  Get.back();
+                  Get.offNamed('/');
                 },
                 child: const Text('No'),
               ),
               ElevatedButton(
                 onPressed: () {
-                  Get.back();
+                  SessionModel session = SessionModel(
+                    exerciseId: null,
+                    startTime: _startTime,
+                    endTime: DateTime.now().microsecondsSinceEpoch,
+                    timelines: [],
+                    data: sessionDataItem,
+                  );
+                  final DateTime strtTime =
+                      DateTime.fromMicrosecondsSinceEpoch(_startTime);
+                  final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
+                  final String formatted = formatter.format(strtTime);
+                  logger.i(session);
+                  StorageService().saveToJSON(
+                      'session/raw/$formatted-${null}-${titleController.text}',
+                      session);
+                  InternetService().postSession(session);
+                  Get.offNamed('/');
                 },
                 child: const Text('Yes'),
               ),

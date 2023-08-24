@@ -32,7 +32,6 @@ dependencies:
 
   # UI
   flutter_svg: ^2.0.7
-  flutter_neumorphic_plus: ^3.3.0
   lottie: ^2.4.0
   fl_chart: ^0.63.0
   syncfusion_flutter_charts: ^21.2.6
@@ -51,11 +50,10 @@ dependencies:
   path_provider: ^2.0.15
   permission_handler: ^10.4.1
   flutter_dotenv: ^5.1.0
-  # background_fetch: ^1.2.0
 
   # Notifications
   flutter_local_notifications: ^15.1.0+1
-  flutter_native_splash: ^2.3.2
+  logger: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +76,8 @@ flutter:
     - assets/images/
     - assets/images/logo/
     - assets/images/polar/
+    - assets/images/avatar/
+    - assets/images/icons/
     # - assets/animations/
     - assets/videos/
 

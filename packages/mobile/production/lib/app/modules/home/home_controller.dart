@@ -16,8 +16,7 @@ class HomeController extends GetxController {
   void onInit() async {
     user = store.user;
     final f = store.user!.firstName!;
-    final l =  store.user!.lastName!;
-    title.value = 'Hi, $f $l 👋';
+    title.value = 'Hi, $f 👋';
     super.onInit();
   }
 }

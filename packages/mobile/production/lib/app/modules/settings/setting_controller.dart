@@ -9,7 +9,6 @@ class SettingController extends GetxController {
   final userAge = ''.obs;
   final isSync = false.obs;
   final store = Get.find<PreferencesService>();
-
   @override
   Future<void> onInit() async {
     final firstName = store.user!.firstName!;

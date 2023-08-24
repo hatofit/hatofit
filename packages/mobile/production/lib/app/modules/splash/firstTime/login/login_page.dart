@@ -48,33 +48,10 @@ class LoginPage extends GetView<LoginController> {
                   ),
                 ),
                 SizedBox(
-                  height: ThemeManager().screenHeight * 0.4,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const BreathingAnimation(),
-                      const SizedBox(width: 10),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/logo/title.png',
-                            width: 166,
-                            // block asset image with black color
-                            color: ThemeManager().isDarkMode
-                                ? Colors.grey[100]
-                                : null,
-                          ),
-                          const SizedBox(height: 10),
-                          Image.asset(
-                            'assets/images/logo/subtitle.png',
-                            width: 166,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                    height: ThemeManager().screenHeight * 0.4,
+                    child: const Center(
+                      child: BreathingAnimation(),
+                    )),
               ],
             ),
             Form(
@@ -210,8 +187,10 @@ class _BreathingAnimationState extends State<BreathingAnimation>
     return ScaleTransition(
       scale: _scaleAnimation,
       child: Image.asset(
-        'assets/images/logo/image.png',
-        width: 84,
+        Get.isDarkMode
+            ? 'assets/images/logo/dark.png'
+            : 'assets/images/logo/light.png',
+        width: Get.width * 0.6,
       ),
     );
   }

@@ -7,7 +7,6 @@ import 'package:hatofit/app/models/exercise_model.dart';
 import 'package:hatofit/app/modules/workout/workout_detail/workout_details_controller.dart';
 import 'package:hatofit/app/modules/workout/workout_start/workout_start_controller.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
-import 'package:hatofit/app/services/polar_service.dart';
 import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:lottie/lottie.dart';
@@ -20,8 +19,7 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
   Widget build(BuildContext context) {
     final WorkoutDetailsController workoutDetailsController =
         Get.find<WorkoutDetailsController>();
-    final BluetoothService bluetoothService = Get.find<BluetoothService>();
-    final PolarService polarService = Get.find<PolarService>();
+    final BluetoothService bleService = Get.find<BluetoothService>();
     return Obx(
       () => Scaffold(
         appBar: AppBar(
@@ -53,7 +51,7 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
           children: [
             Align(
                 alignment: Alignment.centerLeft,
-                child: bluetoothService.isConnectedDevice.value
+                child: bleService.isConnectedDevice.value
                     ? Container(
                         height: 40,
                         width: 80,
@@ -72,9 +70,9 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                                   color: ColorConstants.crimsonRed),
                               const SizedBox(width: 8),
                               Text(
-                                  polarService.heartRate.value == 0
+                                  bleService.heartRate.value == 0
                                       ? '--'
-                                      : polarService.heartRate.value.toString(),
+                                      : bleService.heartRate.value.toString(),
                                   style: const TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 16,

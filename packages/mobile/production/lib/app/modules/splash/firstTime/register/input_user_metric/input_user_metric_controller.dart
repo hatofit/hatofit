@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/user_model.dart';
+import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/app/services/internet_service.dart';
-import 'package:hatofit/app/services/polar_service.dart';
 import 'package:hatofit/app/themes/app_theme.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:hatofit/utils/debug_logger.dart';
 
 import '../../../../../../utils/image_utils.dart';
-import '../../../../../services/preferences_service.dart';
 import '../../../../../routes/app_routes.dart';
+import '../../../../../services/preferences_service.dart';
 
 class InputUserMetricController extends GetxController {
   final UserModel previousData = Get.arguments;
@@ -36,7 +36,7 @@ class InputUserMetricController extends GetxController {
     previousData.height = userHeight.value;
     previousData.weight = userWeight.value;
     previousData.metricUnits = MetricUnits(
-      energyUnits: 'Kcal',
+      energyUnits: 'kCal',
       heightUnits: selectedHeightUnitMeasure.value,
       weightUnits: selectedWeightUnitMeasure.value,
     );
@@ -56,12 +56,9 @@ class InputUserMetricController extends GetxController {
           fontSize: 24,
           color: ThemeManager().isDarkMode ? Colors.white : Colors.black),
       onConfirm: () async {
-        await PolarService().polar.requestPermissions();
-        final locationPermissionStatus = await Permission.location.request();
-        final storagePermissionStatus = await Permission.storage.request();
+        final perm = await BluetoothService().askPermission();
 
-        if (locationPermissionStatus.isGranted &&
-            storagePermissionStatus.isGranted) {
+        if (perm) {
           try {
             final Response response =
                 await InternetService().registerUser(previousData);
@@ -77,11 +74,15 @@ class InputUserMetricController extends GetxController {
 
                   store.user = user;
                   store.token = body['token'];
-                  if (user.photo!.isEmpty) {
+                  logger.d('User: ${store.user!.toJson()}');
+                  if (user.photo!.isEmpty ||
+                      user.photo == null ||
+                      user.photo == '') {
                     if (user.gender == 'male') {
-                      ImageUtils.saveFromAsset('assets/images/male.png');
+                      ImageUtils.saveFromAsset('assets/images/avatar/male.png');
                     } else {
-                      ImageUtils.saveFromAsset('assets/images/female.png');
+                      ImageUtils.saveFromAsset(
+                          'assets/images/avatar/female.png');
                     }
                   } else {
                     ImageUtils.fromBase64(user.photo!);

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
+import 'package:hatofit/utils/debug_logger.dart';
+import 'package:hatofit/utils/image_picker.dart';
 import 'package:hatofit/utils/image_utils.dart';
 
 class RegisterController extends GetxController {
@@ -23,6 +25,22 @@ class RegisterController extends GetxController {
   final Rx<File> pickedImage = Rx<File>(File(''));
 
   @override
+  void onInit() {
+    // TODO: remove in production
+    firstNameController.text = 'Rahmat';
+    lastNameController.text = 'Hidayat';
+    emailController.text = 'rh@mail.com';
+    passwordController.text = '12345678';
+    confirmPasswordController.text = '12345678';
+    dateOfBirthController.text = '12-12-1999';
+    userDateOfBirth.value = DateTime(1999, 12, 12);
+    formattedDate.value = '12-12-1999';
+    selectGender('male');
+    // TODO: remove in production
+    super.onInit();
+  }
+
+  @override
   void onClose() {
     firstNameController.dispose();
     lastNameController.dispose();
@@ -35,9 +53,13 @@ class RegisterController extends GetxController {
   }
 
   void pickImage() async {
-    final image = await ImageUtils.imagePicker();
-    pickedImage.value = File(image!.path);
-    pickedImageBase64.value = await ImageUtils.toBase64(image);
+    final file = await CustomImagePicker.pickImage();
+    if (file != null) {
+      logger.i('${'Register Controller\n' + file.path}\n$file');
+      pickedImage.value = file;
+      pickedImageBase64.value = await ImageUtils.toBase64(file);
+      logger.i('Register Controller\n${pickedImageBase64.value}');
+    }
   }
 
   void selectGender(String gender) {
@@ -46,7 +68,7 @@ class RegisterController extends GetxController {
   }
 
   void saveUserInfo() {
-    final  UserModel authModel =  UserModel(
+    final UserModel authModel = UserModel(
       firstName: firstNameController.text,
       lastName: lastNameController.text,
       gender: selectedGender.value,

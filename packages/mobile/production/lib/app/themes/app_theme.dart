@@ -58,8 +58,6 @@ class AppTheme {
         ),
       ),
       useMaterial3: true,
-      primaryColorDark: Colors.black,
-      primaryColorLight: Colors.white,
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -202,8 +200,6 @@ class AppTheme {
         ),
       ),
       useMaterial3: true,
-      primaryColorDark: Colors.white,
-      primaryColorLight: Colors.black,
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,

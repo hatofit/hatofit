@@ -19,83 +19,105 @@ class GreetingPage extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: Image.asset('assets/images/mesh-down.png'),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 64),
-                    child: Image.asset(
-                      Get.isDarkMode
-                          ? 'assets/images/logo/dark.png'
-                          : 'assets/images/logo/light.png',
-                      width: Get.width * 0.75,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 48),
-                    child: SvgPicture.asset(
-                      'assets/images/hero.svg',
-                      width: Get.width * 0.75,
-                    ),
-                  ),
-                ],
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 84),
+              child: Image.asset(
+                Get.isDarkMode
+                    ? 'assets/images/logo/dark.png'
+                    : 'assets/images/logo/light.png',
+                width: Get.width * 0.75,
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Healthy life,\nhappy heart.',
-                          style: Theme.of(context).textTheme.displayLarge,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'A fitness app that listens to your heart.',
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 32),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: () {
-                          Get.toNamed(AppRoutes.login);
-                        },
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(32),
-                          ),
-                          side: const BorderSide(
-                            color: Colors.black,
-                            width: 2,
-                          ),
-                        ),
-                        child: Text(
-                          'Get Started',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyLarge!
-                              .copyWith(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 84),
+              child: SvgPicture.asset(
+                'assets/images/hero.svg',
+                width: Get.width * 0.75,
               ),
-            ],
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 223, left: 32),
+              child: SizedBox(
+                width: double.infinity,
+                child: Text(
+                  'Healthy life,',
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayLarge!
+                      .copyWith(fontSize: 38),
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 175, left: 32),
+              child: SizedBox(
+                width: double.infinity,
+                child: Text(
+                  'happy heart.',
+                  style: Theme.of(context)
+                      .textTheme
+                      .displayLarge!
+                      .copyWith(fontSize: 38),
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 145, left: 32),
+              child: SizedBox(
+                width: double.infinity,
+                child: Text(
+                  'A fitness app that listens to your heart.',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 32),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: OutlinedButton(
+                  onPressed: () {
+                    Get.toNamed(AppRoutes.login);
+                  },
+                  style: OutlinedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32),
+                    ),
+                    side: const BorderSide(
+                      color: Colors.white,
+                      width: 1,
+                    ),
+                  ),
+                  child: Text(
+                    'Get Started',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: Colors.white),
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       ),

@@ -2,17 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:hatofit/app/services/bluetooth_service.dart';
-import 'package:hatofit/app/services/polar_service.dart';
-import 'package:hatofit/app/themes/app_theme.dart';
-import 'package:hatofit/app/themes/colors_constants.dart';
+
+import '../../../app/services/bluetooth_service.dart';
+import '../../../app/themes/app_theme.dart';
+import '../../../app/themes/colors_constants.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
+  final bool showSearchBar;
   final bool isSubPage;
+  final Color screenColor;
   const CustomAppBar({
     this.title = '',
     this.isSubPage = false,
+    this.showSearchBar = false,
+    this.screenColor = Colors.transparent,
     Key? key,
   }) : super(key: key);
   @override
@@ -22,31 +26,8 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
-  final bluetoothService = Get.put(BluetoothService());
-  final polarService = Get.put(PolarService());
+  final bleService = Get.put(BluetoothService());
   final isDarkMode = Get.isDarkMode;
-  @override
-  void initState() {
-    super.initState();
-    polarService.polar.deviceConnecting
-        .listen((event) => debugPrint('Device connecting'));
-    polarService.polar.batteryLevel.listen((e) {
-      debugPrint('ID : ${e.identifier}\nBattery: ${e.level}');
-    });
-    polarService.polar.deviceConnected.listen((event) {
-      polarService.connectedDeviceId = event.deviceId;
-      bluetoothService.isConnectedDevice.value = true;
-      debugPrint(
-          'Device connected to ${event.deviceId} ${bluetoothService.isConnectedDevice.value}');
-    });
-    polarService.polar.deviceDisconnected.listen((event) {
-      polarService.connectedDeviceId = 'Device disconnected';
-
-      bluetoothService.isConnectedDevice.value = false;
-      debugPrint(
-          'Device disconnected from ${event.info.deviceId} ${bluetoothService.isConnectedDevice.value}');
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,17 +46,17 @@ class _CustomAppBarState extends State<CustomAppBar> {
       actions: [
         Obx(
           () => IconButton(
-            icon: bluetoothService.isBluetoothOn.value
+            icon: bleService.isBluetoothOn.value
                 ? Icon(
                     FontAwesomeIcons.bluetooth,
-                    color: bluetoothService.isConnectedDevice.value
+                    color: bleService.isConnectedDevice.value
                         ? Colors.blueAccent
                         : Theme.of(context).iconTheme.color,
                   )
                 : const Icon(Icons.bluetooth_disabled),
             onPressed: () {
-              if (bluetoothService.isBluetoothOn.value) {
-                polarService.scanPolarDevices();
+              if (bleService.isBluetoothOn.value) {
+                bleService.scanPolarDevices();
                 showModal();
               } else {
                 Get.snackbar('Turning on Bluetooth', 'Allow Turn on Bluetooth',
@@ -84,8 +65,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                     backgroundColor: isDarkMode
                         ? ColorConstants.darkContainer.withOpacity(0.9)
                         : ColorConstants.lightContainer.withOpacity(0.9));
-                bluetoothService.turnOnBluetooth().then((value) {
-                  polarService.scanPolarDevices();
+                bleService.turnOnBluetooth().then((value) {
+                  bleService.scanPolarDevices();
                 });
               }
             },
@@ -99,8 +80,42 @@ class _CustomAppBarState extends State<CustomAppBar> {
     );
   }
 
-  void showModal() {
-    Get.bottomSheet(
+  Widget _noDevice() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "Didn't see any device🤔",
+          style: Theme.of(context).textTheme.displayMedium,
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Text(
+          'Make sure your device is turn on',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        const SizedBox(
+          height: 32,
+        ),
+        TextButton(
+          onPressed: () {
+            bleService.scanPolarDevices();
+            Get.back();
+            showModal();
+          },
+          style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  ColorConstants.ceruleanBlue)),
+          child: const Text('Try Again'),
+        )
+      ],
+    );
+  }
+
+  Future<void> showModal() {
+    return Get.bottomSheet(
       Material(
         elevation: 8,
         borderRadius: BorderRadius.circular(32),
@@ -114,58 +129,44 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   color: Colors.black26,
                   borderRadius: BorderRadius.circular(124)),
             ),
-            GetBuilder<PolarService>(
-              builder: (polarService) => SizedBox(
-                height: ThemeManager().screenHeight / 5,
+            SizedBox(
+                height: ThemeManager().screenHeight / 2,
                 width: ThemeManager().screenWidth,
                 child: FutureBuilder(
-                  future: polarService.detectedDevices.isEmpty
-                      ? Future.delayed(const Duration(seconds: 3))
-                      : null,
+                  future: Future.delayed(const Duration(seconds: 3)),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: Center(child: CircularProgressIndicator()),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Text('Error:${snapshot.error}'),
-                      );
-                    } else if (polarService.detectedDevices.isEmpty) {
-                      return const Center(
-                        child: Text(
-                            "Didn't see any device🫣,\nmake sure your device is turn on"),
-                      );
-                    } else {
-                      return ListView.builder(
-                        itemCount: polarService.detectedDevices.length,
-                        itemBuilder: (context, index) {
-                          return ListTile(
-                            leading: Image.asset(
-                              polarService.detectedDevices[index].deviceId,
-                              height: 50,
-                              width: 50,
-                            ),
-                            title: Text(
-                              polarService.detectedDevices[index].name,
-                              style: Theme.of(context).textTheme.displaySmall,
-                            ),
-                            subtitle: Row(
-                              children: [
-                                Text(
-                                  'ID :${polarService.detectedDevices[index].deviceId}',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                                Text(
-                                  ' RSSI : ${polarService.detectedDevices[index].rssi}',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                              ],
-                            ),
-                            trailing: Obx(
-                              () => bluetoothService.isConnectedDevice.value
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      if (bleService.detectedDevices.isEmpty) {
+                        return _noDevice();
+                      } else {
+                        return ListView.builder(
+                          itemCount: bleService.detectedDevices.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              leading: Image.asset(
+                                  bleService.detectedDevices[index].imageAsset),
+                              title: Text(
+                                bleService.detectedDevices[index].name,
+                                style: Theme.of(context).textTheme.displaySmall,
+                              ),
+                              subtitle: Row(
+                                children: [
+                                  Text(
+                                    'ID :${bleService.detectedDevices[index].deviceId}',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                  Text(
+                                    ' RSSI : ${bleService.detectedDevices[index].rssi}',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ],
+                              ),
+                              trailing: bleService.isConnectedDevice.value
                                   ? TextButton(
                                       style: ButtonStyle(
                                           foregroundColor:
@@ -176,9 +177,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                   ColorConstants.crimsonRed)),
                                       child: const Text('Disconnect'),
                                       onPressed: () {
-                                        polarService.disconnectDevice(
-                                            polarService.detectedDevices[index]
-                                                .deviceId);
+                                        bleService.disconnectDevice(bleService
+                                            .detectedDevices[index].deviceId);
                                         Get.back();
                                       },
                                     )
@@ -192,94 +192,64 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                   ColorConstants.ceruleanBlue)),
                                       child: const Text('Connect'),
                                       onPressed: () {
-                                        bluetoothService.getBluetoothStatus();
-                                        polarService.connectDevice(polarService
+                                        bleService.connectDevice(bleService
                                             .detectedDevices[index].deviceId);
                                         Get.back();
                                         Get.dialog(
-                                          Obx(
-                                            () => Center(
-                                                child: bluetoothService
-                                                            .isConnectedDevice
-                                                            .value ==
-                                                        false
-                                                    ? Dialog(
-                                                        child: SizedBox(
-                                                        height: 300,
-                                                        width: 150,
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                                'Connecting to',
-                                                                style: Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .bodyLarge),
-                                                            const SizedBox(
-                                                              height: 32,
-                                                            ),
-                                                            const CupertinoActivityIndicator(
-                                                              radius: 48,
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 32,
-                                                            ),
-                                                            Text(
-                                                                polarService
-                                                                    .detectedDevices[
-                                                                        index]
-                                                                    .name,
-                                                                style: Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .displaySmall),
-                                                            const SizedBox(
-                                                              height: 4,
-                                                            ),
-                                                            Text(
-                                                                'Device ID : ${polarService.detectedDevices[index].deviceId}',
-                                                                style: Theme.of(
-                                                                        context)
-                                                                    .textTheme
-                                                                    .bodyMedium),
-                                                          ],
-                                                        ),
-                                                      ))
-                                                    : FutureBuilder(
-                                                        future: Future.delayed(
-                                                            const Duration(
-                                                                seconds: 3),
-                                                            () {
-                                                          Get.back();
-                                                        }),
-                                                        builder: (context,
-                                                                snapshot) =>
-                                                            const Dialog(
-                                                                child: Text(
-                                                                    'Connected')),
-                                                      )),
-                                          ),
+                                          connecting(
+                                              deviceName: bleService
+                                                  .detectedDevices[index].name,
+                                              deviceId: bleService
+                                                  .detectedDevices[index]
+                                                  .deviceId),
                                           transitionCurve:
                                               Curves.easeInOutCubic,
                                         );
                                       },
                                     ),
-                            ),
-                            onTap: () {},
-                          );
-                        },
-                      );
+                            );
+                          },
+                        );
+                      }
                     }
+                    return SizedBox(
+                        height: ThemeManager().screenHeight / 2,
+                        width: ThemeManager().screenWidth,
+                        child: _noDevice());
                   },
-                ),
-              ),
-            ),
+                ))
           ],
         ),
       ),
     );
+  }
+
+  Dialog connecting({required String deviceName, required String deviceId}) {
+    return Dialog(
+        child: SizedBox(
+      height: 300,
+      width: 150,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Connecting to', style: Theme.of(context).textTheme.bodyLarge),
+          const SizedBox(
+            height: 32,
+          ),
+          const CupertinoActivityIndicator(
+            radius: 48,
+          ),
+          const SizedBox(
+            height: 32,
+          ),
+          Text(deviceName, style: Theme.of(context).textTheme.displaySmall),
+          const SizedBox(
+            height: 4,
+          ),
+          Text('Device ID : $deviceId',
+              style: Theme.of(context).textTheme.bodyMedium),
+        ],
+      ),
+    ));
   }
 }

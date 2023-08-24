@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/user_model.dart';
+import 'package:hatofit/app/services/bluetooth_service.dart';
+import 'package:hatofit/utils/debug_logger.dart';
 import 'package:hatofit/utils/image_utils.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../routes/app_routes.dart';
 import '../../../../services/internet_service.dart';
-import '../../../../services/polar_service.dart';
 import '../../../../services/preferences_service.dart';
 
 class LoginController extends GetxController {
@@ -21,6 +21,10 @@ class LoginController extends GetxController {
   final store = Get.find<PreferencesService>();
   @override
   void onInit() {
+    // TODO: remove in production
+    emailController.text = 'rh@mail.com';
+    passwordController.text = '12345678';
+    // TODO: remove in production
     super.onInit();
     videoPlayerController =
         VideoPlayerController.asset('assets/videos/login.mp4');
@@ -39,67 +43,59 @@ class LoginController extends GetxController {
     super.onClose();
   }
 
-  void login() {
-    final prefs = PreferencesService();
+  Future<void> login() async {
     FocusManager.instance.primaryFocus?.unfocus();
-    final  UserModel authModel =  UserModel(
+    final UserModel userModel = UserModel(
       email: emailController.text,
       password: passwordController.text,
     );
+    final perm = await BluetoothService().askPermission();
 
-    PolarService().polar.requestPermissions().then(
-          (value) => Permission.location.request().then(
-                (value) => Permission.storage.request().then(
-                  (value) async {
-                    try {
-                      final response =
-                          await InternetService().loginUser(authModel);
-                      final body = response.body;
-                      if (body['success'] == true) {
-                        final  UserModel user =
-                             UserModel.fromJson(body['user']);
+    if (formKey.currentState!.validate() && perm) {
+      try {
+        final response = await InternetService().loginUser(userModel);
+        final body = response.body;
 
-                        store.user = user;
-                        store.token = body['token'];
-                        if (user.photo!.isEmpty) {
-                          if (user.gender == 'male') {
-                            await ImageUtils.saveFromAsset(
-                                'assets/images/male.png');
-                          } else {
-                            await ImageUtils.saveFromAsset(
-                                'assets/images/female.png');
-                          }
-                        } else {
-                          ImageUtils.fromBase64(user.photo!);
-                        }
+        if (body['success'] == true) {
+          final UserModel user = UserModel.fromJson(body['user']);
 
-                        Get.snackbar(
-                          'Success',
-                          'Welcome back ${authModel.firstName}',
-                          backgroundColor: Colors.green,
-                          colorText: Colors.white,
-                        );
+          store.user = user;
+          store.token = body['token'];
+          logger.d('User: ${store.user!.toJson()}');
+          if (user.photo!.isEmpty || user.photo == null || user.photo == '') {
+            if (user.gender == 'male') {
+              ImageUtils.saveFromAsset('assets/images/avatar/male.png');
+            } else {
+              ImageUtils.saveFromAsset('assets/images/avatar/female.png');
+            }
+          } else {
+            ImageUtils.fromBase64(user.photo!);
+          }
 
-                        Get.offAllNamed(AppRoutes.dashboard);
-                      } else {
-                        Get.snackbar(
-                          'Error',
-                          body['message'],
-                          backgroundColor: Colors.red,
-                          colorText: Colors.white,
-                        );
-                      }
-                    } catch (error) {
-                      Get.snackbar(
-                        'Error',
-                        'An error occurred during the login process: HatoFit server is not responding',
-                        backgroundColor: Colors.red,
-                        colorText: Colors.white,
-                      );
-                    }
-                  },
-                ),
-              ),
+          Get.snackbar(
+            'Success',
+            'Welcome back ${user.firstName}',
+            backgroundColor: Colors.green,
+            colorText: Colors.white,
+          );
+
+          Get.offAllNamed(AppRoutes.dashboard);
+        } else {
+          Get.snackbar(
+            'Error',
+            body['message'],
+            backgroundColor: Colors.red,
+            colorText: Colors.white,
+          );
+        }
+      } catch (error) {
+        Get.snackbar(
+          'Error',
+          'An error occurred during the login process: HatoFit server is not responding',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
         );
+      }
+    }
   }
 }

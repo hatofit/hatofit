@@ -10,6 +10,7 @@ class RegisterPage extends GetView<RegisterController> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
@@ -41,14 +42,22 @@ class RegisterPage extends GetView<RegisterController> {
                         const SizedBox(height: 48),
                         Column(
                           children: [
-                            // profile image picker
                             InkWell(
                               onTap: () {
                                 controller.pickImage();
                               },
-                              child: SizedBox(
+                              child: Container(
                                 height: 150,
                                 width: 150,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    width: 3,
+                                    color: Get.isDarkMode
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
                                 child: Stack(
                                   fit: StackFit.expand,
                                   clipBehavior: Clip.none,
@@ -75,16 +84,19 @@ class RegisterPage extends GetView<RegisterController> {
                                             foregroundColor: Theme.of(context)
                                                 .iconTheme
                                                 .color,
-                                            shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(50)),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(50)),
                                               side: BorderSide(
-                                                color: Colors.transparent,
-                                                width: 3,
+                                                color: Get.isDarkMode
+                                                    ? Colors.white
+                                                    : Colors.black,
+                                                width: 2,
                                               ),
                                             ),
-                                            backgroundColor:
-                                                ColorConstants.crimsonRed,
+                                            backgroundColor: Theme.of(context)
+                                                .scaffoldBackgroundColor,
                                           ),
                                           onPressed: () {
                                             controller.pickImage();
@@ -105,7 +117,7 @@ class RegisterPage extends GetView<RegisterController> {
                               children: [
                                 _buildGenderItem(
                                   context,
-                                  'assets/images/male.png',
+                                  'assets/images/avatar/male.png',
                                   'male',
                                   ColorConstants.male,
                                 ),
@@ -114,13 +126,13 @@ class RegisterPage extends GetView<RegisterController> {
                                 ),
                                 _buildGenderItem(
                                   context,
-                                  'assets/images/female.png',
+                                  'assets/images/avatar/female.png',
                                   'female',
                                   ColorConstants.female,
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 48),
+                            const SizedBox(height: 38),
                             TextFormField(
                               controller: controller.firstNameController,
                               keyboardType: TextInputType.name,
