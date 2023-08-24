@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import 'package:hatofit/routes/app_pages.dart';
-import 'package:hatofit/routes/app_routes.dart';
-import 'package:hatofit/themes/app_theme.dart';
+import 'package:hatofit/app/routes/app_pages.dart';
+import 'package:hatofit/app/routes/app_routes.dart';
+import 'package:hatofit/app/services/internet_service.dart';
+import 'package:hatofit/app/services/preferences_service.dart';
+import 'package:hatofit/app/themes/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await dotenv.load(fileName: ".env");
+  await initServices();
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Hato Fit',
+      title: 'HatoFit',
       initialRoute: AppRoutes.splash,
       getPages: AppPages.list,
       theme: AppTheme.lightTheme,
@@ -19,4 +20,9 @@ void main() async {
       themeMode: ThemeMode.system,
     ),
   );
+}
+
+initServices() async {
+  await Get.putAsync(() => PreferencesService().init());
+  await Get.putAsync(() => InternetService().init());
 }
