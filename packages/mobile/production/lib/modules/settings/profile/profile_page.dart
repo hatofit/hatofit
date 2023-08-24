@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/modules/settings/profile/profile_controller.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
+import 'package:hatofit/modules/settings/profile/profile_controller.dart';
+import 'package:hatofit/themes/colors_constants.dart';
 
 class ProfilePage extends GetView<ProfileController> {
   const ProfilePage({Key? key}) : super(key: key);

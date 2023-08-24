@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/modules/dashboard/dashboard_controller.dart';
-import 'package:polar_hr_devices/modules/history/history_controller.dart';
-import 'package:polar_hr_devices/modules/home/home_controller.dart';
-import 'package:polar_hr_devices/modules/settings/setting_controller.dart';
-import 'package:polar_hr_devices/modules/workout/workout_controller.dart';
+import 'package:hatofit/modules/dashboard/dashboard_controller.dart';
+import 'package:hatofit/modules/history/history_controller.dart';
+import 'package:hatofit/modules/home/home_controller.dart';
+import 'package:hatofit/modules/settings/setting_controller.dart';
+import 'package:hatofit/modules/workout/workout_controller.dart';
 
 class DashboardBinding extends Bindings {
   @override

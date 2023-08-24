@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/modules/splash/firstTime/login/login_controller.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
-import 'package:polar_hr_devices/themes/app_theme.dart';
+import 'package:hatofit/modules/splash/firstTime/login/login_controller.dart';
+import 'package:hatofit/routes/app_routes.dart';
+import 'package:hatofit/themes/app_theme.dart';
 import 'package:video_player/video_player.dart';
 
 class LoginPage extends GetView<LoginController> {

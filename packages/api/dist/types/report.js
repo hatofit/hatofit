@@ -42,7 +42,8 @@ exports.ReportDevicesSchema = zod_1.z.array(zod_1.z.object({
 exports.ReportItemsType = zod_1.z.union([exports.ReportTypeHRSchema, exports.ReportTypeEcgSchema, exports.ReportTypeGyroSchema, exports.ReportTypeAccSchema]);
 exports.ReportItemsSchema = zod_1.z.array(exports.ReportItemsType);
 exports.ReportSchema = zod_1.z.object({
-    exerciseId: zod_1.z.string(),
+    // string or null undefined
+    exerciseId: zod_1.z.string().nullable(),
     sessionId: zod_1.z.string(),
     startTime: zod_1.z.number(),
     endTime: zod_1.z.number(),

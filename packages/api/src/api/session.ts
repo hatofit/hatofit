@@ -47,24 +47,30 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
         })
       }
       // validate exercise
+      const withoutExercise = req.body?.withoutExercise ?? false
       const exerciseId = req.body?.exerciseId
-      if (!exerciseId || typeof exerciseId !== 'string' || exerciseId.length === 0) {
-        return res.json({
-          success: false,
-          message: 'Invalid exerciseId',
-        })
+      if (withoutExercise !== true) {
+        if (!exerciseId || typeof exerciseId !== 'string' || exerciseId.length === 0) {
+          return res.json({
+            success: false,
+            message: 'Invalid exerciseId',
+          })
+        }
       }
       // validate input
       const session = SessionSchema.parse(req.body)
 
       // get
       // get exercise
-      const exercise = await Exercise.findById(exerciseId)
-      if (!exercise) {
-        return res.json({
-          success: false,
-          message: 'Exercise not found',
-        })
+      let exercise
+      if (withoutExercise !== true) {
+        exercise = await Exercise.findById(exerciseId)
+        if (!exercise) {
+          return res.json({
+            success: false,
+            message: 'Exercise not found',
+          })
+        }
       }
       // get user
       const user = await User.findById(userId)
@@ -81,6 +87,7 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
         _id: new mongoose.Types.ObjectId().toHexString(),
         userId: user._id,
         exercise,
+        withoutExercise,
       })
 
       // resposne

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/models/auth_model.dart';
+import 'package:hatofit/models/auth_model.dart';
 
 import '../../../utils/preferences_provider.dart';
 

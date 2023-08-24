@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/modules/settings/device_integration/device_integration_controller.dart';
-import 'package:polar_hr_devices/services/bluetooth_service.dart';
-import 'package:polar_hr_devices/services/polar_service.dart';
-import 'package:polar_hr_devices/themes/app_theme.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
+import 'package:hatofit/modules/settings/device_integration/device_integration_controller.dart';
+import 'package:hatofit/services/bluetooth_service.dart';
+import 'package:hatofit/services/polar_service.dart';
+import 'package:hatofit/themes/app_theme.dart';
+import 'package:hatofit/themes/colors_constants.dart';
 
 class DeviceIntegrationPage extends GetView<DeviceIntegrationController> {
   const DeviceIntegrationPage({super.key});

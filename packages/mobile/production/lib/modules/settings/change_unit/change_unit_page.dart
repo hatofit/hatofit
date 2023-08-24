@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/modules/settings/change_unit/change_unit_controller.dart';
+import 'package:hatofit/routes/app_routes.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
-import 'package:polar_hr_devices/modules/settings/change_unit/change_unit_controller.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
 
 class ChangeUnitPage extends GetView<ChangeUnitController> {
   const ChangeUnitPage({super.key});

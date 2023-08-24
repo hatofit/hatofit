@@ -1,10 +1,9 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
-import 'package:fl_chart/fl_chart.dart';
-
-import 'package:polar_hr_devices/widget/icon_wrapper.dart';
+import 'package:hatofit/themes/colors_constants.dart';
+import 'package:hatofit/widget/icon_wrapper.dart';
 
 class StepsChartWidget extends StatelessWidget {
   final double width;

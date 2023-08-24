@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/models/exercise_model.dart';
+import 'package:hatofit/modules/workout/workout_detail/workout_details_controller.dart';
+import 'package:hatofit/routes/app_routes.dart';
+import 'package:hatofit/themes/colors_constants.dart';
 import 'package:lottie/lottie.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
-import 'package:polar_hr_devices/models/exercise_model.dart';
-import 'package:polar_hr_devices/modules/workout/workout_detail/workout_details_controller.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
 
 class WorkoutDetailsPage extends GetView<WorkoutDetailsController> {
   final ExerciseModel workout;

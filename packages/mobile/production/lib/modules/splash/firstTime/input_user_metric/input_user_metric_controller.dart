@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/models/auth_model.dart';
+import 'package:hatofit/services/internet_service.dart';
+import 'package:hatofit/services/polar_service.dart';
+import 'package:hatofit/themes/app_theme.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:polar_hr_devices/models/auth_model.dart';
-import 'package:polar_hr_devices/services/internet_service.dart';
-import 'package:polar_hr_devices/services/polar_service.dart';
-import 'package:polar_hr_devices/themes/app_theme.dart';
 
 import '../../../../routes/app_routes.dart';
 import '../../../../utils/image_utils.dart';

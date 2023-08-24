@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/modules/settings/setting_controller.dart';
+import 'package:hatofit/modules/settings/setting_controller.dart';
 
 class SettingBinding extends Bindings {
   @override

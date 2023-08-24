@@ -3,9 +3,9 @@ import 'dart:isolate';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/models/session_model.dart';
-import 'package:polar_hr_devices/services/polar_service.dart';
-import 'package:polar_hr_devices/services/storage_service.dart';
+import 'package:hatofit/models/session_model.dart';
+import 'package:hatofit/services/polar_service.dart';
+import 'package:hatofit/services/storage_service.dart';
 
 import '../../services/internet_service.dart';
 

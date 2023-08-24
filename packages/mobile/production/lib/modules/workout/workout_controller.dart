@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:hatofit/models/exercise_model.dart';
+import 'package:hatofit/routes/app_routes.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:polar_hr_devices/models/exercise_model.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
 
 class WorkoutController extends GetxController {
   final String title = 'Workout';

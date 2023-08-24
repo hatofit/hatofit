@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
+import 'package:hatofit/themes/colors_constants.dart';
 
 class DayWidget extends StatelessWidget {
   final String day;

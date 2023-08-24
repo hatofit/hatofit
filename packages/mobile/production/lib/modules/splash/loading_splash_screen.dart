@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
-import 'package:polar_hr_devices/utils/preferences_provider.dart';
-import 'package:polar_hr_devices/services/storage_service.dart';
-import 'package:polar_hr_devices/themes/app_theme.dart';
+import 'package:hatofit/routes/app_routes.dart';
+import 'package:hatofit/services/storage_service.dart';
+import 'package:hatofit/themes/app_theme.dart';
+import 'package:hatofit/utils/preferences_provider.dart';
 
 class LoadingSplashScreen extends StatelessWidget {
   const LoadingSplashScreen({super.key});

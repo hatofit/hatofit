@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
-import 'package:polar_hr_devices/modules/splash/firstTime/register/register_controller.dart';
+import 'package:hatofit/modules/splash/firstTime/register/register_controller.dart';
+import 'package:hatofit/themes/colors_constants.dart';
 
 class RegisterPage extends GetView<RegisterController> {
   const RegisterPage({super.key});

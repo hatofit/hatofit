@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/modules/home/home_controller.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
-import 'package:polar_hr_devices/services/polar_service.dart';
-import 'package:polar_hr_devices/themes/app_theme.dart';
-import 'package:polar_hr_devices/widget/home/hr_lines_chart.dart';
-import 'package:polar_hr_devices/widget/home/bmi_chart_widget.dart';
-import 'package:polar_hr_devices/widget/home/calories_chart_widget.dart';
-import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
-import 'package:polar_hr_devices/widget/home/goal_widget.dart';
-import 'package:polar_hr_devices/widget/home/sleeps_info_widget.dart';
-import 'package:polar_hr_devices/widget/home/steps_chart_widget.dart';
-import 'package:polar_hr_devices/widget/icon_wrapper.dart';
-import 'package:polar_hr_devices/widget/home/mood_picker_widget.dart';
+import 'package:hatofit/modules/home/home_controller.dart';
+import 'package:hatofit/services/polar_service.dart';
+import 'package:hatofit/themes/app_theme.dart';
+import 'package:hatofit/themes/colors_constants.dart';
+import 'package:hatofit/widget/appBar/custom_app_bar.dart';
+import 'package:hatofit/widget/home/bmi_chart_widget.dart';
+import 'package:hatofit/widget/home/calories_chart_widget.dart';
+import 'package:hatofit/widget/home/goal_widget.dart';
+import 'package:hatofit/widget/home/hr_lines_chart.dart';
+import 'package:hatofit/widget/home/mood_picker_widget.dart';
+import 'package:hatofit/widget/home/sleeps_info_widget.dart';
+import 'package:hatofit/widget/home/steps_chart_widget.dart';
+import 'package:hatofit/widget/icon_wrapper.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({Key? key}) : super(key: key);

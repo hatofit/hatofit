@@ -1,12 +1,13 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/models/session_model.dart';
+import 'package:hatofit/services/internet_service.dart';
+import 'package:hatofit/services/storage_service.dart';
+import 'package:hatofit/themes/app_theme.dart';
+import 'package:hatofit/themes/colors_constants.dart';
 import 'package:polar/polar.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
-import 'package:polar_hr_devices/models/session_model.dart';
-import 'package:polar_hr_devices/services/internet_service.dart';
-import 'package:polar_hr_devices/services/storage_service.dart';
-import 'package:polar_hr_devices/themes/app_theme.dart';
 
 const Map<String, String> _deviceImageList = {
   'Polar H10': 'assets/images/polar/polar-h10.webp',

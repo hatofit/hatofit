@@ -1,6 +1,5 @@
-import Flutter
-import PolarBleSdk
 import UIKit
+import Flutter
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -12,4 +11,3 @@ import UIKit
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
-

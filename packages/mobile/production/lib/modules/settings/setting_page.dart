@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
-import 'package:polar_hr_devices/modules/settings/setting_controller.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
-import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
-import 'package:polar_hr_devices/widget/setting/setting_list_tile_widget.dart';
+import 'package:hatofit/modules/settings/setting_controller.dart';
+import 'package:hatofit/routes/app_routes.dart';
+import 'package:hatofit/themes/colors_constants.dart';
+import 'package:hatofit/widget/appBar/custom_app_bar.dart';
+import 'package:hatofit/widget/setting/setting_list_tile_widget.dart';
 
 class SettingPage extends GetView<SettingController> {
   const SettingPage({Key? key}) : super(key: key);
@@ -60,7 +60,7 @@ class SettingPage extends GetView<SettingController> {
                                 color: Colors.white,
                                 image: DecorationImage(
                                   image: FileImage(File(
-                                      '/storage/emulated/0/Android/data/com.example.polar_hr_devices/files/photo-profile.jpg')),
+                                      '/storage/emulated/0/Android/data/com.example.hatofit/files/photo-profile.jpg')),
                                   fit: BoxFit.cover,
                                 ),
                               ),

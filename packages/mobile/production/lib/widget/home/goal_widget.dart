@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/services/bluetooth_service.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
+import 'package:hatofit/routes/app_routes.dart';
+import 'package:hatofit/services/bluetooth_service.dart';
+import 'package:hatofit/themes/colors_constants.dart';
 
 class GoalWidget extends StatelessWidget {
   final double width;
@@ -36,13 +36,15 @@ class GoalWidget extends StatelessWidget {
                   width: width * 0.85,
                   child: TextButton(
                     onPressed: () {
-                      if(_bCon.isConnectedDevice.value == true){
-                      Get.toNamed(AppRoutes.freeWorkout);}
-                      else{
-                        Get.snackbar('No Device Connected', 'Please connect to a device to start a workout',
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Colors.white,
-                        colorText: Colors.black,
+                      if (_bCon.isConnectedDevice.value == true) {
+                        Get.toNamed(AppRoutes.freeWorkout);
+                      } else {
+                        Get.snackbar(
+                          'No Device Connected',
+                          'Please connect to a device to start a workout',
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Colors.white,
+                          colorText: Colors.black,
                         );
                       }
                     },

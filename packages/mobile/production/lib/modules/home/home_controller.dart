@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
+import 'package:hatofit/utils/preferences_provider.dart';
 import 'package:intl/intl.dart';
-import 'package:polar_hr_devices/utils/preferences_provider.dart';
 
 class HomeController extends GetxController {
   final _prefs = PreferencesProvider();

@@ -89,6 +89,7 @@ const SessionSchema = new Schema(
         ],
       },
     ],
+    withoutExercise: Boolean,
   },
   {
     typeKey: "$type",

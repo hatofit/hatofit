@@ -1,11 +1,10 @@
-name: polar_hr_devices
-description: A new Flutter project.
-publish_to: "none"
-
+name: hatofit
 version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
 
 environment:
-  sdk: ">=3.0.2 <4.0.0"
+  sdk: ">=3.1.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -32,6 +31,7 @@ dependencies:
   image: ^4.0.17
   # UI
   flutter_svg: ^2.0.7
+  flutter_neumorphic_plus: ^3.3.0
   lottie: ^2.4.0
   fl_chart: ^0.63.0
   syncfusion_flutter_charts: ^21.2.6

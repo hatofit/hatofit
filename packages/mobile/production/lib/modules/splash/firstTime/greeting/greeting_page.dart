@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
-import 'package:polar_hr_devices/themes/app_theme.dart';
+import 'package:hatofit/routes/app_routes.dart';
+import 'package:hatofit/themes/app_theme.dart';
 
 class GreetingPage extends StatelessWidget {
   const GreetingPage({super.key});

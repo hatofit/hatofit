@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
+import 'package:flutter/material.dart';
+import 'package:hatofit/themes/colors_constants.dart';
 
 class HrLinesChart extends StatefulWidget {
   HrLinesChart({super.key});

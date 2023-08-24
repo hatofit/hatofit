@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
-import 'package:polar_hr_devices/services/bluetooth_service.dart';
-import 'package:polar_hr_devices/services/polar_service.dart';
-import 'package:polar_hr_devices/themes/app_theme.dart';
+import 'package:hatofit/services/bluetooth_service.dart';
+import 'package:hatofit/services/polar_service.dart';
+import 'package:hatofit/themes/app_theme.dart';
+import 'package:hatofit/themes/colors_constants.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;

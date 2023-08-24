@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/models/exercise_model.dart';
-import 'package:polar_hr_devices/modules/workout/workout_controller.dart';
-import 'package:polar_hr_devices/services/internet_service.dart';
-import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
+import 'package:hatofit/models/exercise_model.dart';
+import 'package:hatofit/modules/workout/workout_controller.dart';
+import 'package:hatofit/services/internet_service.dart';
+import 'package:hatofit/widget/appBar/custom_app_bar.dart';
 
 class WorkoutPage extends GetView<WorkoutController> {
   const WorkoutPage({super.key});

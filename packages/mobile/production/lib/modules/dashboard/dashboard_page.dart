@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/modules/dashboard/dashboard_controller.dart';
-import 'package:polar_hr_devices/modules/history/history_page.dart';
-import 'package:polar_hr_devices/modules/home/home_page.dart';
-import 'package:polar_hr_devices/modules/settings/setting_page.dart';
-import 'package:polar_hr_devices/modules/workout/workout_page.dart';
+import 'package:hatofit/modules/dashboard/dashboard_controller.dart';
+import 'package:hatofit/modules/history/history_page.dart';
+import 'package:hatofit/modules/home/home_page.dart';
+import 'package:hatofit/modules/settings/setting_page.dart';
+import 'package:hatofit/modules/workout/workout_page.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});

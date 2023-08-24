@@ -2,10 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/models/auth_model.dart';
-import 'package:polar_hr_devices/models/exercise_model.dart';
-import 'package:polar_hr_devices/utils/preferences_provider.dart';
-import 'package:polar_hr_devices/services/storage_service.dart';
+import 'package:hatofit/models/auth_model.dart';
+import 'package:hatofit/models/exercise_model.dart';
+import 'package:hatofit/services/storage_service.dart';
+import 'package:hatofit/utils/preferences_provider.dart';
 
 class InternetService {
   final _getConnect = GetConnect();

@@ -1,6 +1,6 @@
 
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/services/internet_service.dart';
+import 'package:hatofit/services/internet_service.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HistoryDetailController extends GetxController {

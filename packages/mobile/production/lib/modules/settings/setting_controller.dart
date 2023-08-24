@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
+import 'package:hatofit/routes/app_routes.dart';
 
 import '../../utils/preferences_provider.dart';
 

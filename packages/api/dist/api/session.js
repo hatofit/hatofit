@@ -51,7 +51,7 @@ const ApiSession = ({ route }) => {
         }
     }));
     route.post('/session', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        var _c, _d, _e;
+        var _c, _d, _e, _f, _g;
         console.log('DATA BODY', req.body);
         try {
             // validate user
@@ -63,23 +63,29 @@ const ApiSession = ({ route }) => {
                 });
             }
             // validate exercise
-            const exerciseId = (_e = req.body) === null || _e === void 0 ? void 0 : _e.exerciseId;
-            if (!exerciseId || typeof exerciseId !== 'string' || exerciseId.length === 0) {
-                return res.json({
-                    success: false,
-                    message: 'Invalid exerciseId',
-                });
+            const withoutExercise = (_f = (_e = req.body) === null || _e === void 0 ? void 0 : _e.withoutExercise) !== null && _f !== void 0 ? _f : false;
+            const exerciseId = (_g = req.body) === null || _g === void 0 ? void 0 : _g.exerciseId;
+            if (withoutExercise !== true) {
+                if (!exerciseId || typeof exerciseId !== 'string' || exerciseId.length === 0) {
+                    return res.json({
+                        success: false,
+                        message: 'Invalid exerciseId',
+                    });
+                }
             }
             // validate input
             const session = session_1.SessionSchema.parse(req.body);
             // get
             // get exercise
-            const exercise = yield db_1.Exercise.findById(exerciseId);
-            if (!exercise) {
-                return res.json({
-                    success: false,
-                    message: 'Exercise not found',
-                });
+            let exercise;
+            if (withoutExercise !== true) {
+                exercise = yield db_1.Exercise.findById(exerciseId);
+                if (!exercise) {
+                    return res.json({
+                        success: false,
+                        message: 'Exercise not found',
+                    });
+                }
             }
             // get user
             const user = yield db_1.User.findById(userId);
@@ -90,7 +96,8 @@ const ApiSession = ({ route }) => {
                 });
             }
             // save to db
-            const created = yield db_1.Session.create(Object.assign(Object.assign({}, session), { _id: new mongoose_1.default.Types.ObjectId().toHexString(), userId: user._id, exercise }));
+            const created = yield db_1.Session.create(Object.assign(Object.assign({}, session), { _id: new mongoose_1.default.Types.ObjectId().toHexString(), userId: user._id, exercise,
+                withoutExercise }));
             // resposne
             return res.json({
                 success: true,

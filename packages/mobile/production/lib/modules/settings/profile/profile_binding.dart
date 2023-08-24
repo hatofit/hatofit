@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/modules/settings/profile/profile_controller.dart';
+import 'package:hatofit/modules/settings/profile/profile_controller.dart';
 
 class ProfileBinding extends Bindings {
   @override

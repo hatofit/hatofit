@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:polar_hr_devices/modules/history/detail_page/history_detail_controller.dart';
-import 'package:polar_hr_devices/services/internet_service.dart';
+import 'package:hatofit/modules/history/detail_page/history_detail_controller.dart';
+import 'package:hatofit/services/internet_service.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HistoryDetailPage extends GetView<HistoryDetailController> {

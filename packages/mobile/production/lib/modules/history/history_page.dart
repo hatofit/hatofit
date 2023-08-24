@@ -2,10 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
-import 'package:polar_hr_devices/themes/app_theme.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
-import 'package:polar_hr_devices/widget/appBar/custom_app_bar.dart';
+import 'package:hatofit/routes/app_routes.dart';
+import 'package:hatofit/themes/app_theme.dart';
+import 'package:hatofit/themes/colors_constants.dart';
+import 'package:hatofit/widget/appBar/custom_app_bar.dart';
 
 import 'history_controller.dart';
 

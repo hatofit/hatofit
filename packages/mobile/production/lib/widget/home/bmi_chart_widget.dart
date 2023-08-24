@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/themes/colors_constants.dart';
-
-import 'package:polar_hr_devices/widget/icon_wrapper.dart';
+import 'package:hatofit/themes/colors_constants.dart';
+import 'package:hatofit/widget/icon_wrapper.dart';
 
 class BMIChartWidget extends StatelessWidget {
   final double width;

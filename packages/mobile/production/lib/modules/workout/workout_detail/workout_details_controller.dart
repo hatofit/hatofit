@@ -2,10 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/models/exercise_model.dart';
+import 'package:hatofit/themes/app_theme.dart';
 import 'package:lottie/lottie.dart';
-import 'package:polar_hr_devices/models/exercise_model.dart';
-import 'package:polar_hr_devices/themes/app_theme.dart';
-
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class WorkoutDetailsController extends GetxController
@@ -83,7 +82,8 @@ class WorkoutDetailsController extends GetxController
                   ),
                   Expanded(
                     child: Container(
-                      padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                      padding:
+                          const EdgeInsets.only(top: 16, left: 16, right: 16),
                       child: TabBarView(controller: _tabController, children: [
                         if (instruction.content!.image.endsWith('json'))
                           Lottie.network(instruction.content!.image,
@@ -112,7 +112,7 @@ class WorkoutDetailsController extends GetxController
                   ),
                   Container(
                     padding: const EdgeInsets.all(16),
-                    height: ThemeManager ( ).screenHeight * 0.4,
+                    height: ThemeManager().screenHeight * 0.4,
                     child: Column(
                       children: [
                         Text(instruction.name!,

@@ -1,9 +1,9 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/models/exercise_model.dart';
-import 'package:polar_hr_devices/modules/history/history_controller.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
-import 'package:polar_hr_devices/services/polar_service.dart';
+import 'package:hatofit/models/exercise_model.dart';
+import 'package:hatofit/modules/history/history_controller.dart';
+import 'package:hatofit/routes/app_routes.dart';
+import 'package:hatofit/services/polar_service.dart';
 
 class WorkoutStartController extends GetxController {
   final workout = Get.arguments as ExerciseModel;
@@ -36,7 +36,7 @@ class WorkoutStartController extends GetxController {
   @override
   void onInit() {
     _polarService.isStartWorkout.value = true;
-    _polarService.starWorkout(workout.id, workout.duration ,'EMPTY');
+    _polarService.starWorkout(workout.id, workout.duration, 'EMPTY');
     super.onInit();
   }
 }

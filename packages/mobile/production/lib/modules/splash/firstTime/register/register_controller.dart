@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:polar_hr_devices/models/auth_model.dart';
-import 'package:polar_hr_devices/routes/app_routes.dart';
-import 'package:polar_hr_devices/utils/image_utils.dart';
+import 'package:hatofit/models/auth_model.dart';
+import 'package:hatofit/routes/app_routes.dart';
+import 'package:hatofit/utils/image_utils.dart';
 
 class RegisterController extends GetxController {
   final formKey = GlobalKey<FormState>();
