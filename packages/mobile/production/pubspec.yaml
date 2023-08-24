@@ -66,8 +66,8 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/logo/image.png"
-  min_sdk_android: 21
+  image_path: "assets/images/icons/hatofit.png"
+  min_sdk_android: 28
 
 flutter:
   uses-material-design: true
