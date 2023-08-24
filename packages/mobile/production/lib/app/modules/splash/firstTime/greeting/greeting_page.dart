@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
-import 'package:hatofit/app/themes/app_theme.dart';
 
 class GreetingPage extends StatelessWidget {
   const GreetingPage({super.key});
@@ -14,11 +13,11 @@ class GreetingPage extends StatelessWidget {
         children: [
           Align(
             alignment: Alignment.topLeft,
-            child: Image.asset('assets/images/mesh-up-min.png'),
+            child: Image.asset('assets/images/mesh-up.png'),
           ),
           Align(
             alignment: Alignment.bottomRight,
-            child: Image.asset('assets/images/mesh-down-min.png'),
+            child: Image.asset('assets/images/mesh-down.png'),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,38 +27,19 @@ class GreetingPage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 64),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/logo/image.png',
-                          width: 84,
-                        ),
-                        const SizedBox(width: 10),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/logo/title.png',
-                              width: 166,
-                              // block asset image with black color
-                              color: ThemeManager().isDarkMode
-                                  ? Colors.grey[100]
-                                  : null,
-                            ),
-                            const SizedBox(height: 10),
-                            Image.asset(
-                              'assets/images/logo/subtitle.png',
-                              width: 166,
-                            ),
-                          ],
-                        ),
-                      ],
+                    child: Image.asset(
+                      Get.isDarkMode
+                          ? 'assets/images/logo/dark.png'
+                          : 'assets/images/logo/light.png',
+                      width: Get.width * 0.75,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 48),
-                    child: SvgPicture.asset('assets/images/hero.svg'),
+                    child: SvgPicture.asset(
+                      'assets/images/hero.svg',
+                      width: Get.width * 0.75,
+                    ),
                   ),
                 ],
               ),
@@ -67,15 +47,17 @@ class GreetingPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    padding: const EdgeInsets.symmetric(horizontal: 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Healthy life,\nhappy life.\nGo Healthy!',
-                            style: Theme.of(context).textTheme.displayLarge),
+                        Text(
+                          'Healthy life,\nhappy heart.',
+                          style: Theme.of(context).textTheme.displayLarge,
+                        ),
                         const SizedBox(height: 8),
                         Text(
-                          'Elevate your workout experience with HatoFit today.',
+                          'A fitness app that listens to your heart.',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],

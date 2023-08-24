@@ -84,7 +84,10 @@ class HomePage extends GetView<HomeController> {
                                 Row(
                                   children: [
                                     Text(
-                                      polarService.heartRate.value,
+                                      polarService.heartRate.value == 0
+                                          ? '--'
+                                          : polarService.heartRate.value
+                                              .toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .displayLarge,

@@ -9,14 +9,10 @@ import 'package:hatofit/app/themes/colors_constants.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
-  final bool showSearchBar;
   final bool isSubPage;
-  final Color screenColor;
   const CustomAppBar({
     this.title = '',
     this.isSubPage = false,
-    this.showSearchBar = false,
-    this.screenColor = Colors.transparent,
     Key? key,
   }) : super(key: key);
   @override
@@ -45,10 +41,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
     });
     polarService.polar.deviceDisconnected.listen((event) {
       polarService.connectedDeviceId = 'Device disconnected';
-      polarService.heartRate.value = '--';
+
       bluetoothService.isConnectedDevice.value = false;
       debugPrint(
-          'Device disconnected from ${event.deviceId} ${bluetoothService.isConnectedDevice.value}');
+          'Device disconnected from ${event.info.deviceId} ${bluetoothService.isConnectedDevice.value}');
     });
   }
 
@@ -148,22 +144,22 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         itemBuilder: (context, index) {
                           return ListTile(
                             leading: Image.asset(
-                              polarService.detectedDevices[index]['imageURL'],
+                              polarService.detectedDevices[index].deviceId,
                               height: 50,
                               width: 50,
                             ),
                             title: Text(
-                              polarService.detectedDevices[index]['name'],
+                              polarService.detectedDevices[index].name,
                               style: Theme.of(context).textTheme.displaySmall,
                             ),
                             subtitle: Row(
                               children: [
                                 Text(
-                                  'ID :${polarService.detectedDevices[index]['deviceId']}',
+                                  'ID :${polarService.detectedDevices[index].deviceId}',
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                                 Text(
-                                  ' RSSI : ${polarService.detectedDevices[index]['rssi']}',
+                                  ' RSSI : ${polarService.detectedDevices[index].rssi}',
                                   style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ],
@@ -182,7 +178,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                       onPressed: () {
                                         polarService.disconnectDevice(
                                             polarService.detectedDevices[index]
-                                                ['deviceId']);
+                                                .deviceId);
                                         Get.back();
                                       },
                                     )
@@ -197,9 +193,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                       child: const Text('Connect'),
                                       onPressed: () {
                                         bluetoothService.getBluetoothStatus();
-                                        polarService.connectDevice(
-                                            polarService.detectedDevices[index]
-                                                ['deviceId']);
+                                        polarService.connectDevice(polarService
+                                            .detectedDevices[index].deviceId);
                                         Get.back();
                                         Get.dialog(
                                           Obx(
@@ -233,7 +228,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                               height: 32,
                                                             ),
                                                             Text(
-                                                                '${polarService.detectedDevices[index]['name']}',
+                                                                polarService
+                                                                    .detectedDevices[
+                                                                        index]
+                                                                    .name,
                                                                 style: Theme.of(
                                                                         context)
                                                                     .textTheme
@@ -242,7 +240,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                                                               height: 4,
                                                             ),
                                                             Text(
-                                                                'Device ID : ${polarService.detectedDevices[index]['deviceId']}',
+                                                                'Device ID : ${polarService.detectedDevices[index].deviceId}',
                                                                 style: Theme.of(
                                                                         context)
                                                                     .textTheme

@@ -6,9 +6,9 @@ import 'package:hatofit/app/services/polar_service.dart';
 import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../../../utils/image_utils.dart';
-import '../../../../services/preferences_service.dart';
-import '../../../../routes/app_routes.dart';
+import '../../../../../../utils/image_utils.dart';
+import '../../../../../services/preferences_service.dart';
+import '../../../../../routes/app_routes.dart';
 
 class InputUserMetricController extends GetxController {
   final UserModel previousData = Get.arguments;
@@ -44,7 +44,6 @@ class InputUserMetricController extends GetxController {
   }
 
   void register() async {
-    final prefs = PreferencesService();
     await Get.defaultDialog(
       title: 'Permission',
       middleText:

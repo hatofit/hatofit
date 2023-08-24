@@ -10,11 +10,9 @@ import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:polar/polar.dart';
 
-import '../../constants/polar_name.dart';
-
 class PolarService extends GetxController {
   final _polar = Polar();
-  final heartRate = '0'.obs;
+  final heartRate = Rx<int>(0);
   final _connectedDeviceId = 'No Device'.obs;
   final detectedDevices = <PolarDevice>[].obs;
 
@@ -38,6 +36,7 @@ class PolarService extends GetxController {
     timelines: [],
     data: [],
   ).obs;
+
   @override
   void onReady() {
     scanPolarDevices();
@@ -48,6 +47,43 @@ class PolarService extends GetxController {
   void onClose() {
     _streamCancelation();
     super.onClose();
+  }
+
+  void connectDevice(String deviceId) {
+    final connectFuture = _polar.connectToDevice(deviceId);
+    final deviceConnectedFuture = _polar.deviceConnected.first;
+
+    Future.wait([connectFuture, deviceConnectedFuture])
+        .timeout(const Duration(seconds: 3))
+        .then((_) {
+      streamWhenReady(deviceId);
+      Get.back();
+      Get.snackbar('Success', 'Yeay... Berhasil connect',
+          colorText: ThemeManager().isDarkMode ? Colors.white : Colors.black,
+          backgroundColor: ThemeManager().isDarkMode
+              ? ColorConstants.darkContainer.withOpacity(0.9)
+              : ColorConstants.lightContainer.withOpacity(0.9));
+    }).catchError((error) {
+      _polar.disconnectFromDevice(deviceId);
+      Get.back();
+      Get.snackbar('Error', 'Waduh... Reconnect lagi',
+          colorText: ThemeManager().isDarkMode ? Colors.white : Colors.black,
+          backgroundColor: ThemeManager().isDarkMode
+              ? ColorConstants.darkContainer.withOpacity(0.9)
+              : ColorConstants.lightContainer.withOpacity(0.9));
+    });
+  }
+
+  void disconnectDevice(String deviceId) {
+    _streamCancelation();
+    _polar.disconnectFromDevice(deviceId);
+    _polar.deviceDisconnected.last;
+  }
+
+  Future<void> _streamCancelation() async {
+    for (var element in _availableSubscriptions) {
+      await element.cancel();
+    }
   }
 
   void starWorkout(
@@ -109,7 +145,7 @@ class PolarService extends GetxController {
     if (availableTypes.contains(PolarDataType.hr)) {
       StreamSubscription hrSubscription =
           _polar.startHrStreaming(deviceId).listen((hrData) {
-        heartRate.value = hrData.samples.last.hr.toString();
+        heartRate.value = hrData.samples.last.hr;
 
         if (isStartWorkout.value == true) {
           bool hasHrDevice = _currentSecondDataItem.devices
@@ -286,86 +322,42 @@ class PolarService extends GetxController {
     }
   }
 
-  // sacan detected _polar devices
   void scanPolarDevices() {
-    _polar.searchForDevice().listen((event) {
-      bool isAlreadyDetected = detectedDevices
-          .any((detectedDevice) => detectedDevice.deviceId == event.deviceId);
-      if (!isAlreadyDetected) {
-        String nameReplace = '';
-        String imageURLReplace = '';
-        deviceImageList.forEach((name, imageURL) {
-          if (event.name.contains('Sense')) {
-            nameReplace = name;
-            imageURLReplace = imageURL;
-          } else {
-            nameReplace = name;
-            imageURLReplace = imageURL;
-          }
-        });
-        detectedDevices.add(
-          PolarDevice(
-            name: nameReplace,
-            address: event.address,
-            deviceId: event.deviceId,
-            rssi: event.rssi,
-            isConnectable: event.isConnectable,
-            imageAsset: imageURLReplace,
-          ),
+    _polar.searchForDevice().listen(
+      (event) {
+        String? nameReplace;
+        String? imageAsset;
+        final bool isDetected = detectedDevices.any(
+          (element) => element.deviceId == event.deviceId,
         );
-      }
-      update();
-    });
-  }
-
-  void connectDevice(String deviceId) {
-    final connectFuture = _polar.connectToDevice(deviceId);
-    final deviceConnectedFuture = _polar.deviceConnected.first;
-
-    // Wait for either connection or timeout
-    Future.wait([connectFuture, deviceConnectedFuture])
-        .timeout(const Duration(seconds: 10)) // Set the timeout duration
-        .then((_) {
-      streamWhenReady(deviceId);
-      Get.back();
-      Get.snackbar('Success', 'Yeay... Berhasil connect',
-          colorText: ThemeManager().isDarkMode ? Colors.white : Colors.black,
-          backgroundColor: ThemeManager().isDarkMode
-              ? ColorConstants.darkContainer.withOpacity(0.9)
-              : ColorConstants.lightContainer.withOpacity(0.9));
-    }).catchError((error) {
-      _polar.disconnectFromDevice(deviceId);
-      Get.back();
-      Get.snackbar('Error', 'Waduh... Reconnect lagi',
-          colorText: ThemeManager().isDarkMode ? Colors.white : Colors.black,
-          backgroundColor: ThemeManager().isDarkMode
-              ? ColorConstants.darkContainer.withOpacity(0.9)
-              : ColorConstants.lightContainer.withOpacity(0.9));
-    });
-  }
-
-  // disconnect from _polar device by device id
-  void disconnectDevice(String deviceId) {
-    _streamCancelation();
-    _polar.disconnectFromDevice(deviceId);
-    _polar.deviceDisconnected.last;
-  }
-
-  // void streamResume() {
-  //   for (var element in _availableSubscriptions) {
-  //     element.resume();
-  //   }
-  // }
-
-  // void streamPause() {
-  //   for (var element in _availableSubscriptions) {
-  //     element.pause();
-  //   }
-  // }
-
-  Future<void> _streamCancelation() async {
-    for (var element in _availableSubscriptions) {
-      await element.cancel();
-    }
+        if (!isDetected) {
+          if (event.name.contains('H10')) {
+            nameReplace = 'Polar H10';
+            imageAsset = 'assets/images/polar/polar-h10.webp';
+          } else if (event.name.contains('OH1')) {
+            nameReplace = 'Polar OH1';
+            imageAsset = 'assets/images/polar/polar-oh1.webp';
+          } else if (event.name.contains('H9')) {
+            nameReplace = 'Polar H9';
+            imageAsset = 'assets/images/polar/polar-h9.webp';
+          } else if (event.name.contains('Sense')) {
+            nameReplace = 'Polar Verity Sense';
+            imageAsset = 'assets/images/polar/polar-verity-sense.webp';
+          }
+          nameReplace ??= event.name;
+          imageAsset ??= 'assets/images/polar/polar-h10.webp';
+          detectedDevices.add(
+            PolarDevice(
+              name: nameReplace,
+              address: event.address,
+              deviceId: event.deviceId,
+              rssi: event.rssi,
+              imageAsset: imageAsset,
+              isConnectable: event.isConnectable,
+            ),
+          );
+        }
+      },
+    );
   }
 }

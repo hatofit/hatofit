@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hatofit/app/modules/splash/firstTime/input_user_metric/input_user_metric_controller.dart';
 import 'package:horizontal_picker/horizontal_picker.dart';
+
+import 'input_user_metric_controller.dart';
 
 class InputUserMetricPage extends GetView<InputUserMetricController> {
   const InputUserMetricPage({super.key});

@@ -38,8 +38,8 @@ class FreeWorkoutPage extends StatelessWidget {
         child: ListView(
           children: [
             Obx(() {
-              fWCon.add(DateTime.now().millisecondsSinceEpoch,
-                  int.parse(pCon.heartRate.value));
+              fWCon.add(
+                  DateTime.now().millisecondsSinceEpoch, pCon.heartRate.value);
               if (fWCon.hrList.length % 2 == 0) {
                 fWCon.calcHr();
               }

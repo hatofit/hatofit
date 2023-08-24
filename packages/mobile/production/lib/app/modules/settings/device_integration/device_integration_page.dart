@@ -60,22 +60,22 @@ class DeviceIntegrationPage extends GetView<DeviceIntegrationController> {
                       itemBuilder: (context, index) {
                         return ListTile(
                           leading: Image.asset(
-                            polarService.detectedDevices[index]['imageURL'],
+                            polarService.detectedDevices[index].imageAsset,
                             height: 50,
                             width: 50,
                           ),
                           title: Text(
-                            polarService.detectedDevices[index]['name'],
+                            polarService.detectedDevices[index].name,
                             style: Theme.of(context).textTheme.displaySmall,
                           ),
                           subtitle: Row(
                             children: [
                               Text(
-                                'ID :${polarService.detectedDevices[index]['deviceId']}',
+                                'ID :${polarService.detectedDevices[index].deviceId}',
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                               Text(
-                                ' RSSI : ${polarService.detectedDevices[index]['rssi']}',
+                                ' RSSI : ${polarService.detectedDevices[index].rssi} dBm',
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                             ],
@@ -93,7 +93,7 @@ class DeviceIntegrationPage extends GetView<DeviceIntegrationController> {
                                     child: const Text('Disconnect'),
                                     onPressed: () {
                                       polarService.disconnectDevice(polarService
-                                          .detectedDevices[index]['deviceId']);
+                                          .detectedDevices[index].deviceId);
                                       Get.back();
                                     },
                                   )
@@ -109,7 +109,7 @@ class DeviceIntegrationPage extends GetView<DeviceIntegrationController> {
                                     onPressed: () {
                                       bluetoothService.getBluetoothStatus();
                                       polarService.connectDevice(polarService
-                                          .detectedDevices[index]['deviceId']);
+                                          .detectedDevices[index].deviceId);
                                       Get.back();
                                       Get.dialog(
                                         Obx(
@@ -142,7 +142,10 @@ class DeviceIntegrationPage extends GetView<DeviceIntegrationController> {
                                                             height: 32,
                                                           ),
                                                           Text(
-                                                              '${polarService.detectedDevices[index]['name']}',
+                                                              polarService
+                                                                  .detectedDevices[
+                                                                      index]
+                                                                  .name,
                                                               style: Theme.of(
                                                                       context)
                                                                   .textTheme
@@ -151,7 +154,7 @@ class DeviceIntegrationPage extends GetView<DeviceIntegrationController> {
                                                             height: 4,
                                                           ),
                                                           Text(
-                                                              'Device ID : ${polarService.detectedDevices[index]['deviceId']}',
+                                                              'Device ID : ${polarService.detectedDevices[index].deviceId}',
                                                               style: Theme.of(
                                                                       context)
                                                                   .textTheme
