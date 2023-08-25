@@ -7,45 +7,65 @@ import 'package:get/get.dart';
 import 'package:hatofit/app/models/session_model.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
+import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/services/storage_service.dart';
 import 'package:hatofit/utils/debug_logger.dart';
+import 'package:hatofit/utils/hr_zone.dart';
 import 'package:intl/intl.dart';
-
-import '../../../services/internet_service.dart';
+import 'package:vibration/vibration.dart';
 
 class FreeWorkoutController extends GetxController {
   final BluetoothService bleService = Get.find<BluetoothService>();
   final int _startTime = DateTime.now().microsecondsSinceEpoch;
   final title = 'Free Workout';
   final List<Map<String, dynamic>> hrList = [];
-
-  String findElapsed() {
-    final DateTime startTime =
-        DateTime.fromMicrosecondsSinceEpoch(hrList.first['time']);
-    final DateTime endTime =
-        DateTime.fromMicrosecondsSinceEpoch(hrList.last['time']);
-    final Duration elapsed = endTime.difference(startTime);
-    return elapsed.toString().split('.')[0];
-  }
+  final sessionDataItem = <SessionDataItem>[];
+  HrZoneType? hrZoneType;
 
   @override
   void onInit() {
     hrList.clear();
-    bleService.sesionValue.clear();
     bleService.isStartWorkout.value = true;
+    bleService.sesionValue.clear();
+    Vibration.vibrate(duration: 500);
+    Future.delayed(const Duration(seconds: 3), () {
+      startWorkout();
+    });
     super.onInit();
   }
 
   @override
   void onClose() {
     hrList.clear();
+    bleService.isStartWorkout.value = false;
     bleService.sesionValue.clear();
-    bleService.isStartWorkout.value = true;
-    savePrompt();
     super.onClose();
   }
 
-  final sessionDataItem = <SessionDataItem>[];
+  void userZone(int hr) {
+    final HrZoneType nowZone = HrZoneutils().findZone(hr);
+    if (hrZoneType != nowZone) {
+      hrZoneType = nowZone;
+      Future.delayed(const Duration(seconds: 1), () {
+        Vibration.vibrate(duration: 1000);
+        Get.snackbar(
+          'Zone',
+          icon: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.grey[200],
+            ),
+            child: hrZoneType!.image,
+          ),
+          hrZoneType!.name,
+          backgroundColor: hrZoneType!.color,
+        );
+      });
+      Future.delayed(const Duration(milliseconds: 1500), () {
+        Vibration.vibrate(duration: 1000);
+      });
+    }
+  }
 
   startWorkout() {
     int counter = 0;
@@ -58,65 +78,29 @@ class FreeWorkoutController extends GetxController {
           timeStamp: DateTime.now().microsecondsSinceEpoch,
           devices: bleService.sesionValue,
         ));
+        logger.d(sessionDataItem.length);
+        bleService.sesionValue.clear();
+        counter++;
       }
-      bleService.sesionValue.clear();
-      counter++;
     });
   }
 
-  void savePrompt() {
-    // getData();
-    final TextEditingController titleController = TextEditingController();
-    Get.defaultDialog(
-      title: 'Save Workout',
-      content: Column(
-        children: [
-          const Text('Save Workout?'),
-          const SizedBox(height: 16),
-          TextField(
-            controller: titleController,
-            decoration: const InputDecoration(
-              labelText: 'Title',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  Get.offNamed('/');
-                },
-                child: const Text('No'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  SessionModel session = SessionModel(
-                    exerciseId: null,
-                    startTime: _startTime,
-                    endTime: DateTime.now().microsecondsSinceEpoch,
-                    timelines: [],
-                    data: sessionDataItem,
-                  );
-                  final DateTime strtTime =
-                      DateTime.fromMicrosecondsSinceEpoch(_startTime);
-                  final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
-                  final String formatted = formatter.format(strtTime);
-                  logger.i(session);
-                  StorageService().saveToJSON(
-                      'session/raw/$formatted-${null}-${titleController.text}',
-                      session);
-                  InternetService().postSession(session);
-                  Get.offNamed('/');
-                },
-                child: const Text('Yes'),
-              ),
-            ],
-          ),
-        ],
-      ),
+  void saveWorkout(String title) {
+    SessionModel session = SessionModel(
+      exerciseId: title,
+      startTime: _startTime,
+      endTime: DateTime.now().microsecondsSinceEpoch,
+      timelines: [],
+      data: sessionDataItem,
     );
+    final DateTime strtTime = DateTime.fromMicrosecondsSinceEpoch(_startTime);
+    final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
+    final String formatted = formatter.format(strtTime);
+    logger.i(session);
+    StorageService()
+        .saveToJSON('session/raw/$formatted-$title', session);
+    InternetService().postSession(session);
+    Get.offAllNamed(AppRoutes.dashboard);
   }
 
   void add(int time, int hr) {
@@ -140,6 +124,8 @@ class FreeWorkoutController extends GetxController {
       },
     );
   }
+
+
 }
 
 class HrStats {

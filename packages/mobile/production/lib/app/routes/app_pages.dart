@@ -22,6 +22,7 @@ import 'package:hatofit/app/modules/splash/firstTime/register/register_binding.d
 import 'package:hatofit/app/modules/splash/firstTime/register/register_page.dart';
 import 'package:hatofit/app/modules/splash/loading_splash_screen.dart';
 import 'package:hatofit/app/modules/workout/free_workout/free_workout_binding.dart';
+import 'package:hatofit/app/modules/workout/free_workout/view/pick_wo_type.dart';
 import 'package:hatofit/app/modules/workout/workout_detail/workout_details_binding.dart';
 import 'package:hatofit/app/modules/workout/workout_detail/workout_details_page.dart';
 import 'package:hatofit/app/modules/workout/workout_page.dart';
@@ -98,6 +99,11 @@ class AppPages {
       name: AppRoutes.freeWorkout,
       page: () => const FreeWorkoutPage(),
       binding: FreeWorkoutBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: AppRoutes.pickWoType,
+      page: () => const PickWoType(),
       transition: Transition.cupertino,
     ),
     GetPage(

@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:hatofit/app/modules/history/detail_page/history_detail_controller.dart';
 import 'package:hatofit/app/services/internet_service.dart';
+import 'package:hatofit/utils/debug_logger.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HistoryDetailPage extends GetView<HistoryDetailController> {
@@ -47,8 +48,8 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                       .reduce((a, b) => a > b ? a : b);
                   final exercise =
                       snapshot.data?['exercise'] as Map<String, dynamic>;
-                  debugPrint("===***===\n"
-                      "exercise : $exercise\n"
+                  logger.i("===***===\n"
+                      "exercise : ${snapshot.data}\n"
                       "===***===\n");
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,19 +58,12 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                         padding: const EdgeInsets.symmetric(horizontal: 48),
                         child: Column(
                           children: [
-                            Text(
-                              '${exercise['name']}',
-                              style: Theme.of(context).textTheme.displaySmall,
-                            ),
                             const SizedBox(
                               height: 8,
                             ),
                             Text(
                               '${exercise['name']}',
                               style: Theme.of(context).textTheme.displaySmall,
-                            ),
-                            const SizedBox(
-                              height: 8,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

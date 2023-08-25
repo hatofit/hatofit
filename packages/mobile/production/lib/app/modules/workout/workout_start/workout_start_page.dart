@@ -20,8 +20,9 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
     final WorkoutDetailsController workoutDetailsController =
         Get.find<WorkoutDetailsController>();
     final BluetoothService bleService = Get.find<BluetoothService>();
-    return Obx(
-      () => Scaffold(
+    return Obx(() {
+      controller.userZone(bleService.heartRate.value);
+      return Scaffold(
         appBar: AppBar(
             title: workout.instructions[controller.nowInstruction.value].type ==
                     'rest'
@@ -251,7 +252,7 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
             ),
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 }

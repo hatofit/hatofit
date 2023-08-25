@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/exercise_model.dart';
+import 'package:hatofit/app/models/session_model.dart';
 import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/app/services/storage_service.dart';
@@ -22,15 +23,18 @@ class InternetService extends GetConnect {
   static const String _register = '/auth/register';
   static const String _login = '/auth/login';
 
-  Future postSession(dynamic body) async {
-    logger.d('Post Session\n$body\n/${_base + _sesion}}\n token:$token');
+  Future postSession(SessionModel body) async {
+    logger.d(
+        'Post Session\n$body\n/${_base + _sesion}}\n token:$token\n\n${jsonEncode(body)}}');
+    final json = body.toJson();
+    json.removeWhere((key, value) => value == null);
     try {
       final response = await post(
         _base + _sesion,
-        jsonEncode(body),
+        jsonEncode(json),
         headers: {
           'Content-Type': 'application/json',
-          'Userorization': 'Bearer $token',
+          'Authorization': 'Bearer $token',
         },
       );
       if (response.statusCode == 200) {
@@ -71,7 +75,7 @@ class InternetService extends GetConnect {
       final response = await get(
         _base + _sesion,
         headers: {
-          'Userorization': 'Bearer $token',
+          'Authorization': 'Bearer $token',
         },
       );
       if (response.statusCode == 200) {

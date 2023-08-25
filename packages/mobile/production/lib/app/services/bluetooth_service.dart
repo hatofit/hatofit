@@ -8,6 +8,7 @@ import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
+import 'package:vibration/vibration.dart';
 
 import '../../utils/debug_logger.dart';
 import '../models/session_model.dart';
@@ -42,6 +43,8 @@ class BluetoothService extends GetxService {
         streamCancelation();
         _availableSubscriptions.clear();
         heartRate.value = 0;
+        // vibrate with pattern 1s - 0.5s - 1s
+        Vibration.vibrate(pattern: [1000, 500, 1000]);
       },
     );
     polar.deviceConnecting.listen(
@@ -62,6 +65,8 @@ class BluetoothService extends GetxService {
       (e) {
         isConnectedDevice.value = true;
         logger.i('Device connected : \n${e.toJson()}');
+        // vibrate with pattern 0.5s - 0.5s
+        Vibration.vibrate(pattern: [500, 500]);
       },
     );
     return this;

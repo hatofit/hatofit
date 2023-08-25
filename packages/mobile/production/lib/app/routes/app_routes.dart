@@ -7,11 +7,12 @@ abstract class AppRoutes {
 
   static const String dashboard = '/';
   static const String home = '/home';
-  static const String freeWorkout = '/freeWorkout';
 
   static const String workout = '/workout';
   static const String workoutDetail = '/workout/detail';
   static const String workoutStart = '/workout/start';
+  static const String freeWorkout = '/freeWorkout';
+  static const String pickWoType = '/freeWorkout/pickWoType';
 
   static const String history = '/history';
   static const String historyDetail = '/history/detail';

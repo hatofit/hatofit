@@ -1,11 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:hatofit/app/models/exercise_model.dart';
 import 'package:hatofit/app/modules/workout/workout_controller.dart';
-import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/widget/appBar/custom_app_bar.dart';
 
 class WorkoutPage extends GetView<WorkoutController> {
@@ -13,139 +9,107 @@ class WorkoutPage extends GetView<WorkoutController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: controller.title,
+      appBar: const CustomAppBar(
+        title: 'Workout',
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8),
-            child: Text(
-              'Today\'s Goal Workouts',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(
-              height: 150,
-              child: FutureBuilder(
-                future: InternetService().fetchExercises(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text('${snapshot.error}'),
-                    );
-                  } else if (snapshot.hasData) {
-                    var exercises = snapshot.data as List<ExerciseModel>;
-                    return SizedBox(
-                      height: 150,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: exercises.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              controller
-                                  .goToWorkoutDetail(snapshot.data![index]);
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.all(8.0),
-                              width: 200,
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.9),
-                                image: DecorationImage(
-                                    image: CachedNetworkImageProvider(
-                                        exercises[index].thumbnail),
-                                    fit: BoxFit.cover,
-                                    opacity: 0.4),
-                                borderRadius: BorderRadius.circular(8),
+      body: Padding(
+        padding: const EdgeInsets.only(
+          left: 8,
+          right: 8,
+          top: 16,
+        ),
+        child: RefreshIndicator(
+          onRefresh: () => controller.fetchExercises(),
+          child: GetBuilder(
+              init: controller,
+              builder: (_) {
+                return GridView.builder(
+                  itemCount: controller.listExercise.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 1.5,
+                  ),
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        controller
+                            .goToWorkoutDetail(controller.listExercise[index]);
+                      },
+                      child: Card(
+                        child: Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                height: Get.height * 0.2,
+                                width: Get.width * 0.5,
+                                imageUrl:
+                                    controller.listExercise[index].thumbnail,
+                                colorBlendMode: BlendMode.darken,
+                                color: Colors.black.withOpacity(0.5),
                               ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
                               child: Padding(
-                                padding: const EdgeInsets.all(16.0),
+                                padding: const EdgeInsets.only(left: 8),
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      exercises[index].name,
+                                      controller.listExercise[index].name,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .displaySmall
-                                          ?.copyWith(
-                                            color: Colors.white,
-                                          ),
-                                    ),
-                                    const SizedBox(
-                                      height: 8,
+                                          .headlineLarge,
                                     ),
                                     Row(
                                       children: [
                                         const Icon(
-                                          FontAwesomeIcons.dumbbell,
-                                          color: Colors.white,
-                                          size: 12,
+                                          Icons.fitness_center,
+                                          size: 16,
                                         ),
                                         const SizedBox(
-                                          width: 8,
+                                          width: 4,
                                         ),
                                         Text(
-                                          '${(exercises[index].instructions.length + 1) ~/ 2} sets',
+                                          '${controller.listExercise[index].instructions.length} sets',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodySmall
-                                              ?.copyWith(
-                                                color: Colors.white,
-                                              ),
+                                              .bodySmall,
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
                                     Row(
                                       children: [
                                         const Icon(
-                                          FontAwesomeIcons.clock,
-                                          color: Colors.white,
-                                          size: 12,
+                                          Icons.timer,
+                                          size: 16,
                                         ),
                                         const SizedBox(
-                                          width: 8,
+                                          width: 4,
                                         ),
                                         Text(
-                                          '${exercises[index].duration} sec',
+                                          '${controller.listExercise[index].duration} sec',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodySmall
-                                              ?.copyWith(
-                                                color: Colors.white,
-                                              ),
+                                              .bodySmall,
                                         ),
                                       ],
                                     ),
                                   ],
                                 ),
                               ),
-                            ),
-                          );
-                        },
+                            )
+                          ],
+                        ),
                       ),
                     );
-                  } else {
-                    return const Center(
-                        child: CupertinoActivityIndicator(
-                      radius: 16.0,
-                    ));
-                  }
-                },
-              )),
-          const Padding(
-            padding: EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 16),
-            child: Text(
-              'Top Collection Workouts',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
+                  },
+                );
+              }),
+        ),
       ),
     );
   }

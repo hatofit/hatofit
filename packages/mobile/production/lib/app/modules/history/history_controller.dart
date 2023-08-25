@@ -1,10 +1,18 @@
 import 'package:get/get.dart';
+import 'package:hatofit/utils/debug_logger.dart';
+import 'package:hatofit/utils/time_utils.dart';
 
 import '../../services/internet_service.dart';
 
 class HistoryController extends GetxController {
   final String title = 'History';
   final RxList<dynamic> historyData = [].obs;
+
+  String duration(int f, int e) {
+    final duration = TimeUtils.elapsed(f, e);
+
+    return duration;
+  }
 
   @override
   void onInit() {
@@ -15,6 +23,7 @@ class HistoryController extends GetxController {
   Future<List<dynamic>> fetchHistory() async {
     List<dynamic> data = await InternetService().fetchHistory();
     historyData.value = data;
+    update();
     return data;
   }
 
