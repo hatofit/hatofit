@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/controller/bluetooth_controller.dart';
+import 'package:intl/intl.dart';
 import 'package:polar/polar.dart';
 
 import '../constants/style.dart';
@@ -24,6 +26,8 @@ class PolarController extends GetxController {
 
   StreamController<PolarDeviceInfo?> searchStream =
       StreamController<PolarDeviceInfo?>();
+
+  set interval(interval) {}
   Stream<PolarDeviceInfo?> searchForDevice() {
     _polar.searchForDevice().listen((event) {
       searchStream.add(event);
@@ -51,12 +55,32 @@ class PolarController extends GetxController {
     }
   }
 
+  int counter = 0;
+  bool shouldSave = true;
+
+  void recordWithInterval() {
+    Timer.periodic(const Duration(minutes: 1), (timer) {
+      final DateTime now = DateTime.now();
+      final int currentMinute = now.minute;
+
+      if (shouldSave) {
+        DateFormat formatter = DateFormat('yyyy-MM-dd');
+        final String formatted = formatter.format(now);
+        calcCon.saveData(streamingModel[0], formatted, 0, currentMinute);
+        counter++;
+      }
+      shouldSave = !shouldSave;
+      streamingModel.clear();
+      newStreamingModel();
+    });
+  }
+
   void connectToDevice(PolarDeviceInfo device) {
     _bleCon.device = BluetoothDevice.fromId(device.address);
     final connectFuture = _polar.connectToDevice(device.deviceId);
 
     Future.wait([connectFuture])
-        .timeout(const Duration(seconds: 10)) // Set the timeout duration
+        .timeout(const Duration(seconds: 3))
         .then((_) async {
       _connectedDevice = device;
       _bleCon.device!.connect();
@@ -86,31 +110,6 @@ class PolarController extends GetxController {
     );
     availableTypes = await _polar
         .getAvailableOnlineStreamDataTypes(_connectedDevice!.deviceId);
-    addStreamingModel(
-      StreamingModel(
-          phoneInfo: PhoneInfo(
-            os: phoneInfo['os']!,
-            manufacturer: phoneInfo['manufacturer']!,
-            type: phoneInfo['model']!,
-            deviceId: _bleCon.device!.id.toString(),
-            totalProcessors: 1,
-          ),
-          polarDeviceInfo: PolarDeviceInfo(
-            name: _connectedDevice!.name,
-            deviceId: _connectedDevice!.deviceId,
-            address: _connectedDevice!.address,
-            rssi: _connectedDevice!.rssi,
-            isConnectable: _connectedDevice!.isConnectable,
-          ),
-          hrData: [],
-          accData: [],
-          ppgData: [],
-          ppiData: [],
-          gyroData: [],
-          magnData: [],
-          ecgData: [],
-          rssiData: []),
-    );
 
     return availableTypes;
   }
@@ -243,8 +242,32 @@ class PolarController extends GetxController {
 
   List<StreamingModel> streamingModel = [];
 
-  void addStreamingModel(StreamingModel newModel) {
-    streamingModel.add(newModel);
+  void newStreamingModel() {
+    streamingModel.add(
+      StreamingModel(
+          phoneInfo: PhoneInfo(
+            os: phoneInfo['os']!,
+            manufacturer: phoneInfo['manufacturer']!,
+            type: phoneInfo['model']!,
+            deviceId: _bleCon.device!.id.toString(),
+            totalProcessors: 1,
+          ),
+          polarDeviceInfo: PolarDeviceInfo(
+            name: _connectedDevice!.name,
+            deviceId: _connectedDevice!.deviceId,
+            address: _connectedDevice!.address,
+            rssi: _connectedDevice!.rssi,
+            isConnectable: _connectedDevice!.isConnectable,
+          ),
+          hrData: [],
+          accData: [],
+          ppgData: [],
+          ppiData: [],
+          gyroData: [],
+          magnData: [],
+          ecgData: [],
+          rssiData: []),
+    );
   }
 
   void addHrData(HrData newHrData, int index) {
@@ -275,13 +298,13 @@ class PolarController extends GetxController {
     streamingModel[index].ecgData.add(nED);
   }
 
-  // final hrStream = false.obs;
-  // final accStream = false.obs;
-  // final ppgStream = false.obs;
-  // final ppiStream = false.obs;
-  // final gyroStream = false.obs;
-  // final magnStream = false.obs;
-  // final ecgStream = false.obs;
+  final hrStream = false.obs;
+  final accStream = false.obs;
+  final ppgStream = false.obs;
+  final ppiStream = false.obs;
+  final gyroStream = false.obs;
+  final magnStream = false.obs;
+  final ecgStream = false.obs;
 
   Future<Duration> elapsedTime(int startTime, int lastTime) async {
     final DateTime start = DateTime.fromMicrosecondsSinceEpoch(startTime);

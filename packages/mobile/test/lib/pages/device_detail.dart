@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,11 +18,8 @@ class DeviceDetail extends GetView<PolarController> {
 
   @override
   Widget build(BuildContext context) {
+    final interval = Get.arguments;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          onPressed: () => saveDialog(context),
-          backgroundColor: Colors.blue,
-          child: const Icon(Icons.download)),
       appBar: AppBar(
         title: const Text('Streaming Data'),
         centerTitle: true,
@@ -31,48 +29,50 @@ class DeviceDetail extends GetView<PolarController> {
           future: controller.getPolarType(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              // if (controller.hrStream.value == true) {
-              //   controller.startHrStream();
-              // }
-              // if (controller.accStream.value == true) {
-              //   controller.startAccStream();
-              // }
-              // if (controller.ppgStream.value == true) {
-              //   controller.startPpgStream();
-              // }
-              // if (controller.ppiStream.value == true) {
-              //   controller.startPpiStream();
-              // }
-              // if (controller.gyroStream.value == true) {
-              //   controller.startGyroStream();
-              // }
-              // if (controller.magnStream.value == true) {
-              //   controller.startMagnStream();
-              // }
-              // if (controller.ecgStream.value == true) {
-              //   controller.startEcgStream();
-              // }
-              if (snapshot.data!.contains(PolarDataType.hr)) {
+              controller.interval = interval;
+              if (controller.hrStream.value == true) {
                 controller.startHrStream();
+                controller.recordWithInterval();
               }
-              if (snapshot.data!.contains(PolarDataType.acc)) {
+              if (controller.accStream.value == true) {
                 controller.startAccStream();
               }
-              if (snapshot.data!.contains(PolarDataType.ppg)) {
+              if (controller.ppgStream.value == true) {
                 controller.startPpgStream();
               }
-              if (snapshot.data!.contains(PolarDataType.ppi)) {
+              if (controller.ppiStream.value == true) {
                 controller.startPpiStream();
               }
-              if (snapshot.data!.contains(PolarDataType.gyro)) {
+              if (controller.gyroStream.value == true) {
                 controller.startGyroStream();
               }
-              if (snapshot.data!.contains(PolarDataType.magnetometer)) {
+              if (controller.magnStream.value == true) {
                 controller.startMagnStream();
               }
-              if (snapshot.data!.contains(PolarDataType.ecg)) {
+              if (controller.ecgStream.value == true) {
                 controller.startEcgStream();
               }
+              // if (snapshot.data!.contains(PolarDataType.hr)) {
+              //   controller.startHrStream();
+              // }
+              // if (snapshot.data!.contains(PolarDataType.acc)) {
+              //   controller.startAccStream();
+              // }
+              // if (snapshot.data!.contains(PolarDataType.ppg)) {
+              //   controller.startPpgStream();
+              // }
+              // if (snapshot.data!.contains(PolarDataType.ppi)) {
+              //   controller.startPpiStream();
+              // }
+              // if (snapshot.data!.contains(PolarDataType.gyro)) {
+              //   controller.startGyroStream();
+              // }
+              // if (snapshot.data!.contains(PolarDataType.magnetometer)) {
+              //   controller.startMagnStream();
+              // }
+              // if (snapshot.data!.contains(PolarDataType.ecg)) {
+              //   controller.startEcgStream();
+              // }
               return Stack(
                 children: [
                   SingleChildScrollView(
@@ -83,34 +83,33 @@ class DeviceDetail extends GetView<PolarController> {
                         _buildPhoneInfo(),
                         _buildDeviceInfo(),
                         _buildRssiInfo(),
-                        // if (controller.hrStream.value == true &&
-                        //     snapshot.data!.contains(PolarDataType.hr))
-                        if (snapshot.data!.contains(PolarDataType.hr))
+                        if (controller.hrStream.value == true &&
+                            snapshot.data!.contains(PolarDataType.hr))
+                          // if (snapshot.data!.contains(PolarDataType.hr))
                           _buildHrInfo(),
-                        // if (controller.accStream.value == true &&
-                        //     snapshot.data!.contains(PolarDataType.acc))
-                        if (snapshot.data!.contains(PolarDataType.acc))
+                        if (controller.accStream.value == true &&
+                            snapshot.data!.contains(PolarDataType.acc))
+                          // if (snapshot.data!.contains(PolarDataType.acc))
                           _buildAccInfo(),
-                        // if (controller.ppgStream.value == true &&
-                        //     snapshot.data!.contains(PolarDataType.ppg))
-                        if (snapshot.data!.contains(PolarDataType.ppg))
+                        if (controller.ppgStream.value == true &&
+                            snapshot.data!.contains(PolarDataType.ppg))
+                          // if (snapshot.data!.contains(PolarDataType.ppg))
                           _buildPpgInfo(),
-                        // if (controller.ppiStream.value == true &&
-                        //     snapshot.data!.contains(PolarDataType.ppi))
-                        if (snapshot.data!.contains(PolarDataType.ppi))
+                        if (controller.ppiStream.value == true &&
+                            snapshot.data!.contains(PolarDataType.ppi))
+                          // if (snapshot.data!.contains(PolarDataType.ppi))
                           _buildPpiInfo(),
-                        // if (controller.gyroStream.value == true &&
-                        //     snapshot.data!.contains(PolarDataType.gyro))
-                        if (snapshot.data!.contains(PolarDataType.gyro))
+                        if (controller.gyroStream.value == true &&
+                            snapshot.data!.contains(PolarDataType.gyro))
+                          // if (snapshot.data!.contains(PolarDataType.gyro))
                           _buildGyroInfo(),
-                        // if (controller.magnStream.value == true &&
-                        //     snapshot.data!
-                        //         .contains(PolarDataType.magnetometer))
-                        if (snapshot.data!.contains(PolarDataType.magnetometer))
+                        if (controller.magnStream.value == true &&
+                            snapshot.data!.contains(PolarDataType.magnetometer))
+                          // if (snapshot.data!.contains(PolarDataType.magnetometer))
                           _buildMagnInfo(),
-                        // if (controller.ecgStream.value == true &&
-                        //     snapshot.data!.contains(PolarDataType.ecg))
-                        if (snapshot.data!.contains(PolarDataType.ecg))
+                        if (controller.ecgStream.value == true &&
+                            snapshot.data!.contains(PolarDataType.ecg))
+                          // if (snapshot.data!.contains(PolarDataType.ecg))
                           _buildEcgInfo(),
                       ],
                     ),
@@ -151,45 +150,6 @@ class DeviceDetail extends GetView<PolarController> {
         ),
       ),
     );
-  }
-
-  void saveDialog(BuildContext context) {
-    Get.dialog(
-      Dialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: controller.textEditingController,
-                decoration: const InputDecoration(
-                  labelText: 'Enter File Name',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  Get.back(result: controller.textEditingController.text);
-                },
-                child: const Text('Save'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    ).then((result) {
-      if (result != null) {
-        controller.calcCon
-            .saveData(controller.streamingModel[index], result, index);
-        controller.calcCon
-            .saveExcel(controller.streamingModel[index], result, index);
-      }
-    });
   }
 
   // Future _buildExpanded() {

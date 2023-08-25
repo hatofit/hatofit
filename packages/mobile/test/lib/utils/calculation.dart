@@ -532,12 +532,14 @@ void svToLocal(
       // MagnStats,
       // EcgStats,
       RootIsolateToken,
+      int distance,
     ) args) async {
   final RootIsolateToken iT = args.$4;
   BackgroundIsolateBinaryMessenger.ensureInitialized(iT);
   final SendPort sendPort = args.$1;
   final StreamingModel streamingModel = args.$2;
   final String name = args.$3;
+  final int distance = args.$5;
   // final HrStats hrStats = args.$4;
   // final AccStats accStats = args.$5;
   // final PpgStats ppgStats = args.$6;
@@ -572,10 +574,11 @@ void svToLocal(
     streamingModel.ecgData.length,
   ].reduce((curr, next) => curr > next ? curr : next);
 
-  csv.add(['Time Stamp', 'RSSI', '']);
+  csv.add(['Distance','Time Stamp', 'RSSI', '']);
   for (int i = 0; i < maxLength; i++) {
     if (i < streamingModel.hrData.length) {
       csv.add([
+        distance,
         DateTime.fromMicrosecondsSinceEpoch(
           streamingModel.rssiData[i].timestamp,
         ),
@@ -583,7 +586,7 @@ void svToLocal(
         '',
       ]);
     } else {
-      csv.add(['', '', '']);
+      csv.add(['', '', '', '']);
     }
   }
 

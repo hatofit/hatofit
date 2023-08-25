@@ -1,4 +1,5 @@
 import 'dart:isolate';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -231,7 +232,8 @@ class CalcCon extends GetxController {
     );
   }
 
-  Future<void> saveData(StreamingModel sm, String name, int index) async {
+  Future<void> saveData(
+      StreamingModel sm, String name, int index, int distance) async {
     RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
     final ReceivePort rp = ReceivePort();
     final Isolate i = await Isolate.spawn(
@@ -248,6 +250,7 @@ class CalcCon extends GetxController {
           // magnStats[index],
           // ecgStats[index],
           rootIsolateToken,
+          distance
         ),
         debugName: 'svToLocal');
     rp.listen(
