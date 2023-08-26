@@ -10,7 +10,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
 import 'package:vibration/vibration.dart';
 
-import '../../utils/debug_logger.dart';
 import '../models/session_model.dart';
 
 class BluetoothService extends GetxService {
@@ -27,14 +26,6 @@ class BluetoothService extends GetxService {
 
   final sesionValue = <SessionDataItemDevice>[];
 
-  // var sessMod = SessionModel(
-  //   exerciseId: 'BoilerPlating',
-  //   startTime: DateTime.now().microsecondsSinceEpoch,
-  //   endTime: 0,
-  //   timelines: [],
-  //   data: [],
-  // ).obs;
-
   Future<BluetoothService> init() async {
     getBluetoothStatus();
     polar.deviceDisconnected.listen(
@@ -47,26 +38,18 @@ class BluetoothService extends GetxService {
         Vibration.vibrate(pattern: [1000, 500, 1000]);
       },
     );
-    polar.deviceConnecting.listen(
-      (e) {
-        logger.i('Device connecting : \n${e.toJson()}');
-      },
-    );
     polar.batteryLevel.listen(
       (e) {
         PolarBatteryLevelEvent;
         detectedDevices
             .firstWhere((element) => element.deviceId == e.identifier)
             .battery = e.level;
-        logger.i('Battery level : \n${e.toString()}');
       },
     );
     polar.deviceConnected.listen(
       (e) {
         isConnectedDevice.value = true;
-        logger.i('Device connected : \n${e.toJson()}');
-        // vibrate with pattern 0.5s - 0.5s
-        Vibration.vibrate(pattern: [500, 500]);
+        Vibration.vibrate(pattern: [500, 0, 0, 500]);
       },
     );
     return this;
@@ -82,10 +65,7 @@ class BluetoothService extends GetxService {
     await polar.requestPermissions();
     await Permission.location.request();
     await Permission.storage.request();
-    final loc = await Permission.location.isGranted;
     final sto = await Permission.storage.isGranted;
-    logger.i('Permission location : $loc'
-        '\nPermission storage : $sto');
     return sto;
   }
 
@@ -107,10 +87,8 @@ class BluetoothService extends GetxService {
 
   void scanPolarDevices() {
     polar.requestPermissions();
-    logger.i('Scanning Polar devices...');
     polar.searchForDevice().listen(
       (event) {
-        logger.i('Device detected : \n${event.toJson()}');
         String? nameReplace;
         String? imageAsset;
         final bool isDetected = detectedDevices.any(
@@ -143,7 +121,6 @@ class BluetoothService extends GetxService {
             ),
           );
         }
-        logger.i('Device detected : \n${event.toJson()}');
       },
     );
   }
@@ -173,10 +150,10 @@ class BluetoothService extends GetxService {
     });
   }
 
-  void disconnectDevice(String deviceId) {
-    streamCancelation();
-    polar.disconnectFromDevice(deviceId);
-    polar.deviceDisconnected.last;
+  void disconnectDevice(String deviceId) async {
+    await streamCancelation();
+    await polar.disconnectFromDevice(deviceId);
+    await polar.deviceDisconnected.last;
   }
 
   Future<void> streamCancelation() async {

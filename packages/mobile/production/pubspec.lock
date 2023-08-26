@@ -861,10 +861,10 @@ packages:
     dependency: "direct main"
     description:
       name: polar
-      sha256: "221c61298c0132122a8858eb9a452507013ab11a4883591562624f731046936b"
+      sha256: "81b3ccd9ae58f1fbf2de5b26d47c34c08c439841f50cee6f4e80f6cc68ef4f82"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.1"
+    version: "5.2.1"
   pool:
     dependency: transitive
     description:

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:hatofit/utils/debug_logger.dart';
 import 'package:hatofit/utils/time_utils.dart';
 
 import '../../services/internet_service.dart';
@@ -9,23 +10,29 @@ class HistoryController extends GetxController {
 
   String duration(int f, int e) {
     final duration = TimeUtils.elapsed(f, e);
-
     return duration;
   }
 
   @override
-  void onInit() {
+  void onReady() {
     fetchHistory();
-    super.onInit();
+    super.onReady();
   }
 
   Future<List<dynamic>> fetchHistory() async {
     final res = await InternetService().fetchHistory();
     final data = res.body['sessions'];
-
+    logger.d(data);
     historyData.value = data;
     update();
     return data;
+  }
+
+ String dateToString(int time) {
+    final date = DateTime.fromMicrosecondsSinceEpoch(time);
+    // format date dd MMM yyyy HH:mm
+    final formattedDate = "${date.day} ${date.month} ${date.year} ${date.hour}:${date.minute}";
+    return formattedDate;
   }
 
   String dateConverter(String datetime) {

@@ -26,157 +26,170 @@ class HomePage extends GetView<HomeController> {
       appBar: CustomAppBar(
         title: 'Hi, ${store.user!.firstName!} 👋',
       ),
-      body: ListView(
-        children: [
-          Column(
-            children: [
-              Container(
-                height: ThemeManager().screenHeight * 0.32,
-                decoration: BoxDecoration(
-                  color: ThemeManager().isDarkMode
-                      ? ColorConstants.darkContainer
-                      : ColorConstants.lightContainer,
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(32),
-                    bottomRight: Radius.circular(32),
+      body: RefreshIndicator(
+        onRefresh: () {
+          controller.hrCharting();
+          controller.update();
+          return Future.delayed(const Duration(seconds: 1));
+        },
+        child: ListView(
+          children: [
+            Column(
+              children: [
+                Container(
+                  height: ThemeManager().screenHeight * 0.32,
+                  decoration: BoxDecoration(
+                    color: ThemeManager().isDarkMode
+                        ? ColorConstants.darkContainer
+                        : ColorConstants.lightContainer,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(32),
+                      bottomRight: Radius.circular(32),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16, bottom: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                const SizedBox(
+                                  width: 34,
+                                ),
+                                IconWrapper(
+                                    icon: Icons.favorite,
+                                    backgroundColor: ColorConstants.crimsonRed
+                                        .withOpacity(0.35),
+                                    iconColor: ColorConstants.crimsonRed),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Your',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                    Text(
+                                      'Heart Rate',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Row(
+                                  children: [
+                                    Obx(
+                                      () => Text(
+                                        bleService.heartRate.value == 0
+                                            ? '--'
+                                            : bleService.heartRate.value
+                                                .toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayLarge,
+                                      ),
+                                    ),
+                                    Text(
+                                      ' bpm',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  width: 34,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 164,
+                        child: GetBuilder(
+                            init: controller,
+                            builder: (context) {
+                              return HrLinesChart(hrData: controller.hrData!);
+                            }),
+                      )
+                    ],
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16, bottom: 16),
+                SizedBox(height: ThemeManager().screenHeight * 0.01),
+                Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: [
-                              const SizedBox(
-                                width: 34,
-                              ),
-                              IconWrapper(
-                                  icon: Icons.favorite,
-                                  backgroundColor: ColorConstants.crimsonRed
-                                      .withOpacity(0.35),
-                                  iconColor: ColorConstants.crimsonRed),
-                              const SizedBox(
-                                width: 12,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Your',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                  Text(
-                                    'Heart Rate',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayMedium,
-                                  ),
-                                ],
-                              ),
-                            ],
+                          Text(
+                            'Today Activity',
+                            style: Theme.of(context).textTheme.displaySmall,
                           ),
-                          Row(
-                            children: [
-                              Row(
-                                children: [
-                                  Obx(
-                                    () => Text(
-                                      bleService.heartRate.value == 0
-                                          ? '--'
-                                          : bleService.heartRate.value
-                                              .toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayLarge,
-                                    ),
-                                  ),
-                                  Text(
-                                    ' bpm',
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 34,
-                              ),
-                            ],
+                          Text(
+                            controller.formattedDate,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 164,
-                      child: HrLinesChart(data: controller.hrData),
-                    )
-                  ],
+                      )),
                 ),
-              ),
-              SizedBox(height: ThemeManager().screenHeight * 0.01),
-              Padding(
-                padding: const EdgeInsets.all(14),
-                child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                const MoodPickerWidget(),
+                SizedBox(height: ThemeManager().screenHeight * 0.01),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
                       children: [
-                        Text(
-                          'Today Activity',
-                          style: Theme.of(context).textTheme.displaySmall,
+                        CaloriesChartWidget(
+                          width: ThemeManager().screenWidth * 0.45,
+                          height: ThemeManager().screenHeight * 0.23,
                         ),
-                        Text(
-                          controller.formattedDate,
-                          style: Theme.of(context).textTheme.bodyMedium,
+                        SizedBox(height: ThemeManager().screenHeight * 0.01),
+                        BMIChartWidget(
+                          width: ThemeManager().screenWidth * 0.45,
+                          height: ThemeManager().screenHeight * 0.23,
                         ),
                       ],
-                    )),
-              ),
-              const MoodPickerWidget(),
-              SizedBox(height: ThemeManager().screenHeight * 0.01),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    children: [
-                      CaloriesChartWidget(
-                        width: ThemeManager().screenWidth * 0.45,
-                        height: ThemeManager().screenHeight * 0.23,
-                      ),
-                      SizedBox(height: ThemeManager().screenHeight * 0.01),
-                      BMIChartWidget(
-                        width: ThemeManager().screenWidth * 0.45,
-                        height: ThemeManager().screenHeight * 0.23,
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: ThemeManager().screenHeight * 0.01),
-                  Column(
-                    children: [
-                      GoalWidget(
-                        width: ThemeManager().screenWidth * 0.45,
-                        height: ThemeManager().screenHeight * 0.11,
-                      ),
-                      SizedBox(height: ThemeManager().screenHeight * 0.01),
-                      StepsChartWidget(
-                        width: ThemeManager().screenWidth * 0.45,
-                        height: ThemeManager().screenHeight * 0.23,
-                      ),
-                      SizedBox(height: ThemeManager().screenHeight * 0.01),
-                      SleepsInfoWidget(
-                        width: ThemeManager().screenWidth * 0.45,
-                        height: ThemeManager().screenHeight * 0.11,
-                      ),
-                    ],
-                  ),
-                ],
-              )
-            ],
-          ),
-        ],
+                    ),
+                    SizedBox(width: ThemeManager().screenHeight * 0.01),
+                    Column(
+                      children: [
+                        GoalWidget(
+                          width: ThemeManager().screenWidth * 0.45,
+                          height: ThemeManager().screenHeight * 0.11,
+                        ),
+                        SizedBox(height: ThemeManager().screenHeight * 0.01),
+                        StepsChartWidget(
+                          width: ThemeManager().screenWidth * 0.45,
+                          height: ThemeManager().screenHeight * 0.23,
+                        ),
+                        SizedBox(height: ThemeManager().screenHeight * 0.01),
+                        SleepsInfoWidget(
+                          width: ThemeManager().screenWidth * 0.45,
+                          height: ThemeManager().screenHeight * 0.11,
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -10,7 +10,6 @@ import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/services/storage_service.dart';
-import 'package:hatofit/utils/debug_logger.dart';
 import 'package:hatofit/utils/hr_zone.dart';
 import 'package:intl/intl.dart';
 import 'package:vibration/vibration.dart';
@@ -101,7 +100,6 @@ class WorkoutStartController extends GetxController {
           timeStamp: DateTime.now().microsecondsSinceEpoch,
           devices: bleService.sesionValue,
         ));
-        logger.d(sessionDataItem.length);
         bleService.sesionValue.clear();
         counter++;
       }
@@ -110,7 +108,6 @@ class WorkoutStartController extends GetxController {
 
   void saveWorkout(String title) {
     SessionModel session = SessionModel(
-      withoutExercise: false,
       exerciseId: title,
       startTime: _startTime,
       endTime: DateTime.now().microsecondsSinceEpoch,
@@ -120,7 +117,7 @@ class WorkoutStartController extends GetxController {
     final DateTime strtTime = DateTime.fromMicrosecondsSinceEpoch(_startTime);
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
     final String formatted = formatter.format(strtTime);
-    logger.i(session);
+
     StorageService().saveToJSON('session/raw/$formatted-$title', session);
     InternetService().postSession(session);
     Get.offAllNamed(AppRoutes.dashboard);

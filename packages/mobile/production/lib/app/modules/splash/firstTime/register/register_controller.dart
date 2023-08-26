@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
-import 'package:hatofit/utils/debug_logger.dart';
 import 'package:hatofit/utils/image_picker.dart';
 import 'package:hatofit/utils/image_utils.dart';
 
@@ -55,10 +54,8 @@ class RegisterController extends GetxController {
   void pickImage() async {
     final file = await CustomImagePicker.pickImage();
     if (file != null) {
-      logger.i('${'Register Controller\n' + file.path}\n$file');
       pickedImage.value = file;
       pickedImageBase64.value = await ImageUtils.toBase64(file);
-      logger.i('Register Controller\n${pickedImageBase64.value}');
     }
   }
 

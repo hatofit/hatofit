@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/modules/history/detail_page/history_detail_controller.dart';
 import 'package:hatofit/app/services/internet_service.dart';
-import 'package:hatofit/utils/debug_logger.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -48,9 +47,6 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                       .reduce((a, b) => a > b ? a : b);
                   final exercise =
                       snapshot.data?['exercise'] as Map<String, dynamic>;
-                  logger.i("===***===\n"
-                      "exercise : ${snapshot.data}\n"
-                      "===***===\n");
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

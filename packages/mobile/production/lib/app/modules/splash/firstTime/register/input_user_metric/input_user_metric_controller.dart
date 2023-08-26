@@ -74,7 +74,6 @@ class InputUserMetricController extends GetxController {
 
                   store.user = user;
                   store.token = body['token'];
-                  logger.d('User: ${store.user!.toJson()}');
                   if (user.photo!.isEmpty ||
                       user.photo == null ||
                       user.photo == '') {

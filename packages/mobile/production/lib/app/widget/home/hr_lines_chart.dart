@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 
 class HrLinesChart extends StatefulWidget {
-  HrLinesChart({super.key, required this.data});
-  final Map<String, double> data;
+  HrLinesChart({super.key, required this.hrData});
+  final Map<String, double> hrData;
   final Color barBackgroundColor = ColorConstants.crimsonRed.withOpacity(0.35);
   final Color barColor = ColorConstants.crimsonRed.withOpacity(0.5);
 
@@ -42,23 +42,11 @@ class HrLinesChartState extends State<HrLinesChart> {
     );
   }
 
-  List<BarChartGroupData> showingGroups() => List.generate(5, (i) {
-        switch (i) {
-          case 0:
-            return makeGroupData(0, 55);
-          case 1:
-            return makeGroupData(1, 60);
-          case 2:
-            return makeGroupData(2, 5);
-          case 3:
-            return makeGroupData(3, 7.5);
-          case 4:
-            return makeGroupData(4, 9);
-          default:
-            return throw Error();
-        }
+  List<BarChartGroupData> showingGroups() =>
+      // data from value widget.hrData not the key
+      List.generate(widget.hrData.length, (i) {
+        return makeGroupData(i, widget.hrData.values.toList()[i]);
       });
-
   BarChartData mainBarData() {
     return BarChartData(
       titlesData: FlTitlesData(
@@ -96,24 +84,43 @@ class HrLinesChartState extends State<HrLinesChart> {
       fontSize: 14,
     );
     Widget text;
+
     switch (value.toInt()) {
       case 0:
-        text = const Text('08:00', style: style);
+        text = Text(
+          widget.hrData.keys.toList()[0],
+          style: style,
+        );
         break;
       case 1:
-        text = const Text('08:15', style: style);
+        text = Text(
+          widget.hrData.keys.toList()[1],
+          style: style,
+        );
         break;
       case 2:
-        text = const Text('08:30', style: style);
+        text = Text(
+          widget.hrData.keys.toList()[2],
+          style: style,
+        );
         break;
       case 3:
-        text = const Text('08:45', style: style);
+        text = Text(
+          widget.hrData.keys.toList()[3],
+          style: style,
+        );
         break;
       case 4:
-        text = const Text('09:00', style: style);
+        text = Text(
+          widget.hrData.keys.toList()[4],
+          style: style,
+        );
         break;
       default:
-        text = const Text('', style: style);
+        text = Text(
+          widget.hrData.keys.toList()[0],
+          style: style,
+        );
         break;
     }
     return SideTitleWidget(

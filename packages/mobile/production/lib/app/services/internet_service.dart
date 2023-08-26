@@ -28,8 +28,10 @@ class InternetService extends GetConnect {
   static const String _login = '/auth/login';
 
   Future postSession(SessionModel body) async {
-    logger.d(
-        'Post Session\n$body\n/${_base + _sesion}}\n token:$token\n\n${jsonEncode(body)}}');
+    logger.i(body.toJson());
+    if (body.data.last.devices.last.value.isEmpty) {
+      return;
+    }
     final json = body.toJson();
     json.removeWhere((key, value) => value == null);
     try {
@@ -75,7 +77,6 @@ class InternetService extends GetConnect {
   }
 
   Future<Response> fetchHistory() async {
-    logger.e('Fetch History\n/${_base + _sesion}}\n token:$token');
     try {
       final response = await get(
         _base + _sesion,
@@ -85,7 +86,6 @@ class InternetService extends GetConnect {
       );
       if (response.statusCode == 200) {
         // final List<dynamic> jsonResponse = response.body['sessions'];
-        // logger.e('History:\n$jsonResponse');
         return response;
       } else {
         return response;
@@ -115,8 +115,6 @@ class InternetService extends GetConnect {
   Future<Response> registerUser(UserModel request) async {
     final bodyMap = request.toJson();
     bodyMap.removeWhere((key, value) => value == null);
-    logger.i(
-        'Register User\n$bodyMap\n/${_base + _register}} /n base:${httpClient.baseUrl}}');
     try {
       final response = await post(
         _base + _register,
@@ -132,8 +130,6 @@ class InternetService extends GetConnect {
   }
 
   Future<Response> loginUser(UserModel request) async {
-    logger.i(
-        'Login User\n$request\n/${_base + _login}} /n base:${httpClient.baseUrl}}');
     try {
       final response = await post(
         _base + _login,

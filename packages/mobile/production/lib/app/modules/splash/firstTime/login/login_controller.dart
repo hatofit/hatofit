@@ -50,19 +50,16 @@ class LoginController extends GetxController {
       password: passwordController.text,
     );
     final perm = await BluetoothService().askPermission();
-    logger.d('Login Controller:\n $perm\n');
     if (formKey.currentState!.validate() && perm) {
       try {
         final response = await InternetService().loginUser(userModel);
         final body = response.body;
-        logger.d('Login Controller:\n $body\n');
 
         if (body['success'] == true) {
           final UserModel user = UserModel.fromJson(body['user']);
 
           store.user = user;
           store.token = body['token'];
-          logger.d('User: ${store.user!.toJson()}');
           if (user.photo!.isEmpty || user.photo == null || user.photo == '') {
             if (user.gender == 'male') {
               ImageUtils.saveFromAsset('assets/images/avatar/male.png');

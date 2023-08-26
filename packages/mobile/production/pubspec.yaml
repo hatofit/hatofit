@@ -15,8 +15,8 @@ dependencies:
   font_awesome_flutter: ^10.4.0
 
   # BLE
-  polar: ^6.0.1
-  flutter_blue_plus: ^1.5.2
+  polar: ^5.2.1
+  flutter_blue_plus: ^1.8.5
 
   # State Management
   get: ^4.6.5

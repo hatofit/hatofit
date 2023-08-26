@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/app/modules/history/detail_page/history_detail_controller.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
@@ -47,6 +48,7 @@ class HistoryPage extends GetView<HistoryController> {
                         ),
                         child: InkWell(
                           onTap: () {
+                            Get.lazyPut(() => HistoryDetailController());
                             Get.toNamed(
                               AppRoutes.historyDetail,
                               arguments: controller.historyData[index]['_id'],
@@ -99,9 +101,9 @@ class HistoryPage extends GetView<HistoryController> {
                                               width: 8,
                                             ),
                                             Text(
-                                              controller.dateConverter(
+                                              controller.dateToString(
                                                   controller.historyData[index]
-                                                      ['createdAt']),
+                                                      ['endTime']),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyMedium,

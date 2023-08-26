@@ -13,42 +13,48 @@ class HomeController extends GetxController {
   final prov = Get.find<InternetService>();
   final report = [].obs;
 
-  final Map<String, double> hrData = {
-    '08:00': 120,
-    '09:00': 100,
-    '10:00': 80,
-    '11:00': 90,
-    '12:00': 100,
-  };
+  final Map<String, double>? hrData = {};
 
   @override
   void onInit() async {
-    historyList.value = await history.fetchHistory();
     hrCharting();
     super.onInit();
   }
 
+  @override
+  void onReady() {
+    hrCharting();
+    super.onReady();
+  }
+
   void hrCharting() async {
+    report.clear();
+    historyList.value = await history.fetchHistory();
+    logger.d(historyList.length);
+    Map<String, double> dummy = {};
     for (var item in historyList) {
-      logger.d(item);
-      final time = DateTime.fromMicrosecondsSinceEpoch(item['endTime']);
       final r = await prov.fetchReport(item['_id']);
       report.add(r);
     }
-    for (var item in report) {
-      if (item['report']['reports'].isEmpty) {
-        historyList.removeWhere((element) => element['_id'] == item['_id']);
-      }
-    }
-    report.removeWhere((element) => element['report']['reports'].isEmpty);
+    historyList.clear();
+    logger.d(report.length);
     if (report.length > 5) {
-      report.removeRange(5, report.length);
+      report.removeRange(0, report.length - 5);
+    }
+    final dateFormat = DateFormat('HH:mm');
+    for (var item in report) {
+      final reportData = item['report'];
+      final endTimeMicros = reportData['endTime'];
+      final date = DateTime.fromMicrosecondsSinceEpoch(endTimeMicros);
+      final formattedDate = dateFormat.format(date);
+      final hrValue = reportData['reports'][0]['data'][0]['value'] as List;
+      final avg = hrValue.map((entry) => entry[1]).reduce((a, b) => a + b) /
+          hrValue.length;
+      dummy[formattedDate] = avg;
     }
 
-    historyList.clear();
-    // assign new value to hrData from report
-    for (var item in report) {
-      // logger.d(item);
-    }
+    hrData!.clear();
+    hrData!.addAll(dummy);
+    update();
   }
 }
