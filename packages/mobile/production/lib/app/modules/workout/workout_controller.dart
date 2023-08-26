@@ -2,12 +2,11 @@ import 'package:get/get.dart';
 import 'package:hatofit/app/models/exercise_model.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/services/internet_service.dart';
-import 'package:hatofit/utils/debug_logger.dart';
 
 class WorkoutController extends GetxController {
   final listExercise = <ExerciseModel>[].obs;
   final prov = Get.find<InternetService>();
-  
+
   @override
   void onInit() {
     fetchExercises();
@@ -22,7 +21,7 @@ class WorkoutController extends GetxController {
     final list = await prov.fetchExercises();
     listExercise.value = list;
     listExercise.removeWhere((element) => element.type == '');
-    logger.d(listExercise);
+
     update();
     return list;
   }

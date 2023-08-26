@@ -1,12 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/constants/style.dart';
-import 'package:hatofit/routes/routes.dart';
+import 'package:polar/polar.dart';
 
 import '../controller/polar_controller.dart';
+import '../routes/routes.dart';
 
-class FindDevicesPage extends GetView<PolarController> {
+class FindDevicesPage extends StatefulWidget {
   const FindDevicesPage({super.key});
+
+  @override
+  State<FindDevicesPage> createState() => _FindDevicesPageState();
+}
+
+class _FindDevicesPageState extends State<FindDevicesPage> {
+  final PolarController controller = Get.put(PolarController());
+  @override
+  void initState() {
+    super.initState();
+    controller.polar.deviceDisconnected.listen((event) {
+      controller.isConnected.value = false;
+      controller.state.value = 'Disconnected from ${event.deviceId}';
+      Get.snackbar('Disconnected', controller.state.value);
+    });
+    controller.polar.deviceConnecting.last.then((value) {
+      controller.state.value = 'Connecting to ${value.deviceId}';
+      Get.snackbar('Connecting', controller.state.value);
+    });
+    controller.polar.deviceConnected.last.then((value) {
+      controller.isConnected.value = true;
+      controller.state.value = 'Connected to ${value.deviceId}';
+      Get.snackbar('Connected', controller.state.value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,10 +136,13 @@ class FindDevicesPage extends GetView<PolarController> {
                                       onPressed: () {
                                         controller
                                             .connectToDevice(snapshot.data!);
-
                                         Future.delayed(
                                             const Duration(seconds: 5), () {
-                                          Get.toNamed(AppRoutes.deviceDetail);
+                                          if (controller.availableTypes
+                                              .contains(PolarDataType.hr)) {
+                                            Get.toNamed(AppRoutes.deviceDetail);
+                                            // _toggleService();
+                                          }
                                         });
                                         Get.dialog(
                                           Dialog(
@@ -440,7 +469,7 @@ class FindDevicesPage extends GetView<PolarController> {
   //               height: 50,
   //               child: ElevatedButton(
   //                   onPressed: () {
-  //                     _toggleConfig();
+  //                     Get.toNamed(AppRoutes.deviceDetail);
   //                   },
   //                   child: const Text(
   //                     'Start Streaming',
@@ -452,45 +481,5 @@ class FindDevicesPage extends GetView<PolarController> {
   //         ),
   //       ),
   //       isScrollControlled: true);
-  // }
-
-  // Future _toggleConfig() {
-  //   final TextEditingController interval = TextEditingController();
-  //   return Get.defaultDialog(
-  //       title: 'Recording Configuration',
-  //       titleStyle: const TextStyle(
-  //         fontSize: 18,
-  //         fontWeight: FontWeight.bold,
-  //       ),
-  //       titlePadding: const EdgeInsets.all(defaultPadding),
-  //       contentPadding: const EdgeInsets.all(defaultPadding),
-  //       content: Column(
-  //         children: [
-  //           TextFormField(
-  //             controller: interval,
-  //             decoration: InputDecoration(
-  //               labelText: 'Interval',
-  //               hintText: 'Enter interval in minutes',
-  //               border: OutlineInputBorder(
-  //                 borderRadius: BorderRadius.circular(10),
-  //               ),
-  //             ),
-  //             keyboardType: TextInputType.number,
-  //             validator: (value) {
-  //               if (value!.isEmpty) {
-  //                 return 'Please enter interval';
-  //               }
-  //               return null;
-  //             },
-  //           ),
-  //           const SizedBox(height: defaultMargin),
-  //           ElevatedButton(
-  //             onPressed: () {
-  //               Get.toNamed(AppRoutes.deviceDetail, arguments: interval.text);
-  //             },
-  //             child: const Text('Start Recording'),
-  //           )
-  //         ],
-  //       ));
   // }
 }

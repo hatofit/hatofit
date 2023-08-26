@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/constants/style.dart';
 import 'package:hatofit/controller/polar_controller.dart';
-import 'package:hatofit/main.dart';
 import 'package:hatofit/models/streaming_model.dart';
 import 'package:intl/intl.dart';
 import 'package:polar/polar.dart';
@@ -20,6 +18,10 @@ class DeviceDetail extends GetView<PolarController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // floatingActionButton: FloatingActionButton(
+      //     onPressed: () => saveDialog(context),
+      //     backgroundColor: Colors.blue,
+      //     child: const Icon(Icons.download)),
       appBar: AppBar(
         title: const Text('Streaming Data'),
         centerTitle: true,
@@ -31,7 +33,6 @@ class DeviceDetail extends GetView<PolarController> {
             if (snapshot.hasData) {
               // if (controller.hrStream.value == true) {
               //   controller.startHrStream();
-              //   controller.recordWithInterval();
               // }
               // if (controller.accStream.value == true) {
               //   controller.startAccStream();
@@ -53,6 +54,7 @@ class DeviceDetail extends GetView<PolarController> {
               // }
               if (snapshot.data!.contains(PolarDataType.hr)) {
                 controller.startHrStream();
+                controller.recordWithInterval();
               }
               if (snapshot.data!.contains(PolarDataType.acc)) {
                 controller.startAccStream();
@@ -81,33 +83,34 @@ class DeviceDetail extends GetView<PolarController> {
                       children: [
                         _buildPhoneInfo(),
                         _buildDeviceInfo(),
-                        // _buildRssiInfo(),+
+                        _buildRssiInfo(),
                         // if (controller.hrStream.value == true &&
-                        // snapshot.data!.contains(PolarDataType.hr))
+                        //     snapshot.data!.contains(PolarDataType.hr))
                         if (snapshot.data!.contains(PolarDataType.hr))
                           _buildHrInfo(),
                         // if (controller.accStream.value == true &&
-                        // snapshot.data!.contains(PolarDataType.acc))
+                        //     snapshot.data!.contains(PolarDataType.acc))
                         if (snapshot.data!.contains(PolarDataType.acc))
                           _buildAccInfo(),
                         // if (controller.ppgStream.value == true &&
-                        // snapshot.data!.contains(PolarDataType.ppg))
+                        //     snapshot.data!.contains(PolarDataType.ppg))
                         if (snapshot.data!.contains(PolarDataType.ppg))
                           _buildPpgInfo(),
                         // if (controller.ppiStream.value == true &&
-                        // snapshot.data!.contains(PolarDataType.ppi))
+                        //     snapshot.data!.contains(PolarDataType.ppi))
                         // if (snapshot.data!.contains(PolarDataType.ppi))
-                        // _buildPpiInfo(),
+                        //   _buildPpiInfo(),
                         // if (controller.gyroStream.value == true &&
-                        // snapshot.data!.contains(PolarDataType.gyro))
+                        //     snapshot.data!.contains(PolarDataType.gyro))
                         if (snapshot.data!.contains(PolarDataType.gyro))
                           _buildGyroInfo(),
                         // if (controller.magnStream.value == true &&
-                        // snapshot.data!.contains(PolarDataType.magnetometer))
+                        //     snapshot.data!
+                        //         .contains(PolarDataType.magnetometer))
                         if (snapshot.data!.contains(PolarDataType.magnetometer))
                           _buildMagnInfo(),
                         // if (controller.ecgStream.value == true &&
-                        // snapshot.data!.contains(PolarDataType.ecg))
+                        //     snapshot.data!.contains(PolarDataType.ecg))
                         if (snapshot.data!.contains(PolarDataType.ecg))
                           _buildEcgInfo(),
                       ],
@@ -150,6 +153,45 @@ class DeviceDetail extends GetView<PolarController> {
       ),
     );
   }
+
+  // void saveDialog(BuildContext context) {
+  //   Get.dialog(
+  //     Dialog(
+  //       shape: RoundedRectangleBorder(
+  //         borderRadius: BorderRadius.circular(8.0),
+  //       ),
+  //       child: Padding(
+  //         padding: const EdgeInsets.all(16.0),
+  //         child: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             TextField(
+  //               controller: controller.textEditingController,
+  //               decoration: const InputDecoration(
+  //                 labelText: 'Enter File Name',
+  //                 border: OutlineInputBorder(),
+  //               ),
+  //             ),
+  //             const SizedBox(height: 16),
+  //             ElevatedButton(
+  //               onPressed: () {
+  //                 Get.back(result: controller.textEditingController.text);
+  //               },
+  //               child: const Text('Save'),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   ).then((result) {
+  //     if (result != null) {
+  //       controller.calcCon
+  //           .saveData(controller.streamingModel[index], result, index);
+  //       controller.calcCon
+  //           .saveExcel(controller.streamingModel[index], result, index);
+  //     }
+  //   });
+  // }
 
   // Future _buildExpanded() {
   //   return Get.bottomSheet(
@@ -536,7 +578,6 @@ class DeviceDetail extends GetView<PolarController> {
                       future: controller.getRssi(),
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
-                          logger.i(snapshot.data);
                           controller.streamingModel[index].rssiData.add(
                             RssiData(
                                 timestamp:

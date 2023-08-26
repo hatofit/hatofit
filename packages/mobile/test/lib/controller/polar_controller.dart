@@ -15,28 +15,6 @@ import '../models/streaming_model.dart';
 import 'calc_con.dart';
 
 class PolarController extends GetxController {
-  @override
-  void onInit() {
-    polar.deviceDisconnected.listen((event) {
-      isConnected.value = false;
-      state.value = 'Disconnected from ${event.deviceId}';
-      Get.snackbar('Disconnected', state.value);
-      logger.i('Disconnected from ${event.deviceId}');
-    });
-    polar.deviceConnecting.last.then((value) {
-      state.value = 'Connecting to ${value.deviceId}';
-      Get.snackbar('Connecting', state.value);
-      logger.i('Connecting to ${value.deviceId}');
-    });
-    polar.deviceConnected.last.then((value) {
-      isConnected.value = true;
-      state.value = 'Connected to ${value.deviceId}';
-      Get.snackbar('Connected', state.value);
-      logger.i('Connected to ${value.deviceId}');
-    });
-    super.onInit();
-  }
-
   final BluetoothController _bleCon = Get.find<BluetoothController>();
   final CalcCon calcCon = Get.find<CalcCon>();
 
@@ -49,8 +27,6 @@ class PolarController extends GetxController {
 
   StreamController<PolarDeviceInfo?> searchStream =
       StreamController<PolarDeviceInfo?>();
-
-  set interval(interval) {}
   Stream<PolarDeviceInfo?> searchForDevice() {
     _polar.searchForDevice().listen((event) {
       searchStream.add(event);
@@ -79,22 +55,46 @@ class PolarController extends GetxController {
   }
 
   int counter = 0;
-  bool shouldSave = true;
-
+  final shouldSave = true.obs;
   void recordWithInterval() {
-    Timer.periodic(const Duration(minutes: 1), (timer) {
+    Timer.periodic(const Duration(minutes: 1), (timer) async {
       final DateTime now = DateTime.now();
-      final int currentMinute = now.minute;
 
-      if (shouldSave) {
+      if (shouldSave.value == true) {
+        counter++;
         DateFormat formatter = DateFormat('yyyy-MM-dd');
         final String formatted = formatter.format(now);
-        calcCon.saveData(streamingModel[0], formatted, 0, currentMinute);
-        counter++;
+        calcCon.saveData(streamingModel[0], formatted, 0, counter);
+        Get.snackbar(
+          'Saved',
+          'Iteration $counter',
+        );
+        logger.i('Saved iteration $counter\n'
+            'State: $shouldSave\n'
+            'Total RSSI Data: ${streamingModel[0].rssiData.length}\n'
+            'Total HR Data: ${streamingModel[0].hrData.length}\n'
+            'Total ACC Data: ${streamingModel[0].accData.length}\n'
+            'Total PPG Data: ${streamingModel[0].ppgData.length}\n'
+            'Total PPI Data: ${streamingModel[0].ppiData.length}\n'
+            'Total GYRO Data: ${streamingModel[0].gyroData.length}\n'
+            'Total MAGN Data: ${streamingModel[0].magnData.length}\n'
+            'Total ECG Data: ${streamingModel[0].ecgData.length}\n');
+      } else {
+        Get.snackbar(
+          'Rest',
+          'Resting after Iteration $counter',
+          backgroundColor: Colors.red,
+        );
       }
-      shouldSave = !shouldSave;
-      streamingModel.clear();
-      newStreamingModel();
+      streamingModel[0].rssiData.clear();
+      streamingModel[0].hrData.clear();
+      streamingModel[0].accData.clear();
+      streamingModel[0].ppgData.clear();
+      streamingModel[0].ppiData.clear();
+      streamingModel[0].gyroData.clear();
+      streamingModel[0].magnData.clear();
+      streamingModel[0].ecgData.clear();
+      shouldSave.toggle();
     });
   }
 
@@ -103,7 +103,7 @@ class PolarController extends GetxController {
     final connectFuture = _polar.connectToDevice(device.deviceId);
 
     Future.wait([connectFuture])
-        .timeout(const Duration(seconds: 3))
+        .timeout(const Duration(seconds: 10)) // Set the timeout duration
         .then((_) async {
       _connectedDevice = device;
       _bleCon.device!.connect();
@@ -133,6 +133,31 @@ class PolarController extends GetxController {
     );
     availableTypes = await _polar
         .getAvailableOnlineStreamDataTypes(_connectedDevice!.deviceId);
+    addStreamingModel(
+      StreamingModel(
+          phoneInfo: PhoneInfo(
+            os: phoneInfo['os']!,
+            manufacturer: phoneInfo['manufacturer']!,
+            type: phoneInfo['model']!,
+            deviceId: _bleCon.device!.id.toString(),
+            totalProcessors: 1,
+          ),
+          polarDeviceInfo: PolarDeviceInfo(
+            name: _connectedDevice!.name,
+            deviceId: _connectedDevice!.deviceId,
+            address: _connectedDevice!.address,
+            rssi: _connectedDevice!.rssi,
+            isConnectable: _connectedDevice!.isConnectable,
+          ),
+          hrData: [],
+          accData: [],
+          ppgData: [],
+          ppiData: [],
+          gyroData: [],
+          magnData: [],
+          ecgData: [],
+          rssiData: []),
+    );
 
     return availableTypes;
   }
@@ -265,32 +290,8 @@ class PolarController extends GetxController {
 
   List<StreamingModel> streamingModel = [];
 
-  void newStreamingModel() {
-    streamingModel.add(
-      StreamingModel(
-          phoneInfo: PhoneInfo(
-            os: phoneInfo['os']!,
-            manufacturer: phoneInfo['manufacturer']!,
-            type: phoneInfo['model']!,
-            deviceId: _bleCon.device!.id.toString(),
-            totalProcessors: 1,
-          ),
-          polarDeviceInfo: PolarDeviceInfo(
-            name: _connectedDevice!.name,
-            deviceId: _connectedDevice!.deviceId,
-            address: _connectedDevice!.address,
-            rssi: _connectedDevice!.rssi,
-            isConnectable: _connectedDevice!.isConnectable,
-          ),
-          hrData: [],
-          accData: [],
-          ppgData: [],
-          ppiData: [],
-          gyroData: [],
-          magnData: [],
-          ecgData: [],
-          rssiData: []),
-    );
+  void addStreamingModel(StreamingModel newModel) {
+    streamingModel.add(newModel);
   }
 
   void addHrData(HrData newHrData, int index) {
@@ -321,13 +322,13 @@ class PolarController extends GetxController {
     streamingModel[index].ecgData.add(nED);
   }
 
-  final hrStream = false.obs;
-  final accStream = false.obs;
-  final ppgStream = false.obs;
-  final ppiStream = false.obs;
-  final gyroStream = false.obs;
-  final magnStream = false.obs;
-  final ecgStream = false.obs;
+  // final hrStream = false.obs;
+  // final accStream = false.obs;
+  // final ppgStream = false.obs;
+  // final ppiStream = false.obs;
+  // final gyroStream = false.obs;
+  // final magnStream = false.obs;
+  // final ecgStream = false.obs;
 
   Future<Duration> elapsedTime(int startTime, int lastTime) async {
     final DateTime start = DateTime.fromMicrosecondsSinceEpoch(startTime);

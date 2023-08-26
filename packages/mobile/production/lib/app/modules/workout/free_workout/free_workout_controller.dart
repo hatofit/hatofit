@@ -87,6 +87,7 @@ class FreeWorkoutController extends GetxController {
 
   void saveWorkout(String title) {
     SessionModel session = SessionModel(
+      withoutExercise: true,
       exerciseId: title,
       startTime: _startTime,
       endTime: DateTime.now().microsecondsSinceEpoch,
@@ -97,8 +98,7 @@ class FreeWorkoutController extends GetxController {
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
     final String formatted = formatter.format(strtTime);
     logger.i(session);
-    StorageService()
-        .saveToJSON('session/raw/$formatted-$title', session);
+    StorageService().saveToJSON('session/raw/$formatted-$title', session);
     InternetService().postSession(session);
     Get.offAllNamed(AppRoutes.dashboard);
   }
@@ -124,8 +124,6 @@ class FreeWorkoutController extends GetxController {
       },
     );
   }
-
-
 }
 
 class HrStats {

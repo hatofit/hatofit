@@ -24,7 +24,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(
     GetMaterialApp(
-      title: 'HatoFit',
+      title: 'HatoFit Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -128,14 +128,12 @@ class OffScreen extends StatelessWidget {
 }
 
 final logger = Logger(
-  filter: ProductionFilter(),
   printer: PrettyPrinter(
     methodCount: 0,
     errorMethodCount: 8,
-    lineLength: 65,
+    lineLength: 120,
     colors: true,
     printEmojis: true,
     printTime: false,
   ),
-  output: null,
 );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
+import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/app/services/storage_service.dart';
 
@@ -10,7 +11,6 @@ class LoadingSplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     StorageService().initializeDirectory();
     final store = Get.find<PreferencesService>();
-
     Future.delayed(const Duration(seconds: 1), () {
       if (store.token != null) {
         Get.offAllNamed(AppRoutes.dashboard);

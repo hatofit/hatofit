@@ -50,11 +50,12 @@ class LoginController extends GetxController {
       password: passwordController.text,
     );
     final perm = await BluetoothService().askPermission();
-
+    logger.d('Login Controller:\n $perm\n');
     if (formKey.currentState!.validate() && perm) {
       try {
         final response = await InternetService().loginUser(userModel);
         final body = response.body;
+        logger.d('Login Controller:\n $body\n');
 
         if (body['success'] == true) {
           final UserModel user = UserModel.fromJson(body['user']);

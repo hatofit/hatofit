@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
@@ -532,7 +531,7 @@ void svToLocal(
       // MagnStats,
       // EcgStats,
       RootIsolateToken,
-      int distance,
+      int,
     ) args) async {
   final RootIsolateToken iT = args.$4;
   BackgroundIsolateBinaryMessenger.ensureInitialized(iT);
@@ -548,14 +547,14 @@ void svToLocal(
   // final MagnStats magnStats = args.$9;
   // final EcgStats ecgStats = args.$10;
   final DateTime now = DateTime.now();
-  final String date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
+  final String date = DateFormat('yyyy-MM-dd HH:mm').format(now);
   final Directory? dir = await getExternalStorageDirectory();
-  final File file = File('${dir?.path}/$date-$name.json');
-  final String json = jsonEncode({
-    'generateTime': DateTime.now().toString(),
-    'data': streamingModel.toJson(),
-  });
-  await file.writeAsString(json);
+  // final File file = File('${dir?.path}/$date-$name-$distance m.json');
+  // final String json = jsonEncode({
+  //   'generateTime': DateTime.now().toString(),
+  //   'data': streamingModel.toJson(),
+  // });
+  // await file.writeAsString(json);
 
   final List<List<dynamic>> csv = [];
 
@@ -574,14 +573,14 @@ void svToLocal(
     streamingModel.ecgData.length,
   ].reduce((curr, next) => curr > next ? curr : next);
 
-  csv.add(['Distance','Time Stamp', 'RSSI', '']);
+  csv.add(['Time Stamp', 'Distance', 'RSSI', '']);
   for (int i = 0; i < maxLength; i++) {
     if (i < streamingModel.hrData.length) {
       csv.add([
-        distance,
         DateTime.fromMicrosecondsSinceEpoch(
           streamingModel.rssiData[i].timestamp,
         ),
+        distance,
         streamingModel.rssiData[i].rssi,
         '',
       ]);
@@ -949,7 +948,7 @@ void svToLocal(
 //   // final File ppiFile = File('${dir?.path}/$date-$name-ppi.csv');
 //   // final File gyroFile = File('${dir?.path}/$date-$name-gyro.csv');
 //   // final File magnFile = File('${dir?.path}/$date-$name-magn.csv');
-  final File csvFile = File('${dir?.path}/$date-$name.csv');
+  final File csvFile = File('${dir?.path}/$date-$distance m.csv');
 
   // final csvHr = const ListToCsvConverter().convert(mergedHr);
   // final csvAcc = const ListToCsvConverter().convert(mergedAcc);

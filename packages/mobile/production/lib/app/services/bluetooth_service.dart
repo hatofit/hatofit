@@ -79,11 +79,14 @@ class BluetoothService extends GetxService {
   }
 
   Future<bool> askPermission() async {
-    final loc = await Permission.location.request().isGranted;
-    final sto = await Permission.storage.request().isGranted;
-    final bls = await Permission.bluetoothScan.request().isGranted;
-    final blc = await Permission.bluetoothConnect.request().isGranted;
-    return loc && sto && bls && blc;
+    await polar.requestPermissions();
+    await Permission.location.request();
+    await Permission.storage.request();
+    final loc = await Permission.location.isGranted;
+    final sto = await Permission.storage.isGranted;
+    logger.i('Permission location : $loc'
+        '\nPermission storage : $sto');
+    return sto;
   }
 
   Future<void> getBluetoothStatus() async {
@@ -103,8 +106,11 @@ class BluetoothService extends GetxService {
   }
 
   void scanPolarDevices() {
+    polar.requestPermissions();
+    logger.i('Scanning Polar devices...');
     polar.searchForDevice().listen(
       (event) {
+        logger.i('Device detected : \n${event.toJson()}');
         String? nameReplace;
         String? imageAsset;
         final bool isDetected = detectedDevices.any(
@@ -137,6 +143,7 @@ class BluetoothService extends GetxService {
             ),
           );
         }
+        logger.i('Device detected : \n${event.toJson()}');
       },
     );
   }

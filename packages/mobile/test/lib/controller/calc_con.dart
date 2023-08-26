@@ -1,6 +1,7 @@
 import 'dart:isolate';
 
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/models/streaming_model.dart';
@@ -250,13 +251,17 @@ class CalcCon extends GetxController {
           // magnStats[index],
           // ecgStats[index],
           rootIsolateToken,
-          distance
+          distance,
         ),
         debugName: 'svToLocal');
     rp.listen(
       (mes) {
         if (mes[0] == 'Success') {
-          Get.snackbar('Saved', mes[1]);
+          Get.snackbar(
+            'Saved',
+            mes[2],
+            backgroundColor: Colors.green,
+          );
           Future.delayed(const Duration(seconds: 1), () {
             i.kill(priority: Isolate.immediate);
             rp.close();

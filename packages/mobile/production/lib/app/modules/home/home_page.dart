@@ -111,7 +111,7 @@ class HomePage extends GetView<HomeController> {
                     ),
                     SizedBox(
                       height: 164,
-                      child: HrLinesChart(),
+                      child: HrLinesChart(data: controller.hrData),
                     )
                   ],
                 ),

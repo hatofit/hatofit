@@ -110,6 +110,7 @@ class WorkoutStartController extends GetxController {
 
   void saveWorkout(String title) {
     SessionModel session = SessionModel(
+      withoutExercise: false,
       exerciseId: title,
       startTime: _startTime,
       endTime: DateTime.now().microsecondsSinceEpoch,

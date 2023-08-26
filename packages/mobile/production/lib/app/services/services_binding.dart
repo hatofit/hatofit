@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
-import 'package:hatofit/app/services/bluetooth_service.dart';
-import 'package:hatofit/app/services/polar_service.dart';
+import 'package:hatofit/app/services/bluetooth_service.dart'; 
 
 class ServicesBinding extends Bindings {
   @override

@@ -12,10 +12,14 @@ class InternetService extends GetConnect {
   final store = Get.find<PreferencesService>();
   String get token => store.token ?? '';
   Future<InternetService> init() async {
+    final res = await fetchHistory();
+    if (res.body['success'] == false) {
+      store.token = null;
+    }
     return this;
   }
 
-  static const String _base = 'http://192.168.215.169:3000/api';
+  static const String _base = 'http://192.168.98.169:3000/api';
 
   static const String _sesion = '/session';
   static const String _exercise = '/exercise';
@@ -70,7 +74,8 @@ class InternetService extends GetConnect {
     }
   }
 
-  Future<List<dynamic>> fetchHistory() async {
+  Future<Response> fetchHistory() async {
+    logger.e('Fetch History\n/${_base + _sesion}}\n token:$token');
     try {
       final response = await get(
         _base + _sesion,
@@ -79,13 +84,14 @@ class InternetService extends GetConnect {
         },
       );
       if (response.statusCode == 200) {
-        final List<dynamic> jsonResponse = response.body['sessions'];
-        return jsonResponse;
+        // final List<dynamic> jsonResponse = response.body['sessions'];
+        // logger.e('History:\n$jsonResponse');
+        return response;
       } else {
-        return List<dynamic>.empty();
+        return response;
       }
     } catch (e) {
-      return List<dynamic>.empty();
+      return Response(body: 'Error $e');
     }
   }
 
@@ -126,6 +132,8 @@ class InternetService extends GetConnect {
   }
 
   Future<Response> loginUser(UserModel request) async {
+    logger.i(
+        'Login User\n$request\n/${_base + _login}} /n base:${httpClient.baseUrl}}');
     try {
       final response = await post(
         _base + _login,

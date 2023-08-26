@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 
 class HrLinesChart extends StatefulWidget {
-  HrLinesChart({super.key});
+  HrLinesChart({super.key, required this.data});
+  final Map<String, double> data;
   final Color barBackgroundColor = ColorConstants.crimsonRed.withOpacity(0.35);
   final Color barColor = ColorConstants.crimsonRed.withOpacity(0.5);
 
@@ -44,9 +45,9 @@ class HrLinesChartState extends State<HrLinesChart> {
   List<BarChartGroupData> showingGroups() => List.generate(5, (i) {
         switch (i) {
           case 0:
-            return makeGroupData(0, 5);
+            return makeGroupData(0, 55);
           case 1:
-            return makeGroupData(1, 6.5);
+            return makeGroupData(1, 60);
           case 2:
             return makeGroupData(2, 5);
           case 3:
