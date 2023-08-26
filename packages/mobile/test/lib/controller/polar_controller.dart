@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/controller/bluetooth_controller.dart';
+import 'package:hatofit/main.dart';
 import 'package:intl/intl.dart';
 import 'package:polar/polar.dart';
 
@@ -14,6 +15,28 @@ import '../models/streaming_model.dart';
 import 'calc_con.dart';
 
 class PolarController extends GetxController {
+  @override
+  void onInit() {
+    polar.deviceDisconnected.listen((event) {
+      isConnected.value = false;
+      state.value = 'Disconnected from ${event.deviceId}';
+      Get.snackbar('Disconnected', state.value);
+      logger.i('Disconnected from ${event.deviceId}');
+    });
+    polar.deviceConnecting.last.then((value) {
+      state.value = 'Connecting to ${value.deviceId}';
+      Get.snackbar('Connecting', state.value);
+      logger.i('Connecting to ${value.deviceId}');
+    });
+    polar.deviceConnected.last.then((value) {
+      isConnected.value = true;
+      state.value = 'Connected to ${value.deviceId}';
+      Get.snackbar('Connected', state.value);
+      logger.i('Connected to ${value.deviceId}');
+    });
+    super.onInit();
+  }
+
   final BluetoothController _bleCon = Get.find<BluetoothController>();
   final CalcCon calcCon = Get.find<CalcCon>();
 

@@ -48,6 +48,7 @@ dependencies:
   csv: ^5.0.2
   syncfusion_flutter_xlsio: ^22.2.5
   syncfusion_officechart: ^22.2.5
+  logger: ^2.0.1
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/constants/style.dart';
 import 'package:hatofit/routes/routes.dart';
+import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
 
@@ -125,3 +126,16 @@ class OffScreen extends StatelessWidget {
     ));
   }
 }
+
+final logger = Logger(
+  filter: ProductionFilter(),
+  printer: PrettyPrinter(
+    methodCount: 0,
+    errorMethodCount: 8,
+    lineLength: 65,
+    colors: true,
+    printEmojis: true,
+    printTime: false,
+  ),
+  output: null,
+);

@@ -1,12 +1,9 @@
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
-import 'package:polar/polar.dart';
 
 class BluetoothController extends GetxController {
   final Rx<BluetoothState> _bluetoothState = BluetoothState.unknown.obs;
   final FlutterBluePlus _flutterBluePlus = FlutterBluePlus.instance;
-
-  final isConnected = false.obs;
 
   BluetoothDevice? device;
 
@@ -18,17 +15,5 @@ class BluetoothController extends GetxController {
       await _flutterBluePlus.turnOn();
       _bluetoothState.value = await _flutterBluePlus.state.first;
     }
-  }
-
-  @override
-  void onInit() {
-    Polar().deviceConnected.listen((event) {
-      isConnected.value = true;
-    });
-    Polar().deviceDisconnected.listen((event) {
-      isConnected.value = false;
-    });
-    super.onInit();
-    _bluetoothState.bindStream(_flutterBluePlus.state);
   }
 }
