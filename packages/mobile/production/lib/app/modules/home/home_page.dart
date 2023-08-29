@@ -8,7 +8,7 @@ import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:hatofit/app/widget/appBar/custom_app_bar.dart';
 import 'package:hatofit/app/widget/home/bmi_chart_widget.dart';
 import 'package:hatofit/app/widget/home/calories_chart_widget.dart';
-import 'package:hatofit/app/widget/home/goal_widget.dart';
+import 'package:hatofit/app/widget/home/exercise_now_widget.dart';
 import 'package:hatofit/app/widget/home/hr_lines_chart.dart';
 import 'package:hatofit/app/widget/home/mood_picker_widget.dart';
 import 'package:hatofit/app/widget/home/sleeps_info_widget.dart';
@@ -23,112 +23,160 @@ class HomePage extends GetView<HomeController> {
     final bleService = Get.find<BluetoothService>();
     final store = Get.find<PreferencesService>();
     return Scaffold(
-      appBar: CustomAppBar(
-        title: 'Hi, ${store.user!.firstName!} 👋',
-      ),
-      body: RefreshIndicator(
-        onRefresh: () {
-          controller.hrCharting();
-          controller.update();
-          return Future.delayed(const Duration(seconds: 1));
-        },
-        child: ListView(
-          children: [
-            Column(
+        appBar: CustomAppBar(
+          title: 'Hi, ${store.user!.firstName!} 👋',
+        ),
+        body: RefreshIndicator(
+          onRefresh: () {
+            controller.hrCharting();
+            controller.update();
+            return Future.delayed(const Duration(seconds: 1));
+          },
+          child: ListView.builder(
+            itemCount: 1,
+            itemBuilder: (_, i) => Column(
               children: [
                 Container(
-                  height: ThemeManager().screenHeight * 0.32,
+                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: ThemeManager().isDarkMode
                         ? ColorConstants.darkContainer
                         : ColorConstants.lightContainer,
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(32),
-                      bottomRight: Radius.circular(32),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(16),
                     ),
                   ),
-                  child: Column(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16, bottom: 16),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                const SizedBox(
-                                  width: 34,
+                      Row(
+                        children: [
+                          IconWrapper(
+                              icon: Icons.favorite,
+                              backgroundColor:
+                                  ColorConstants.crimsonRed.withOpacity(0.35),
+                              iconColor: ColorConstants.crimsonRed),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Your current',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                              Text(
+                                'Heart Rate',
+                                style: Theme.of(context).textTheme.displaySmall,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Row(
+                            children: [
+                              Obx(
+                                () => Text(
+                                  bleService.heartRate.value == 0
+                                      ? '--'
+                                      : bleService.heartRate.value.toString(),
+                                  style:
+                                      Theme.of(context).textTheme.displayLarge,
                                 ),
-                                IconWrapper(
-                                    icon: Icons.favorite,
-                                    backgroundColor: ColorConstants.crimsonRed
-                                        .withOpacity(0.35),
-                                    iconColor: ColorConstants.crimsonRed),
-                                const SizedBox(
-                                  width: 12,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Your',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    ),
-                                    Text(
-                                      'Heart Rate',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayMedium,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Row(
-                                  children: [
-                                    Obx(
-                                      () => Text(
-                                        bleService.heartRate.value == 0
-                                            ? '--'
-                                            : bleService.heartRate.value
-                                                .toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .displayLarge,
-                                      ),
-                                    ),
-                                    Text(
-                                      ' bpm',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    )
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 34,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                              ),
+                              Text(
+                                ' bpm',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: ThemeManager().isDarkMode
+                        ? ColorConstants.darkContainer
+                        : ColorConstants.lightContainer,
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          IconWrapper(
+                            icon: Icons.show_chart_rounded,
+                            iconColor: ColorConstants.crimsonRed,
+                            backgroundColor:
+                                ColorConstants.crimsonRed.withOpacity(0.35),
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Text(
+                            'Exercise History',
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
+                        ],
                       ),
                       SizedBox(
-                        height: 164,
+                        height: Get.height * 0.02,
+                      ),
+                      SizedBox(
+                        height: Get.height * 0.3,
                         child: GetBuilder(
                             init: controller,
                             builder: (context) {
                               return HrLinesChart(hrData: controller.hrData!);
                             }),
-                      )
+                      ),
+                      SizedBox(
+                        height: Get.height * 0.03,
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: GetBuilder(
+                            init: controller,
+                            builder: (_) {
+                              return Text(
+                                'Last Exercise: ${controller.lastExercise ?? '--'}',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              );
+                            }),
+                      ),
                     ],
                   ),
                 ),
-                SizedBox(height: ThemeManager().screenHeight * 0.01),
+                Container(
+                    height: MediaQuery.of(context).size.height * 0.17,
+                    // width: width,
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Get.isDarkMode
+                          ? ColorConstants.darkContainer
+                          : ColorConstants.lightContainer,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const ExerciseNowWidget()),
                 Padding(
                   padding: const EdgeInsets.all(14),
                   child: Align(
@@ -154,43 +202,25 @@ class HomePage extends GetView<HomeController> {
                   children: [
                     Column(
                       children: [
-                        CaloriesChartWidget(
-                          width: ThemeManager().screenWidth * 0.45,
-                          height: ThemeManager().screenHeight * 0.23,
-                        ),
+                        const CaloriesChartWidget(),
                         SizedBox(height: ThemeManager().screenHeight * 0.01),
-                        BMIChartWidget(
-                          width: ThemeManager().screenWidth * 0.45,
-                          height: ThemeManager().screenHeight * 0.23,
-                        ),
+                        const BMIChartWidget(),
                       ],
                     ),
                     SizedBox(width: ThemeManager().screenHeight * 0.01),
                     Column(
                       children: [
-                        GoalWidget(
-                          width: ThemeManager().screenWidth * 0.45,
-                          height: ThemeManager().screenHeight * 0.11,
-                        ),
                         SizedBox(height: ThemeManager().screenHeight * 0.01),
-                        StepsChartWidget(
-                          width: ThemeManager().screenWidth * 0.45,
-                          height: ThemeManager().screenHeight * 0.23,
-                        ),
+                        const StepsChartWidget(),
                         SizedBox(height: ThemeManager().screenHeight * 0.01),
-                        SleepsInfoWidget(
-                          width: ThemeManager().screenWidth * 0.45,
-                          height: ThemeManager().screenHeight * 0.11,
-                        ),
+                        const SleepsInfoWidget(),
                       ],
                     ),
                   ],
                 )
               ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }

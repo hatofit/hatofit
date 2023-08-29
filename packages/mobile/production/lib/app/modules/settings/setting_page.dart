@@ -9,6 +9,7 @@ import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:hatofit/app/widget/appBar/custom_app_bar.dart';
 import 'package:hatofit/app/widget/setting/setting_list_tile_widget.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SettingPage extends GetView<SettingController> {
   const SettingPage({Key? key}) : super(key: key);
@@ -140,8 +141,9 @@ class SettingPage extends GetView<SettingController> {
                                 scale: 0.8,
                                 child: CupertinoSwitch(
                                   value: controller.isSync.value,
-                                  onChanged: (value) {
-                                    controller.isSync.value = value;
+                                  onChanged: (value) async {
+                                    controller.handleGoogleFit();
+                                    // controller.isSync.value = value;
                                   },
                                 ),
                               ),

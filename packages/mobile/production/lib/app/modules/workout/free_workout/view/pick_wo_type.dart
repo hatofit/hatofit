@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/modules/workout/free_workout/free_workout_controller.dart';
-import 'package:hatofit/app/routes/app_routes.dart';
 
 enum WorkoutType { other, walking, running, cycling, swimming }
 

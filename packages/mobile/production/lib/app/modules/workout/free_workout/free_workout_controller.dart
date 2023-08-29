@@ -96,7 +96,7 @@ class FreeWorkoutController extends GetxController {
     final String formatted = formatter.format(strtTime);
 
     StorageService().saveToJSON('session/raw/$formatted-$title', session);
-    final res = InternetService().postSession(session);
+    InternetService().postSession(session);
 
     Get.offAllNamed(AppRoutes.dashboard);
   }

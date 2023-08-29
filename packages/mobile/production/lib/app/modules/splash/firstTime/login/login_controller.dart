@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
-import 'package:hatofit/utils/debug_logger.dart';
 import 'package:hatofit/utils/image_utils.dart';
 import 'package:video_player/video_player.dart';
 

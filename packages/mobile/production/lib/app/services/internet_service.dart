@@ -11,16 +11,21 @@ import 'package:hatofit/utils/debug_logger.dart';
 class InternetService extends GetConnect {
   final store = Get.find<PreferencesService>();
   String get token => store.token ?? '';
+
   Future<InternetService> init() async {
     final res = await fetchHistory();
-    if (res.body['success'] == false) {
-      store.token = null;
+    logger.i(res.statusText);
+    if (res.statusText! == 'OK') {
+      if (res.body['success'] == false) {
+        store.token = null;
+      }
+    } else if (res.statusText!.contains('connection timed out')) {
+      return this;
     }
     return this;
   }
 
   static const String _base = 'http://192.168.98.169:3000/api';
-
   static const String _sesion = '/session';
   static const String _exercise = '/exercise';
   static const String _report = '/report';
@@ -53,7 +58,7 @@ class InternetService extends GetConnect {
     }
   }
 
-  Future<List<ExerciseModel>> fetchExercises() async {
+  Future<List<ExerciseModel>?> fetchExercises() async {
     final response = await get(
       _base + _exercise,
     );
@@ -72,7 +77,7 @@ class InternetService extends GetConnect {
         }).toList();
       }
     } catch (e) {
-      return List<ExerciseModel>.empty();
+      rethrow;
     }
   }
 

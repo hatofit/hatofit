@@ -18,6 +18,8 @@ ExerciseModel _$ExerciseModelFromJson(Map<String, dynamic> json) =>
           .toList(),
       json['thumbnail'] as String,
       json['duration'] as int,
+      DateTime.parse(json['createdAt'] as String),
+      DateTime.parse(json['updatedAt'] as String),
     );
 
 Map<String, dynamic> _$ExerciseModelToJson(ExerciseModel instance) =>
@@ -27,9 +29,11 @@ Map<String, dynamic> _$ExerciseModelToJson(ExerciseModel instance) =>
       'description': instance.description,
       'difficulty': instance.difficulty,
       'type': instance.type,
-      'duration': instance.duration,
       'thumbnail': instance.thumbnail,
+      'duration': instance.duration,
       'instructions': instance.instructions.map((e) => e.toJson()).toList(),
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
     };
 
 Instruction _$InstructionFromJson(Map<String, dynamic> json) => Instruction(

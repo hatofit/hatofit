@@ -23,7 +23,7 @@ class MoodPickerWidget extends StatelessWidget {
           color: Get.isDarkMode
               ? ColorConstants.darkContainer
               : ColorConstants.lightContainer,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

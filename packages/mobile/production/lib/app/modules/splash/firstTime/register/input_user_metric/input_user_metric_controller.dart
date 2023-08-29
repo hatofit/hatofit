@@ -4,7 +4,6 @@ import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/themes/app_theme.dart';
-import 'package:hatofit/utils/debug_logger.dart';
 
 import '../../../../../../utils/image_utils.dart';
 import '../../../../../routes/app_routes.dart';

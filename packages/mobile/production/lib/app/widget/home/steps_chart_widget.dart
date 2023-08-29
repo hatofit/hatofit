@@ -6,13 +6,12 @@ import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:hatofit/app/widget/icon_wrapper.dart';
 
 class StepsChartWidget extends StatelessWidget {
-  final double width;
-  final double height;
-  const StepsChartWidget(
-      {super.key, required this.width, required this.height});
+  const StepsChartWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width * 0.45;
+    final height = MediaQuery.of(context).size.height * 0.23;
     return Container(
         height: height,
         width: width,

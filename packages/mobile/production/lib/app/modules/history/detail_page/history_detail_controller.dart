@@ -16,8 +16,8 @@ class HistoryDetailController extends GetxController {
   ZoomPanBehavior get zoomPanBehavior => _zoomPanBehavior;
 
   @override
-  void onReady() async {
+  void onInit() async {
     InternetService().fetchReport(argument);
-    super.onReady();
+    super.onInit();
   }
 }

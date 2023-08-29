@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/app/modules/home/home_controller.dart';
+import 'package:hatofit/app/services/preferences_service.dart';
+import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:hatofit/app/widget/icon_wrapper.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class CaloriesChartWidget extends StatelessWidget {
-  final double width;
-  final double height;
-  const CaloriesChartWidget(
-      {super.key, required this.width, required this.height});
+class CaloriesChartWidget extends GetView<HomeController> {
+  const CaloriesChartWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final width = ThemeManager().screenWidth;
+    final height = ThemeManager().screenHeight;
     return Container(
-        height: height,
-        width: width,
+        height: height * 0.275,
+        width: width * 0.45,
         decoration: BoxDecoration(
           color: Get.isDarkMode
               ? ColorConstants.darkContainer
@@ -23,13 +25,12 @@ class CaloriesChartWidget extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(8),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Calories',
+                  'Today Burn',
                   style: Theme.of(context).textTheme.displaySmall,
                 ),
                 IconWrapper(
@@ -40,26 +41,15 @@ class CaloriesChartWidget extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: height * 0.64,
-              child: CaloriesPieChart(
-                value: 555,
-                height: height * 0.64,
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Text(
-                  'of daily goal ',
-                  style: Theme.of(context).textTheme.bodySmall,
-                ),
-                Text(
-                  '1980 Cal',
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-              ],
+              height: height * 0.2,
+              child: GetBuilder(
+                  init: controller,
+                  builder: (_) {
+                    return CaloriesPieChart(
+                      value: controller.calories,
+                      height: height * 0.64,
+                    );
+                  }),
             ),
           ],
         ));
@@ -75,12 +65,13 @@ class CaloriesPieChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final store = Get.find<PreferencesService>();
     final displayValue = value.toStringAsFixed(0);
     return SfCircularChart(
       annotations: <CircularChartAnnotation>[
         CircularChartAnnotation(
-          widget: Stack(
-            alignment: Alignment.center,
+          widget: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Positioned(
                 top: (height * 0.3),
@@ -92,7 +83,7 @@ class CaloriesPieChart extends StatelessWidget {
               Positioned(
                 bottom: (height * 0.3),
                 child: Text(
-                  'Cal',
+                  store.user!.metricUnits!.energyUnits!,
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ),
@@ -115,7 +106,7 @@ class CaloriesPieChart extends StatelessWidget {
           endAngle: 360,
           pointColorMapper: (ChartData data, _) => data.x == 'Remaining'
               ? ColorConstants.purple
-              : ColorConstants.purple.withOpacity(0.5),
+              : Color.fromARGB(255, 141, 101, 194),
           enableTooltip: false,
         ),
       ],

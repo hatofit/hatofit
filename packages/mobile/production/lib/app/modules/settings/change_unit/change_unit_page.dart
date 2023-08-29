@@ -12,13 +12,12 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
     return Scaffold(
       body: Obx(
         () => Padding(
-          padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Center(
-              child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: ListView(
             children: [
               Container(
-                padding: const EdgeInsets.only(top: 64),
+                padding: const EdgeInsets.only(top: 20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,9 +113,12 @@ class ChangeUnitPage extends GetView<ChangeUnitController> {
                           _buildUnitMeasure(context, 'energy', 'KJ'),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
+              ),
+              const SizedBox(
+                height: 32,
               ),
               SizedBox(
                 width: double.infinity,

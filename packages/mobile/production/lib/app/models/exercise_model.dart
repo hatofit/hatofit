@@ -10,10 +10,11 @@ class ExerciseModel {
   final String description;
   final String difficulty;
   final String type;
-  final int duration;
   final String thumbnail;
+  final int duration;
   final List<Instruction> instructions;
-
+  final DateTime createdAt;
+  final DateTime updatedAt;
   ExerciseModel(
     this.id,
     this.name,
@@ -23,6 +24,8 @@ class ExerciseModel {
     this.instructions,
     this.thumbnail,
     this.duration,
+    this.createdAt,
+    this.updatedAt,
   );
 
   factory ExerciseModel.fromJson(Map<String, dynamic> json) =>
