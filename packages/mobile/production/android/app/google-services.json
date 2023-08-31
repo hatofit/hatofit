@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "120555802165",
-    "project_id": "dev-hatofit",
-    "storage_bucket": "dev-hatofit.appspot.com"
+    "project_number": "398386632860",
+    "project_id": "hatofit",
+    "storage_bucket": "hatofit.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:120555802165:android:9386577fab1f826b77eb7c",
+        "mobilesdk_app_id": "1:398386632860:android:782ed1de4978ec927c3559",
         "android_client_info": {
           "package_name": "com.example.hatofit"
         }
       },
       "oauth_client": [
         {
-          "client_id": "120555802165-13davs874tuhbp2bdbhv5pf8j8g3fmch.apps.googleusercontent.com",
+          "client_id": "398386632860-96l58jh9pen6k07dua9t6u286qqfb6tv.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCPNMaGKv_Vk14GvRzI1edTAx923uiOpMY"
+          "current_key": "AIzaSyBnAjOn1OW9WAzRCKYOsGagFnDRDYOEshU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "120555802165-13davs874tuhbp2bdbhv5pf8j8g3fmch.apps.googleusercontent.com",
+              "client_id": "398386632860-96l58jh9pen6k07dua9t6u286qqfb6tv.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
