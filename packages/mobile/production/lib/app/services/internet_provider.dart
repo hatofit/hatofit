@@ -16,7 +16,7 @@ import 'package:hatofit/utils/isolates.dart';
 import 'preferences_service.dart';
 
 class InternetProvider {
-  static const String _base = 'http://192.168.98.169:3000/api';
+  static const String _base = 'http://192.168.33.169:3000/api';
   static const String _sesion = '/session';
   static const String _exercise = '/exercise';
   static const String _report = '/report';

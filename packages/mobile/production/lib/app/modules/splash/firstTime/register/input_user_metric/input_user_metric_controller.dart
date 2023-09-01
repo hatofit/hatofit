@@ -4,6 +4,7 @@ import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/themes/app_theme.dart';
+import 'package:hatofit/utils/debug_logger.dart';
 
 import '../../../../../../utils/image_utils.dart';
 import '../../../../../routes/app_routes.dart';
@@ -59,9 +60,12 @@ class InputUserMetricController extends GetxController {
 
         if (perm) {
           try {
+            // clean null values from previousData
+            previousData.toJson().removeWhere((key, value) => value == null);
+            logger.i('Registering user : ${previousData.toJson()}');
             final Response response =
                 await InternetService().registerUser(previousData);
-
+            logger.i(response.body);
             if (response.body['success'] == true) {
               try {
                 final loginResponse =

@@ -137,14 +137,17 @@ class HomePage extends GetView<HomeController> {
                       SizedBox(
                         height: Get.height * 0.02,
                       ),
-                      SizedBox(
-                        height: Get.height * 0.3,
-                        child: GetBuilder(
-                            init: controller,
-                            builder: (context) {
-                              return HrLinesChart(hrData: controller.hrData!);
-                            }),
-                      ),
+                      GetBuilder(
+                          init: controller,
+                          builder: (_) {
+                            return controller.hrData.isEmpty
+                                ? Center(child: Text('No data available'))
+                                : SizedBox(
+                                    height: Get.height * 0.3,
+                                    child:
+                                        HrLinesChart(hrData: controller.hrData),
+                                  );
+                          }),
                       SizedBox(
                         height: Get.height * 0.03,
                       ),

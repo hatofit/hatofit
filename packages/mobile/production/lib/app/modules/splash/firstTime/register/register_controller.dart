@@ -28,7 +28,7 @@ class RegisterController extends GetxController {
     // TODO: remove in production
     firstNameController.text = 'Rahmat';
     lastNameController.text = 'Hidayat';
-    emailController.text = 'rh@mail.com';
+    emailController.text = 'bokirsianpar95@gmail.com';
     passwordController.text = '12345678';
     confirmPasswordController.text = '12345678';
     dateOfBirthController.text = '12-12-1999';

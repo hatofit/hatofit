@@ -32,6 +32,9 @@ class HomeController extends GetxController {
     report.clear();
     calories = 0;
     historyList.assignAll(await history.fetchHistory());
+    if (historyList.isEmpty) {
+      return;
+    }
     final lastExerciseTime =
         DateTime.fromMicrosecondsSinceEpoch(historyList.last['endTime']);
     final formatter = DateFormat('d-MM-yyyy');
