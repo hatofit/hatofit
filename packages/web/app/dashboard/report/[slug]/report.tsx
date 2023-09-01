@@ -19,7 +19,7 @@ export default function ReportSection({ reportData }: { reportData: any }) {
   return (
     <>
       <div className="shadow border-b-2 border-white/[0.2] dark:bg-gray-950/[0.7]">
-        <div className="flex flex-col max-w-screen-lg w-full mx-auto py-6">
+        <div className="flex flex-col max-w-screen-lg w-full mx-auto py-6 px-6">
           <div className="flex justify-between items-center mb-2">
             <div>
               <Link href={`/dashboard/exercise`} className="text-xs flex items-center mb-2">

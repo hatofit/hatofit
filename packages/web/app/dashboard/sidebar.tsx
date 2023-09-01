@@ -7,7 +7,7 @@ import { useEffect } from "react"
 export const Menus = [
   { title: 'Dashboard', icon: 'uil:dashboard', href: '/dashboard' },
   { title: 'My Exercises', icon: 'material-symbols:exercise-outline', href: '/dashboard/exercise' },
-  { title: 'Shared Exercises', icon: 'material-symbols:exercise-outline', href: '/dashboard/exercise' },
+  // { title: 'Shared Exercises', icon: 'material-symbols:exercise-outline', href: '/dashboard/exercise' },
   { title: 'Settings', icon: 'ic:outline-settings-suggest', href: '/dashboard/setting' },
 ]
 
@@ -15,6 +15,7 @@ export default function Sidebar() {
   const { data, status } = useSession()
 
   const isMenuActive = (href: string) => {
+    return false
     const allMenusActivated = Menus.map(menu => window.location.pathname.replaceAll('/', '').startsWith(menu.href.replaceAll('/', '')))
     if (allMenusActivated.filter(menu => menu).length === 0) {
       return false
