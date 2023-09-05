@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:hatofit/app/models/report_model.dart';
 import 'package:hatofit/app/modules/history/history_controller.dart';
 import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
@@ -14,9 +15,9 @@ class HomeController extends GetxController {
   final prov = Get.find<InternetService>();
 
   final historyList = <dynamic>[].obs;
-  final report = <dynamic>[].obs;
+  final report = <ReportModel>[].obs;
 
-  final List<HrWidgetChart> hrData = [];
+  final hrData = <HrWidgetChart>[].obs;
 
   @override
   void onInit() async {
@@ -37,29 +38,38 @@ class HomeController extends GetxController {
     }
     final lastExerciseTime =
         DateTime.fromMicrosecondsSinceEpoch(historyList.last['endTime']);
-    final formatter = DateFormat('d-MM-yyyy');
+    final formatter = DateFormat('d MMMM yyyy');
     lastExercise = formatter.format(lastExerciseTime);
 
     for (var item in historyList) {
       final r = await prov.fetchReport(item['_id']);
-      report.add(r);
+      report.add(
+        ReportModel.fromJson(r['report']),
+      );
     }
+    logger.i(report);
     for (var item in report) {
-      final reportData = item['report'];
-      final endTimeMicros = reportData['endTime'];
+      final endTimeMicros = item.endTime;
       final dateEnd = DateTime.fromMicrosecondsSinceEpoch(endTimeMicros);
-      final hrValue = reportData['reports'][0]['data'][0]['value'] as List;
-      final avg = hrValue.map((entry) => entry[1]).reduce((a, b) => a + b) /
-          hrValue.length;
+      if (item.reports.any((element) => element.type.contains('hr'))) {
+        final hrValue = item.reports
+            .firstWhere((element) => element.type == 'hr')
+            .data
+            .first
+            .value;
+        final avg = hrValue.map((entry) => entry[1]).reduce((a, b) => a + b) /
+            hrValue.length;
+        final date1 = formatter.format(dateEnd);
+        final date2 = formatter.format(DateTime.now());
 
-      if (formatter.format(dateEnd) == formatter.format(DateTime.now())) {
-        calories += findCalories(
-            dateEnd.difference(
-                DateTime.fromMicrosecondsSinceEpoch(reportData['startTime'])),
-            avg);
+        if (date1 == date2) {
+          final duration = dateEnd
+              .difference(DateTime.fromMicrosecondsSinceEpoch(item.startTime));
+          calories += findCalories(duration, avg);
+        }
+
+        hrData.add(HrWidgetChart(dateEnd, avg));
       }
-
-      hrData.add(HrWidgetChart(dateEnd, avg));
     }
 
     report.clear();
@@ -78,18 +88,18 @@ class HomeController extends GetxController {
     final weight = store.user!.weight!;
     final weightUnits = store.user!.metricUnits!.weightUnits;
     final energyUnits = store.user!.metricUnits!.energyUnits;
-
+    final secToMin = duration.inSeconds / 60;
     double calories = 0;
 
     switch (gender) {
       case 'male':
         if (weightUnits == 'kg') {
-          calories = duration.inMinutes *
+          calories = secToMin *
               (0.6309 * avgHr + 0.1988 * weight + 0.2017 * age - 55.0969) /
               4.184;
         } else if (weightUnits == 'lbs') {
           final weightInKg = weight * 0.453592;
-          calories = duration.inMinutes *
+          calories = secToMin *
               (0.6309 * avgHr + 0.1988 * weightInKg + 0.2017 * age - 55.0969) /
               4.184;
         }
@@ -97,12 +107,12 @@ class HomeController extends GetxController {
 
       case 'female':
         if (weightUnits == 'kg') {
-          calories = duration.inMinutes *
+          calories = secToMin *
               (0.4472 * avgHr - 0.1263 * weight + 0.074 * age - 20.4022) /
               4.184;
         } else if (weightUnits == 'lbs') {
           final weightInKg = weight * 0.453592;
-          calories = duration.inMinutes *
+          calories = secToMin *
               (0.4472 * avgHr - 0.1263 * weightInKg + 0.074 * age - 20.4022) /
               4.184;
         }

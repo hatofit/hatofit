@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBnAjOn1OW9WAzRCKYOsGagFnDRDYOEshU',
-    appId: '1:398386632860:android:3db9480e2a32eaf47c3559',
-    messagingSenderId: '398386632860',
-    projectId: 'hatofit',
-    storageBucket: 'hatofit.appspot.com',
+    apiKey: 'AIzaSyBhUfTI3XOWTVTCBiC9JLh-xZmW055LPJY',
+    appId: '1:123499973842:android:d75379c3846934af1db10b',
+    messagingSenderId: '123499973842',
+    projectId: 'hatofit-0001',
+    storageBucket: 'hatofit-0001.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBfzj6wSxFIRazuPSG393-RbjmwZUWSu5k',
-    appId: '1:398386632860:ios:6428c0476d6098517c3559',
-    messagingSenderId: '398386632860',
-    projectId: 'hatofit',
-    storageBucket: 'hatofit.appspot.com',
-    iosClientId: '398386632860-rp3e4lqsc8kg8t66nt7j8p7s6ebqm41q.apps.googleusercontent.com',
-    iosBundleId: 'dev.erhahahaa.hatofit',
+    apiKey: 'AIzaSyA1-kgU0ecIEYpavE5GOw-l4lpp3EvQoSI',
+    appId: '1:123499973842:ios:0b84f2a124fb811e1db10b',
+    messagingSenderId: '123499973842',
+    projectId: 'hatofit-0001',
+    storageBucket: 'hatofit-0001.appspot.com',
+    iosClientId: '123499973842-etvoo516gh5usnv9qajh6ummdlb6r0rh.apps.googleusercontent.com',
+    iosBundleId: 'edu.unesa.hatofit',
   );
 }

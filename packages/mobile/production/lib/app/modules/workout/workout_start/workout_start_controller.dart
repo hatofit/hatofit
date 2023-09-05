@@ -4,14 +4,10 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/exercise_model.dart';
-import 'package:hatofit/app/models/session_model.dart';
-import 'package:hatofit/app/modules/history/history_controller.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
-import 'package:hatofit/app/services/internet_service.dart';
-import 'package:hatofit/app/services/storage_service.dart';
 import 'package:hatofit/utils/hr_zone.dart';
-import 'package:intl/intl.dart';
+import 'package:hatofit/utils/streaming_utils.dart';
 import 'package:vibration/vibration.dart';
 
 class WorkoutStartController extends GetxController {
@@ -24,27 +20,24 @@ class WorkoutStartController extends GetxController {
   final isNowExerciseFinish = false.obs;
   final isAllExerciseFinish = false.obs;
 
-  final BluetoothService bleService = Get.find<BluetoothService>();
-  final HistoryController _historyController = Get.find<HistoryController>();
+  final strmUtls = StreamingUtils();
 
-  final sessionDataItem = <SessionDataItem>[];
+  final BluetoothService bleService = Get.find<BluetoothService>();
+
   HrZoneType? hrZoneType;
 
   @override
   void onInit() {
-    bleService.sesionValue.clear();
     bleService.isStartWorkout.value = true;
-    Vibration.vibrate(duration: 500);
-    Future.delayed(const Duration(seconds: 3), () {
-      startWorkout();
-    });
+    bleService.sesionValue.clear();
+    strmUtls.startWorkout();
     super.onInit();
   }
 
   @override
   void onClose() {
-    bleService.sesionValue.clear();
     bleService.isStartWorkout.value = false;
+    bleService.sesionValue.clear();
     super.onClose();
   }
 
@@ -54,7 +47,7 @@ class WorkoutStartController extends GetxController {
       saveWorkout(workout.id);
       countDownTimer.value.reset();
       isAllExerciseFinish.value = true;
-      _historyController.fetchHistory();
+      update();
     }
     if ((nowInstruction.value + 1) < totalInstruction) {
       countDownTimer.value.restart(
@@ -89,37 +82,21 @@ class WorkoutStartController extends GetxController {
     }
   }
 
-  startWorkout() {
-    int counter = 0;
-    Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (bleService.isStartWorkout.value == false) {
-        timer.cancel();
-      } else {
-        sessionDataItem.add(SessionDataItem(
-          second: counter,
-          timeStamp: DateTime.now().microsecondsSinceEpoch,
-          devices: bleService.sesionValue,
-        ));
-        bleService.sesionValue.clear();
-        counter++;
-      }
-    });
-  }
-
-  void saveWorkout(String title) {
-    SessionModel session = SessionModel(
-      exerciseId: title,
-      startTime: _startTime,
-      endTime: DateTime.now().microsecondsSinceEpoch,
-      timelines: [],
-      data: sessionDataItem,
+  void saveWorkout(String title) async {
+    bleService.isStartWorkout.value = false;
+    final res = await strmUtls.saveWorkout(
+      title,
+      _startTime,
+      [],
     );
-    final DateTime strtTime = DateTime.fromMicrosecondsSinceEpoch(_startTime);
-    final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
-    final String formatted = formatter.format(strtTime);
-
-    StorageService().saveToJSON('session/raw/$formatted-$title', session);
-    InternetService().postSession(session);
-    Get.offAllNamed(AppRoutes.dashboard);
+    if (res != null && res == 200) {
+      Get.offAllNamed(AppRoutes.dashboard);
+    } else {
+      Get.snackbar(
+        'Error',
+        'Something went wrong',
+        backgroundColor: Colors.red,
+      );
+    }
   }
 }

@@ -258,25 +258,29 @@ const ApiAuth = ({ route }) => {
         var _a, _b, _c, _d;
         console.log("DATA BODY", req.body);
         try {
-            // validate input
-            const password = req.body.password || "";
-            // remove whitespace
-            if (password.trim() === "") {
-                return res.status(400).json({
-                    success: false,
-                    message: "Password must not be empty",
-                });
-            }
-            // input schema
-            const rawPlainPassword = req.body.password || "";
-            // password
-            const saltRounds = parseInt(process.env.HASH_PASSWORD_SALT || "10");
-            const hasingPasssword = yield new Promise((res) => {
-                bcrypt_1.default.hash(rawPlainPassword, saltRounds, function (err, hash) {
-                    return res(hash);
-                });
-            });
-            req.body.password = hasingPasssword;
+            // // validate input
+            // const password = req.body.password || "";
+            // // remove whitespace
+            // if (password.trim() === "") {
+            //   return res.status(400).json({
+            //     success: false,
+            //     message: "Password must not be empty",
+            //   });
+            // }
+            // // input schema
+            // const rawPlainPassword: string = req.body.password || ("" as string);
+            // // password
+            // const saltRounds = parseInt(process.env.HASH_PASSWORD_SALT || "10");
+            // const hasingPasssword = await new Promise((res) => {
+            //   bcrypt.hash(
+            //     rawPlainPassword,
+            //     saltRounds,
+            //     function (err: any, hash: any) {
+            //       return res(hash);
+            //     }
+            //   );
+            // });
+            // req.body.password = hasingPasssword;
             // dateOfBirth
             const dateOfBirth = req.body.dateOfBirth || "";
             req.body.dateOfBirth = (0, dayjs_1.default)(dateOfBirth, "mm/dd/yyyy").toDate();

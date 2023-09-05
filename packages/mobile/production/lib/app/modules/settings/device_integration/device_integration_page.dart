@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/app/models/polar_device.dart';
 import 'package:hatofit/app/modules/settings/device_integration/device_integration_controller.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/app/themes/app_theme.dart';
@@ -23,6 +24,7 @@ class DeviceIntegrationPage extends GetView<DeviceIntegrationController> {
       body: Column(
         children: [
           Container(
+            margin: const EdgeInsets.only(top: 16),
             height: 5,
             width: Get.height / 3,
             decoration: BoxDecoration(
@@ -30,163 +32,172 @@ class DeviceIntegrationPage extends GetView<DeviceIntegrationController> {
                 borderRadius: BorderRadius.circular(124)),
           ),
           SizedBox(
-            height: ThemeManager().screenHeight / 5,
-            width: ThemeManager().screenWidth,
-            child: FutureBuilder(
-              future: bleService.detectedDevices.isEmpty
-                  ? Future.delayed(const Duration(seconds: 3))
-                  : null,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: Center(child: CircularProgressIndicator()),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Error:${snapshot.error}'),
-                  );
-                } else if (bleService.detectedDevices.isEmpty) {
-                  return const Center(
-                    child: Text(
-                        "Didn't see any device🫣,\nmake sure your device is turn on"),
-                  );
-                } else {
-                  return ListView.builder(
-                    itemCount: bleService.detectedDevices.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: Image.asset(
-                          bleService.detectedDevices[index].imageAsset,
-                          height: 50,
-                          width: 50,
-                        ),
-                        title: Text(
-                          bleService.detectedDevices[index].name,
-                          style: Theme.of(context).textTheme.displaySmall,
-                        ),
-                        subtitle: Row(
-                          children: [
-                            Text(
-                              'ID :${bleService.detectedDevices[index].deviceId}',
-                              style: Theme.of(context).textTheme.bodySmall,
+              height: ThemeManager().screenHeight / 2,
+              width: ThemeManager().screenWidth,
+              child: FutureBuilder(
+                future: Future.delayed(const Duration(seconds: 3)),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.connectionState == ConnectionState.done) {
+                    if (bleService.detectedDevices.isEmpty) {
+                      return _noDevice(context);
+                    } else {
+                      return ListView.builder(
+                        itemCount: bleService.detectedDevices.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            leading: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.white),
+                              child: Image.asset(
+                                  bleService.detectedDevices[index].imageAsset),
                             ),
-                            Text(
-                              ' RSSI : ${bleService.detectedDevices[index].rssi} dBm',
-                              style: Theme.of(context).textTheme.bodySmall,
+                            title: Text(
+                              bleService.detectedDevices[index].info.name,
+                              style: Theme.of(context).textTheme.displaySmall,
                             ),
-                          ],
-                        ),
-                        trailing: Obx(
-                          () => bleService.isConnectedDevice.value
-                              ? TextButton(
-                                  style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.white),
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              ColorConstants.crimsonRed)),
-                                  child: const Text('Disconnect'),
-                                  onPressed: () {
-                                    bleService.disconnectDevice(bleService
-                                        .detectedDevices[index].deviceId);
-                                    Get.back();
-                                  },
-                                )
-                              : TextButton(
-                                  style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.white),
-                                      backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              ColorConstants.ceruleanBlue)),
-                                  child: const Text('Connect'),
-                                  onPressed: () {
-                                    bleService.getBluetoothStatus();
-                                    bleService.connectDevice(bleService
-                                        .detectedDevices[index].deviceId);
-                                    Get.back();
-                                    Get.dialog(
-                                      Obx(
-                                        () => Center(
-                                            child: bleService.isConnectedDevice
-                                                        .value ==
-                                                    false
-                                                ? Dialog(
-                                                    child: SizedBox(
-                                                    height: 300,
-                                                    width: 150,
-                                                    child: Column(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Text('Connecting to',
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .bodyLarge),
-                                                        const SizedBox(
-                                                          height: 32,
-                                                        ),
-                                                        const CupertinoActivityIndicator(
-                                                          radius: 48,
-                                                        ),
-                                                        const SizedBox(
-                                                          height: 32,
-                                                        ),
-                                                        Text(
-                                                            bleService
-                                                                .detectedDevices[
-                                                                    index]
-                                                                .name,
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .displaySmall),
-                                                        const SizedBox(
-                                                          height: 4,
-                                                        ),
-                                                        Text(
-                                                            'Device ID : ${bleService.detectedDevices[index].deviceId}',
-                                                            style: Theme.of(
-                                                                    context)
-                                                                .textTheme
-                                                                .bodyMedium),
-                                                      ],
-                                                    ),
-                                                  ))
-                                                : FutureBuilder(
-                                                    future: Future.delayed(
-                                                        const Duration(
-                                                            seconds: 3), () {
-                                                      Get.back();
-                                                    }),
-                                                    builder: (context,
-                                                            snapshot) =>
-                                                        const Dialog(
-                                                            child: Text(
-                                                                'Connected')),
-                                                  )),
-                                      ),
-                                      transitionCurve: Curves.easeInOutCubic,
-                                    );
-                                  },
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  'ID :${bleService.detectedDevices[index].info.deviceId}',
+                                  style: Theme.of(context).textTheme.bodySmall,
                                 ),
-                        ),
-                        onTap: () {},
+                                Obx(
+                                  () => Text(
+                                    ' RSSI : ${bleService.detectedDevices[index].info.rssi}',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            trailing: _handleButton(
+                                bleService.detectedDevices[index]),
+                          );
+                        },
                       );
-                    },
-                  );
-                }
-              },
-            ),
-          ),
+                    }
+                  }
+                  return SizedBox(
+                      height: ThemeManager().screenHeight / 2,
+                      width: ThemeManager().screenWidth,
+                      child: _noDevice(context));
+                },
+              ))
         ],
       ),
+    );
+  }
+
+  Widget _handleButton(PolarDevice device) {
+    final bleService = Get.find<BluetoothService>();
+    final deviceId = device.info.deviceId;
+    final isConnect = device.isConnect;
+    if (isConnect.value == false) {
+      return TextButton(
+        style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            backgroundColor:
+                MaterialStateProperty.all<Color>(ColorConstants.ceruleanBlue)),
+        child: const Text('Connect'),
+        onPressed: () {
+          bleService.connectDevice(device);
+          Get.back();
+          Get.dialog(
+            connecting(
+              deviceName: bleService.detectedDevices
+                  .firstWhere((element) => element.info.deviceId == deviceId)
+                  .info
+                  .name,
+              deviceId: bleService.detectedDevices
+                  .firstWhere((element) => element.info.deviceId == deviceId)
+                  .info
+                  .deviceId,
+            ), // add context
+            transitionCurve: Curves.easeInOutCubic,
+          );
+        },
+      );
+    } else {
+      return TextButton(
+        style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            backgroundColor:
+                MaterialStateProperty.all<Color>(ColorConstants.crimsonRed)),
+        child: const Text('Disconnect'),
+        onPressed: () {
+          bleService.disconnectDevice(device);
+          Get.back();
+        },
+      );
+    }
+  }
+
+  Dialog connecting({
+    required String deviceName,
+    required String deviceId,
+  }) {
+    final context = Get.context!;
+    return Dialog(
+        child: SizedBox(
+      height: 300,
+      width: 150,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Connecting to', style: Theme.of(context).textTheme.bodyLarge),
+          const SizedBox(
+            height: 32,
+          ),
+          const CupertinoActivityIndicator(
+            radius: 48,
+          ),
+          const SizedBox(
+            height: 32,
+          ),
+          Text(deviceName, style: Theme.of(context).textTheme.displaySmall),
+          const SizedBox(
+            height: 4,
+          ),
+          Text('Device ID : $deviceId',
+              style: Theme.of(context).textTheme.bodyMedium),
+        ],
+      ),
+    ));
+  }
+
+  Widget _noDevice(BuildContext context) {
+    final bleService = Get.find<BluetoothService>();
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "Didn't see any device🤔",
+          style: Theme.of(context).textTheme.displayMedium,
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Text(
+          'Make sure your device is turn on',
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        const SizedBox(
+          height: 32,
+        ),
+        TextButton(
+          onPressed: () {
+            bleService.scanPolarDevices();
+          },
+          style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  ColorConstants.ceruleanBlue)),
+          child: const Text('Try Again'),
+        )
+      ],
     );
   }
 }

@@ -23,7 +23,9 @@ class LoginPage extends GetView<LoginController> {
                   height: ThemeManager().screenHeight * 0.4,
                   child: ColorFiltered(
                     colorFilter: ColorFilter.mode(
-                      Colors.black.withOpacity(0.5),
+                      Theme.of(context)
+                          .scaffoldBackgroundColor
+                          .withOpacity(0.5),
                       BlendMode.srcOver,
                     ),
                     child: VideoPlayer(controller.videoPlayerController),
@@ -78,6 +80,7 @@ class LoginPage extends GetView<LoginController> {
                           }
                           return null;
                         },
+                        keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           prefixIcon: const Icon(
                             CupertinoIcons.mail,

@@ -66,14 +66,14 @@ class BMIChartWidget extends GetView<HomeController> {
           Column(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                 height: 15,
                 child: CustomPaint(
-                  size: Size(300, 10), // Adjust the size as needed
+                  size: const Size(300, 10), // Adjust the size as needed
                   painter: BMIPainter(bmiValue),
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Container(
                 height: 14,
                 decoration: BoxDecoration(

@@ -1,12 +1,12 @@
-import 'dart:math';
-
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/app/models/heart_Rate.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
+import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:hatofit/utils/time_utils.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import 'free_workout_controller.dart';
 
@@ -42,11 +42,11 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
           children: [
             Obx(() {
               controller.add(DateTime.now().microsecondsSinceEpoch,
-                  bleService.heartRate.value);
+                  bleService.detectedDevices.last.hr.value);
               if (controller.hrList.length % 2 == 0) {
                 controller.calcHr();
               }
-              controller.userZone(bleService.heartRate.value);
+              controller.userZone(bleService.detectedDevices.first.hr.value);
               return Column(
                 children: [
                   Row(
@@ -75,58 +75,27 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
                     ),
                     child: AspectRatio(
                       aspectRatio: 2,
-                      child: LineChart(
-                        LineChartData(
-                          lineTouchData: LineTouchData(
-                            handleBuiltInTouches: true,
-                            touchTooltipData: LineTouchTooltipData(
-                              tooltipBgColor: Colors.blueGrey.withOpacity(0.5),
-                            ),
+                      child: SfCartesianChart(
+                        series: <ChartSeries>[
+                          LineSeries<HrChart, DateTime>(
+                            dataSource: controller.hrStats.value.sfSpot,
+                            xValueMapper: (HrChart hr, _) => hr.time,
+                            yValueMapper: (HrChart hr, _) => hr.hr,
+                            color: ColorConstants.crimsonRed,
                           ),
-                          borderData: FlBorderData(
-                            show: true,
-                            border: const Border(
-                              bottom: BorderSide(color: Colors.white),
-                              left: BorderSide(color: Colors.white),
-                              right: BorderSide(color: Colors.transparent),
-                              top: BorderSide(color: Colors.transparent),
-                            ),
-                          ),
-                          titlesData: FlTitlesData(
-                            bottomTitles: AxisTitles(
-                              sideTitles: SideTitles(
-                                showTitles: true,
-                                getTitlesWidget: (value, meta) {
-                                  String time = DateFormat('mm:ss').format(
-                                      DateTime.fromMicrosecondsSinceEpoch(
-                                          value.toInt()));
-                                  return bottomTitleWidgets(time, meta);
-                                },
-                              ),
-                            ),
-                            rightTitles: const AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
-                            ),
-                            topTitles: const AxisTitles(
-                              sideTitles: SideTitles(showTitles: false),
-                            ),
-                          ),
-                          lineBarsData: [
-                            LineChartBarData(
-                              spots: controller.hrStats.value.flSpot,
-                              isCurved: false,
-                              belowBarData: BarAreaData(applyCutOffY: true),
-                              isStrokeCapRound: false,
-                              isStrokeJoinRound: false,
-                              barWidth: 3,
-                              color: Colors.red,
-                              dotData: const FlDotData(show: false),
-                            ),
-                          ],
-                          minY: 0,
-                          maxY: 200,
+                        ],
+                        primaryYAxis: NumericAxis(
+                          minimum: 0,
+                          maximum: 200,
                         ),
-                        duration: const Duration(seconds: 1),
+                        primaryXAxis: DateTimeAxis(
+                          dateFormat: DateFormat('HH:mm:ss'),
+                          interval: 10,
+                          intervalType: DateTimeIntervalType.seconds,
+                          minimum: DateTime.now().subtract(
+                            const Duration(seconds: 30),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -138,25 +107,12 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
               padding: const EdgeInsets.all(16),
               child: ElevatedButton(
                 onPressed: () {
-                  Get.toNamed(AppRoutes.pickWoType);
+                  controller.finishWorkout();
                 },
                 child: const Text('End'),
               ),
             ),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget bottomTitleWidgets(String value, TitleMeta meta) {
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 5,
-      child: Transform(
-        transform: Matrix4.identity()..rotateZ(45 * pi / 180),
-        child: Text(
-          value,
         ),
       ),
     );

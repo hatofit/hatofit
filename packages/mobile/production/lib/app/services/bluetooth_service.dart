@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/polar_device.dart';
+import 'package:hatofit/app/modules/home/home_controller.dart';
 import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
+import 'package:hatofit/utils/debug_logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
 import 'package:vibration/vibration.dart';
@@ -20,36 +22,43 @@ class BluetoothService extends GetxService {
   final polar = Polar();
 
   final isStartWorkout = false.obs;
-  final List<StreamSubscription> _availableSubscriptions = [];
-
-  final heartRate = Rx<int>(0);
 
   final sesionValue = <SessionDataItemDevice>[];
 
   Future<BluetoothService> init() async {
     getBluetoothStatus();
     polar.deviceDisconnected.listen(
-      (e) {
+      (e) async {
         isConnectedDevice.value = false;
-        streamCancelation();
-        _availableSubscriptions.clear();
-        heartRate.value = 0;
-        // vibrate with pattern 1s - 0.5s - 1s
+        final device = detectedDevices
+            .firstWhere((element) => element.info.deviceId == e.info.deviceId);
+        if (device.polarSubs.isNotEmpty) {
+          await streamCancelation(device.polarSubs);
+        }
+        HomeController().update();
+        device.hr.value = 0;
+        device.isConnect.value = false;
         Vibration.vibrate(pattern: [1000, 500, 1000]);
+        logger.i('Device disconnected: ${e.info.name} ${e.info.deviceId}');
       },
     );
     polar.batteryLevel.listen(
       (e) {
-        PolarBatteryLevelEvent;
         detectedDevices
-            .firstWhere((element) => element.deviceId == e.identifier)
+            .firstWhere((element) => element.info.deviceId == e.identifier)
             .battery = e.level;
       },
     );
     polar.deviceConnected.listen(
       (e) {
         isConnectedDevice.value = true;
+        final device = detectedDevices
+            .firstWhere((element) => element.info.deviceId == e.deviceId);
+        device.isConnect.value = true;
+
+        HomeController().update();
         Vibration.vibrate(pattern: [500, 0, 0, 500]);
+        logger.i('Device connected: ${e.name} ${e.deviceId}');
       },
     );
     return this;
@@ -64,12 +73,17 @@ class BluetoothService extends GetxService {
   Future<bool> askPermission() async {
     await polar.requestPermissions();
     await Permission.location.request();
-    await Permission.storage.request();
-    final sto = await Permission.storage.isGranted;
+    final x = await Permission.manageExternalStorage.request();
+    final sto = await Permission.manageExternalStorage.isGranted;
+    if (x.isPermanentlyDenied) {
+      openAppSettings();
+    }
     return sto;
   }
 
   Future<void> getBluetoothStatus() async {
+    FlutterBluePlus.setLogLevel(LogLevel.none);
+
     FlutterBluePlus.adapterState.listen((event) async {
       if (event == BluetoothAdapterState.on) {
         isBluetoothOn.value = true;
@@ -82,6 +96,8 @@ class BluetoothService extends GetxService {
   Future<void> turnOnBluetooth() async {
     if (isBluetoothOn.value == false) {
       await FlutterBluePlus.turnOn();
+      final device = BluetoothDevice.fromId('Polar');
+      device.connect();
     }
   }
 
@@ -92,7 +108,7 @@ class BluetoothService extends GetxService {
         String? nameReplace;
         String? imageAsset;
         final bool isDetected = detectedDevices.any(
-          (element) => element.deviceId == event.deviceId,
+          (element) => element.info.deviceId == event.deviceId,
         );
         if (!isDetected) {
           if (event.name.contains('H10')) {
@@ -110,14 +126,17 @@ class BluetoothService extends GetxService {
           }
           nameReplace ??= event.name;
           imageAsset ??= 'assets/images/polar/polar-h10.webp';
+          event.name = nameReplace;
           detectedDevices.add(
             PolarDevice(
-              name: nameReplace,
-              address: event.address,
-              deviceId: event.deviceId,
-              rssi: event.rssi,
+              // name: nameReplace,
+              // address: event.address,
+              // deviceId: event.deviceId,
+              // rssi: event.rssi,
+              info: event,
               imageAsset: imageAsset,
-              isConnectable: event.isConnectable,
+              // isConnectable: event.isConnectable,
+              fble: BluetoothDevice.fromId(event.address),
             ),
           );
         }
@@ -125,14 +144,16 @@ class BluetoothService extends GetxService {
     );
   }
 
-  void connectDevice(String deviceId) {
+  void connectDevice(PolarDevice device) {
+    final deviceId = device.info.deviceId;
     final connectFuture = polar.connectToDevice(deviceId);
     final deviceConnectedFuture = polar.deviceConnected.first;
-
-    Future.wait([connectFuture, deviceConnectedFuture])
-        .timeout(const Duration(seconds: 3))
-        .then((_) {
-      streamWhenReady(deviceId);
+    Future.wait([
+      connectFuture,
+      deviceConnectedFuture,
+    ]).timeout(const Duration(seconds: 10)).then((_) async {
+      await device.fble!.connect();
+      streamWhenReady(device);
       Get.back();
       Get.snackbar('Success', 'Yeay... Berhasil connect',
           colorText: ThemeManager().isDarkMode ? Colors.white : Colors.black,
@@ -150,19 +171,25 @@ class BluetoothService extends GetxService {
     });
   }
 
-  void disconnectDevice(String deviceId) async {
-    await streamCancelation();
+  void disconnectDevice(PolarDevice device) async {
+    final deviceId = device.info.deviceId;
     await polar.disconnectFromDevice(deviceId);
+    await device.fble!.disconnect();
     await polar.deviceDisconnected.last;
+
+    final subs = device.polarSubs;
+    if (subs.isNotEmpty) {
+      await streamCancelation(subs);
+    }
   }
 
-  Future<void> streamCancelation() async {
-    for (var element in _availableSubscriptions) {
+  Future<void> streamCancelation(List<StreamSubscription> subs) async {
+    for (var element in subs) {
       await element.cancel();
     }
   }
 
-  void streamWhenReady(String deviceId) async {
+  Future<Set<PolarDataType>> getAvailableTypes(String deviceId) async {
     await polar.sdkFeatureReady.firstWhere(
       (e) =>
           e.identifier == deviceId &&
@@ -170,45 +197,39 @@ class BluetoothService extends GetxService {
     );
     final availableTypes =
         await polar.getAvailableOnlineStreamDataTypes(deviceId);
+    return availableTypes;
+  }
 
+  void streamWhenReady(PolarDevice device) async {
+    final deviceId = device.info.deviceId;
+    final availableTypes = await getAvailableTypes(deviceId);
     if (availableTypes.contains(PolarDataType.hr)) {
       StreamSubscription hrSubscription =
-          polar.startHrStreaming(deviceId).listen((hrData) {
-        heartRate.value = hrData.samples.last.hr;
-
+          polar.startHrStreaming(deviceId).listen((hrData) async {
         if (isStartWorkout.value == true) {
           bool hasHrDevice =
               sesionValue.any((element) => element.type == 'PolarDataType.hr');
-
           if (!hasHrDevice) {
-            if (hrData.samples.last.rrsMs.isEmpty) {
-              sesionValue.add(
-                SessionDataItemDevice(
-                  type: 'PolarDataType.hr',
-                  identifier: deviceId,
-                  value: [
-                    {'hr': hrData.samples.last.hr}
-                  ],
-                ),
-              );
-            } else {
-              sesionValue.add(
-                SessionDataItemDevice(
-                  type: 'PolarDataType.hr',
-                  identifier: deviceId,
-                  value: [
-                    {
-                      'hr': hrData.samples.last.hr,
-                      'rrsMs': hrData.samples.last.rrsMs
-                    }
-                  ],
-                ),
-              );
-            }
+            sesionValue.add(
+              SessionDataItemDevice(
+                type: 'PolarDataType.hr',
+                identifier: deviceId,
+                value: [
+                  {
+                    'hr': hrData.samples.last.hr,
+                    'rrsMs': hrData.samples.last.rrsMs
+                  }
+                ],
+              ),
+            );
           }
         }
+        device.hr.value = hrData.samples.last.hr;
+        final rssi = await device.fble!.readRssi(timeout: 30);
+        device.info.rssi = rssi;
       });
-      _availableSubscriptions.add(hrSubscription);
+      // _availableSubscriptions.add(hrSubscription);
+      device.polarSubs.add(hrSubscription);
     }
     if (availableTypes.contains(PolarDataType.acc)) {
       StreamSubscription accSubscription =
@@ -236,7 +257,8 @@ class BluetoothService extends GetxService {
           }
         }
       });
-      _availableSubscriptions.add(accSubscription);
+      // _availableSubscriptions.add(accSubscription);
+      device.polarSubs.add(accSubscription);
     }
     if (availableTypes.contains(PolarDataType.ecg)) {
       StreamSubscription ecgSubscription =
@@ -262,7 +284,8 @@ class BluetoothService extends GetxService {
           }
         }
       });
-      _availableSubscriptions.add(ecgSubscription);
+      // _availableSubscriptions.add(ecgSubscription);
+      device.polarSubs.add(ecgSubscription);
     }
     if (availableTypes.contains(PolarDataType.gyro)) {
       StreamSubscription gyroSubscription =
@@ -290,7 +313,8 @@ class BluetoothService extends GetxService {
           }
         }
       });
-      _availableSubscriptions.add(gyroSubscription);
+      // _availableSubscriptions.add(gyroSubscription);
+      device.polarSubs.add(gyroSubscription);
     }
     if (availableTypes.contains(PolarDataType.magnetometer)) {
       StreamSubscription magnetometerSubscription =
@@ -318,7 +342,8 @@ class BluetoothService extends GetxService {
           }
         }
       });
-      _availableSubscriptions.add(magnetometerSubscription);
+      // _availableSubscriptions.add(magnetometerSubscription);
+      device.polarSubs.add(magnetometerSubscription);
     }
     if (availableTypes.contains(PolarDataType.ppg)) {
       StreamSubscription ppgSubscription =
@@ -344,7 +369,8 @@ class BluetoothService extends GetxService {
           }
         }
       });
-      _availableSubscriptions.add(ppgSubscription);
+      // _availableSubscriptions.add(ppgSubscription);
+      device.polarSubs.add(ppgSubscription);
     }
   }
 }

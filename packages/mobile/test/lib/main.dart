@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/constants/style.dart';
 import 'package:hatofit/routes/routes.dart';
+import 'package:keep_screen_on/keep_screen_on.dart';
 import 'package:logger/logger.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
 
@@ -22,9 +26,11 @@ class Binder extends Bindings {
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
+  KeepScreenOn.turnOn();
   runApp(
     GetMaterialApp(
-      title: 'HatoFit Demo',
+      title: 'HatoFitDemo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -51,9 +57,7 @@ class MyApp extends StatelessWidget {
           stream: FlutterBluePlus.instance.state,
           initialData: BluetoothState.unknown,
           builder: (c, snapshot) {
-            Polar().requestPermissions().then((value) => Permission.location
-                .request()
-                .then((value) => Permission.storage.request()));
+            handlePermision();
             if (snapshot.data == BluetoothState.on) {
               return OnScreen(adapterState: snapshot.data!);
             }
@@ -61,6 +65,21 @@ class MyApp extends StatelessWidget {
           }),
     );
   }
+}
+
+handlePermision() async {
+  await Polar().requestPermissions();
+  await Permission.storage.request();
+  final x = await Permission.manageExternalStorage.request();
+  if (x.isPermanentlyDenied) {
+    openAppSettings();
+  }
+}
+
+Future testSave() async {
+  final directory = await getExternalStorageDirectory();
+  final file = File('${directory!.path}/my_file.csv');
+  await file.writeAsString('Hello, World!');
 }
 
 class OnScreen extends StatelessWidget {
@@ -90,6 +109,7 @@ class OnScreen extends StatelessWidget {
             },
             child: const Text('Find Devices'),
           ),
+          ElevatedButton(onPressed: testSave, child: const Text('Test Save')),
         ],
       ),
     );

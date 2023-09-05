@@ -15,7 +15,7 @@ class CaloriesChartWidget extends GetView<HomeController> {
     final width = ThemeManager().screenWidth;
     final height = ThemeManager().screenHeight;
     return Container(
-        height: height * 0.275,
+        height: height * 0.26,
         width: width * 0.45,
         decoration: BoxDecoration(
           color: Get.isDarkMode
@@ -73,19 +73,13 @@ class CaloriesPieChart extends StatelessWidget {
           widget: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Positioned(
-                top: (height * 0.3),
-                child: Text(
-                  displayValue,
-                  style: Theme.of(context).textTheme.displayMedium,
-                ),
+              Text(
+                displayValue,
+                style: Theme.of(context).textTheme.displayMedium,
               ),
-              Positioned(
-                bottom: (height * 0.3),
-                child: Text(
-                  store.user!.metricUnits!.energyUnits!,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+              Text(
+                store.user!.metricUnits!.energyUnits!,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ],
           ),
@@ -106,7 +100,7 @@ class CaloriesPieChart extends StatelessWidget {
           endAngle: 360,
           pointColorMapper: (ChartData data, _) => data.x == 'Remaining'
               ? ColorConstants.purple
-              : Color.fromARGB(255, 141, 101, 194),
+              : const Color.fromARGB(255, 141, 101, 194),
           enableTooltip: false,
         ),
       ],

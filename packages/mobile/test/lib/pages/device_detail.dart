@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -584,8 +585,12 @@ class DeviceDetail extends GetView<PolarController> {
                                     DateTime.now().microsecondsSinceEpoch,
                                 rssi: snapshot.data!),
                           );
-                          controller.calcCon.calcRssi(
-                              controller.streamingModel[index], index);
+                          // if (controller.streamingModel[0].rssiData.length %
+                          //         2 ==
+                          //     0) {
+                          //   controller.calcCon.calcRssi(
+                          //       controller.streamingModel[index], index);
+                          // }
                           return _buildInfoRow(
                               'RSSI:', '${snapshot.data.toString()} dBm');
                         } else {
@@ -695,9 +700,10 @@ class DeviceDetail extends GetView<PolarController> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               _buildStatInfo(
-                                  'Last',
-                                  controller.calcCon.rssiStats[index].latestRssi
-                                      .toString()),
+                                'Last',
+                                controller.streamingModel[0].rssiData.last.rssi
+                                    .toString(),
+                              ),
                               _buildStatInfo(
                                   'Min',
                                   controller.calcCon.rssiStats[index].minRssi
@@ -713,76 +719,76 @@ class DeviceDetail extends GetView<PolarController> {
                             ],
                           ),
                           const SizedBox(height: defaultMargin),
-                          Container(
-                            padding: const EdgeInsets.only(
-                                top: defaultMargin, bottom: defaultMargin),
-                            decoration: BoxDecoration(
-                              color: Colors.grey[900],
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: AspectRatio(
-                              aspectRatio: 2,
-                              child: LineChart(
-                                LineChartData(
-                                  maxY: 0,
-                                  minY: -100,
-                                  lineTouchData: LineTouchData(
-                                    handleBuiltInTouches: true,
-                                    touchTooltipData: LineTouchTooltipData(
-                                      tooltipBgColor:
-                                          Colors.blueGrey.withOpacity(0.5),
-                                    ),
-                                  ),
-                                  borderData: FlBorderData(
-                                    show: true,
-                                    border: const Border(
-                                      bottom: BorderSide(color: Colors.white),
-                                      left: BorderSide(color: Colors.white),
-                                      right:
-                                          BorderSide(color: Colors.transparent),
-                                      top:
-                                          BorderSide(color: Colors.transparent),
-                                    ),
-                                  ),
-                                  titlesData: FlTitlesData(
-                                    bottomTitles: AxisTitles(
-                                      sideTitles: SideTitles(
-                                        showTitles: true,
-                                        getTitlesWidget: (value, meta) {
-                                          String time = DateFormat('mm:ss')
-                                              .format(DateTime
-                                                  .fromMicrosecondsSinceEpoch(
-                                                      value.toInt()));
-                                          return bottomTitleWidgets(time, meta);
-                                        },
-                                      ),
-                                    ),
-                                    rightTitles: const AxisTitles(
-                                      sideTitles: SideTitles(showTitles: false),
-                                    ),
-                                    topTitles: const AxisTitles(
-                                      sideTitles: SideTitles(showTitles: false),
-                                    ),
-                                  ),
-                                  lineBarsData: [
-                                    LineChartBarData(
-                                      spots: controller
-                                          .calcCon.rssiStats[index].rssiSpots,
-                                      isCurved: false,
-                                      belowBarData:
-                                          BarAreaData(applyCutOffY: true),
-                                      isStrokeCapRound: false,
-                                      isStrokeJoinRound: false,
-                                      barWidth: 3,
-                                      color: Colors.red,
-                                      dotData: const FlDotData(show: false),
-                                    ),
-                                  ],
-                                ),
-                                duration: const Duration(seconds: 1),
-                              ),
-                            ),
-                          ),
+                          // Container(
+                          //   padding: const EdgeInsets.only(
+                          //       top: defaultMargin, bottom: defaultMargin),
+                          //   decoration: BoxDecoration(
+                          //     color: Colors.grey[900],
+                          //     borderRadius: BorderRadius.circular(10),
+                          //   ),
+                          //   child: AspectRatio(
+                          //     aspectRatio: 2,
+                          //     child: LineChart(
+                          //       LineChartData(
+                          //         maxY: 0,
+                          //         minY: -100,
+                          //         lineTouchData: LineTouchData(
+                          //           handleBuiltInTouches: true,
+                          //           touchTooltipData: LineTouchTooltipData(
+                          //             tooltipBgColor:
+                          //                 Colors.blueGrey.withOpacity(0.5),
+                          //           ),
+                          //         ),
+                          //         borderData: FlBorderData(
+                          //           show: true,
+                          //           border: const Border(
+                          //             bottom: BorderSide(color: Colors.white),
+                          //             left: BorderSide(color: Colors.white),
+                          //             right:
+                          //                 BorderSide(color: Colors.transparent),
+                          //             top:
+                          //                 BorderSide(color: Colors.transparent),
+                          //           ),
+                          //         ),
+                          //         titlesData: FlTitlesData(
+                          //           bottomTitles: AxisTitles(
+                          //             sideTitles: SideTitles(
+                          //               showTitles: true,
+                          //               getTitlesWidget: (value, meta) {
+                          //                 String time = DateFormat('mm:ss')
+                          //                     .format(DateTime
+                          //                         .fromMicrosecondsSinceEpoch(
+                          //                             value.toInt()));
+                          //                 return bottomTitleWidgets(time, meta);
+                          //               },
+                          //             ),
+                          //           ),
+                          //           rightTitles: const AxisTitles(
+                          //             sideTitles: SideTitles(showTitles: false),
+                          //           ),
+                          //           topTitles: const AxisTitles(
+                          //             sideTitles: SideTitles(showTitles: false),
+                          //           ),
+                          //         ),
+                          //         lineBarsData: [
+                          //           LineChartBarData(
+                          //             spots: controller
+                          //                 .calcCon.rssiStats[index].rssiSpots,
+                          //             isCurved: false,
+                          //             belowBarData:
+                          //                 BarAreaData(applyCutOffY: true),
+                          //             isStrokeCapRound: false,
+                          //             isStrokeJoinRound: false,
+                          //             barWidth: 3,
+                          //             color: Colors.red,
+                          //             dotData: const FlDotData(show: false),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //       duration: const Duration(seconds: 1),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ));
                 } else {
@@ -815,7 +821,12 @@ class DeviceDetail extends GetView<PolarController> {
                   rrsMs: snapshot.data!.samples.last.rrsMs,
                 ),
                 index);
-            controller.calcCon.calcHr(controller.streamingModel[index], index);
+            // if (controller.streamingModel[0].hrData.length % 2 == 0) {
+            //   controller.calcCon
+            //       .calcHr(controller.streamingModel[index], index);
+            // }
+            print(
+                'Rssi length: ${controller.streamingModel[0].rssiData.length}');
             return FutureBuilder(
                 future: Future.microtask(() =>
                     controller.streamingModel[index].hrData.length > 4
@@ -889,80 +900,80 @@ class DeviceDetail extends GetView<PolarController> {
                                         .toStringAsFixed(0)),
                               ],
                             ),
-                            const SizedBox(height: defaultMargin),
-                            Container(
-                              padding: const EdgeInsets.only(
-                                  top: defaultMargin, bottom: defaultMargin),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[900],
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: AspectRatio(
-                                aspectRatio: 2,
-                                child: LineChart(
-                                  LineChartData(
-                                    lineTouchData: LineTouchData(
-                                      handleBuiltInTouches: true,
-                                      touchTooltipData: LineTouchTooltipData(
-                                        tooltipBgColor:
-                                            Colors.blueGrey.withOpacity(0.5),
-                                      ),
-                                    ),
-                                    borderData: FlBorderData(
-                                      show: true,
-                                      border: const Border(
-                                        bottom: BorderSide(color: Colors.white),
-                                        left: BorderSide(color: Colors.white),
-                                        right: BorderSide(
-                                            color: Colors.transparent),
-                                        top: BorderSide(
-                                            color: Colors.transparent),
-                                      ),
-                                    ),
-                                    titlesData: FlTitlesData(
-                                      bottomTitles: AxisTitles(
-                                        sideTitles: SideTitles(
-                                          showTitles: true,
-                                          getTitlesWidget: (value, meta) {
-                                            String time = DateFormat('mm:ss')
-                                                .format(DateTime
-                                                    .fromMicrosecondsSinceEpoch(
-                                                        value.toInt()));
-                                            return bottomTitleWidgets(
-                                                time, meta);
-                                          },
-                                        ),
-                                      ),
-                                      rightTitles: const AxisTitles(
-                                        sideTitles:
-                                            SideTitles(showTitles: false),
-                                      ),
-                                      topTitles: const AxisTitles(
-                                        sideTitles:
-                                            SideTitles(showTitles: false),
-                                      ),
-                                    ),
-                                    lineBarsData: [
-                                      LineChartBarData(
-                                        spots: controller
-                                            .calcCon.hrStats[index].hrSpots,
-                                        isCurved: false,
-                                        belowBarData:
-                                            BarAreaData(applyCutOffY: true),
-                                        isStrokeCapRound: false,
-                                        isStrokeJoinRound: false,
-                                        barWidth: 3,
-                                        color: Colors.red,
-                                        dotData: const FlDotData(show: false),
-                                      ),
-                                    ],
-                                    minY: 0,
-                                    maxY: 200,
-                                  ),
-                                  duration: const Duration(seconds: 1),
-                                ),
-                              ),
-                            ),
+                            // const SizedBox(height: defaultMargin),
+                            // Container(
+                            //   padding: const EdgeInsets.only(
+                            //       top: defaultMargin, bottom: defaultMargin),
+                            //   decoration: BoxDecoration(
+                            //     color: Colors.grey[900],
+                            //     borderRadius: BorderRadius.circular(10),
+                            //   ),
+                            //   child: AspectRatio(
+                            //     aspectRatio: 2,
+                            //     child: LineChart(
+                            //       LineChartData(
+                            //         lineTouchData: LineTouchData(
+                            //           handleBuiltInTouches: true,
+                            //           touchTooltipData: LineTouchTooltipData(
+                            //             tooltipBgColor:
+                            //                 Colors.blueGrey.withOpacity(0.5),
+                            //           ),
+                            //         ),
+                            //         borderData: FlBorderData(
+                            //           show: true,
+                            //           border: const Border(
+                            //             bottom: BorderSide(color: Colors.white),
+                            //             left: BorderSide(color: Colors.white),
+                            //             right: BorderSide(
+                            //                 color: Colors.transparent),
+                            //             top: BorderSide(
+                            //                 color: Colors.transparent),
+                            //           ),
+                            //         ),
+                            //         titlesData: FlTitlesData(
+                            //           bottomTitles: AxisTitles(
+                            //             sideTitles: SideTitles(
+                            //               showTitles: true,
+                            //               getTitlesWidget: (value, meta) {
+                            //                 String time = DateFormat('mm:ss')
+                            //                     .format(DateTime
+                            //                         .fromMicrosecondsSinceEpoch(
+                            //                             value.toInt()));
+                            //                 return bottomTitleWidgets(
+                            //                     time, meta);
+                            //               },
+                            //             ),
+                            //           ),
+                            //           rightTitles: const AxisTitles(
+                            //             sideTitles:
+                            //                 SideTitles(showTitles: false),
+                            //           ),
+                            //           topTitles: const AxisTitles(
+                            //             sideTitles:
+                            //                 SideTitles(showTitles: false),
+                            //           ),
+                            //         ),
+                            //         lineBarsData: [
+                            //           LineChartBarData(
+                            //             spots: controller
+                            //                 .calcCon.hrStats[index].hrSpots,
+                            //             isCurved: false,
+                            //             belowBarData:
+                            //                 BarAreaData(applyCutOffY: true),
+                            //             isStrokeCapRound: false,
+                            //             isStrokeJoinRound: false,
+                            //             barWidth: 3,
+                            //             color: Colors.red,
+                            //             dotData: const FlDotData(show: false),
+                            //           ),
+                            //         ],
+                            //         minY: 0,
+                            //         maxY: 200,
+                            //       ),
+                            //       duration: const Duration(seconds: 1),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ));
                   } else {
@@ -993,7 +1004,9 @@ class DeviceDetail extends GetView<PolarController> {
                 z: snapshot.data!.samples.last.z,
               ),
               index);
-          controller.calcCon.calcAcc(controller.streamingModel[index], index);
+          // if (controller.streamingModel[0].accData.length % 2 == 0) {
+          //   controller.calcCon.calcAcc(controller.streamingModel[index], index);
+          // }
           return FutureBuilder(
             future: Future.microtask(() =>
                 controller.streamingModel[index].accData.length > 4
@@ -1175,93 +1188,93 @@ class DeviceDetail extends GetView<PolarController> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: defaultMargin),
-                      Container(
-                        padding: const EdgeInsets.only(
-                            top: defaultMargin, bottom: defaultMargin),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[900],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: AspectRatio(
-                          aspectRatio: 2,
-                          child: LineChart(
-                            LineChartData(
-                              lineTouchData: LineTouchData(
-                                handleBuiltInTouches: true,
-                                touchTooltipData: LineTouchTooltipData(
-                                  tooltipBgColor:
-                                      Colors.blueGrey.withOpacity(0.5),
-                                ),
-                              ),
-                              borderData: FlBorderData(
-                                show: true,
-                                border: const Border(
-                                  bottom: BorderSide(color: Colors.white),
-                                  left: BorderSide(color: Colors.white),
-                                  right: BorderSide(color: Colors.transparent),
-                                  top: BorderSide(color: Colors.transparent),
-                                ),
-                              ),
-                              titlesData: FlTitlesData(
-                                bottomTitles: AxisTitles(
-                                  sideTitles: SideTitles(
-                                    showTitles: true,
-                                    getTitlesWidget: (value, meta) {
-                                      String time = DateFormat('mm:ss').format(
-                                          DateTime.fromMicrosecondsSinceEpoch(
-                                              value.toInt()));
-                                      return bottomTitleWidgets(time, meta);
-                                    },
-                                  ),
-                                ),
-                                rightTitles: const AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false),
-                                ),
-                                topTitles: const AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false),
-                                ),
-                              ),
-                              lineBarsData: [
-                                LineChartBarData(
-                                  spots: controller
-                                      .calcCon.accStats[index].accSpots[0],
-                                  isCurved: false,
-                                  belowBarData: BarAreaData(applyCutOffY: true),
-                                  isStrokeCapRound: false,
-                                  isStrokeJoinRound: false,
-                                  barWidth: 3,
-                                  color: cupertinoColors[0],
-                                  dotData: const FlDotData(show: false),
-                                ),
-                                LineChartBarData(
-                                  spots: controller
-                                      .calcCon.accStats[index].accSpots[1],
-                                  isCurved: false,
-                                  belowBarData: BarAreaData(applyCutOffY: true),
-                                  isStrokeCapRound: false,
-                                  isStrokeJoinRound: false,
-                                  barWidth: 3,
-                                  color: cupertinoColors[1],
-                                  dotData: const FlDotData(show: false),
-                                ),
-                                LineChartBarData(
-                                  spots: controller
-                                      .calcCon.accStats[index].accSpots[2],
-                                  isCurved: false,
-                                  belowBarData: BarAreaData(applyCutOffY: true),
-                                  isStrokeCapRound: false,
-                                  isStrokeJoinRound: false,
-                                  barWidth: 3,
-                                  color: cupertinoColors[2],
-                                  dotData: const FlDotData(show: false),
-                                ),
-                              ],
-                            ),
-                            duration: const Duration(seconds: 1),
-                          ),
-                        ),
-                      ),
+                      // const SizedBox(height: defaultMargin),
+                      // Container(
+                      //   padding: const EdgeInsets.only(
+                      //       top: defaultMargin, bottom: defaultMargin),
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.grey[900],
+                      //     borderRadius: BorderRadius.circular(10),
+                      //   ),
+                      //   child: AspectRatio(
+                      //     aspectRatio: 2,
+                      //     child: LineChart(
+                      //       LineChartData(
+                      //         lineTouchData: LineTouchData(
+                      //           handleBuiltInTouches: true,
+                      //           touchTooltipData: LineTouchTooltipData(
+                      //             tooltipBgColor:
+                      //                 Colors.blueGrey.withOpacity(0.5),
+                      //           ),
+                      //         ),
+                      //         borderData: FlBorderData(
+                      //           show: true,
+                      //           border: const Border(
+                      //             bottom: BorderSide(color: Colors.white),
+                      //             left: BorderSide(color: Colors.white),
+                      //             right: BorderSide(color: Colors.transparent),
+                      //             top: BorderSide(color: Colors.transparent),
+                      //           ),
+                      //         ),
+                      //         titlesData: FlTitlesData(
+                      //           bottomTitles: AxisTitles(
+                      //             sideTitles: SideTitles(
+                      //               showTitles: true,
+                      //               getTitlesWidget: (value, meta) {
+                      //                 String time = DateFormat('mm:ss').format(
+                      //                     DateTime.fromMicrosecondsSinceEpoch(
+                      //                         value.toInt()));
+                      //                 return bottomTitleWidgets(time, meta);
+                      //               },
+                      //             ),
+                      //           ),
+                      //           rightTitles: const AxisTitles(
+                      //             sideTitles: SideTitles(showTitles: false),
+                      //           ),
+                      //           topTitles: const AxisTitles(
+                      //             sideTitles: SideTitles(showTitles: false),
+                      //           ),
+                      //         ),
+                      //         lineBarsData: [
+                      //           LineChartBarData(
+                      //             spots: controller
+                      //                 .calcCon.accStats[index].accSpots[0],
+                      //             isCurved: false,
+                      //             belowBarData: BarAreaData(applyCutOffY: true),
+                      //             isStrokeCapRound: false,
+                      //             isStrokeJoinRound: false,
+                      //             barWidth: 3,
+                      //             color: cupertinoColors[0],
+                      //             dotData: const FlDotData(show: false),
+                      //           ),
+                      //           LineChartBarData(
+                      //             spots: controller
+                      //                 .calcCon.accStats[index].accSpots[1],
+                      //             isCurved: false,
+                      //             belowBarData: BarAreaData(applyCutOffY: true),
+                      //             isStrokeCapRound: false,
+                      //             isStrokeJoinRound: false,
+                      //             barWidth: 3,
+                      //             color: cupertinoColors[1],
+                      //             dotData: const FlDotData(show: false),
+                      //           ),
+                      //           LineChartBarData(
+                      //             spots: controller
+                      //                 .calcCon.accStats[index].accSpots[2],
+                      //             isCurved: false,
+                      //             belowBarData: BarAreaData(applyCutOffY: true),
+                      //             isStrokeCapRound: false,
+                      //             isStrokeJoinRound: false,
+                      //             barWidth: 3,
+                      //             color: cupertinoColors[2],
+                      //             dotData: const FlDotData(show: false),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //       duration: const Duration(seconds: 1),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 );
@@ -2596,7 +2609,9 @@ class DeviceDetail extends GetView<PolarController> {
                 voltage: snapshot.data!.samples.last.voltage,
               ),
               index);
-          controller.calcCon.calcEcg(controller.streamingModel[index], index);
+          // if (controller.streamingModel[0].accData.length % 2 == 0) {
+          //   controller.calcCon.calcEcg(controller.streamingModel[index], index);
+          // }
           return FutureBuilder(
             future: Future.microtask(() =>
                 controller.streamingModel[index].ecgData.length > 4
@@ -2689,71 +2704,71 @@ class DeviceDetail extends GetView<PolarController> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: defaultMargin),
-                      Container(
-                        padding: const EdgeInsets.only(
-                            top: defaultMargin, bottom: defaultMargin),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[900],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: AspectRatio(
-                          aspectRatio: 2,
-                          child: LineChart(
-                            LineChartData(
-                              lineTouchData: LineTouchData(
-                                handleBuiltInTouches: true,
-                                touchTooltipData: LineTouchTooltipData(
-                                  tooltipBgColor:
-                                      Colors.blueGrey.withOpacity(0.5),
-                                ),
-                              ),
-                              borderData: FlBorderData(
-                                show: true,
-                                border: const Border(
-                                  bottom: BorderSide(color: Colors.white),
-                                  left: BorderSide(color: Colors.white),
-                                  right: BorderSide(color: Colors.transparent),
-                                  top: BorderSide(color: Colors.transparent),
-                                ),
-                              ),
-                              titlesData: FlTitlesData(
-                                bottomTitles: AxisTitles(
-                                  sideTitles: SideTitles(
-                                    showTitles: true,
-                                    getTitlesWidget: (value, meta) {
-                                      String time = DateFormat('mm:ss').format(
-                                          DateTime.fromMicrosecondsSinceEpoch(
-                                              value.toInt()));
-                                      return bottomTitleWidgets(time, meta);
-                                    },
-                                  ),
-                                ),
-                                rightTitles: const AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false),
-                                ),
-                                topTitles: const AxisTitles(
-                                  sideTitles: SideTitles(showTitles: false),
-                                ),
-                              ),
-                              lineBarsData: [
-                                LineChartBarData(
-                                  spots: controller
-                                      .calcCon.ecgStats[index].ecgSpots,
-                                  isCurved: false,
-                                  belowBarData: BarAreaData(applyCutOffY: true),
-                                  isStrokeCapRound: false,
-                                  isStrokeJoinRound: false,
-                                  barWidth: 3,
-                                  color: cupertinoColors[0],
-                                  dotData: const FlDotData(show: false),
-                                ),
-                              ],
-                            ),
-                            duration: const Duration(seconds: 1),
-                          ),
-                        ),
-                      ),
+                      // const SizedBox(height: defaultMargin),
+                      // Container(
+                      //   padding: const EdgeInsets.only(
+                      //       top: defaultMargin, bottom: defaultMargin),
+                      //   decoration: BoxDecoration(
+                      //     color: Colors.grey[900],
+                      //     borderRadius: BorderRadius.circular(10),
+                      //   ),
+                      //   child: AspectRatio(
+                      //     aspectRatio: 2,
+                      //     child: LineChart(
+                      //       LineChartData(
+                      //         lineTouchData: LineTouchData(
+                      //           handleBuiltInTouches: true,
+                      //           touchTooltipData: LineTouchTooltipData(
+                      //             tooltipBgColor:
+                      //                 Colors.blueGrey.withOpacity(0.5),
+                      //           ),
+                      //         ),
+                      //         borderData: FlBorderData(
+                      //           show: true,
+                      //           border: const Border(
+                      //             bottom: BorderSide(color: Colors.white),
+                      //             left: BorderSide(color: Colors.white),
+                      //             right: BorderSide(color: Colors.transparent),
+                      //             top: BorderSide(color: Colors.transparent),
+                      //           ),
+                      //         ),
+                      //         titlesData: FlTitlesData(
+                      //           bottomTitles: AxisTitles(
+                      //             sideTitles: SideTitles(
+                      //               showTitles: true,
+                      //               getTitlesWidget: (value, meta) {
+                      //                 String time = DateFormat('mm:ss').format(
+                      //                     DateTime.fromMicrosecondsSinceEpoch(
+                      //                         value.toInt()));
+                      //                 return bottomTitleWidgets(time, meta);
+                      //               },
+                      //             ),
+                      //           ),
+                      //           rightTitles: const AxisTitles(
+                      //             sideTitles: SideTitles(showTitles: false),
+                      //           ),
+                      //           topTitles: const AxisTitles(
+                      //             sideTitles: SideTitles(showTitles: false),
+                      //           ),
+                      //         ),
+                      //         lineBarsData: [
+                      //           LineChartBarData(
+                      //             spots: controller
+                      //                 .calcCon.ecgStats[index].ecgSpots,
+                      //             isCurved: false,
+                      //             belowBarData: BarAreaData(applyCutOffY: true),
+                      //             isStrokeCapRound: false,
+                      //             isStrokeJoinRound: false,
+                      //             barWidth: 3,
+                      //             color: cupertinoColors[0],
+                      //             dotData: const FlDotData(show: false),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //       duration: const Duration(seconds: 1),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 );

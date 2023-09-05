@@ -31,7 +31,7 @@ class ExerciseNowWidget extends StatelessWidget {
               'Exercise Now',
               style: Theme.of(context).textTheme.displaySmall,
             ),
-            SizedBox(
+            const SizedBox(
               width: 16,
             ),
             IconWrapper(
@@ -50,7 +50,11 @@ class ExerciseNowWidget extends StatelessWidget {
               width: double.infinity,
               child: TextButton(
                 onPressed: () {
-                  if (bCon.isConnectedDevice.value == true) {
+                  final bleSrvice = Get.find<BluetoothService>();
+                  final devices = bleSrvice.detectedDevices
+                      .firstWhere((element) => element.isConnect.value == true);
+
+                  if (devices.isConnect.value == true) {
                     Get.toNamed(AppRoutes.freeWorkout);
                   } else {
                     Get.snackbar(

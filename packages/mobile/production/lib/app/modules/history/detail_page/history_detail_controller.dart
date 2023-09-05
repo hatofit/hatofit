@@ -1,6 +1,4 @@
-
 import 'package:get/get.dart';
-import 'package:hatofit/app/services/internet_service.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HistoryDetailController extends GetxController {
@@ -15,9 +13,4 @@ class HistoryDetailController extends GetxController {
 
   ZoomPanBehavior get zoomPanBehavior => _zoomPanBehavior;
 
-  @override
-  void onInit() async {
-    InternetService().fetchReport(argument);
-    super.onInit();
-  }
 }

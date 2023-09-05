@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>120555802165-g19uf4pcck70jdgpk8nof6rdha9i4ik7.apps.googleusercontent.com</string>
+	<string>123499973842-etvoo516gh5usnv9qajh6ummdlb6r0rh.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.120555802165-g19uf4pcck70jdgpk8nof6rdha9i4ik7</string>
+	<string>com.googleusercontent.apps.123499973842-etvoo516gh5usnv9qajh6ummdlb6r0rh</string>
 	<key>API_KEY</key>
-	<string>AIzaSyArBndim_b5xuJzlJe6uupWATgjvvlOPTo</string>
+	<string>AIzaSyA1-kgU0ecIEYpavE5GOw-l4lpp3EvQoSI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>120555802165</string>
+	<string>123499973842</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>dev.erhahahaa.hatofit</string>
+	<string>edu.unesa.hatofit</string>
 	<key>PROJECT_ID</key>
-	<string>dev-hatofit</string>
+	<string>hatofit-0001</string>
 	<key>STORAGE_BUCKET</key>
-	<string>dev-hatofit.appspot.com</string>
+	<string>hatofit-0001.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:120555802165:ios:bdf1cbfc6ecca79277eb7c</string>
+	<string>1:123499973842:ios:0b84f2a124fb811e1db10b</string>
 </dict>
 </plist>

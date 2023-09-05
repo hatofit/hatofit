@@ -1,9 +1,23 @@
+import 'package:hatofit/app/models/exercise_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'session_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class SessionModel {
+  ///
+  /// Used for retrieving session from api server
+  ///
+  @JsonKey(includeFromJson: true)
+  final String? sessionId;
+  @JsonKey(includeFromJson: true)
+  final String? userId;
+  @JsonKey(includeFromJson: true)
+  final ExerciseModel? exercise;
+
+  ///
+  /// Used for posting session to api server
+  ///
   String? exerciseId;
   final int startTime;
   final int endTime;
@@ -11,7 +25,10 @@ class SessionModel {
   final List<SessionDataItem> data;
 
   SessionModel({
-    this.exerciseId, 
+    this.sessionId,
+    this.userId,
+    this.exercise,
+    this.exerciseId,
     required this.startTime,
     required this.endTime,
     required this.timelines,
@@ -21,7 +38,11 @@ class SessionModel {
   factory SessionModel.fromJson(Map<String, dynamic> json) =>
       _$SessionModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SessionModelToJson(this);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = _$SessionModelToJson(this);
+    data.removeWhere((key, value) => value == null);
+    return data;
+  }
 }
 
 @JsonSerializable(explicitToJson: true)

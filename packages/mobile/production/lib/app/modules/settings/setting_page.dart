@@ -9,7 +9,6 @@ import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:hatofit/app/widget/appBar/custom_app_bar.dart';
 import 'package:hatofit/app/widget/setting/setting_list_tile_widget.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class SettingPage extends GetView<SettingController> {
   const SettingPage({Key? key}) : super(key: key);
@@ -61,7 +60,7 @@ class SettingPage extends GetView<SettingController> {
                                 color: Colors.white,
                                 image: DecorationImage(
                                   image: FileImage(File(
-                                      '/storage/emulated/0/Android/data/dev.erhahahaa.hatofit/files/photo-profile.jpg')),
+                                      '/storage/emulated/0/Android/data/edu.unesa.hatofit/files/photo-profile.jpg')),
                                   fit: BoxFit.cover,
                                 ),
                               ),

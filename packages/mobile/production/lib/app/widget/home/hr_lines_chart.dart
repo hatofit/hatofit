@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hatofit/app/modules/home/home_controller.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:intl/intl.dart';
@@ -6,7 +7,7 @@ import 'package:syncfusion_flutter_charts/charts.dart'; // Import Syncfusion Cha
 
 class HrLinesChart extends StatelessWidget {
   const HrLinesChart({Key? key, required this.hrData}) : super(key: key);
-  final List<HrWidgetChart> hrData;
+  final RxList<HrWidgetChart> hrData;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +25,9 @@ class HrLinesChart extends StatelessWidget {
                 DateFormat('HH:mm').format(hr.date),
             yValueMapper: (HrWidgetChart hr, _) => hr.avgHr,
             color: ColorConstants.crimsonRed,
-            width: 0.5,
+            width: 0.3,
             isTrackVisible: true,
-            borderRadius: BorderRadius.all(Radius.circular(15)),
+            borderRadius: const BorderRadius.all(Radius.circular(66)),
           ),
         ],
         primaryYAxis: NumericAxis(
@@ -35,7 +36,7 @@ class HrLinesChart extends StatelessWidget {
         borderWidth: 0,
         primaryXAxis: CategoryAxis(
           isVisible: true,
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.white,
             fontSize: 14,

@@ -21,8 +21,8 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     // TODO: remove in production
-    emailController.text = 'bokirsianpar95@mail.com';
-    passwordController.text = '12345678';
+    // emailController.text = 'bokirsianpar95@gmail.com';
+    // passwordController.text = '12345678';
     // TODO: remove in production
     super.onInit();
     videoPlayerController =

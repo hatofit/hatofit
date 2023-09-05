@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:hatofit/app/models/polar_device.dart';
 
 import '../../../app/services/bluetooth_service.dart';
 import '../../../app/themes/app_theme.dart';
@@ -146,67 +147,35 @@ class _CustomAppBarState extends State<CustomAppBar> {
                           itemCount: bleService.detectedDevices.length,
                           itemBuilder: (context, index) {
                             return ListTile(
-                              leading: Image.asset(
-                                  bleService.detectedDevices[index].imageAsset),
+                              leading: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: Colors.white),
+                                child: Image.asset(bleService
+                                    .detectedDevices[index].imageAsset),
+                              ),
                               title: Text(
-                                bleService.detectedDevices[index].name,
+                                bleService.detectedDevices[index].info.name,
                                 style: Theme.of(context).textTheme.displaySmall,
                               ),
                               subtitle: Row(
                                 children: [
                                   Text(
-                                    'ID :${bleService.detectedDevices[index].deviceId}',
+                                    'ID :${bleService.detectedDevices[index].info.deviceId}',
                                     style:
                                         Theme.of(context).textTheme.bodySmall,
                                   ),
-                                  Text(
-                                    ' RSSI : ${bleService.detectedDevices[index].rssi}',
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
+                                  Obx(
+                                    () => Text(
+                                      ' RSSI : ${bleService.detectedDevices[index].info.rssi}',
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
+                                    ),
                                   ),
                                 ],
                               ),
-                              trailing: bleService.isConnectedDevice.value
-                                  ? TextButton(
-                                      style: ButtonStyle(
-                                          foregroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.white),
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  ColorConstants.crimsonRed)),
-                                      child: const Text('Disconnect'),
-                                      onPressed: () {
-                                        bleService.disconnectDevice(bleService
-                                            .detectedDevices[index].deviceId);
-                                        Get.back();
-                                      },
-                                    )
-                                  : TextButton(
-                                      style: ButtonStyle(
-                                          foregroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.white),
-                                          backgroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  ColorConstants.ceruleanBlue)),
-                                      child: const Text('Connect'),
-                                      onPressed: () {
-                                        bleService.connectDevice(bleService
-                                            .detectedDevices[index].deviceId);
-                                        Get.back();
-                                        Get.dialog(
-                                          connecting(
-                                              deviceName: bleService
-                                                  .detectedDevices[index].name,
-                                              deviceId: bleService
-                                                  .detectedDevices[index]
-                                                  .deviceId),
-                                          transitionCurve:
-                                              Curves.easeInOutCubic,
-                                        );
-                                      },
-                                    ),
+                              trailing: _handleButton(
+                                  bleService.detectedDevices[index]),
                             );
                           },
                         );
@@ -222,6 +191,48 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ),
       ),
     );
+  }
+
+  Widget _handleButton(PolarDevice device) {
+    final deviceId = device.info.deviceId;
+    final isConnect = device.isConnect;
+    if (isConnect.value == false) {
+      return TextButton(
+        style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            backgroundColor:
+                MaterialStateProperty.all<Color>(ColorConstants.ceruleanBlue)),
+        child: const Text('Connect'),
+        onPressed: () {
+          bleService.connectDevice(device);
+          Get.back(); 
+          Get.dialog(
+            connecting(
+                deviceName: bleService.detectedDevices
+                    .firstWhere((element) => element.info.deviceId == deviceId)
+                    .info
+                    .name,
+                deviceId: bleService.detectedDevices
+                    .firstWhere((element) => element.info.deviceId == deviceId)
+                    .info
+                    .deviceId),
+            transitionCurve: Curves.easeInOutCubic,
+          );
+        },
+      );
+    } else {
+      return TextButton(
+        style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            backgroundColor:
+                MaterialStateProperty.all<Color>(ColorConstants.crimsonRed)),
+        child: const Text('Disconnect'),
+        onPressed: () {
+          bleService.disconnectDevice(device);
+          Get.back();
+        },
+      );
+    } 
   }
 
   Dialog connecting({required String deviceName, required String deviceId}) {

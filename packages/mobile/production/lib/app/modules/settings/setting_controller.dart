@@ -42,7 +42,7 @@ class SettingController extends GetxController {
     Get.offAllNamed(AppRoutes.greeting);
   }
 
-  List<HealthDataPoint> _healthDataList = [];
+  final List<HealthDataPoint> _healthDataList = [];
 
   static final types = [
     HealthDataType.HEART_RATE,

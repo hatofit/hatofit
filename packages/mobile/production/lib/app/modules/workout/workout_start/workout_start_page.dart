@@ -21,7 +21,7 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
         Get.find<WorkoutDetailsController>();
     final BluetoothService bleService = Get.find<BluetoothService>();
     return Obx(() {
-      controller.userZone(bleService.heartRate.value);
+      controller.userZone(bleService.detectedDevices.first.hr.value);
       return Scaffold(
         appBar: AppBar(
             title: workout.instructions[controller.nowInstruction.value].type ==
@@ -71,9 +71,9 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                                   color: ColorConstants.crimsonRed),
                               const SizedBox(width: 8),
                               Text(
-                                  bleService.heartRate.value == 0
+                                  bleService.detectedDevices.first.hr.value == 0
                                       ? '--'
-                                      : bleService.heartRate.value.toString(),
+                                      : '${bleService.detectedDevices.first.hr.value}',
                                   style: const TextStyle(
                                       fontFamily: 'Poppins',
                                       fontSize: 16,

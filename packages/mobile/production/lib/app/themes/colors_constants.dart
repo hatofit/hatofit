@@ -14,4 +14,7 @@ class ColorConstants {
   static const Color crimsonRed = Color(0xFFE15252);
   static const Color ceruleanBlue = Color(0xFF189BE7);
   static const Color purple = Color(0xFF9052DF);
+
+  static const Color scaffoldBackgroundColorLight = Color(0xFFF9F8FD);
+  static const Color scaffoldBackgroundColorDark = Color(0xFF262626);
 }

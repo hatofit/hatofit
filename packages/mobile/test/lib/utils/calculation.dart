@@ -5,6 +5,7 @@ import 'package:csv/csv.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/services.dart';
 import 'package:hatofit/controller/calc_con.dart';
+import 'package:hatofit/main.dart';
 import 'package:hatofit/models/streaming_model.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -523,46 +524,21 @@ void svToLocal(
       SendPort,
       StreamingModel,
       String,
-      // HrStats,
-      // AccStats,
-      // PpgStats,
-      // PpiStats,
-      // GyroStats,
-      // MagnStats,
-      // EcgStats,
       RootIsolateToken,
       int,
     ) args) async {
+  logger.e('Data : ${args.$2.toJson()}');
   final RootIsolateToken iT = args.$4;
   BackgroundIsolateBinaryMessenger.ensureInitialized(iT);
   final SendPort sendPort = args.$1;
   final StreamingModel streamingModel = args.$2;
   final String name = args.$3;
   final int distance = args.$5;
-  // final HrStats hrStats = args.$4;
-  // final AccStats accStats = args.$5;
-  // final PpgStats ppgStats = args.$6;
-  // final PpiStats ppiStats = args.$7;
-  // final GyroStats gyroStats = args.$8;
-  // final MagnStats magnStats = args.$9;
-  // final EcgStats ecgStats = args.$10;
   final DateTime now = DateTime.now();
   final String date = DateFormat('yyyy-MM-dd HH:mm').format(now);
   final Directory? dir = await getExternalStorageDirectory();
-  // final File file = File('${dir?.path}/$date-$name-$distance m.json');
-  // final String json = jsonEncode({
-  //   'generateTime': DateTime.now().toString(),
-  //   'data': streamingModel.toJson(),
-  // });
-  // await file.writeAsString(json);
 
   final List<List<dynamic>> csv = [];
-
-// csv model
-// RSSI, HR, ACC, PPG, PPI, GYRO, MAGN, ECG
-// Time Stamp,RSSI,,Time Stamp,BPM,,Time Stamp,X,Y,Z,,Time Stamp,Channel 1,Channel 2,Channel 3,,Time Stamp,X,Y,Z,,Time Stamp,X,Y,Z,
-
-// First find the highest length
   final int maxLength = [
     streamingModel.hrData.length,
     streamingModel.accData.length,
@@ -572,7 +548,7 @@ void svToLocal(
     streamingModel.magnData.length,
     streamingModel.ecgData.length,
   ].reduce((curr, next) => curr > next ? curr : next);
-
+  logger.e('Raw : ${streamingModel.toJson()}');
   csv.add(['Time Stamp', 'Distance', 'RSSI', '']);
   for (int i = 0; i < maxLength; i++) {
     if (i < streamingModel.hrData.length) {
@@ -621,15 +597,15 @@ void svToLocal(
                 streamingModel.hrData[i].timestamp),
           );
           csv[i + 1].add(streamingModel.hrData[i].hr);
-          csv[i + 1].add(streamingModel.hrData[i].rrsMs[0]);
-          csv[i + 1].add(streamingModel.hrData[i].rrsMs[1]);
+          // csv[i + 1].add(streamingModel.hrData[i].rrsMs[0]);
+          // csv[i + 1].add(streamingModel.hrData[i].rrsMs[1]);
           csv[i + 1].add('');
         } else {
           csv[i + 1].add('');
           csv[i + 1].add('');
           csv[i + 1].add('');
-          csv[i + 1].add('');
-          csv[i + 1].add('');
+          // csv[i + 1].add('');
+          // csv[i + 1].add('');
         }
       }
     }
@@ -781,190 +757,13 @@ void svToLocal(
       }
     }
   }
-//   final List<List<dynamic>> headerCsv = [];
-//   headerCsv.add(['Phone Information:']);
-//   headerCsv.add(['Opertaing System', streamingModel.phoneInfo.os]);
-//   headerCsv.add(['Manufacturer', streamingModel.phoneInfo.manufacturer]);
-//   headerCsv.add(['Type', streamingModel.phoneInfo.type]);
-//   headerCsv.add(['Device ID', streamingModel.phoneInfo.deviceId]);
-//   headerCsv.add(['Processors', streamingModel.phoneInfo.totalProcessors]);
-
-//   headerCsv.add(['Polar Information:']);
-//   headerCsv.add(['Name', streamingModel.polarDeviceInfo.name]);
-//   headerCsv.add(['Device ID', streamingModel.polarDeviceInfo.deviceId]);
-//   headerCsv.add(['Address', streamingModel.polarDeviceInfo.address]);
-//   headerCsv.add(['Data:']);
-
-//   final List<List<dynamic>> hrCsv = [];
-//   hrCsv.add(['Heart Rate Data']);
-//   hrCsv.add(['Latest', hrStats.latestHr]);
-//   hrCsv.add(['Minimum', hrStats.minHr]);
-//   hrCsv.add(['Maximum', hrStats.maxHr]);
-//   hrCsv.add(['Average', hrStats.avgHr]);
-//   hrCsv.add(['', 'Time Stamp', 'HR', 'RRSMS']);
-//   for (final hrData in streamingModel.hrData) {
-//     hrCsv.add([
-//       '',
-//       DateFormat('HH:mm:ss')
-//           .format(DateTime.fromMicrosecondsSinceEpoch(hrData.timestamp)),
-//       hrData.hr,
-//       hrData.rrsMs.isNotEmpty ? hrData.rrsMs.join(',') : '',
-//     ]);
-//   }
-
-//   final List<List<dynamic>> accCsv = [];
-//   accCsv.add(['Accelerometer Data']);
-//   accCsv.add(['Latest', accStats.latestAcc]);
-//   accCsv.add(['Minimum', accStats.minAcc]);
-//   accCsv.add(['Maximum', accStats.maxAcc]);
-//   accCsv.add(['Average', accStats.avgAcc]);
-//   accCsv.add(['', 'Time Stamp', 'X', 'Y', 'Z']);
-//   for (final accData in streamingModel.accData) {
-//     accCsv.add([
-//       '',
-//       DateFormat('HH:mm:ss')
-//           .format(DateTime.fromMicrosecondsSinceEpoch(accData.timestamp)),
-//       accData.x,
-//       accData.y,
-//       accData.z,
-//     ]);
-//   }
-
-//   final List<List<dynamic>> ppgCsv = [];
-//   ppgCsv.add(['PPG Data']);
-//   ppgCsv.add(['Latest', ppgStats.latestPpg]);
-//   ppgCsv.add(['Minimum', ppgStats.minPpg]);
-//   ppgCsv.add(['Maximum', ppgStats.maxPpg]);
-//   ppgCsv.add(['Average', ppgStats.avgPpg]);
-//   ppgCsv.add(['', 'Time Stamp', 'PPG']);
-//   for (final ppgData in streamingModel.ppgData) {
-//     ppgCsv.add([
-//       '',
-//       DateFormat('HH:mm:ss')
-//           .format(DateTime.fromMicrosecondsSinceEpoch(ppgData.tS)),
-//       ppgData.cS.isNotEmpty ? ppgData.cS.join(',') : '',
-//     ]);
-//   }
-
-//   final List<List<dynamic>> ppiCsv = [];
-//   ppiCsv.add(['PPI Data']);
-//   ppiCsv.add(['Latest', ppiStats.latestPpi]);
-//   ppiCsv.add(['Minimum', ppiStats.minPpi]);
-//   ppiCsv.add(['Maximum', ppiStats.maxPpi]);
-//   ppiCsv.add(['Average', ppiStats.avgPpi]);
-//   ppiCsv.add([
-//     '',
-//     'Time Stamp',
-//     'PPI',
-//     'Error Estimate',
-//     'HR',
-//     'Blocker Bit',
-//     'Skin Contact Status',
-//     'Skin Contact Supported'
-//   ]);
-//   for (final ppiData in streamingModel.ppiData) {
-//     ppiCsv.add([
-//       '',
-//       DateFormat('HH:mm:ss').format(DateTime.fromMicrosecondsSinceEpoch(
-//         ppiData.tS,
-//       )),
-//       ppiData.ppi,
-//       ppiData.errorEstimate,
-//       ppiData.hr,
-//       ppiData.blockerBit,
-//       ppiData.skinContactStatus,
-//       ppiData.skinContactSupported,
-//     ]);
-//   }
-
-//   final List<List<dynamic>> gyroCsv = [];
-//   gyroCsv.add(['Gyroscope Data']);
-//   gyroCsv.add(['Latest', gyroStats.latestGyro]);
-//   gyroCsv.add(['Minimum', gyroStats.minGyro]);
-//   gyroCsv.add(['Maximum', gyroStats.maxGyro]);
-//   gyroCsv.add(['Average', gyroStats.avgGyro]);
-//   gyroCsv.add(['', 'Time Stamp', 'X', 'Y', 'Z']);
-//   for (final gyroData in streamingModel.gyroData) {
-//     gyroCsv.add([
-//       '',
-//       DateFormat('HH:mm:ss').format(DateTime.fromMicrosecondsSinceEpoch(
-//         gyroData.tS,
-//       )),
-//       gyroData.x,
-//       gyroData.y,
-//       gyroData.z,
-//     ]);
-//   }
-
-//   final List<List<dynamic>> magnCsv = [];
-//   magnCsv.add(['Magnetometer Data']);
-//   magnCsv.add(['Latest', magnStats.latestMagn]);
-//   magnCsv.add(['Minimum', magnStats.minMagn]);
-//   magnCsv.add(['Maximum', magnStats.maxMagn]);
-//   magnCsv.add(['Average', magnStats.avgMagn]);
-//   magnCsv.add(['', 'Time Stamp', 'X', 'Y', 'Z']);
-//   for (final magnData in streamingModel.magnData) {
-//     magnCsv.add([
-//       '',
-//       DateFormat('HH:mm:ss').format(DateTime.fromMicrosecondsSinceEpoch(
-//         magnData.tS,
-//       )),
-//       magnData.x,
-//       magnData.y,
-//       magnData.z,
-//     ]);
-//   }
-
-//   final List<List<dynamic>> ecgCsv = [];
-//   ecgCsv.add(['ECG Data']);
-//   ecgCsv.add(['Latest', ecgStats.latestEcg]);
-//   ecgCsv.add(['Minimum', ecgStats.minEcg]);
-//   ecgCsv.add(['Maximum', ecgStats.maxEcg]);
-//   ecgCsv.add(['Average', ecgStats.avgEcg]);
-//   ecgCsv.add(['', 'Time Stamp', 'Voltage']);
-
-//   for (final ecgData in streamingModel.ecgData) {
-//     ecgCsv.add([
-//       '',
-//       DateFormat('HH:mm:ss').format(DateTime.fromMicrosecondsSinceEpoch(
-//         ecgData.tS,
-//       )),
-//       ecgData.voltage,
-//     ]);
-//   }
-
-//   // List<List<dynamic>> mergedHr = headerCsv..addAll(hrCsv);
-//   // List<List<dynamic>> mergedAcc = headerCsv..addAll(accCsv);
-//   // List<List<dynamic>> mergedPpg = headerCsv..addAll(ppgCsv);
-//   // List<List<dynamic>> mergedPpi = headerCsv..addAll(ppiCsv);
-//   // List<List<dynamic>> mergedGyro = headerCsv..addAll(gyroCsv);
-//   // List<List<dynamic>> mergedMagn = headerCsv..addAll(magnCsv);
-//   // List<List<dynamic>> mergedEcg = headerCsv..addAll(ecgCsv);
-
-// List<List<dynamic>> mergedAll = headerCsv..addAll(hrCsv)..addAll(accCsv)..addAll(ppgCsv)..addAll(ppiCsv)..addAll(gyroCsv)..addAll(magnCsv)..addAll(ecgCsv);
-//   // final File hrFile = File('${dir?.path}/$date-$name-hr.csv');
-//   // final File accFile = File('${dir?.path}/$date-$name-acc.csv');
-//   // final File ppgFile = File('${dir?.path}/$date-$name-ppg.csv');
-//   // final File ppiFile = File('${dir?.path}/$date-$name-ppi.csv');
-//   // final File gyroFile = File('${dir?.path}/$date-$name-gyro.csv');
-//   // final File magnFile = File('${dir?.path}/$date-$name-magn.csv');
   final File csvFile = File('${dir?.path}/$date-$distance m.csv');
-
-  // final csvHr = const ListToCsvConverter().convert(mergedHr);
-  // final csvAcc = const ListToCsvConverter().convert(mergedAcc);
-  // final csvPpg = const ListToCsvConverter().convert(mergedPpg);
-  // final csvPpi = const ListToCsvConverter().convert(mergedPpi);
-  // final csvGyro = const ListToCsvConverter().convert(mergedGyro);
-  // final csvMagn = const ListToCsvConverter().convert(mergedMagn);
+  logger.i('CSV: ${csvFile}');
+  logger.i('Path: ${csvFile.path}');
   final csvConverted = const ListToCsvConverter().convert(csv);
-
-  // hrFile.writeAsString(csvHr);
-  // accFile.writeAsString(csvAcc);
-  // ppgFile.writeAsString(csvPpg);
-  // ppiFile.writeAsString(csvPpi);
-  // gyroFile.writeAsString(csvGyro);
-  // magnFile.writeAsString(csvMagn);
   csvFile.writeAsString(csvConverted);
+
+  logger.d('CSV String : ${csvConverted}');
 
   sendPort.send([
     'Success',

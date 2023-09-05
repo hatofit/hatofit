@@ -23,6 +23,6 @@ class WorkoutController extends GetxController {
     listExercise.removeWhere((element) => element.type == '');
 
     update();
-    return list!;
+    return list;
   }
 }

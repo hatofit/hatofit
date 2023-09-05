@@ -26,15 +26,15 @@ class RegisterController extends GetxController {
   @override
   void onInit() {
     // TODO: remove in production
-    firstNameController.text = 'Rahmat';
-    lastNameController.text = 'Hidayat';
-    emailController.text = 'bokirsianpar95@gmail.com';
-    passwordController.text = '12345678';
-    confirmPasswordController.text = '12345678';
-    dateOfBirthController.text = '12-12-1999';
-    userDateOfBirth.value = DateTime(1999, 12, 12);
-    formattedDate.value = '12-12-1999';
-    selectGender('male');
+    // firstNameController.text = 'Rahmat';
+    // lastNameController.text = 'Hidayat';
+    // emailController.text = 'bokirsianpar95@gmail.com';
+    // passwordController.text = '12345678';
+    // confirmPasswordController.text = '12345678';
+    // dateOfBirthController.text = '12-12-1999';
+    // userDateOfBirth.value = DateTime(1999, 12, 12);
+    // formattedDate.value = '12-12-1999';
+    // selectGender('male');
     // TODO: remove in production
     super.onInit();
   }
