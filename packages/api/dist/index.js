@@ -22,6 +22,7 @@ const exercise_1 = require("./api/exercise");
 const report_1 = require("./api/report");
 const session_1 = require("./api/session");
 const db_1 = require("./db");
+const seed_1 = require("./db/seed");
 // set
 dotenv_1.default.config();
 // args
@@ -73,4 +74,5 @@ const args = process.argv.slice(2);
         console.log(`🚀 Server ready at http://localhost:${port}`);
         console.log(`🚀 MongoDB : ${process.env.MONGO_URL}`);
     });
+    (0, seed_1.seed)();
 }))();

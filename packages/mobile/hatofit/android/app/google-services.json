@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "499735113450",
+    "project_id": "zenta-hatofit0000",
+    "storage_bucket": "zenta-hatofit0000.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499735113450:android:e130ef38d82e221bc07193",
+        "android_client_info": {
+          "package_name": "dev.zenta.hatofit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "499735113450-28k3fm9769lb16o9qtfolt4l62k06tv4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.zenta.hatofit",
+            "certificate_hash": "b304996da6f8b22a91cb18ea87876601526a36da"
+          }
+        },
+        {
+          "client_id": "499735113450-iplqghlgap14k1dtvf3935ta98iresfd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2ppdGAL6ELv_MLrsIGLbozSd--MYplVU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "499735113450-iplqghlgap14k1dtvf3935ta98iresfd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "499735113450-3oouci9g0kho6jlk1uqjq96qghiilpdo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.zenta.hatofit"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
