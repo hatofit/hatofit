@@ -45,7 +45,7 @@ export default function ExerciseList() {
 
   if (status === 'loading') return <div>Loading...</div>
   return (
-    <Card.Wrapper className="flex flex-col gap-2">
+    <Card.Wrapper className="flex flex-col">
       <div>
         <Card.HeaderTitle>My Exercises</Card.HeaderTitle>
       </div>
@@ -57,6 +57,9 @@ export default function ExerciseList() {
           </div>
         </Link>
       ))}
+      {sessions.length === 0 && (
+        <div>No session found.</div>
+      )}
     </Card.Wrapper>
   )
 }

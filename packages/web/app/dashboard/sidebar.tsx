@@ -7,7 +7,7 @@ import { useEffect } from "react"
 export const Menus = [
   { title: 'Dashboard', icon: 'uil:dashboard', href: '/dashboard' },
   { title: 'My Exercises', icon: 'material-symbols:exercise-outline', href: '/dashboard/exercise' },
-  // { title: 'Shared Exercises', icon: 'material-symbols:exercise-outline', href: '/dashboard/exercise' },
+  { title: 'Shared Exercises', icon: 'material-symbols:exercise-outline', href: '/dashboard/shared-exercise' },
   { title: 'Settings', icon: 'ic:outline-settings-suggest', href: '/dashboard/setting' },
 ]
 
