@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/polar_device.dart';
-import 'package:hatofit/app/modules/home/home_controller.dart';
+import 'package:hatofit/app/modules/dashboard/views/home/home_controller.dart';
 import 'package:hatofit/utils/snackbar.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';

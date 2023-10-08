@@ -4,6 +4,7 @@ abstract class AppRoutes {
   static const String register = '/splash/register';
   static const String login = '/splash/login';
   static const String inputUserMetric = '/splash/inputUserMetric';
+  static const String forgotPassword = '/splash/forgotPassword';
 
   static const String dashboard = '/';
   static const String home = '/home';

@@ -5,6 +5,7 @@
             <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
         </intent>
     </queries>
+    
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- required for API 18 - 30 -->
     <uses-permission
@@ -27,8 +28,9 @@
     <uses-permission
             android:name="android.permission.BLUETOOTH_SCAN"
             android:usesPermissionFlags="neverForLocation" /> 
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-    <!-- <uses-permission android:name="com.google.android.gms.permission.AD_ID"/> -->
+
+    <!-- Storage -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" /> 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
      android:maxSdkVersion="33" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" 
@@ -36,17 +38,30 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
+
+    <!-- Health -->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>   
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-        <uses-permission android:name="android.permission.health.READ_STEPS"/>
+
+    <!-- Steps -->
+    <uses-permission android:name="android.permission.health.READ_STEPS"/>
     <uses-permission android:name="android.permission.health.WRITE_STEPS"/>
+
+    <!-- Weught -->
     <uses-permission android:name="android.permission.health.READ_WEIGHT"/>
     <uses-permission android:name="android.permission.health.WRITE_WEIGHT"/>
+
+    <!-- Height -->
     <uses-permission android:name="android.permission.health.READ_HEIGHT"/>
     <uses-permission android:name="android.permission.health.WRITE_HEIGHT"/>
+
+    <!-- Heart Rate -->
     <uses-permission android:name="android.permission.health.READ_HEART_RATE"/>
     <uses-permission android:name="android.permission.health.WRITE_HEART_RATE"/>
 
+    <!-- Sleep -->
+    <uses-permission android:name="android.permission.health.READ_SLEEP"/>
+    <uses-permission android:name="android.permission.health.WRITE_SLEEP"/>
     <application
         android:label="HatoFit"
         android:name="${applicationName}"

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/modules/dashboard/dashboard_controller.dart';
-import 'package:hatofit/app/modules/history/history_page.dart';
-import 'package:hatofit/app/modules/home/home_page.dart';
-import 'package:hatofit/app/modules/settings/setting_page.dart';
-import 'package:hatofit/app/modules/workout/workout_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/history/history_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/home/home_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/settings/setting_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/workout/workout_page.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});

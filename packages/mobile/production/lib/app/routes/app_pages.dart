@@ -1,37 +1,39 @@
 import 'package:get/get.dart';
+import 'package:hatofit/app/modules/auth/views/forgot_password/forgot_password_binding.dart';
+import 'package:hatofit/app/modules/auth/views/forgot_password/forgot_password_page.dart';
+import 'package:hatofit/app/modules/auth/views/greeting/greeting_page.dart';
+import 'package:hatofit/app/modules/auth/views/login/login_binding.dart';
+import 'package:hatofit/app/modules/auth/views/login/login_page.dart';
+import 'package:hatofit/app/modules/auth/views/register/input_user_metric/input_user_metric_binding.dart';
+import 'package:hatofit/app/modules/auth/views/register/input_user_metric/input_user_metric_page.dart';
+import 'package:hatofit/app/modules/auth/views/register/register_binding.dart';
+import 'package:hatofit/app/modules/auth/views/register/register_page.dart';
+import 'package:hatofit/app/modules/auth/loading_splash_screen.dart';
 import 'package:hatofit/app/modules/dashboard/dashboard_binding.dart';
 import 'package:hatofit/app/modules/dashboard/dashboard_page.dart';
-import 'package:hatofit/app/modules/history/detail_page/history_detail_page.dart';
-import 'package:hatofit/app/modules/history/detail_page/histpry_detail_binding.dart';
-import 'package:hatofit/app/modules/history/history_page.dart';
-import 'package:hatofit/app/modules/home/home_page.dart';
-import 'package:hatofit/app/modules/settings/change_unit/change_unit_binding.dart';
-import 'package:hatofit/app/modules/settings/change_unit/change_unit_page.dart';
-import 'package:hatofit/app/modules/settings/device_integration/device_integration_binding.dart';
-import 'package:hatofit/app/modules/settings/device_integration/device_integration_page.dart';
-import 'package:hatofit/app/modules/settings/profile/profile_binding.dart';
-import 'package:hatofit/app/modules/settings/profile/profile_page.dart';
-import 'package:hatofit/app/modules/settings/setting_binding.dart';
-import 'package:hatofit/app/modules/settings/setting_page.dart';
-import 'package:hatofit/app/modules/splash/firstTime/greeting/greeting_page.dart';
-import 'package:hatofit/app/modules/splash/firstTime/login/login_binding.dart';
-import 'package:hatofit/app/modules/splash/firstTime/login/login_page.dart';
-import 'package:hatofit/app/modules/splash/firstTime/register/input_user_metric/input_user_metric_binding.dart';
-import 'package:hatofit/app/modules/splash/firstTime/register/input_user_metric/input_user_metric_page.dart';
-import 'package:hatofit/app/modules/splash/firstTime/register/register_binding.dart';
-import 'package:hatofit/app/modules/splash/firstTime/register/register_page.dart';
-import 'package:hatofit/app/modules/splash/loading_splash_screen.dart';
-import 'package:hatofit/app/modules/workout/free_workout/free_workout_binding.dart';
-import 'package:hatofit/app/modules/workout/free_workout/view/pick_wo_type.dart';
-import 'package:hatofit/app/modules/workout/workout_detail/workout_details_binding.dart';
-import 'package:hatofit/app/modules/workout/workout_detail/workout_details_page.dart';
-import 'package:hatofit/app/modules/workout/workout_page.dart';
-import 'package:hatofit/app/modules/workout/workout_start/workout_start_binding.dart';
-import 'package:hatofit/app/modules/workout/workout_start/workout_start_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/history/detail_page/history_detail_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/history/detail_page/histpry_detail_binding.dart';
+import 'package:hatofit/app/modules/dashboard/views/history/history_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/home/home_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/settings/setting_binding.dart';
+import 'package:hatofit/app/modules/dashboard/views/settings/setting_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/settings/views/change_unit/change_unit_binding.dart';
+import 'package:hatofit/app/modules/dashboard/views/settings/views/change_unit/change_unit_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/settings/views/device_integration/device_integration_binding.dart';
+import 'package:hatofit/app/modules/dashboard/views/settings/views/device_integration/device_integration_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/settings/views/profile/profile_binding.dart';
+import 'package:hatofit/app/modules/dashboard/views/settings/views/profile/profile_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/workout/free_workout/free_workout_binding.dart';
+import 'package:hatofit/app/modules/dashboard/views/workout/free_workout/view/pick_wo_type.dart';
+import 'package:hatofit/app/modules/dashboard/views/workout/workout_detail/workout_details_binding.dart';
+import 'package:hatofit/app/modules/dashboard/views/workout/workout_detail/workout_details_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/workout/workout_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/workout/workout_start/workout_start_binding.dart';
+import 'package:hatofit/app/modules/dashboard/views/workout/workout_start/workout_start_page.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/services/services_binding.dart';
 
-import '../modules/workout/free_workout/free_workout_page.dart';
+import '../modules/dashboard/views/workout/free_workout/free_workout_page.dart';
 
 class AppPages {
   AppPages._();
@@ -65,6 +67,12 @@ class AppPages {
       name: AppRoutes.inputUserMetric,
       page: () => const InputUserMetricPage(),
       binding: InputUserMetricBinding(),
+      transition: Transition.cupertino,
+    ),
+    GetPage(
+      name: AppRoutes.forgotPassword,
+      page: () => const ForgotPasswordPage(),
+      binding: ForgotPasswordBinding(),
       transition: Transition.cupertino,
     ),
     GetPage(

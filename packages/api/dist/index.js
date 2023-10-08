@@ -31,11 +31,11 @@ const args = process.argv.slice(2);
 (() => __awaiter(void 0, void 0, void 0, function* () {
     // listen services
     yield (0, db_1.MongoConnect)(process.env.MONGO_URL || "", {
-    // auth: {
-    //   username: process.env.MONGO_USER || "",
-    //   password: process.env.MONGO_PASSWORD || "",
-    // },
-    // dbName: process.env.MONGO_DB_NAME || "",
+        auth: {
+            username: process.env.MONGO_USER || "",
+            password: process.env.MONGO_PASSWORD || "",
+        },
+        dbName: process.env.MONGO_DB_NAME || "",
     });
     console.log("📚 connected to mongodb");
     // options

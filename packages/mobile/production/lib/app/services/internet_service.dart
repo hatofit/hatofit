@@ -25,8 +25,8 @@ class InternetService extends GetConnect {
     return this;
   }
 
-  static const String _base = 'https://vercel-api-coral.vercel.app/api';
-  // static const String _base = 'http://192.168.229.169:3000/api';
+  // static const String _base = 'https://vercel-api-coral.vercel.app/api';
+  static const String _base = 'http://192.168.124.169:3000/api';
   static const String _sesion = '/session';
   static const String _exercise = '/exercise';
   static const String _report = '/report';
@@ -35,6 +35,9 @@ class InternetService extends GetConnect {
   static const String _update = '/auth/update';
   static const String _updateMetrices = '/auth/update-metric';
   static const String _me = '/auth/me';
+  static const String _forgetPassword = '/auth/forgot-password';
+  static const String _verifyCode = '/auth/verify-code';
+  static const String _resetPassword = '/auth/reset-password';
 
   Future<int?> postSession(SessionModel body) async {
     if (body.data.last.devices.last.value.isEmpty) {
@@ -202,6 +205,59 @@ class InternetService extends GetConnect {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
       });
+      return response;
+    } catch (e) {
+      return Response(body: 'Error $e');
+    }
+  }
+
+  Future<Response> forgetPassword(String email) async {
+    try {
+      final response = await get(
+        '$_base$_forgetPassword/$email',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+      return response;
+    } catch (e) {
+      return Response(body: 'Error $e');
+    }
+  }
+
+  Future<Response> verifyCode(String email, String code) async {
+    try {
+      final response = await post(
+        '$_base$_verifyCode',
+        jsonEncode({
+          'email': email,
+          'code': code,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
+      return response;
+    } catch (e) {
+      return Response(body: 'Error $e');
+    }
+  }
+
+  Future<Response> resetPassword(String email, String code, String password,
+      String confirmPassword) async {
+    try {
+      final response = await post(
+        '$_base$_resetPassword',
+        jsonEncode({
+          'email': email,
+          'code': code,
+          'password': password,
+          'confirmPassword': confirmPassword,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      );
       return response;
     } catch (e) {
       return Response(body: 'Error $e');

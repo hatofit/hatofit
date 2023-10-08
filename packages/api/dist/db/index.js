@@ -73,6 +73,7 @@ const UserSchema = new mongoose_1.Schema({
         weightUnits: String,
         heightUnits: String,
     },
+    resetPasswordCode: String,
 }, {
     typeKey: "$type",
     timestamps: true,

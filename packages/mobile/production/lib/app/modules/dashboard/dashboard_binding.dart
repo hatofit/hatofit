@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 import 'package:hatofit/app/modules/dashboard/dashboard_controller.dart';
-import 'package:hatofit/app/modules/history/history_controller.dart';
-import 'package:hatofit/app/modules/home/home_controller.dart';
-import 'package:hatofit/app/modules/settings/setting_controller.dart';
-import 'package:hatofit/app/modules/workout/workout_controller.dart';
+import 'package:hatofit/app/modules/dashboard/views/history/history_controller.dart';
+import 'package:hatofit/app/modules/dashboard/views/home/home_controller.dart';
+import 'package:hatofit/app/modules/dashboard/views/settings/setting_controller.dart';
+import 'package:hatofit/app/modules/dashboard/views/workout/workout_controller.dart';
 
 class DashboardBinding extends Bindings {
   @override

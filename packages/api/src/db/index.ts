@@ -1,4 +1,4 @@
-import mongoose, { Schema, Model, mongo } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 mongoose.set("strictQuery", true);
 mongoose.set("strictPopulate", true);
@@ -55,6 +55,7 @@ const UserSchema = new Schema(
       weightUnits: String,
       heightUnits: String,
     },
+    resetPasswordCode: String,
   },
   {
     typeKey: "$type",
