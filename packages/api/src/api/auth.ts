@@ -285,29 +285,37 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
   route.post("/update", AuthJwtMiddleware, async (req, res) => {
     console.log("DATA BODY", req.body);
     try {
-      // // validate input
-      // const password = req.body.password || "";
-      // // remove whitespace
-      // if (password.trim() === "") {
-      //   return res.status(400).json({
-      //     success: false,
-      //     message: "Password must not be empty",
-      //   });
-      // }
-      // // input schema
-      // const rawPlainPassword: string = req.body.password || ("" as string);
-      // // password
-      // const saltRounds = parseInt(process.env.HASH_PASSWORD_SALT || "10");
-      // const hasingPasssword = await new Promise((res) => {
-      //   bcrypt.hash(
-      //     rawPlainPassword,
-      //     saltRounds,
-      //     function (err: any, hash: any) {
-      //       return res(hash);
-      //     }
-      //   );
-      // });
-      // req.body.password = hasingPasssword;
+      // validate input
+      const password = req.body.password || "";
+      // remove whitespace
+      if (password.trim() === "") {
+        return res.status(400).json({
+          success: false,
+          message: "Password must not be empty",
+        });
+      }
+      // check if password first 4 character isnt * then hash password
+      if (password.substring(0, 4) !== "****") {
+        // input schema
+        const rawPlainPassword: string = req.body.password || ("" as string);
+        // password
+        const saltRounds = parseInt(process.env.HASH_PASSWORD_SALT || "10");
+        const hasingPasssword = await new Promise((res) => {
+          bcrypt.hash(
+            rawPlainPassword,
+            saltRounds,
+            function (err: any, hash: any) {
+              return res(hash);
+            }
+          );
+        });
+        req.body.password = hasingPasssword;
+      } else {
+        const user = await User.findOne({
+          _id: req.auth?.user?._id,
+        });
+        req.body.password = user?.password;
+      }
       // dateOfBirth
       const dateOfBirth = req.body.dateOfBirth || "";
       req.body.dateOfBirth = dayjs(dateOfBirth, "mm/dd/yyyy").toDate();
@@ -344,7 +352,50 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
       // resposne
       return res.json({
         success: true,
-        message: "User updated",
+        message: "Profile updated successfully",
+        user: exceptObjectProp(updated?.toObject(), ["password"]),
+      });
+    } catch (error) {
+      // console.error(error)
+      return res.status(400).json({ error });
+    }
+  });
+  // update metric units , weight and height
+  route.post("/update-metric", AuthJwtMiddleware, async (req, res) => {
+    console.log("DATA BODY", req.body);
+    try {
+      // save to db
+      const found = await User.findOne({
+        _id: req.auth?.user?._id,
+      });
+
+      // resposne
+      if (!found) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      // update
+      const updated = await User.findOneAndUpdate(
+        {
+          _id: req.auth?.user?._id,
+        },
+        {
+          $set: {
+            ...req.body,
+          },
+        },
+        {
+          new: true,
+        }
+      );
+
+      // resposne
+      return res.json({
+        success: true,
+        message: "Metric updated successfully",
         user: exceptObjectProp(updated?.toObject(), ["password"]),
       });
     } catch (error) {

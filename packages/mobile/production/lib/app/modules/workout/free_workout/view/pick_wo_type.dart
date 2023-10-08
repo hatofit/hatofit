@@ -37,37 +37,56 @@ extension WorkoutTypeExtension on WorkoutType {
 }
 
 class PickWoType extends GetView<FreeWorkoutController> {
-  const PickWoType({super.key});
+  const PickWoType({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GridView.builder(
-        itemCount: WorkoutType.values.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1.5,
-        ),
-        itemBuilder: (context, index) {
-          final WorkoutType type = WorkoutType.values[index];
-          return InkWell(
-            onTap: () {
-              controller.saveWorkout(type.name);
-            },
-            child: Card(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    type.icon,
-                    size: 48,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Center(
+            child: Column(
+              children: [
+                Text('Pick Workout Type',
+                    style: Theme.of(context).textTheme.displayMedium),
+                const SizedBox(
+                  height: 32,
+                ),
+                Expanded(
+                  child: GridView.builder(
+                    itemCount: WorkoutType.values.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 1.5,
+                    ),
+                    itemBuilder: (context, index) {
+                      final WorkoutType type = WorkoutType.values[index];
+                      return InkWell(
+                        onTap: () {
+                          controller.saveWorkout(type.name);
+                        },
+                        child: Card(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                type.icon,
+                                size: 48,
+                              ),
+                              Text(type.name),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  Text(type.name),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

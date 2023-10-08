@@ -10,6 +10,7 @@ class ProfilePage extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Profile'),
@@ -177,13 +178,16 @@ class ProfilePage extends GetView<ProfileController> {
                     prefixIcon: Icon(CupertinoIcons.person),
                     labelText: 'Gender',
                   ),
-                  items: controller.genders
-                      .map<DropdownMenuItem<String>>((String gender) {
-                    return DropdownMenuItem<String>(
-                      value: gender,
-                      child: Text(gender),
-                    );
-                  }).toList(),
+                  items: const [
+                    DropdownMenuItem(
+                      value: 'male',
+                      child: Text('Male'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'female',
+                      child: Text('Female'),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 16,
@@ -210,6 +214,18 @@ class ProfilePage extends GetView<ProfileController> {
                       CupertinoIcons.person,
                     ),
                     labelText: 'Password',
+                  ),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      controller.updateUser();
+                    },
+                    child: const Text('Save'),
                   ),
                 ),
               ],

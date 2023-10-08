@@ -4,6 +4,7 @@ import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/themes/app_theme.dart';
+import 'package:hatofit/utils/snackbar.dart';
 
 import '../../../../../../utils/image_utils.dart';
 import '../../../../../routes/app_routes.dart';
@@ -60,9 +61,9 @@ class InputUserMetricController extends GetxController {
         if (perm) {
           try {
             // clean null values from previousData
-            previousData.toJson().removeWhere((key, value) => value == null); 
+            previousData.toJson().removeWhere((key, value) => value == null);
             final Response response =
-                await InternetService().registerUser(previousData); 
+                await InternetService().registerUser(previousData);
             if (response.body['success'] == true) {
               try {
                 final loginResponse =
@@ -87,45 +88,20 @@ class InputUserMetricController extends GetxController {
                     ImageUtils.fromBase64(user.photo!);
                   }
 
-                  Get.snackbar(
-                    'Success',
-                    'Welcome back ${user.firstName}',
-                    backgroundColor: Colors.green,
-                    colorText: Colors.white,
-                  );
-
+                  MySnackbar.success(
+                      'Success', 'Welcome back ${user.firstName}');
                   Get.offAllNamed(AppRoutes.dashboard);
                 } else {
-                  Get.snackbar(
-                    'Error Login',
-                    loginResponse.body['message'],
-                    backgroundColor: Colors.red,
-                    colorText: Colors.white,
-                  );
+                  MySnackbar.error('Error', loginResponse.body['message']);
                 }
               } catch (error) {
-                Get.snackbar(
-                  'Error',
-                  'An error occurred during the login process: HatoFit server is not responding',
-                  backgroundColor: Colors.red,
-                  colorText: Colors.white,
-                );
+                MySnackbar.error('Error', 'Error while trying to login');
               }
             } else {
-              Get.snackbar(
-                'Error Register',
-                response.body['message'],
-                backgroundColor: Colors.red,
-                colorText: Colors.white,
-              );
+              MySnackbar.error('Error', response.body['message']);
             }
           } catch (error) {
-            Get.snackbar(
-              'Error',
-              'An error occurred during the registration process: HatoFit server is not responding',
-              backgroundColor: Colors.red,
-              colorText: Colors.white,
-            );
+            MySnackbar.error('Error', 'Error while trying to register');
           }
         } else {
           register();

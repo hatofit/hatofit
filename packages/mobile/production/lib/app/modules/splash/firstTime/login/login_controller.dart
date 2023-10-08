@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/utils/image_utils.dart';
+import 'package:hatofit/utils/snackbar.dart';
+import 'package:logger/logger.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../../../routes/app_routes.dart';
@@ -20,10 +22,6 @@ class LoginController extends GetxController {
   final store = Get.find<PreferencesService>();
   @override
   void onInit() {
-    // TODO: remove in production
-    // emailController.text = 'bokirsianpar95@gmail.com';
-    // passwordController.text = '12345678';
-    // TODO: remove in production
     super.onInit();
     videoPlayerController =
         VideoPlayerController.asset('assets/videos/login.mp4');
@@ -53,7 +51,7 @@ class LoginController extends GetxController {
       try {
         final response = await InternetService().loginUser(userModel);
         final body = response.body;
-
+        Logger().i(body);
         if (body['success'] == true) {
           final UserModel user = UserModel.fromJson(body['user']);
 
@@ -69,29 +67,14 @@ class LoginController extends GetxController {
             ImageUtils.fromBase64(user.photo!);
           }
 
-          Get.snackbar(
-            'Success',
-            'Welcome back ${user.firstName}',
-            backgroundColor: Colors.green,
-            colorText: Colors.white,
-          );
+          MySnackbar.success('Success', 'Welcome back ${user.firstName}');
 
           Get.offAllNamed(AppRoutes.dashboard);
         } else {
-          Get.snackbar(
-            'Error',
-            body['message'],
-            backgroundColor: Colors.red,
-            colorText: Colors.white,
-          );
+          MySnackbar.error('Error', body['message']);
         }
       } catch (error) {
-        Get.snackbar(
-          'Error',
-          'An error occurred during the login process: HatoFit server is not responding',
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
+        MySnackbar.error('Error', 'Error while trying to login');
       }
     }
   }

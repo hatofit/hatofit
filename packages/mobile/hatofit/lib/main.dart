@@ -1,38 +1,48 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hatofit/config/theme.dart';
-import 'package:hatofit/routes/routes.dart';
+import 'package:get/get.dart';
+import 'package:hatofit/app/routes/app_pages.dart';
+import 'package:hatofit/app/routes/app_routes.dart';
+import 'package:hatofit/app/services/bluetooth_service.dart';
+import 'package:hatofit/app/services/internet_service.dart';
+import 'package:hatofit/app/services/preferences_service.dart';
+import 'package:hatofit/app/themes/app_theme.dart';
+import 'package:keep_screen_on/keep_screen_on.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FirebaseAnalytics.instance;
+  await initServices();
+  KeepScreenOn.turnOn();
   runApp(
-    ProviderScope(
-      child: MyApp(),
-    ),
+    const MyApp(),
   );
 }
 
-class MyApp extends ConsumerStatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  ConsumerState<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends ConsumerState<MyApp> {
-  // This widget is the root of your application.
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final router = ref.watch(goRouterProvider);
-
-    return MaterialApp.router(
-      routeInformationParser: router.routeInformationParser,
-      routeInformationProvider: router.routeInformationProvider,
-      routerDelegate: router.routerDelegate,
+    return GetMaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'HatoFit',
+      initialRoute: AppRoutes.splash,
+      getPages: AppPages.list,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
-      theme: lightTheme,
-      darkTheme: darkTheme,
     );
   }
+}
+
+initServices() async {
+  await Get.putAsync(() => PreferencesService().init());
+  await Get.putAsync(() => InternetService().init());
+  await Get.putAsync(() => BluetoothService().init());
 }

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/exercise_model.dart';
 import 'package:hatofit/app/models/session_model.dart';
@@ -8,13 +7,14 @@ import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/app/services/storage_service.dart';
 import 'package:hatofit/utils/debug_logger.dart';
+import 'package:logger/logger.dart';
 
 class InternetService extends GetConnect {
   final store = Get.find<PreferencesService>();
   String get token => store.token ?? '';
 
   Future<InternetService> init() async {
-    final res = await fetchHistory();
+    final res = await getUser();
     if (res.statusText! == 'OK') {
       if (res.body['success'] == false) {
         store.token = null;
@@ -25,13 +25,16 @@ class InternetService extends GetConnect {
     return this;
   }
 
-  static const String _base = 'http://192.168.177.169:3000/api';
+  static const String _base = 'https://vercel-api-coral.vercel.app/api';
+  // static const String _base = 'http://192.168.229.169:3000/api';
   static const String _sesion = '/session';
   static const String _exercise = '/exercise';
   static const String _report = '/report';
   static const String _register = '/auth/register';
   static const String _login = '/auth/login';
   static const String _update = '/auth/update';
+  static const String _updateMetrices = '/auth/update-metric';
+  static const String _me = '/auth/me';
 
   Future<int?> postSession(SessionModel body) async {
     if (body.data.last.devices.last.value.isEmpty) {
@@ -89,7 +92,6 @@ class InternetService extends GetConnect {
           'Authorization': 'Bearer $token',
         },
       );
-      logger.f(token);
       if (response.statusCode == 200) {
         return response;
       } else {
@@ -145,6 +147,7 @@ class InternetService extends GetConnect {
           'Content-Type': 'application/json',
         },
       );
+      Logger().e(_base + _login);
       return response;
     } catch (e) {
       return Response(body: 'Error $e');
@@ -152,12 +155,13 @@ class InternetService extends GetConnect {
   }
 
   Future<Response> updateUser(UserModel request) async {
+    final bodyMap = request.toJson();
+    bodyMap.removeWhere((key, value) => value == null);
     try {
+      logger.i(_base + _update);
       final response = await post(
         _base + _update,
-        jsonEncode(
-          request.toJson(),
-        ),
+        jsonEncode(bodyMap),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
@@ -169,52 +173,38 @@ class InternetService extends GetConnect {
     }
   }
 
-  static Response? _handleResponse(Response res) {
-    switch (res.statusCode) {
-      case 200:
-        return res;
-      case 400:
-        Get.snackbar(
-          'Invalid Request',
-          res.body['message'],
-          backgroundColor: Get.isDarkMode ? Colors.white : Colors.black,
-        );
-        return null;
-      case 401:
-        Get.snackbar(
-          'Unauthorized',
-          res.body['message'],
-          backgroundColor: Get.isDarkMode ? Colors.white : Colors.black,
-        );
-        return null;
-      case 403:
-        Get.snackbar(
-          'Forbidden',
-          res.body['message'],
-          backgroundColor: Get.isDarkMode ? Colors.white : Colors.black,
-        );
-        return null;
-      case 404:
-        Get.snackbar(
-          'Not Found',
-          res.body['message'],
-          backgroundColor: Get.isDarkMode ? Colors.white : Colors.black,
-        );
-        return null;
-      case 500:
-        Get.snackbar(
-          'Internal Server Error',
-          res.body['message'],
-          backgroundColor: Get.isDarkMode ? Colors.white : Colors.black,
-        );
-        return null;
-      default:
-        Get.snackbar(
-          'Error',
-          res.body['message'],
-          backgroundColor: Get.isDarkMode ? Colors.white : Colors.black,
-        );
-        return null;
+  Future<Response> updateMetrices(
+      int height, int weight, MetricUnits units) async {
+    try {
+      final response = await post(
+        _base + _updateMetrices,
+        jsonEncode({
+          'height': height,
+          'weight': weight,
+          'metricUnits': units.toJson(),
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      return response;
+    } catch (e) {
+      return Response(body: 'Error $e');
+    }
+  }
+
+  Future<Response> getUser() async {
+    try {
+      final token = store.token;
+
+      final response = await get(_base + _me, headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+      return response;
+    } catch (e) {
+      return Response(body: 'Error $e');
     }
   }
 }

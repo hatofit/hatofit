@@ -3,7 +3,6 @@ import 'package:hatofit/app/models/report_model.dart';
 import 'package:hatofit/app/modules/history/history_controller.dart';
 import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
-import 'package:hatofit/utils/debug_logger.dart';
 import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
@@ -47,7 +46,6 @@ class HomeController extends GetxController {
         ReportModel.fromJson(r['report']),
       );
     }
-    logger.i(report);
     for (var item in report) {
       final endTimeMicros = item.endTime;
       final dateEnd = DateTime.fromMicrosecondsSinceEpoch(endTimeMicros);
@@ -135,7 +133,6 @@ class HomeController extends GetxController {
     final height = store.user!.height!;
     final weight = store.user!.weight!;
     final metricUnits = store.user!.metricUnits!;
-    logger.i(metricUnits.heightUnits);
 
     double? bmi;
 

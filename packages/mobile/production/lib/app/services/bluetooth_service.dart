@@ -1,13 +1,10 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/polar_device.dart';
 import 'package:hatofit/app/modules/home/home_controller.dart';
-import 'package:hatofit/app/themes/app_theme.dart';
-import 'package:hatofit/app/themes/colors_constants.dart';
-import 'package:hatofit/utils/debug_logger.dart';
+import 'package:hatofit/utils/snackbar.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
 import 'package:vibration/vibration.dart';
@@ -39,7 +36,6 @@ class BluetoothService extends GetxService {
         device.hr.value = 0;
         device.isConnect.value = false;
         Vibration.vibrate(pattern: [1000, 500, 1000]);
-        logger.i('Device disconnected: ${e.info.name} ${e.info.deviceId}');
       },
     );
     polar.batteryLevel.listen(
@@ -58,7 +54,6 @@ class BluetoothService extends GetxService {
 
         HomeController().update();
         Vibration.vibrate(pattern: [500, 0, 0, 500]);
-        logger.i('Device connected: ${e.name} ${e.deviceId}');
       },
     );
     return this;
@@ -155,19 +150,11 @@ class BluetoothService extends GetxService {
       await device.fble!.connect();
       streamWhenReady(device);
       Get.back();
-      Get.snackbar('Success', 'Yeay... Berhasil connect',
-          colorText: ThemeManager().isDarkMode ? Colors.white : Colors.black,
-          backgroundColor: ThemeManager().isDarkMode
-              ? ColorConstants.darkContainer.withOpacity(0.9)
-              : ColorConstants.lightContainer.withOpacity(0.9));
+      MySnackbar.success('Success', 'Connected to ${device.info.name}');
     }).catchError((error) {
       polar.disconnectFromDevice(deviceId);
       Get.back();
-      Get.snackbar('Error', 'Waduh... Reconnect lagi',
-          colorText: ThemeManager().isDarkMode ? Colors.white : Colors.black,
-          backgroundColor: ThemeManager().isDarkMode
-              ? ColorConstants.darkContainer.withOpacity(0.9)
-              : ColorConstants.lightContainer.withOpacity(0.9));
+      MySnackbar.error('Error', 'Failed to connect to ${device.info.name}');
     });
   }
 

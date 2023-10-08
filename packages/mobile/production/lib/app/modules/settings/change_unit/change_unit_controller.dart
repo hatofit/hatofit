@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/user_model.dart';
+import 'package:hatofit/app/services/internet_service.dart';
+import 'package:hatofit/utils/debug_logger.dart';
 
 import '../../../services/preferences_service.dart';
 
@@ -45,8 +47,15 @@ class ChangeUnitController extends GetxController {
     boolChecker();
   }
 
-  void saveUserInfo() {
-    Get.back();
+  void saveUserInfo() async {
+    final res = await InternetService()
+        .updateMetrices(userHeight.value, userWeight.value, metricUnits);
+    logger.i(res.body);
+    if (res.body['success'] == true) {
+      store.user!.height = userHeight.value;
+      store.user!.weight = userWeight.value;
+      store.user!.metricUnits = metricUnits;
+    }
   }
 
   Future<void> boolChecker() async {

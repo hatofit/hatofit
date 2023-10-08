@@ -1,17 +1,18 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/services/internet_service.dart';
+import 'package:hatofit/utils/debug_logger.dart';
 import 'package:hatofit/utils/image_picker.dart';
 import 'package:hatofit/utils/image_utils.dart';
+import 'package:hatofit/utils/snackbar.dart';
 import 'package:intl/intl.dart';
 
 import '../../../services/preferences_service.dart';
 
 class ProfileController extends GetxController {
-  final List<String> genders = ['Male', 'Female'];
   final userGender = ''.obs;
   final genderAsset = ''.obs;
   final fullNameController = TextEditingController().obs;
@@ -66,14 +67,16 @@ class ProfileController extends GetxController {
     user!.dateOfBirth = userDateOfBirth.value;
     user!.gender = userGender.value;
     user!.photo = pickedImageBase64.value;
-    Future.delayed(Duration(milliseconds: 250), () {
-      store.user = user;
-    });
+    user!.email = emailController.value.text;
+    user!.password = passwordController.value.text;
     final res = await InternetService().updateUser(user!);
+    logger.d(res.body);
     if (res.body['success'] == true) {
-      Get.snackbar('Success', 'Profile updated successfully');
+      MySnackbar.success('Success', res.body['message']);
+      store.user = UserModel.fromJson(res.body['user']);
+      refreshController();
     } else {
-      Get.snackbar('Error', 'Something went wrong');
+      MySnackbar.error('Error', 'Failed to update profile');
     }
   }
 }

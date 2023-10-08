@@ -63,9 +63,6 @@ dependencies:
   firebase_analytics: ^10.4.5
   firebase_crashlytics: ^3.3.5
   health: ^8.0.0
-  googleapis: ^11.4.0
-  googleapis_auth: ^1.4.1
-
 
 dev_dependencies:
   flutter_test:

@@ -1,34 +1,94 @@
 {
   "project_info": {
-    "project_number": "123499973842",
-    "project_id": "hatofit-0001",
-    "storage_bucket": "hatofit-0001.appspot.com"
+    "project_number": "499735113450",
+    "project_id": "zenta-hatofit0000",
+    "storage_bucket": "zenta-hatofit0000.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:123499973842:android:d75379c3846934af1db10b",
+        "mobilesdk_app_id": "1:499735113450:android:e130ef38d82e221bc07193",
         "android_client_info": {
-          "package_name": "edu.unesa.hatofit"
+          "package_name": "dev.zenta.hatofit"
         }
       },
       "oauth_client": [
         {
-          "client_id": "123499973842-qrgjuioicroraqg8jo0vbu2abbql2ns1.apps.googleusercontent.com",
+          "client_id": "499735113450-28k3fm9769lb16o9qtfolt4l62k06tv4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.zenta.hatofit",
+            "certificate_hash": "b304996da6f8b22a91cb18ea87876601526a36da"
+          }
+        },
+        {
+          "client_id": "499735113450-iplqghlgap14k1dtvf3935ta98iresfd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBhUfTI3XOWTVTCBiC9JLh-xZmW055LPJY"
+          "current_key": "AIzaSyA2ppdGAL6ELv_MLrsIGLbozSd--MYplVU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "123499973842-qrgjuioicroraqg8jo0vbu2abbql2ns1.apps.googleusercontent.com",
+              "client_id": "499735113450-iplqghlgap14k1dtvf3935ta98iresfd.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "499735113450-3oouci9g0kho6jlk1uqjq96qghiilpdo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.zenta.hatofit"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "client_id": "123499973842-ifpcmd3f8e002i4n4lgl4tp11ciokiml.apps.googleusercontent.com",
+        "project_id": "hatofit-0001",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs"
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:499735113450:android:8b000161acffcf87c07193",
+        "android_client_info": {
+          "package_name": "edu.unesa.hatofit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "499735113450-iplqghlgap14k1dtvf3935ta98iresfd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2ppdGAL6ELv_MLrsIGLbozSd--MYplVU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "499735113450-iplqghlgap14k1dtvf3935ta98iresfd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "499735113450-3oouci9g0kho6jlk1uqjq96qghiilpdo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "dev.zenta.hatofit"
+              }
             }
           ]
         }

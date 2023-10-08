@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/polar_device.dart';
+import 'package:hatofit/utils/snackbar.dart';
 
 import '../../../app/services/bluetooth_service.dart';
 import '../../../app/themes/app_theme.dart';
@@ -134,7 +135,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 height: ThemeManager().screenHeight / 2,
                 width: ThemeManager().screenWidth,
                 child: FutureBuilder(
-                  future: Future.delayed(const Duration(seconds: 3)),
+                  future: Future.delayed(const Duration(seconds: 2)),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
@@ -196,7 +197,35 @@ class _CustomAppBarState extends State<CustomAppBar> {
   Widget _handleButton(PolarDevice device) {
     final deviceId = device.info.deviceId;
     final isConnect = device.isConnect;
-    if (isConnect.value == false) {
+    // check if is another device is connected ,return disable grey button
+
+    if (isConnect.value == true) {
+      return TextButton(
+        style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            backgroundColor:
+                MaterialStateProperty.all<Color>(ColorConstants.crimsonRed)),
+        child: const Text('Disconnect'),
+        onPressed: () {
+          bleService.disconnectDevice(device);
+          Get.back();
+        },
+      );
+    } else if (bleService.detectedDevices
+        .where((element) => element.isConnect.value == true)
+        .isNotEmpty) {
+      return TextButton(
+        style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            backgroundColor:
+                MaterialStateProperty.all<Color>(Colors.grey.shade400)),
+        child: const Text('Connect'),
+        onPressed: () {
+          MySnackbar.error(
+              'Another Device Connected', 'Please disconnect the device first');
+        },
+      );
+    } else {
       return TextButton(
         style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -205,7 +234,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         child: const Text('Connect'),
         onPressed: () {
           bleService.connectDevice(device);
-          Get.back(); 
+          Get.back();
           Get.dialog(
             connecting(
                 deviceName: bleService.detectedDevices
@@ -220,19 +249,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
           );
         },
       );
-    } else {
-      return TextButton(
-        style: ButtonStyle(
-            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-            backgroundColor:
-                MaterialStateProperty.all<Color>(ColorConstants.crimsonRed)),
-        child: const Text('Disconnect'),
-        onPressed: () {
-          bleService.disconnectDevice(device);
-          Get.back();
-        },
-      );
-    } 
+    }
   }
 
   Dialog connecting({required String deviceName, required String deviceId}) {

@@ -255,39 +255,44 @@ const ApiAuth = ({ route }) => {
     }));
     // update user
     route.post("/update", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e, _f;
         console.log("DATA BODY", req.body);
         try {
-            // // validate input
-            // const password = req.body.password || "";
-            // // remove whitespace
-            // if (password.trim() === "") {
-            //   return res.status(400).json({
-            //     success: false,
-            //     message: "Password must not be empty",
-            //   });
-            // }
-            // // input schema
-            // const rawPlainPassword: string = req.body.password || ("" as string);
-            // // password
-            // const saltRounds = parseInt(process.env.HASH_PASSWORD_SALT || "10");
-            // const hasingPasssword = await new Promise((res) => {
-            //   bcrypt.hash(
-            //     rawPlainPassword,
-            //     saltRounds,
-            //     function (err: any, hash: any) {
-            //       return res(hash);
-            //     }
-            //   );
-            // });
-            // req.body.password = hasingPasssword;
+            // validate input
+            const password = req.body.password || "";
+            // remove whitespace
+            if (password.trim() === "") {
+                return res.status(400).json({
+                    success: false,
+                    message: "Password must not be empty",
+                });
+            }
+            // check if password first 4 character isnt * then hash password
+            if (password.substring(0, 4) !== "****") {
+                // input schema
+                const rawPlainPassword = req.body.password || "";
+                // password
+                const saltRounds = parseInt(process.env.HASH_PASSWORD_SALT || "10");
+                const hasingPasssword = yield new Promise((res) => {
+                    bcrypt_1.default.hash(rawPlainPassword, saltRounds, function (err, hash) {
+                        return res(hash);
+                    });
+                });
+                req.body.password = hasingPasssword;
+            }
+            else {
+                const user = yield db_1.User.findOne({
+                    _id: (_b = (_a = req.auth) === null || _a === void 0 ? void 0 : _a.user) === null || _b === void 0 ? void 0 : _b._id,
+                });
+                req.body.password = user === null || user === void 0 ? void 0 : user.password;
+            }
             // dateOfBirth
             const dateOfBirth = req.body.dateOfBirth || "";
             req.body.dateOfBirth = (0, dayjs_1.default)(dateOfBirth, "mm/dd/yyyy").toDate();
             const user = user_1.UserSchema.parse(req.body);
             // save to db
             const found = yield db_1.User.findOne({
-                _id: (_b = (_a = req.auth) === null || _a === void 0 ? void 0 : _a.user) === null || _b === void 0 ? void 0 : _b._id,
+                _id: (_d = (_c = req.auth) === null || _c === void 0 ? void 0 : _c.user) === null || _d === void 0 ? void 0 : _d._id,
             });
             // resposne
             if (!found) {
@@ -298,7 +303,7 @@ const ApiAuth = ({ route }) => {
             }
             // update
             const updated = yield db_1.User.findOneAndUpdate({
-                _id: (_d = (_c = req.auth) === null || _c === void 0 ? void 0 : _c.user) === null || _d === void 0 ? void 0 : _d._id,
+                _id: (_f = (_e = req.auth) === null || _e === void 0 ? void 0 : _e.user) === null || _f === void 0 ? void 0 : _f._id,
             }, {
                 $set: Object.assign({}, user),
             }, {
@@ -307,7 +312,43 @@ const ApiAuth = ({ route }) => {
             // resposne
             return res.json({
                 success: true,
-                message: "User updated",
+                message: "Profile updated successfully",
+                user: (0, obj_1.exceptObjectProp)(updated === null || updated === void 0 ? void 0 : updated.toObject(), ["password"]),
+            });
+        }
+        catch (error) {
+            // console.error(error)
+            return res.status(400).json({ error });
+        }
+    }));
+    // update metric units , weight and height
+    route.post("/update-metric", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _g, _h, _j, _k;
+        console.log("DATA BODY", req.body);
+        try {
+            // save to db
+            const found = yield db_1.User.findOne({
+                _id: (_h = (_g = req.auth) === null || _g === void 0 ? void 0 : _g.user) === null || _h === void 0 ? void 0 : _h._id,
+            });
+            // resposne
+            if (!found) {
+                return res.status(404).json({
+                    success: false,
+                    message: "User not found",
+                });
+            }
+            // update
+            const updated = yield db_1.User.findOneAndUpdate({
+                _id: (_k = (_j = req.auth) === null || _j === void 0 ? void 0 : _j.user) === null || _k === void 0 ? void 0 : _k._id,
+            }, {
+                $set: Object.assign({}, req.body),
+            }, {
+                new: true,
+            });
+            // resposne
+            return res.json({
+                success: true,
+                message: "Metric updated successfully",
                 user: (0, obj_1.exceptObjectProp)(updated === null || updated === void 0 ? void 0 : updated.toObject(), ["password"]),
             });
         }

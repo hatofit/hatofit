@@ -41,32 +41,156 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Obx(() {
-              controller.add(DateTime.now().microsecondsSinceEpoch,
-                  bleService.detectedDevices.last.hr.value);
+              controller.addHr(
+                  DateTime.now().microsecondsSinceEpoch,
+                  bleService.detectedDevices
+                      .firstWhere((element) => element.isConnect.value == true)
+                      .hr
+                      .value);
               if (controller.hrList.length % 2 == 0) {
                 controller.calcHr();
               }
               controller.userZone(bleService.detectedDevices.first.hr.value);
               return Column(
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text('Elapsed : ${TimeUtils.elapsed(
-                        controller.hrList.first['time'],
-                        controller.hrList.last['time'],
-                      )}'),
-                    ],
+                  Container(
+                      width: Get.width * 0.9,
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[800],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Elapsed :',
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
+                          Text(
+                            TimeUtils.elapsed(
+                              controller.hrList.first['time'],
+                              controller.hrList.last['time'],
+                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .displayMedium!
+                                .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ],
+                      )),
+                  const SizedBox(
+                    height: 16,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Text('Now ${controller.hrStats.value.last}'),
-                      Text('Min ${controller.hrStats.value.min}'),
-                      Text('Max ${controller.hrStats.value.max}'),
-                      Text('Avg ${controller.hrStats.value.avg}'),
-                    ],
-                  ),
+                  Container(
+                      width: Get.width * 0.9,
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[800],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Heart Rate',
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[900],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text('Now'),
+                                    Text(
+                                      controller.hrList.last['hr'].toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[900],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text('Min'),
+                                    Text(
+                                      controller.hrStats.value.min.toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[900],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text('Max'),
+                                    Text(
+                                      controller.hrStats.value.max.toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[900],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Text('Avg'),
+                                    Text(
+                                      controller.hrStats.value.avg.toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium!
+                                          .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          )
+                        ],
+                      )),
                   Container(
                     padding: const EdgeInsets.only(top: 16, bottom: 16),
                     decoration: BoxDecoration(

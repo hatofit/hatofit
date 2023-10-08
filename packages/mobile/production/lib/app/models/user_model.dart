@@ -9,8 +9,8 @@ class UserModel {
   String? firstName;
   String? lastName;
   String? gender;
-  final String? email;
-  final String? password;
+  String? email;
+  String? password;
   String? confirmPassword;
   DateTime? dateOfBirth;
   String? photo;
@@ -24,8 +24,8 @@ class UserModel {
     this.firstName,
     this.lastName,
     this.gender,
-    required this.email,
-    required this.password,
+    this.email,
+    this.password,
     this.confirmPassword,
     this.dateOfBirth,
     this.photo,

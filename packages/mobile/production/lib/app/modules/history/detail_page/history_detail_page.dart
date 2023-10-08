@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +6,6 @@ import 'package:hatofit/app/modules/history/detail_page/history_detail_controlle
 import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
-import 'package:hatofit/utils/debug_logger.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -28,12 +25,10 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
               if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
-                // final data = snapshot.data?['report']  ;
                 final data = ReportModel.fromJson(snapshot.data!['report']);
-                // final reports = data['reports'] as List<dynamic>;
                 final hrReport =
                     data.reports.firstWhere((element) => element.type == 'hr');
-                logger.f(jsonEncode(hrReport));
+
                 if (hrReport.data.isNotEmpty) {
                   return ListView(
                     children: [

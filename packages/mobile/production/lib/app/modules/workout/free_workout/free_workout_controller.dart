@@ -7,6 +7,7 @@ import 'package:hatofit/app/models/heart_Rate.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/utils/hr_zone.dart';
+import 'package:hatofit/utils/snackbar.dart';
 import 'package:hatofit/utils/streaming_utils.dart';
 import 'package:vibration/vibration.dart';
 
@@ -64,17 +65,14 @@ class FreeWorkoutController extends GetxController {
       [],
     );
     if (res != null && res == 200) {
+      MySnackbar.success('Success', 'Data saved successfully');
       Get.offAllNamed(AppRoutes.dashboard);
     } else {
-      Get.snackbar(
-        'Error',
-        'Something went wrong',
-        backgroundColor: Colors.red,
-      );
+      MySnackbar.error('Error', 'Something went wrong');
     }
   }
 
-  void add(int time, int hr) {
+  void addHr(int time, int hr) {
     hrList.add({'time': time, 'hr': hr});
   }
 

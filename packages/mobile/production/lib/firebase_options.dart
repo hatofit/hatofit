@@ -50,20 +50,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBhUfTI3XOWTVTCBiC9JLh-xZmW055LPJY',
-    appId: '1:123499973842:android:d75379c3846934af1db10b',
-    messagingSenderId: '123499973842',
-    projectId: 'hatofit-0001',
-    storageBucket: 'hatofit-0001.appspot.com',
+    apiKey: 'AIzaSyA2ppdGAL6ELv_MLrsIGLbozSd--MYplVU',
+    appId: '1:499735113450:android:8b000161acffcf87c07193',
+    messagingSenderId: '499735113450',
+    projectId: 'zenta-hatofit0000',
+    storageBucket: 'zenta-hatofit0000.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA1-kgU0ecIEYpavE5GOw-l4lpp3EvQoSI',
-    appId: '1:123499973842:ios:0b84f2a124fb811e1db10b',
-    messagingSenderId: '123499973842',
-    projectId: 'hatofit-0001',
-    storageBucket: 'hatofit-0001.appspot.com',
-    iosClientId: '123499973842-etvoo516gh5usnv9qajh6ummdlb6r0rh.apps.googleusercontent.com',
+    apiKey: 'AIzaSyCA-dc3mFcorLGp1-c7nnZUp58pI0-PFi4',
+    appId: '1:499735113450:ios:0ef2066b7d952eefc07193',
+    messagingSenderId: '499735113450',
+    projectId: 'zenta-hatofit0000',
+    storageBucket: 'zenta-hatofit0000.appspot.com',
+    androidClientId: '499735113450-28k3fm9769lb16o9qtfolt4l62k06tv4.apps.googleusercontent.com',
+    iosClientId: '499735113450-b7nof01d6mpvhvcpfmin5123726v2n4e.apps.googleusercontent.com',
     iosBundleId: 'edu.unesa.hatofit',
   );
 }

@@ -139,7 +139,7 @@ class SettingPage extends GetView<SettingController> {
                               () => Transform.scale(
                                 scale: 0.8,
                                 child: CupertinoSwitch(
-                                  value: controller.isSync.value,
+                                  value: controller.authorized.value,
                                   onChanged: (value) async {
                                     controller.handleGoogleFit();
                                     // controller.isSync.value = value;

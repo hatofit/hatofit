@@ -91,22 +91,16 @@ class HrZoneutils {
     final age = DateTime.now().year - dob!.year;
     final maxHr = 220 - age;
 
-    // if (nowHr < maxHr * 0.5) {
-    //   return HrZoneType.VERYLIGHT;
-    // } else if (nowHr < maxHr * 0.6) {
-    //   return HrZoneType.LIGHT;
-    // } else if (nowHr < maxHr * 0.7) {
-    //   return HrZoneType.MODERATE;
-    // } else if (nowHr < maxHr * 0.8) {
-    //   return HrZoneType.HARD;
-    // } else {
-    //   return HrZoneType.MAXIMUM;
-    // }
-    // TODO: remove in production
-    if (nowHr > 77) {
+    if (nowHr < maxHr * 0.5) {
       return HrZoneType.VERYLIGHT;
-    } else {
+    } else if (nowHr < maxHr * 0.6) {
       return HrZoneType.LIGHT;
+    } else if (nowHr < maxHr * 0.7) {
+      return HrZoneType.MODERATE;
+    } else if (nowHr < maxHr * 0.8) {
+      return HrZoneType.HARD;
+    } else {
+      return HrZoneType.MAXIMUM;
     }
   }
 }

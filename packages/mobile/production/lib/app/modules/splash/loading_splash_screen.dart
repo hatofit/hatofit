@@ -12,7 +12,7 @@ class LoadingSplashScreen extends StatelessWidget {
     StorageService().initializeDirectory();
 
     Future.delayed(const Duration(seconds: 1), () async {
-      final res = await inet.fetchHistory();
+      final res = await inet.getUser();
       if (res.statusText!.contains('connection timed out')) {
         Get.offAllNamed(AppRoutes.greeting);
         return;
