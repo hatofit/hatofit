@@ -19,7 +19,7 @@ class HomeController extends GetxController {
   final prov = Get.find<InternetService>();
   final hrZone = HrZoneutils();
   final historyList = <dynamic>[].obs;
-  final report = <ReportModel>[].obs; 
+  final report = <ReportModel>[].obs;
   final hrData = <HrWidgetChart>[].obs;
   int hrPercentage = 0;
   @override
@@ -186,7 +186,7 @@ class HomeController extends GetxController {
   }
 
   findPercent(int hr) {
-    hrPercentage = hrZone.findPercentage(hr );
+    hrPercentage = hrZone.findPercentage(hr);
   }
 
   static final types = [
@@ -219,14 +219,18 @@ class HomeController extends GetxController {
     }
     healthDataList.value = HealthFactory.removeDuplicates(healthDataList);
     for (var item in healthDataList) {
-      if (item.type == HealthDataType.STEPS &&
-          item.dateTo == DateTime.now() &&
-          item.dateFrom == DateTime.now().subtract(Duration(days: 1))) {
+      if (item.type == HealthDataType.STEPS
+          //  &&
+          //     item.dateTo == DateTime.now() &&
+          //     item.dateFrom == DateTime.now().subtract(Duration(days: 1))
+          ) {
         stepsMapping.add(item);
       }
-      if (item.type == HealthDataType.SLEEP_ASLEEP &&
-          item.dateTo == DateTime.now() &&
-          item.dateFrom == DateTime.now().subtract(Duration(days: 1))) {
+      if (item.type == HealthDataType.SLEEP_ASLEEP
+          // &&
+          //     item.dateTo == DateTime.now() &&
+          //     item.dateFrom == DateTime.now().subtract(Duration(days: 1)),
+          ) {
         sleepMapping.add(item);
         logger.i(item);
         final totalSleepHours = double.parse(item.value.toString()) / 60;

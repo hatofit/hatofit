@@ -68,6 +68,7 @@ const SessionSchema = new Schema(
   {
     _id: String,
     userId: String,
+    mood: String,
     exercise: ExerciseSchema,
     startTime: Number,
     endTime: Number,

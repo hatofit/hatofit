@@ -270,6 +270,21 @@ class HomePage extends GetView<HomeController> {
                   ],
                 ),
                 SizedBox(height: ThemeManager().screenHeight * 0.01),
+                Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Trends',
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
+                        ],
+                      )),
+                ),
+                SizedBox(height: ThemeManager().screenHeight * 0.01),
                 const StepsChartWidget(),
                 SizedBox(height: ThemeManager().screenHeight * 0.01),
                 const SleepsInfoWidget(),

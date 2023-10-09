@@ -232,6 +232,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         devices,
         exerciseId: session.exercise?._id || null,
         sessionId: session._id,
+
         reports: reportsItems,
       } as z.input<typeof ReportSchema>);
       console.log("devices:", devices);
@@ -240,6 +241,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         success: true,
         message: "Report generated",
         report,
+        mood: session.mood,
         exercise: session.exercise,
       });
     } catch (error) {

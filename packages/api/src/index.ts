@@ -72,7 +72,6 @@ const args = process.argv.slice(2);
     });
   });
   app.use("/api", root.export());
-
   // listen
   const port = parseInt(process.env.PORT || "3000") || 3000;
   app.listen(port, () => {

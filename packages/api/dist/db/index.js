@@ -82,6 +82,7 @@ exports.User = mongoose_1.default.model("User", UserSchema);
 const SessionSchema = new mongoose_1.Schema({
     _id: String,
     userId: String,
+    mood: String,
     exercise: ExerciseSchema,
     startTime: Number,
     endTime: Number,

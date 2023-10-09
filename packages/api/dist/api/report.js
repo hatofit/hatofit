@@ -202,6 +202,7 @@ const ApiReport = ({ route }) => {
                 success: true,
                 message: "Report generated",
                 report,
+                mood: session.mood,
                 exercise: session.exercise,
             });
         }
