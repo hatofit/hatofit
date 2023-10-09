@@ -29,6 +29,7 @@ class HomePage extends GetView<HomeController> {
         body: RefreshIndicator(
           onRefresh: () {
             controller.hrCharting();
+            controller.fetchData();
             controller.update();
             return Future.delayed(const Duration(seconds: 1));
           },

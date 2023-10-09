@@ -6,7 +6,6 @@ import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/app/services/storage_service.dart';
-import 'package:hatofit/utils/debug_logger.dart';
 import 'package:intl/intl.dart';
 
 class StreamingUtils {
@@ -49,7 +48,6 @@ class StreamingUtils {
         timelines: timelines.isEmpty ? [] : timelines,
         data: sessionDataItem);
 
-    logger.i(session.toJson());
     final DateTime strtTime = DateTime.fromMicrosecondsSinceEpoch(startTime);
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
     final String formatted = formatter.format(strtTime);

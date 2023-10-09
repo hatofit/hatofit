@@ -4,7 +4,7 @@ import 'package:hatofit/app/models/report_model.dart';
 import 'package:hatofit/app/modules/dashboard/views/history/history_controller.dart';
 import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
-import 'package:hatofit/utils/debug_logger.dart';
+import 'package:hatofit/utils/calories_utils.dart';
 import 'package:hatofit/utils/hr_zone.dart';
 import 'package:hatofit/utils/snackbar.dart';
 import 'package:health/health.dart';
@@ -22,9 +22,26 @@ class HomeController extends GetxController {
   final report = <ReportModel>[].obs;
   final hrData = <HrWidgetChart>[].obs;
   int hrPercentage = 0;
+  final calorUtils = CaloriesUtils();
+  final age = 0.obs;
+  final gender = ''.obs;
+  final weight = 0.obs;
+  final height = 0.obs;
+  final weightUnits = ''.obs;
+  final heightUnits = ''.obs;
+  final energyUnits = ''.obs;
   @override
   void onInit() async {
     hrCharting();
+    if (store.user != null) {
+      age.value = DateTime.now().year - store.user!.dateOfBirth!.year;
+      gender.value = store.user!.gender!;
+      weight.value = store.user!.weight!;
+      height.value = store.user!.height!;
+      weightUnits.value = store.user!.metricUnits!.weightUnits!;
+      heightUnits.value = store.user!.metricUnits!.heightUnits!;
+      energyUnits.value = store.user!.metricUnits!.energyUnits!;
+    }
     if (store.isSyncGoogleFit ?? false) {
       await fetchData();
     }
@@ -71,7 +88,15 @@ class HomeController extends GetxController {
         if (date1 == date2) {
           final duration = dateEnd
               .difference(DateTime.fromMicrosecondsSinceEpoch(item.startTime));
-          calories += findCalories(duration, avg);
+          calories += calorUtils.findCalories(
+            duration,
+            avg,
+            age.value,
+            gender.value,
+            weight.value,
+            weightUnits.value,
+            energyUnits.value,
+          );
         }
 
         hrData.add(HrWidgetChart(dateEnd, avg));
@@ -84,57 +109,6 @@ class HomeController extends GetxController {
     }
 
     update();
-  }
-
-  double findCalories(Duration duration, double avgHr) {
-    final dob = store.user!.dateOfBirth!;
-    final now = DateTime.now();
-    final age = now.year - dob.year;
-    final gender = store.user!.gender!;
-    final weight = store.user!.weight!;
-    final weightUnits = store.user!.metricUnits!.weightUnits;
-    final energyUnits = store.user!.metricUnits!.energyUnits;
-    final secToMin = duration.inSeconds / 60;
-    double calories = 0;
-
-    switch (gender) {
-      case 'male':
-        if (weightUnits == 'kg') {
-          calories = secToMin *
-              (0.6309 * avgHr + 0.1988 * weight + 0.2017 * age - 55.0969) /
-              4.184;
-        } else if (weightUnits == 'lbs') {
-          final weightInKg = weight * 0.453592;
-          calories = secToMin *
-              (0.6309 * avgHr + 0.1988 * weightInKg + 0.2017 * age - 55.0969) /
-              4.184;
-        }
-        break;
-
-      case 'female':
-        if (weightUnits == 'kg') {
-          calories = secToMin *
-              (0.4472 * avgHr - 0.1263 * weight + 0.074 * age - 20.4022) /
-              4.184;
-        } else if (weightUnits == 'lbs') {
-          final weightInKg = weight * 0.453592;
-          calories = secToMin *
-              (0.4472 * avgHr - 0.1263 * weightInKg + 0.074 * age - 20.4022) /
-              4.184;
-        }
-        break;
-
-      default:
-        calories = 0;
-        break;
-    }
-    if (energyUnits == 'kcal') {
-      return calories;
-    } else if (energyUnits == 'kJ') {
-      return calories * 4.184;
-    }
-
-    return calories;
   }
 
   double userBMI() {
@@ -232,7 +206,6 @@ class HomeController extends GetxController {
           //     item.dateFrom == DateTime.now().subtract(Duration(days: 1)),
           ) {
         sleepMapping.add(item);
-        logger.i(item);
         final totalSleepHours = double.parse(item.value.toString()) / 60;
         if (totalSleepHours < 7) {
           sleepPointerGauge.value = 33;

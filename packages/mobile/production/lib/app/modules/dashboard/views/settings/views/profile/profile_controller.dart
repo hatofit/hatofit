@@ -70,7 +70,7 @@ class ProfileController extends GetxController {
     user!.email = emailController.value.text;
     user!.password = passwordController.value.text;
     final res = await InternetService().updateUser(user!);
-    logger.d(res.body);
+ 
     if (res.body['success'] == true) {
       MySnackbar.success('Success', res.body['message']);
       store.user = UserModel.fromJson(res.body['user']);

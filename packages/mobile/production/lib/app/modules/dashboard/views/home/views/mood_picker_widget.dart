@@ -15,9 +15,7 @@ class MoodController extends GetxController {
       'date': DateFormat('d MMMM yyyy').format(DateTime.now()),
     };
     selectedMood.value = mood;
-    logger.f(
-        'MoodController.selectMood: ${store.todayMood!['mood']} ${store.todayMood!['date']}');
-  }
+   }
 
   @override
   void onInit() {

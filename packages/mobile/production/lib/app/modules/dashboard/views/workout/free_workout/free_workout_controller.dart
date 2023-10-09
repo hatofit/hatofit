@@ -22,6 +22,7 @@ class FreeWorkoutController extends GetxController {
   HrZoneType hrZoneType = HrZoneType.VERYLIGHT;
   final strmUtls = StreamingUtils();
   Worker? worker;
+  final isLoading = false.obs;
   @override
   void onInit() {
     worker = ever(
@@ -71,17 +72,24 @@ class FreeWorkoutController extends GetxController {
   }
 
   void saveWorkout(String title) async {
-    bleService.isStartWorkout.value = false;
-    final res = await strmUtls.saveWorkout(
-      title,
-      _startTime,
-      [],
-    );
-    if (res != null && res == 200) {
-      MySnackbar.success('Success', 'Data saved successfully');
-      Get.offAllNamed(AppRoutes.dashboard);
-    } else {
+    isLoading.value = true;
+    try {
+      bleService.isStartWorkout.value = false;
+      final res = await strmUtls.saveWorkout(
+        title,
+        _startTime,
+        [],
+      );
+      if (res != null && res == 200) {
+        MySnackbar.success('Success', 'Data saved successfully');
+        Get.offAllNamed(AppRoutes.dashboard);
+      } else {
+        MySnackbar.error('Error', '$res.body');
+      }
+    } catch (e) {
       MySnackbar.error('Error', 'Something went wrong');
+    } finally {
+      isLoading.value = false;
     }
   }
 

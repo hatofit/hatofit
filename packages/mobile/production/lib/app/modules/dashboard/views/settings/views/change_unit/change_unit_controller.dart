@@ -50,7 +50,7 @@ class ChangeUnitController extends GetxController {
   void saveUserInfo() async {
     final res = await InternetService()
         .updateMetrices(userHeight.value, userWeight.value, metricUnits);
-    logger.i(res.body);
+ 
     if (res.body['success'] == true) {
       store.user!.height = userHeight.value;
       store.user!.weight = userWeight.value;

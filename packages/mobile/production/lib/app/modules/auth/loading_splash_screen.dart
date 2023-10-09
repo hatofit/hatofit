@@ -13,9 +13,11 @@ class LoadingSplashScreen extends StatelessWidget {
     final inet = Get.find<InternetService>();
     final store = Get.find<PreferencesService>();
     StorageService().initializeDirectory();
-    if (store.todayMood!['date'] !=
-        DateFormat('d MMMM yyyy').format(DateTime.now())) {
-      store.todayMood = null;
+    if (store.todayMood != null) {
+      if (store.todayMood!['date'] !=
+          DateFormat('d MMMM yyyy').format(DateTime.now())) {
+        store.todayMood = null;
+      }
     }
     Future.delayed(const Duration(seconds: 1), () async {
       final res = await inet.getUser();

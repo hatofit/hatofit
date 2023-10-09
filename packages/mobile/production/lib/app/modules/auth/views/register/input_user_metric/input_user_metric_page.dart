@@ -95,24 +95,34 @@ class InputUserMetricPage extends GetView<InputUserMetricController> {
                   ],
                 ),
               ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: controller.isUserHeightSelected.value ==
-                                true &&
-                            controller.isUserWeightSelected.value == true
-                        ? Theme.of(context).primaryColor
-                        : Theme.of(context).primaryColorDark.withOpacity(0.2),
-                  ),
-                  onPressed: () {
-                    if (controller.isUserHeightSelected.value == true &&
-                        controller.isUserWeightSelected.value == true) {
-                      controller.saveUserInfo();
-                    }
-                  },
-                  child: const Text(
-                    'Next',
+              Obx(
+                () => SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: controller.isUserHeightSelected.value ==
+                                  true &&
+                              controller.isUserWeightSelected.value == true
+                          ? Theme.of(context).primaryColor
+                          : Theme.of(context).primaryColorDark.withOpacity(0.2),
+                    ),
+                    onPressed: controller.isLoading.value
+                        ? null
+                        : () {
+                            if (controller.isUserHeightSelected.value == true &&
+                                controller.isUserWeightSelected.value == true) {
+                              controller.saveUserInfo();
+                            }
+                          },
+                    child: controller.isLoading.value == true
+                        ? const SizedBox(
+                            height: 24,
+                            width: 24,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Text('Register'),
                   ),
                 ),
               )

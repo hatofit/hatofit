@@ -64,9 +64,17 @@ class PickWoType extends GetView<FreeWorkoutController> {
                     itemBuilder: (context, index) {
                       final WorkoutType type = WorkoutType.values[index];
                       return InkWell(
-                        onTap: () {
-                          controller.saveWorkout(type.name);
-                        },
+                        onTap: controller.isLoading.value == true
+                            ? () {
+                                Get.dialog(
+                                  const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                );
+                              }
+                            : () {
+                                controller.saveWorkout(type.name);
+                              },
                         child: Card(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,

@@ -13,6 +13,8 @@ import '../../../../../services/preferences_service.dart';
 class InputUserMetricController extends GetxController {
   final UserModel previousData = Get.arguments;
 
+  final isLoading = false.obs;
+
   final selectedHeightUnitMeasure = ''.obs;
   final selectedWeightUnitMeasure = ''.obs;
   final userWeight = 100.obs;
@@ -60,7 +62,8 @@ class InputUserMetricController extends GetxController {
 
         if (perm) {
           try {
-            // clean null values from previousData
+            isLoading.value = true;
+
             previousData.toJson().removeWhere((key, value) => value == null);
             final Response response =
                 await InternetService().registerUser(previousData);
@@ -89,19 +92,23 @@ class InputUserMetricController extends GetxController {
                   }
 
                   MySnackbar.success(
-                      'Success', 'Welcome back ${user.firstName}');
+                      'Success', 'You have successfully registered');
                   Get.offAllNamed(AppRoutes.dashboard);
                 } else {
                   MySnackbar.error('Error', loginResponse.body['message']);
                 }
               } catch (error) {
                 MySnackbar.error('Error', 'Error while trying to login');
+              } finally {
+                isLoading.value = false;
               }
             } else {
               MySnackbar.error('Error', response.body['message']);
             }
           } catch (error) {
             MySnackbar.error('Error', 'Error while trying to register');
+          } finally {
+            isLoading.value = false;
           }
         } else {
           register();

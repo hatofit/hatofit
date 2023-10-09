@@ -6,7 +6,6 @@ import 'package:hatofit/app/models/session_model.dart';
 import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/app/services/storage_service.dart';
-import 'package:hatofit/utils/debug_logger.dart';
 import 'package:logger/logger.dart';
 
 class InternetService extends GetConnect {
@@ -25,8 +24,8 @@ class InternetService extends GetConnect {
     return this;
   }
 
-  // static const String _base = 'https://vercel-api-coral.vercel.app/api';
-  static const String _base = 'http://192.168.124.169:3000/api';
+  static const String _base = 'https://api.hatofit.com/api';
+  // static const String _base = 'http://192.168.124.169:3000/api';
   static const String _sesion = '/session';
   static const String _exercise = '/exercise';
   static const String _report = '/report';
@@ -109,7 +108,7 @@ class InternetService extends GetConnect {
       );
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = response.body;
-        logger.d(jsonResponse);
+
         return jsonResponse;
       } else {
         return List<dynamic>.empty() as Map<String, dynamic>;
@@ -159,7 +158,6 @@ class InternetService extends GetConnect {
     final bodyMap = request.toJson();
     bodyMap.removeWhere((key, value) => value == null);
     try {
-      logger.i(_base + _update);
       final response = await post(
         _base + _update,
         jsonEncode(bodyMap),
@@ -198,7 +196,6 @@ class InternetService extends GetConnect {
   Future<Response> getUser() async {
     try {
       final token = store.token;
-      logger.e(token);
       final response = await get(_base + _me, headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',

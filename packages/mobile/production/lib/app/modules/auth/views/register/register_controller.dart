@@ -19,23 +19,11 @@ class RegisterController extends GetxController {
   final userDateOfBirth = DateTime.now().obs;
   final formattedDate = ''.obs;
   final isGenderSelected = false.obs;
-
   final pickedImageBase64 = ''.obs;
   final Rx<File> pickedImage = Rx<File>(File(''));
 
   @override
   void onInit() {
-    // TODO: remove in production
-    // firstNameController.text = 'Rahmat';
-    // lastNameController.text = 'Hidayat';
-    // emailController.text = 'bokirsianpar95@gmail.com';
-    // passwordController.text = '12345678';
-    // confirmPasswordController.text = '12345678';
-    // dateOfBirthController.text = '12-12-1999';
-    // userDateOfBirth.value = DateTime(1999, 12, 12);
-    // formattedDate.value = '12-12-1999';
-    // selectGender('male');
-    // TODO: remove in production
     super.onInit();
   }
 

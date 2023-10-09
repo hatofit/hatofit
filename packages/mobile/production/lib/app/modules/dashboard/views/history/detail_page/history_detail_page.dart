@@ -87,20 +87,22 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                   SizedBox(
                     height: 16,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Get.isDarkMode
-                          ? ColorConstants.darkContainer
-                          : ColorConstants.lightContainer,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: EdgeInsets.all(16),
-                    margin: EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                        // Corrected here
-                        'Mood: ${MoodUtils.message(snapshot.data!['mood'])}',
-                        style: Theme.of(context).textTheme.bodyLarge),
-                  ),
+                  snapshot.data!['mood'] == null
+                      ? SizedBox()
+                      : Container(
+                          decoration: BoxDecoration(
+                            color: Get.isDarkMode
+                                ? ColorConstants.darkContainer
+                                : ColorConstants.lightContainer,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: EdgeInsets.all(16),
+                          margin: EdgeInsets.symmetric(horizontal: 16),
+                          child: Text(
+                              // Corrected here
+                              'Mood: ${MoodUtils.message(snapshot.data!['mood'])}',
+                              style: Theme.of(context).textTheme.bodyLarge),
+                        ),
                   SizedBox(
                     height: 16,
                   ),
