@@ -120,7 +120,9 @@ class ProfilePage extends GetView<ProfileController> {
                       style: TextStyle(
                           color: controller
                                   .dateOfBirthController.value.text.isNotEmpty
-                              ? Colors.white
+                              ? Get.isDarkMode
+                                  ? Colors.white
+                                  : Colors.black
                               : null),
                       decoration: const InputDecoration(
                         prefixIcon: Icon(
@@ -178,14 +180,24 @@ class ProfilePage extends GetView<ProfileController> {
                     prefixIcon: Icon(CupertinoIcons.person),
                     labelText: 'Gender',
                   ),
-                  items: const [
+                  items: [
                     DropdownMenuItem(
                       value: 'male',
-                      child: Text('Male'),
+                      child: Text(
+                        'Male',
+                        style: TextStyle(
+                            color:
+                                Get.isDarkMode ? Colors.white : Colors.black),
+                      ),
                     ),
                     DropdownMenuItem(
                       value: 'female',
-                      child: Text('Female'),
+                      child: Text(
+                        'Female',
+                        style: TextStyle(
+                            color:
+                                Get.isDarkMode ? Colors.white : Colors.black),
+                      ),
                     ),
                   ],
                 ),
