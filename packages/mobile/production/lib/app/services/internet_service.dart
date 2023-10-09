@@ -40,9 +40,6 @@ class InternetService extends GetConnect {
   static const String _resetPassword = '/auth/reset-password';
 
   Future<int?> postSession(SessionModel body) async {
-    if (body.data.last.devices.last.value.isEmpty) {
-      return null;
-    }
     final json = body.toJson();
     json.removeWhere((key, value) => value == null);
     try {
@@ -112,6 +109,7 @@ class InternetService extends GetConnect {
       );
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonResponse = response.body;
+        logger.d(jsonResponse);
         return jsonResponse;
       } else {
         return List<dynamic>.empty() as Map<String, dynamic>;
@@ -200,7 +198,7 @@ class InternetService extends GetConnect {
   Future<Response> getUser() async {
     try {
       final token = store.token;
-
+      logger.e(token);
       final response = await get(_base + _me, headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',

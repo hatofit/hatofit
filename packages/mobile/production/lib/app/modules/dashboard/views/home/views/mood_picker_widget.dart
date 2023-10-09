@@ -1,24 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hatofit/app/themes/app_theme.dart';
+import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
+import 'package:hatofit/utils/debug_logger.dart';
+import 'package:intl/intl.dart';
 
 class MoodController extends GetxController {
+  final store = Get.find<PreferencesService>();
   RxString selectedMood = ''.obs;
 
   void selectMood(String mood) {
+    store.todayMood = {
+      'mood': mood,
+      'date': DateFormat('d MMMM yyyy').format(DateTime.now()),
+    };
     selectedMood.value = mood;
+    logger.f(
+        'MoodController.selectMood: ${store.todayMood!['mood']} ${store.todayMood!['date']}');
+  }
+
+  @override
+  void onInit() {
+    if (store.todayMood != null) {
+      selectedMood.value = store.todayMood!['mood']!;
+    }
+    super.onInit();
   }
 }
 
-class MoodPickerWidget extends StatelessWidget {
-  const MoodPickerWidget({super.key});
+class MoodPickerWidget extends GetView<MoodController> {
+  const MoodPickerWidget({Key? key}) : super(key: key); // Corrected here
 
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Container(
-        width: ThemeManager().screenWidth * 0.92,
+        width:
+            MediaQuery.of(context).size.width * 0.92, // Corrected to MediaQuery
         decoration: BoxDecoration(
           color: Get.isDarkMode
               ? ColorConstants.darkContainer
@@ -40,12 +58,11 @@ class MoodPickerWidget extends StatelessWidget {
   }
 
   Widget buildMoodItem(String emoji, String mood) {
-    final MoodController moodController = Get.put(MoodController());
-    final isSelected = moodController.selectedMood.value == mood;
+    final isSelected = controller.selectedMood.value == mood;
 
     return GestureDetector(
       onTap: () {
-        moodController.selectMood(mood);
+        controller.selectMood(mood);
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),

@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/modules/dashboard/views/settings/setting_controller.dart';
+import 'package:hatofit/app/modules/dashboard/views/settings/views/device_integration/device_integration_page.dart';
+import 'package:hatofit/app/modules/dashboard/views/settings/views/setting_list_tile_widget.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:hatofit/app/widget/appBar/custom_app_bar.dart';
-import 'package:hatofit/app/modules/dashboard/views/settings/views/setting_list_tile_widget.dart';
 
 class SettingPage extends GetView<SettingController> {
   const SettingPage({Key? key}) : super(key: key);
@@ -141,8 +142,7 @@ class SettingPage extends GetView<SettingController> {
                                 child: CupertinoSwitch(
                                   value: controller.authorized.value,
                                   onChanged: (value) async {
-                                    controller.handleGoogleFit();
-                                    // controller.isSync.value = value;
+                                    controller.authorize();
                                   },
                                 ),
                               ),
@@ -179,7 +179,7 @@ class SettingPage extends GetView<SettingController> {
                       SettingListTileWidget(
                         title: 'Device Integration',
                         onTap: () {
-                          Get.toNamed(AppRoutes.deviceIntegration);
+                          Get.to(() => DeviceIntegrationPage());
                         },
                       ),
                     ],

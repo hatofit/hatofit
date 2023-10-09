@@ -89,7 +89,7 @@ class HrZoneutils {
   HrZoneType findZone(int nowHr) {
     final dob = store.user!.dateOfBirth;
     final age = DateTime.now().year - dob!.year;
-    final maxHr = 220 - age;
+    final maxHr = 208 - (0.7 * age);
 
     if (nowHr < maxHr * 0.5) {
       return HrZoneType.VERYLIGHT;
@@ -102,5 +102,13 @@ class HrZoneutils {
     } else {
       return HrZoneType.MAXIMUM;
     }
+  }
+
+  int findPercentage(int nowHr) {
+    final dob = store.user!.dateOfBirth;
+    final age = DateTime.now().year - dob!.year;
+    final maxHr = 208 - (0.7 * age);
+
+    return (nowHr / maxHr * 100).round();
   }
 }

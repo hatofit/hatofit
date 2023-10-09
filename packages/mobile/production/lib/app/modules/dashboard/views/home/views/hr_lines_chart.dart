@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hatofit/app/modules/dashboard/views/home/home_controller.dart';
+import 'package:hatofit/app/models/charts/hr_widget.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart'; // Import Syncfusion Charts package
@@ -15,7 +15,7 @@ class HrLinesChart extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
-        color: const Color.fromARGB(255, 63, 62, 62),
+        color: Get.isDarkMode ? Colors.grey[900] : Colors.grey[300],
       ),
       child: SfCartesianChart(
         series: <ChartSeries>[
@@ -38,7 +38,6 @@ class HrLinesChart extends StatelessWidget {
           isVisible: true,
           labelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
-            color: Colors.white,
             fontSize: 14,
           ),
         ),

@@ -3,14 +3,17 @@ class HrStats {
   final int max;
   final int min;
   final int last;
-  final List<HrChart> sfSpot;
+  final String time;
+  final List<HrChart> sfSpot; 
+
 
   HrStats({
     required this.avg,
     required this.max,
     required this.min,
     required this.last,
-    required this.sfSpot,
+    required this.time,
+    required this.sfSpot, 
   });
 }
 

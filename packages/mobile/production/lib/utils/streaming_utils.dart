@@ -4,10 +4,13 @@ import 'package:get/get.dart';
 import 'package:hatofit/app/models/session_model.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/app/services/internet_service.dart';
+import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/app/services/storage_service.dart';
+import 'package:hatofit/utils/debug_logger.dart';
 import 'package:intl/intl.dart';
 
 class StreamingUtils {
+  final store = Get.find<PreferencesService>();
   final bleService = Get.find<BluetoothService>();
 
   final sessionDataItem = <SessionDataItem>[];
@@ -37,11 +40,16 @@ class StreamingUtils {
     List<SessionTimeline> timelines,
   ) async {
     SessionModel session = SessionModel(
+        mood: store.todayMood == null
+            ? 'neutral'
+            : (store.todayMood!['mood'] ?? 'neutral'),
         exerciseId: title,
         startTime: startTime,
         endTime: DateTime.now().microsecondsSinceEpoch,
         timelines: timelines.isEmpty ? [] : timelines,
         data: sessionDataItem);
+
+    logger.i(session.toJson());
     final DateTime strtTime = DateTime.fromMicrosecondsSinceEpoch(startTime);
     final DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm');
     final String formatted = formatter.format(strtTime);

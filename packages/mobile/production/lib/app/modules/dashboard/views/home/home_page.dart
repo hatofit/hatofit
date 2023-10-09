@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/modules/dashboard/views/home/home_controller.dart';
-import 'package:hatofit/app/services/bluetooth_service.dart';
-import 'package:hatofit/app/services/preferences_service.dart';
-import 'package:hatofit/app/themes/app_theme.dart';
-import 'package:hatofit/app/themes/colors_constants.dart';
-import 'package:hatofit/app/widget/appBar/custom_app_bar.dart';
 import 'package:hatofit/app/modules/dashboard/views/home/views/bmi_chart_widget.dart';
 import 'package:hatofit/app/modules/dashboard/views/home/views/calories_chart_widget.dart';
 import 'package:hatofit/app/modules/dashboard/views/home/views/exercise_now_widget.dart';
 import 'package:hatofit/app/modules/dashboard/views/home/views/hr_lines_chart.dart';
 import 'package:hatofit/app/modules/dashboard/views/home/views/mood_picker_widget.dart';
+import 'package:hatofit/app/modules/dashboard/views/home/views/sleeps_info_widget.dart';
 import 'package:hatofit/app/modules/dashboard/views/home/views/steps_chart_widget.dart';
+import 'package:hatofit/app/services/bluetooth_service.dart';
+import 'package:hatofit/app/services/preferences_service.dart';
+import 'package:hatofit/app/themes/app_theme.dart';
+import 'package:hatofit/app/themes/colors_constants.dart';
+import 'package:hatofit/app/widget/appBar/custom_app_bar.dart';
 import 'package:hatofit/app/widget/icon_wrapper.dart';
 
 class HomePage extends GetView<HomeController> {
@@ -39,161 +40,119 @@ class HomePage extends GetView<HomeController> {
                   final dvcs = bleService.detectedDevices
                       .where((p0) => p0.isConnect.value == true)
                       .toList();
-                  // dvcs.isEmpty ? const SizedBox() : controller.update();
                   return ListView.builder(
                     itemCount: dvcs.length,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final device = dvcs[index];
-                      return Container(
-                        padding: const EdgeInsets.all(16),
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: ThemeManager().isDarkMode
-                              ? ColorConstants.darkContainer
-                              : ColorConstants.lightContainer,
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(16),
+                      return Obx(() {
+                        controller.findPercent(device.hr.value);
+                        return Container(
+                          padding: const EdgeInsets.all(16),
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
                           ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                IconWrapper(
-                                  icon: Icons.favorite,
-                                  backgroundColor: ColorConstants.crimsonRed
-                                      .withOpacity(0.35),
-                                  iconColor: ColorConstants.crimsonRed,
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Current',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    ),
-                                    Text(
-                                      'Heart Rate',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displaySmall,
-                                    ),
-                                    Text(
-                                      '${device.info.name} ${device.info.deviceId}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
-                                    )
-                                  ],
-                                ),
-                              ],
+                          decoration: BoxDecoration(
+                            color: ThemeManager().isDarkMode
+                                ? ColorConstants.darkContainer
+                                : ColorConstants.lightContainer,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(16),
                             ),
-                            Row(
-                              children: [
-                                Obx(
-                                  () => Text(
-                                    device.hr.value.toString(),
+                          ),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      IconWrapper(
+                                        icon: Icons.favorite,
+                                        backgroundColor: ColorConstants
+                                            .crimsonRed
+                                            .withOpacity(0.35),
+                                        iconColor: ColorConstants.crimsonRed,
+                                      ),
+                                      const SizedBox(
+                                        width: 16,
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Current',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                          Text(
+                                            'Heart Rate',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .displaySmall,
+                                          ),
+                                          Text(
+                                            '${device.info.name}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                          Text(
+                                            'ID : ${device.info.deviceId}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        device.hr.value.toStringAsFixed(0),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayLarge,
+                                      ),
+                                      Text(
+                                        ' bpm',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    '${controller.hrPercentage} %',
                                     style: Theme.of(context)
                                         .textTheme
-                                        .displayLarge,
+                                        .displayMedium!
+                                        .copyWith(fontWeight: FontWeight.bold),
                                   ),
-                                ),
-                                Text(
-                                  ' bpm',
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      );
+                                  Text(' of max HR',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyLarge!),
+                                ],
+                              ),
+                            ],
+                          ),
+                        );
+                      });
                     },
                   );
                 }),
-                // Container(
-                //   padding: const EdgeInsets.all(16),
-                //   margin: const EdgeInsets.symmetric(
-                //     horizontal: 8,
-                //     vertical: 4,
-                //   ),
-                //   decoration: BoxDecoration(
-                //     color: ThemeManager().isDarkMode
-                //         ? ColorConstants.darkContainer
-                //         : ColorConstants.lightContainer,
-                //     borderRadius: const BorderRadius.all(
-                //       Radius.circular(16),
-                //     ),
-                //   ),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       Row(
-                //         children: [
-                //           IconWrapper(
-                //               icon: Icons.favorite,
-                //               backgroundColor:
-                //                   ColorConstants.crimsonRed.withOpacity(0.35),
-                //               iconColor: ColorConstants.crimsonRed),
-                //           const SizedBox(
-                //             width: 16,
-                //           ),
-                //           Column(
-                //             crossAxisAlignment: CrossAxisAlignment.start,
-                //             children: [
-                //               Text(
-                //                 'Your current',
-                //                 style: Theme.of(context).textTheme.bodyMedium,
-                //               ),
-                //               Text(
-                //                 'Heart Rate',
-                //                 style: Theme.of(context).textTheme.displaySmall,
-                //               ),
-                //             ],
-                //           ),
-                //         ],
-                //       ),
-                //       Row(
-                //         children: [
-                //           Row(
-                //             children: [
-                //               Obx(
-                //                 () => Text(
-                //                   bleService.detectedDevices.isEmpty
-                //                       ? '--'
-                //                       : ' ',
-                //                   style:
-                //                       Theme.of(context).textTheme.displayLarge,
-                //                 ),
-                //                 //  Text(
-                //                 //   bleService.heartRate.value == 0
-                //                 //       ? '--'
-                //                 //       : bleService.heartRate.value.toString(),
-                //                 //   style:
-                //                 //       Theme.of(context).textTheme.displayLarge,
-                //                 // ),
-                //               ),
-                //               Text(
-                //                 ' bpm',
-                //                 style: Theme.of(context).textTheme.bodyMedium,
-                //               )
-                //             ],
-                //           ),
-                //         ],
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 GetBuilder(
                     init: controller,
                     builder: (_) {
@@ -305,25 +264,15 @@ class HomePage extends GetView<HomeController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Column(
-                      children: [
-                        const CaloriesChartWidget(),
-                        SizedBox(height: ThemeManager().screenHeight * 0.01),
-                      ],
-                    ),
+                    const CaloriesChartWidget(),
                     SizedBox(width: ThemeManager().screenHeight * 0.01),
-                    Column(
-                      children: [
-                        const BMIChartWidget(),
-                        SizedBox(height: ThemeManager().screenHeight * 0.01),
-
-                        const StepsChartWidget(),
-                        // SizedBox(height: ThemeManager().screenHeight * 0.01),
-                        // const SleepsInfoWidget(),
-                      ],
-                    ),
+                    const BMIChartWidget(),
                   ],
-                )
+                ),
+                SizedBox(height: ThemeManager().screenHeight * 0.01),
+                const StepsChartWidget(),
+                SizedBox(height: ThemeManager().screenHeight * 0.01),
+                const SleepsInfoWidget(),
               ],
             ),
           ),

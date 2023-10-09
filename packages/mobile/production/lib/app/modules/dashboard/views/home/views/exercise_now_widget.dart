@@ -10,8 +10,7 @@ class ExerciseNowWidget extends StatelessWidget {
   const ExerciseNowWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final BluetoothService bCon = Get.find<BluetoothService>();
+  Widget build(BuildContext context) { 
     final height = MediaQuery.of(context).size.height * 0.12;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

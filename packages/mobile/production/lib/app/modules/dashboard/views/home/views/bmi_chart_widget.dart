@@ -11,7 +11,7 @@ class BMIChartWidget extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final width = ThemeManager().screenWidth * 0.45;
-    final height = ThemeManager().screenHeight * 0.23;
+    final height = ThemeManager().screenHeight * 0.24;
     final double bmiValue = controller.userBMI();
     return Container(
       height: height,

@@ -21,6 +21,7 @@ class SessionModel {
   String? exerciseId;
   final int startTime;
   final int endTime;
+  final String mood;
   final List<SessionTimeline> timelines;
   final List<SessionDataItem> data;
 
@@ -29,6 +30,7 @@ class SessionModel {
     this.userId,
     this.exercise,
     this.exerciseId,
+    required this.mood,
     required this.startTime,
     required this.endTime,
     required this.timelines,

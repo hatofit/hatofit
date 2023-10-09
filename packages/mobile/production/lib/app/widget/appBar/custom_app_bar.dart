@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/polar_device.dart';
+import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/utils/snackbar.dart';
 
 import '../../../app/services/bluetooth_service.dart';
@@ -75,8 +76,23 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ),
         ),
         IconButton(
-          icon: const Icon(CupertinoIcons.bell_fill),
-          onPressed: () {},
+          icon: Icon(
+              Get.isDarkMode ? CupertinoIcons.sun_max : CupertinoIcons.moon),
+          onPressed: () {
+            final isDarkMode = Get.isDarkMode;
+            debugPrint('before isDarkMode $isDarkMode');
+
+            if (isDarkMode) {
+              Get.changeThemeMode(ThemeMode.light);
+              Get.find<PreferencesService>().isDarkMode = false;
+            } else {
+              Get.changeThemeMode(ThemeMode.dark);
+              Get.find<PreferencesService>().isDarkMode = true;
+            }
+
+            debugPrint(
+                'isDarkMode ${Get.find<PreferencesService>().isDarkMode}');
+          },
         ),
       ],
     );
@@ -135,7 +151,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 height: ThemeManager().screenHeight / 2,
                 width: ThemeManager().screenWidth,
                 child: FutureBuilder(
-                  future: Future.delayed(const Duration(seconds: 2)),
+                  future: Future.delayed(const Duration(seconds: 1)),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());

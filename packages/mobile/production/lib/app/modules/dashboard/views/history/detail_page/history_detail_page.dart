@@ -1,86 +1,181 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/report_model.dart';
-import 'package:hatofit/app/modules/dashboard/views/history/detail_page/history_detail_controller.dart';
 import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
+import 'package:hatofit/utils/mood_utils.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class HistoryDetailPage extends GetView<HistoryDetailController> {
+class HistoryDetailPage extends StatefulWidget {
   final String exerciseId;
   const HistoryDetailPage(this.exerciseId, {Key? key}) : super(key: key);
 
   @override
+  State<HistoryDetailPage> createState() => _HistoryDetailPageState();
+}
+
+class _HistoryDetailPageState extends State<HistoryDetailPage> {
+  final argument = Get.arguments;
+  final ZoomPanBehavior _zoomPanBehavior = ZoomPanBehavior(
+    enablePinching: true,
+    enableDoubleTapZooming: true,
+    zoomMode: ZoomMode.xy,
+    enablePanning: true,
+  );
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 64),
-        child: Center(
-          child: FutureBuilder(
-            future: InternetService().fetchReport(exerciseId),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else if (snapshot.hasData) {
-                final data = ReportModel.fromJson(snapshot.data!['report']);
-                final hrReport =
-                    data.reports.firstWhere((element) => element.type == 'hr');
-
-                if (hrReport.data.isNotEmpty) {
-                  return ListView(
-                    children: [
-                      if (data.reports
-                          .any((element) => element.type == 'hr')) ...{
-                        _buildHr(
-                            data.reports
-                                .firstWhere((element) => element.type == 'hr'),
-                            context)
-                      },
-                      if (data.reports
-                          .any((element) => element.type == 'acc')) ...{
-                        _buildAcc(
-                            data.reports
-                                .firstWhere((element) => element.type == 'acc'),
-                            context)
-                      }
-                    ],
-                  );
-                } else {
-                  return const Text('No HR report found.');
-                }
-              } else {
-                return const CupertinoActivityIndicator(
-                  radius: 16,
-                );
-              }
-            },
-          ),
-        ),
+      appBar: AppBar(
+        title: Text('Exercise Report',
+            style: Theme.of(context).textTheme.displaySmall),
+      ),
+      body: FutureBuilder(
+        future: InternetService().fetchReport(widget.exerciseId),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          } else if (snapshot.hasData) {
+            final data = ReportModel.fromJson(snapshot.data!['report']);
+            final hrReport =
+                data.reports.firstWhere((element) => element.type == 'hr');
+            final duration =
+                Duration(microseconds: data.endTime - data.startTime);
+            if (hrReport.data.isNotEmpty) {
+              return ListView(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Get.isDarkMode
+                          ? ColorConstants.darkContainer
+                          : ColorConstants.lightContainer,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: EdgeInsets.all(16),
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text('Name: ${snapshot.data!['exercise']['name']}',
+                        style: Theme.of(context).textTheme.bodyLarge),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Get.isDarkMode
+                          ? ColorConstants.darkContainer
+                          : ColorConstants.lightContainer,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: EdgeInsets.all(16),
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                        'Date: ${DateFormat('d MMMM yyyy').format(DateTime.fromMicrosecondsSinceEpoch(data.startTime))}',
+                        style: Theme.of(context).textTheme.bodyLarge),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Get.isDarkMode
+                          ? ColorConstants.darkContainer
+                          : ColorConstants.lightContainer,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: EdgeInsets.all(16),
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                        // Corrected here
+                        'Duration: ${duration.inHours}:${duration.inMinutes.remainder(60)}:${duration.inSeconds.remainder(60)}',
+                        style: Theme.of(context).textTheme.bodyLarge),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Get.isDarkMode
+                          ? ColorConstants.darkContainer
+                          : ColorConstants.lightContainer,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: EdgeInsets.all(16),
+                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                        // Corrected here
+                        'Mood: ${MoodUtils.message(snapshot.data!['mood'])}',
+                        style: Theme.of(context).textTheme.bodyLarge),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  if (data.reports.any((element) => element.type == 'hr')) ...{
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Get.isDarkMode
+                            ? ColorConstants.darkContainer
+                            : ColorConstants.lightContainer,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: _buildHr(
+                          data.reports
+                              .firstWhere((element) => element.type == 'hr'),
+                          context),
+                    )
+                  },
+                  SizedBox(
+                    height: 16,
+                  ),
+                  if (data.reports.any((element) => element.type == 'acc')) ...{
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Get.isDarkMode
+                            ? ColorConstants.darkContainer
+                            : ColorConstants.lightContainer,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: _buildAcc(
+                          data.reports
+                              .firstWhere((element) => element.type == 'acc'),
+                          context),
+                    )
+                  }
+                ],
+              );
+            } else {
+              return const Text('No HR report found.');
+            }
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
       ),
     );
   }
 
-  Widget buildContainer(String title, String value, BuildContext context) {
+  Widget buildContainer(
+    String title,
+    String value,
+    BuildContext context,
+  ) {
     return Container(
       width: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: ColorConstants.darkContainer,
+        color: Get.isDarkMode ? Colors.grey[900] : Colors.grey[300],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            title,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          Text(
-            value,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
+          title == ''
+              ? SizedBox()
+              : Text(
+                  title,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+          value == ''
+              ? SizedBox()
+              : Text(
+                  value,
+                  style: Theme.of(context).textTheme.displaySmall,
+                ),
         ],
       ),
     );
@@ -98,23 +193,37 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
         final hr = value[1].toDouble();
         return ChartData(ts, hr);
       }).toList();
-      // find average hr
       final averageHr = valueList
               .map((value) => value[1].toDouble())
               .reduce((a, b) => a + b) /
           valueList.length;
-      // find max hr
       final maxHr = valueList
           .map((value) => value[1].toDouble())
           .reduce((a, b) => a > b ? a : b);
+
+      final minHr = valueList
+          .map((value) => value[1].toDouble())
+          .reduce((a, b) => a < b ? a : b);
 
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 48),
+            padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
             child: Column(
               children: [
+                Text('Heart Rate',
+                    style: Theme.of(context).textTheme.displaySmall),
+                const SizedBox(
+                  height: 8,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Recap :',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
                 const SizedBox(
                   height: 8,
                 ),
@@ -122,9 +231,20 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     buildContainer(
-                        'Avg HR', averageHr.toStringAsFixed(0), context),
-                    buildContainer('Max HR', maxHr.toStringAsFixed(0), context),
+                        'Avg', averageHr.toStringAsFixed(0), context),
+                    buildContainer('Min', minHr.toStringAsFixed(0), context),
+                    buildContainer('Max', maxHr.toStringAsFixed(0), context),
                   ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Data :',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                 ),
               ],
             ),
@@ -138,13 +258,13 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                 bottom: 12,
               ),
               child: SfCartesianChart(
-                zoomPanBehavior: controller.zoomPanBehavior,
+                zoomPanBehavior: _zoomPanBehavior,
                 primaryXAxis: NumericAxis(
                   numberFormat: NumberFormat('#'),
                 ),
                 primaryYAxis: NumericAxis(
                   minimum: 0,
-                  maximum: 220 - age.toDouble(),
+                  maximum: 208 - (0.7 * age),
                   interval: 30,
                   numberFormat: NumberFormat('#'),
                 ),
@@ -200,23 +320,75 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
       final maxAccZ = valueList
           .map((value) => value[3].toDouble())
           .reduce((a, b) => a > b ? a : b);
+      final minAccX = valueList
+          .map((value) => value[1].toDouble())
+          .reduce((a, b) => a < b ? a : b);
+      final minAccY = valueList
+          .map((value) => value[2].toDouble())
+          .reduce((a, b) => a < b ? a : b);
+      final minAccZ = valueList
+          .map((value) => value[3].toDouble())
+          .reduce((a, b) => a < b ? a : b);
 
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 48),
+            padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 8),
             child: Column(
               children: [
+                Text('Accelerometer',
+                    style: Theme.of(context).textTheme.displaySmall),
+                const SizedBox(
+                  height: 8,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Recap :',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    buildContainer(
-                        'Avg X', avgAccX.toStringAsFixed(2), context),
-                    buildContainer(
-                        'Avg Y', avgAccY.toStringAsFixed(2), context),
-                    buildContainer(
-                        'Avg Z', avgAccZ.toStringAsFixed(2), context),
+                    Container(),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      margin: const EdgeInsets.only(bottom: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Get.isDarkMode
+                            ? Colors.grey[900]
+                            : Colors.grey[300],
+                      ),
+                      child: Text('Avg'),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      margin: const EdgeInsets.only(bottom: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Get.isDarkMode
+                            ? Colors.grey[900]
+                            : Colors.grey[300],
+                      ),
+                      child: Text('Min'),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      margin: const EdgeInsets.only(bottom: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Get.isDarkMode
+                            ? Colors.grey[900]
+                            : Colors.grey[300],
+                      ),
+                      child: Text('Max'),
+                    ),
                   ],
                 ),
                 const SizedBox(
@@ -225,13 +397,72 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    buildContainer(
-                        'Max X', maxAccX.toStringAsFixed(2), context),
-                    buildContainer(
-                        'Max Y', maxAccY.toStringAsFixed(2), context),
-                    buildContainer(
-                        'Max Z', maxAccZ.toStringAsFixed(2), context),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Get.isDarkMode
+                            ? Colors.grey[900]
+                            : Colors.grey[300],
+                      ),
+                      child: Text('X'),
+                    ),
+                    buildContainer('', avgAccX.toStringAsFixed(0), context),
+                    buildContainer('', minAccX.toStringAsFixed(0), context),
+                    buildContainer('', maxAccX.toStringAsFixed(0), context),
                   ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Get.isDarkMode
+                            ? Colors.grey[900]
+                            : Colors.grey[300],
+                      ),
+                      child: Text('Y'),
+                    ),
+                    buildContainer('', avgAccY.toStringAsFixed(0), context),
+                    buildContainer('', minAccY.toStringAsFixed(0), context),
+                    buildContainer('', maxAccY.toStringAsFixed(0), context),
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: Get.isDarkMode
+                            ? Colors.grey[900]
+                            : Colors.grey[300],
+                      ),
+                      child: Text('Z'),
+                    ),
+                    buildContainer('', avgAccZ.toStringAsFixed(0), context),
+                    buildContainer('', minAccZ.toStringAsFixed(0), context),
+                    buildContainer('', maxAccZ.toStringAsFixed(0), context),
+                  ],
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Data :',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
                 ),
               ],
             ),
@@ -245,7 +476,7 @@ class HistoryDetailPage extends GetView<HistoryDetailController> {
                 bottom: 12,
               ),
               child: SfCartesianChart(
-                zoomPanBehavior: controller.zoomPanBehavior,
+                zoomPanBehavior: _zoomPanBehavior,
                 primaryXAxis: NumericAxis(
                   numberFormat: NumberFormat('#'),
                 ),

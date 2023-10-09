@@ -1,26 +1,37 @@
 import 'dart:async';
-import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hatofit/app/models/heart_Rate.dart';
+import 'package:hatofit/app/models/heart_rate.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/utils/hr_zone.dart';
 import 'package:hatofit/utils/snackbar.dart';
 import 'package:hatofit/utils/streaming_utils.dart';
+import 'package:hatofit/utils/time_utils.dart';
 import 'package:vibration/vibration.dart';
 
 class FreeWorkoutController extends GetxController {
   final BluetoothService bleService = Get.find<BluetoothService>();
   final int _startTime = DateTime.now().microsecondsSinceEpoch;
-
+  final hrZone = HrZoneutils();
+  final RxString elapsedTime = "".obs;
+  final hrPecentage = 0.obs;
+  final RxInt currentHeartRate = 0.obs;
   final List<Map<String, dynamic>> hrList = [];
-  HrZoneType? hrZoneType;
+  HrZoneType hrZoneType = HrZoneType.VERYLIGHT;
   final strmUtls = StreamingUtils();
-
+  Worker? worker;
   @override
   void onInit() {
+    worker = ever(
+        bleService.detectedDevices
+            .firstWhere((element) => element.isConnect.value == true)
+            .hr, (dynamic hrValue) {
+      _addHr(DateTime.now().microsecondsSinceEpoch, hrValue);
+      _startCalcHr();
+      _userZone(hrValue);
+    });
     bleService.isStartWorkout.value = true;
     strmUtls.startWorkout();
     super.onInit();
@@ -29,13 +40,14 @@ class FreeWorkoutController extends GetxController {
   @override
   void onClose() {
     bleService.isStartWorkout.value = false;
+    if (worker != null) worker!.dispose();
     super.onClose();
   }
 
-  void userZone(int hr) {
-    final HrZoneType nowZone = HrZoneutils().findZone(hr);
-    if (hrZoneType != nowZone) {
-      hrZoneType = nowZone;
+  void _userZone(int hr) {
+    final HrZoneType nowZone = hrZone.findZone(hr);
+    hrZoneType = nowZone;
+    if (nowZone == HrZoneType.HARD || nowZone == HrZoneType.MAXIMUM) {
       Future.delayed(const Duration(seconds: 1), () {
         Vibration.vibrate(duration: 1000);
         Get.snackbar(
@@ -55,6 +67,7 @@ class FreeWorkoutController extends GetxController {
         Vibration.vibrate(duration: 1000);
       });
     }
+    hrPecentage.value = hrZone.findPercentage(hr);
   }
 
   void saveWorkout(String title) async {
@@ -72,65 +85,62 @@ class FreeWorkoutController extends GetxController {
     }
   }
 
-  void addHr(int time, int hr) {
+  void _addHr(int time, int hr) {
     hrList.add({'time': time, 'hr': hr});
+    currentHeartRate.value = hr;
   }
 
-  final hrStats = HrStats(avg: 0, max: 0, min: 0, last: 0, sfSpot: [
-    HrChart(DateTime.now(), 0),
-  ]).obs;
+  final hrStats = HrStats(
+    avg: 0,
+    max: 0,
+    min: 0,
+    last: 0,
+    time: '',
+    sfSpot: [
+      HrChart(DateTime.now(), 0),
+    ],
+  ).obs;
 
   void finishWorkout() {
     bleService.isStartWorkout.value = false;
     Get.toNamed(AppRoutes.pickWoType);
   }
 
-  bool isIsolateRunning = false;
-
-  Future<void> calcHr() async {
-    if (isIsolateRunning) {
-      return;
-    } else {
-      isIsolateRunning = true;
-      final ReceivePort rp = ReceivePort();
-      final Isolate i = await Isolate.spawn(hrCalc, (rp.sendPort, hrList));
-
-      rp.listen(
-        (mes) {
-          hrStats.value = mes;
-          if (mes != null) {
-            isIsolateRunning = false;
-            i.kill(priority: Isolate.immediate);
-            rp.close();
-          }
-        },
-      );
+  _startCalcHr() {
+    if (hrList.isEmpty) {
+      throw ArgumentError('hrList cannot be empty.');
     }
+
+    int min = hrList[0]['hr'];
+    int max = hrList[0]['hr'];
+    num total = 0;
+    List<HrChart> sfSpot = [];
+
+    for (var entry in hrList) {
+      final hr = entry['hr'];
+      if (hr < min) min = hr;
+      if (hr > max) max = hr;
+      total += hr;
+
+      sfSpot.add(HrChart(
+        DateTime.fromMicrosecondsSinceEpoch(entry['time']),
+        hr.toDouble(),
+      ));
+    }
+
+    final avg = total ~/ hrList.length;
+    final last = hrList.last['hr'];
+    final elapsedTime = TimeUtils.elapsed(
+      hrList.first['time'],
+      hrList.last['time'],
+    );
+    hrStats.value = HrStats(
+      avg: avg,
+      max: max,
+      min: min,
+      last: last,
+      sfSpot: sfSpot,
+      time: elapsedTime,
+    );
   }
-}
-
-@pragma('vm:entry-point')
-void hrCalc((SendPort, List<Map<String, dynamic>>) args) {
-  final SendPort sendPort = args.$1;
-  final List<Map<String, dynamic>> hrList = args.$2;
-
-  final min = hrList
-      .reduce((curr, next) => curr['hr'] < next['hr'] ? curr : next)['hr'];
-  final max = hrList
-      .reduce((curr, next) => curr['hr'] > next['hr'] ? curr : next)['hr'];
-  final avg = hrList.map((e) => e['hr']).reduce((curr, next) => curr + next) ~/
-      hrList.length;
-  final last = hrList.last['hr'];
-  final List<HrChart> sfSpot = hrList
-      .map((e) => HrChart(
-          DateTime.fromMicrosecondsSinceEpoch(e['time']), e['hr'].toDouble()))
-      .toList();
-
-  sendPort.send(HrStats(
-    avg: avg,
-    max: max,
-    min: min,
-    last: last,
-    sfSpot: sfSpot,
-  ));
 }

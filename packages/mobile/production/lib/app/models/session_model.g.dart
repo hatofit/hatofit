@@ -13,6 +13,7 @@ SessionModel _$SessionModelFromJson(Map<String, dynamic> json) => SessionModel(
           ? null
           : ExerciseModel.fromJson(json['exercise'] as Map<String, dynamic>),
       exerciseId: json['exerciseId'] as String?,
+      mood: json['mood'] as String,
       startTime: json['startTime'] as int,
       endTime: json['endTime'] as int,
       timelines: (json['timelines'] as List<dynamic>)
@@ -31,6 +32,7 @@ Map<String, dynamic> _$SessionModelToJson(SessionModel instance) =>
       'exerciseId': instance.exerciseId,
       'startTime': instance.startTime,
       'endTime': instance.endTime,
+      'mood': instance.mood,
       'timelines': instance.timelines.map((e) => e.toJson()).toList(),
       'data': instance.data.map((e) => e.toJson()).toList(),
     };

@@ -27,33 +27,33 @@ class WorkoutPage extends GetView<WorkoutController> {
                   itemCount: controller.listExercise.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 1.5,
                   ),
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () {
-                        controller
-                            .goToWorkoutDetail(controller.listExercise[index]);
-                      },
-                      child: Card(
-                        child: Stack(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                height: Get.height * 0.2,
-                                width: Get.width * 0.5,
-                                imageUrl:
-                                    controller.listExercise[index].thumbnail,
-                                colorBlendMode: BlendMode.darken,
-                                color: Colors.black.withOpacity(0.5),
+                        onTap: () {
+                          controller.goToWorkoutDetail(
+                              controller.listExercise[index]);
+                        },
+                        child: Card(
+                          child: Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(16),
+                                child: AspectRatio(
+                                  aspectRatio: 2 / 1.1,
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    imageUrl: controller
+                                        .listExercise[index].thumbnail,
+                                    colorBlendMode: BlendMode.darken,
+                                    color: Get.isDarkMode
+                                        ? Colors.black.withOpacity(0.5)
+                                        : Colors.black.withOpacity(0.25),
+                                  ),
+                                ),
                               ),
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 8),
+                              Padding(
+                                padding: const EdgeInsets.all(8),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,12 +100,10 @@ class WorkoutPage extends GetView<WorkoutController> {
                                     ),
                                   ],
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    );
+                              )
+                            ],
+                          ),
+                        ));
                   },
                 );
               }),

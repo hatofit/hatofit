@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hatofit/app/models/heart_Rate.dart';
+import 'package:hatofit/app/models/heart_rate.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
-import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
-import 'package:hatofit/utils/time_utils.dart';
+import 'package:hatofit/utils/hr_zone.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -15,8 +14,6 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
 
   @override
   Widget build(BuildContext context) {
-    final BluetoothService bleService = Get.find<BluetoothService>();
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -26,14 +23,6 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
           icon: const Icon(Icons.arrow_back),
         ),
         title: const Text('Free Workout'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Get.offNamed(AppRoutes.pickWoType);
-            },
-            icon: const Icon(Icons.save),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -41,23 +30,15 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Obx(() {
-              controller.addHr(
-                  DateTime.now().microsecondsSinceEpoch,
-                  bleService.detectedDevices
-                      .firstWhere((element) => element.isConnect.value == true)
-                      .hr
-                      .value);
-              if (controller.hrList.length % 2 == 0) {
-                controller.calcHr();
-              }
-              controller.userZone(bleService.detectedDevices.first.hr.value);
               return Column(
                 children: [
                   Container(
                       width: Get.width * 0.9,
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.grey[800],
+                        color: Get.isDarkMode
+                            ? ColorConstants.darkContainer
+                            : ColorConstants.lightContainer,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Row(
@@ -68,10 +49,7 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
                             style: Theme.of(context).textTheme.displaySmall,
                           ),
                           Text(
-                            TimeUtils.elapsed(
-                              controller.hrList.first['time'],
-                              controller.hrList.last['time'],
-                            ),
+                            controller.hrStats.value.time,
                             style: Theme.of(context)
                                 .textTheme
                                 .displayMedium!
@@ -88,7 +66,9 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
                       width: Get.width * 0.9,
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.grey[800],
+                        color: Get.isDarkMode
+                            ? ColorConstants.darkContainer
+                            : ColorConstants.lightContainer,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
@@ -106,14 +86,16 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
                               Container(
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: Colors.grey[900],
+                                  color: Get.isDarkMode
+                                      ? Colors.grey[900]
+                                      : Colors.grey[400],
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
                                   children: [
                                     const Text('Now'),
                                     Text(
-                                      controller.hrList.last['hr'].toString(),
+                                      controller.currentHeartRate.toString(),
                                       style: Theme.of(context)
                                           .textTheme
                                           .displayMedium!
@@ -127,7 +109,9 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
                               Container(
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: Colors.grey[900],
+                                  color: Get.isDarkMode
+                                      ? Colors.grey[900]
+                                      : Colors.grey[400],
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
@@ -148,7 +132,9 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
                               Container(
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: Colors.grey[900],
+                                  color: Get.isDarkMode
+                                      ? Colors.grey[900]
+                                      : Colors.grey[400],
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
@@ -169,7 +155,9 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
                               Container(
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: Colors.grey[900],
+                                  color: Get.isDarkMode
+                                      ? Colors.grey[900]
+                                      : Colors.grey[400],
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: Column(
@@ -191,10 +179,15 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
                           )
                         ],
                       )),
+                  const SizedBox(
+                    height: 16,
+                  ),
                   Container(
                     padding: const EdgeInsets.only(top: 16, bottom: 16),
                     decoration: BoxDecoration(
-                      color: Colors.grey[900],
+                      color: Get.isDarkMode
+                          ? ColorConstants.darkContainer
+                          : ColorConstants.lightContainer,
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: AspectRatio(
@@ -222,6 +215,61 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
                         ),
                       ),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                          width: Get.width * 0.3,
+                          height: Get.width * 0.3,
+                          decoration: BoxDecoration(
+                            color: Get.isDarkMode
+                                ? ColorConstants.darkContainer
+                                : ColorConstants.lightContainer,
+                            borderRadius: BorderRadius.circular(666),
+                          ),
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('${controller.hrPecentage.value} %',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium!
+                                        .copyWith(
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                Text('of max HR'),
+                              ],
+                            ),
+                          )),
+                      Container(
+                          padding: EdgeInsets.all(32),
+                          decoration: BoxDecoration(
+                            color: Get.isDarkMode
+                                ? ColorConstants.darkContainer
+                                : ColorConstants.lightContainer,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Column(
+                            children: [
+                              Text('Zone'),
+                              Text(
+                                controller.hrZoneType!.name,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displaySmall!
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: controller.hrZoneType!.color,
+                                    ),
+                              ),
+                            ],
+                          ))
+                    ],
                   ),
                 ],
               );

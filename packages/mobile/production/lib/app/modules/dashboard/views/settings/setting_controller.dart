@@ -20,7 +20,9 @@ class SettingController extends GetxController {
     final dateOfBirth = store.user!.dateOfBirth;
     final age = DateTime.now().year - dateOfBirth!.year;
     userAge.value = age.toString();
-    handleGoogleFit();
+    if (store.isSyncGoogleFit ?? false) {
+      authorize();
+    }
     super.onInit();
   }
 
@@ -39,9 +41,7 @@ class SettingController extends GetxController {
 
   HealthFactory health = HealthFactory(useHealthConnectIfAvailable: true);
   final permissions = types.map((e) => HealthDataAccess.READ_WRITE).toList();
-  Future handleGoogleFit() async {
-    authorize();
-  }
+ 
 
   Future authorize() async {
     await Permission.activityRecognition.request();
@@ -56,7 +56,7 @@ class SettingController extends GetxController {
         authorized.value =
             await health.requestAuthorization(types, permissions: permissions);
         if (authorized.value) {
-          MySnackbar.success('Success', 'Successfully authorized');
+          store.isSyncGoogleFit = true;
         } else {
           MySnackbar.error('Error', 'Error while trying to authorize');
         }

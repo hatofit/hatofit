@@ -10,10 +10,6 @@ class ThemeManager extends GetxController {
   get isDarkMode => _isDarkMode;
   get screenHeight => _screenHeight;
   get screenWidth => _screenWidth;
-  void changeTheme() {
-    isDarkMode.value = !isDarkMode.value;
-    Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
-  }
 }
 
 class AppTheme {

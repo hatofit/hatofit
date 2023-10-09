@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final store = Get.find<PreferencesService>();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'HatoFit',
@@ -34,8 +35,11 @@ class MyApp extends StatelessWidget {
       getPages: AppPages.list,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.dark,
-      // log routes
+      themeMode: store.isDarkMode != null
+          ? store.isDarkMode!
+              ? ThemeMode.dark
+              : ThemeMode.light
+          : ThemeMode.system,
       enableLog: true,
     );
   }
