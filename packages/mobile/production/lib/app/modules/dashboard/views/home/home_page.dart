@@ -227,7 +227,7 @@ class HomePage extends GetView<HomeController> {
                             );
                     }),
                 Container(
-                    height: MediaQuery.of(context).size.height * 0.17,
+                    height: MediaQuery.of(context).size.height * 0.4,
                     // width: width,
                     padding: const EdgeInsets.all(16),
                     margin: const EdgeInsets.symmetric(

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/polar_device.dart';
-import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/utils/snackbar.dart';
 
 import '../../../app/services/bluetooth_service.dart';
@@ -75,25 +74,25 @@ class _CustomAppBarState extends State<CustomAppBar> {
             },
           ),
         ),
-        IconButton(
-          icon: Icon(
-              Get.isDarkMode ? CupertinoIcons.sun_max : CupertinoIcons.moon),
-          onPressed: () {
-            final isDarkMode = Get.isDarkMode;
-            debugPrint('before isDarkMode $isDarkMode');
+        // IconButton(
+        //   icon: Icon(
+        //       Get.isDarkMode ? CupertinoIcons.sun_max : CupertinoIcons.moon),
+        //   onPressed: () {
+        //     final isDarkMode = Get.isDarkMode;
+        //     debugPrint('before isDarkMode $isDarkMode');
 
-            if (isDarkMode) {
-              Get.changeThemeMode(ThemeMode.light);
-              Get.find<PreferencesService>().isDarkMode = false;
-            } else {
-              Get.changeThemeMode(ThemeMode.dark);
-              Get.find<PreferencesService>().isDarkMode = true;
-            }
+        //     if (isDarkMode) {
+        //       Get.changeThemeMode(ThemeMode.light);
+        //       Get.find<PreferencesService>().isDarkMode = false;
+        //     } else {
+        //       Get.changeThemeMode(ThemeMode.dark);
+        //       Get.find<PreferencesService>().isDarkMode = true;
+        //     }
 
-            debugPrint(
-                'isDarkMode ${Get.find<PreferencesService>().isDarkMode}');
-          },
-        ),
+        //     debugPrint(
+        //         'isDarkMode ${Get.find<PreferencesService>().isDarkMode}');
+        //   },
+        // ),
       ],
     );
   }

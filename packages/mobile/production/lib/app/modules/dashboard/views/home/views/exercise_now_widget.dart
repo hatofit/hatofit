@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
@@ -10,8 +11,8 @@ class ExerciseNowWidget extends StatelessWidget {
   const ExerciseNowWidget({super.key});
 
   @override
-  Widget build(BuildContext context) { 
-    final height = MediaQuery.of(context).size.height * 0.12;
+  Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height * 0.3;
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -42,11 +43,20 @@ class ExerciseNowWidget extends StatelessWidget {
           ],
         ),
         const SizedBox(
-          height: 8,
+          height: 16,
+        ),
+        SvgPicture.asset(
+          'assets/images/icons8-yoga.svg',
+          height: height * 0.65,
+          colorFilter: ColorFilter.mode(
+              Get.isDarkMode ? Colors.white : Colors.black, BlendMode.srcIn),
+        ),
+        const SizedBox(
+          height: 16,
         ),
         Center(
           child: SizedBox(
-              height: height * 0.5,
+              height: height * 0.2,
               width: double.infinity,
               child: TextButton(
                 onPressed: () {
