@@ -284,8 +284,9 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
     try {
       // validate input
       const password = req.body.password;
-      console.log(password);
+      console.log("aweawe", password);
       if (password) {
+        console.log("ok", password);
         // remove whitespace
         if (password.trim() === "") {
           return res.status(400).json({
