@@ -1,0 +1,80 @@
+'use client'
+import { Icon } from "@iconify/react"
+import { useSession } from "next-auth/react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+
+export const Menus = [
+  { title: 'Dashboard', icon: 'uil:dashboard', href: '/dashboard' },
+  { title: 'My Exercises', icon: 'material-symbols:exercise-outline', href: '/dashboard/exercise' },
+  { title: 'Shared Exercises', icon: 'material-symbols:exercise-outline', href: '/dashboard/shared-exercise' },
+  { title: 'Settings', icon: 'ic:outline-settings-suggest', href: '/dashboard/setting' },
+]
+
+export default function Sidebar() {
+  const router = useRouter()
+  const { data, status } = useSession()
+  const [c, sc] = useState(1)
+
+  const isMenuActive = (href: string) => {
+    // const allMenusActivated = Menus.map(menu => {
+    //   console.log('[]', window.location.pathname.split('/').join('/'), menu.href)
+    //   return window.location.pathname.split('/').join('/') === menu.href
+    // })
+    return window.location.pathname.split('/').join('/') === href
+    // let res = true
+    // if (allMenusActivated.filter(menu => menu).length === 0) {
+    //   res = false
+    // } else if (allMenusActivated.filter(menu => menu).length === 1) {
+    //   res = window.location.pathname.replaceAll('/', '').startsWith(href.replaceAll('/', ''))
+    // } else {
+    //   res = window.location.pathname.replaceAll('/', '').startsWith(href.replaceAll('/', ''))
+    // }
+    // return res
+  }
+
+  useEffect(() => {
+    const observeUrlChange = () => {
+      let oldHref = document.location.href;
+      sc(res => res + 1)
+      const body = document.querySelector("body");
+      const observer = new MutationObserver(mutations => {
+        if (oldHref !== document.location.href) {
+          oldHref = document.location.href;
+          sc(res => res + 1)
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true });
+    };
+
+    observeUrlChange()
+
+    return () => {
+      window.removeEventListener('DOMContentLoaded', observeUrlChange);
+    };
+  }, [])
+
+  return (
+    <div className="w-[200px]">
+      {/* card */}
+      <div className="bg-transparent rounded-lg shadow-lg">
+        {/* ul list menu */}
+        <ul className="flex flex-col">
+          <li>
+            {/* loop */}
+            {Menus.map((menu, index) => (
+              <Link
+                key={Math.random()} href={menu.href}
+                className={`flex items-center gap-4 hover:bg-gray-800/80 px-4 py-2 rounded ${isMenuActive(menu.href) ? 'bg-gray-800/80' : ''}`}
+                >
+                <Icon icon={menu.icon} className="text-xl" />
+                <span className="text-sm text-gray-100">{menu.title}</span>
+              </Link>
+            ))}
+          </li>
+        </ul>
+      </div>
+    </div>
+  )
+}

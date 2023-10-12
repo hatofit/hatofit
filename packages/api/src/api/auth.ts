@@ -283,31 +283,37 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
     console.log("DATA BODY", req.body);
     try {
       // validate input
-      const password = req.body.password || "";
-      // remove whitespace
-      if (password.trim() === "") {
-        return res.status(400).json({
-          success: false,
-          message: "Password must not be empty",
+      const password = req.body.password;
+      if (password) {
+        // remove whitespace
+        if (password.trim() === "") {
+          return res.status(400).json({
+            success: false,
+            message: "Password must not be empty",
+          });
+        }
+        // input schema
+        const rawPlainPassword: string = req.body.password || ("" as string);
+        // password
+        const saltRounds = parseInt(process.env.HASH_PASSWORD_SALT || "10");
+        const hasingPasssword = await new Promise((res) => {
+          bcrypt.hash(
+            rawPlainPassword,
+            saltRounds,
+            function (err: any, hash: any) {
+              return res(hash);
+            }
+          );
         });
+        req.body.password = hasingPasssword;
+      } else {
+        req.body.password = "";
       }
-      // input schema
-      const rawPlainPassword: string = req.body.password || ("" as string);
-      // password
-      const saltRounds = parseInt(process.env.HASH_PASSWORD_SALT || "10");
-      const hasingPasssword = await new Promise((res) => {
-        bcrypt.hash(
-          rawPlainPassword,
-          saltRounds,
-          function (err: any, hash: any) {
-            return res(hash);
-          }
-        );
-      });
-      req.body.password = hasingPasssword;
       // dateOfBirth
       const dateOfBirth = req.body.dateOfBirth || "";
       req.body.dateOfBirth = dayjs(dateOfBirth, "mm/dd/yyyy").toDate();
+
+      // parse
       const user = UserSchema.parse(req.body);
 
       // save to db
@@ -321,6 +327,9 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
           success: false,
           message: "User not found",
         });
+      }
+      if (!password) {
+        user.password = found?.password || ""
       }
 
       // update
