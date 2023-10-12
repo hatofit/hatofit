@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "NokiaMon API",
   "scripts": {
-    "dev": "concurrently -k -p \"[{name}]\" -n \"TS,NODE\" -c \"yello.bold, cyan.bold\" \"yarn run tsc:watch\" \"yarn run start:hot\"",
+    "dev": "concurrently -k -p \"[{name}]\" -n \"TS,NODE\" -c \"yello.bold, cyan.bold\" \"npm run tsc:watch\" \"npm run start:hot\"",
     "build": "npm run tsc",
     "build:watch": "npm run tsc:watch",
     "tsc": "tsc",

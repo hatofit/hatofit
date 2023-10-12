@@ -259,6 +259,7 @@ const ApiAuth = ({ route }) => {
         try {
             // validate input
             const password = req.body.password;
+            console.log(password);
             if (password) {
                 // remove whitespace
                 if (password.trim() === "") {
