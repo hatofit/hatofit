@@ -258,27 +258,33 @@ const ApiAuth = ({ route }) => {
         console.log("DATA BODY", req.body);
         try {
             // validate input
-            const password = req.body.password || "";
-            // remove whitespace
-            if (password.trim() === "") {
-                return res.status(400).json({
-                    success: false,
-                    message: "Password must not be empty",
+            const password = req.body.password;
+            if (password) {
+                // remove whitespace
+                if (password.trim() === "") {
+                    return res.status(400).json({
+                        success: false,
+                        message: "Password must not be empty",
+                    });
+                }
+                // input schema
+                const rawPlainPassword = req.body.password || "";
+                // password
+                const saltRounds = parseInt(process.env.HASH_PASSWORD_SALT || "10");
+                const hasingPasssword = yield new Promise((res) => {
+                    bcrypt_1.default.hash(rawPlainPassword, saltRounds, function (err, hash) {
+                        return res(hash);
+                    });
                 });
+                req.body.password = hasingPasssword;
             }
-            // input schema
-            const rawPlainPassword = req.body.password || "";
-            // password
-            const saltRounds = parseInt(process.env.HASH_PASSWORD_SALT || "10");
-            const hasingPasssword = yield new Promise((res) => {
-                bcrypt_1.default.hash(rawPlainPassword, saltRounds, function (err, hash) {
-                    return res(hash);
-                });
-            });
-            req.body.password = hasingPasssword;
+            else {
+                req.body.password = "";
+            }
             // dateOfBirth
             const dateOfBirth = req.body.dateOfBirth || "";
             req.body.dateOfBirth = (0, dayjs_1.default)(dateOfBirth, "mm/dd/yyyy").toDate();
+            // parse
             const user = user_1.UserSchema.parse(req.body);
             // save to db
             const found = yield db_1.User.findOne({
@@ -290,6 +296,9 @@ const ApiAuth = ({ route }) => {
                     success: false,
                     message: "User not found",
                 });
+            }
+            if (!password) {
+                user.password = (found === null || found === void 0 ? void 0 : found.password) || "";
             }
             // update
             const updated = yield db_1.User.findOneAndUpdate({
