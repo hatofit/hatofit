@@ -283,6 +283,17 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         });
       }
 
+      const userIsAllowed = await ReportShare.findOne({
+        userShareId: userId,
+        userViewId: userByEmail._id || userByEmail.id,
+      });
+      if (userIsAllowed) {
+        return res.json({
+          success: false,
+          message: "User already allowed",
+        });
+      }
+
       // insert user to allow
       const userToAllow = await ReportShare.create({
         _id: new mongoose.Types.ObjectId().toHexString(),
