@@ -220,7 +220,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         message: "get allowed user from me",
         lists: lists.map((list) => ({
           ...list.toObject(),
-          userView: exceptObjectProp(users.find(item => item._id === list.userViewId), ["password"]),
+          userView: exceptObjectProp(users.find(item => item._id === list.userViewId)?.toObject(), ["password"]),
         }))
       })
     } catch (error) {
@@ -256,7 +256,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         message: "get allowed user to me",
         lists: lists.map((list) => ({
           ...list.toObject(),
-          userShare: exceptObjectProp(users.find(item => item._id === list.userShareId), ["password"]),
+          userShare: exceptObjectProp(users.find(item => item._id === list.userShareId)?.toObject(), ["password"]),
         }))
       })
     } catch (error) {
