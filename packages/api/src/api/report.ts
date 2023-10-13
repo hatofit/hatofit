@@ -123,6 +123,124 @@ export const getParsedFromDataDevice = (
 };
 
 export const ApiReport = ({ route }: { route: express.Router }) => {
+  route.post("/report/share", AuthJwtMiddleware, async (req, res) => {
+    try {
+      // validate user
+      const userId = req.auth?.user?._id;
+      if (!userId || typeof userId !== "string" || userId.length === 0) {
+        return res.json({
+          success: false,
+          message: "Invalid userId",
+        });
+      }
+
+      // validate body
+      const emailUserToAllow = req.body.emailUserToAllow;
+      if (
+        !emailUserToAllow ||
+        typeof emailUserToAllow !== "string" ||
+        emailUserToAllow.length === 0
+      ) {
+        return res.json({
+          success: false,
+          message: "Invalid emailUserToAllow",
+        });
+      }
+
+      // search user by email
+      const userByEmail = await User.findOne({ email: emailUserToAllow });
+      if (!userByEmail) {
+        return res.json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      const userIsAllowed = await ReportShare.findOne({
+        userShareId: userId,
+        userViewId: userByEmail._id || userByEmail.id,
+      });
+      if (userIsAllowed) {
+        return res.json({
+          success: false,
+          message: "User already allowed",
+        });
+      }
+
+      // insert user to allow
+      const userToAllow = await ReportShare.create({
+        _id: new mongoose.Types.ObjectId().toHexString(),
+        userShareId: userId,
+        userViewId: userByEmail._id || userByEmail.id,
+      });
+      if (!userToAllow) {
+        return res.json({
+          success: false,
+          message: "User not found",
+        });
+      }
+      return res.json({
+        success: true,
+        message: "User allowed",
+        user: userByEmail.email,
+      });
+
+      // street email
+    } catch (error) {
+      console.error(error)
+      return res.status(400).json({ error });
+    }
+  });
+  route.get("/report/share", AuthJwtMiddleware, async (req, res) => {
+    try {
+      // validate user
+      const userId = req.auth?.user?._id;
+      if (!userId || typeof userId !== "string" || userId.length === 0) {
+        return res.json({
+          success: false,
+          message: "Invalid userId",
+        });
+      }
+
+      const lists = await ReportShare.find({
+        userShareId: userId,
+      });
+
+      return res.json({
+        success: true,
+        message: "get allowed user from me",
+        lists: lists.map((list) => list.toObject())
+      })
+    } catch (error) {
+      console.error(error)
+      return res.status(500).json({ error });
+    }
+  });
+  route.get("/report/share/tome", AuthJwtMiddleware, async (req, res) => {
+    try {
+      // validate user
+      const userId = req.auth?.user?._id;
+      if (!userId || typeof userId !== "string" || userId.length === 0) {
+        return res.json({
+          success: false,
+          message: "Invalid userId",
+        });
+      }
+
+      const lists = await ReportShare.find({
+        userViewId: userId,
+      });
+
+      return res.json({
+        success: true,
+        message: "get allowed user to me",
+        lists: lists.map((list) => list.toObject())
+      })
+    } catch (error) {
+      console.error(error)
+      return res.status(500).json({ error });
+    }
+  });
   route.get("/report/:id", async (req, res) => {
     try {
       const { id } = req.params;
@@ -247,124 +365,6 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
       });
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ error });
-    }
-  });
-  route.post("/report/share", AuthJwtMiddleware, async (req, res) => {
-    try {
-      // validate user
-      const userId = req.auth?.user?._id;
-      if (!userId || typeof userId !== "string" || userId.length === 0) {
-        return res.json({
-          success: false,
-          message: "Invalid userId",
-        });
-      }
-
-      // validate body
-      const emailUserToAllow = req.body.emailUserToAllow;
-      if (
-        !emailUserToAllow ||
-        typeof emailUserToAllow !== "string" ||
-        emailUserToAllow.length === 0
-      ) {
-        return res.json({
-          success: false,
-          message: "Invalid emailUserToAllow",
-        });
-      }
-
-      // search user by email
-      const userByEmail = await User.findOne({ email: emailUserToAllow });
-      if (!userByEmail) {
-        return res.json({
-          success: false,
-          message: "User not found",
-        });
-      }
-
-      const userIsAllowed = await ReportShare.findOne({
-        userShareId: userId,
-        userViewId: userByEmail._id || userByEmail.id,
-      });
-      if (userIsAllowed) {
-        return res.json({
-          success: false,
-          message: "User already allowed",
-        });
-      }
-
-      // insert user to allow
-      const userToAllow = await ReportShare.create({
-        _id: new mongoose.Types.ObjectId().toHexString(),
-        userShareId: userId,
-        userViewId: userByEmail._id || userByEmail.id,
-      });
-      if (!userToAllow) {
-        return res.json({
-          success: false,
-          message: "User not found",
-        });
-      }
-      return res.json({
-        success: true,
-        message: "User allowed",
-        user: userByEmail.email,
-      });
-
-      // street email
-    } catch (error) {
-      console.error(error)
-      return res.status(400).json({ error });
-    }
-  });
-  route.get("/report/share", AuthJwtMiddleware, async (req, res) => {
-    try {
-      // validate user
-      const userId = req.auth?.user?._id;
-      if (!userId || typeof userId !== "string" || userId.length === 0) {
-        return res.json({
-          success: false,
-          message: "Invalid userId",
-        });
-      }
-
-      const lists = await ReportShare.find({
-        userShareId: userId,
-      });
-
-      return res.json({
-        success: true,
-        message: "get allowed user from me",
-        lists: lists.map((list) => list.toObject())
-      })
-    } catch (error) {
-      console.error(error)
-      return res.status(500).json({ error });
-    }
-  });
-  route.get("/report/share/tome", AuthJwtMiddleware, async (req, res) => {
-    try {
-      // validate user
-      const userId = req.auth?.user?._id;
-      if (!userId || typeof userId !== "string" || userId.length === 0) {
-        return res.json({
-          success: false,
-          message: "Invalid userId",
-        });
-      }
-
-      const lists = await ReportShare.find({
-        userViewId: userId,
-      });
-
-      return res.json({
-        success: true,
-        message: "get allowed user to me",
-        lists: lists.map((list) => list.toObject())
-      })
-    } catch (error) {
-      console.error(error)
       return res.status(500).json({ error });
     }
   });
