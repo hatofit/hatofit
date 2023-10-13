@@ -208,7 +208,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         userShareId: userId,
       });
       lists.forEach((list) => {
-        if (list.userViewId && user_ids.includes(list.userViewId)) user_ids.push(list.userViewId)
+        if (list.userViewId && !user_ids.includes(list.userViewId)) user_ids.push(list.userViewId)
       })
       const users = await User.find({
         // find all users
@@ -244,7 +244,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         userViewId: userId,
       });
       lists.forEach((list) => {
-        if (list.userShareId && user_ids.includes(list.userShareId)) user_ids.push(list.userShareId)
+        if (list.userShareId && !user_ids.includes(list.userShareId)) user_ids.push(list.userShareId)
       })
       const users = await User.find({
         // find all users
