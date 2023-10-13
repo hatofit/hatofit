@@ -268,6 +268,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
     try {
       const { id } = req.params;
       const session = await Session.findById(id);
+      const user = await User.findById(session?.userId);
       if (!session) {
         return res.status(404).json({
           success: false,
@@ -385,6 +386,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         report,
         mood: session.mood,
         exercise: session.exercise,
+        user: exceptObjectProp(user?.toObject(), ["password"]),
       });
     } catch (error) {
       console.error(error);
