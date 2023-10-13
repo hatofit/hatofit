@@ -4,8 +4,9 @@ import { redirect } from "next/navigation"
 import { useSession } from "next-auth/react"
 import Container from "@/components/layout/container"
 import Sidebar from "./sidebar"
-import { useEffect, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/router"
+import useObserveRoute from "@/hooks/use-observe-route"
 
 export default function DashboardLayout({
   children,
@@ -37,9 +38,11 @@ export default function DashboardLayout({
     }
   })
 
+  const [cR, sCr]  = useState(window?.location?.pathname || '')
   const isNoSidebar = useMemo(() => {
-    return window.location.pathname.includes('dashboard/report/')
-  }, [])
+    return cR.includes('dashboard/report/')
+  }, [cR])
+  useObserveRoute(() => sCr(window.location.pathname), () => sCr(window.location.pathname))
 
   return (
     <div className="flex min-h-[calc(100vh_-_72px)] py-4">

@@ -15,33 +15,62 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiSession = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const db_1 = require("../db");
-const session_1 = require("../types/session");
 const auth_1 = require("../middlewares/auth");
+const session_1 = require("../types/session");
 const ApiSession = ({ route }) => {
-    route.get('/session/', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.get("/session/", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         var _a, _b;
         const sessions = yield db_1.Session.find({
             userId: (_b = (_a = req.auth) === null || _a === void 0 ? void 0 : _a.user) === null || _b === void 0 ? void 0 : _b._id,
         });
         return res.json({
             success: true,
-            message: 'Sessions found',
+            message: "Sessions found",
             sessions,
         });
     }));
-    route.get('/session/:id', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.get("/session/shared/:userid", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _c, _d;
+        const { userid } = req.params;
+        const user = yield db_1.User.findById(userid);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+        const allowed = yield db_1.ReportShare.find({
+            userViewId: (_d = (_c = req.auth) === null || _c === void 0 ? void 0 : _c.user) === null || _d === void 0 ? void 0 : _d._id,
+            userShareId: user._id,
+        });
+        if (allowed.length === 0) {
+            return res.status(403).json({
+                success: false,
+                message: "User not allowed",
+            });
+        }
+        const sessions = yield db_1.Session.find({
+            userId: user._id,
+        });
+        return res.json({
+            success: true,
+            message: "Sessions shared found",
+            sessions,
+        });
+    }));
+    route.get("/session/:id", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = req.params;
             const session = yield db_1.Session.findById(id);
             if (!session) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Session not found',
+                    message: "Session not found",
                 });
             }
             return res.json({
                 success: true,
-                message: 'Session found',
+                message: "Session found",
                 session,
             });
         }
@@ -50,26 +79,28 @@ const ApiSession = ({ route }) => {
             return res.status(500).json({ error });
         }
     }));
-    route.post('/session', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        var _c, _d, _e, _f, _g;
-        console.log('DATA BODY', req.body);
+    route.post("/session", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _e, _f, _g, _h, _j;
+        console.log("DATA BODY", req.body);
         try {
             // validate user
-            const userId = (_d = (_c = req.auth) === null || _c === void 0 ? void 0 : _c.user) === null || _d === void 0 ? void 0 : _d._id;
-            if (!userId || typeof userId !== 'string' || userId.length === 0) {
+            const userId = (_f = (_e = req.auth) === null || _e === void 0 ? void 0 : _e.user) === null || _f === void 0 ? void 0 : _f._id;
+            if (!userId || typeof userId !== "string" || userId.length === 0) {
                 return res.json({
                     success: false,
-                    message: 'Invalid userId',
+                    message: "Invalid userId",
                 });
             }
             // validate exercise
-            const withoutExercise = (_f = (_e = req.body) === null || _e === void 0 ? void 0 : _e.withoutExercise) !== null && _f !== void 0 ? _f : false;
-            const exerciseId = (_g = req.body) === null || _g === void 0 ? void 0 : _g.exerciseId;
+            const withoutExercise = (_h = (_g = req.body) === null || _g === void 0 ? void 0 : _g.withoutExercise) !== null && _h !== void 0 ? _h : false;
+            const exerciseId = (_j = req.body) === null || _j === void 0 ? void 0 : _j.exerciseId;
             if (withoutExercise !== true) {
-                if (!exerciseId || typeof exerciseId !== 'string' || exerciseId.length === 0) {
+                if (!exerciseId ||
+                    typeof exerciseId !== "string" ||
+                    exerciseId.length === 0) {
                     return res.json({
                         success: false,
-                        message: 'Invalid exerciseId',
+                        message: "Invalid exerciseId",
                     });
                 }
             }
@@ -83,7 +114,7 @@ const ApiSession = ({ route }) => {
                 if (!exercise) {
                     return res.json({
                         success: false,
-                        message: 'Exercise not found',
+                        message: "Exercise not found",
                     });
                 }
             }
@@ -92,7 +123,7 @@ const ApiSession = ({ route }) => {
             if (!user) {
                 return res.json({
                     success: false,
-                    message: 'User not found',
+                    message: "User not found",
                 });
             }
             // save to db
@@ -101,13 +132,13 @@ const ApiSession = ({ route }) => {
             // resposne
             return res.json({
                 success: true,
-                message: 'Session created successfully',
+                message: "Session created successfully",
                 id: created._id,
                 session,
             });
         }
         catch (error) {
-            console.log('4');
+            console.log("4");
             // console.error(error)
             return res.status(400).json({ error });
         }

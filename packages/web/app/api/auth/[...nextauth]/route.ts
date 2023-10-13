@@ -10,6 +10,18 @@ interface User extends DefaultUser {
   lastName: string
   email: string
   image: string
+
+  dateOfBirth: string
+  photo: string
+  weight: number
+  height: number
+  gender: string
+  metricUnits: {
+    energyUnits: string
+    weightUnits: string
+    heightUnits: string
+  }
+
   token: string
 }
 
@@ -21,6 +33,18 @@ declare module "next-auth" {
     lastName: string
     email: string
     image: string
+
+    dateOfBirth: string
+    photo: string
+    weight: number
+    height: number
+    gender: string
+    metricUnits: {
+      energyUnits: string
+      weightUnits: string
+      heightUnits: string
+    }
+
     token: string
   }
   interface Session extends DefaultSession {
@@ -60,7 +84,18 @@ const handler = NextAuth({
               email: user?.email,
               name: `${user?.firstName} ${user?.lastName}`,
               image: "https://via.placeholder.com/500",
-              token: data?.token
+              dateOfBirth: user?.dateOfBirth,
+              photo: user?.photo,
+              weight: user?.weight,
+              height: user?.height,
+              gender: user?.gender,
+              metricUnits: {
+                energyUnits: user?.metricUnits?.energyUnits || "",
+                weightUnits: user?.metricUnits?.weightUnits || "",
+                heightUnits: user?.metricUnits?.heightUnits || "",
+              },
+
+              token: data?.token,
             }
           }
         } catch (error) {

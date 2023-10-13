@@ -1,4 +1,5 @@
 'use client'
+import useObserveRoute from "@/hooks/use-observe-route"
 import { Icon } from "@iconify/react"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
@@ -16,6 +17,7 @@ export default function Sidebar() {
   const router = useRouter()
   const { data, status } = useSession()
   const [c, sc] = useState(1)
+  useObserveRoute(() => sc(v => v + 1), () => sc(v => v + 1))
 
   const isMenuActive = (href: string) => {
     // const allMenusActivated = Menus.map(menu => {
@@ -33,27 +35,6 @@ export default function Sidebar() {
     // }
     // return res
   }
-
-  useEffect(() => {
-    const observeUrlChange = () => {
-      let oldHref = document.location.href;
-      sc(res => res + 1)
-      const body = document.querySelector("body");
-      const observer = new MutationObserver(mutations => {
-        if (oldHref !== document.location.href) {
-          oldHref = document.location.href;
-          sc(res => res + 1)
-        }
-      });
-      observer.observe(document.body, { childList: true, subtree: true });
-    };
-
-    observeUrlChange()
-
-    return () => {
-      window.removeEventListener('DOMContentLoaded', observeUrlChange);
-    };
-  }, [])
 
   return (
     <div className="w-[200px]">

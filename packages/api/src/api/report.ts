@@ -304,4 +304,52 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
       return res.status(400).json({ error });
     }
   });
+  route.get("/report/share", AuthJwtMiddleware, async (req, res) => {
+    try {
+      // validate user
+      const userId = req.auth?.user?._id;
+      if (!userId || typeof userId !== "string" || userId.length === 0) {
+        return res.json({
+          success: false,
+          message: "Invalid userId",
+        });
+      }
+
+      const lists = await ReportShare.find({
+        userShareId: userId,
+      });
+
+      return res.json({
+        success: true,
+        message: "get allowed user",
+        lists: lists.map((list) => list.toObject())
+      })
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
+  });
+  route.get("/report/share/tome", AuthJwtMiddleware, async (req, res) => {
+    try {
+      // validate user
+      const userId = req.auth?.user?._id;
+      if (!userId || typeof userId !== "string" || userId.length === 0) {
+        return res.json({
+          success: false,
+          message: "Invalid userId",
+        });
+      }
+
+      const lists = await ReportShare.find({
+        userViewId: userId,
+      });
+
+      return res.json({
+        success: true,
+        message: "get allowed user",
+        lists: lists.map((list) => list.toObject())
+      })
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
+  });
 };

@@ -61,10 +61,10 @@ export default function Navbar() {
                     <Menu.Item>
                       {({ active }) => (
                         <Link
-                          href="/dashboard/setting/profile"
+                          href="/dashboard/setting"
                           className={`duration-300 transition-all text-left px-4 py-1 ${active && 'bg-blue-500'}`}
                         >
-                          Accounts
+                          Setting
                         </Link>
                       )}
                     </Menu.Item>

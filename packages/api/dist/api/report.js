@@ -11,48 +11,58 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiReport = exports.getParsedFromDataDevice = exports.getDeviceNameFromDataDeviceType = exports.DevicesRules = void 0;
 const db_1 = require("../db");
-const report_1 = require("../types/report");
 const auth_1 = require("../middlewares/auth");
+const report_1 = require("../types/report");
 exports.DevicesRules = [
     // for polar
     {
-        name: 'Polar',
-        check: (type) => type.includes('Polar'),
+        name: "Polar",
+        check: (type) => type.includes("Polar"),
         report: [
             {
-                type: 'hr',
+                type: "hr",
                 evaluate: (item) => {
                     var _a;
-                    if (item.type === 'PolarDataType.hr') {
+                    if (item.type === "PolarDataType.hr") {
                         const vals = (item.value || []);
                         const val = ((_a = vals[0]) === null || _a === void 0 ? void 0 : _a.hr) || false;
                         return val ? [val] : false;
                     }
-                }
+                },
             },
-            // {
-            //   type: 'acc',
-            //   evaluate: (item: z.input<typeof SessionDataItemDeviceSchema>) => {
-            //     if (item.type === 'PolarDataType.acc') {
-            //       const vals = (item.value || []) as { x: number, y: number, z: number }[]
-            //       const val = vals[0] ? [vals[0].x, vals[0].y, vals[0].z] : false
-            //       return val
-            //     }
-            //   }
-            // },
             {
-                type: 'ecg',
+                type: "acc",
+                evaluate: (item) => {
+                    if (item.type === "PolarDataType.acc") {
+                        const vals = (item.value || []);
+                        const val = vals[0] ? [vals[0].x, vals[0].y, vals[0].z] : false;
+                        return val;
+                    }
+                },
+            },
+            {
+                type: "gyro",
+                evaluate: (item) => {
+                    if (item.type === "PolarDataType.gyro") {
+                        const vals = (item.value || []);
+                        const val = vals[0] ? [vals[0].x, vals[0].y, vals[0].z] : false;
+                        return val;
+                    }
+                },
+            },
+            {
+                type: "ecg",
                 evaluate: (item) => {
                     var _a;
-                    if (item.type === 'PolarDataType.ecg') {
+                    if (item.type === "PolarDataType.ecg") {
                         const vals = (item.value || []);
                         const val = ((_a = vals[0]) === null || _a === void 0 ? void 0 : _a.voltage) || false;
                         return val ? [val] : false;
                     }
-                }
-            }
-        ]
-    }
+                },
+            },
+        ],
+    },
 ];
 const getDeviceNameFromDataDeviceType = (type) => {
     for (const rules of exports.DevicesRules) {
@@ -60,7 +70,7 @@ const getDeviceNameFromDataDeviceType = (type) => {
             return [rules.name, rules];
         }
     }
-    return ['Unknown', undefined];
+    return ["Unknown", undefined];
 };
 exports.getDeviceNameFromDataDeviceType = getDeviceNameFromDataDeviceType;
 // item: z.input<typeof SessionDataItemSchema>,
@@ -88,7 +98,7 @@ const getParsedFromDataDevice = (device) => {
 };
 exports.getParsedFromDataDevice = getParsedFromDataDevice;
 const ApiReport = ({ route }) => {
-    route.get('/report/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.get("/report/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         var _a;
         try {
             const { id } = req.params;
@@ -96,7 +106,7 @@ const ApiReport = ({ route }) => {
             if (!session) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Session not found',
+                    message: "Session not found",
                 });
             }
             // vars
@@ -105,7 +115,11 @@ const ApiReport = ({ route }) => {
             // evaluate data
             for (const item of session.data) {
                 // continue if item no second
-                if (typeof item.second === 'undefined' || !item.timeStamp || !item.devices || !item.devices.length) {
+                // console.log("item:", item);
+                if (typeof item.second === "undefined" ||
+                    !item.timeStamp ||
+                    !item.devices ||
+                    !item.devices.length) {
                     continue;
                 }
                 // evaluate per device
@@ -114,8 +128,9 @@ const ApiReport = ({ route }) => {
                     if (!device.type || !device.identifier) {
                         continue;
                     }
+                    // console.log("device", device);
                     const parsed = (0, exports.getParsedFromDataDevice)(device);
-                    // console.log('parsed', parsed.deviceName, device.type)
+                    // console.log("parsed", parsed.deviceName, device.type);
                     // check if device already exists
                     const deviceIndex = devices.findIndex((d) => d.identifier === device.identifier);
                     if (deviceIndex === -1) {
@@ -127,16 +142,18 @@ const ApiReport = ({ route }) => {
                     }
                     // check data
                     const reportsToListAccepted = [
-                        'hr',
-                        'ecg',
-                        // 'acc',
+                        "hr",
+                        "ecg",
+                        "acc",
+                        "gyro",
+                        "magnetometer",
                     ];
                     for (const listreporttoacccepted of reportsToListAccepted) {
                         const reportsItemsHr = parsed.reportsItems.filter((r) => r.type === listreporttoacccepted);
                         for (const reportItem of reportsItemsHr) {
-                            const ri = reportsItems.find(item => item.type === listreporttoacccepted);
+                            const ri = reportsItems.find((item) => item.type === listreporttoacccepted);
                             if (ri) {
-                                const riDevice = ri.data.find(item => item.device === device.identifier);
+                                const riDevice = ri.data.find((item) => item.device === device.identifier);
                                 if (riDevice) {
                                     const arg = reportItem.value;
                                     try {
@@ -161,11 +178,9 @@ const ApiReport = ({ route }) => {
                                     data: [
                                         {
                                             device: device.identifier,
-                                            value: [
-                                                [item.second, ...reportItem.value],
-                                            ],
-                                        }
-                                    ]
+                                            value: [[item.second, ...reportItem.value]],
+                                        },
+                                    ],
                                 });
                             }
                         }
@@ -181,10 +196,13 @@ const ApiReport = ({ route }) => {
                 sessionId: session._id,
                 reports: reportsItems,
             });
+            console.log("devices:", devices);
+            console.log("reportsItems:", reportsItems);
             return res.json({
                 success: true,
-                message: 'Report generated',
+                message: "Report generated",
                 report,
+                mood: session.mood,
                 exercise: session.exercise,
             });
         }
@@ -193,23 +211,25 @@ const ApiReport = ({ route }) => {
             return res.status(500).json({ error });
         }
     }));
-    route.post('/report/share', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.post("/report/share", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         var _b, _c;
         try {
             // validate user
             const userId = (_c = (_b = req.auth) === null || _b === void 0 ? void 0 : _b.user) === null || _c === void 0 ? void 0 : _c._id;
-            if (!userId || typeof userId !== 'string' || userId.length === 0) {
+            if (!userId || typeof userId !== "string" || userId.length === 0) {
                 return res.json({
                     success: false,
-                    message: 'Invalid userId',
+                    message: "Invalid userId",
                 });
             }
             // validate body
             const emailUserToAllow = req.body.emailUserToAllow;
-            if (!emailUserToAllow || typeof emailUserToAllow !== 'string' || emailUserToAllow.length === 0) {
+            if (!emailUserToAllow ||
+                typeof emailUserToAllow !== "string" ||
+                emailUserToAllow.length === 0) {
                 return res.json({
                     success: false,
-                    message: 'Invalid emailUserToAllow',
+                    message: "Invalid emailUserToAllow",
                 });
             }
             // search user by email
@@ -217,7 +237,7 @@ const ApiReport = ({ route }) => {
             if (!userByEmail) {
                 return res.json({
                     success: false,
-                    message: 'User not found',
+                    message: "User not found",
                 });
             }
             // insert user to allow
@@ -228,15 +248,63 @@ const ApiReport = ({ route }) => {
             if (!userToAllow) {
                 return res.json({
                     success: false,
-                    message: 'User not found',
+                    message: "User not found",
                 });
             }
             return res.json({
                 success: true,
-                message: 'User allowed',
+                message: "User allowed",
                 user: userByEmail.email,
             });
             // street email
+        }
+        catch (error) {
+            return res.status(400).json({ error });
+        }
+    }));
+    route.get("/report/share", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _d, _e;
+        try {
+            // validate user
+            const userId = (_e = (_d = req.auth) === null || _d === void 0 ? void 0 : _d.user) === null || _e === void 0 ? void 0 : _e._id;
+            if (!userId || typeof userId !== "string" || userId.length === 0) {
+                return res.json({
+                    success: false,
+                    message: "Invalid userId",
+                });
+            }
+            const lists = yield db_1.ReportShare.find({
+                userShareId: userId,
+            });
+            return res.json({
+                success: true,
+                message: "get allowed user",
+                lists: lists.map((list) => list.toObject())
+            });
+        }
+        catch (error) {
+            return res.status(400).json({ error });
+        }
+    }));
+    route.get("/report/share/tome", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _f, _g;
+        try {
+            // validate user
+            const userId = (_g = (_f = req.auth) === null || _f === void 0 ? void 0 : _f.user) === null || _g === void 0 ? void 0 : _g._id;
+            if (!userId || typeof userId !== "string" || userId.length === 0) {
+                return res.json({
+                    success: false,
+                    message: "Invalid userId",
+                });
+            }
+            const lists = yield db_1.ReportShare.find({
+                userViewId: userId,
+            });
+            return res.json({
+                success: true,
+                message: "get allowed user",
+                lists: lists.map((list) => list.toObject())
+            });
         }
         catch (error) {
             return res.status(400).json({ error });

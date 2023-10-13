@@ -135,60 +135,123 @@ const ApiAuth = ({ route }) => {
         });
     }));
     // send email to reset password using nodemailer
-    route.get("/forgot-password", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log("DATA BODY", req.body);
-        const nodemailer = require("nodemailer");
-        const transporter = nodemailer.createTransport({
-            service: process.env.MAIL_SERVICE,
-            auth: {
-                user: process.env.MAIL_USERNAME,
-                pass: process.env.MAIL_PASSWORD,
-                // clientId: process.env.OAUTH_CLIENTID,
-                // clientSecret: process.env.OAUTH_CLIENT_SECRET,
-                // refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-            },
-        });
-        const found = yield db_1.User.findOne({
-            email: req.body.email,
-        });
-        if (!found) {
-            return res.status(404).json({
-                success: false,
-                message: "User not found",
+    route.get("/forgot-password/:email", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const email = req.params.email;
+            const nodemailer = require("nodemailer");
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                host: "smtp.gmail.com",
+                port: 587,
+                secure: false,
+                auth: {
+                    user: process.env.MAIL_USERNAME,
+                    pass: process.env.MAIL_PASSWORD,
+                },
             });
-        }
-        // generate token
-        const jwtSecret = process.env.JWT_SECRET_KEY || "polar";
-        const token = jsonwebtoken_1.default.sign({ email: req.body.email }, jwtSecret, {
-            expiresIn: 86400, // 1 month in seconds
-        });
-        const mailOptions = {
-            from: "HatoFit | No Reply <" + process.env.MAIL_USERNAME + ">",
-            to: req.body.email,
-            subject: "Reset Password",
-            text: "Reset Password ",
-            html: "<p> Reset Password </p> <a href='http://192.168.18.144:3000/api/auth/reset-password/" +
-                found._id +
-                "/" +
-                token +
-                "'> Click here to reset password </a>",
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log(error);
-                return res.status(400).json({ error });
-            }
-            else {
-                console.log("Email sent: " + info.response);
-                return res.json({
-                    success: true,
-                    message: "Email sent",
+            const found = yield db_1.User.findOne({
+                email: email,
+            });
+            if (!found) {
+                return res.status(404).json({
+                    success: false,
+                    message: "User not found",
                 });
             }
-        });
+            //  generate 6 digit code for reset password
+            const code = Math.floor(100000 + Math.random() * 900000);
+            // save to db
+            const updated = yield db_1.User.findOneAndUpdate({
+                email: email,
+            }, {
+                $set: {
+                    resetPasswordCode: code,
+                },
+            }, {
+                new: true,
+            });
+            const mailOptions = {
+                from: "HatoFit | No Reply <" + process.env.MAIL_USERNAME + ">",
+                to: email,
+                subject: "Reset Password",
+                text: "Reset Password ",
+                html: "<p> Reset Password </p>" +
+                    "<p> Your reset password code is " +
+                    code +
+                    "</p>",
+            };
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                    return res.status(400).json({ error });
+                }
+                else {
+                    console.log("Email sent: " + info.response);
+                    return res.json({
+                        success: true,
+                        message: "Email sent",
+                    });
+                }
+            });
+            // delete code after 5 minutes
+            setTimeout(() => {
+                db_1.User.findOneAndUpdate({
+                    email: email,
+                }, {
+                    $set: {
+                        resetPasswordCode: "",
+                    },
+                }, {
+                    new: true,
+                });
+            }, 300000);
+        }
+        catch (error) {
+            // console.error(error)
+            return res.status(400).json({ error });
+        }
     }));
-    // reset password using token from email
-    route.post("/reset-password/:id/:token", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.post("/verify-code", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("DATA BODY", req.body);
+        try {
+            // validate input
+            const code = req.body.code || "";
+            // remove whitespace
+            if (code.trim() === "") {
+                return res.status(400).json({
+                    success: false,
+                    message: "Code must not be empty",
+                });
+            }
+            const userEmail = req.body.email || "";
+            const found = yield db_1.User.findOne({
+                email: userEmail,
+            });
+            // resposne
+            if (!found) {
+                return res.status(404).json({
+                    success: false,
+                    message: "User not found",
+                });
+            }
+            console.log("FOUND", found);
+            if (found.resetPasswordCode !== req.body.code) {
+                return res.status(400).json({
+                    success: false,
+                    message: "OTP is incorrect",
+                });
+            }
+            return res.json({
+                success: true,
+                message: "OTP is correct",
+            });
+        }
+        catch (error) {
+            // console.error(error)
+            return res.status(400).json({ error });
+        }
+    }));
+    route.post("/reset-password", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log("DATA BODY", req.body);
         try {
             // validate input
@@ -208,6 +271,24 @@ const ApiAuth = ({ route }) => {
                     message: "Password must not be empty",
                 });
             }
+            const userEmail = req.body.email || "";
+            const found = yield db_1.User.findOne({
+                email: userEmail,
+            });
+            // resposne
+            if (!found) {
+                return res.status(404).json({
+                    success: false,
+                    message: "User not found",
+                });
+            }
+            console.log("FOUND", found);
+            if (found.resetPasswordCode !== req.body.code) {
+                return res.status(400).json({
+                    success: false,
+                    message: "OTP is incorrect",
+                });
+            }
             // input schema
             const rawPlainPassword = req.body.password || "";
             // password
@@ -218,24 +299,13 @@ const ApiAuth = ({ route }) => {
                 });
             });
             req.body.password = hasingPasssword;
-            // save to db
-            const found = yield db_1.User.findOne({
-                _id: req.params.id,
-            });
-            console.log("ID", req.params.id);
-            // resposne
-            if (!found) {
-                return res.status(404).json({
-                    success: false,
-                    message: "User not found",
-                });
-            }
-            // update
+            // update new password, remove resetPasswordCode
             const updated = yield db_1.User.findOneAndUpdate({
-                _id: req.params.id,
+                email: userEmail,
             }, {
                 $set: {
                     password: req.body.password,
+                    resetPasswordCode: "",
                 },
             }, {
                 new: true,
@@ -254,21 +324,20 @@ const ApiAuth = ({ route }) => {
     }));
     // update user
     route.post("/update", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e, _f;
         console.log("DATA BODY", req.body);
         try {
             // validate input
-            const password = req.body.password;
-            console.log("aweawe", password);
-            if (password) {
-                console.log("ok", password);
-                // remove whitespace
-                if (password.trim() === "") {
-                    return res.status(400).json({
-                        success: false,
-                        message: "Password must not be empty",
-                    });
-                }
+            const password = req.body.password || "";
+            // remove whitespace
+            if (password.trim() === "") {
+                return res.status(400).json({
+                    success: false,
+                    message: "Password must not be empty",
+                });
+            }
+            // check if password first 4 character isnt * then hash password
+            if (password.substring(0, 4) !== "****") {
                 // input schema
                 const rawPlainPassword = req.body.password || "";
                 // password
@@ -281,16 +350,18 @@ const ApiAuth = ({ route }) => {
                 req.body.password = hasingPasssword;
             }
             else {
-                req.body.password = "";
+                const user = yield db_1.User.findOne({
+                    _id: (_b = (_a = req.auth) === null || _a === void 0 ? void 0 : _a.user) === null || _b === void 0 ? void 0 : _b._id,
+                });
+                req.body.password = user === null || user === void 0 ? void 0 : user.password;
             }
             // dateOfBirth
             const dateOfBirth = req.body.dateOfBirth || "";
             req.body.dateOfBirth = (0, dayjs_1.default)(dateOfBirth, "mm/dd/yyyy").toDate();
-            // parse
             const user = user_1.UserSchema.parse(req.body);
             // save to db
             const found = yield db_1.User.findOne({
-                _id: (_b = (_a = req.auth) === null || _a === void 0 ? void 0 : _a.user) === null || _b === void 0 ? void 0 : _b._id,
+                _id: (_d = (_c = req.auth) === null || _c === void 0 ? void 0 : _c.user) === null || _d === void 0 ? void 0 : _d._id,
             });
             // resposne
             if (!found) {
@@ -299,12 +370,9 @@ const ApiAuth = ({ route }) => {
                     message: "User not found",
                 });
             }
-            if (!password) {
-                user.password = (found === null || found === void 0 ? void 0 : found.password) || "";
-            }
             // update
             const updated = yield db_1.User.findOneAndUpdate({
-                _id: (_d = (_c = req.auth) === null || _c === void 0 ? void 0 : _c.user) === null || _d === void 0 ? void 0 : _d._id,
+                _id: (_f = (_e = req.auth) === null || _e === void 0 ? void 0 : _e.user) === null || _f === void 0 ? void 0 : _f._id,
             }, {
                 $set: Object.assign({}, user),
             }, {
@@ -313,7 +381,43 @@ const ApiAuth = ({ route }) => {
             // resposne
             return res.json({
                 success: true,
-                message: "User updated",
+                message: "Profile updated successfully",
+                user: (0, obj_1.exceptObjectProp)(updated === null || updated === void 0 ? void 0 : updated.toObject(), ["password"]),
+            });
+        }
+        catch (error) {
+            // console.error(error)
+            return res.status(400).json({ error });
+        }
+    }));
+    // update metric units , weight and height
+    route.post("/update-metric", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _g, _h, _j, _k;
+        console.log("DATA BODY", req.body);
+        try {
+            // save to db
+            const found = yield db_1.User.findOne({
+                _id: (_h = (_g = req.auth) === null || _g === void 0 ? void 0 : _g.user) === null || _h === void 0 ? void 0 : _h._id,
+            });
+            // resposne
+            if (!found) {
+                return res.status(404).json({
+                    success: false,
+                    message: "User not found",
+                });
+            }
+            // update
+            const updated = yield db_1.User.findOneAndUpdate({
+                _id: (_k = (_j = req.auth) === null || _j === void 0 ? void 0 : _j.user) === null || _k === void 0 ? void 0 : _k._id,
+            }, {
+                $set: Object.assign({}, req.body),
+            }, {
+                new: true,
+            });
+            // resposne
+            return res.json({
+                success: true,
+                message: "Metric updated successfully",
                 user: (0, obj_1.exceptObjectProp)(updated === null || updated === void 0 ? void 0 : updated.toObject(), ["password"]),
             });
         }

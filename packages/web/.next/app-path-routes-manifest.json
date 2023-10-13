@@ -1,0 +1,12 @@
+{
+  "/page": "/",
+  "/favicon.ico/route": "/favicon.ico",
+  "/(auth)/login/page": "/login",
+  "/api/auth/[...nextauth]/route": "/api/auth/[...nextauth]",
+  "/dashboard/page": "/dashboard",
+  "/dashboard/exercise/page": "/dashboard/exercise",
+  "/dashboard/setting/page": "/dashboard/setting",
+  "/dashboard/shared-exercise/page": "/dashboard/shared-exercise",
+  "/dashboard/report/[slug]/page": "/dashboard/report/[slug]",
+  "/dashboard/setting/profile/page": "/dashboard/setting/profile"
+}

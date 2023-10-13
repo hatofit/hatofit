@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import { Exercise, Session, User } from "../db";
+import { Exercise, ReportShare, Session, User } from "../db";
 import { AuthJwtMiddleware } from "../middlewares/auth";
 import { SessionSchema } from "../types/session";
 
@@ -12,6 +12,36 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
     return res.json({
       success: true,
       message: "Sessions found",
+      sessions,
+    });
+  });
+  route.get("/session/shared/:userid", AuthJwtMiddleware, async (req, res) => {
+    const { userid } = req.params;
+    const user = await User.findById(userid);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    const allowed = await ReportShare.find({
+      userViewId: req.auth?.user?._id,
+      userShareId: user._id,
+    })
+    if (allowed.length === 0) {
+      return res.status(403).json({
+        success: false,
+        message: "User not allowed",
+      });
+    }
+
+    const sessions = await Session.find({
+      userId: user._id,
+    });
+    return res.json({
+      success: true,
+      message: "Sessions shared found",
       sessions,
     });
   });

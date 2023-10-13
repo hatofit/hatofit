@@ -26,3 +26,20 @@ export namespace Card {
     );
   }
 }
+
+export namespace Input {
+  export function Text(props: React.ComponentProps<'input'>) {
+    return (
+      <input type="text" className="flex-1 px-4 py-2 rounded-lg" {...props} />
+    )
+  }
+  export function Select(props: { data: { text: string, value: string }[] } & React.ComponentProps<'select'>) {
+    return (
+      <select className="flex-1 px-4 py-2 rounded-lg" {...props}>
+        {props.data.map((item, index) => (
+          <option key={index} value={item.value}>{item.text}</option>
+        ))}
+      </select>
+    )
+  }
+}
