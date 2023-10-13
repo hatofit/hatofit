@@ -25,6 +25,7 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
       });
     }
 
+    console.log("ok", await ReportShare.find({}))
     const allowed = await ReportShare.find({
       userViewId: req.auth?.user?._id,
       userShareId: user._id,
