@@ -9,6 +9,7 @@ import {
 } from "../types/report";
 import { SessionDataItemDeviceSchema } from "../types/session";
 import mongoose from "mongoose";
+import { exceptObjectProp } from "../utils/obj";
 
 export interface DeviceRule {
   name: string;
@@ -202,14 +203,25 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         });
       }
 
+      const user_ids: string[] = []
       const lists = await ReportShare.find({
         userShareId: userId,
       });
+      lists.forEach((list) => {
+        if (list.userViewId && user_ids.includes(list.userViewId)) user_ids.push(list.userViewId)
+      })
+      const users = await User.find({
+        // find all users
+        _id: { $in: user_ids },
+      })
 
       return res.json({
         success: true,
         message: "get allowed user from me",
-        lists: lists.map((list) => list.toObject())
+        lists: lists.map((list) => ({
+          ...list.toObject(),
+          userView: exceptObjectProp(users.find(item => item._id === list.userViewId), ["password"]),
+        }))
       })
     } catch (error) {
       console.error(error)
@@ -227,14 +239,25 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         });
       }
 
+      const user_ids: string[] = []
       const lists = await ReportShare.find({
         userViewId: userId,
       });
+      lists.forEach((list) => {
+        if (list.userShareId && user_ids.includes(list.userShareId)) user_ids.push(list.userShareId)
+      })
+      const users = await User.find({
+        // find all users
+        _id: { $in: user_ids },
+      })
 
       return res.json({
         success: true,
         message: "get allowed user to me",
-        lists: lists.map((list) => list.toObject())
+        lists: lists.map((list) => ({
+          ...list.toObject(),
+          userShare: exceptObjectProp(users.find(item => item._id === list.userShareId), ["password"]),
+        }))
       })
     } catch (error) {
       console.error(error)
