@@ -1,12 +1,10 @@
 {
   "/page": "app/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/(auth)/login/page": "app/(auth)/login/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/exercise/page": "app/dashboard/exercise/page.js",
-  "/dashboard/setting/page": "app/dashboard/setting/page.js",
   "/dashboard/shared-exercise/page": "app/dashboard/shared-exercise/page.js",
-  "/dashboard/report/[slug]/page": "app/dashboard/report/[slug]/page.js",
-  "/dashboard/setting/profile/page": "app/dashboard/setting/profile/page.js"
+  "/dashboard/exercise/page": "app/dashboard/exercise/page.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/dashboard/setting/page": "app/dashboard/setting/page.js",
+  "/dashboard/report/[slug]/page": "app/dashboard/report/[slug]/page.js"
 }
