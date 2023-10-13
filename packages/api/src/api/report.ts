@@ -301,6 +301,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
 
       // street email
     } catch (error) {
+      console.error(error)
       return res.status(400).json({ error });
     }
   });
@@ -321,11 +322,12 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
 
       return res.json({
         success: true,
-        message: "get allowed user",
+        message: "get allowed user from me",
         lists: lists.map((list) => list.toObject())
       })
     } catch (error) {
-      return res.status(400).json({ error });
+      console.error(error)
+      return res.status(500).json({ error });
     }
   });
   route.get("/report/share/tome", AuthJwtMiddleware, async (req, res) => {
@@ -345,11 +347,12 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
 
       return res.json({
         success: true,
-        message: "get allowed user",
+        message: "get allowed user to me",
         lists: lists.map((list) => list.toObject())
       })
     } catch (error) {
-      return res.status(400).json({ error });
+      console.error(error)
+      return res.status(500).json({ error });
     }
   });
 };
