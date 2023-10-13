@@ -8,6 +8,7 @@ import {
   ReportSchema,
 } from "../types/report";
 import { SessionDataItemDeviceSchema } from "../types/session";
+import mongoose from "mongoose";
 
 export interface DeviceRule {
   name: string;
@@ -284,6 +285,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
 
       // insert user to allow
       const userToAllow = await ReportShare.create({
+        _id: new mongoose.Types.ObjectId().toHexString(),
         userShareId: userId,
         userViewId: userByEmail._id || userByEmail.id,
       });
