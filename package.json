@@ -16,6 +16,7 @@
   "dependencies": {
     "concurrently": "^8.1.0",
     "lerna": "^6.6.2",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1"
   }
 }

@@ -1,0 +1,10730 @@
+[
+  {
+    "second": 4,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 5,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 6,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 7,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 8,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 9,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 10,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 11,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 12,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 13,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 14,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 87,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 15,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 16,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 17,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 18,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 19,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 20,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 21,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 22,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 23,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 24,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 25,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 26,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 27,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 28,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 29,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 30,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 31,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 32,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 33,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 34,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 35,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 36,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 37,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 38,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 39,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 40,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 41,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 87,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 42,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 43,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 83,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 44,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 45,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 46,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 47,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 48,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 49,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 50,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 51,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 74,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 52,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 53,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 54,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 55,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 56,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 87,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 57,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 58,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 59,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 60,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 87,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 61,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 62,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 63,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 64,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 65,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 66,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 67,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 68,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 87,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 69,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 70,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 71,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 74,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 72,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 73,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 74,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 75,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 76,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 77,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 78,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 74,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 79,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 80,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 81,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 82,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 83,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 87,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 84,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 85,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 86,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 87,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 88,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 89,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 90,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 91,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 92,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 93,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 94,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 95,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 87,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 96,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 97,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 98,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 99,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 100,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 101,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 102,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 103,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 104,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 105,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 106,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 107,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 108,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 109,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 110,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 111,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 112,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 113,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 114,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 115,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 116,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 117,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 118,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 119,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 74,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 120,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 121,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 122,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 123,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 83,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 124,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 125,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 83,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 126,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 127,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 128,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 129,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 130,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 131,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 132,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 133,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 134,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 135,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 74,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 136,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 137,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 138,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 139,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 140,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 141,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 142,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 143,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 74,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 144,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 145,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 146,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 147,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 148,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 149,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 150,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 151,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 152,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 153,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 154,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 155,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 156,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 157,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 158,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 159,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 160,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 161,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 162,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 163,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 164,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 165,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 166,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 167,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 168,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 169,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 170,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 171,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 172,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 173,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 174,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 175,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 176,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 177,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 178,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 179,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 180,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 181,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 182,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 183,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 184,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 185,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 186,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 187,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 188,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 189,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 190,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 191,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 192,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 193,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 194,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 195,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 196,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 83,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 197,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 198,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 199,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 200,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 201,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 202,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 203,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 204,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 205,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 206,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 207,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 208,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 209,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 210,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 211,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 212,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 213,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 214,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 215,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 216,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 217,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 218,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 219,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 220,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 221,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 222,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 223,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 224,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 225,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 226,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 227,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 228,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 229,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 230,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 231,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 232,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 233,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 83,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 234,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 235,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 236,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 237,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 238,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 239,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 240,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 241,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 87,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 242,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 243,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 244,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 245,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 246,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 247,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 248,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 249,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 250,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 251,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 252,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 253,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 254,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 255,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 256,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 257,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 258,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 259,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 83,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 260,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 261,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 87,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 262,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 263,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 264,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 265,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 266,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 267,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 268,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 269,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 270,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 271,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 272,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 273,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 274,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 275,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 276,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 277,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 278,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 279,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 280,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 281,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 282,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 283,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 284,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 285,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 286,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 287,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 288,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 289,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 290,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 291,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 87,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 292,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 293,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 294,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 295,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 87,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 296,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 297,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 298,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 299,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 300,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 301,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 302,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 303,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 304,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 305,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 306,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 307,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 308,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 309,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 83,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 310,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 311,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 312,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 313,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 314,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 315,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 316,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 317,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 318,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 319,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 320,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 321,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 322,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 323,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 324,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 325,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 326,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 327,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 328,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 329,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 330,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 331,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 332,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 333,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 334,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 335,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 336,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 337,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 338,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 339,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 340,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 341,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 342,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 343,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 344,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 345,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 346,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 347,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 348,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 349,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 350,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 351,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 352,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 353,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 354,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 355,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 74,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 356,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 357,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 358,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 359,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 360,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 361,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 362,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 363,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 364,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 365,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 366,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 367,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 368,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 369,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 370,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 371,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 372,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 373,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 374,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 83,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 375,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 376,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 377,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 378,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 74,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 379,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 380,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 381,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 382,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 383,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 384,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 385,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 87,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 386,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 387,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 388,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 389,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 390,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 391,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 392,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 393,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 394,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 395,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 396,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 397,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 398,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 399,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 400,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 401,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 402,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 403,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 404,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 405,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 406,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 407,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 83,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 408,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 409,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 410,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 411,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 412,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 413,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 83,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 414,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 415,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 416,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 417,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 418,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 419,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 420,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 421,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 422,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 423,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 424,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 425,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 426,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 87,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 427,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 428,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 429,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 430,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 431,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 432,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 433,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 434,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 435,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 436,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 437,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 438,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 439,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 440,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 441,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 442,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 443,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 444,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 445,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 446,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 447,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 448,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 449,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 450,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 451,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 452,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 453,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 454,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 455,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 456,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 457,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 458,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 459,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 460,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 461,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 462,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 463,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 464,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 465,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 466,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 467,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 468,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 469,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 470,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 471,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 472,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 473,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 474,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 475,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 476,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 477,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 478,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 479,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 480,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 481,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 482,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 483,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 484,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 485,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 486,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 487,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 488,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 489,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 490,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 491,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 492,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 493,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 494,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 495,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 496,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 497,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 498,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 499,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 500,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 501,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 502,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 503,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 504,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 505,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 506,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 507,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 508,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 93,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 509,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 510,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 511,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 512,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 513,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 514,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 515,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 516,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 517,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 518,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 519,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 520,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 70,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 521,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 522,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 523,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 524,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 525,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 526,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 527,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 528,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 529,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 530,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 531,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 532,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 533,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 534,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 535,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 536,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 83,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 537,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 74,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 538,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 88,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 539,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 540,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 541,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 542,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 84,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 543,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 544,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 83,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 545,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 546,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 74,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 547,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 74,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 548,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 77,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 549,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 74,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 550,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 551,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 552,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 553,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 554,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 555,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 556,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 557,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 558,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 559,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 80,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 560,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 561,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 97,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 562,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 81,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 563,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 564,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 85,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 565,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 566,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 91,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 567,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 568,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 569,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 96,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 570,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 79,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 571,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 572,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 573,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 72,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 574,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 575,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 576,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 577,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 578,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 579,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 580,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 86,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 581,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 582,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 583,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 584,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 74,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 585,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 73,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 586,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 99,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 587,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 588,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 90,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 589,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 590,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 82,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 591,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 78,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 592,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 94,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 593,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 92,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 594,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 95,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 595,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 71,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 596,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 98,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 597,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 76,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 598,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 75,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "second": 599,
+    "timeStamp": 1686913339097,
+    "devices": [
+      {
+        "type": "PolarDataType.hr",
+        "identifier": "BBADFE28",
+        "value": [
+          {
+            "hr": 89,
+            "rrsMs": [
+              647
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

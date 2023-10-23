@@ -1,15 +1,11 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import RouteGroup from "express-route-grouping";
 import mongoose from "mongoose";
-import { ApiAuth } from "./api/auth";
-import { ApiExercises } from "./api/exercise";
-import { ApiReport } from "./api/report";
-import { ApiSession } from "./api/session";
 import { MongoConnect } from "./db";
 import { seed } from "./db/seed";
 import { RequestAuth } from "./middlewares/auth";
+import { InitRoutes } from "./routes";
 
 // types
 // create types for request Request<{}, any, any, QueryString.ParsedQs, Record<string, any>> to have req.auth
@@ -31,10 +27,10 @@ const args = process.argv.slice(2);
 (async () => {
   // listen services
   await MongoConnect(process.env.MONGO_URL || "", {
-    // auth: {
-    //   username: process.env.MONGO_USER || "",
-    //   password: process.env.MONGO_PASSWORD || "",
-    // },
+    auth: {
+      username: process.env.MONGO_USER,
+      password: process.env.MONGO_PASSWORD,
+    },
     dbName: process.env.MONGO_DB_NAME || "",
   });
   console.log("📚 connected to mongodb");
@@ -52,26 +48,13 @@ const args = process.argv.slice(2);
   const app = express();
 
   // middlewares
-  app.use(express.json({ limit: "50mb" }));
-  app.use(express.urlencoded({ limit: "50mb", extended: false }));
+  app.use(express.json({ limit: process.env.FILE_LIMIT || "50mb" }));
+  app.use(express.urlencoded({ limit: process.env.FILE_LIMIT || "50mb", extended: false }));
   app.use(cors());
 
   // routes
-  const root = new RouteGroup("/", express.Router());
-  root.group("/", (app) => {
-    app.get("/", (req, res) => {
-      res.json({
-        message: "🚀",
-      });
-    });
-    ApiExercises({ route: app });
-    ApiSession({ route: app });
-    ApiReport({ route: app });
-    app.group("/auth", (app) => {
-      ApiAuth({ route: app });
-    });
-  });
-  app.use("/api", root.export());
+  InitRoutes(app);
+
   // listen
   const port = parseInt(process.env.PORT || "3000") || 3000;
   app.listen(port, () => {

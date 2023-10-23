@@ -1,9 +1,8 @@
 {
   "/page": "app/page.js",
-  "/(auth)/login/page": "app/(auth)/login/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/shared-exercise/page": "app/dashboard/shared-exercise/page.js",
   "/dashboard/exercise/page": "app/dashboard/exercise/page.js",
+  "/dashboard/shared-exercise/page": "app/dashboard/shared-exercise/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/dashboard/setting/page": "app/dashboard/setting/page.js",
   "/dashboard/report/[slug]/page": "app/dashboard/report/[slug]/page.js"

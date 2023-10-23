@@ -15,4 +15,7 @@ export const UserSchema = z.object({
     weightUnits: z.string(),
     heightUnits: z.string(),
   }),
+
+  //
+  linkedCompanyId: z.string().optional(),
 });

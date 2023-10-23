@@ -33,13 +33,13 @@ export default function Home() {
           <span
             className="animated-text-bg drop-shadow-xl font-bold text-gray-100 relative"
             style={{
-              '--content': 'TIBravo',
+              '--content': 'Energized',
               '--start-color': '#FF4D4D',
               '--end-color': '#F9CB28',
               // '--animation-name': 'anim-fg-3'
             } as React.CSSProperties}
           >
-            <span className="animated-text-fg">TIBravo</span>
+            <span className="animated-text-fg">Energized</span>
           </span>
         </h1>
         <div className="w-[500px] text-center mt-6 text-gray-400">
