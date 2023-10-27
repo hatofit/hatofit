@@ -25,16 +25,16 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
       });
     }
 
-    const allowed = await ReportShare.find({
-      userViewId: req.auth?.user?._id,
-      userShareId: user._id,
-    })
-    if (allowed.length === 0) {
-      return res.status(403).json({
-        success: false,
-        message: "User not allowed",
-      });
-    }
+    // const allowed = await ReportShare.find({
+    //   userViewId: req.auth?.user?._id,
+    //   userShareId: user._id,
+    // })
+    // if (allowed.length === 0) {
+    //   return res.status(403).json({
+    //     success: false,
+    //     message: "User not allowed",
+    //   });
+    // }
 
     const sessions = await Session.find({
       userId: user._id,

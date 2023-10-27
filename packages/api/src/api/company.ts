@@ -15,6 +15,30 @@ export const ApiCompany = ({ route }: { route: IRouter }) => {
       companies,
     })
   })
+  route.get('/company/create-by-me', AuthJwtMiddleware, async (req, res) => {
+    try {
+      const authUser = await getUserByAuth(req);
+      if (!authUser) return res
+        .status(401)
+        .json({
+          success: false,
+          message: "User not found",
+        });
+
+      const companies = await Company.find({
+        'admins.userId': authUser._id,
+      })
+      return res.json({
+        success: true,
+        message: 'Companies found',
+        companies,
+      })
+
+      return companies
+    } catch (error) {
+      return res.status(400).json({ error })
+    }
+  })
   route.get('/company/:id', async (req, res) => {
     try {
       const { id } = req.params
@@ -135,6 +159,69 @@ export const ApiCompany = ({ route }: { route: IRouter }) => {
         success: true,
         message: 'Company unlink successfully',
         user: authUser.toObject(),
+      })
+    } catch (error) {
+      // console.error(error)
+      return res.status(400).json({ error })
+    }
+  })
+  route.get('/company/:id/members', async (req, res) => {
+    try {
+      const { id } = req.params
+      const company = await Company.findById(id)
+      if (!company) {
+        return res.status(404).json({
+          success: false,
+          message: 'Company not found',
+        })
+      }
+
+      const members = await User.find({
+        linkedCompanyId: company._id,
+      })
+      return res.json({
+        success: true,
+        message: 'Members found',
+        members,
+      })
+    } catch (error) {
+      console.error(error)
+      return res.status(500).json({ error })
+    }
+  })
+  route.get('/auth/company-linked', AuthJwtMiddleware, async (req, res) => {
+    try {
+      let authUser = await getUserByAuth(req);
+      if (!authUser) return res
+        .status(401)
+        .json({
+          success: false,
+          message: "User not found",
+        });
+
+      if (!authUser.linkedCompanyId) return res
+        .json({
+          success: true,
+          message: "User not have linked company",
+          user: authUser.toObject(),
+        });
+
+      const company = await Company.findById(authUser.linkedCompanyId)
+      if (!company) {
+        return res
+          .json({
+            success: true,
+            message: "User not have linked company",
+            user: authUser.toObject(),
+          });
+      }
+
+      // resposne
+      return res.json({
+        success: true,
+        message: 'User have linked company',
+        user: authUser.toObject(),
+        company,
       })
     } catch (error) {
       // console.error(error)

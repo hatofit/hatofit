@@ -4,13 +4,17 @@ import { Icon } from "@iconify/react"
 import { useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 
 export const Menus = [
-  { title: 'Dashboard', icon: 'uil:dashboard', href: '/dashboard' },
-  { title: 'My Exercises', icon: 'material-symbols:exercise-outline', href: '/dashboard/exercise' },
-  { title: 'Shared Exercises', icon: 'material-symbols:exercise-outline', href: '/dashboard/shared-exercise' },
-  { title: 'Settings', icon: 'ic:outline-settings-suggest', href: '/dashboard/setting' },
+  { type: 'item', title: 'Dashboard', icon: 'uil:dashboard', href: '/dashboard' },
+  { type: 'spacer' },
+  { type: 'item', title: 'My Exercises', icon: 'material-symbols:exercise-outline', href: '/dashboard/exercise' },
+  { type: 'item', title: 'Shared Exercises', icon: 'material-symbols:exercise-outline', href: '/dashboard/shared-exercise' },
+  { type: 'spacer' },
+  { type: 'item', title: 'Company', icon: 'mdi:company', href: '/dashboard/company' },
+  { type: 'spacer' },
+  { type: 'item', title: 'Settings', icon: 'ic:outline-settings-suggest', href: '/dashboard/setting' },
 ]
 
 export default function Sidebar() {
@@ -42,18 +46,25 @@ export default function Sidebar() {
       <div className="bg-transparent rounded-lg shadow-lg">
         {/* ul list menu */}
         <ul className="flex flex-col">
-          <li>
-            {/* loop */}
-            {Menus.map((menu, index) => (
-              <Link
-                key={Math.random()} href={menu.href}
-                className={`flex items-center gap-4 hover:bg-gray-800/80 px-4 py-2 rounded ${isMenuActive(menu.href) ? 'bg-gray-800/80' : ''}`}
-                >
-                <Icon icon={menu.icon} className="text-xl" />
-                <span className="text-sm text-gray-100">{menu.title}</span>
-              </Link>
-            ))}
-          </li>
+          {/* loop */}
+          {Menus.map((menu, index) => (
+            <Fragment key={index}>
+              {(menu.type === 'item' && menu.href) && (
+                <li>
+                  <Link
+                    key={Math.random()} href={menu.href}
+                    className={`flex items-center gap-4 hover:bg-gray-800/80 px-4 py-2 rounded ${isMenuActive(menu.href) ? 'bg-gray-800/80' : ''}`}
+                    >
+                    <Icon icon={menu.icon} className="text-xl" />
+                    <span className="text-sm text-gray-100">{menu.title}</span>
+                  </Link>
+                </li>
+              )}
+              {(menu.type === 'spacer') && (
+                <li><div className="w-full h-0.5 mt-2 mb-2 bg-gray-950/75"></div></li>
+              )}
+            </Fragment>
+          ))}
         </ul>
       </div>
     </div>

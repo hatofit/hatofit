@@ -1,6 +1,6 @@
 'use client'
 import { getServerSession } from "next-auth/next"
-import { redirect } from "next/navigation"
+import { redirect, usePathname } from "next/navigation"
 import { useSession } from "next-auth/react"
 import Container from "@/components/layout/container"
 import Sidebar from "./sidebar"
@@ -13,23 +13,7 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode
 }) {
-  // const router = useRouter()
-
-  // useEffect(() => {
-  //   const handleRouteChange = (url: string) => {
-  //     console.log(
-  //       `App is changing to ${url}`
-  //     )
-  //   }
-  //   router.events.on('routeChangeStart', handleRouteChange)
-
-  //   // If the component is unmounted, unsubscribe
-  //   // from the event with the `off` method:
-  //   return () => {
-  //     router.events.off('routeChangeStart', handleRouteChange)
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
+  const pathname = usePathname()
 
   const { data, status } = useSession({
     required: true,
@@ -44,16 +28,33 @@ export default function DashboardLayout({
   }, [cR])
   useObserveRoute(() => sCr(window.location.pathname), () => sCr(window.location.pathname))
 
+  const isAllowerdUseLayout = useMemo(() => {
+    const notAllowedList = [
+      '/dashboard/company/'
+    ]
+
+    for (const route of notAllowedList) {
+      if (pathname.startsWith(route)) return false
+    }
+
+    return true
+  }, [pathname])
+
   return (
-    <div className="flex min-h-[calc(100vh_-_72px)] py-4">
-      <Container className="flex gap-4">
-        {!isNoSidebar && (
-          <Sidebar />
-        )}
-        <div className="flex-1 flex">
-          {children}
+    <>
+      {isAllowerdUseLayout && (
+        <div className="flex min-h-[calc(100vh_-_72px)] py-4">
+          <Container className="flex gap-4">
+            {!isNoSidebar && (
+              <Sidebar />
+            )}
+            <div className="flex-1 flex">
+              {children}
+            </div>
+          </Container>
         </div>
-      </Container>
-    </div>
+      )}
+      {!isAllowerdUseLayout && children}
+    </>
   )
 }

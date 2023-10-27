@@ -438,6 +438,7 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
       return res.status(400).json({ error });
     }
   });
+
   // update metric units , weight and height
   route.post("/update-metric", AuthJwtMiddleware, async (req, res) => {
     console.log("DATA BODY", req.body);

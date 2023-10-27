@@ -4,7 +4,7 @@ import { FaCalendar, FaClock, FaUserAstronaut } from 'react-icons/fa6'
 import { ReportMainSection } from './section'
 import dayjs from 'dayjs'
 import dayjsutc from 'dayjs/plugin/utc'
-import { useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Icon } from '@iconify/react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
@@ -19,13 +19,26 @@ export default function ReportSection({ reportData }: { reportData: any }) {
     alert('Link copied to clipboard')
   }
 
+  const [backUrl, setBackUrl] = useState<string>()
+  const getBackUrl = () => {
+    const urlparam = new URLSearchParams(window.location.search)
+    if (urlparam.get('back')) return urlparam.get('back') as string
+    return (data?.user?.id === reportData?.user?._id ? `/dashboard/exercise` : `/dashboard/shared-exercise`)
+  }
+
+  useEffect(() => {
+    if (window) {
+      setBackUrl(getBackUrl())
+    }
+  }, [])
+
   return (
     <>
       <div className="shadow border-b-2 border-white/[0.2] dark:bg-gray-950/[0.7]">
         <div className="flex flex-col max-w-screen-lg w-full mx-auto py-6 px-6">
           <div className="flex justify-between items-center mb-2">
             <div>
-              <Link href={ data?.user?.id === reportData?.user?._id ? `/dashboard/exercise` : `/dashboard/shared-exercise`} className="text-xs flex items-center mb-2">
+              <Link href={backUrl || getBackUrl()} className="text-xs flex items-center mb-2">
                 <Icon icon="uil:arrow-left" className="text-lg" />
                 <span>back</span>
               </Link>

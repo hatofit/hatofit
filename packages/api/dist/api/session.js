@@ -30,7 +30,6 @@ const ApiSession = ({ route }) => {
         });
     }));
     route.get("/session/shared/:userid", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        var _c, _d;
         const { userid } = req.params;
         const user = yield db_1.User.findById(userid);
         if (!user) {
@@ -39,16 +38,16 @@ const ApiSession = ({ route }) => {
                 message: "User not found",
             });
         }
-        const allowed = yield db_1.ReportShare.find({
-            userViewId: (_d = (_c = req.auth) === null || _c === void 0 ? void 0 : _c.user) === null || _d === void 0 ? void 0 : _d._id,
-            userShareId: user._id,
-        });
-        if (allowed.length === 0) {
-            return res.status(403).json({
-                success: false,
-                message: "User not allowed",
-            });
-        }
+        // const allowed = await ReportShare.find({
+        //   userViewId: req.auth?.user?._id,
+        //   userShareId: user._id,
+        // })
+        // if (allowed.length === 0) {
+        //   return res.status(403).json({
+        //     success: false,
+        //     message: "User not allowed",
+        //   });
+        // }
         const sessions = yield db_1.Session.find({
             userId: user._id,
         });
@@ -80,11 +79,11 @@ const ApiSession = ({ route }) => {
         }
     }));
     route.post("/session", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        var _e, _f, _g, _h, _j;
+        var _c, _d, _e, _f, _g;
         console.log("DATA BODY", req.body);
         try {
             // validate user
-            const userId = (_f = (_e = req.auth) === null || _e === void 0 ? void 0 : _e.user) === null || _f === void 0 ? void 0 : _f._id;
+            const userId = (_d = (_c = req.auth) === null || _c === void 0 ? void 0 : _c.user) === null || _d === void 0 ? void 0 : _d._id;
             if (!userId || typeof userId !== "string" || userId.length === 0) {
                 return res.json({
                     success: false,
@@ -92,8 +91,8 @@ const ApiSession = ({ route }) => {
                 });
             }
             // validate exercise
-            const withoutExercise = (_h = (_g = req.body) === null || _g === void 0 ? void 0 : _g.withoutExercise) !== null && _h !== void 0 ? _h : false;
-            const exerciseId = (_j = req.body) === null || _j === void 0 ? void 0 : _j.exerciseId;
+            const withoutExercise = (_f = (_e = req.body) === null || _e === void 0 ? void 0 : _e.withoutExercise) !== null && _f !== void 0 ? _f : false;
+            const exerciseId = (_g = req.body) === null || _g === void 0 ? void 0 : _g.exerciseId;
             if (withoutExercise !== true) {
                 if (!exerciseId ||
                     typeof exerciseId !== "string" ||
