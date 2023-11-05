@@ -37,7 +37,7 @@ export default function Navbar() {
           {(status !== 'authenticated' && !data) && (
             <>
               <a className="transition-all duration-300 cursor-pointer px-4 py-1.5 leading-loose text-xs text-center font-semibold rounded-lg text-gray-950 bg-gray-50 hover:bg-gray-100 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">Register</a>
-              <Link href="/login" className="transition-all duration-300 cursor-pointer px-4 py-1.5 leading-loose text-xs text-center font-semibold rounded-lg bg-blue-500 text-gray-300 hover:bg-blue-600">Login</Link>
+              <Link href="/login" className="transition-all duration-300 cursor-pointer px-4 py-1.5 leading-loose text-xs text-center font-semibold rounded-lg bg-primary-500 text-gray-300 hover:bg-primary-600">Login</Link>
             </>
           )}
           {(status === 'authenticated' && data) && (
@@ -52,7 +52,7 @@ export default function Navbar() {
                       {({ active }) => (
                         <Link
                           href="/dashboard"
-                          className={`duration-300 transition-all text-left px-4 py-1 ${active && 'bg-blue-500'}`}
+                          className={`duration-300 transition-all text-left px-4 py-1 ${active && 'bg-primary-500'}`}
                         >
                           Dashboard
                         </Link>
@@ -62,7 +62,7 @@ export default function Navbar() {
                       {({ active }) => (
                         <Link
                           href="/dashboard/setting"
-                          className={`duration-300 transition-all text-left px-4 py-1 ${active && 'bg-blue-500'}`}
+                          className={`duration-300 transition-all text-left px-4 py-1 ${active && 'bg-primary-500'}`}
                         >
                           Setting
                         </Link>
@@ -71,7 +71,7 @@ export default function Navbar() {
                     <Menu.Item>
                       {({ active }) => (
                         <button
-                          className={`duration-300 transition-all text-left px-4 py-1 ${active && 'bg-blue-500'}`}
+                          className={`duration-300 transition-all text-left px-4 py-1 ${active && 'bg-primary-500'}`}
                           onClick={logout}
                         >
                           Logout

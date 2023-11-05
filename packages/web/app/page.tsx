@@ -46,7 +46,7 @@ export default function Home() {
           Hatofit is a platform that helps you to be fit and healthy, help you to track and monitoring your health.
         </div>
         <div className="mt-6 flex gap-3">
-          <Link href="/register" className="transition-all duration-300 cursor-pointer px-7 py-3 leading-loose text-base text-center font-semibold rounded-lg bg-blue-500 text-gray-300 hover:bg-blue-600">Start Now</Link>
+          <Link href="/register" className="transition-all duration-300 cursor-pointer px-7 py-3 leading-loose text-base text-center font-semibold rounded-lg bg-primary-500 text-gray-300 hover:bg-primary-600">Start Now</Link>
           <Link href="/login" className="transition-all duration-300 cursor-pointer px-7 py-3 leading-loose text-base text-center font-semibold rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-300">Login</Link>
         </div>
       </section>

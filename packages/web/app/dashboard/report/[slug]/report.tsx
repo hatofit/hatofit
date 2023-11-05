@@ -27,6 +27,7 @@ export default function ReportSection({ reportData }: { reportData: any }) {
   }
 
   useEffect(() => {
+    console.log('reportData', reportData)
     if (window) {
       setBackUrl(getBackUrl())
     }
@@ -51,15 +52,17 @@ export default function ReportSection({ reportData }: { reportData: any }) {
           <div className="flex items-center space-x-3">
             <div className="text-xs text-gray-500 flex">
               <FaCalendar />
-              <span className="ml-1">{reportData?.report?.startTime}</span>
+              <span className="ml-1">{dayjs.utc(reportData?.report?.startTime).local().format('DD MMMM YYYY')}</span>
             </div>
             <div className="text-xs text-gray-500 flex items-center">
               <FaClock />
-              <span className="ml-1">17:39</span>
+              <span className="ml-1">
+                {dayjs.utc(reportData?.report?.startTime).local().format('HH:mm:ss')}
+              </span>
             </div>
             <div className="text-xs text-gray-500 flex items-center">
               <FaUserAstronaut />
-              <span className="ml-1">viandwi24</span>
+              <span className="ml-1">{reportData?.user?.firstName} {reportData?.user?.lastName}</span>
             </div>
           </div>
         </div>

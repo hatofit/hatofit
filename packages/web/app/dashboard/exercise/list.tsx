@@ -98,6 +98,20 @@ export default function ExerciseList() {
     }
   }, [data])
 
+  const getMood = (mood: string) => {
+    switch (mood) {
+      case 'happy':
+        return '😄';
+      case 'good':
+        return '😊';
+      case 'neutral':
+        return '😐';
+      case 'sad':
+        return '😔';
+      case 'awful':
+        return '😢';
+    }
+  }
 
   if (status === 'loading') return <div>Loading...</div>
   return (
@@ -111,10 +125,18 @@ export default function ExerciseList() {
         </div>
         <div className="flex flex-col gap-2">
           {sessions.map((session, index) => (
-            <Link href={`/dashboard/report/${session?._id}`} key={index} className="flex flex-col border border-gray-700 px-4 py-2 rounded hover:bg-gray-700 cursor-pointer">
-              <div className="text-sm">{session?._id}</div>
-              <div className="text-xs text-gray-100">
-                {dayjs.utc(session?.start_time).local().format('DD MMMM YYYY HH:mm:ss')}
+            <Link href={`/dashboard/report/${session?._id}`} key={index} className="flex flex-row border border-gray-700 px-4 py-2 rounded hover:bg-gray-700 cursor-pointer">
+              <div className="flex flex-col flex-1">
+                <div className="text-sm mb-1">{session?.exercise?.name}</div>
+                <div className="text-xs text-gray-100">
+                  {dayjs.utc(session?.startTime).local().format('DD MMMM YYYY HH:mm:ss')}
+                </div>
+              </div>
+              <div className="flex justify-center items-center flex-col">
+                <span>{getMood(session?.mood)}</span>
+                <span className="text-xs">
+                  {session?.mood}
+                </span>
               </div>
             </Link>
           ))}
