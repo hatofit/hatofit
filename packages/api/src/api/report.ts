@@ -349,7 +349,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
                 } else {
                   ri.data.push({
                     device: device.identifier,
-                    value: [item.second, ...reportItem.value],
+                    value: [[item.second, ...reportItem.value]],
                   });
                 }
               } else {
@@ -369,7 +369,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
       }
 
       // reports
-      const report = ReportSchema.parse({
+      const report = {
         startTime: session.startTime,
         endTime: session.endTime,
         devices,
@@ -377,7 +377,16 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         sessionId: session._id,
 
         reports: reportsItems,
-      } as z.input<typeof ReportSchema>);
+      }
+      // const report = ReportSchema.parse({
+      //   startTime: session.startTime,
+      //   endTime: session.endTime,
+      //   devices,
+      //   exerciseId: session.exercise?._id || null,
+      //   sessionId: session._id,
+
+      //   reports: reportsItems,
+      // } as z.input<typeof ReportSchema>);
       console.log("devices:", devices);
       console.log("reportsItems:", reportsItems);
       return res.json({

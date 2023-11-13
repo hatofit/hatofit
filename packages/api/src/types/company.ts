@@ -15,3 +15,15 @@ export const CompanySchema = z.object({
   admins: z.array(CompanyAdminSchema)
 })
 
+// {
+//   name: String,
+//   meta: {
+//     description: String,
+//     address: String,
+//   },
+//   admins: {
+//     userId: String,
+//     role: 'owner' | 'viewer',
+//     isCreated: Boolean,
+//   }[]
+// }

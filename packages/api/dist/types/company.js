@@ -15,3 +15,15 @@ exports.CompanySchema = zod_1.z.object({
     }),
     admins: zod_1.z.array(exports.CompanyAdminSchema)
 });
+// {
+//   name: String,
+//   meta: {
+//     description: String,
+//     address: String,
+//   },
+//   admins: {
+//     userId: String,
+//     role: 'owner' | 'viewer',
+//     isCreated: Boolean,
+//   }[]
+// }

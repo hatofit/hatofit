@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiReport = exports.getParsedFromDataDevice = exports.getDeviceNameFromDataDeviceType = exports.DevicesRules = void 0;
 const db_1 = require("../db");
 const auth_1 = require("../middlewares/auth");
-const report_1 = require("../types/report");
 const mongoose_1 = __importDefault(require("mongoose"));
 const obj_1 = require("../utils/obj");
 exports.DevicesRules = [
@@ -311,7 +310,7 @@ const ApiReport = ({ route }) => {
                                 else {
                                     ri.data.push({
                                         device: device.identifier,
-                                        value: [item.second, ...reportItem.value],
+                                        value: [[item.second, ...reportItem.value]],
                                     });
                                 }
                             }
@@ -331,14 +330,22 @@ const ApiReport = ({ route }) => {
                 }
             }
             // reports
-            const report = report_1.ReportSchema.parse({
+            const report = {
                 startTime: session.startTime,
                 endTime: session.endTime,
                 devices,
                 exerciseId: ((_g = session.exercise) === null || _g === void 0 ? void 0 : _g._id) || null,
                 sessionId: session._id,
                 reports: reportsItems,
-            });
+            };
+            // const report = ReportSchema.parse({
+            //   startTime: session.startTime,
+            //   endTime: session.endTime,
+            //   devices,
+            //   exerciseId: session.exercise?._id || null,
+            //   sessionId: session._id,
+            //   reports: reportsItems,
+            // } as z.input<typeof ReportSchema>);
             console.log("devices:", devices);
             console.log("reportsItems:", reportsItems);
             return res.json({
