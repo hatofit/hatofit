@@ -21,6 +21,9 @@ const db_1 = require("../db");
 const auth_1 = require("../middlewares/auth");
 const user_1 = require("../types/user");
 const obj_1 = require("../utils/obj");
+const utc_1 = __importDefault(require("dayjs/plugin/utc"));
+const report_1 = require("../actions/report");
+dayjs_1.default.extend(utc_1.default);
 // funcs
 const findBmi = (weightUnits, heightUnits, userWeight, userHeight) => {
     let bmi = 0;
@@ -500,12 +503,104 @@ const ApiAuth = ({ route }) => {
                         }
                         return `${status}`;
                     }
-                }
+                },
+                {
+                    name: 'Calories',
+                    handler: () => __awaiter(void 0, void 0, void 0, function* () {
+                        const findAvgHr = (data) => {
+                            // format data is [second, hrvalue]
+                            let sum = 0;
+                            let count = 0;
+                            for (const item of data || []) {
+                                sum += item[1];
+                                count += 1;
+                            }
+                            return Math.round(sum / count);
+                        };
+                        const findCal = (report) => {
+                            var _a, _b, _c, _d, _e;
+                            // prepare variables
+                            const startTime = dayjs_1.default.utc(report === null || report === void 0 ? void 0 : report.startTime).local();
+                            const endTime = dayjs_1.default.utc(report === null || report === void 0 ? void 0 : report.endTime).local();
+                            const diffTime = endTime.diff(startTime, 'second');
+                            const avgHr = findAvgHr(((_c = (_b = (_a = report === null || report === void 0 ? void 0 : report.reports) === null || _a === void 0 ? void 0 : _a.find((report) => (report === null || report === void 0 ? void 0 : report.type) === 'hr')) === null || _b === void 0 ? void 0 : _b.data[0]) === null || _c === void 0 ? void 0 : _c.value) || []);
+                            const secToMin = diffTime / 60;
+                            const weightUnits = (_d = user === null || user === void 0 ? void 0 : user.metricUnits) === null || _d === void 0 ? void 0 : _d.weightUnits;
+                            const energyUnits = (_e = user === null || user === void 0 ? void 0 : user.metricUnits) === null || _e === void 0 ? void 0 : _e.energyUnits;
+                            const userWeight = user === null || user === void 0 ? void 0 : user.weight;
+                            const userHeight = user === null || user === void 0 ? void 0 : user.height;
+                            const userGender = user === null || user === void 0 ? void 0 : user.gender;
+                            const age = (0, dayjs_1.default)().diff((0, dayjs_1.default)(user === null || user === void 0 ? void 0 : user.dateOfBirth), 'year');
+                            // calculate calories
+                            let calories = 0;
+                            switch (userGender) {
+                                case 'male':
+                                    if (weightUnits == 'kg') {
+                                        calories = secToMin *
+                                            (0.6309 * avgHr + 0.1988 * userWeight + 0.2017 * age - 55.0969) /
+                                            4.184;
+                                    }
+                                    else if (weightUnits == 'lbs') {
+                                        let weightInKg = userWeight * 0.453592;
+                                        calories = secToMin *
+                                            (0.6309 * avgHr + 0.1988 * weightInKg + 0.2017 * age - 55.0969) /
+                                            4.184;
+                                    }
+                                    break;
+                                case 'female':
+                                    if (weightUnits == 'kg') {
+                                        calories = secToMin *
+                                            (0.4472 * avgHr - 0.1263 * userWeight + 0.074 * age - 20.4022) /
+                                            4.184;
+                                    }
+                                    else if (weightUnits == 'lbs') {
+                                        let weightInKg = userWeight * 0.453592;
+                                        calories = secToMin *
+                                            (0.4472 * avgHr - 0.1263 * weightInKg + 0.074 * age - 20.4022) /
+                                            4.184;
+                                    }
+                                    break;
+                                default:
+                                    calories = 0;
+                                    break;
+                            }
+                            if (energyUnits == 'kcal') {
+                                return calories;
+                            }
+                            else if (energyUnits == 'kJ') {
+                                return calories * 4.184;
+                            }
+                            return calories;
+                        };
+                        // get all session
+                        const sessions = yield db_1.Session.find({
+                            userId: user._id,
+                        });
+                        //
+                        let cal = 0;
+                        for (const session of sessions) {
+                            try {
+                                cal += findCal(yield (0, report_1.getReportFromSession)(session));
+                            }
+                            catch (error) {
+                            }
+                        }
+                        return `${cal.toFixed(2)} Cal`;
+                    })
+                },
             ];
+            const widgets_result = [];
+            for (const r of widgets) {
+                try {
+                    widgets_result.push(Object.assign(Object.assign({}, r), { value: yield r.handler() }));
+                }
+                catch (error) {
+                }
+            }
             return res.json({
                 success: true,
                 message: "get data dashboard successfully",
-                widgets: widgets.map((r) => (Object.assign(Object.assign({}, r), { value: r.handler() })))
+                widgets: widgets_result,
             });
         }
         catch (error) {

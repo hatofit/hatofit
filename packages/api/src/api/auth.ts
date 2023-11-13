@@ -3,10 +3,14 @@ import dayjs from "dayjs";
 import express from "express";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
-import { User } from "../db";
+import { Session, User } from "../db";
 import { AuthJwtMiddleware } from "../middlewares/auth";
 import { UserSchema } from "../types/user";
 import { exceptObjectProp } from "../utils/obj";
+import dayjsutc from 'dayjs/plugin/utc'
+import { getReportFromSession } from "../actions/report";
+
+dayjs.extend(dayjsutc)
 
 
 // funcs
@@ -558,16 +562,117 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
             }
             return `${status}`
           }
-        }
+        },
+        {
+          name: 'Calories',
+          handler: async () => {
+            const findAvgHr = (data: any) => {
+              // format data is [second, hrvalue]
+              let sum = 0
+              let count = 0
+              for (const item of data || []) {
+                sum += item[1]
+                count += 1
+              }
+              return Math.round(sum / count)
+            }
+
+            const findCal = (report: any) => {
+              // prepare variables
+              const startTime = dayjs.utc(report?.startTime).local()
+              const endTime = dayjs.utc(report?.endTime).local()
+              const diffTime = endTime.diff(startTime, 'second')
+              const avgHr = findAvgHr(
+                report?.reports?.find((report: any) => report?.type === 'hr')?.data[0]?.value || []
+              )
+              const secToMin = diffTime / 60
+
+              const weightUnits = user?.metricUnits?.weightUnits
+              const energyUnits = user?.metricUnits?.energyUnits
+              const userWeight = user?.weight
+              const userHeight = user?.height
+              const userGender = user?.gender
+              const age = dayjs().diff(dayjs(user?.dateOfBirth), 'year')
+
+              // calculate calories
+              let calories = 0;
+              switch (userGender) {
+                case 'male':
+                  if (weightUnits == 'kg') {
+                    calories = secToMin *
+                        (0.6309 * avgHr + 0.1988 * userWeight + 0.2017 * age - 55.0969) /
+                        4.184;
+                  } else if (weightUnits == 'lbs') {
+                    let weightInKg = userWeight * 0.453592;
+                    calories = secToMin *
+                        (0.6309 * avgHr + 0.1988 * weightInKg + 0.2017 * age - 55.0969) /
+                        4.184;
+                  }
+                  break;
+
+                case 'female':
+                  if (weightUnits == 'kg') {
+                    calories = secToMin *
+                        (0.4472 * avgHr - 0.1263 * userWeight + 0.074 * age - 20.4022) /
+                        4.184;
+                  } else if (weightUnits == 'lbs') {
+                    let weightInKg = userWeight * 0.453592;
+                    calories = secToMin *
+                        (0.4472 * avgHr - 0.1263 * weightInKg + 0.074 * age - 20.4022) /
+                        4.184;
+                  }
+                  break;
+
+                default:
+                  calories = 0;
+                  break;
+              }
+              if (energyUnits == 'kcal') {
+                return calories;
+              } else if (energyUnits == 'kJ') {
+                return calories * 4.184;
+              }
+
+              return calories
+            }
+
+            // get all session
+            const sessions = await Session.find({
+              userId: user._id,
+            })
+
+            //
+            let cal = 0
+            for (const session of sessions) {
+              try {
+                cal += findCal(await getReportFromSession(session))
+              } catch (error) {
+
+              }
+            }
+
+            return `${cal.toFixed(2)} Cal`
+          }
+        },
       ]
+
+
+      const widgets_result: any[] = []
+      for (const r of widgets) {
+        try {
+          widgets_result.push({
+            ...r,
+            value: await r.handler(),
+          })
+        } catch (error) {
+
+        }
+      }
 
       return res.json({
         success: true,
         message: "get data dashboard successfully",
-        widgets: widgets.map((r) => ({
-          ...r,
-          value: r.handler(),
-        }))
+        widgets: widgets_result,
       });
     } catch (error) {
       console.error(error)
