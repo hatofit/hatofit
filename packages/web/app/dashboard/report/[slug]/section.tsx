@@ -15,12 +15,112 @@ import {
   Legend,
   Filler,
 } from 'chart.js/auto'
-import { Fragment, useMemo } from 'react'
+import { Fragment, useCallback, useMemo } from 'react'
 import dayjs from 'dayjs'
 import dayjsutc from 'dayjs/plugin/utc'
 
 ChartJS.register(CategoryScale);
 dayjs.extend(dayjsutc)
+
+const pickTheme = (data: any) => {
+  const theme: {
+    [key: string]: {
+      borderColor: string,
+      backgroundColor: string,
+    }
+  } = {
+    red: {
+      borderColor: 'rgba(140, 00, 00, 1)',
+      backgroundColor: 'rgba(140, 00, 00, 0.3)',
+    },
+    blue: {
+      borderColor: 'rgba(68, 88, 240, 1)',
+      backgroundColor: 'rgba(68, 88, 240, 0.3)',
+    },
+    green: {
+      borderColor: 'rgba(47, 97, 68, 1)',
+      backgroundColor: 'rgba(47, 97, 68, 0.3)',
+    },
+    orange: {
+      borderColor: 'rgba(240, 88, 68, 1)',
+      backgroundColor: 'rgba(240, 88, 68, 0.3)',
+    },
+    yellow: {
+      borderColor: 'rgba(240, 240, 68, 1)',
+      backgroundColor: 'rgba(240, 240, 68, 0.3)',
+    },
+    indigo: {
+      borderColor: 'rgba(68, 88, 240, 1)',
+      backgroundColor: 'rgba(68, 88, 240, 0.3)',
+    }
+  }
+
+  let _data = {...data}
+  const pickedTheme: string[] = []
+
+  const randomPickTheme = (): string => {
+    // dont pick theme if exist in pickedTheme
+    const _theme = Object.keys(theme)[Math.floor(Math.random() * Object.keys(theme).length)]
+    if (pickedTheme.includes(_theme)) {
+      return randomPickTheme()
+    }
+    return _theme
+  }
+
+  for (const item of _data.datasets) {
+    const themePicked = randomPickTheme()
+    pickedTheme.push(themePicked)
+    item.borderColor = theme[themePicked].borderColor
+    item.backgroundColor = theme[themePicked].backgroundColor
+  }
+
+  return data
+}
+
+const downloadDataset = (parsedData: any, onlyDevice = undefined) => {
+  const dataToCsv = []
+  const headers = ['second']
+  let fileName = 'heart-rate.csv'
+
+  if (onlyDevice) {
+    fileName = `heart-rate-${onlyDevice}.csv`
+    headers.push(onlyDevice)
+    const datasets = parsedData.datasets.find((item: any) => item?.label === onlyDevice)
+    let index = 0
+    for (const val of datasets?.data || []) {
+      const second = parsedData.labels[index]
+      // if
+      dataToCsv.push([second, val])
+      index += 1
+    }
+  } else {
+    headers.push(...parsedData.datasets.map((item: any) => `hr - ${item?.label}`))
+    let index = 0
+    for (const second of parsedData.labels) {
+      const row = [second]
+      for (const dataset of parsedData.datasets) {
+        row.push(dataset?.data[index])
+      }
+      dataToCsv.push(row)
+      index += 1
+    }
+  }
+
+  // convert headers, data to csv
+  let csvContent = "data:text/csv;charset=utf-8," + headers.join(",") + "\n"
+  for (const item of dataToCsv) {
+    csvContent += item.join(",") + "\n"
+  }
+
+  // download csv
+  const encodedUri = encodeURI(csvContent)
+  const link = document.createElement("a")
+  link.setAttribute("href", encodedUri)
+  link.setAttribute("download", fileName)
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+}
 
 export function useParseReportData(data: any) {
   const reports = useMemo(() => {
@@ -399,6 +499,9 @@ export function useParseReportData(data: any) {
 }
 
 export function DetailReportHr({ data, average, max, min }: { data: any, average: number, max: number, min: number }) {
+  const parsedData = useMemo(() => pickTheme(data), [data])
+  const downloadCsv = useCallback((onlyDevice = undefined) => downloadDataset(parsedData, onlyDevice), [parsedData])
+
   return (
     <div className="dark:bg-gray-950 p-8 rounded-lg shadow">
       <div className="mb-4 flex justify-between items-center">
@@ -416,15 +519,33 @@ export function DetailReportHr({ data, average, max, min }: { data: any, average
             <Menu.Items className="absolute overflow-hidden -ml-[12rem] w-56 mt-2 origin-top-right bg-gray-800 divide-y divide-gray-700 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none flex flex-col">
               <Menu.Item>
                 {({ active }) => (
-                  <a
-                    className={`${active && 'bg-blue-500'} px-4 py-2`}
-                    href="/account-settings"
+                  <button
+                    className={`${active && 'bg-blue-500'} px-4 py-2 text-left`}
+                    onClick={() => {
+                      downloadCsv()
+                    }}
                   >
-                    Unduh dalam csv
-                  </a>
+                    download csv all devices
+                  </button>
                 )}
               </Menu.Item>
-              <Menu.Item>
+
+              {parsedData.datasets.map((item: any) => (
+                <Menu.Item key={Math.random()}>
+                  {({ active }) => (
+                    <button
+                      className={`${active && 'bg-blue-500'} px-4 py-2 text-left`}
+                      onClick={() => {
+                        downloadCsv(item?.label)
+                      }}
+                    >
+                      download csv ({item?.label})
+                    </button>
+                  )}
+                </Menu.Item>
+              ))}
+
+              {/* <Menu.Item>
                 {({ active }) => (
                   <a
                     className={`${active && 'bg-blue-500'} px-4 py-2`}
@@ -433,7 +554,7 @@ export function DetailReportHr({ data, average, max, min }: { data: any, average
                     Lihat raw data utuh
                   </a>
                 )}
-              </Menu.Item>
+              </Menu.Item> */}
             </Menu.Items>
           </Menu>
         </div>
@@ -454,7 +575,7 @@ export function DetailReportHr({ data, average, max, min }: { data: any, average
       </div>
       <div>
         <Line
-          data={data}
+          data={parsedData}
           // data={{
           //   labels: ["0", "1", "2", "3", "4", "5"],
           //   datasets: [
@@ -482,7 +603,7 @@ export function DetailReportHr({ data, average, max, min }: { data: any, average
               line: {
                 tension: 0,
                 borderWidth: 2,
-                borderColor: 'rgba(240, 88, 68, 1)',
+                borderColor: 'rgba(240, 88, 68, 0.5)',
                 fill: 'start',
                 backgroundColor: 'rgba(240, 88, 68, 0.3)',
               },
@@ -504,6 +625,9 @@ export function DetailReportHr({ data, average, max, min }: { data: any, average
 }
 
 export function DetailReportEcg({ data, average, max, min }: { data: any, average: number, max: number, min: number }) {
+  const parsedData = useMemo(() => pickTheme(data), [data])
+  const downloadCsv = useCallback((onlyDevice = undefined) => downloadDataset(parsedData, onlyDevice), [parsedData])
+
   return (
     <div className="dark:bg-gray-950 p-8 rounded-lg shadow">
       <div className="mb-4 flex justify-between items-center">
@@ -524,20 +648,25 @@ export function DetailReportEcg({ data, average, max, min }: { data: any, averag
                     className={`${active && 'bg-blue-500'} px-4 py-2`}
                     href="/account-settings"
                   >
-                    Unduh dalam csv
+                    download csv all devices
                   </a>
                 )}
               </Menu.Item>
-              <Menu.Item>
-                {({ active }) => (
-                  <a
-                    className={`${active && 'bg-blue-500'} px-4 py-2`}
-                    href="/account-settings"
-                  >
-                    Lihat raw data utuh
-                  </a>
-                )}
-              </Menu.Item>
+
+              {parsedData.datasets.map((item: any) => (
+                <Menu.Item key={Math.random()}>
+                  {({ active }) => (
+                    <button
+                      className={`${active && 'bg-blue-500'} px-4 py-2 text-left`}
+                      onClick={() => {
+                        downloadCsv(item?.label)
+                      }}
+                    >
+                      download csv ({item?.label})
+                    </button>
+                  )}
+                </Menu.Item>
+              ))}
             </Menu.Items>
           </Menu>
         </div>
@@ -558,7 +687,7 @@ export function DetailReportEcg({ data, average, max, min }: { data: any, averag
       </div>
       <div>
         <Line
-          data={data}
+          data={parsedData}
           options={{
             plugins: {
               legend: {

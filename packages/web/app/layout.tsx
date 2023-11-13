@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Providers } from "./providers"
 import Navbar from "@/components/layout/navbar"
+import Container from "@/components/layout/container"
 import { LoadingBar } from '@/components/loading-bar'
 
 
@@ -25,6 +26,11 @@ export default function RootLayout({
           <LoadingBar />
           <Navbar />
           {children}
+          <div className="border-t border-gray-700">
+            <Container className="flex items-center h-full justify-between pt-4">
+              &copy; 2023 Hatofit
+            </Container>
+          </div>
         </Providers>
       </body>
     </html>
