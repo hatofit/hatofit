@@ -17,6 +17,7 @@ const db_1 = require("../db");
 const auth_1 = require("../middlewares/auth");
 const mongoose_1 = __importDefault(require("mongoose"));
 const obj_1 = require("../utils/obj");
+const report_1 = require("../actions/report");
 exports.DevicesRules = [
     // for polar
     {
@@ -240,7 +241,6 @@ const ApiReport = ({ route }) => {
         }
     }));
     route.get("/report/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        var _g;
         try {
             const { id } = req.params;
             const session = yield db_1.Session.findById(id);
@@ -251,103 +251,7 @@ const ApiReport = ({ route }) => {
                     message: "Session not found",
                 });
             }
-            // vars
-            const devices = [];
-            const reportsItems = [];
-            // evaluate data
-            for (const item of session.data) {
-                // continue if item no second
-                // console.log("item:", item);
-                if (typeof item.second === "undefined" ||
-                    !item.timeStamp ||
-                    !item.devices ||
-                    !item.devices.length) {
-                    continue;
-                }
-                // evaluate per device
-                for (const device of item.devices) {
-                    // continue if device type and identifier undefined
-                    if (!device.type || !device.identifier) {
-                        continue;
-                    }
-                    // console.log("device", device);
-                    const parsed = (0, exports.getParsedFromDataDevice)(device);
-                    // console.log("parsed", parsed.deviceName, device.type);
-                    // check if device already exists
-                    const deviceIndex = devices.findIndex((d) => d.identifier === device.identifier);
-                    if (deviceIndex === -1) {
-                        // add device
-                        devices.push({
-                            name: parsed.deviceName,
-                            identifier: device.identifier,
-                        });
-                    }
-                    // check data
-                    const reportsToListAccepted = [
-                        "hr",
-                        "ecg",
-                        "acc",
-                        "gyro",
-                        "magnetometer",
-                    ];
-                    for (const listreporttoacccepted of reportsToListAccepted) {
-                        const reportsItemsHr = parsed.reportsItems.filter((r) => r.type === listreporttoacccepted);
-                        for (const reportItem of reportsItemsHr) {
-                            const ri = reportsItems.find((item) => item.type === listreporttoacccepted);
-                            if (ri) {
-                                const riDevice = ri.data.find((item) => item.device === device.identifier);
-                                if (riDevice) {
-                                    const arg = reportItem.value;
-                                    try {
-                                        if (Array.isArray(arg)) {
-                                            riDevice.value.push([item.second, ...arg]);
-                                        }
-                                    }
-                                    catch (error) {
-                                        riDevice.value.push([item.second]);
-                                    }
-                                }
-                                else {
-                                    ri.data.push({
-                                        device: device.identifier,
-                                        value: [[item.second, ...reportItem.value]],
-                                    });
-                                }
-                            }
-                            else {
-                                reportsItems.push({
-                                    type: listreporttoacccepted,
-                                    data: [
-                                        {
-                                            device: device.identifier,
-                                            value: [[item.second, ...reportItem.value]],
-                                        },
-                                    ],
-                                });
-                            }
-                        }
-                    }
-                }
-            }
-            // reports
-            const report = {
-                startTime: session.startTime,
-                endTime: session.endTime,
-                devices,
-                exerciseId: ((_g = session.exercise) === null || _g === void 0 ? void 0 : _g._id) || null,
-                sessionId: session._id,
-                reports: reportsItems,
-            };
-            // const report = ReportSchema.parse({
-            //   startTime: session.startTime,
-            //   endTime: session.endTime,
-            //   devices,
-            //   exerciseId: session.exercise?._id || null,
-            //   sessionId: session._id,
-            //   reports: reportsItems,
-            // } as z.input<typeof ReportSchema>);
-            console.log("devices:", devices);
-            console.log("reportsItems:", reportsItems);
+            const report = yield (0, report_1.getReportFromSession)(session);
             return res.json({
                 success: true,
                 message: "Report generated",

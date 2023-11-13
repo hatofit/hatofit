@@ -21,6 +21,34 @@ const db_1 = require("../db");
 const auth_1 = require("../middlewares/auth");
 const user_1 = require("../types/user");
 const obj_1 = require("../utils/obj");
+// funcs
+const findBmi = (weightUnits, heightUnits, userWeight, userHeight) => {
+    let bmi = 0;
+    switch (weightUnits) {
+        case 'kg':
+            switch (heightUnits) {
+                case 'cm':
+                    bmi = userWeight / ((userHeight / 100) * (userHeight / 100));
+                    break;
+                case 'ft':
+                    bmi = userWeight / ((userHeight * 12) * (userHeight * 12)) * 703;
+                    break;
+            }
+            break;
+        case 'lbs':
+            switch (heightUnits) {
+                case 'cm':
+                    bmi = userWeight / ((userHeight / 100) * (userHeight / 100)) * 703;
+                    break;
+                case 'ft':
+                    bmi = userWeight / ((userHeight * 12) * (userHeight * 12));
+                    break;
+            }
+            break;
+    }
+    return bmi;
+};
+// routes
 const ApiAuth = ({ route }) => {
     route.post("/register", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log("DATA BODY", req.body);
@@ -424,6 +452,65 @@ const ApiAuth = ({ route }) => {
         catch (error) {
             // console.error(error)
             return res.status(400).json({ error });
+        }
+    }));
+    // part of reports
+    route.get("/dashboard", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _l;
+        try {
+            const user = (_l = req.auth) === null || _l === void 0 ? void 0 : _l.user;
+            // const
+            const widgets = [
+                {
+                    name: 'BMI',
+                    handler: () => {
+                        var _a, _b;
+                        const userWeight = user === null || user === void 0 ? void 0 : user.weight;
+                        const userHeight = user === null || user === void 0 ? void 0 : user.height;
+                        const weightUnits = (_a = user === null || user === void 0 ? void 0 : user.metricUnits) === null || _a === void 0 ? void 0 : _a.weightUnits;
+                        const heightUnits = (_b = user === null || user === void 0 ? void 0 : user.metricUnits) === null || _b === void 0 ? void 0 : _b.heightUnits;
+                        const bmi = findBmi(weightUnits, heightUnits, userWeight, userHeight);
+                        return `${bmi.toFixed(2)}`;
+                    }
+                },
+                {
+                    name: 'BMI Status',
+                    handler: () => {
+                        var _a, _b;
+                        const userWeight = user === null || user === void 0 ? void 0 : user.weight;
+                        const userHeight = user === null || user === void 0 ? void 0 : user.height;
+                        const weightUnits = (_a = user === null || user === void 0 ? void 0 : user.metricUnits) === null || _a === void 0 ? void 0 : _a.weightUnits;
+                        const heightUnits = (_b = user === null || user === void 0 ? void 0 : user.metricUnits) === null || _b === void 0 ? void 0 : _b.heightUnits;
+                        const bmi = findBmi(weightUnits, heightUnits, userWeight, userHeight);
+                        let status = '';
+                        if (bmi < 18.5) {
+                            status = 'Underweight';
+                        }
+                        else if (bmi >= 18.5 && bmi <= 24.9) {
+                            status = 'Normal';
+                        }
+                        else if (bmi >= 25 && bmi <= 29.9) {
+                            status = 'Overweight';
+                        }
+                        else if (bmi >= 30 && bmi <= 34.9) {
+                            status = 'Obesity';
+                        }
+                        else {
+                            status = 'Unknown';
+                        }
+                        return `${status}`;
+                    }
+                }
+            ];
+            return res.json({
+                success: true,
+                message: "get data dashboard successfully",
+                widgets: widgets.map((r) => (Object.assign(Object.assign({}, r), { value: r.handler() })))
+            });
+        }
+        catch (error) {
+            console.error(error);
+            return res.status(500).json({ error });
         }
     }));
 };

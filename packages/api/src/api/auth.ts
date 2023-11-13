@@ -8,6 +8,38 @@ import { AuthJwtMiddleware } from "../middlewares/auth";
 import { UserSchema } from "../types/user";
 import { exceptObjectProp } from "../utils/obj";
 
+
+// funcs
+const findBmi = (weightUnits: string, heightUnits: string, userWeight: number, userHeight: number) => {
+  let bmi = 0;
+  switch (weightUnits) {
+    case 'kg':
+      switch (heightUnits) {
+        case 'cm':
+          bmi = userWeight / ((userHeight / 100) * (userHeight / 100));
+          break;
+        case 'ft':
+          bmi = userWeight / ((userHeight * 12) * (userHeight * 12)) * 703;
+          break;
+      }
+      break;
+
+    case 'lbs':
+      switch (heightUnits) {
+        case 'cm':
+          bmi = userWeight / ((userHeight / 100) * (userHeight / 100)) * 703;
+          break;
+        case 'ft':
+          bmi = userWeight / ((userHeight * 12) * (userHeight * 12));
+          break;
+      }
+      break;
+  }
+  return bmi;
+}
+
+
+// routes
 export const ApiAuth = ({ route }: { route: express.Router }) => {
   route.post("/register", async (req, res) => {
     console.log("DATA BODY", req.body);
@@ -480,6 +512,66 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
     } catch (error) {
       // console.error(error)
       return res.status(400).json({ error });
+    }
+  });
+
+
+  // part of reports
+  route.get("/dashboard", AuthJwtMiddleware, async (req, res) => {
+    try {
+      const user = req.auth?.user as any;
+
+      // const
+      const widgets = [
+        {
+          name: 'BMI',
+          handler: () => {
+            const userWeight = user?.weight
+            const userHeight = user?.height
+            const weightUnits = user?.metricUnits?.weightUnits
+            const heightUnits = user?.metricUnits?.heightUnits
+
+            const bmi = findBmi(weightUnits, heightUnits, userWeight, userHeight)
+
+            return `${bmi.toFixed(2)}`
+          }
+        },
+        {
+          name: 'BMI Status',
+          handler: () => {
+            const userWeight = user?.weight
+            const userHeight = user?.height
+            const weightUnits = user?.metricUnits?.weightUnits
+            const heightUnits = user?.metricUnits?.heightUnits
+            const bmi = findBmi(weightUnits, heightUnits, userWeight, userHeight)
+            let status = '';
+            if (bmi < 18.5) {
+              status = 'Underweight';
+            } else if (bmi >= 18.5 && bmi <= 24.9) {
+              status = 'Normal';
+            } else if (bmi >= 25 && bmi <= 29.9) {
+              status = 'Overweight';
+            } else if (bmi >= 30 && bmi <= 34.9) {
+              status = 'Obesity';
+            } else {
+              status = 'Unknown';
+            }
+            return `${status}`
+          }
+        }
+      ]
+
+      return res.json({
+        success: true,
+        message: "get data dashboard successfully",
+        widgets: widgets.map((r) => ({
+          ...r,
+          value: r.handler(),
+        }))
+      });
+    } catch (error) {
+      console.error(error)
+      return res.status(500).json({ error });
     }
   });
 };
