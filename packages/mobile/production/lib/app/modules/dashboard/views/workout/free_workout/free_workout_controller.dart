@@ -23,6 +23,8 @@ class FreeWorkoutController extends GetxController {
   final strmUtls = StreamingUtils();
   Worker? worker;
   final isLoading = false.obs;
+  final isVibrate = false.obs;
+
   @override
   void onInit() {
     worker = ever(
@@ -48,9 +50,9 @@ class FreeWorkoutController extends GetxController {
   void _userZone(int hr) {
     final HrZoneType nowZone = hrZone.findZone(hr);
     hrZoneType = nowZone;
-    if (nowZone == HrZoneType.HARD || nowZone == HrZoneType.MAXIMUM) {
+    if (nowZone == HrZoneType.MAXIMUM) {
       Future.delayed(const Duration(seconds: 1), () {
-        Vibration.vibrate(duration: 1000);
+        // Vibration.vibrate(duration: 1000);
         Get.snackbar(
           'Zone',
           icon: Container(
@@ -64,11 +66,15 @@ class FreeWorkoutController extends GetxController {
           backgroundColor: hrZoneType!.color,
         );
       });
-      Future.delayed(const Duration(milliseconds: 1500), () {
-        Vibration.vibrate(duration: 1000);
-      });
+      if (isVibrate.value == false) {
+        Future.delayed(const Duration(milliseconds: 1500), () {
+          Vibration.vibrate(duration: 1000);
+        });
+        isVibrate.value = true; 
+      }
     }
     hrPecentage.value = hrZone.findPercentage(hr);
+    isVibrate.value = true;
   }
 
   void saveWorkout(String title) async {
