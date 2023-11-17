@@ -1,4 +1,8 @@
+import { locales } from "@/i18n/settings";
 import { allObjExcept } from "@/utils/obj"
+import RLink from 'next/link'
+import { useParams } from "next/navigation";
+import { useMemo } from "react";
 
 export function Button(props: React.ComponentProps<'button'>) {
   return (
@@ -42,4 +46,24 @@ export namespace Input {
       </select>
     )
   }
+}
+
+export function Link(props: any) {
+  const params = useParams()
+
+  const link = useMemo(() => {
+    const pathname = props.href || ''
+
+    const pathnameIsMissingLocale = locales.every(
+      locale => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`,
+    );
+    if (!pathnameIsMissingLocale) return pathname
+
+
+    if (pathname.startsWith('/')) {
+      return `${params?.lang || 'en'}${pathname}`
+    }
+  }, [props.href, params])
+
+  return <RLink href={`/${link}`} {...allObjExcept(props, ['href'])} />
 }

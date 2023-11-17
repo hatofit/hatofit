@@ -1,14 +1,15 @@
 'use client'
 
-import Link from 'next/link'
 import { useSession } from "next-auth/react"
 import { signOut } from "next-auth/react"
 
 import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import Container from './container'
 import { useEffect } from 'react'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/navigation'
 import { Menu } from '@headlessui/react'
+import { useTranslation } from '@/i18n/client'
+import { Link } from "../ui"
 
 export interface Props {
   children: React.ReactNode
@@ -18,6 +19,8 @@ export default function Navbar() {
   const { data, status } = useSession({
     required: false,
   })
+
+  const { t } = useTranslation()
 
   const logout = async () => {
     return await signOut()
@@ -54,7 +57,7 @@ export default function Navbar() {
                           href="/dashboard"
                           className={`duration-300 transition-all text-left px-4 py-1 ${active && 'bg-primary-500'}`}
                         >
-                          Dashboard
+                        {t('layout.navbar.menu.dashboard')}
                         </Link>
                       )}
                     </Menu.Item>
@@ -64,7 +67,7 @@ export default function Navbar() {
                           href="/dashboard/setting"
                           className={`duration-300 transition-all text-left px-4 py-1 ${active && 'bg-primary-500'}`}
                         >
-                          Setting
+                        {t('layout.navbar.menu.setting')}
                         </Link>
                       )}
                     </Menu.Item>
@@ -74,7 +77,7 @@ export default function Navbar() {
                           className={`duration-300 transition-all text-left px-4 py-1 ${active && 'bg-primary-500'}`}
                           onClick={logout}
                         >
-                          Logout
+                          {t('layout.navbar.menu.logout')}
                         </button>
                       )}
                     </Menu.Item>

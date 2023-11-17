@@ -1,85 +1,75 @@
 {
   "pages": {
-    "/layout": [
+    "/[lang]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
+      "static/chunks/app/[lang]/page.js"
     ],
-    "/page": [
+    "/[lang]/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+      "static/css/app/[lang]/layout.css",
+      "static/chunks/app/[lang]/layout.js"
     ],
-    "/(auth)/login/page": [
+    "/[lang]/(auth)/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(auth)/login/page.js"
+      "static/chunks/app/[lang]/(auth)/login/page.js"
     ],
-    "/dashboard/page": [
+    "/[lang]/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/page.js"
+      "static/chunks/app/[lang]/dashboard/page.js"
     ],
-    "/dashboard/layout": [
+    "/[lang]/dashboard/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/layout.js"
+      "static/chunks/app/[lang]/dashboard/layout.js"
     ],
-    "/dashboard/exercise/page": [
+    "/[lang]/dashboard/exercise/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/exercise/page.js"
+      "static/chunks/app/[lang]/dashboard/exercise/page.js"
     ],
-    "/dashboard/shared-exercise/page": [
+    "/[lang]/dashboard/company/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/shared-exercise/page.js"
+      "static/chunks/app/[lang]/dashboard/company/page.js"
     ],
-    "/dashboard/company/page": [
+    "/[lang]/dashboard/report/[slug]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/company/page.js"
+      "static/chunks/app/[lang]/dashboard/report/[slug]/page.js"
     ],
-    "/dashboard/company/[slug]/page": [
+    "/[lang]/dashboard/company/[slug]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/company/[slug]/page.js"
+      "static/chunks/app/[lang]/dashboard/company/[slug]/page.js"
     ],
-    "/dashboard/company/[slug]/layout": [
+    "/[lang]/dashboard/company/[slug]/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/company/[slug]/layout.js"
+      "static/chunks/app/[lang]/dashboard/company/[slug]/layout.js"
     ],
-    "/dashboard/company/[slug]/members/page": [
+    "/[lang]/dashboard/company/[slug]/members/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/company/[slug]/members/page.js"
+      "static/chunks/app/[lang]/dashboard/company/[slug]/members/page.js"
     ],
-    "/dashboard/company/[slug]/owners/page": [
+    "/[lang]/dashboard/company/[slug]/members/[memberId]/reports/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/company/[slug]/owners/page.js"
+      "static/chunks/app/[lang]/dashboard/company/[slug]/members/[memberId]/reports/page.js"
     ],
-    "/dashboard/company/[slug]/setting/page": [
+    "/[lang]/dashboard/shared-exercise/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/company/[slug]/setting/page.js"
+      "static/chunks/app/[lang]/dashboard/shared-exercise/page.js"
     ],
-    "/dashboard/report/[slug]/page": [
+    "/[lang]/dashboard/setting/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/report/[slug]/page.js"
-    ],
-    "/dashboard/company/[slug]/members/[memberId]/reports/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/company/[slug]/members/[memberId]/reports/page.js"
-    ],
-    "/dashboard/setting/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/setting/page.js"
+      "static/chunks/app/[lang]/dashboard/setting/page.js"
     ]
   }
 }
