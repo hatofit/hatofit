@@ -43,7 +43,6 @@ export default function DashboardCompanyDetailPage({ params, children }: { param
   const [cR, sCr]  = useState(window?.location?.pathname || '')
   useObserveRoute(() => sCr(window.location.pathname), () => sCr(window.location.pathname))
 
-
   const { data } = useSession()
   const [companyData, setCompanyData] = useState<any>({})
 
