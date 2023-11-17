@@ -81,7 +81,7 @@ export default function CompanyJoinPage({ params }: any) {
             </div>
             <div className="flex justify-end gap-4 mt-6">
               <button className="px-4 py-2 bg-primary-500 text-white rounded-md" onClick={() => join()}>
-                Login First
+                {data ? 'Yes' : 'Login First'}
               </button>
               <Link className="px-4 py-2 bg-gray-800 text-white rounded-md" href="/">
                 No

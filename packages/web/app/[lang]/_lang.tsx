@@ -17,13 +17,16 @@ export const LangSwitcher = (...props: any[]) => {
   };
 
   return (
-    <select
-      className="text-sm border border-gray-700 bg-transparent rounded px-2 py-1" name="language" id="language"
-      onChange={(e) => handleLocaleChange(e)}
-      value={params.lang}
-    >
-      <option value="en">en</option>
-      <option value="id">id</option>
-    </select>
+    <div className="flex gap-2 items-center">
+      <div className="text-xs">lang:</div>
+      <select
+        className="text-sm border border-gray-700 bg-transparent rounded px-2 py-1" name="language" id="language"
+        onChange={(e) => handleLocaleChange(e)}
+        value={params.lang}
+      >
+        <option value="en">🇬🇧 en</option>
+        <option value="id">🇮🇩 id</option>
+      </select>
+    </div>
   )
 }

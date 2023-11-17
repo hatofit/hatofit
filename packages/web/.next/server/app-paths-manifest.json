@@ -3,7 +3,6 @@
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/[lang]/dashboard/page": "app/[lang]/dashboard/page.js",
   "/[lang]/(auth)/login/page": "app/[lang]/(auth)/login/page.js",
-  "/[lang]/company/[id]/page": "app/[lang]/company/[id]/page.js",
   "/[lang]/dashboard/company/[slug]/page": "app/[lang]/dashboard/company/[slug]/page.js",
   "/[lang]/dashboard/company/[slug]/members/page": "app/[lang]/dashboard/company/[slug]/members/page.js"
 }
