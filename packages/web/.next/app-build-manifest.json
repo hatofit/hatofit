@@ -1,50 +1,50 @@
 {
   "pages": {
-    "/[lang]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[lang]/page.js"
-    ],
     "/[lang]/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/css/app/[lang]/layout.css",
       "static/chunks/app/[lang]/layout.js"
     ],
-    "/[lang]/(auth)/login/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[lang]/(auth)/login/page.js"
-    ],
-    "/[lang]/dashboard/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[lang]/dashboard/page.js"
-    ],
     "/[lang]/dashboard/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/[lang]/dashboard/layout.js"
+    ],
+    "/[lang]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[lang]/page.js"
     ],
     "/[lang]/dashboard/exercise/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/[lang]/dashboard/exercise/page.js"
     ],
-    "/[lang]/dashboard/company/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[lang]/dashboard/company/page.js"
-    ],
     "/[lang]/dashboard/report/[slug]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/[lang]/dashboard/report/[slug]/page.js"
     ],
+    "/[lang]/dashboard/company/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[lang]/dashboard/company/page.js"
+    ],
+    "/[lang]/dashboard/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[lang]/dashboard/page.js"
+    ],
     "/[lang]/dashboard/company/[slug]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/[lang]/dashboard/company/[slug]/page.js"
+    ],
+    "/[lang]/(auth)/login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[lang]/(auth)/login/page.js"
     ],
     "/[lang]/dashboard/company/[slug]/layout": [
       "static/chunks/webpack.js",

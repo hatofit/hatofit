@@ -70,7 +70,7 @@ export default function Sidebar() {
                     href={`${menu.href}`}
                     className={`flex items-center gap-4 hover:bg-gray-800/80 px-4 py-2 rounded ${isMenuActive(menu.href) ? 'bg-gray-800/80' : ''}`}
                     >
-                    <Icon icon={menu.icon} className="text-xl" />
+                    <Icon icon={menu.icon as any} className="text-xl" />
                     <span className="text-sm text-gray-100">{menu.title}</span>
                   </Link>
                 </li>

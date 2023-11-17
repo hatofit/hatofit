@@ -1,6 +1,4 @@
 {
-  "/[lang]/page": "app/[lang]/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/[lang]/dashboard/page": "app/[lang]/dashboard/page.js",
   "/[lang]/dashboard/exercise/page": "app/[lang]/dashboard/exercise/page.js",
   "/[lang]/dashboard/company/page": "app/[lang]/dashboard/company/page.js",
