@@ -88,14 +88,15 @@ class BluetoothService extends GetxService {
 
   Future<bool> askPermission() async {
     try {
-      await polar.requestPermissions();
-      await Permission.location.request();
-      final x = await Permission.manageExternalStorage.request();
-      final sto = await Permission.manageExternalStorage.isGranted;
-      if (x.isPermanentlyDenied) {
-        openAppSettings();
-      }
-      return sto;
+      final perm = await polar.requestPermissions();
+      await Permission.photos.request();
+      // await Permission.location.request();
+      // final x = await Permission.manageExternalStorage.request();
+      // final sto = await Permission.manageExternalStorage.isGranted;
+      // if (x.isPermanentlyDenied) {
+      //   openAppSettings();
+      // }
+      return perm;
     } catch (e) {
       return false;
     }

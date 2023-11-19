@@ -203,7 +203,7 @@ class WorkoutStartPage extends GetView<WorkoutStartController> {
                             height: 16,
                           ),
                           SizedBox(
-                              width: ThemeManager().screenWidth * 0.5,
+                              width: Get.width * 0.5,
                               child: controller.isNowExerciseFinish.value
                                   ? ElevatedButton(
                                       onPressed: () {

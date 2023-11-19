@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "123499973842-qrgjuioicroraqg8jo0vbu2abbql2ns1.apps.googleusercontent.com",
+          "client_id": "123499973842-ifpcmd3f8e002i4n4lgl4tp11ciokiml.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hatofit.hatofit",
+            "certificate_hash": "b304996da6f8b22a91cb18ea87876601526a36da"
+          }
+        },
+        {
+          "client_id": "123499973842-husulkstn9ootbqoondjjg8t6sve7slt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,14 +35,14 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "123499973842-qrgjuioicroraqg8jo0vbu2abbql2ns1.apps.googleusercontent.com",
+              "client_id": "123499973842-husulkstn9ootbqoondjjg8t6sve7slt.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "123499973842-etvoo516gh5usnv9qajh6ummdlb6r0rh.apps.googleusercontent.com",
+              "client_id": "123499973842-8ttoase65eifgikit86i6ku39kgc95ou.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "edu.unesa.hatofit"
+                "bundle_id": "com.hatofit.hatofit"
               }
             }
           ]

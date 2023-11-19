@@ -70,7 +70,7 @@ class FreeWorkoutController extends GetxController {
         Future.delayed(const Duration(milliseconds: 1500), () {
           Vibration.vibrate(duration: 1000);
         });
-        isVibrate.value = true; 
+        isVibrate.value = true;
       }
     }
     hrPecentage.value = hrZone.findPercentage(hr);

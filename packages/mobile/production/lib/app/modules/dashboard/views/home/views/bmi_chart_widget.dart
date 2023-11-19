@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/modules/dashboard/views/home/home_controller.dart';
-import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:hatofit/app/widget/icon_wrapper.dart';
 
@@ -10,8 +9,8 @@ class BMIChartWidget extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    final width = ThemeManager().screenWidth * 0.45;
-    final height = ThemeManager().screenHeight * 0.24;
+    final width = Get.width * 0.45;
+    final height = Get.height * 0.24;
     final double bmiValue = controller.userBMI();
     return Container(
       height: height,

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/polar_device.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
-import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:hatofit/utils/snackbar.dart';
 
@@ -33,8 +32,8 @@ class _DeviceIntegrationPageState extends State<DeviceIntegrationPage> {
         centerTitle: true,
       ),
       body: SizedBox(
-        height: ThemeManager().screenHeight / 2,
-        width: ThemeManager().screenWidth,
+        height: Get.height / 2,
+        width: Get.width,
         child: FutureBuilder(
           future: Future.delayed(const Duration(milliseconds: 500)),
           builder: (context, snapshot) {
@@ -81,9 +80,7 @@ class _DeviceIntegrationPageState extends State<DeviceIntegrationPage> {
               }
             }
             return SizedBox(
-                height: ThemeManager().screenHeight / 2,
-                width: ThemeManager().screenWidth,
-                child: _noDevice());
+                height: Get.height / 2, width: Get.width, child: _noDevice());
           },
         ),
       ),

@@ -61,7 +61,7 @@ class SettingPage extends GetView<SettingController> {
                                 color: Colors.white,
                                 image: DecorationImage(
                                   image: FileImage(File(
-                                      '/storage/emulated/0/Android/data/edu.unesa.hatofit/files/photo-profile.jpg')),
+                                      '/storage/emulated/0/Android/data/com.hatofit.hatofit/files/photo-profile.jpg')),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -202,11 +202,11 @@ class SettingPage extends GetView<SettingController> {
                             .iconTheme
                             .color
                             ?.withOpacity(0.5)),
-                    title: 'Reset',
+                    title: 'Logout',
                     onTap: () {
                       Get.defaultDialog(
-                        title: 'Reset',
-                        middleText: 'Are you sure want to reset?',
+                        title: 'Logout',
+                        middleText: 'Are you sure want to logout?',
                         textConfirm: 'Yes',
                         textCancel: 'No',
                         confirmTextColor: Colors.white,
@@ -218,33 +218,35 @@ class SettingPage extends GetView<SettingController> {
                     },
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: isDarkMode
-                        ? ColorConstants.darkContainer
-                        : ColorConstants.lightContainer,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  margin: const EdgeInsets.only(top: 24),
-                  child: Column(
-                    children: [
-                      SettingListTileWidget(
-                        title: 'About',
-                        onTap: () {},
-                      ),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 24, bottom: 24),
-                    child: Text(
-                      "Version 1.0.0",
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ),
-                ),
+                // Container(
+                //   decoration: BoxDecoration(
+                //     color: isDarkMode
+                //         ? ColorConstants.darkContainer
+                //         : ColorConstants.lightContainer,
+                //     borderRadius: BorderRadius.circular(8),
+                //   ),
+                //   margin: const EdgeInsets.only(top: 24),
+                //   child: Column(
+                //     children: [
+                //       SettingListTileWidget(
+                //         title: 'About',
+                //         onTap: () {
+
+                //         },
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // Align(
+                //   alignment: Alignment.bottomCenter,
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(top: 24, bottom: 24),
+                //     child: Text(
+                //       "Version 1.0.0",
+                //       style: Theme.of(context).textTheme.bodySmall,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ],

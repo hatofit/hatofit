@@ -261,16 +261,16 @@ class HomePage extends GetView<HomeController> {
                       )),
                 ),
                 const MoodPickerWidget(),
-                SizedBox(height: ThemeManager().screenHeight * 0.01),
+                SizedBox(height: Get.height * 0.01),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const CaloriesChartWidget(),
-                    SizedBox(width: ThemeManager().screenHeight * 0.01),
+                    SizedBox(width: Get.height * 0.01),
                     const BMIChartWidget(),
                   ],
                 ),
-                SizedBox(height: ThemeManager().screenHeight * 0.01),
+                SizedBox(height: Get.height * 0.01),
                 Padding(
                   padding: const EdgeInsets.all(14),
                   child: Align(
@@ -285,9 +285,9 @@ class HomePage extends GetView<HomeController> {
                         ],
                       )),
                 ),
-                SizedBox(height: ThemeManager().screenHeight * 0.01),
+                SizedBox(height: Get.height * 0.01),
                 const StepsChartWidget(),
-                SizedBox(height: ThemeManager().screenHeight * 0.01),
+                SizedBox(height: Get.height * 0.01),
                 const SleepsInfoWidget(),
               ],
             ),

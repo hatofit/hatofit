@@ -4,12 +4,12 @@ import 'package:hatofit/app/themes/colors_constants.dart';
 
 class ThemeManager extends GetxController {
   final _isDarkMode = Get.isDarkMode;
-  final _screenHeight = Get.height;
-  final _screenWidth = Get.width;
+  // final _screenHeight = Get.height;
+  // final _screenWidth = Get.width;
 
   get isDarkMode => _isDarkMode;
-  get screenHeight => _screenHeight;
-  get screenWidth => _screenWidth;
+  // get screenHeight => _screenHeight;
+  // get screenWidth => _screenWidth;
 }
 
 class AppTheme {

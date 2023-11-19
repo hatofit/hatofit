@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/services/internet_service.dart';
-import 'package:hatofit/utils/debug_logger.dart';
 import 'package:hatofit/utils/image_picker.dart';
 import 'package:hatofit/utils/image_utils.dart';
 import 'package:hatofit/utils/snackbar.dart';
@@ -45,7 +44,7 @@ class ProfileController extends GetxController {
   @override
   void onInit() async {
     pickedImage.value = File(
-        '/storage/emulated/0/Android/data/edu.unesa.hatofit/files/photo-profile.jpg');
+        '/storage/emulated/0/Android/data/com.hatofit.hatofit/files/photo-profile.jpg');
     final firstName = store.user!.firstName!;
     final lastName = store.user!.lastName!;
     fullNameController.value.text = '$firstName $lastName';
@@ -70,7 +69,7 @@ class ProfileController extends GetxController {
     user!.email = emailController.value.text;
     user!.password = passwordController.value.text;
     final res = await InternetService().updateUser(user!);
- 
+
     if (res.body['success'] == true) {
       MySnackbar.success('Success', res.body['message']);
       store.user = UserModel.fromJson(res.body['user']);

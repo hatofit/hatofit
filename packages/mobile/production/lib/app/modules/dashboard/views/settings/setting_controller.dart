@@ -41,7 +41,6 @@ class SettingController extends GetxController {
 
   HealthFactory health = HealthFactory(useHealthConnectIfAvailable: true);
   final permissions = types.map((e) => HealthDataAccess.READ_WRITE).toList();
- 
 
   Future authorize() async {
     await Permission.activityRecognition.request();

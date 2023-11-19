@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/modules/auth/views/login/login_controller.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
-import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:video_player/video_player.dart';
 
 class LoginPage extends GetView<LoginController> {
@@ -20,7 +19,7 @@ class LoginPage extends GetView<LoginController> {
             Stack(
               children: [
                 SizedBox(
-                  height: ThemeManager().screenHeight * 0.4,
+                  height: Get.height * 0.4,
                   child: ColorFiltered(
                     colorFilter: ColorFilter.mode(
                       Theme.of(context)
@@ -45,12 +44,12 @@ class LoginPage extends GetView<LoginController> {
                           end: Alignment.bottomCenter,
                         ),
                       ),
-                      height: ThemeManager().screenHeight * 0.25,
+                      height: Get.height * 0.25,
                     ),
                   ),
                 ),
                 SizedBox(
-                    height: ThemeManager().screenHeight * 0.4,
+                    height: Get.height * 0.4,
                     child: const Center(
                       child: BreathingAnimation(),
                     )),

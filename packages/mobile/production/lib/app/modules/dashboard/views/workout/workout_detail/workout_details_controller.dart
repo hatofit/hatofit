@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/exercise_model.dart';
-import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:lottie/lottie.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -112,7 +111,7 @@ class WorkoutDetailsController extends GetxController
                   ),
                   Container(
                     padding: const EdgeInsets.all(16),
-                    height: ThemeManager().screenHeight * 0.4,
+                    height: Get.height * 0.4,
                     child: Column(
                       children: [
                         Text(instruction.name!,

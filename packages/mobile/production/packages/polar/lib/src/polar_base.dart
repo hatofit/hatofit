@@ -158,7 +158,11 @@ class Polar {
   }
 
   /// Request the necessary permissions on Android
-  Future<void> requestPermissions() async {
+  Future<bool> requestPermissions() async {
+    bool? locPerm;
+    bool? bleScanPerm;
+    bool? bleConnectPerm;
+
     if (Platform.isAndroid) {
       final androidDeviceInfo = await DeviceInfoPlugin().androidInfo;
       final sdkInt = androidDeviceInfo.version.sdkInt;
@@ -168,14 +172,23 @@ class Polar {
         // If we are on an Android version before S or bluetooth scan is used to derive location
         if (sdkInt < 31 || !_bluetoothScanNeverForLocation) {
           await Permission.location.request();
+          locPerm = await Permission.location.isGranted;
+          return locPerm;
         }
         // If we are on Android S+
         if (sdkInt >= 31) {
           await Permission.bluetoothScan.request();
           await Permission.bluetoothConnect.request();
+          bleScanPerm = await Permission.bluetoothScan.isGranted;
+          bleConnectPerm = await Permission.bluetoothConnect.isGranted;
+
+          return bleScanPerm && bleConnectPerm;
         }
       }
     }
+
+    // Add a default return statement
+    return false;
   }
 
   /// Disconnect from the current Polar device.

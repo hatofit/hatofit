@@ -10,6 +10,7 @@ enum _Key {
   isDarkMode,
   isSyncGoogleFit,
   todayMood,
+  photoProfile,
 }
 
 class PreferencesService extends GetxService {

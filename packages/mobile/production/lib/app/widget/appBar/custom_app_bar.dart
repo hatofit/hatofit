@@ -147,8 +147,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                   borderRadius: BorderRadius.circular(124)),
             ),
             SizedBox(
-                height: ThemeManager().screenHeight / 2,
-                width: ThemeManager().screenWidth,
+                height: Get.height / 2,
+                width: Get.width,
                 child: FutureBuilder(
                   future: Future.delayed(const Duration(seconds: 1)),
                   builder: (context, snapshot) {
@@ -198,8 +198,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                       }
                     }
                     return SizedBox(
-                        height: ThemeManager().screenHeight / 2,
-                        width: ThemeManager().screenWidth,
+                        height: Get.height / 2,
+                        width: Get.width,
                         child: _noDevice());
                   },
                 ))
