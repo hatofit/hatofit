@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '123499973842',
     projectId: 'hatofit-0001',
     storageBucket: 'hatofit-0001.appspot.com',
-    androidClientId: '123499973842-ifpcmd3f8e002i4n4lgl4tp11ciokiml.apps.googleusercontent.com',
+    androidClientId:
+        '123499973842-ifpcmd3f8e002i4n4lgl4tp11ciokiml.apps.googleusercontent.com',
     iosBundleId: 'com.hatofit.hatofit',
   );
 }
