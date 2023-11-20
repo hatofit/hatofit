@@ -12,7 +12,7 @@ interface User extends DefaultUser {
   image: string
 
   dateOfBirth: string
-  photo?: string
+  photo: string
   weight: number
   height: number
   gender: string
@@ -35,7 +35,7 @@ declare module "next-auth" {
     image: string
 
     dateOfBirth: string
-    photo?: string
+    photo: string
     weight: number
     height: number
     gender: string
