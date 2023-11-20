@@ -12,7 +12,7 @@ interface User extends DefaultUser {
   image: string
 
   dateOfBirth: string
-  photo: string
+  photo?: string
   weight: number
   height: number
   gender: string
@@ -35,7 +35,7 @@ declare module "next-auth" {
     image: string
 
     dateOfBirth: string
-    photo: string
+    photo?: string
     weight: number
     height: number
     gender: string
@@ -86,7 +86,7 @@ const handler = NextAuth({
               image: "https://via.placeholder.com/500",
               dateOfBirth: user?.dateOfBirth,
               // photo: user?.photo,
-              photo: null,
+              photo: "",
               weight: user?.weight,
               height: user?.height,
               gender: user?.gender,
