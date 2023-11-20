@@ -99,7 +99,7 @@ const handler = NextAuth({
             }
           }
         } catch (error) {
-          console.log(error)
+          console.log("AUTH ERROR AUTH", error)
           return null
         }
 
@@ -116,24 +116,44 @@ const handler = NextAuth({
   secret: "2/q0eH6zZePnSPLqre9WOOv299iZIhoegoWOKZdgw/Y=",
   callbacks: {
     jwt({ token, user }) {
-      if (user) {
-        token.data = user
+      try {
+        if (user) {
+          token.data = user
+        }
+        return token
+      } catch (error) {
+        console.log("AUTH ERROR JWT", error)
+        throw error
       }
-      return token
     },
     session({ session, token }) {
-      if (token.data) {
-        session.user = token.data as User
+      try {
+        if (token.data) {
+          session.user = token.data as User
+        }
+        return session
+      } catch (error) {
+        console.log("AUTH ERROR SS", error)
+        throw error
       }
-      return session
     },
     redirect({ url, baseUrl }) {
-      console.log("redirect", url, baseUrl)
-      return url.startsWith(baseUrl) ? url : baseUrl
+      try {
+        console.log("redirect", url, baseUrl)
+        return url.startsWith(baseUrl) ? url : baseUrl
+      } catch (error) {
+        console.log("AUTH ERROR R", error)
+        throw error
+      }
     },
     signIn({ user, account, profile, email, credentials }) {
-      console.log("signIn", user, account, profile, email, credentials)
-      return true
+      try {
+        console.log("signIn", user, account, profile, email, credentials)
+        return true
+      } catch (error) {
+        console.log("AUTH ERROR SI", error)
+        throw error
+      }
     }
   }
 })
