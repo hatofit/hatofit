@@ -24,7 +24,6 @@ export default function RootLayout({
   children: React.ReactNode
   params: any
 }) {
-  console.log('params', params)
   return (
     <html lang="en">
       <body className={inter.className}>

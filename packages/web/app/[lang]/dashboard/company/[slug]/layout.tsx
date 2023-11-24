@@ -35,7 +35,8 @@ export default function DashboardCompanyDetailPage({ params, children }: { param
   const Menus = useMemo(() => [
     { type: 'item', title: 'Dashboard', icon: 'uil:dashboard', href: `/dashboard/company/${params.slug}` },
     { type: 'item', title: 'Members', icon: 'uil:users-alt', href: `/dashboard/company/${params.slug}/members` },
-    // { type: 'item', title: 'Owners', icon: 'uil:user-md', href: `/dashboard/company/${params.slug}/owners` },
+    { type: 'spacer' },
+    { type: 'item', title: 'Owners', icon: 'uil:user-md', href: `/dashboard/company/${params.slug}/owners` },
     { type: 'spacer' },
     { type: 'item', title: 'Settings', icon: 'ic:outline-settings-suggest', href: `/dashboard/company/${params.slug}/setting` },
   ], [params])

@@ -6,10 +6,10 @@
       "static/css/app/[lang]/layout.css",
       "static/chunks/app/[lang]/layout.js"
     ],
-    "/[lang]/(auth)/login/page": [
+    "/[lang]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/[lang]/(auth)/login/page.js"
+      "static/chunks/app/[lang]/page.js"
     ],
     "/[lang]/dashboard/page": [
       "static/chunks/webpack.js",
@@ -26,30 +26,30 @@
       "static/chunks/main-app.js",
       "static/chunks/app/[lang]/dashboard/exercise/page.js"
     ],
-    "/[lang]/page": [
+    "/[lang]/dashboard/shared-exercise/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/[lang]/page.js"
-    ],
-    "/[lang]/dashboard/report/[slug]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[lang]/dashboard/report/[slug]/page.js"
+      "static/chunks/app/[lang]/dashboard/shared-exercise/page.js"
     ],
     "/[lang]/dashboard/company/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/[lang]/dashboard/company/page.js"
     ],
-    "/[lang]/dashboard/company/[slug]/page": [
+    "/[lang]/(auth)/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/[lang]/dashboard/company/[slug]/page.js"
+      "static/chunks/app/[lang]/(auth)/login/page.js"
     ],
     "/[lang]/dashboard/company/[slug]/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/[lang]/dashboard/company/[slug]/layout.js"
+    ],
+    "/[lang]/dashboard/company/[slug]/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[lang]/dashboard/company/[slug]/page.js"
     ],
     "/[lang]/dashboard/company/[slug]/members/page": [
       "static/chunks/webpack.js",
@@ -61,20 +61,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/[lang]/dashboard/company/[slug]/members/[memberId]/reports/page.js"
     ],
-    "/[lang]/dashboard/shared-exercise/page": [
+    "/[lang]/dashboard/report/[slug]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/[lang]/dashboard/shared-exercise/page.js"
+      "static/chunks/app/[lang]/dashboard/report/[slug]/page.js"
     ],
-    "/[lang]/dashboard/setting/page": [
+    "/[lang]/dashboard/company/[slug]/setting/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/[lang]/dashboard/setting/page.js"
+      "static/chunks/app/[lang]/dashboard/company/[slug]/setting/page.js"
     ],
-    "/[lang]/company/[id]/page": [
+    "/[lang]/dashboard/company/[slug]/owners/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/[lang]/company/[id]/page.js"
+      "static/chunks/app/[lang]/dashboard/company/[slug]/owners/page.js"
     ]
   }
 }

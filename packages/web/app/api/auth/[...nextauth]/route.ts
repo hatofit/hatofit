@@ -66,6 +66,7 @@ const handler = NextAuth({
         // fetch user from external API
         const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`
         try {
+          console.log("login", url, credentials)
           const { status, data } = await axios({
             method: "POST",
             url,
@@ -101,6 +102,7 @@ const handler = NextAuth({
           }
         } catch (error) {
           console.log("AUTH ERROR AUTH", error)
+          console.log("login", url, credentials)
           return null
         }
 

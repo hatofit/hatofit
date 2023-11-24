@@ -1,8 +1,9 @@
 {
   "/[lang]/page": "app/[lang]/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/[lang]/dashboard/page": "app/[lang]/dashboard/page.js",
   "/[lang]/(auth)/login/page": "app/[lang]/(auth)/login/page.js",
+  "/[lang]/dashboard/page": "app/[lang]/dashboard/page.js",
   "/[lang]/dashboard/company/[slug]/page": "app/[lang]/dashboard/company/[slug]/page.js",
-  "/[lang]/dashboard/company/[slug]/members/page": "app/[lang]/dashboard/company/[slug]/members/page.js"
+  "/[lang]/dashboard/company/[slug]/members/page": "app/[lang]/dashboard/company/[slug]/members/page.js",
+  "/[lang]/dashboard/company/[slug]/owners/page": "app/[lang]/dashboard/company/[slug]/owners/page.js",
+  "/[lang]/dashboard/company/[slug]/setting/page": "app/[lang]/dashboard/company/[slug]/setting/page.js"
 }
