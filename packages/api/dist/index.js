@@ -47,7 +47,13 @@ const args = process.argv.slice(2);
     // middlewares
     app.use(express_1.default.json({ limit: process.env.FILE_LIMIT || "50mb" }));
     app.use(express_1.default.urlencoded({ limit: process.env.FILE_LIMIT || "50mb", extended: false }));
-    app.use((0, cors_1.default)());
+    app.use((0, cors_1.default)({
+        // allow all
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        origin: "*",
+        // allow auth
+        allowedHeaders: ["Content-Type", "Authorization"],
+    }));
     // routes
     (0, routes_1.InitRoutes)(app);
     // listen

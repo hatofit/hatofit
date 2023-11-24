@@ -50,7 +50,13 @@ const args = process.argv.slice(2);
   // middlewares
   app.use(express.json({ limit: process.env.FILE_LIMIT || "50mb" }));
   app.use(express.urlencoded({ limit: process.env.FILE_LIMIT || "50mb", extended: false }));
-  app.use(cors());
+  app.use(cors({
+    // allow all
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: "*",
+    // allow auth
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }));
 
   // routes
   InitRoutes(app);

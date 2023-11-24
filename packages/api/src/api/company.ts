@@ -8,6 +8,7 @@ import { getUserByAuth } from "../utils/auth";
 import { exceptObjectProp } from "../utils/obj";
 
 export const ApiCompany = ({ route }: { route: IRouter }) => {
+  // LISTINGS
   route.get('/company', async (req, res) => {
     const companies = await Company.find()
     return res.json({
@@ -60,6 +61,8 @@ export const ApiCompany = ({ route }: { route: IRouter }) => {
       return res.status(500).json({ error })
     }
   })
+
+  // COMPANY ACTIONS
   route.post('/company', AuthJwtMiddleware, async (req, res) => {
     try {
       const authUser = await getUserByAuth(req);
@@ -166,6 +169,9 @@ export const ApiCompany = ({ route }: { route: IRouter }) => {
       return res.status(400).json({ error })
     }
   })
+
+
+  // SETTINGS
   route.get('/company/:id/setting', AuthJwtMiddleware, async (req, res) => {
     try {
       const { id } = req.params
@@ -223,6 +229,8 @@ export const ApiCompany = ({ route }: { route: IRouter }) => {
       return res.status(500).json({ error })
     }
   })
+
+  // MEMBERS
   route.get('/company/:id/members', async (req, res) => {
     try {
       const { id } = req.params
@@ -295,6 +303,187 @@ export const ApiCompany = ({ route }: { route: IRouter }) => {
       return res.status(500).json({ error })
     }
   })
+
+  // OWNERS
+  route.get('/company/:id/owners', async (req, res) => {
+    try {
+      const { id } = req.params
+      const company = await Company.findById(id)
+      if (!company) {
+        return res.status(404).json({
+          success: false,
+          message: 'Company not found',
+        })
+      }
+
+      const owners = company.admins
+      const users = await User.find({
+        _id: {
+          $in: owners.map(owner => owner.userId)
+        }
+      })
+
+      return res.json({
+        success: true,
+        message: 'Owners found',
+        owners,
+        users: users.map(user => ({
+          _id: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+        })),
+      })
+    } catch (error) {
+      console.error(error)
+      return res.status(500).json({ error })
+    }
+  })
+  route.post('/company/:id/owners', AuthJwtMiddleware, async (req, res) => {
+    try {
+      const { id } = req.params
+      const { email } = req.body
+
+      // search company
+      const company = await Company.findById(id)
+      if (!company) {
+        return res.status(404).json({
+          success: false,
+          message: 'Company not found',
+        })
+      }
+
+      // login user must be admin of this company
+      const authUser = await getUserByAuth(req);
+      if (!authUser) return res
+        .status(401)
+        .json({
+          success: false,
+          message: "User not found",
+        });
+      const authUserAdmin = company.admins.find(admin => admin.userId === authUser._id)
+      if (!authUserAdmin) {
+        return res.status(403).json({
+          success: false,
+          message: 'User not allowed',
+        })
+      }
+
+
+      // search user to add
+      const userToAdd = await User.findOne({
+        email,
+      })
+      if (!userToAdd) {
+        return res.status(404).json({
+          success: false,
+          message: 'User not found',
+        })
+      }
+
+      // add to admin company
+      const companyNew = [...company.admins]
+      // search if user already in company
+      const userAlreadyInCompany = companyNew.find(admin => admin.userId === userToAdd._id)
+      if (userAlreadyInCompany) {
+        return res.status(400).json({
+          success: false,
+          message: 'User already in company',
+        })
+      }
+
+      // add
+      companyNew.push({
+        userId: userToAdd._id,
+        role: 'owner',
+      })
+
+      // update company
+      await company.updateOne({
+        admins: companyNew,
+      }, { new: true })
+
+      return res.json({
+        success: true,
+        message: 'Add owner successfully',
+        email,
+      })
+    } catch (error) {
+      console.error(error)
+      return res.status(500).json({ error })
+    }
+  })
+  route.delete('/company/:id/owners', AuthJwtMiddleware, async (req, res) => {
+    try {
+      const { id } = req.params
+      const { userId } = req.body
+
+      // search company
+      const company = await Company.findById(id)
+      if (!company) {
+        return res.status(404).json({
+          success: false,
+          message: 'Company not found',
+        })
+      }
+
+      // login user must be admin of this company
+      const authUser = await getUserByAuth(req);
+      if (!authUser) return res
+        .status(401)
+        .json({
+          success: false,
+          message: "User not found",
+        });
+      const authUserAdmin = company.admins.find(admin => admin.userId === authUser._id)
+      if (!authUserAdmin) {
+        return res.status(403).json({
+          success: false,
+          message: 'User not allowed',
+        })
+      }
+
+      // search user to remove
+      const userToAdd = await User.findById(userId)
+      if (!userToAdd) {
+        return res.status(404).json({
+          success: false,
+          message: 'User not found',
+        })
+      }
+
+      // remove from admin company
+      const companyNew = [...company.admins]
+      // search if user already in company
+      const userAlreadyInCompany = companyNew.find(admin => admin.userId === userToAdd._id)
+      if (!userAlreadyInCompany) {
+        return res.status(400).json({
+          success: false,
+          message: 'User not in company',
+        })
+      }
+
+      // remove
+      companyNew.splice(companyNew.indexOf(userAlreadyInCompany), 1)
+
+      // update company
+      await company.updateOne({
+        admins: companyNew,
+      }, { new: true })
+
+      return res.json({
+        success: true,
+        message: 'Remove owner successfully',
+        userId,
+      })
+    } catch (error) {
+      console.error(error)
+      return res.status(500).json({ error })
+    }
+  })
+
+
+  // AUTHS
   route.get('/auth/company-linked', AuthJwtMiddleware, async (req, res) => {
     try {
       let authUser = await getUserByAuth(req);
