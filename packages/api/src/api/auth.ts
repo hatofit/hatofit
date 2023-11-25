@@ -1,47 +1,50 @@
 import bcrypt from "bcrypt";
 import dayjs from "dayjs";
+import dayjsutc from "dayjs/plugin/utc";
 import express from "express";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import { getReportFromSession } from "../actions/report";
 import { Session, User } from "../db";
 import { AuthJwtMiddleware } from "../middlewares/auth";
 import { UserSchema } from "../types/user";
 import { exceptObjectProp } from "../utils/obj";
-import dayjsutc from 'dayjs/plugin/utc'
-import { getReportFromSession } from "../actions/report";
 
-dayjs.extend(dayjsutc)
-
+dayjs.extend(dayjsutc);
 
 // funcs
-const findBmi = (weightUnits: string, heightUnits: string, userWeight: number, userHeight: number) => {
+const findBmi = (
+  weightUnits: string,
+  heightUnits: string,
+  userWeight: number,
+  userHeight: number
+) => {
   let bmi = 0;
   switch (weightUnits) {
-    case 'kg':
+    case "kg":
       switch (heightUnits) {
-        case 'cm':
+        case "cm":
           bmi = userWeight / ((userHeight / 100) * (userHeight / 100));
           break;
-        case 'ft':
-          bmi = userWeight / ((userHeight * 12) * (userHeight * 12)) * 703;
+        case "ft":
+          bmi = (userWeight / (userHeight * 12 * (userHeight * 12))) * 703;
           break;
       }
       break;
 
-    case 'lbs':
+    case "lbs":
       switch (heightUnits) {
-        case 'cm':
-          bmi = userWeight / ((userHeight / 100) * (userHeight / 100)) * 703;
+        case "cm":
+          bmi = (userWeight / ((userHeight / 100) * (userHeight / 100))) * 703;
           break;
-        case 'ft':
-          bmi = userWeight / ((userHeight * 12) * (userHeight * 12));
+        case "ft":
+          bmi = userWeight / (userHeight * 12 * (userHeight * 12));
           break;
       }
       break;
   }
   return bmi;
-}
-
+};
 
 // routes
 export const ApiAuth = ({ route }: { route: express.Router }) => {
@@ -261,7 +264,6 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
           }
         );
       }, 300000);
-
     } catch (error) {
       // console.error(error)
       return res.status(400).json({ error });
@@ -519,7 +521,6 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
     }
   });
 
-
   // part of reports
   route.get("/dashboard", AuthJwtMiddleware, async (req, res) => {
     try {
@@ -528,98 +529,125 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
       // const
       const widgets = [
         {
-          name: 'BMI',
+          name: "BMI",
           handler: () => {
-            const userWeight = user?.weight
-            const userHeight = user?.height
-            const weightUnits = user?.metricUnits?.weightUnits
-            const heightUnits = user?.metricUnits?.heightUnits
+            const userWeight = user?.weight;
+            const userHeight = user?.height;
+            const weightUnits = user?.metricUnits?.weightUnits;
+            const heightUnits = user?.metricUnits?.heightUnits;
 
-            const bmi = findBmi(weightUnits, heightUnits, userWeight, userHeight)
+            const bmi = findBmi(
+              weightUnits,
+              heightUnits,
+              userWeight,
+              userHeight
+            );
 
-            return `${bmi.toFixed(2)}`
-          }
+            return `${bmi.toFixed(2)}`;
+          },
         },
         {
-          name: 'BMI Status',
+          name: "BMI Status",
           handler: () => {
-            const userWeight = user?.weight
-            const userHeight = user?.height
-            const weightUnits = user?.metricUnits?.weightUnits
-            const heightUnits = user?.metricUnits?.heightUnits
-            const bmi = findBmi(weightUnits, heightUnits, userWeight, userHeight)
-            let status = '';
+            const userWeight = user?.weight;
+            const userHeight = user?.height;
+            const weightUnits = user?.metricUnits?.weightUnits;
+            const heightUnits = user?.metricUnits?.heightUnits;
+            const bmi = findBmi(
+              weightUnits,
+              heightUnits,
+              userWeight,
+              userHeight
+            );
+            let status = "";
             if (bmi < 18.5) {
-              status = 'Underweight';
+              status = "Underweight";
             } else if (bmi >= 18.5 && bmi <= 24.9) {
-              status = 'Normal';
+              status = "Normal";
             } else if (bmi >= 25 && bmi <= 29.9) {
-              status = 'Overweight';
+              status = "Overweight";
             } else if (bmi >= 30 && bmi <= 34.9) {
-              status = 'Obesity';
+              status = "Obesity";
             } else {
-              status = 'Unknown';
+              status = "Unknown";
             }
-            return `${status}`
-          }
+            return `${status}`;
+          },
         },
         {
-          name: 'Calories',
+          name: "Calories",
           handler: async () => {
             const findAvgHr = (data: any) => {
               // format data is [second, hrvalue]
-              let sum = 0
-              let count = 0
+              let sum = 0;
+              let count = 0;
               for (const item of data || []) {
-                sum += item[1]
-                count += 1
+                sum += item[1];
+                count += 1;
               }
-              return Math.round(sum / count)
-            }
+              return Math.round(sum / count);
+            };
 
             const findCal = (report: any) => {
               // prepare variables
-              const startTime = dayjs.utc(report?.startTime).local()
-              const endTime = dayjs.utc(report?.endTime).local()
-              const diffTime = endTime.diff(startTime, 'second')
+              const startTime = dayjs.utc(report?.startTime).local();
+              const endTime = dayjs.utc(report?.endTime).local();
+              const diffTime = endTime.diff(startTime, "second");
               const avgHr = findAvgHr(
-                report?.reports?.find((report: any) => report?.type === 'hr')?.data[0]?.value || []
-              )
-              const secToMin = diffTime / 60
+                report?.reports?.find((report: any) => report?.type === "hr")
+                  ?.data[0]?.value || []
+              );
+              const secToMin = diffTime / 60;
 
-              const weightUnits = user?.metricUnits?.weightUnits
-              const energyUnits = user?.metricUnits?.energyUnits
-              const userWeight = user?.weight
-              const userHeight = user?.height
-              const userGender = user?.gender
-              const age = dayjs().diff(dayjs(user?.dateOfBirth), 'year')
+              const weightUnits = user?.metricUnits?.weightUnits;
+              const energyUnits = user?.metricUnits?.energyUnits;
+              const userWeight = user?.weight;
+              const userHeight = user?.height;
+              const userGender = user?.gender;
+              const age = dayjs().diff(dayjs(user?.dateOfBirth), "year");
 
               // calculate calories
               let calories = 0;
               switch (userGender) {
-                case 'male':
-                  if (weightUnits == 'kg') {
-                    calories = secToMin *
-                        (0.6309 * avgHr + 0.1988 * userWeight + 0.2017 * age - 55.0969) /
-                        4.184;
-                  } else if (weightUnits == 'lbs') {
+                case "male":
+                  if (weightUnits == "kg") {
+                    calories =
+                      (secToMin *
+                        (0.6309 * avgHr +
+                          0.1988 * userWeight +
+                          0.2017 * age -
+                          55.0969)) /
+                      4.184;
+                  } else if (weightUnits == "lbs") {
                     let weightInKg = userWeight * 0.453592;
-                    calories = secToMin *
-                        (0.6309 * avgHr + 0.1988 * weightInKg + 0.2017 * age - 55.0969) /
-                        4.184;
+                    calories =
+                      (secToMin *
+                        (0.6309 * avgHr +
+                          0.1988 * weightInKg +
+                          0.2017 * age -
+                          55.0969)) /
+                      4.184;
                   }
                   break;
 
-                case 'female':
-                  if (weightUnits == 'kg') {
-                    calories = secToMin *
-                        (0.4472 * avgHr - 0.1263 * userWeight + 0.074 * age - 20.4022) /
-                        4.184;
-                  } else if (weightUnits == 'lbs') {
+                case "female":
+                  if (weightUnits == "kg") {
+                    calories =
+                      (secToMin *
+                        (0.4472 * avgHr -
+                          0.1263 * userWeight +
+                          0.074 * age -
+                          20.4022)) /
+                      4.184;
+                  } else if (weightUnits == "lbs") {
                     let weightInKg = userWeight * 0.453592;
-                    calories = secToMin *
-                        (0.4472 * avgHr - 0.1263 * weightInKg + 0.074 * age - 20.4022) /
-                        4.184;
+                    calories =
+                      (secToMin *
+                        (0.4472 * avgHr -
+                          0.1263 * weightInKg +
+                          0.074 * age -
+                          20.4022)) /
+                      4.184;
                   }
                   break;
 
@@ -627,46 +655,41 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
                   calories = 0;
                   break;
               }
-              if (energyUnits == 'kcal') {
+              if (energyUnits == "kcal") {
                 return calories;
-              } else if (energyUnits == 'kJ') {
+              } else if (energyUnits == "kJ") {
                 return calories * 4.184;
               }
 
-              return calories
-            }
+              return calories;
+            };
 
             // get all session
             const sessions = await Session.find({
               userId: user._id,
-            })
+            });
 
             //
-            let cal = 0
+            let cal = 0;
             for (const session of sessions) {
               try {
-                cal += findCal(await getReportFromSession(session))
-              } catch (error) {
-
-              }
+                cal += findCal(await getReportFromSession(session));
+              } catch (error) {}
             }
 
-            return `${cal.toFixed(2)} Cal`
-          }
+            return `${cal.toFixed(2)} Cal`;
+          },
         },
-      ]
+      ];
 
-
-      const widgets_result: any[] = []
+      const widgets_result: any[] = [];
       for (const r of widgets) {
         try {
           widgets_result.push({
             ...r,
             value: await r.handler(),
-          })
-        } catch (error) {
-
-        }
+          });
+        } catch (error) {}
       }
 
       return res.json({
@@ -675,8 +698,73 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
         widgets: widgets_result,
       });
     } catch (error) {
-      console.error(error)
+      console.error(error);
       return res.status(500).json({ error });
+    }
+  });
+  route.post("/delete", AuthJwtMiddleware, async (req, res) => {
+    console.log("DATA BODY", req.body);
+    try {
+      // validate input
+      const password = req.body.password || "";
+      // remove whitespace
+      if (password.trim() === "") {
+        return res.status(400).json({
+          success: false,
+          message: "Password must not be empty",
+        });
+      }
+      // check poassword must filled
+      // remove whitespace
+      if (password.trim() === "") {
+        return res.status(400).json({
+          success: false,
+          message: "Password must not be empty",
+        });
+      }
+
+      // save to db
+      const found = await User.findOne({
+        _id: req.auth?.user?._id,
+      });
+
+      // resposne
+      if (!found) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+      const isMatch = await new Promise((res) => {
+        bcrypt.compare(
+          password,
+          found.password || "",
+          function (err: any, result: any) {
+            return res(result);
+          }
+        );
+      });
+      if (!isMatch) {
+        return res.status(401).json({
+          success: false,
+          message: "Password is incorrect",
+        });
+      }
+
+      // delete
+      const deleted = await User.findOneAndDelete({
+        _id: req.auth?.user?._id,
+      });
+
+      // resposne
+      return res.json({
+        success: true,
+        message: "User deleted successfully",
+        user: exceptObjectProp(deleted?.toObject(), ["password"]),
+      });
+    } catch (error) {
+      // console.error(error)
+      return res.status(400).json({ error });
     }
   });
 };
