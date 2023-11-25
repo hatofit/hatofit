@@ -18,11 +18,6 @@ class ForgotPasswordController extends GetxController {
   final isLoadingVerifyCode = false.obs;
   final isLoadingResetPassword = false.obs;
   final isAuthorized = false.obs;
-  @override
-  void onInit() {
-    super.onInit();
-    emailController.text = 'bokirsianpar95@gmail.com';
-  }
 
   void clearOTP() {
     firstVerCodeController.clear();
