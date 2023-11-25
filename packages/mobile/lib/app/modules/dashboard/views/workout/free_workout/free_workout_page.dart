@@ -242,12 +242,12 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
                                         .copyWith(
                                           fontWeight: FontWeight.bold,
                                         )),
-                                Text('of max HR'),
+                                const Text('of max HR'),
                               ],
                             ),
                           )),
                       Container(
-                          padding: EdgeInsets.all(32),
+                          padding: const EdgeInsets.all(32),
                           decoration: BoxDecoration(
                             color: Get.isDarkMode
                                 ? ColorConstants.darkContainer
@@ -256,15 +256,15 @@ class FreeWorkoutPage extends GetView<FreeWorkoutController> {
                           ),
                           child: Column(
                             children: [
-                              Text('Zone'),
+                              const Text('Zone'),
                               Text(
-                                controller.hrZoneType!.name,
+                                controller.hrZoneType.name,
                                 style: Theme.of(context)
                                     .textTheme
                                     .displaySmall!
                                     .copyWith(
                                       fontWeight: FontWeight.bold,
-                                      color: controller.hrZoneType!.color,
+                                      color: controller.hrZoneType.color,
                                     ),
                               ),
                             ],

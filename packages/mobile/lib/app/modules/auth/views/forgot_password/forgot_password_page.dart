@@ -44,7 +44,7 @@ class ForgotPasswordPage extends GetView<ForgotPasswordController> {
             Text(
               'Enter your email address and we will send you a link to reset your password',
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyText1?.copyWith(
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
@@ -57,7 +57,7 @@ class ForgotPasswordPage extends GetView<ForgotPasswordController> {
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 hintText: 'Email',
-                hintStyle: Theme.of(context).textTheme.bodyText1?.copyWith(
+                hintStyle: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
@@ -102,7 +102,7 @@ class ForgotPasswordPage extends GetView<ForgotPasswordController> {
                       : Text(
                           'Send',
                           style:
-                              Theme.of(context).textTheme.bodyText1?.copyWith(
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),

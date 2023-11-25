@@ -1,5 +1,5 @@
 name: hatofit
-version: 1.0.0+1
+version: 1.0.0+2
 publish_to: none
 description: A new Flutter project.
 
@@ -62,7 +62,7 @@ dependencies:
   firebase_core: ^2.15.1
   firebase_analytics: ^10.4.5
   firebase_crashlytics: ^3.3.5
-  health: ^8.0.0
+  # health: ^8.0.0
   syncfusion_flutter_gauges: ^21.2.10
 
 dev_dependencies:

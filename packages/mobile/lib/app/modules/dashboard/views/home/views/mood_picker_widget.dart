@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
-import 'package:hatofit/utils/debug_logger.dart';
 import 'package:intl/intl.dart';
 
 class MoodController extends GetxController {

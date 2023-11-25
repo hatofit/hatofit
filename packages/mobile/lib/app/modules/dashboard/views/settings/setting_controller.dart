@@ -1,8 +1,5 @@
 import 'package:get/get.dart';
 import 'package:hatofit/app/routes/app_routes.dart';
-import 'package:hatofit/utils/snackbar.dart';
-import 'package:health/health.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../services/preferences_service.dart';
 
@@ -20,9 +17,9 @@ class SettingController extends GetxController {
     final dateOfBirth = store.user!.dateOfBirth;
     final age = DateTime.now().year - dateOfBirth!.year;
     userAge.value = age.toString();
-    if (store.isSyncGoogleFit ?? false) {
-      authorize();
-    }
+    // if (store.isSyncGoogleFit ?? false) {
+    //   authorize();
+    // }
     super.onInit();
   }
 
@@ -31,37 +28,37 @@ class SettingController extends GetxController {
     Get.offAllNamed(AppRoutes.greeting);
   }
 
-  static final types = [
-    HealthDataType.HEART_RATE,
-    HealthDataType.WEIGHT,
-    HealthDataType.HEIGHT,
-    HealthDataType.STEPS,
-    HealthDataType.SLEEP_ASLEEP,
-  ];
+  // static final types = [
+  //   HealthDataType.HEART_RATE,
+  //   HealthDataType.WEIGHT,
+  //   HealthDataType.HEIGHT,
+  //   HealthDataType.STEPS,
+  //   HealthDataType.SLEEP_ASLEEP,
+  // ];
 
-  HealthFactory health = HealthFactory(useHealthConnectIfAvailable: true);
-  final permissions = types.map((e) => HealthDataAccess.READ_WRITE).toList();
+  // HealthFactory health = HealthFactory(useHealthConnectIfAvailable: true);
+  // final permissions = types.map((e) => HealthDataAccess.READ_WRITE).toList();
 
-  Future authorize() async {
-    await Permission.activityRecognition.request();
-    await Permission.location.request();
+  // Future authorize() async {
+  //   await Permission.activityRecognition.request();
+  //   await Permission.location.request();
 
-    bool? hasPermissions =
-        await health.hasPermissions(types, permissions: permissions);
-    hasPermissions = false;
+  //   bool? hasPermissions =
+  //       await health.hasPermissions(types, permissions: permissions);
+  //   hasPermissions = false;
 
-    if (!hasPermissions) {
-      try {
-        authorized.value =
-            await health.requestAuthorization(types, permissions: permissions);
-        if (authorized.value) {
-          store.isSyncGoogleFit = true;
-        } else {
-          MySnackbar.error('Error', 'Error while trying to authorize');
-        }
-      } catch (error) {
-        MySnackbar.error('Error', 'Error while trying to authorize');
-      }
-    }
-  }
+  //   if (!hasPermissions) {
+  //     try {
+  //       authorized.value =
+  //           await health.requestAuthorization(types, permissions: permissions);
+  //       if (authorized.value) {
+  //         store.isSyncGoogleFit = true;
+  //       } else {
+  //         MySnackbar.error('Error', 'Error while trying to authorize');
+  //       }
+  //     } catch (error) {
+  //       MySnackbar.error('Error', 'Error while trying to authorize');
+  //     }
+  //   }
+  // }
 }

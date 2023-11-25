@@ -49,7 +49,7 @@ class ResetPasswordView extends GetView<ForgotPasswordController> {
                           'Enter your new password',
                           textAlign: TextAlign.center,
                           style:
-                              Theme.of(context).textTheme.bodyText1?.copyWith(
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -63,7 +63,7 @@ class ResetPasswordView extends GetView<ForgotPasswordController> {
                           decoration: InputDecoration(
                             hintText: 'Password',
                             hintStyle:
-                                Theme.of(context).textTheme.bodyText1?.copyWith(
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -96,7 +96,7 @@ class ResetPasswordView extends GetView<ForgotPasswordController> {
                           decoration: InputDecoration(
                             hintText: 'Confirm Password',
                             hintStyle:
-                                Theme.of(context).textTheme.bodyText1?.copyWith(
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -142,7 +142,7 @@ class ResetPasswordView extends GetView<ForgotPasswordController> {
                                         'Send',
                                         style: Theme.of(context)
                                             .textTheme
-                                            .bodyText1
+                                            .bodyLarge
                                             ?.copyWith(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w500,
@@ -158,7 +158,7 @@ class ResetPasswordView extends GetView<ForgotPasswordController> {
                       Text(
                         'Enter verification code sent to your email address',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                             ),
@@ -225,7 +225,7 @@ class ResetPasswordView extends GetView<ForgotPasswordController> {
                                   'Send',
                                   style: Theme.of(context)
                                       .textTheme
-                                      .bodyText1
+                                      .bodyLarge
                                       ?.copyWith(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w500,

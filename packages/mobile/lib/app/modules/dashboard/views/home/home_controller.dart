@@ -6,8 +6,7 @@ import 'package:hatofit/app/services/internet_service.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/utils/calories_utils.dart';
 import 'package:hatofit/utils/hr_zone.dart';
-import 'package:hatofit/utils/snackbar.dart';
-import 'package:health/health.dart';
+// import 'package:health/health.dart';
 import 'package:intl/intl.dart';
 
 class HomeController extends GetxController {
@@ -42,9 +41,9 @@ class HomeController extends GetxController {
       heightUnits.value = store.user!.metricUnits!.heightUnits!;
       energyUnits.value = store.user!.metricUnits!.energyUnits!;
     }
-    if (store.isSyncGoogleFit ?? false) {
-      await fetchData();
-    }
+    // if (store.isSyncGoogleFit ?? false) {
+    //   await fetchData();
+    // }
 
     super.onInit();
   }
@@ -163,58 +162,58 @@ class HomeController extends GetxController {
     hrPercentage = hrZone.findPercentage(hr);
   }
 
-  static final types = [
-    HealthDataType.HEART_RATE,
-    HealthDataType.WEIGHT,
-    HealthDataType.HEIGHT,
-    HealthDataType.STEPS,
-    HealthDataType.SLEEP_ASLEEP,
-  ];
-  final healthDataList = <HealthDataPoint>[].obs;
-  final stepsMapping = <HealthDataPoint>[].obs;
-  final sleepMapping = <HealthDataPoint>[].obs;
-  final sleepPointerGauge = 0.0.obs;
-  HealthFactory health = HealthFactory(useHealthConnectIfAvailable: true);
+  // static final types = [
+  //   HealthDataType.HEART_RATE,
+  //   HealthDataType.WEIGHT,
+  //   HealthDataType.HEIGHT,
+  //   HealthDataType.STEPS,
+  //   HealthDataType.SLEEP_ASLEEP,
+  // ];
+  // final healthDataList = <HealthDataPoint>[].obs;
+  // final stepsMapping = <HealthDataPoint>[].obs;
+  // final sleepMapping = <HealthDataPoint>[].obs;
+  // final sleepPointerGauge = 0.0.obs;
+  // HealthFactory health = HealthFactory(useHealthConnectIfAvailable: true);
 
-  Future fetchData() async {
-    final now = DateTime.now();
-    final yesterday = now.subtract(const Duration(hours: 24));
-    healthDataList.clear();
-    stepsMapping.clear();
+  // Future fetchData() async {
+  //   final now = DateTime.now();
+  //   final yesterday = now.subtract(const Duration(hours: 24));
+  //   healthDataList.clear();
+  //   stepsMapping.clear();
 
-    try {
-      List<HealthDataPoint> healthData =
-          await health.getHealthDataFromTypes(yesterday, now, types);
-      healthDataList.addAll(
-          (healthData.length < 100) ? healthData : healthData.sublist(0, 100));
-    } catch (error) {
-      MySnackbar.error(
-          'Error', 'Error while trying to fetch data from Google Fit');
-    }
-    healthDataList.value = HealthFactory.removeDuplicates(healthDataList);
-    for (var item in healthDataList) {
-      if (item.type == HealthDataType.STEPS
-          //  &&
-          //     item.dateTo == DateTime.now() &&
-          //     item.dateFrom == DateTime.now().subtract(Duration(days: 1))
-          ) {
-        stepsMapping.add(item);
-      }
-      if (item.type == HealthDataType.SLEEP_ASLEEP
-          // &&
-          //     item.dateTo == DateTime.now() &&
-          //     item.dateFrom == DateTime.now().subtract(Duration(days: 1)),
-          ) {
-        sleepMapping.add(item);
-        final totalSleepHours = double.parse(item.value.toString()) / 60;
-        if (totalSleepHours < 7) {
-          sleepPointerGauge.value = 33;
-        } else if (totalSleepHours >= 7 && totalSleepHours <= 9) {
-          sleepPointerGauge.value = 50;
-        } else if (totalSleepHours > 9) {
-          sleepPointerGauge.value = 100;
-        }
-      }
-    }
-  }
+  //   try {
+  //     List<HealthDataPoint> healthData =
+  //         await health.getHealthDataFromTypes(yesterday, now, types);
+  //     healthDataList.addAll(
+  //         (healthData.length < 100) ? healthData : healthData.sublist(0, 100));
+  //   } catch (error) {
+  //     MySnackbar.error(
+  //         'Error', 'Error while trying to fetch data from Google Fit');
+  //   }
+  //   healthDataList.value = HealthFactory.removeDuplicates(healthDataList);
+  //   for (var item in healthDataList) {
+  //     if (item.type == HealthDataType.STEPS
+  //         //  &&
+  //         //     item.dateTo == DateTime.now() &&
+  //         //     item.dateFrom == DateTime.now().subtract(Duration(days: 1))
+  //         ) {
+  //       stepsMapping.add(item);
+  //     }
+  //     if (item.type == HealthDataType.SLEEP_ASLEEP
+  //         // &&
+  //         //     item.dateTo == DateTime.now() &&
+  //         //     item.dateFrom == DateTime.now().subtract(Duration(days: 1)),
+  //         ) {
+  //       sleepMapping.add(item);
+  //       final totalSleepHours = double.parse(item.value.toString()) / 60;
+  //       if (totalSleepHours < 7) {
+  //         sleepPointerGauge.value = 33;
+  //       } else if (totalSleepHours >= 7 && totalSleepHours <= 9) {
+  //         sleepPointerGauge.value = 50;
+  //       } else if (totalSleepHours > 9) {
+  //         sleepPointerGauge.value = 100;
+  //       }
+  //     }
+  //   }
+  // }
 }

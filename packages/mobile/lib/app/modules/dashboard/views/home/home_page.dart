@@ -6,8 +6,6 @@ import 'package:hatofit/app/modules/dashboard/views/home/views/calories_chart_wi
 import 'package:hatofit/app/modules/dashboard/views/home/views/exercise_now_widget.dart';
 import 'package:hatofit/app/modules/dashboard/views/home/views/hr_lines_chart.dart';
 import 'package:hatofit/app/modules/dashboard/views/home/views/mood_picker_widget.dart';
-import 'package:hatofit/app/modules/dashboard/views/home/views/sleeps_info_widget.dart';
-import 'package:hatofit/app/modules/dashboard/views/home/views/steps_chart_widget.dart';
 import 'package:hatofit/app/services/bluetooth_service.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
 import 'package:hatofit/app/themes/app_theme.dart';
@@ -29,7 +27,7 @@ class HomePage extends GetView<HomeController> {
         body: RefreshIndicator(
           onRefresh: () {
             controller.hrCharting();
-            controller.fetchData();
+            // controller.fetchData();
             controller.update();
             return Future.delayed(const Duration(seconds: 1));
           },
@@ -98,7 +96,7 @@ class HomePage extends GetView<HomeController> {
                                                 .displaySmall,
                                           ),
                                           Text(
-                                            '${device.info.name}',
+                                            device.info.name,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyMedium,
@@ -286,9 +284,9 @@ class HomePage extends GetView<HomeController> {
                       )),
                 ),
                 SizedBox(height: Get.height * 0.01),
-                const StepsChartWidget(),
-                SizedBox(height: Get.height * 0.01),
-                const SleepsInfoWidget(),
+                // const StepsChartWidget(),
+                // SizedBox(height: Get.height * 0.01),
+                // const SleepsInfoWidget(),
               ],
             ),
           ),

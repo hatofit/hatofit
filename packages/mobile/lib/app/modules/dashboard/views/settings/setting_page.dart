@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:hatofit/app/modules/dashboard/views/settings/setting_controller.dart';
 import 'package:hatofit/app/modules/dashboard/views/settings/views/device_integration/device_integration_page.dart';
@@ -105,54 +104,54 @@ class SettingPage extends GetView<SettingController> {
                     ),
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 24),
-                  decoration: BoxDecoration(
-                    color: isDarkMode
-                        ? ColorConstants.darkContainer
-                        : ColorConstants.lightContainer,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/images/icons/google-fit.svg',
-                                  width: 18,
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                Text(
-                                  "Sync to Google Fit",
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                              ],
-                            ),
-                            Obx(
-                              () => Transform.scale(
-                                scale: 0.8,
-                                child: CupertinoSwitch(
-                                  value: controller.authorized.value,
-                                  onChanged: (value) async {
-                                    controller.authorize();
-                                  },
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                // Container(
+                //   margin: const EdgeInsets.only(top: 24),
+                //   decoration: BoxDecoration(
+                //     color: isDarkMode
+                //         ? ColorConstants.darkContainer
+                //         : ColorConstants.lightContainer,
+                //     borderRadius: BorderRadius.circular(8),
+                //   ),
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Column(
+                //     children: [
+                //       Padding(
+                //         padding: const EdgeInsets.only(left: 8),
+                //         child: Row(
+                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //           children: [
+                //             Row(
+                //               children: [
+                //                 SvgPicture.asset(
+                //                   'assets/images/icons/google-fit.svg',
+                //                   width: 18,
+                //                 ),
+                //                 const SizedBox(
+                //                   width: 8,
+                //                 ),
+                //                 Text(
+                //                   "Sync to Google Fit",
+                //                   style: Theme.of(context).textTheme.bodyMedium,
+                //                 ),
+                //               ],
+                //             ),
+                //             Obx(
+                //               () => Transform.scale(
+                //                 scale: 0.8,
+                //                 child: CupertinoSwitch(
+                //                   value: controller.authorized.value,
+                //                   onChanged: (value) async {
+                //                     controller.authorize();
+                //                   },
+                //                 ),
+                //               ),
+                //             )
+                //           ],
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 Container(
                   margin: const EdgeInsets.only(top: 24),
                   decoration: BoxDecoration(
@@ -179,7 +178,7 @@ class SettingPage extends GetView<SettingController> {
                       SettingListTileWidget(
                         title: 'Device Integration',
                         onTap: () {
-                          Get.to(() => DeviceIntegrationPage());
+                          Get.to(() => const DeviceIntegrationPage());
                         },
                       ),
                     ],

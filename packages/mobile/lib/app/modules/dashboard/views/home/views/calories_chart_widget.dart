@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:hatofit/app/models/charts/calories_data.dart';
 import 'package:hatofit/app/modules/dashboard/views/home/home_controller.dart';
 import 'package:hatofit/app/services/preferences_service.dart';
-import 'package:hatofit/app/themes/app_theme.dart';
 import 'package:hatofit/app/themes/colors_constants.dart';
 import 'package:hatofit/app/widget/icon_wrapper.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
