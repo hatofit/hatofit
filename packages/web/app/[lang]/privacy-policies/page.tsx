@@ -41,8 +41,8 @@ export default function PrivacyPoliciesPage() {
         <p>When you use Hatofit, we may collect the following information:</p>
         <ul>
           <li>
-            <strong>Personal Information:</strong> Name, email, weight, height,
-            and profile photo.
+            <strong>Personal Information:</strong> Name, email, date of birth,
+            weight, height, and profile photo.
           </li>
           <li>
             <strong>Health and Fitness Data:</strong> Real-time heart rate
@@ -91,10 +91,10 @@ export default function PrivacyPoliciesPage() {
       <section>
         <h2>4. Data Security</h2>
         <p>
-          We take reasonable measures to protect your personal information. This
-          includes encryption, secure data storage, and access controls.
-          However, no method of transmission over the internet or electronic
-          storage is 100% secure.
+          We take reasonable measures to protect your personal information,
+          including your date of birth. This includes encryption, secure data
+          storage, and access controls. However, no method of transmission over
+          the internet or electronic storage is 100% secure.
         </p>
       </section>
 
@@ -170,11 +170,12 @@ export default function PrivacyPoliciesPage() {
         <ul>
           <li>
             <strong>Access:</strong> You can request access to the personal
-            information we hold about you.
+            information, including your date of birth, we hold about you.
           </li>
           <li>
             <strong>Correction:</strong> You can request corrections to any
-            inaccurate or incomplete personal information.
+            inaccurate or incomplete personal information, including your date
+            of birth.
           </li>
           <li>
             <strong>Deletion:</strong> You can request the deletion of your
