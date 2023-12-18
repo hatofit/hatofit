@@ -3,6 +3,9 @@
 ## Mobile (packages/mobile)
 ### Dev
 - ```cd packages/mobile```
+- ```flutter pub get```
+- ```flutter run```
+  
 ### Todo
 - [X] Design
 
