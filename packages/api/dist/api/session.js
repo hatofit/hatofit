@@ -29,6 +29,34 @@ const ApiSession = ({ route }) => {
             sessions,
         });
     }));
+    route.get("/session/shared/:userid", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { userid } = req.params;
+        const user = yield db_1.User.findById(userid);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+        // const allowed = await ReportShare.find({
+        //   userViewId: req.auth?.user?._id,
+        //   userShareId: user._id,
+        // })
+        // if (allowed.length === 0) {
+        //   return res.status(403).json({
+        //     success: false,
+        //     message: "User not allowed",
+        //   });
+        // }
+        const sessions = yield db_1.Session.find({
+            userId: user._id,
+        });
+        return res.json({
+            success: true,
+            message: "Sessions shared found",
+            sessions,
+        });
+    }));
     route.get("/session/:id", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = req.params;

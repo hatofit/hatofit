@@ -8,11 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiReport = exports.getParsedFromDataDevice = exports.getDeviceNameFromDataDeviceType = exports.DevicesRules = void 0;
 const db_1 = require("../db");
 const auth_1 = require("../middlewares/auth");
-const report_1 = require("../types/report");
+const mongoose_1 = __importDefault(require("mongoose"));
+const obj_1 = require("../utils/obj");
+const report_1 = require("../actions/report");
 exports.DevicesRules = [
     // for polar
     {
@@ -98,124 +103,11 @@ const getParsedFromDataDevice = (device) => {
 };
 exports.getParsedFromDataDevice = getParsedFromDataDevice;
 const ApiReport = ({ route }) => {
-    route.get("/report/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        var _a;
-        try {
-            const { id } = req.params;
-            const session = yield db_1.Session.findById(id);
-            if (!session) {
-                return res.status(404).json({
-                    success: false,
-                    message: "Session not found",
-                });
-            }
-            // vars
-            const devices = [];
-            const reportsItems = [];
-            // evaluate data
-            for (const item of session.data) {
-                // continue if item no second
-                // console.log("item:", item);
-                if (typeof item.second === "undefined" ||
-                    !item.timeStamp ||
-                    !item.devices ||
-                    !item.devices.length) {
-                    continue;
-                }
-                // evaluate per device
-                for (const device of item.devices) {
-                    // continue if device type and identifier undefined
-                    if (!device.type || !device.identifier) {
-                        continue;
-                    }
-                    // console.log("device", device);
-                    const parsed = (0, exports.getParsedFromDataDevice)(device);
-                    // console.log("parsed", parsed.deviceName, device.type);
-                    // check if device already exists
-                    const deviceIndex = devices.findIndex((d) => d.identifier === device.identifier);
-                    if (deviceIndex === -1) {
-                        // add device
-                        devices.push({
-                            name: parsed.deviceName,
-                            identifier: device.identifier,
-                        });
-                    }
-                    // check data
-                    const reportsToListAccepted = [
-                        "hr",
-                        "ecg",
-                        "acc",
-                        "gyro",
-                        "magnetometer",
-                    ];
-                    for (const listreporttoacccepted of reportsToListAccepted) {
-                        const reportsItemsHr = parsed.reportsItems.filter((r) => r.type === listreporttoacccepted);
-                        for (const reportItem of reportsItemsHr) {
-                            const ri = reportsItems.find((item) => item.type === listreporttoacccepted);
-                            if (ri) {
-                                const riDevice = ri.data.find((item) => item.device === device.identifier);
-                                if (riDevice) {
-                                    const arg = reportItem.value;
-                                    try {
-                                        if (Array.isArray(arg)) {
-                                            riDevice.value.push([item.second, ...arg]);
-                                        }
-                                    }
-                                    catch (error) {
-                                        riDevice.value.push([item.second]);
-                                    }
-                                }
-                                else {
-                                    ri.data.push({
-                                        device: device.identifier,
-                                        value: [item.second, ...reportItem.value],
-                                    });
-                                }
-                            }
-                            else {
-                                reportsItems.push({
-                                    type: listreporttoacccepted,
-                                    data: [
-                                        {
-                                            device: device.identifier,
-                                            value: [[item.second, ...reportItem.value]],
-                                        },
-                                    ],
-                                });
-                            }
-                        }
-                    }
-                }
-            }
-            // reports
-            const report = report_1.ReportSchema.parse({
-                startTime: session.startTime,
-                endTime: session.endTime,
-                devices,
-                exerciseId: ((_a = session.exercise) === null || _a === void 0 ? void 0 : _a._id) || null,
-                sessionId: session._id,
-                reports: reportsItems,
-            });
-            console.log("devices:", devices);
-            console.log("reportsItems:", reportsItems);
-            return res.json({
-                success: true,
-                message: "Report generated",
-                report,
-                mood: session.mood,
-                exercise: session.exercise,
-            });
-        }
-        catch (error) {
-            console.error(error);
-            return res.status(500).json({ error });
-        }
-    }));
     route.post("/report/share", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        var _b, _c;
+        var _a, _b;
         try {
             // validate user
-            const userId = (_c = (_b = req.auth) === null || _b === void 0 ? void 0 : _b.user) === null || _c === void 0 ? void 0 : _c._id;
+            const userId = (_b = (_a = req.auth) === null || _a === void 0 ? void 0 : _a.user) === null || _b === void 0 ? void 0 : _b._id;
             if (!userId || typeof userId !== "string" || userId.length === 0) {
                 return res.json({
                     success: false,
@@ -240,8 +132,19 @@ const ApiReport = ({ route }) => {
                     message: "User not found",
                 });
             }
+            const userIsAllowed = yield db_1.ReportShare.findOne({
+                userShareId: userId,
+                userViewId: userByEmail._id || userByEmail.id,
+            });
+            if (userIsAllowed) {
+                return res.json({
+                    success: false,
+                    message: "User already allowed",
+                });
+            }
             // insert user to allow
             const userToAllow = yield db_1.ReportShare.create({
+                _id: new mongoose_1.default.Types.ObjectId().toHexString(),
                 userShareId: userId,
                 userViewId: userByEmail._id || userByEmail.id,
             });
@@ -259,7 +162,108 @@ const ApiReport = ({ route }) => {
             // street email
         }
         catch (error) {
+            console.error(error);
             return res.status(400).json({ error });
+        }
+    }));
+    route.get("/report/share", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _c, _d;
+        try {
+            // validate user
+            const userId = (_d = (_c = req.auth) === null || _c === void 0 ? void 0 : _c.user) === null || _d === void 0 ? void 0 : _d._id;
+            if (!userId || typeof userId !== "string" || userId.length === 0) {
+                return res.json({
+                    success: false,
+                    message: "Invalid userId",
+                });
+            }
+            const user_ids = [];
+            const lists = yield db_1.ReportShare.find({
+                userShareId: userId,
+            });
+            lists.forEach((list) => {
+                if (list.userViewId && !user_ids.includes(list.userViewId))
+                    user_ids.push(list.userViewId);
+            });
+            const users = yield db_1.User.find({
+                // find all users
+                _id: { $in: user_ids },
+            });
+            return res.json({
+                success: true,
+                message: "get allowed user from me",
+                lists: lists.map((list) => {
+                    var _a;
+                    return (Object.assign(Object.assign({}, list.toObject()), { userView: (0, obj_1.exceptObjectProp)((_a = users.find(item => item._id === list.userViewId)) === null || _a === void 0 ? void 0 : _a.toObject(), ["password"]) }));
+                })
+            });
+        }
+        catch (error) {
+            console.error(error);
+            return res.status(500).json({ error });
+        }
+    }));
+    route.get("/report/share/tome", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _e, _f;
+        try {
+            // validate user
+            const userId = (_f = (_e = req.auth) === null || _e === void 0 ? void 0 : _e.user) === null || _f === void 0 ? void 0 : _f._id;
+            if (!userId || typeof userId !== "string" || userId.length === 0) {
+                return res.json({
+                    success: false,
+                    message: "Invalid userId",
+                });
+            }
+            const user_ids = [];
+            const lists = yield db_1.ReportShare.find({
+                userViewId: userId,
+            });
+            lists.forEach((list) => {
+                if (list.userShareId && !user_ids.includes(list.userShareId))
+                    user_ids.push(list.userShareId);
+            });
+            const users = yield db_1.User.find({
+                // find all users
+                _id: { $in: user_ids },
+            });
+            return res.json({
+                success: true,
+                message: "get allowed user to me",
+                lists: lists.map((list) => {
+                    var _a;
+                    return (Object.assign(Object.assign({}, list.toObject()), { userShare: (0, obj_1.exceptObjectProp)((_a = users.find(item => item._id === list.userShareId)) === null || _a === void 0 ? void 0 : _a.toObject(), ["password"]) }));
+                })
+            });
+        }
+        catch (error) {
+            console.error(error);
+            return res.status(500).json({ error });
+        }
+    }));
+    route.get("/report/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const { id } = req.params;
+            const session = yield db_1.Session.findById(id);
+            const user = yield db_1.User.findById(session === null || session === void 0 ? void 0 : session.userId);
+            if (!session) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Session not found",
+                });
+            }
+            const report = yield (0, report_1.getReportFromSession)(session);
+            return res.json({
+                success: true,
+                message: "Report generated",
+                report,
+                mood: session.mood,
+                exercise: session.exercise,
+                user: (0, obj_1.exceptObjectProp)(user === null || user === void 0 ? void 0 : user.toObject(), ["password"]),
+            });
+        }
+        catch (error) {
+            console.error(error);
+            return res.status(500).json({ error });
         }
     }));
 };

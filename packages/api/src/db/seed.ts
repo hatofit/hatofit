@@ -45,6 +45,17 @@ const exerciseSeed = [
     duration: 0,
     instructions: [],
   },
+  {
+    _id: "Other",
+    name: "Other",
+    description: "",
+    difficulty: "",
+    type: "",
+    thumbnail:
+      "https://assets-global.website-files.com/617b224ba2374548fcc039ba/617b224ba237453ce1c0409b_hpfulq-1234-1024x512.jpg",
+    duration: 0,
+    instructions: [],
+  },
 ];
 
 export const seed = async () => {

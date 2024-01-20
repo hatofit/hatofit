@@ -8,6 +8,9 @@ import {
   ReportSchema,
 } from "../types/report";
 import { SessionDataItemDeviceSchema } from "../types/session";
+import mongoose from "mongoose";
+import { exceptObjectProp } from "../utils/obj";
+import { getReportFromSession } from "../actions/report";
 
 export interface DeviceRule {
   name: string;
@@ -122,133 +125,6 @@ export const getParsedFromDataDevice = (
 };
 
 export const ApiReport = ({ route }: { route: express.Router }) => {
-  route.get("/report/:id", async (req, res) => {
-    try {
-      const { id } = req.params;
-      const session = await Session.findById(id);
-      if (!session) {
-        return res.status(404).json({
-          success: false,
-          message: "Session not found",
-        });
-      }
-
-      // vars
-      const devices: z.input<typeof ReportDevicesSchema> = [];
-      const reportsItems: z.input<typeof ReportItemsSchema> = [];
-
-      // evaluate data
-      for (const item of session.data) {
-        // continue if item no second
-        // console.log("item:", item);
-        if (
-          typeof item.second === "undefined" ||
-          !item.timeStamp ||
-          !item.devices ||
-          !item.devices.length
-        ) {
-          continue;
-        }
-
-        // evaluate per device
-        for (const device of item.devices) {
-          // continue if device type and identifier undefined
-          if (!device.type || !device.identifier) {
-            continue;
-          }
-          // console.log("device", device);
-          const parsed = getParsedFromDataDevice(
-            device as z.input<typeof SessionDataItemDeviceSchema>
-          );
-          // console.log("parsed", parsed.deviceName, device.type);
-
-          // check if device already exists
-          const deviceIndex = devices.findIndex(
-            (d) => d.identifier === device.identifier
-          );
-          if (deviceIndex === -1) {
-            // add device
-            devices.push({
-              name: parsed.deviceName,
-              identifier: device.identifier,
-            });
-          }
-
-          // check data
-          const reportsToListAccepted = [
-            "hr",
-            "ecg",
-            "acc",
-            "gyro",
-            "magnetometer",
-          ];
-          for (const listreporttoacccepted of reportsToListAccepted) {
-            const reportsItemsHr = parsed.reportsItems.filter(
-              (r) => r.type === listreporttoacccepted
-            );
-            for (const reportItem of reportsItemsHr) {
-              const ri = reportsItems.find(
-                (item) => item.type === listreporttoacccepted
-              );
-              if (ri) {
-                const riDevice = ri.data.find(
-                  (item) => item.device === device.identifier
-                );
-                if (riDevice) {
-                  const arg = reportItem.value;
-                  try {
-                    if (Array.isArray(arg)) {
-                      riDevice.value.push([item.second, ...arg]);
-                    }
-                  } catch (error) {
-                    riDevice.value.push([item.second]);
-                  }
-                } else {
-                  ri.data.push({
-                    device: device.identifier,
-                    value: [item.second, ...reportItem.value],
-                  });
-                }
-              } else {
-                reportsItems.push({
-                  type: listreporttoacccepted as any,
-                  data: [
-                    {
-                      device: device.identifier,
-                      value: [[item.second, ...reportItem.value]],
-                    },
-                  ],
-                });
-              }
-            }
-          }
-        }
-      }
-
-      // reports
-      const report = ReportSchema.parse({
-        startTime: session.startTime,
-        endTime: session.endTime,
-        devices,
-        exerciseId: session.exercise?._id || null,
-        sessionId: session._id,
-
-        reports: reportsItems,
-      } as z.input<typeof ReportSchema>);
-      console.log("devices:", devices);
-      console.log("reportsItems:", reportsItems);
-      return res.json({
-        success: true,
-        message: "Report generated",
-        report,
-        mood: session.mood,
-        exercise: session.exercise,
-      });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error });
-    }
-  });
   route.post("/report/share", AuthJwtMiddleware, async (req, res) => {
     try {
       // validate user
@@ -282,8 +158,20 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         });
       }
 
+      const userIsAllowed = await ReportShare.findOne({
+        userShareId: userId,
+        userViewId: userByEmail._id || userByEmail.id,
+      });
+      if (userIsAllowed) {
+        return res.json({
+          success: false,
+          message: "User already allowed",
+        });
+      }
+
       // insert user to allow
       const userToAllow = await ReportShare.create({
+        _id: new mongoose.Types.ObjectId().toHexString(),
         userShareId: userId,
         userViewId: userByEmail._id || userByEmail.id,
       });
@@ -301,7 +189,107 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
 
       // street email
     } catch (error) {
+      console.error(error)
       return res.status(400).json({ error });
+    }
+  });
+  route.get("/report/share", AuthJwtMiddleware, async (req, res) => {
+    try {
+      // validate user
+      const userId = req.auth?.user?._id;
+      if (!userId || typeof userId !== "string" || userId.length === 0) {
+        return res.json({
+          success: false,
+          message: "Invalid userId",
+        });
+      }
+
+      const user_ids: string[] = []
+      const lists = await ReportShare.find({
+        userShareId: userId,
+      });
+      lists.forEach((list) => {
+        if (list.userViewId && !user_ids.includes(list.userViewId)) user_ids.push(list.userViewId)
+      })
+      const users = await User.find({
+        // find all users
+        _id: { $in: user_ids },
+      })
+
+      return res.json({
+        success: true,
+        message: "get allowed user from me",
+        lists: lists.map((list) => ({
+          ...list.toObject(),
+          userView: exceptObjectProp(users.find(item => item._id === list.userViewId)?.toObject(), ["password"]),
+        }))
+      })
+    } catch (error) {
+      console.error(error)
+      return res.status(500).json({ error });
+    }
+  });
+  route.get("/report/share/tome", AuthJwtMiddleware, async (req, res) => {
+    try {
+      // validate user
+      const userId = req.auth?.user?._id;
+      if (!userId || typeof userId !== "string" || userId.length === 0) {
+        return res.json({
+          success: false,
+          message: "Invalid userId",
+        });
+      }
+
+      const user_ids: string[] = []
+      const lists = await ReportShare.find({
+        userViewId: userId,
+      });
+      lists.forEach((list) => {
+        if (list.userShareId && !user_ids.includes(list.userShareId)) user_ids.push(list.userShareId)
+      })
+      const users = await User.find({
+        // find all users
+        _id: { $in: user_ids },
+      })
+
+      return res.json({
+        success: true,
+        message: "get allowed user to me",
+        lists: lists.map((list) => ({
+          ...list.toObject(),
+          userShare: exceptObjectProp(users.find(item => item._id === list.userShareId)?.toObject(), ["password"]),
+        }))
+      })
+    } catch (error) {
+      console.error(error)
+      return res.status(500).json({ error });
+    }
+  });
+  route.get("/report/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const session = await Session.findById(id);
+      const user = await User.findById(session?.userId);
+      if (!session) {
+        return res.status(404).json({
+          success: false,
+          message: "Session not found",
+        });
+      }
+
+      const report = await getReportFromSession(session);
+
+      return res.json({
+        success: true,
+        message: "Report generated",
+        report,
+        mood: session.mood,
+        exercise: session.exercise,
+        user: exceptObjectProp(user?.toObject(), ["password"]),
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error });
     }
   });
 };

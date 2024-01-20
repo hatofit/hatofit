@@ -17,4 +17,6 @@ exports.UserSchema = zod_1.z.object({
         weightUnits: zod_1.z.string(),
         heightUnits: zod_1.z.string(),
     }),
+    //
+    linkedCompanyId: zod_1.z.string().optional(),
 });

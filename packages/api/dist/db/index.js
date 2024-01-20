@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ReportShare = exports.ReportShareSchema = exports.Session = exports.User = exports.Exercise = exports.MongoConnect = void 0;
+exports.ReportShare = exports.ReportShareSchema = exports.Session = exports.User = exports.Company = exports.CompanySchema = exports.Exercise = exports.MongoConnect = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
 mongoose_1.default.set("strictQuery", true);
 mongoose_1.default.set("strictPopulate", true);
@@ -56,6 +56,23 @@ const ExerciseSchema = new mongoose_1.Schema({
     timestamps: true,
 });
 exports.Exercise = mongoose_1.default.model("Exercise", ExerciseSchema);
+exports.CompanySchema = new mongoose_1.Schema({
+    _id: String,
+    name: String,
+    meta: {
+        description: String,
+        address: String,
+    },
+    admins: [{
+            userId: String,
+            role: String,
+            isCreated: Boolean,
+        }]
+}, {
+    typeKey: "$type",
+    timestamps: true,
+});
+exports.Company = mongoose_1.default.model("Company", exports.CompanySchema);
 const UserSchema = new mongoose_1.Schema({
     _id: String,
     name: String,
@@ -74,6 +91,8 @@ const UserSchema = new mongoose_1.Schema({
         heightUnits: String,
     },
     resetPasswordCode: String,
+    // others
+    linkedCompanyId: String,
 }, {
     typeKey: "$type",
     timestamps: true,
