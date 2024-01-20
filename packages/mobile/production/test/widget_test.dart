@@ -10,6 +10,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:hatofit/main.dart';
 
+import '../../development/lib/my_app.dart';
+
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.

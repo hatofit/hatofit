@@ -4,5 +4,5 @@ node_modules
 .vscode/
 **/.DS_Store
 .vscode
-packages/mobile/hatofit/
-packages/mobile/hatofit
+
+ref

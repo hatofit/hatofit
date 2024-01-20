@@ -1,19 +1,27 @@
+import 'dart:async';
+
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:hatofit/utils/utils.dart';
+
+import 'dependecy_injector.dart';
+import 'my_app.dart';
 
 void main() {
-  runApp(const MyApp());
-}
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+    await dependencyInjection();
+    await FirebaseServices.init();
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
+    return SystemChrome.setPreferredOrientations(
+      [
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ],
+    ).then((_) => runApp(MyApp()));
+  }, (error, stack) async {
+    await FirebaseCrashlytics.instance.recordError(error, stack);
+  });
 }
