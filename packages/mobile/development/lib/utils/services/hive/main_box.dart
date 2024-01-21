@@ -19,6 +19,7 @@ enum MainBoxKeys {
   theme,
   locale,
   user,
+  todayMood,
 }
 
 mixin class MainBoxMixin {
