@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'session_entity.dart';
+part of 'session_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,54 +14,52 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-/// @nodoc
-mixin _$SessionEntity {
-  @HiveField(0)
-  String? get id => throw _privateConstructorUsedError;
-  @HiveField(1)
-  String? get userId => throw _privateConstructorUsedError;
-  @HiveField(2)
-  String? get mood => throw _privateConstructorUsedError;
-  @HiveField(3)
-  ExerciseEntity? get exercise => throw _privateConstructorUsedError;
-  @HiveField(4)
-  int? get startTime => throw _privateConstructorUsedError;
-  @HiveField(5)
-  int? get endTime => throw _privateConstructorUsedError;
-  @HiveField(6)
-  List<SessionTimelineEntity>? get timeline =>
-      throw _privateConstructorUsedError;
-  @HiveField(7)
-  List<SessionDataItemEntity>? get data => throw _privateConstructorUsedError;
+SessionModel _$SessionModelFromJson(Map<String, dynamic> json) {
+  return _SessionModel.fromJson(json);
+}
 
+/// @nodoc
+mixin _$SessionModel {
+  @JsonKey(name: '_id')
+  String? get id => throw _privateConstructorUsedError;
+  String? get userId => throw _privateConstructorUsedError;
+  String? get mood => throw _privateConstructorUsedError;
+  ExerciseModel? get exercise => throw _privateConstructorUsedError;
+  int? get startTime => throw _privateConstructorUsedError;
+  int? get endTime => throw _privateConstructorUsedError;
+  List<SessionTimelineModel>? get timeline =>
+      throw _privateConstructorUsedError;
+  List<SessionDataItemModel>? get data => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SessionEntityCopyWith<SessionEntity> get copyWith =>
+  $SessionModelCopyWith<SessionModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SessionEntityCopyWith<$Res> {
-  factory $SessionEntityCopyWith(
-          SessionEntity value, $Res Function(SessionEntity) then) =
-      _$SessionEntityCopyWithImpl<$Res, SessionEntity>;
+abstract class $SessionModelCopyWith<$Res> {
+  factory $SessionModelCopyWith(
+          SessionModel value, $Res Function(SessionModel) then) =
+      _$SessionModelCopyWithImpl<$Res, SessionModel>;
   @useResult
   $Res call(
-      {@HiveField(0) String? id,
-      @HiveField(1) String? userId,
-      @HiveField(2) String? mood,
-      @HiveField(3) ExerciseEntity? exercise,
-      @HiveField(4) int? startTime,
-      @HiveField(5) int? endTime,
-      @HiveField(6) List<SessionTimelineEntity>? timeline,
-      @HiveField(7) List<SessionDataItemEntity>? data});
+      {@JsonKey(name: '_id') String? id,
+      String? userId,
+      String? mood,
+      ExerciseModel? exercise,
+      int? startTime,
+      int? endTime,
+      List<SessionTimelineModel>? timeline,
+      List<SessionDataItemModel>? data});
 
-  $ExerciseEntityCopyWith<$Res>? get exercise;
+  $ExerciseModelCopyWith<$Res>? get exercise;
 }
 
 /// @nodoc
-class _$SessionEntityCopyWithImpl<$Res, $Val extends SessionEntity>
-    implements $SessionEntityCopyWith<$Res> {
-  _$SessionEntityCopyWithImpl(this._value, this._then);
+class _$SessionModelCopyWithImpl<$Res, $Val extends SessionModel>
+    implements $SessionModelCopyWith<$Res> {
+  _$SessionModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -96,7 +94,7 @@ class _$SessionEntityCopyWithImpl<$Res, $Val extends SessionEntity>
       exercise: freezed == exercise
           ? _value.exercise
           : exercise // ignore: cast_nullable_to_non_nullable
-              as ExerciseEntity?,
+              as ExerciseModel?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
@@ -108,55 +106,55 @@ class _$SessionEntityCopyWithImpl<$Res, $Val extends SessionEntity>
       timeline: freezed == timeline
           ? _value.timeline
           : timeline // ignore: cast_nullable_to_non_nullable
-              as List<SessionTimelineEntity>?,
+              as List<SessionTimelineModel>?,
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<SessionDataItemEntity>?,
+              as List<SessionDataItemModel>?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ExerciseEntityCopyWith<$Res>? get exercise {
+  $ExerciseModelCopyWith<$Res>? get exercise {
     if (_value.exercise == null) {
       return null;
     }
 
-    return $ExerciseEntityCopyWith<$Res>(_value.exercise!, (value) {
+    return $ExerciseModelCopyWith<$Res>(_value.exercise!, (value) {
       return _then(_value.copyWith(exercise: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$SessionEntityImplCopyWith<$Res>
-    implements $SessionEntityCopyWith<$Res> {
-  factory _$$SessionEntityImplCopyWith(
-          _$SessionEntityImpl value, $Res Function(_$SessionEntityImpl) then) =
-      __$$SessionEntityImplCopyWithImpl<$Res>;
+abstract class _$$SessionModelImplCopyWith<$Res>
+    implements $SessionModelCopyWith<$Res> {
+  factory _$$SessionModelImplCopyWith(
+          _$SessionModelImpl value, $Res Function(_$SessionModelImpl) then) =
+      __$$SessionModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {@HiveField(0) String? id,
-      @HiveField(1) String? userId,
-      @HiveField(2) String? mood,
-      @HiveField(3) ExerciseEntity? exercise,
-      @HiveField(4) int? startTime,
-      @HiveField(5) int? endTime,
-      @HiveField(6) List<SessionTimelineEntity>? timeline,
-      @HiveField(7) List<SessionDataItemEntity>? data});
+      {@JsonKey(name: '_id') String? id,
+      String? userId,
+      String? mood,
+      ExerciseModel? exercise,
+      int? startTime,
+      int? endTime,
+      List<SessionTimelineModel>? timeline,
+      List<SessionDataItemModel>? data});
 
   @override
-  $ExerciseEntityCopyWith<$Res>? get exercise;
+  $ExerciseModelCopyWith<$Res>? get exercise;
 }
 
 /// @nodoc
-class __$$SessionEntityImplCopyWithImpl<$Res>
-    extends _$SessionEntityCopyWithImpl<$Res, _$SessionEntityImpl>
-    implements _$$SessionEntityImplCopyWith<$Res> {
-  __$$SessionEntityImplCopyWithImpl(
-      _$SessionEntityImpl _value, $Res Function(_$SessionEntityImpl) _then)
+class __$$SessionModelImplCopyWithImpl<$Res>
+    extends _$SessionModelCopyWithImpl<$Res, _$SessionModelImpl>
+    implements _$$SessionModelImplCopyWith<$Res> {
+  __$$SessionModelImplCopyWithImpl(
+      _$SessionModelImpl _value, $Res Function(_$SessionModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -171,7 +169,7 @@ class __$$SessionEntityImplCopyWithImpl<$Res>
     Object? timeline = freezed,
     Object? data = freezed,
   }) {
-    return _then(_$SessionEntityImpl(
+    return _then(_$SessionModelImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -187,7 +185,7 @@ class __$$SessionEntityImplCopyWithImpl<$Res>
       exercise: freezed == exercise
           ? _value.exercise
           : exercise // ignore: cast_nullable_to_non_nullable
-              as ExerciseEntity?,
+              as ExerciseModel?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
@@ -199,53 +197,50 @@ class __$$SessionEntityImplCopyWithImpl<$Res>
       timeline: freezed == timeline
           ? _value._timeline
           : timeline // ignore: cast_nullable_to_non_nullable
-              as List<SessionTimelineEntity>?,
+              as List<SessionTimelineModel>?,
       data: freezed == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<SessionDataItemEntity>?,
+              as List<SessionDataItemModel>?,
     ));
   }
 }
 
 /// @nodoc
-
-@HiveType(typeId: 5, adapterName: 'SessionEntityAdapter')
-class _$SessionEntityImpl implements _SessionEntity {
-  const _$SessionEntityImpl(
-      {@HiveField(0) this.id,
-      @HiveField(1) this.userId,
-      @HiveField(2) this.mood,
-      @HiveField(3) this.exercise,
-      @HiveField(4) this.startTime,
-      @HiveField(5) this.endTime,
-      @HiveField(6) final List<SessionTimelineEntity>? timeline,
-      @HiveField(7) final List<SessionDataItemEntity>? data})
+@JsonSerializable()
+class _$SessionModelImpl extends _SessionModel {
+  const _$SessionModelImpl(
+      {@JsonKey(name: '_id') this.id,
+      this.userId,
+      this.mood,
+      this.exercise,
+      this.startTime,
+      this.endTime,
+      final List<SessionTimelineModel>? timeline,
+      final List<SessionDataItemModel>? data})
       : _timeline = timeline,
-        _data = data;
+        _data = data,
+        super._();
+
+  factory _$SessionModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SessionModelImplFromJson(json);
 
   @override
-  @HiveField(0)
+  @JsonKey(name: '_id')
   final String? id;
   @override
-  @HiveField(1)
   final String? userId;
   @override
-  @HiveField(2)
   final String? mood;
   @override
-  @HiveField(3)
-  final ExerciseEntity? exercise;
+  final ExerciseModel? exercise;
   @override
-  @HiveField(4)
   final int? startTime;
   @override
-  @HiveField(5)
   final int? endTime;
-  final List<SessionTimelineEntity>? _timeline;
+  final List<SessionTimelineModel>? _timeline;
   @override
-  @HiveField(6)
-  List<SessionTimelineEntity>? get timeline {
+  List<SessionTimelineModel>? get timeline {
     final value = _timeline;
     if (value == null) return null;
     if (_timeline is EqualUnmodifiableListView) return _timeline;
@@ -253,10 +248,9 @@ class _$SessionEntityImpl implements _SessionEntity {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<SessionDataItemEntity>? _data;
+  final List<SessionDataItemModel>? _data;
   @override
-  @HiveField(7)
-  List<SessionDataItemEntity>? get data {
+  List<SessionDataItemModel>? get data {
     final value = _data;
     if (value == null) return null;
     if (_data is EqualUnmodifiableListView) return _data;
@@ -266,14 +260,14 @@ class _$SessionEntityImpl implements _SessionEntity {
 
   @override
   String toString() {
-    return 'SessionEntity(id: $id, userId: $userId, mood: $mood, exercise: $exercise, startTime: $startTime, endTime: $endTime, timeline: $timeline, data: $data)';
+    return 'SessionModel(id: $id, userId: $userId, mood: $mood, exercise: $exercise, startTime: $startTime, endTime: $endTime, timeline: $timeline, data: $data)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SessionEntityImpl &&
+            other is _$SessionModelImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.mood, mood) || other.mood == mood) &&
@@ -286,6 +280,7 @@ class _$SessionEntityImpl implements _SessionEntity {
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -301,78 +296,84 @@ class _$SessionEntityImpl implements _SessionEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SessionEntityImplCopyWith<_$SessionEntityImpl> get copyWith =>
-      __$$SessionEntityImplCopyWithImpl<_$SessionEntityImpl>(this, _$identity);
-}
-
-abstract class _SessionEntity implements SessionEntity {
-  const factory _SessionEntity(
-          {@HiveField(0) final String? id,
-          @HiveField(1) final String? userId,
-          @HiveField(2) final String? mood,
-          @HiveField(3) final ExerciseEntity? exercise,
-          @HiveField(4) final int? startTime,
-          @HiveField(5) final int? endTime,
-          @HiveField(6) final List<SessionTimelineEntity>? timeline,
-          @HiveField(7) final List<SessionDataItemEntity>? data}) =
-      _$SessionEntityImpl;
+  _$$SessionModelImplCopyWith<_$SessionModelImpl> get copyWith =>
+      __$$SessionModelImplCopyWithImpl<_$SessionModelImpl>(this, _$identity);
 
   @override
-  @HiveField(0)
+  Map<String, dynamic> toJson() {
+    return _$$SessionModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SessionModel extends SessionModel {
+  const factory _SessionModel(
+      {@JsonKey(name: '_id') final String? id,
+      final String? userId,
+      final String? mood,
+      final ExerciseModel? exercise,
+      final int? startTime,
+      final int? endTime,
+      final List<SessionTimelineModel>? timeline,
+      final List<SessionDataItemModel>? data}) = _$SessionModelImpl;
+  const _SessionModel._() : super._();
+
+  factory _SessionModel.fromJson(Map<String, dynamic> json) =
+      _$SessionModelImpl.fromJson;
+
+  @override
+  @JsonKey(name: '_id')
   String? get id;
   @override
-  @HiveField(1)
   String? get userId;
   @override
-  @HiveField(2)
   String? get mood;
   @override
-  @HiveField(3)
-  ExerciseEntity? get exercise;
+  ExerciseModel? get exercise;
   @override
-  @HiveField(4)
   int? get startTime;
   @override
-  @HiveField(5)
   int? get endTime;
   @override
-  @HiveField(6)
-  List<SessionTimelineEntity>? get timeline;
+  List<SessionTimelineModel>? get timeline;
   @override
-  @HiveField(7)
-  List<SessionDataItemEntity>? get data;
+  List<SessionDataItemModel>? get data;
   @override
   @JsonKey(ignore: true)
-  _$$SessionEntityImplCopyWith<_$SessionEntityImpl> get copyWith =>
+  _$$SessionModelImplCopyWith<_$SessionModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
+SessionTimelineModel _$SessionTimelineModelFromJson(Map<String, dynamic> json) {
+  return _SessionTimelineModel.fromJson(json);
+}
+
 /// @nodoc
-mixin _$SessionTimelineEntity {
-  @HiveField(0)
+mixin _$SessionTimelineModel {
   String? get name => throw _privateConstructorUsedError;
-  @HiveField(1)
   int? get startTime => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SessionTimelineEntityCopyWith<SessionTimelineEntity> get copyWith =>
+  $SessionTimelineModelCopyWith<SessionTimelineModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SessionTimelineEntityCopyWith<$Res> {
-  factory $SessionTimelineEntityCopyWith(SessionTimelineEntity value,
-          $Res Function(SessionTimelineEntity) then) =
-      _$SessionTimelineEntityCopyWithImpl<$Res, SessionTimelineEntity>;
+abstract class $SessionTimelineModelCopyWith<$Res> {
+  factory $SessionTimelineModelCopyWith(SessionTimelineModel value,
+          $Res Function(SessionTimelineModel) then) =
+      _$SessionTimelineModelCopyWithImpl<$Res, SessionTimelineModel>;
   @useResult
-  $Res call({@HiveField(0) String? name, @HiveField(1) int? startTime});
+  $Res call({String? name, int? startTime});
 }
 
 /// @nodoc
-class _$SessionTimelineEntityCopyWithImpl<$Res,
-        $Val extends SessionTimelineEntity>
-    implements $SessionTimelineEntityCopyWith<$Res> {
-  _$SessionTimelineEntityCopyWithImpl(this._value, this._then);
+class _$SessionTimelineModelCopyWithImpl<$Res,
+        $Val extends SessionTimelineModel>
+    implements $SessionTimelineModelCopyWith<$Res> {
+  _$SessionTimelineModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -399,24 +400,22 @@ class _$SessionTimelineEntityCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$SessionTimelineEntityImplCopyWith<$Res>
-    implements $SessionTimelineEntityCopyWith<$Res> {
-  factory _$$SessionTimelineEntityImplCopyWith(
-          _$SessionTimelineEntityImpl value,
-          $Res Function(_$SessionTimelineEntityImpl) then) =
-      __$$SessionTimelineEntityImplCopyWithImpl<$Res>;
+abstract class _$$SessionTimelineModelImplCopyWith<$Res>
+    implements $SessionTimelineModelCopyWith<$Res> {
+  factory _$$SessionTimelineModelImplCopyWith(_$SessionTimelineModelImpl value,
+          $Res Function(_$SessionTimelineModelImpl) then) =
+      __$$SessionTimelineModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@HiveField(0) String? name, @HiveField(1) int? startTime});
+  $Res call({String? name, int? startTime});
 }
 
 /// @nodoc
-class __$$SessionTimelineEntityImplCopyWithImpl<$Res>
-    extends _$SessionTimelineEntityCopyWithImpl<$Res,
-        _$SessionTimelineEntityImpl>
-    implements _$$SessionTimelineEntityImplCopyWith<$Res> {
-  __$$SessionTimelineEntityImplCopyWithImpl(_$SessionTimelineEntityImpl _value,
-      $Res Function(_$SessionTimelineEntityImpl) _then)
+class __$$SessionTimelineModelImplCopyWithImpl<$Res>
+    extends _$SessionTimelineModelCopyWithImpl<$Res, _$SessionTimelineModelImpl>
+    implements _$$SessionTimelineModelImplCopyWith<$Res> {
+  __$$SessionTimelineModelImplCopyWithImpl(_$SessionTimelineModelImpl _value,
+      $Res Function(_$SessionTimelineModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -425,7 +424,7 @@ class __$$SessionTimelineEntityImplCopyWithImpl<$Res>
     Object? name = freezed,
     Object? startTime = freezed,
   }) {
-    return _then(_$SessionTimelineEntityImpl(
+    return _then(_$SessionTimelineModelImpl(
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -439,94 +438,103 @@ class __$$SessionTimelineEntityImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$SessionTimelineModelImpl extends _SessionTimelineModel {
+  const _$SessionTimelineModelImpl({this.name, this.startTime}) : super._();
 
-@HiveType(typeId: 6, adapterName: 'SessionTimelineEntityAdapter')
-class _$SessionTimelineEntityImpl implements _SessionTimelineEntity {
-  const _$SessionTimelineEntityImpl(
-      {@HiveField(0) this.name, @HiveField(1) this.startTime});
+  factory _$SessionTimelineModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SessionTimelineModelImplFromJson(json);
 
   @override
-  @HiveField(0)
   final String? name;
   @override
-  @HiveField(1)
   final int? startTime;
 
   @override
   String toString() {
-    return 'SessionTimelineEntity(name: $name, startTime: $startTime)';
+    return 'SessionTimelineModel(name: $name, startTime: $startTime)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SessionTimelineEntityImpl &&
+            other is _$SessionTimelineModelImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, name, startTime);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SessionTimelineEntityImplCopyWith<_$SessionTimelineEntityImpl>
-      get copyWith => __$$SessionTimelineEntityImplCopyWithImpl<
-          _$SessionTimelineEntityImpl>(this, _$identity);
+  _$$SessionTimelineModelImplCopyWith<_$SessionTimelineModelImpl>
+      get copyWith =>
+          __$$SessionTimelineModelImplCopyWithImpl<_$SessionTimelineModelImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SessionTimelineModelImplToJson(
+      this,
+    );
+  }
 }
 
-abstract class _SessionTimelineEntity implements SessionTimelineEntity {
-  const factory _SessionTimelineEntity(
-      {@HiveField(0) final String? name,
-      @HiveField(1) final int? startTime}) = _$SessionTimelineEntityImpl;
+abstract class _SessionTimelineModel extends SessionTimelineModel {
+  const factory _SessionTimelineModel(
+      {final String? name, final int? startTime}) = _$SessionTimelineModelImpl;
+  const _SessionTimelineModel._() : super._();
+
+  factory _SessionTimelineModel.fromJson(Map<String, dynamic> json) =
+      _$SessionTimelineModelImpl.fromJson;
 
   @override
-  @HiveField(0)
   String? get name;
   @override
-  @HiveField(1)
   int? get startTime;
   @override
   @JsonKey(ignore: true)
-  _$$SessionTimelineEntityImplCopyWith<_$SessionTimelineEntityImpl>
+  _$$SessionTimelineModelImplCopyWith<_$SessionTimelineModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
+SessionDataItemModel _$SessionDataItemModelFromJson(Map<String, dynamic> json) {
+  return _SessionDataItemModel.fromJson(json);
+}
+
 /// @nodoc
-mixin _$SessionDataItemEntity {
-  @HiveField(0)
+mixin _$SessionDataItemModel {
   int? get second => throw _privateConstructorUsedError;
-  @HiveField(1)
   int? get timeStamp => throw _privateConstructorUsedError;
-  @HiveField(2)
-  List<SessionDataItemDeviceEntity>? get devices =>
+  List<SessionDataItemDeviceModel>? get devices =>
       throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SessionDataItemEntityCopyWith<SessionDataItemEntity> get copyWith =>
+  $SessionDataItemModelCopyWith<SessionDataItemModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SessionDataItemEntityCopyWith<$Res> {
-  factory $SessionDataItemEntityCopyWith(SessionDataItemEntity value,
-          $Res Function(SessionDataItemEntity) then) =
-      _$SessionDataItemEntityCopyWithImpl<$Res, SessionDataItemEntity>;
+abstract class $SessionDataItemModelCopyWith<$Res> {
+  factory $SessionDataItemModelCopyWith(SessionDataItemModel value,
+          $Res Function(SessionDataItemModel) then) =
+      _$SessionDataItemModelCopyWithImpl<$Res, SessionDataItemModel>;
   @useResult
   $Res call(
-      {@HiveField(0) int? second,
-      @HiveField(1) int? timeStamp,
-      @HiveField(2) List<SessionDataItemDeviceEntity>? devices});
+      {int? second, int? timeStamp, List<SessionDataItemDeviceModel>? devices});
 }
 
 /// @nodoc
-class _$SessionDataItemEntityCopyWithImpl<$Res,
-        $Val extends SessionDataItemEntity>
-    implements $SessionDataItemEntityCopyWith<$Res> {
-  _$SessionDataItemEntityCopyWithImpl(this._value, this._then);
+class _$SessionDataItemModelCopyWithImpl<$Res,
+        $Val extends SessionDataItemModel>
+    implements $SessionDataItemModelCopyWith<$Res> {
+  _$SessionDataItemModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -552,33 +560,29 @@ class _$SessionDataItemEntityCopyWithImpl<$Res,
       devices: freezed == devices
           ? _value.devices
           : devices // ignore: cast_nullable_to_non_nullable
-              as List<SessionDataItemDeviceEntity>?,
+              as List<SessionDataItemDeviceModel>?,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$SessionDataItemEntityImplCopyWith<$Res>
-    implements $SessionDataItemEntityCopyWith<$Res> {
-  factory _$$SessionDataItemEntityImplCopyWith(
-          _$SessionDataItemEntityImpl value,
-          $Res Function(_$SessionDataItemEntityImpl) then) =
-      __$$SessionDataItemEntityImplCopyWithImpl<$Res>;
+abstract class _$$SessionDataItemModelImplCopyWith<$Res>
+    implements $SessionDataItemModelCopyWith<$Res> {
+  factory _$$SessionDataItemModelImplCopyWith(_$SessionDataItemModelImpl value,
+          $Res Function(_$SessionDataItemModelImpl) then) =
+      __$$SessionDataItemModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {@HiveField(0) int? second,
-      @HiveField(1) int? timeStamp,
-      @HiveField(2) List<SessionDataItemDeviceEntity>? devices});
+      {int? second, int? timeStamp, List<SessionDataItemDeviceModel>? devices});
 }
 
 /// @nodoc
-class __$$SessionDataItemEntityImplCopyWithImpl<$Res>
-    extends _$SessionDataItemEntityCopyWithImpl<$Res,
-        _$SessionDataItemEntityImpl>
-    implements _$$SessionDataItemEntityImplCopyWith<$Res> {
-  __$$SessionDataItemEntityImplCopyWithImpl(_$SessionDataItemEntityImpl _value,
-      $Res Function(_$SessionDataItemEntityImpl) _then)
+class __$$SessionDataItemModelImplCopyWithImpl<$Res>
+    extends _$SessionDataItemModelCopyWithImpl<$Res, _$SessionDataItemModelImpl>
+    implements _$$SessionDataItemModelImplCopyWith<$Res> {
+  __$$SessionDataItemModelImplCopyWithImpl(_$SessionDataItemModelImpl _value,
+      $Res Function(_$SessionDataItemModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -588,7 +592,7 @@ class __$$SessionDataItemEntityImplCopyWithImpl<$Res>
     Object? timeStamp = freezed,
     Object? devices = freezed,
   }) {
-    return _then(_$SessionDataItemEntityImpl(
+    return _then(_$SessionDataItemModelImpl(
       second: freezed == second
           ? _value.second
           : second // ignore: cast_nullable_to_non_nullable
@@ -600,31 +604,31 @@ class __$$SessionDataItemEntityImplCopyWithImpl<$Res>
       devices: freezed == devices
           ? _value._devices
           : devices // ignore: cast_nullable_to_non_nullable
-              as List<SessionDataItemDeviceEntity>?,
+              as List<SessionDataItemDeviceModel>?,
     ));
   }
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$SessionDataItemModelImpl extends _SessionDataItemModel {
+  const _$SessionDataItemModelImpl(
+      {this.second,
+      this.timeStamp,
+      final List<SessionDataItemDeviceModel>? devices})
+      : _devices = devices,
+        super._();
 
-@HiveType(typeId: 7, adapterName: 'SessionDataItemEntityAdapter')
-class _$SessionDataItemEntityImpl implements _SessionDataItemEntity {
-  const _$SessionDataItemEntityImpl(
-      {@HiveField(0) this.second,
-      @HiveField(1) this.timeStamp,
-      @HiveField(2) final List<SessionDataItemDeviceEntity>? devices})
-      : _devices = devices;
+  factory _$SessionDataItemModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SessionDataItemModelImplFromJson(json);
 
   @override
-  @HiveField(0)
   final int? second;
   @override
-  @HiveField(1)
   final int? timeStamp;
-  final List<SessionDataItemDeviceEntity>? _devices;
+  final List<SessionDataItemDeviceModel>? _devices;
   @override
-  @HiveField(2)
-  List<SessionDataItemDeviceEntity>? get devices {
+  List<SessionDataItemDeviceModel>? get devices {
     final value = _devices;
     if (value == null) return null;
     if (_devices is EqualUnmodifiableListView) return _devices;
@@ -634,20 +638,21 @@ class _$SessionDataItemEntityImpl implements _SessionDataItemEntity {
 
   @override
   String toString() {
-    return 'SessionDataItemEntity(second: $second, timeStamp: $timeStamp, devices: $devices)';
+    return 'SessionDataItemModel(second: $second, timeStamp: $timeStamp, devices: $devices)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SessionDataItemEntityImpl &&
+            other is _$SessionDataItemModelImpl &&
             (identical(other.second, second) || other.second == second) &&
             (identical(other.timeStamp, timeStamp) ||
                 other.timeStamp == timeStamp) &&
             const DeepCollectionEquality().equals(other._devices, _devices));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, second, timeStamp,
       const DeepCollectionEquality().hash(_devices));
@@ -655,66 +660,75 @@ class _$SessionDataItemEntityImpl implements _SessionDataItemEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SessionDataItemEntityImplCopyWith<_$SessionDataItemEntityImpl>
-      get copyWith => __$$SessionDataItemEntityImplCopyWithImpl<
-          _$SessionDataItemEntityImpl>(this, _$identity);
-}
-
-abstract class _SessionDataItemEntity implements SessionDataItemEntity {
-  const factory _SessionDataItemEntity(
-          {@HiveField(0) final int? second,
-          @HiveField(1) final int? timeStamp,
-          @HiveField(2) final List<SessionDataItemDeviceEntity>? devices}) =
-      _$SessionDataItemEntityImpl;
+  _$$SessionDataItemModelImplCopyWith<_$SessionDataItemModelImpl>
+      get copyWith =>
+          __$$SessionDataItemModelImplCopyWithImpl<_$SessionDataItemModelImpl>(
+              this, _$identity);
 
   @override
-  @HiveField(0)
+  Map<String, dynamic> toJson() {
+    return _$$SessionDataItemModelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SessionDataItemModel extends SessionDataItemModel {
+  const factory _SessionDataItemModel(
+          {final int? second,
+          final int? timeStamp,
+          final List<SessionDataItemDeviceModel>? devices}) =
+      _$SessionDataItemModelImpl;
+  const _SessionDataItemModel._() : super._();
+
+  factory _SessionDataItemModel.fromJson(Map<String, dynamic> json) =
+      _$SessionDataItemModelImpl.fromJson;
+
+  @override
   int? get second;
   @override
-  @HiveField(1)
   int? get timeStamp;
   @override
-  @HiveField(2)
-  List<SessionDataItemDeviceEntity>? get devices;
+  List<SessionDataItemDeviceModel>? get devices;
   @override
   @JsonKey(ignore: true)
-  _$$SessionDataItemEntityImplCopyWith<_$SessionDataItemEntityImpl>
+  _$$SessionDataItemModelImplCopyWith<_$SessionDataItemModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 
+SessionDataItemDeviceModel _$SessionDataItemDeviceModelFromJson(
+    Map<String, dynamic> json) {
+  return _SessionDataItemDeviceModel.fromJson(json);
+}
+
 /// @nodoc
-mixin _$SessionDataItemDeviceEntity {
-  @HiveField(0)
+mixin _$SessionDataItemDeviceModel {
   String? get type => throw _privateConstructorUsedError;
-  @HiveField(1)
   String? get identifier => throw _privateConstructorUsedError;
-  @HiveField(2)
   List<Map<String, dynamic>>? get value => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SessionDataItemDeviceEntityCopyWith<SessionDataItemDeviceEntity>
+  $SessionDataItemDeviceModelCopyWith<SessionDataItemDeviceModel>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SessionDataItemDeviceEntityCopyWith<$Res> {
-  factory $SessionDataItemDeviceEntityCopyWith(
-          SessionDataItemDeviceEntity value,
-          $Res Function(SessionDataItemDeviceEntity) then) =
-      _$SessionDataItemDeviceEntityCopyWithImpl<$Res,
-          SessionDataItemDeviceEntity>;
+abstract class $SessionDataItemDeviceModelCopyWith<$Res> {
+  factory $SessionDataItemDeviceModelCopyWith(SessionDataItemDeviceModel value,
+          $Res Function(SessionDataItemDeviceModel) then) =
+      _$SessionDataItemDeviceModelCopyWithImpl<$Res,
+          SessionDataItemDeviceModel>;
   @useResult
   $Res call(
-      {@HiveField(0) String? type,
-      @HiveField(1) String? identifier,
-      @HiveField(2) List<Map<String, dynamic>>? value});
+      {String? type, String? identifier, List<Map<String, dynamic>>? value});
 }
 
 /// @nodoc
-class _$SessionDataItemDeviceEntityCopyWithImpl<$Res,
-        $Val extends SessionDataItemDeviceEntity>
-    implements $SessionDataItemDeviceEntityCopyWith<$Res> {
-  _$SessionDataItemDeviceEntityCopyWithImpl(this._value, this._then);
+class _$SessionDataItemDeviceModelCopyWithImpl<$Res,
+        $Val extends SessionDataItemDeviceModel>
+    implements $SessionDataItemDeviceModelCopyWith<$Res> {
+  _$SessionDataItemDeviceModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -746,28 +760,26 @@ class _$SessionDataItemDeviceEntityCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$SessionDataItemDeviceEntityImplCopyWith<$Res>
-    implements $SessionDataItemDeviceEntityCopyWith<$Res> {
-  factory _$$SessionDataItemDeviceEntityImplCopyWith(
-          _$SessionDataItemDeviceEntityImpl value,
-          $Res Function(_$SessionDataItemDeviceEntityImpl) then) =
-      __$$SessionDataItemDeviceEntityImplCopyWithImpl<$Res>;
+abstract class _$$SessionDataItemDeviceModelImplCopyWith<$Res>
+    implements $SessionDataItemDeviceModelCopyWith<$Res> {
+  factory _$$SessionDataItemDeviceModelImplCopyWith(
+          _$SessionDataItemDeviceModelImpl value,
+          $Res Function(_$SessionDataItemDeviceModelImpl) then) =
+      __$$SessionDataItemDeviceModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {@HiveField(0) String? type,
-      @HiveField(1) String? identifier,
-      @HiveField(2) List<Map<String, dynamic>>? value});
+      {String? type, String? identifier, List<Map<String, dynamic>>? value});
 }
 
 /// @nodoc
-class __$$SessionDataItemDeviceEntityImplCopyWithImpl<$Res>
-    extends _$SessionDataItemDeviceEntityCopyWithImpl<$Res,
-        _$SessionDataItemDeviceEntityImpl>
-    implements _$$SessionDataItemDeviceEntityImplCopyWith<$Res> {
-  __$$SessionDataItemDeviceEntityImplCopyWithImpl(
-      _$SessionDataItemDeviceEntityImpl _value,
-      $Res Function(_$SessionDataItemDeviceEntityImpl) _then)
+class __$$SessionDataItemDeviceModelImplCopyWithImpl<$Res>
+    extends _$SessionDataItemDeviceModelCopyWithImpl<$Res,
+        _$SessionDataItemDeviceModelImpl>
+    implements _$$SessionDataItemDeviceModelImplCopyWith<$Res> {
+  __$$SessionDataItemDeviceModelImplCopyWithImpl(
+      _$SessionDataItemDeviceModelImpl _value,
+      $Res Function(_$SessionDataItemDeviceModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -777,7 +789,7 @@ class __$$SessionDataItemDeviceEntityImplCopyWithImpl<$Res>
     Object? identifier = freezed,
     Object? value = freezed,
   }) {
-    return _then(_$SessionDataItemDeviceEntityImpl(
+    return _then(_$SessionDataItemDeviceModelImpl(
       type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -795,25 +807,23 @@ class __$$SessionDataItemDeviceEntityImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$SessionDataItemDeviceModelImpl extends _SessionDataItemDeviceModel {
+  const _$SessionDataItemDeviceModelImpl(
+      {this.type, this.identifier, final List<Map<String, dynamic>>? value})
+      : _value = value,
+        super._();
 
-@HiveType(typeId: 8, adapterName: 'SessionDataItemDeviceEntityAdapter')
-class _$SessionDataItemDeviceEntityImpl
-    implements _SessionDataItemDeviceEntity {
-  const _$SessionDataItemDeviceEntityImpl(
-      {@HiveField(0) this.type,
-      @HiveField(1) this.identifier,
-      @HiveField(2) final List<Map<String, dynamic>>? value})
-      : _value = value;
+  factory _$SessionDataItemDeviceModelImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$SessionDataItemDeviceModelImplFromJson(json);
 
   @override
-  @HiveField(0)
   final String? type;
   @override
-  @HiveField(1)
   final String? identifier;
   final List<Map<String, dynamic>>? _value;
   @override
-  @HiveField(2)
   List<Map<String, dynamic>>? get value {
     final value = _value;
     if (value == null) return null;
@@ -824,20 +834,21 @@ class _$SessionDataItemDeviceEntityImpl
 
   @override
   String toString() {
-    return 'SessionDataItemDeviceEntity(type: $type, identifier: $identifier, value: $value)';
+    return 'SessionDataItemDeviceModel(type: $type, identifier: $identifier, value: $value)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SessionDataItemDeviceEntityImpl &&
+            other is _$SessionDataItemDeviceModelImpl &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.identifier, identifier) ||
                 other.identifier == identifier) &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, type, identifier,
       const DeepCollectionEquality().hash(_value));
@@ -845,30 +856,37 @@ class _$SessionDataItemDeviceEntityImpl
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$SessionDataItemDeviceEntityImplCopyWith<_$SessionDataItemDeviceEntityImpl>
-      get copyWith => __$$SessionDataItemDeviceEntityImplCopyWithImpl<
-          _$SessionDataItemDeviceEntityImpl>(this, _$identity);
+  _$$SessionDataItemDeviceModelImplCopyWith<_$SessionDataItemDeviceModelImpl>
+      get copyWith => __$$SessionDataItemDeviceModelImplCopyWithImpl<
+          _$SessionDataItemDeviceModelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SessionDataItemDeviceModelImplToJson(
+      this,
+    );
+  }
 }
 
-abstract class _SessionDataItemDeviceEntity
-    implements SessionDataItemDeviceEntity {
-  const factory _SessionDataItemDeviceEntity(
-          {@HiveField(0) final String? type,
-          @HiveField(1) final String? identifier,
-          @HiveField(2) final List<Map<String, dynamic>>? value}) =
-      _$SessionDataItemDeviceEntityImpl;
+abstract class _SessionDataItemDeviceModel extends SessionDataItemDeviceModel {
+  const factory _SessionDataItemDeviceModel(
+          {final String? type,
+          final String? identifier,
+          final List<Map<String, dynamic>>? value}) =
+      _$SessionDataItemDeviceModelImpl;
+  const _SessionDataItemDeviceModel._() : super._();
+
+  factory _SessionDataItemDeviceModel.fromJson(Map<String, dynamic> json) =
+      _$SessionDataItemDeviceModelImpl.fromJson;
 
   @override
-  @HiveField(0)
   String? get type;
   @override
-  @HiveField(1)
   String? get identifier;
   @override
-  @HiveField(2)
   List<Map<String, dynamic>>? get value;
   @override
   @JsonKey(ignore: true)
-  _$$SessionDataItemDeviceEntityImplCopyWith<_$SessionDataItemDeviceEntityImpl>
+  _$$SessionDataItemDeviceModelImplCopyWith<_$SessionDataItemDeviceModelImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
