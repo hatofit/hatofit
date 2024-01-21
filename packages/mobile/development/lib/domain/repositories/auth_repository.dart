@@ -3,7 +3,7 @@ import 'package:hatofit/core/error/failure.dart';
 import 'package:hatofit/domain/domain.dart';
 
 abstract class AuthRepository {
-  Future<Either<Failure, AuthResponse>> login(LoginParams params);
-  Future<Either<Failure, AuthResponse>> register(RegisterParams params);
-  Future<Either<Failure, AuthResponse>> me();
+  Future<Either<Failure, AuthResponseEntity>> login(LoginParams params);
+  Future<Either<Failure, AuthResponseEntity>> register(RegisterParams params);
+  Future<Either<Failure, AuthResponseEntity>> me();
 }

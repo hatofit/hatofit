@@ -6,13 +6,14 @@ import 'package:hatofit/domain/domain.dart';
 part 'register_usecase.freezed.dart';
 part 'register_usecase.g.dart';
 
-class RegisterUsecase extends WithParamsUseCase<AuthResponse, RegisterParams> {
+class RegisterUsecase
+    extends WithParamsUseCase<AuthResponseEntity, RegisterParams> {
   final AuthRepository _repo;
 
   RegisterUsecase(this._repo);
 
   @override
-  Future<Either<Failure, AuthResponse>> call(RegisterParams params) =>
+  Future<Either<Failure, AuthResponseEntity>> call(RegisterParams params) =>
       _repo.register(params);
 }
 

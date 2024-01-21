@@ -18,17 +18,15 @@ enum MainBoxKeys {
   language,
   theme,
   locale,
-  isLogin,
+  user,
 }
 
 mixin class MainBoxMixin {
   static late Box? mainBox;
-  static const _boxName = 'flutter_auth_app';
 
-  static Future<void> initHive(String prefixBox) async {
-    // Initialize hive (persistent database)
+  static Future<void> initHive() async {
     await Hive.initFlutter();
-    mainBox = await Hive.openBox("$prefixBox$_boxName");
+    mainBox = await Hive.openBox('hatofit');
   }
 
   Future<void> addData<T>(MainBoxKeys key, T value) async {
@@ -43,7 +41,7 @@ mixin class MainBoxMixin {
 
   Future<void> logoutBox() async {
     /// Clear the box
-    removeData(MainBoxKeys.isLogin);
+    removeData(MainBoxKeys.user);
     removeData(MainBoxKeys.token);
   }
 
