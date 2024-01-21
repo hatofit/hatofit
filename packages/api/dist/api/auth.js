@@ -100,12 +100,16 @@ const ApiAuth = ({ route }) => {
             console.log("USER", user);
             // save to db
             const created = yield db_1.User.create(Object.assign(Object.assign({}, user), { _id: new mongoose_1.default.Types.ObjectId().toHexString() }));
+            const jwtSecret = process.env.JWT_SECRET_KEY || "polar";
+            const token = jsonwebtoken_1.default.sign({ id: created._id }, jwtSecret, {
+                expiresIn: 86400, // 1 month in seconds
+            });
             // resposne
             return res.json({
                 success: true,
                 message: "User created successfully",
-                id: created._id,
                 user: (0, obj_1.exceptObjectProp)(created.toObject(), ["password"]),
+                token,
             });
         }
         catch (error) {

@@ -106,13 +106,16 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
         ...user,
         _id: new mongoose.Types.ObjectId().toHexString(),
       });
-
+      const jwtSecret = process.env.JWT_SECRET_KEY || "polar";
+      const token = jwt.sign({ id: created._id }, jwtSecret, {
+        expiresIn: 86400, // 1 month in seconds
+      });
       // resposne
       return res.json({
         success: true,
         message: "User created successfully",
-        id: created._id,
         user: exceptObjectProp(created.toObject(), ["password"]),
+        token,
       });
     } catch (error) {
       // console.error(error)

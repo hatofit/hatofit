@@ -17,27 +17,27 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const db_1 = require("../db");
 const exercise_1 = require("../types/exercise");
 const ApiExercises = ({ route }) => {
-    route.get('/exercise', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.get("/exercise", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const exercises = yield db_1.Exercise.find();
         return res.json({
             success: true,
-            message: 'Exercise found',
+            message: "Exercise found",
             exercises,
         });
     }));
-    route.get('/exercise/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.get("/exercise/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = req.params;
             const exercise = yield db_1.Exercise.findById(id);
             if (!exercise) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Exercise not found',
+                    message: "Exercise not found",
                 });
             }
             return res.json({
                 success: true,
-                message: 'Exercise found',
+                message: "Exercise found",
                 exercise,
             });
         }
@@ -46,8 +46,8 @@ const ApiExercises = ({ route }) => {
             return res.status(500).json({ error });
         }
     }));
-    route.post('/exercise', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log('DATA BODY', req.body);
+    route.post("/exercise", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("DATA BODY", req.body);
         try {
             // validate input
             const exercise = exercise_1.ExerciseSchema.parse(req.body);
@@ -56,7 +56,7 @@ const ApiExercises = ({ route }) => {
             // resposne
             return res.json({
                 success: true,
-                message: 'Exercise created successfully',
+                message: "Exercise created successfully",
                 id: created._id,
                 exercise,
             });
@@ -66,7 +66,7 @@ const ApiExercises = ({ route }) => {
             return res.status(400).json({ error });
         }
     }));
-    route.put('/exercise/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.put("/exercise/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             // validate input
             const exercise = exercise_1.ExerciseSchema.parse(req.body);
@@ -76,7 +76,7 @@ const ApiExercises = ({ route }) => {
             // resposne
             return res.json({
                 success: true,
-                message: 'Exercise updated successfully',
+                message: "Exercise updated successfully",
                 id: updated === null || updated === void 0 ? void 0 : updated._id,
                 exercise,
             });
@@ -86,7 +86,7 @@ const ApiExercises = ({ route }) => {
             return res.status(400).json({ error });
         }
     }));
-    route.delete('/exercise/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.delete("/exercise/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             // validate input
             const { id } = req.params;
@@ -95,7 +95,7 @@ const ApiExercises = ({ route }) => {
             // resposne
             return res.json({
                 success: true,
-                message: 'Exercise deleted successfully',
+                message: "Exercise deleted successfully",
                 id: deleted === null || deleted === void 0 ? void 0 : deleted._id,
             });
         }

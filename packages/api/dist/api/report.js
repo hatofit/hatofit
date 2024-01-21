@@ -13,11 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiReport = exports.getParsedFromDataDevice = exports.getDeviceNameFromDataDeviceType = exports.DevicesRules = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
+const report_1 = require("../actions/report");
 const db_1 = require("../db");
 const auth_1 = require("../middlewares/auth");
-const mongoose_1 = __importDefault(require("mongoose"));
 const obj_1 = require("../utils/obj");
-const report_1 = require("../actions/report");
 exports.DevicesRules = [
     // for polar
     {
@@ -194,8 +194,8 @@ const ApiReport = ({ route }) => {
                 message: "get allowed user from me",
                 lists: lists.map((list) => {
                     var _a;
-                    return (Object.assign(Object.assign({}, list.toObject()), { userView: (0, obj_1.exceptObjectProp)((_a = users.find(item => item._id === list.userViewId)) === null || _a === void 0 ? void 0 : _a.toObject(), ["password"]) }));
-                })
+                    return (Object.assign(Object.assign({}, list.toObject()), { userView: (0, obj_1.exceptObjectProp)((_a = users.find((item) => item._id === list.userViewId)) === null || _a === void 0 ? void 0 : _a.toObject(), ["password"]) }));
+                }),
             });
         }
         catch (error) {
@@ -231,8 +231,8 @@ const ApiReport = ({ route }) => {
                 message: "get allowed user to me",
                 lists: lists.map((list) => {
                     var _a;
-                    return (Object.assign(Object.assign({}, list.toObject()), { userShare: (0, obj_1.exceptObjectProp)((_a = users.find(item => item._id === list.userShareId)) === null || _a === void 0 ? void 0 : _a.toObject(), ["password"]) }));
-                })
+                    return (Object.assign(Object.assign({}, list.toObject()), { userShare: (0, obj_1.exceptObjectProp)((_a = users.find((item) => item._id === list.userShareId)) === null || _a === void 0 ? void 0 : _a.toObject(), ["password"]) }));
+                }),
             });
         }
         catch (error) {

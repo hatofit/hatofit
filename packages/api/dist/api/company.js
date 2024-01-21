@@ -13,37 +13,35 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiCompany = void 0;
-const db_1 = require("../db");
-const company_1 = require("../types/company");
 const mongoose_1 = __importDefault(require("mongoose"));
+const db_1 = require("../db");
 const auth_1 = require("../middlewares/auth");
+const company_1 = require("../types/company");
 const auth_2 = require("../utils/auth");
 const ApiCompany = ({ route }) => {
     // LISTINGS
-    route.get('/company', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.get("/company", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const companies = yield db_1.Company.find();
         return res.json({
             success: true,
-            message: 'Companies found',
+            message: "Companies found",
             companies,
         });
     }));
-    route.get('/company/create-by-me', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.get("/company/create-by-me", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const authUser = yield (0, auth_2.getUserByAuth)(req);
             if (!authUser)
-                return res
-                    .status(401)
-                    .json({
+                return res.status(401).json({
                     success: false,
                     message: "User not found",
                 });
             const companies = yield db_1.Company.find({
-                'admins.userId': authUser._id,
+                "admins.userId": authUser._id,
             });
             return res.json({
                 success: true,
-                message: 'Companies found',
+                message: "Companies found",
                 companies,
             });
             return companies;
@@ -52,19 +50,19 @@ const ApiCompany = ({ route }) => {
             return res.status(400).json({ error });
         }
     }));
-    route.get('/company/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.get("/company/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = req.params;
             const company = yield db_1.Company.findById(id);
             if (!company) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Company not found',
+                    message: "Company not found",
                 });
             }
             return res.json({
                 success: true,
-                message: 'Company found',
+                message: "Company found",
                 company,
             });
         }
@@ -74,14 +72,12 @@ const ApiCompany = ({ route }) => {
         }
     }));
     // COMPANY ACTIONS
-    route.post('/company', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.post("/company", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         var _a, _b, _c;
         try {
             const authUser = yield (0, auth_2.getUserByAuth)(req);
             if (!authUser)
-                return res
-                    .status(401)
-                    .json({
+                return res.status(401).json({
                     success: false,
                     message: "User not found",
                 });
@@ -92,20 +88,20 @@ const ApiCompany = ({ route }) => {
                     description: (_b = req.body) === null || _b === void 0 ? void 0 : _b.description,
                     address: (_c = req.body) === null || _c === void 0 ? void 0 : _c.address,
                 },
-                admins: []
+                admins: [],
             });
             // save to db
             const created = yield db_1.Company.create(Object.assign(Object.assign({}, company), { _id: new mongoose_1.default.Types.ObjectId().toHexString(), admins: [
                     {
                         userId: authUser._id,
-                        role: 'owner',
+                        role: "owner",
                         isCreated: true,
-                    }
+                    },
                 ] }));
             // resposne
             return res.json({
                 success: true,
-                message: 'Company created successfully',
+                message: "Company created successfully",
                 id: created._id,
                 company: created.toObject(),
             });
@@ -115,13 +111,11 @@ const ApiCompany = ({ route }) => {
             return res.status(400).json({ error });
         }
     }));
-    route.post('/company/:id/link', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.post("/company/:id/link", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             let authUser = yield (0, auth_2.getUserByAuth)(req);
             if (!authUser)
-                return res
-                    .status(401)
-                    .json({
+                return res.status(401).json({
                     success: false,
                     message: "User not found",
                 });
@@ -130,7 +124,7 @@ const ApiCompany = ({ route }) => {
             if (!company) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Company not found',
+                    message: "Company not found",
                 });
             }
             // update input
@@ -140,7 +134,7 @@ const ApiCompany = ({ route }) => {
             // resposne
             return res.json({
                 success: true,
-                message: 'Company linked successfully',
+                message: "Company linked successfully",
                 user: authUser.toObject(),
             });
         }
@@ -149,13 +143,11 @@ const ApiCompany = ({ route }) => {
             return res.status(400).json({ error });
         }
     }));
-    route.post('/company/unlink', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.post("/company/unlink", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const authUser = yield (0, auth_2.getUserByAuth)(req);
             if (!authUser)
-                return res
-                    .status(401)
-                    .json({
+                return res.status(401).json({
                     success: false,
                     message: "User not found",
                 });
@@ -166,7 +158,7 @@ const ApiCompany = ({ route }) => {
             // resposne
             return res.json({
                 success: true,
-                message: 'Company unlink successfully',
+                message: "Company unlink successfully",
                 user: authUser.toObject(),
             });
         }
@@ -176,7 +168,7 @@ const ApiCompany = ({ route }) => {
         }
     }));
     // SETTINGS
-    route.get('/company/:id/setting', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.get("/company/:id/setting", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         var _d, _e;
         try {
             const { id } = req.params;
@@ -184,12 +176,12 @@ const ApiCompany = ({ route }) => {
             if (!company) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Company not found',
+                    message: "Company not found",
                 });
             }
             return res.json({
                 success: true,
-                message: 'setting found',
+                message: "setting found",
                 setting: {
                     name: company.name,
                     meta: {
@@ -204,7 +196,7 @@ const ApiCompany = ({ route }) => {
             return res.status(500).json({ error });
         }
     }));
-    route.post('/company/:id/setting', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.post("/company/:id/setting", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         var _f, _g, _h, _j, _k;
         try {
             const { id } = req.params;
@@ -212,7 +204,7 @@ const ApiCompany = ({ route }) => {
             if (!company) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Company not found',
+                    message: "Company not found",
                 });
             }
             // validate input
@@ -225,7 +217,7 @@ const ApiCompany = ({ route }) => {
             });
             return res.json({
                 success: true,
-                message: 'setting save success',
+                message: "setting save success",
             });
         }
         catch (error) {
@@ -234,14 +226,14 @@ const ApiCompany = ({ route }) => {
         }
     }));
     // MEMBERS
-    route.get('/company/:id/members', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.get("/company/:id/members", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = req.params;
             const company = yield db_1.Company.findById(id);
             if (!company) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Company not found',
+                    message: "Company not found",
                 });
             }
             const members = yield db_1.User.find({
@@ -249,7 +241,7 @@ const ApiCompany = ({ route }) => {
             });
             return res.json({
                 success: true,
-                message: 'Members found',
+                message: "Members found",
                 members,
             });
         }
@@ -258,37 +250,35 @@ const ApiCompany = ({ route }) => {
             return res.status(500).json({ error });
         }
     }));
-    route.delete('/company/:id/members/:memberId', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.delete("/company/:id/members/:memberId", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id, memberId } = req.params;
             const company = yield db_1.Company.findById(id);
             if (!company) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Company not found',
+                    message: "Company not found",
                 });
             }
             // login user must be admin of this company
             const authUser = yield (0, auth_2.getUserByAuth)(req);
             if (!authUser)
-                return res
-                    .status(401)
-                    .json({
+                return res.status(401).json({
                     success: false,
                     message: "User not found",
                 });
-            const authUserAdmin = company.admins.find(admin => admin.userId === authUser._id);
+            const authUserAdmin = company.admins.find((admin) => admin.userId === authUser._id);
             if (!authUserAdmin) {
                 return res.status(403).json({
                     success: false,
-                    message: 'User not allowed',
+                    message: "User not allowed",
                 });
             }
             const member = yield db_1.User.findById(memberId);
             if (!member) {
                 return res.status(404).json({
                     success: false,
-                    message: 'User not found in this company',
+                    message: "User not found in this company",
                 });
             }
             yield member.updateOne({
@@ -296,7 +286,7 @@ const ApiCompany = ({ route }) => {
             }, { new: true });
             return res.json({
                 success: true,
-                message: 'remove member from company successfully',
+                message: "remove member from company successfully",
             });
         }
         catch (error) {
@@ -305,27 +295,27 @@ const ApiCompany = ({ route }) => {
         }
     }));
     // OWNERS
-    route.get('/company/:id/owners', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.get("/company/:id/owners", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = req.params;
             const company = yield db_1.Company.findById(id);
             if (!company) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Company not found',
+                    message: "Company not found",
                 });
             }
             const owners = company.admins;
             const users = yield db_1.User.find({
                 _id: {
-                    $in: owners.map(owner => owner.userId)
-                }
+                    $in: owners.map((owner) => owner.userId),
+                },
             });
             return res.json({
                 success: true,
-                message: 'Owners found',
+                message: "Owners found",
                 owners,
-                users: users.map(user => ({
+                users: users.map((user) => ({
                     _id: user._id,
                     firstName: user.firstName,
                     lastName: user.lastName,
@@ -338,7 +328,7 @@ const ApiCompany = ({ route }) => {
             return res.status(500).json({ error });
         }
     }));
-    route.post('/company/:id/owners', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.post("/company/:id/owners", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = req.params;
             const { email } = req.body;
@@ -347,23 +337,21 @@ const ApiCompany = ({ route }) => {
             if (!company) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Company not found',
+                    message: "Company not found",
                 });
             }
             // login user must be admin of this company
             const authUser = yield (0, auth_2.getUserByAuth)(req);
             if (!authUser)
-                return res
-                    .status(401)
-                    .json({
+                return res.status(401).json({
                     success: false,
                     message: "User not found",
                 });
-            const authUserAdmin = company.admins.find(admin => admin.userId === authUser._id);
+            const authUserAdmin = company.admins.find((admin) => admin.userId === authUser._id);
             if (!authUserAdmin) {
                 return res.status(403).json({
                     success: false,
-                    message: 'User not allowed',
+                    message: "User not allowed",
                 });
             }
             // search user to add
@@ -373,23 +361,23 @@ const ApiCompany = ({ route }) => {
             if (!userToAdd) {
                 return res.status(404).json({
                     success: false,
-                    message: 'User not found',
+                    message: "User not found",
                 });
             }
             // add to admin company
             const companyNew = [...company.admins];
             // search if user already in company
-            const userAlreadyInCompany = companyNew.find(admin => admin.userId === userToAdd._id);
+            const userAlreadyInCompany = companyNew.find((admin) => admin.userId === userToAdd._id);
             if (userAlreadyInCompany) {
                 return res.status(400).json({
                     success: false,
-                    message: 'User already in company',
+                    message: "User already in company",
                 });
             }
             // add
             companyNew.push({
                 userId: userToAdd._id,
-                role: 'owner',
+                role: "owner",
             });
             // update company
             yield company.updateOne({
@@ -397,7 +385,7 @@ const ApiCompany = ({ route }) => {
             }, { new: true });
             return res.json({
                 success: true,
-                message: 'Add owner successfully',
+                message: "Add owner successfully",
                 email,
             });
         }
@@ -406,7 +394,7 @@ const ApiCompany = ({ route }) => {
             return res.status(500).json({ error });
         }
     }));
-    route.delete('/company/:id/owners', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.delete("/company/:id/owners", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const { id } = req.params;
             const { userId } = req.body;
@@ -415,23 +403,21 @@ const ApiCompany = ({ route }) => {
             if (!company) {
                 return res.status(404).json({
                     success: false,
-                    message: 'Company not found',
+                    message: "Company not found",
                 });
             }
             // login user must be admin of this company
             const authUser = yield (0, auth_2.getUserByAuth)(req);
             if (!authUser)
-                return res
-                    .status(401)
-                    .json({
+                return res.status(401).json({
                     success: false,
                     message: "User not found",
                 });
-            const authUserAdmin = company.admins.find(admin => admin.userId === authUser._id);
+            const authUserAdmin = company.admins.find((admin) => admin.userId === authUser._id);
             if (!authUserAdmin) {
                 return res.status(403).json({
                     success: false,
-                    message: 'User not allowed',
+                    message: "User not allowed",
                 });
             }
             // search user to remove
@@ -439,17 +425,17 @@ const ApiCompany = ({ route }) => {
             if (!userToAdd) {
                 return res.status(404).json({
                     success: false,
-                    message: 'User not found',
+                    message: "User not found",
                 });
             }
             // remove from admin company
             const companyNew = [...company.admins];
             // search if user already in company
-            const userAlreadyInCompany = companyNew.find(admin => admin.userId === userToAdd._id);
+            const userAlreadyInCompany = companyNew.find((admin) => admin.userId === userToAdd._id);
             if (!userAlreadyInCompany) {
                 return res.status(400).json({
                     success: false,
-                    message: 'User not in company',
+                    message: "User not in company",
                 });
             }
             // remove
@@ -460,7 +446,7 @@ const ApiCompany = ({ route }) => {
             }, { new: true });
             return res.json({
                 success: true,
-                message: 'Remove owner successfully',
+                message: "Remove owner successfully",
                 userId,
             });
         }
@@ -470,27 +456,23 @@ const ApiCompany = ({ route }) => {
         }
     }));
     // AUTHS
-    route.get('/auth/company-linked', auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.get("/auth/company-linked", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             let authUser = yield (0, auth_2.getUserByAuth)(req);
             if (!authUser)
-                return res
-                    .status(401)
-                    .json({
+                return res.status(401).json({
                     success: false,
                     message: "User not found",
                 });
             if (!authUser.linkedCompanyId)
-                return res
-                    .json({
+                return res.json({
                     success: true,
                     message: "User not have linked company",
                     user: authUser.toObject(),
                 });
             const company = yield db_1.Company.findById(authUser.linkedCompanyId);
             if (!company) {
-                return res
-                    .json({
+                return res.json({
                     success: true,
                     message: "User not have linked company",
                     user: authUser.toObject(),
@@ -499,7 +481,7 @@ const ApiCompany = ({ route }) => {
             // resposne
             return res.json({
                 success: true,
-                message: 'User have linked company',
+                message: "User have linked company",
                 user: authUser.toObject(),
                 company,
             });

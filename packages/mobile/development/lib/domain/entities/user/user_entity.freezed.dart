@@ -26,10 +26,6 @@ mixin _$UserEntity {
   String? get gender => throw _privateConstructorUsedError;
   @HiveField(4)
   String? get email => throw _privateConstructorUsedError;
-  @HiveField(5)
-  String? get password => throw _privateConstructorUsedError;
-  @HiveField(6)
-  String? get confirmPassword => throw _privateConstructorUsedError;
   @HiveField(7)
   DateTime? get dateOfBirth => throw _privateConstructorUsedError;
   @HiveField(8)
@@ -63,8 +59,6 @@ abstract class $UserEntityCopyWith<$Res> {
       @HiveField(2) String? lastName,
       @HiveField(3) String? gender,
       @HiveField(4) String? email,
-      @HiveField(5) String? password,
-      @HiveField(6) String? confirmPassword,
       @HiveField(7) DateTime? dateOfBirth,
       @HiveField(8) String? photo,
       @HiveField(9) MetricUnitsEntity? metricUnitsEntity,
@@ -94,8 +88,6 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
     Object? lastName = freezed,
     Object? gender = freezed,
     Object? email = freezed,
-    Object? password = freezed,
-    Object? confirmPassword = freezed,
     Object? dateOfBirth = freezed,
     Object? photo = freezed,
     Object? metricUnitsEntity = freezed,
@@ -124,14 +116,6 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-      password: freezed == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String?,
-      confirmPassword: freezed == confirmPassword
-          ? _value.confirmPassword
-          : confirmPassword // ignore: cast_nullable_to_non_nullable
               as String?,
       dateOfBirth: freezed == dateOfBirth
           ? _value.dateOfBirth
@@ -191,8 +175,6 @@ abstract class _$$UserEntityImplCopyWith<$Res>
       @HiveField(2) String? lastName,
       @HiveField(3) String? gender,
       @HiveField(4) String? email,
-      @HiveField(5) String? password,
-      @HiveField(6) String? confirmPassword,
       @HiveField(7) DateTime? dateOfBirth,
       @HiveField(8) String? photo,
       @HiveField(9) MetricUnitsEntity? metricUnitsEntity,
@@ -221,8 +203,6 @@ class __$$UserEntityImplCopyWithImpl<$Res>
     Object? lastName = freezed,
     Object? gender = freezed,
     Object? email = freezed,
-    Object? password = freezed,
-    Object? confirmPassword = freezed,
     Object? dateOfBirth = freezed,
     Object? photo = freezed,
     Object? metricUnitsEntity = freezed,
@@ -251,14 +231,6 @@ class __$$UserEntityImplCopyWithImpl<$Res>
       email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String?,
-      password: freezed == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
-              as String?,
-      confirmPassword: freezed == confirmPassword
-          ? _value.confirmPassword
-          : confirmPassword // ignore: cast_nullable_to_non_nullable
               as String?,
       dateOfBirth: freezed == dateOfBirth
           ? _value.dateOfBirth
@@ -302,8 +274,6 @@ class _$UserEntityImpl implements _UserEntity {
       @HiveField(2) this.lastName,
       @HiveField(3) this.gender,
       @HiveField(4) this.email,
-      @HiveField(5) this.password,
-      @HiveField(6) this.confirmPassword,
       @HiveField(7) this.dateOfBirth,
       @HiveField(8) this.photo,
       @HiveField(9) this.metricUnitsEntity,
@@ -328,12 +298,6 @@ class _$UserEntityImpl implements _UserEntity {
   @HiveField(4)
   final String? email;
   @override
-  @HiveField(5)
-  final String? password;
-  @override
-  @HiveField(6)
-  final String? confirmPassword;
-  @override
   @HiveField(7)
   final DateTime? dateOfBirth;
   @override
@@ -357,7 +321,7 @@ class _$UserEntityImpl implements _UserEntity {
 
   @override
   String toString() {
-    return 'UserEntity(id: $id, firstName: $firstName, lastName: $lastName, gender: $gender, email: $email, password: $password, confirmPassword: $confirmPassword, dateOfBirth: $dateOfBirth, photo: $photo, metricUnitsEntity: $metricUnitsEntity, height: $height, weight: $weight, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserEntity(id: $id, firstName: $firstName, lastName: $lastName, gender: $gender, email: $email, dateOfBirth: $dateOfBirth, photo: $photo, metricUnitsEntity: $metricUnitsEntity, height: $height, weight: $weight, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -372,10 +336,6 @@ class _$UserEntityImpl implements _UserEntity {
                 other.lastName == lastName) &&
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.password, password) ||
-                other.password == password) &&
-            (identical(other.confirmPassword, confirmPassword) ||
-                other.confirmPassword == confirmPassword) &&
             (identical(other.dateOfBirth, dateOfBirth) ||
                 other.dateOfBirth == dateOfBirth) &&
             (identical(other.photo, photo) || other.photo == photo) &&
@@ -397,8 +357,6 @@ class _$UserEntityImpl implements _UserEntity {
       lastName,
       gender,
       email,
-      password,
-      confirmPassword,
       dateOfBirth,
       photo,
       metricUnitsEntity,
@@ -421,8 +379,6 @@ abstract class _UserEntity implements UserEntity {
       @HiveField(2) final String? lastName,
       @HiveField(3) final String? gender,
       @HiveField(4) final String? email,
-      @HiveField(5) final String? password,
-      @HiveField(6) final String? confirmPassword,
       @HiveField(7) final DateTime? dateOfBirth,
       @HiveField(8) final String? photo,
       @HiveField(9) final MetricUnitsEntity? metricUnitsEntity,
@@ -446,12 +402,6 @@ abstract class _UserEntity implements UserEntity {
   @override
   @HiveField(4)
   String? get email;
-  @override
-  @HiveField(5)
-  String? get password;
-  @override
-  @HiveField(6)
-  String? get confirmPassword;
   @override
   @HiveField(7)
   DateTime? get dateOfBirth;

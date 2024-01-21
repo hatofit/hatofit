@@ -12,8 +12,6 @@ class UserEntity with _$UserEntity {
     @HiveField(2) String? lastName,
     @HiveField(3) String? gender,
     @HiveField(4) String? email,
-    @HiveField(5) String? password,
-    @HiveField(6) String? confirmPassword,
     @HiveField(7) DateTime? dateOfBirth,
     @HiveField(8) String? photo,
     @HiveField(9) MetricUnitsEntity? metricUnitsEntity,
