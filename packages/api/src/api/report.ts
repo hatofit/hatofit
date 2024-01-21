@@ -1,16 +1,11 @@
 import express from "express";
+import mongoose from "mongoose";
 import { z } from "zod";
+import { getReportFromSession } from "../actions/report";
 import { ReportShare, Session, User } from "../db";
 import { AuthJwtMiddleware } from "../middlewares/auth";
-import {
-  ReportDevicesSchema,
-  ReportItemsSchema,
-  ReportSchema,
-} from "../types/report";
 import { SessionDataItemDeviceSchema } from "../types/session";
-import mongoose from "mongoose";
 import { exceptObjectProp } from "../utils/obj";
-import { getReportFromSession } from "../actions/report";
 
 export interface DeviceRule {
   name: string;
@@ -189,7 +184,7 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
 
       // street email
     } catch (error) {
-      console.error(error)
+      console.error(error);
       return res.status(400).json({ error });
     }
   });
@@ -204,28 +199,32 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         });
       }
 
-      const user_ids: string[] = []
+      const user_ids: string[] = [];
       const lists = await ReportShare.find({
         userShareId: userId,
       });
       lists.forEach((list) => {
-        if (list.userViewId && !user_ids.includes(list.userViewId)) user_ids.push(list.userViewId)
-      })
+        if (list.userViewId && !user_ids.includes(list.userViewId))
+          user_ids.push(list.userViewId);
+      });
       const users = await User.find({
         // find all users
         _id: { $in: user_ids },
-      })
+      });
 
       return res.json({
         success: true,
         message: "get allowed user from me",
         lists: lists.map((list) => ({
           ...list.toObject(),
-          userView: exceptObjectProp(users.find(item => item._id === list.userViewId)?.toObject(), ["password"]),
-        }))
-      })
+          userView: exceptObjectProp(
+            users.find((item) => item._id === list.userViewId)?.toObject(),
+            ["password"]
+          ),
+        })),
+      });
     } catch (error) {
-      console.error(error)
+      console.error(error);
       return res.status(500).json({ error });
     }
   });
@@ -240,28 +239,32 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
         });
       }
 
-      const user_ids: string[] = []
+      const user_ids: string[] = [];
       const lists = await ReportShare.find({
         userViewId: userId,
       });
       lists.forEach((list) => {
-        if (list.userShareId && !user_ids.includes(list.userShareId)) user_ids.push(list.userShareId)
-      })
+        if (list.userShareId && !user_ids.includes(list.userShareId))
+          user_ids.push(list.userShareId);
+      });
       const users = await User.find({
         // find all users
         _id: { $in: user_ids },
-      })
+      });
 
       return res.json({
         success: true,
         message: "get allowed user to me",
         lists: lists.map((list) => ({
           ...list.toObject(),
-          userShare: exceptObjectProp(users.find(item => item._id === list.userShareId)?.toObject(), ["password"]),
-        }))
-      })
+          userShare: exceptObjectProp(
+            users.find((item) => item._id === list.userShareId)?.toObject(),
+            ["password"]
+          ),
+        })),
+      });
     } catch (error) {
-      console.error(error)
+      console.error(error);
       return res.status(500).json({ error });
     }
   });

@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import { Exercise, ReportShare, Session, User } from "../db";
+import { Exercise, Session, User } from "../db";
 import { AuthJwtMiddleware } from "../middlewares/auth";
 import { SessionSchema } from "../types/session";
 
