@@ -4,5 +4,6 @@ import 'strings.dart';
 class StringsId extends Strings {
   StringsId([String locale = 'id']) : super(locale);
 
-
+  @override
+  String get loading => 'Memuat...';
 }

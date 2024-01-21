@@ -93,6 +93,11 @@ abstract class Strings {
     Locale('id')
   ];
 
+  /// No description provided for @loading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

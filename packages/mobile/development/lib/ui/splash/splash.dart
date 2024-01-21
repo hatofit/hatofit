@@ -1,2 +1,2 @@
 export 'cubit/splash_cubit.dart';
-export 'page/splash_screen_page.dart';
+export 'views/splash_screen_view.dart';

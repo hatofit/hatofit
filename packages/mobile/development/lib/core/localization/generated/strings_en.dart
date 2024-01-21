@@ -4,5 +4,6 @@ import 'strings.dart';
 class StringsEn extends Strings {
   StringsEn([String locale = 'en']) : super(locale);
 
-
+  @override
+  String get loading => 'Loading...';
 }
