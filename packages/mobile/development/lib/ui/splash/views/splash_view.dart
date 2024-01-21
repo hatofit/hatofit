@@ -5,14 +5,14 @@ import 'package:hatofit/core/core.dart';
 import 'package:hatofit/ui/ui.dart';
 import 'package:hatofit/utils/ext/context.dart';
 
-class SplashScreenView extends StatefulWidget {
-  const SplashScreenView({super.key});
+class SplashView extends StatefulWidget {
+  const SplashView({super.key});
 
   @override
-  State<SplashScreenView> createState() => _SplashScreenPageState();
+  State<SplashView> createState() => _SplashScreenPageState();
 }
 
-class _SplashScreenPageState extends State<SplashScreenView> {
+class _SplashScreenPageState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
