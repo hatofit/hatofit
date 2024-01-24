@@ -98,6 +98,48 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Loading...'**
   String get loading;
+
+  /// No description provided for @swipeToChangeTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Swipe the icon to change theme'**
+  String get swipeToChangeTheme;
+
+  /// No description provided for @selectLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Select language'**
+  String get selectLanguage;
+
+  /// No description provided for @appPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'App Preferences'**
+  String get appPreferences;
+
+  /// No description provided for @adjustPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust your preferences'**
+  String get adjustPreferences;
+
+  /// No description provided for @chooseLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose language'**
+  String get chooseLanguage;
+
+  /// No description provided for @getStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Get Started'**
+  String get getStarted;
+
+  /// No description provided for @next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get next;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

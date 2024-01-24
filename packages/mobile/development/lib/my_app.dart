@@ -4,18 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hatofit/core/core.dart';
+import 'package:hatofit/dependecy_injection.dart';
 import 'package:hatofit/ui/ui.dart';
 import 'package:hatofit/utils/utils.dart';
 import 'package:oktoast/oktoast.dart';
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -24,7 +20,10 @@ class _MyAppState extends State<MyApp> {
       ),
     );
     return MultiBlocProvider(
-      providers: [],
+      providers: [
+        BlocProvider(create: (_) => di<SettingsCubit>()..getActiveTheme()),
+        BlocProvider(create: (_) => di<AuthCubit>()),
+      ],
       child: OKToast(
         child: ScreenUtilInit(
           designSize: const Size(360, 690),

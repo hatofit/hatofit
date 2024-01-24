@@ -1,3 +1,10 @@
 {
-  "loading": "Loading..."
+  "loading": "Loading...",
+  "swipeToChangeTheme": "Swipe the icon to change theme",
+  "selectLanguage": "Select language",
+  "appPreferences": "App Preferences",
+  "adjustPreferences": "Adjust your preferences",
+  "chooseLanguage": "Choose language",
+  "getStarted": "Get Started",
+  "next": "Next"
 }

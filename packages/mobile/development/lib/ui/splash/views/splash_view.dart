@@ -26,7 +26,7 @@ class _SplashScreenPageState extends State<SplashView> {
               context.goNamed(Routes.root.name);
             },
             unauthorized: (message) {
-              context.goNamed(Routes.login.name);
+              context.goNamed(Routes.greeting.name);
             },
           );
         },
@@ -37,6 +37,7 @@ class _SplashScreenPageState extends State<SplashView> {
               context.isDarkMode
                   ? 'assets/images/logo/dark.png'
                   : 'assets/images/logo/light.png',
+              width: Dimens.menuContainer,
             ),
           ),
         ),

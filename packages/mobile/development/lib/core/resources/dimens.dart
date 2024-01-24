@@ -6,8 +6,11 @@ class Dimens {
   static double displayLarge = 96.sp;
   static double displayMedium = 60.sp;
   static double displaySmall = 48.sp;
-  static double headlineMedium = 34.sp;
+
+  static double headlineLarge = 48.sp;
+  static double headlineMedium = 36.sp;
   static double headlineSmall = 24.sp;
+
   static double titleLarge = 20.sp;
   static double bodyLarge = 16.sp;
   static double bodyMedium = 14.sp;
@@ -17,20 +20,29 @@ class Dimens {
   static double bodySmall = 12.sp;
   static double labelSmall = 10.sp;
 
-  static double zero = 0;
-  static double space2 = 2.w;
-  static double space3 = 3.w;
-  static double space4 = 4.w;
-  static double space6 = 6.w;
-  static double space8 = 8.w;
-  static double space12 = 12.w;
-  static double space16 = 16.w;
-  static double space24 = 24.w;
-  static double space30 = 30.w;
-  static double space36 = 36.w;
-  static double space40 = 40.w;
-  static double space46 = 46.w;
-  static double space50 = 50.w;
+  static double zero = 0.w;
+
+  static double width4 = 4.w;
+  static double width8 = 8.w;
+  static double width16 = 16.w;
+  static double width24 = 24.w;
+  static double width32 = 32.w;
+  static double width40 = 40.w;
+  static double width48 = 48.w;
+  static double width56 = 56.w;
+  static double width64 = 64.w;
+  static double width300 = 300.w;
+
+  static double height4 = 4.h;
+  static double height8 = 8.h;
+  static double height16 = 16.h;
+  static double height24 = 24.h;
+  static double height32 = 32.h;
+  static double height40 = 40.h;
+  static double height48 = 48.h;
+  static double height56 = 56.h;
+  static double height64 = 64.h;
+  static double height128 = 128.h;
 
   static double selectedIndicatorW = 43.w;
   static double selectedIndicatorSmallW = 28.w;
@@ -50,6 +62,7 @@ class Dimens {
   static double buttonH = 40.w;
   static double imageW = 110.w;
 
-  static const double cornerRadius = 15;
-  static const double cornerRadiusBottomSheet = 30;
+  static double radius4 = 4.r;
+  static double radius8 = 8.r;
+  static double radius15 = 15.r;
 }

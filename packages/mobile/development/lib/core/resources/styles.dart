@@ -18,56 +18,74 @@ ThemeData themeLight(BuildContext context) => ThemeData(
       textTheme: TextTheme(
         displayLarge: Theme.of(context).textTheme.displayLarge?.copyWith(
               fontSize: Dimens.displayLarge,
-              color: Palette.text,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
         displayMedium: Theme.of(context).textTheme.displayMedium?.copyWith(
               fontSize: Dimens.displayMedium,
-              color: Palette.text,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
         displaySmall: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontSize: Dimens.displaySmall,
-              color: Palette.text,
+              fontFamily: 'Poppins',
+              color: Colors.black,
+            ),
+        headlineLarge: Theme.of(context).textTheme.headlineLarge?.copyWith(
+              fontSize: Dimens.headlineLarge,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
         headlineMedium: Theme.of(context).textTheme.headlineMedium?.copyWith(
               fontSize: Dimens.headlineMedium,
-              color: Palette.text,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
         headlineSmall: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontSize: Dimens.headlineSmall,
-              color: Palette.text,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
         titleLarge: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontSize: Dimens.titleLarge,
-              color: Palette.text,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
         titleMedium: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontSize: Dimens.titleMedium,
-              color: Palette.text,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
         titleSmall: Theme.of(context).textTheme.titleSmall?.copyWith(
               fontSize: Dimens.titleSmall,
-              color: Palette.text,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
         bodyLarge: Theme.of(context).textTheme.bodyLarge?.copyWith(
               fontSize: Dimens.bodyLarge,
-              color: Palette.text,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
         bodyMedium: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontSize: Dimens.bodyMedium,
-              color: Palette.text,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
         bodySmall: Theme.of(context).textTheme.bodySmall?.copyWith(
               fontSize: Dimens.bodySmall,
-              color: Palette.text,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
         labelLarge: Theme.of(context).textTheme.labelLarge?.copyWith(
               fontSize: Dimens.labelLarge,
-              color: Palette.text,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
         labelSmall: Theme.of(context).textTheme.labelSmall?.copyWith(
               fontSize: Dimens.labelSmall,
               letterSpacing: 0.25,
-              color: Palette.text,
+              fontFamily: 'Poppins',
+              color: Colors.black,
             ),
       ),
       appBarTheme: const AppBarTheme().copyWith(
@@ -102,7 +120,6 @@ ThemeData themeLight(BuildContext context) => ThemeData(
         AppColors(
           background: Palette.background,
           card: Palette.card,
-          buttonText: Palette.text,
           subtitle: Palette.subText,
           shadow: Palette.shadowDark,
           green: Palette.greenLatte,
@@ -136,56 +153,74 @@ ThemeData themeDark(BuildContext context) => ThemeData(
       textTheme: TextTheme(
         displayLarge: Theme.of(context).textTheme.displayLarge?.copyWith(
               fontSize: Dimens.displayLarge,
-              color: Palette.textDark,
+              fontFamily: 'Poppins',
+              color: Colors.white,
             ),
         displayMedium: Theme.of(context).textTheme.displayMedium?.copyWith(
               fontSize: Dimens.displayMedium,
-              color: Palette.textDark,
+              fontFamily: 'Poppins',
+              color: Colors.white,
             ),
         displaySmall: Theme.of(context).textTheme.displaySmall?.copyWith(
               fontSize: Dimens.displaySmall,
-              color: Palette.textDark,
+              fontFamily: 'Poppins',
+              color: Colors.white,
+            ),
+        headlineLarge: Theme.of(context).textTheme.headlineLarge?.copyWith(
+              fontSize: Dimens.headlineLarge,
+              fontFamily: 'Poppins',
+              color: Colors.white,
             ),
         headlineMedium: Theme.of(context).textTheme.headlineMedium?.copyWith(
               fontSize: Dimens.headlineMedium,
-              color: Palette.textDark,
+              fontFamily: 'Poppins',
+              color: Colors.white,
             ),
         headlineSmall: Theme.of(context).textTheme.headlineSmall?.copyWith(
               fontSize: Dimens.headlineSmall,
-              color: Palette.textDark,
+              fontFamily: 'Poppins',
+              color: Colors.white,
             ),
         titleLarge: Theme.of(context).textTheme.titleLarge?.copyWith(
               fontSize: Dimens.titleLarge,
-              color: Palette.textDark,
+              fontFamily: 'Poppins',
+              color: Colors.white,
             ),
         titleMedium: Theme.of(context).textTheme.titleMedium?.copyWith(
               fontSize: Dimens.titleMedium,
-              color: Palette.textDark,
+              fontFamily: 'Poppins',
+              color: Colors.white,
             ),
         titleSmall: Theme.of(context).textTheme.titleSmall?.copyWith(
               fontSize: Dimens.titleSmall,
-              color: Palette.textDark,
+              fontFamily: 'Poppins',
+              color: Colors.white,
             ),
         bodyLarge: Theme.of(context).textTheme.bodyLarge?.copyWith(
               fontSize: Dimens.bodyLarge,
-              color: Palette.textDark,
+              fontFamily: 'Poppins',
+              color: Colors.white,
             ),
         bodyMedium: Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontSize: Dimens.bodyMedium,
-              color: Palette.textDark,
+              fontFamily: 'Poppins',
+              color: Colors.white,
             ),
         bodySmall: Theme.of(context).textTheme.bodySmall?.copyWith(
               fontSize: Dimens.bodySmall,
-              color: Palette.textDark,
+              fontFamily: 'Poppins',
+              color: Colors.white,
             ),
         labelLarge: Theme.of(context).textTheme.labelLarge?.copyWith(
               fontSize: Dimens.labelLarge,
-              color: Palette.textDark,
+              fontFamily: 'Poppins',
+              color: Colors.white,
             ),
         labelSmall: Theme.of(context).textTheme.labelSmall?.copyWith(
               fontSize: Dimens.labelSmall,
               letterSpacing: 0.25,
-              color: Palette.textDark,
+              fontFamily: 'Poppins',
+              color: Colors.white,
             ),
       ),
       appBarTheme: const AppBarTheme().copyWith(
@@ -220,7 +255,6 @@ ThemeData themeDark(BuildContext context) => ThemeData(
       extensions: const <ThemeExtension<dynamic>>[
         AppColors(
           background: Palette.backgroundDark,
-          buttonText: Palette.textDark,
           card: Palette.cardDark,
           subtitle: Palette.subTextDark,
           shadow: Palette.shadowDark,
@@ -369,15 +403,13 @@ class BoxDecorations {
 
   BoxDecoration get button => BoxDecoration(
         color: Palette.primary,
-        borderRadius:
-            const BorderRadius.all(Radius.circular(Dimens.cornerRadius)),
+        borderRadius: BorderRadius.all(Radius.circular(Dimens.radius15)),
         boxShadow: [BoxShadows(context).button],
       );
 
   BoxDecoration get card => BoxDecoration(
         color: Theme.of(context).cardColor,
-        borderRadius:
-            const BorderRadius.all(Radius.circular(Dimens.cornerRadius)),
+        borderRadius: BorderRadius.all(Radius.circular(Dimens.radius15)),
         boxShadow: [BoxShadows(context).card],
       );
 }

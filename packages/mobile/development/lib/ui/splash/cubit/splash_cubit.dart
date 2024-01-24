@@ -13,16 +13,29 @@ class SplashCubit extends Cubit<SplashState> with MainBoxMixin {
 
   SplashCubit(this._meUseCase) : super(const _Initial());
 
+  Future<void> init() async {
+    await checkAuth();
+    checkMood();
+  }
+
   Future<void> checkAuth() async {
     final res = await _meUseCase.call();
     res.fold(
       (l) {
         if (l is ServerFailure) {
-          emit(const _Unauthorized("Unauthorized"));
+          safeEmit(
+            const _Unauthorized("Unauthorized"),
+            isClosed: isClosed,
+            emit: emit,
+          );
         }
       },
       (r) {
-        emit(_Authorized("Authorized"));
+        safeEmit(
+          const _Authorized("Authorized"),
+          isClosed: isClosed,
+          emit: emit,
+        );
       },
     );
   }

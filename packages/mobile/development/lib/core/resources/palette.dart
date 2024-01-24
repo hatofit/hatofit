@@ -61,8 +61,6 @@ class Palette {
   static const Color backgroundDark = Color(0xff1e1e2e);
   static const Color card = Color(0xffccd0da);
   static const Color cardDark = Color(0xff313244);
-  static const Color text = Color(0xff4c4f69);
-  static const Color textDark = Color(0xffcdd6f4);
   static const Color subText = Color(0xff9ca0b0);
   static const Color subTextDark = Color(0xff6c7086);
   static const Color shadow = Color(0xff8c8fa1);

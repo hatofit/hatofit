@@ -1,3 +1,10 @@
 {
-  "loading": "Memuat..."
+  "loading": "Memuat...",
+  "swipeToChangeTheme": "Geser icon untuk mengganti tema",
+  "selectLanguage": "Pilih Bahasa",
+  "appPreferences": "Preferensi Aplikasi",
+  "adjustPreferences": "Atur preferensi aplikasi",
+  "chooseLanguage": "Pilih Bahasa",
+  "getStarted": "Mulai",
+  "next": "Berikutnya"
 }

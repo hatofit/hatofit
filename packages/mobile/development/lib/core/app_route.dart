@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hatofit/dependecy_injection.dart';
 import 'package:hatofit/ui/ui.dart';
 import 'package:hatofit/utils/utils.dart';
 
@@ -9,7 +10,10 @@ enum Routes {
   root("/"),
   splashScreen("/splashscreen"),
 
-  // Auth Page
+  greeting("/greeting"),
+  preference("/preference"),
+  userInfo("/user-info"),
+
   login("/auth/login"),
   register("/auth/register"),
   forgotPassword("/auth/forgot-password"),
@@ -48,12 +52,48 @@ class AppRoute {
       GoRoute(
         path: Routes.splashScreen.path,
         name: Routes.splashScreen.name,
-        builder: (_, __) => SplashView(),
+        builder: (_, __) => BlocProvider(
+          create: (_) => di<SplashCubit>()..init(),
+          child: const SplashView(),
+        ),
       ),
       GoRoute(
         path: Routes.root.path,
         name: Routes.root.name,
         redirect: (_, __) => Routes.home.path,
+      ),
+      ShellRoute(
+        builder: (_, __, child) => BlocProvider<IntroCubit>(
+          create: (_) => di<IntroCubit>(),
+          child: child,
+        ),
+        routes: [
+          GoRoute(
+            path: Routes.greeting.path,
+            name: Routes.greeting.name,
+            builder: (_, __) => const GreetingView(),
+          ),
+          GoRoute(
+            path: Routes.preference.path,
+            name: Routes.preference.name,
+            builder: (_, __) => const PreferenceView(),
+          ),
+          GoRoute(
+            path: Routes.userInfo.path,
+            name: Routes.userInfo.name,
+            builder: (_, __) => const UserInfoView(),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: Routes.login.path,
+        name: Routes.login.name,
+        builder: (_, __) => const LoginView(),
+      ),
+      GoRoute(
+        path: Routes.register.path,
+        name: Routes.register.name,
+        builder: (_, __) => const RegisterView(),
       ),
     ],
     initialLocation: Routes.splashScreen.path,
