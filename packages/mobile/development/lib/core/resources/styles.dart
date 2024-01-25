@@ -6,7 +6,7 @@ import 'package:hatofit/core/core.dart';
 ThemeData themeLight(BuildContext context) => ThemeData(
       fontFamily: 'Poppins',
       useMaterial3: true,
-      primaryColor: Palette.pinkLatte,
+      primaryColor: Palette.primary,
       disabledColor: Palette.shadowDark,
       hintColor: Palette.subText,
       cardColor: Palette.background,
@@ -91,12 +91,13 @@ ThemeData themeLight(BuildContext context) => ThemeData(
       appBarTheme: const AppBarTheme().copyWith(
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
         color: Palette.background,
-        iconTheme: const IconThemeData(color: Palette.pinkLatte),
+        iconTheme: const IconThemeData(color: Palette.primary),
         systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
           statusBarColor: Colors.transparent,
         ),
         surfaceTintColor: Palette.background,
         shadowColor: Palette.shadow,
+        elevation: 0,
       ),
       drawerTheme: const DrawerThemeData().copyWith(
         elevation: Dimens.zero,
@@ -144,7 +145,7 @@ ThemeData themeLight(BuildContext context) => ThemeData(
 ThemeData themeDark(BuildContext context) => ThemeData(
       fontFamily: 'Poppins',
       useMaterial3: true,
-      primaryColor: Palette.pinkMocha,
+      primaryColor: Palette.primary,
       disabledColor: Palette.shadowDark,
       hintColor: Palette.subTextDark,
       cardColor: Palette.backgroundDark,
@@ -225,13 +226,14 @@ ThemeData themeDark(BuildContext context) => ThemeData(
       ),
       appBarTheme: const AppBarTheme().copyWith(
         titleTextStyle: Theme.of(context).textTheme.bodyLarge,
-        iconTheme: const IconThemeData(color: Palette.pinkMocha),
+        iconTheme: const IconThemeData(color: Palette.primary),
         color: Palette.backgroundDark,
         systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
           statusBarColor: Colors.transparent,
         ),
         surfaceTintColor: Palette.backgroundDark,
         shadowColor: Palette.shadowDark,
+        elevation: 0,
       ),
       drawerTheme: const DrawerThemeData().copyWith(
         elevation: Dimens.zero,

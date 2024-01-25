@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Parent extends StatefulWidget {
   final Widget? child;
-  final PreferredSize? appBar;
+  final AppBar? appBar;
   final bool avoidBottomInset;
   final Widget? floatingButton;
   final Widget? bottomNavigation;

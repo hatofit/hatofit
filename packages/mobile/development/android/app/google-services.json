@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "123499973842-1mlmtengb12esa08rm3hk9fu6b18a8a1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hatofit.hatofit",
+            "certificate_hash": "33c283069826221e23af456f0b2f3643e9ac986c"
+          }
+        },
+        {
           "client_id": "123499973842-ifpcmd3f8e002i4n4lgl4tp11ciokiml.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

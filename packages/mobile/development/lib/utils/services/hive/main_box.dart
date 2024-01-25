@@ -20,6 +20,11 @@ enum MainBoxKeys {
   locale,
   user,
   todayMood,
+  weight,
+  height,
+  weightUnit,
+  heightUnit,
+  gender,
 }
 
 mixin class MainBoxMixin {

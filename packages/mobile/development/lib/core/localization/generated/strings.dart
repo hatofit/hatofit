@@ -105,17 +105,17 @@ abstract class Strings {
   /// **'Swipe the icon to change theme'**
   String get swipeToChangeTheme;
 
-  /// No description provided for @selectLanguage.
-  ///
-  /// In en, this message translates to:
-  /// **'Select language'**
-  String get selectLanguage;
-
   /// No description provided for @appPreferences.
   ///
   /// In en, this message translates to:
   /// **'App Preferences'**
   String get appPreferences;
+
+  /// No description provided for @userPreferences.
+  ///
+  /// In en, this message translates to:
+  /// **'User Preferences'**
+  String get userPreferences;
 
   /// No description provided for @adjustPreferences.
   ///
@@ -135,11 +135,161 @@ abstract class Strings {
   /// **'Get Started'**
   String get getStarted;
 
+  /// No description provided for @weightUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight Unit'**
+  String get weightUnit;
+
+  /// No description provided for @heightUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Height Unit'**
+  String get heightUnit;
+
+  /// No description provided for @pickYourWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick your weight'**
+  String get pickYourWeight;
+
+  /// No description provided for @pickYourHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick your height'**
+  String get pickYourHeight;
+
+  /// No description provided for @selectYourGender.
+  ///
+  /// In en, this message translates to:
+  /// **'Select your gender'**
+  String get selectYourGender;
+
   /// No description provided for @next.
   ///
   /// In en, this message translates to:
   /// **'Next'**
   String get next;
+
+  /// No description provided for @male.
+  ///
+  /// In en, this message translates to:
+  /// **'Male'**
+  String get male;
+
+  /// No description provided for @female.
+  ///
+  /// In en, this message translates to:
+  /// **'Female'**
+  String get female;
+
+  /// No description provided for @errorInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email'**
+  String get errorInvalidEmail;
+
+  /// No description provided for @errorPasswordLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 8 characters long'**
+  String get errorPasswordLength;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @password.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get password;
+
+  /// No description provided for @signIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get signIn;
+
+  /// No description provided for @signUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get signUp;
+
+  /// No description provided for @orSignInWith.
+  ///
+  /// In en, this message translates to:
+  /// **'or sign in with'**
+  String get orSignInWith;
+
+  /// No description provided for @dontHaveHatofitAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have a Hatofit account?'**
+  String get dontHaveHatofitAccount;
+
+  /// No description provided for @alreadyHaveHatofitAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have a Hatofit account?'**
+  String get alreadyHaveHatofitAccount;
+
+  /// No description provided for @signUpWith.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up with'**
+  String get signUpWith;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password'**
+  String get forgotPassword;
+
+  /// No description provided for @rememberMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Remember me'**
+  String get rememberMe;
+
+  /// No description provided for @pleaseEnterYourEmailAddressToReceiveVerificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email address to receive verification code'**
+  String get pleaseEnterYourEmailAddressToReceiveVerificationCode;
+
+  /// No description provided for @verificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification Code'**
+  String get verificationCode;
+
+  /// No description provided for @pleaseEnterYourVerificationCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your verification code'**
+  String get pleaseEnterYourVerificationCode;
+
+  /// No description provided for @verify.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get verify;
+
+  /// No description provided for @resend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend'**
+  String get resend;
+
+  /// No description provided for @emailSentedPleaseCheckYourInbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Email sent, please check your inbox'**
+  String get emailSentedPleaseCheckYourInbox;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

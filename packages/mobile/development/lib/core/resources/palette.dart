@@ -95,4 +95,7 @@ class Palette {
   static const Color skyLatte = Color(0xff04a5e5);
   static const Color blueLatte = Color(0xff1e66f5);
   static const Color lavenderLatte = Color(0xff7287fd);
+  
+  static const Color male = Color(0xFF2B3595);
+  static const Color female = Color(0xFFE14594);
 }

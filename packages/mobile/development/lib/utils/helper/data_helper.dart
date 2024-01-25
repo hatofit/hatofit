@@ -14,6 +14,7 @@ class DataHelper with _$DataHelper {
     String? url,
     String? type,
     int? id,
+    Color? color,
     @Default(false) bool isSelected,
     @Default(ActiveTheme.light) ActiveTheme activeTheme,
   }) = _DataHelper;

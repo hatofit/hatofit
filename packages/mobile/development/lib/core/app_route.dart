@@ -64,7 +64,7 @@ class AppRoute {
       ),
       ShellRoute(
         builder: (_, __, child) => BlocProvider<IntroCubit>(
-          create: (_) => di<IntroCubit>(),
+          create: (_) => di<IntroCubit>()..getState(),
           child: child,
         ),
         routes: [
@@ -94,6 +94,11 @@ class AppRoute {
         path: Routes.register.path,
         name: Routes.register.name,
         builder: (_, __) => const RegisterView(),
+      ),
+      GoRoute(
+        path: Routes.forgotPassword.path,
+        name: Routes.forgotPassword.name,
+        builder: (_, __) => const ForgotPasswordView(),
       ),
     ],
     initialLocation: Routes.splashScreen.path,

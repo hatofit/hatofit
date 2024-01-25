@@ -39,11 +39,12 @@ void _useCase() {
   di.registerLazySingleton(() => LoginUsecase(di()));
   di.registerLazySingleton(() => RegisterUsecase(di()));
   di.registerLazySingleton(() => MeUseCase(di()));
+  di.registerLazySingleton(() => ForgotPasswordUsecase(di()));
 }
 
 void _cubit() {
   di.registerFactory(() => SplashCubit(di()));
-  di.registerFactory(() => AuthCubit());
+  di.registerFactory(() => AuthCubit(di(), di()));
   di.registerFactory(() => IntroCubit());
   di.registerFactory(() => HomeCubit());
   di.registerFactory(() => SettingsCubit());

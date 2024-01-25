@@ -14,6 +14,7 @@ class SplashCubit extends Cubit<SplashState> with MainBoxMixin {
   SplashCubit(this._meUseCase) : super(const _Initial());
 
   Future<void> init() async {
+    // removeData(MainBoxKeys.token);
     await checkAuth();
     checkMood();
   }

@@ -19,10 +19,25 @@ class SettingsCubit extends Cubit<DataHelper> with MainBoxMixin {
   void updateLanguage(String type) {
     addData(MainBoxKeys.locale, type);
     safeEmit(
-      DataHelper(type: type, activeTheme: getActiveTheme()),
+      DataHelper(
+        type: type,
+        activeTheme: getActiveTheme(),
+      ),
       emit: emit,
       isClosed: isClosed,
     );
+  }
+
+  void updateAll(
+    ActiveTheme theme,
+    String locale,
+    String heightUnit,
+    String weightUnit,
+  ) {
+    addData(MainBoxKeys.theme, theme.name);
+    addData(MainBoxKeys.locale, locale);
+    addData(MainBoxKeys.heightUnit, heightUnit);
+    addData(MainBoxKeys.weightUnit, weightUnit);
   }
 
   ActiveTheme getActiveTheme() {

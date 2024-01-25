@@ -30,6 +30,8 @@ mixin _$DataHelper {
   set type(String? value) => throw _privateConstructorUsedError;
   int? get id => throw _privateConstructorUsedError;
   set id(int? value) => throw _privateConstructorUsedError;
+  Color? get color => throw _privateConstructorUsedError;
+  set color(Color? value) => throw _privateConstructorUsedError;
   bool get isSelected => throw _privateConstructorUsedError;
   set isSelected(bool value) => throw _privateConstructorUsedError;
   ActiveTheme get activeTheme => throw _privateConstructorUsedError;
@@ -54,6 +56,7 @@ abstract class $DataHelperCopyWith<$Res> {
       String? url,
       String? type,
       int? id,
+      Color? color,
       bool isSelected,
       ActiveTheme activeTheme});
 }
@@ -78,6 +81,7 @@ class _$DataHelperCopyWithImpl<$Res, $Val extends DataHelper>
     Object? url = freezed,
     Object? type = freezed,
     Object? id = freezed,
+    Object? color = freezed,
     Object? isSelected = null,
     Object? activeTheme = null,
   }) {
@@ -110,6 +114,10 @@ class _$DataHelperCopyWithImpl<$Res, $Val extends DataHelper>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as Color?,
       isSelected: null == isSelected
           ? _value.isSelected
           : isSelected // ignore: cast_nullable_to_non_nullable
@@ -138,6 +146,7 @@ abstract class _$$DataHelperImplCopyWith<$Res>
       String? url,
       String? type,
       int? id,
+      Color? color,
       bool isSelected,
       ActiveTheme activeTheme});
 }
@@ -160,6 +169,7 @@ class __$$DataHelperImplCopyWithImpl<$Res>
     Object? url = freezed,
     Object? type = freezed,
     Object? id = freezed,
+    Object? color = freezed,
     Object? isSelected = null,
     Object? activeTheme = null,
   }) {
@@ -192,6 +202,10 @@ class __$$DataHelperImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
+      color: freezed == color
+          ? _value.color
+          : color // ignore: cast_nullable_to_non_nullable
+              as Color?,
       isSelected: null == isSelected
           ? _value.isSelected
           : isSelected // ignore: cast_nullable_to_non_nullable
@@ -215,6 +229,7 @@ class _$DataHelperImpl implements _DataHelper {
       this.url,
       this.type,
       this.id,
+      this.color,
       this.isSelected = false,
       this.activeTheme = ActiveTheme.light});
 
@@ -233,6 +248,8 @@ class _$DataHelperImpl implements _DataHelper {
   @override
   int? id;
   @override
+  Color? color;
+  @override
   @JsonKey()
   bool isSelected;
   @override
@@ -241,7 +258,7 @@ class _$DataHelperImpl implements _DataHelper {
 
   @override
   String toString() {
-    return 'DataHelper(title: $title, desc: $desc, iconPath: $iconPath, icon: $icon, url: $url, type: $type, id: $id, isSelected: $isSelected, activeTheme: $activeTheme)';
+    return 'DataHelper(title: $title, desc: $desc, iconPath: $iconPath, icon: $icon, url: $url, type: $type, id: $id, color: $color, isSelected: $isSelected, activeTheme: $activeTheme)';
   }
 
   @JsonKey(ignore: true)
@@ -260,6 +277,7 @@ abstract class _DataHelper implements DataHelper {
       String? url,
       String? type,
       int? id,
+      Color? color,
       bool isSelected,
       ActiveTheme activeTheme}) = _$DataHelperImpl;
 
@@ -284,6 +302,9 @@ abstract class _DataHelper implements DataHelper {
   @override
   int? get id;
   set id(int? value);
+  @override
+  Color? get color;
+  set color(Color? value);
   @override
   bool get isSelected;
   set isSelected(bool value);

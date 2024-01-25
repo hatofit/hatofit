@@ -4,6 +4,7 @@ class ListAPI {
   static const String authRegister = "/api/auth/register";
   static const String authLogin = "/api/auth/login";
   static const String authMe = "/api/auth/me";
+  static const String forgotPassword = "/api/auth/forgot-password";
 
   static const String exercise = "/api/exercise";
 

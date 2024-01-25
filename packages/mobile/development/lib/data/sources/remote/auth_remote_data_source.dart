@@ -7,6 +7,8 @@ abstract class AuthRemoteDatasource {
   Future<Either<Failure, AuthResponseModel>> login(LoginParams params);
   Future<Either<Failure, AuthResponseModel>> register(RegisterParams params);
   Future<Either<Failure, AuthResponseModel>> me();
+  Future<Either<Failure, AuthResponseModel>> forgotPassword(
+      ForgotPasswordParams params);
 }
 
 class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
@@ -43,6 +45,18 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
   Future<Either<Failure, AuthResponseModel>> me() async {
     final res = await _client.getRequest(
       ListAPI.authMe,
+      converter: (res) =>
+          AuthResponseModel.fromJson(res as Map<String, dynamic>),
+    );
+
+    return res;
+  }
+
+  @override
+  Future<Either<Failure, AuthResponseModel>> forgotPassword(
+      ForgotPasswordParams params) {
+    final res = _client.getRequest(
+      "${ListAPI.forgotPassword}/${params.email}",
       converter: (res) =>
           AuthResponseModel.fromJson(res as Map<String, dynamic>),
     );

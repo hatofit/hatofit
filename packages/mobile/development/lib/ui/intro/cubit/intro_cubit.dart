@@ -1,24 +1,47 @@
-// import 'package:bloc/bloc.dart';
-// import 'package:meta/meta.dart';
-
-// part 'intro_state.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hatofit/utils/ext/bloc.dart';
-import 'package:hatofit/utils/helper/logger.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hatofit/utils/utils.dart';
 
-class IntroState {
-  double dxState = 0;
-  double dyState = 0;
-}
+part 'intro_cubit.freezed.dart';
+part 'intro_state.dart';
 
-class IntroCubit extends Cubit<IntroState> {
+class IntroCubit extends Cubit<IntroState> with MainBoxMixin {
   IntroCubit() : super(IntroState());
 
-  void updateDxState(double dx) {
-    log?.d("dx: $dx ");
+  void updateGender(String gender) {
+    addData(MainBoxKeys.gender, gender);
+    getState();
+  }
+
+  void updateHeight(int height) {
+    addData(MainBoxKeys.height, height);
+    getState();
+  }
+
+  void updateWeight(int weight) {
+    addData(MainBoxKeys.weight, weight);
+    getState();
+  }
+
+  void updateAll() {
+    int height = getData(MainBoxKeys.height) ?? 150;
+    int weight = getData(MainBoxKeys.weight) ?? 125;
+    String gender = getData(MainBoxKeys.gender) ?? "male";
+
+    addData(MainBoxKeys.height, height);
+    addData(MainBoxKeys.weight, weight);
+    addData(MainBoxKeys.gender, gender);
+  }
+
+  void getState() {
     safeEmit(
-      IntroState()..dxState = dx,
+      IntroState(
+        selectedGender: getData(MainBoxKeys.gender),
+        selectedHeigtUnit: getData(MainBoxKeys.heightUnit),
+        selectedWeightUnit: getData(MainBoxKeys.weightUnit),
+        height: getData(MainBoxKeys.height),
+        weight: getData(MainBoxKeys.weight),
+      ),
       emit: emit,
       isClosed: isClosed,
     );
