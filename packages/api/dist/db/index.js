@@ -40,10 +40,10 @@ const ExerciseSchema = new mongoose_1.Schema({
     duration: Number,
     instructions: [
         {
-            type: String,
+            type: String, // rest, instruction
             name: String,
             description: String,
-            duration: Number,
+            duration: Number, // in seconds
             content: {
                 video: String,
                 image: String,
@@ -63,11 +63,13 @@ exports.CompanySchema = new mongoose_1.Schema({
         description: String,
         address: String,
     },
-    admins: [{
+    admins: [
+        {
             userId: String,
             role: String,
             isCreated: Boolean,
-        }]
+        },
+    ],
 }, {
     typeKey: "$type",
     timestamps: true,

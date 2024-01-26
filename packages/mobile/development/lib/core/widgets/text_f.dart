@@ -73,12 +73,13 @@ class _TextFState extends State<TextF> {
             visible: widget.isHintVisible,
             child: Text(
               widget.hint ?? "",
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    color: Theme.of(context).extension<AppColors>()!.background,
-                    height: 0.1,
-                  ),
+              // style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              //       color: Theme.of(context).extension<AppColors>()!.background,
+              //       height: 0.1,
+              //     ),
             ),
           ),
+          SpacerV(value: Dimens.height4),
           Semantics(
             label: widget.semantic,
             child: TextFormField(
@@ -129,7 +130,9 @@ class _TextFState extends State<TextF> {
                 disabledBorder: OutlineInputBorder(
                   gapPadding: 0,
                   borderRadius: BorderRadius.circular(Dimens.radius4),
-                  borderSide: BorderSide(color: Theme.of(context).cardColor),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).extension<AppColors>()!.card!,
+                  ),
                 ),
                 errorStyle: Theme.of(context).textTheme.labelSmall?.copyWith(
                       color: Theme.of(context).extension<AppColors>()!.red,

@@ -35,7 +35,7 @@ class Dimens {
   static double width56 = 56.w;
   static double width64 = 64.w;
   static double width84 = 84.w;
-  static double width150 = 150.w;
+  static double width128 = 128.w;
   static double width200 = 200.w;
   static double width300 = 300.w;
 
@@ -51,10 +51,9 @@ class Dimens {
   static double height64 = 64.h;
   static double height84 = 84.h;
   static double height100 = 100.h;
-  static double height150 = 150.h;
-  static double height175 = 175.h;
   static double height128 = 128.h;
-  static double height300 = 300.h;
+  static double height175 = 175.h; 
+  static double height270 = 270.h;
 
   static double selectedIndicatorW = 43.w;
   static double selectedIndicatorSmallW = 28.w;

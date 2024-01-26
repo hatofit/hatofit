@@ -195,12 +195,6 @@ abstract class Strings {
   /// **'Password must be at least 8 characters long'**
   String get errorPasswordLength;
 
-  /// No description provided for @email.
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
-
   /// No description provided for @password.
   ///
   /// In en, this message translates to:
@@ -231,12 +225,6 @@ abstract class Strings {
   /// **'Don\'t have a Hatofit account?'**
   String get dontHaveHatofitAccount;
 
-  /// No description provided for @alreadyHaveHatofitAccount.
-  ///
-  /// In en, this message translates to:
-  /// **'Already have a Hatofit account?'**
-  String get alreadyHaveHatofitAccount;
-
   /// No description provided for @signUpWith.
   ///
   /// In en, this message translates to:
@@ -261,23 +249,41 @@ abstract class Strings {
   /// **'Please enter your email address to receive verification code'**
   String get pleaseEnterYourEmailAddressToReceiveVerificationCode;
 
-  /// No description provided for @verificationCode.
+  /// No description provided for @verification.
   ///
   /// In en, this message translates to:
-  /// **'Verification Code'**
-  String get verificationCode;
+  /// **'Verification'**
+  String get verification;
 
-  /// No description provided for @pleaseEnterYourVerificationCode.
+  /// No description provided for @enterTheCodeThatWasSentTo.
   ///
   /// In en, this message translates to:
-  /// **'Please enter your verification code'**
-  String get pleaseEnterYourVerificationCode;
+  /// **'Enter the code that was sent to'**
+  String get enterTheCodeThatWasSentTo;
 
-  /// No description provided for @verify.
+  /// No description provided for @submit.
   ///
   /// In en, this message translates to:
-  /// **'Verify'**
-  String get verify;
+  /// **'Submit'**
+  String get submit;
+
+  /// No description provided for @changePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Change password'**
+  String get changePassword;
+
+  /// No description provided for @enterYourNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your new password'**
+  String get enterYourNewPassword;
+
+  /// No description provided for @dintReceiveCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Didn\'t receive code?'**
+  String get dintReceiveCode;
 
   /// No description provided for @resend.
   ///
@@ -290,6 +296,168 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Email sent, please check your inbox'**
   String get emailSentedPleaseCheckYourInbox;
+
+  /// No description provided for @pickYourDateOfBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick your date of birth'**
+  String get pickYourDateOfBirth;
+
+  /// No description provided for @pleaseEnterYourDateOfBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your date of birth'**
+  String get pleaseEnterYourDateOfBirth;
+
+  /// No description provided for @january.
+  ///
+  /// In en, this message translates to:
+  /// **'January'**
+  String get january;
+
+  /// No description provided for @february.
+  ///
+  /// In en, this message translates to:
+  /// **'February'**
+  String get february;
+
+  /// No description provided for @march.
+  ///
+  /// In en, this message translates to:
+  /// **'March'**
+  String get march;
+
+  /// No description provided for @april.
+  ///
+  /// In en, this message translates to:
+  /// **'April'**
+  String get april;
+
+  /// No description provided for @may.
+  ///
+  /// In en, this message translates to:
+  /// **'May'**
+  String get may;
+
+  /// No description provided for @june.
+  ///
+  /// In en, this message translates to:
+  /// **'June'**
+  String get june;
+
+  /// No description provided for @july.
+  ///
+  /// In en, this message translates to:
+  /// **'July'**
+  String get july;
+
+  /// No description provided for @august.
+  ///
+  /// In en, this message translates to:
+  /// **'August'**
+  String get august;
+
+  /// No description provided for @september.
+  ///
+  /// In en, this message translates to:
+  /// **'September'**
+  String get september;
+
+  /// No description provided for @october.
+  ///
+  /// In en, this message translates to:
+  /// **'October'**
+  String get october;
+
+  /// No description provided for @november.
+  ///
+  /// In en, this message translates to:
+  /// **'November'**
+  String get november;
+
+  /// No description provided for @december.
+  ///
+  /// In en, this message translates to:
+  /// **'December'**
+  String get december;
+
+  /// No description provided for @captureAPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture a photo'**
+  String get captureAPhoto;
+
+  /// No description provided for @selectFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Select from gallery'**
+  String get selectFromGallery;
+
+  /// No description provided for @chooseYourProfilePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose your profile photo'**
+  String get chooseYourProfilePhoto;
+
+  /// No description provided for @firstName.
+  ///
+  /// In en, this message translates to:
+  /// **'First Name'**
+  String get firstName;
+
+  /// No description provided for @lastName.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Name'**
+  String get lastName;
+
+  /// No description provided for @firstNameCannotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'First name cannot be empty'**
+  String get firstNameCannotBeEmpty;
+
+  /// No description provided for @lastNameCannotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Last name cannot be empty'**
+  String get lastNameCannotBeEmpty;
+
+  /// No description provided for @confirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get confirmPassword;
+
+  /// No description provided for @errorPasswordNotMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Password does not match'**
+  String get errorPasswordNotMatch;
+
+  /// No description provided for @alreadyHaveHatofitAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have a Hatofit account?'**
+  String get alreadyHaveHatofitAccount;
+
+  /// No description provided for @energyUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy Unit'**
+  String get energyUnit;
+
+  /// No description provided for @signInSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in successfully'**
+  String get signInSuccessfully;
+
+  /// No description provided for @signUpSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up successfully'**
+  String get signUpSuccessfully;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

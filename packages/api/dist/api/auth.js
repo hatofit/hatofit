@@ -16,11 +16,13 @@ exports.ApiAuth = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const dayjs_1 = __importDefault(require("dayjs"));
 const utc_1 = __importDefault(require("dayjs/plugin/utc"));
+const fs_1 = __importDefault(require("fs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const report_1 = require("../actions/report");
 const db_1 = require("../db");
 const auth_1 = require("../middlewares/auth");
+const storage_1 = require("../storage");
 const user_1 = require("../types/user");
 const obj_1 = require("../utils/obj");
 dayjs_1.default.extend(utc_1.default);
@@ -98,11 +100,19 @@ const ApiAuth = ({ route }) => {
                 });
             }
             console.log("USER", user);
+            if (user.photo) {
+                const photoPath = req.body.photo.path.split("\\")[1];
+                const bucket = yield (0, storage_1.GridStorage)();
+                const file = fs_1.default.createReadStream(`./uploads/${photoPath}`).pipe(bucket.openUploadStream(photoPath, {
+                    metadata: { contentType: "image/png" },
+                }));
+                user.photo = file.id;
+            }
             // save to db
             const created = yield db_1.User.create(Object.assign(Object.assign({}, user), { _id: new mongoose_1.default.Types.ObjectId().toHexString() }));
             const jwtSecret = process.env.JWT_SECRET_KEY || "polar";
             const token = jsonwebtoken_1.default.sign({ id: created._id }, jwtSecret, {
-                expiresIn: 86400, // 1 month in seconds
+                expiresIn: 7776000, // 90 days
             });
             // resposne
             return res.json({
@@ -148,7 +158,7 @@ const ApiAuth = ({ route }) => {
             // generate token
             const jwtSecret = process.env.JWT_SECRET_KEY || "polar";
             const token = jsonwebtoken_1.default.sign({ id: found._id }, jwtSecret, {
-                expiresIn: 86400, // 1 month in seconds
+                expiresIn: 7776000, // 90 days
             });
             return res.json({
                 success: true,
@@ -286,7 +296,7 @@ const ApiAuth = ({ route }) => {
             return res.status(400).json({ error });
         }
     }));
-    route.post("/reset-password", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.put("/reset-password", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log("DATA BODY", req.body);
         try {
             // validate input
@@ -345,11 +355,16 @@ const ApiAuth = ({ route }) => {
             }, {
                 new: true,
             });
+            const jwtSecret = process.env.JWT_SECRET_KEY || "polar";
+            const token = jsonwebtoken_1.default.sign({ id: updated === null || updated === void 0 ? void 0 : updated._id }, jwtSecret, {
+                expiresIn: 7776000, // 90 days
+            });
             // resposne
             return res.json({
                 success: true,
                 message: "Password updated",
                 user: (0, obj_1.exceptObjectProp)(updated === null || updated === void 0 ? void 0 : updated.toObject(), ["password"]),
+                token,
             });
         }
         catch (error) {
@@ -626,58 +641,25 @@ const ApiAuth = ({ route }) => {
             return res.status(500).json({ error });
         }
     }));
-    route.post("/delete", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        var _m, _o, _p, _q;
+    route.delete("/delete", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _m, _o;
         console.log("DATA BODY", req.body);
         try {
-            // validate input
-            const password = req.body.password || "";
-            // remove whitespace
-            if (password.trim() === "") {
-                return res.status(400).json({
-                    success: false,
-                    message: "Password must not be empty",
-                });
-            }
-            // check poassword must filled
-            // remove whitespace
-            if (password.trim() === "") {
-                return res.status(400).json({
-                    success: false,
-                    message: "Password must not be empty",
-                });
-            }
-            // save to db
+            // find user base session
             const found = yield db_1.User.findOne({
                 _id: (_o = (_m = req.auth) === null || _m === void 0 ? void 0 : _m.user) === null || _o === void 0 ? void 0 : _o._id,
             });
-            // resposne
-            if (!found) {
-                return res.status(404).json({
-                    success: false,
-                    message: "User not found",
-                });
-            }
-            const isMatch = yield new Promise((res) => {
-                bcrypt_1.default.compare(password, found.password || "", function (err, result) {
-                    return res(result);
-                });
-            });
-            if (!isMatch) {
-                return res.status(401).json({
-                    success: false,
-                    message: "Password is incorrect",
-                });
-            }
-            // delete
+            // deletion
             const deleted = yield db_1.User.findOneAndDelete({
-                _id: (_q = (_p = req.auth) === null || _p === void 0 ? void 0 : _p.user) === null || _q === void 0 ? void 0 : _q._id,
+                _id: found === null || found === void 0 ? void 0 : found._id,
             });
+            const bucket = yield (0, storage_1.GridStorage)();
+            yield bucket.delete(new mongoose_1.default.Types.ObjectId(found === null || found === void 0 ? void 0 : found.photo));
             // resposne
             return res.json({
                 success: true,
                 message: "User deleted successfully",
-                user: (0, obj_1.exceptObjectProp)(deleted === null || deleted === void 0 ? void 0 : deleted.toObject(), ["password"]),
+                user: deleted,
             });
         }
         catch (error) {

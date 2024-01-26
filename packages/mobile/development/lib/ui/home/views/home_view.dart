@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatofit/core/core.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -10,6 +11,8 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Parent(
+      
+    );
   }
 }

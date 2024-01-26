@@ -89,7 +89,7 @@ export const ApiExercises = ({ route }: { route: express.Router }) => {
       return res.json({
         success: true,
         message: "Exercise deleted successfully",
-        id: deleted?._id,
+        // id: deleted?._id,
       });
     } catch (error) {
       // console.error(error)

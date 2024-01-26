@@ -2,11 +2,13 @@ import bcrypt from "bcrypt";
 import dayjs from "dayjs";
 import dayjsutc from "dayjs/plugin/utc";
 import express from "express";
+import fs from "fs";
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { getReportFromSession } from "../actions/report";
 import { Session, User } from "../db";
 import { AuthJwtMiddleware } from "../middlewares/auth";
+import { GridStorage } from "../storage";
 import { UserSchema } from "../types/user";
 import { exceptObjectProp } from "../utils/obj";
 
@@ -68,7 +70,6 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
           message: "Password must not be empty",
         });
       }
-
       // input schema
       const rawPlainPassword: string = req.body.password || ("" as string);
       // password
@@ -87,7 +88,6 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
       const dateOfBirth = req.body.dateOfBirth || "";
       req.body.dateOfBirth = dayjs(dateOfBirth, "mm/dd/yyyy").toDate();
       const user = UserSchema.parse(req.body);
-
       // check in db
       const userInDb = await User.findOne({
         email: user.email,
@@ -98,8 +98,18 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
           message: "Email already exists",
         });
       }
-
       console.log("USER", user);
+
+      if (user.photo) {
+        const photoPath: String = req.body.photo.path.split("\\")[1];
+        const bucket = await GridStorage();
+        const file = fs.createReadStream(`./uploads/${photoPath}`).pipe(
+          bucket.openUploadStream(photoPath, {
+            metadata: { contentType: "image/png" },
+          })
+        );
+        user.photo = file.id;
+      }
 
       // save to db
       const created = await User.create({
@@ -108,7 +118,7 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
       });
       const jwtSecret = process.env.JWT_SECRET_KEY || "polar";
       const token = jwt.sign({ id: created._id }, jwtSecret, {
-        expiresIn: 86400, // 1 month in seconds
+        expiresIn: 7776000, // 90 days
       });
       // resposne
       return res.json({
@@ -160,7 +170,7 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
       // generate token
       const jwtSecret = process.env.JWT_SECRET_KEY || "polar";
       const token = jwt.sign({ id: found._id }, jwtSecret, {
-        expiresIn: 86400, // 1 month in seconds
+        expiresIn: 7776000, // 90 days
       });
 
       return res.json({
@@ -298,6 +308,7 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
           message: "User not found",
         });
       }
+
       console.log("FOUND", found);
       if (found.resetPasswordCode !== req.body.code) {
         return res.status(400).json({
@@ -316,7 +327,7 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
     }
   });
 
-  route.post("/reset-password", async (req, res) => {
+  route.put("/reset-password", async (req, res) => {
     console.log("DATA BODY", req.body);
     try {
       // validate input
@@ -387,12 +398,16 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
           new: true,
         }
       );
-
+      const jwtSecret = process.env.JWT_SECRET_KEY || "polar";
+      const token = jwt.sign({ id: updated?._id }, jwtSecret, {
+        expiresIn: 7776000, // 90 days
+      });
       // resposne
       return res.json({
         success: true,
         message: "Password updated",
         user: exceptObjectProp(updated?.toObject(), ["password"]),
+        token,
       });
     } catch (error) {
       // console.error(error)
@@ -705,65 +720,27 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
       return res.status(500).json({ error });
     }
   });
-  route.post("/delete", AuthJwtMiddleware, async (req, res) => {
+  route.delete("/delete", AuthJwtMiddleware, async (req, res) => {
     console.log("DATA BODY", req.body);
     try {
-      // validate input
-      const password = req.body.password || "";
-      // remove whitespace
-      if (password.trim() === "") {
-        return res.status(400).json({
-          success: false,
-          message: "Password must not be empty",
-        });
-      }
-      // check poassword must filled
-      // remove whitespace
-      if (password.trim() === "") {
-        return res.status(400).json({
-          success: false,
-          message: "Password must not be empty",
-        });
-      }
-
-      // save to db
+      // find user base session
       const found = await User.findOne({
         _id: req.auth?.user?._id,
       });
 
-      // resposne
-      if (!found) {
-        return res.status(404).json({
-          success: false,
-          message: "User not found",
-        });
-      }
-      const isMatch = await new Promise((res) => {
-        bcrypt.compare(
-          password,
-          found.password || "",
-          function (err: any, result: any) {
-            return res(result);
-          }
-        );
-      });
-      if (!isMatch) {
-        return res.status(401).json({
-          success: false,
-          message: "Password is incorrect",
-        });
-      }
-
-      // delete
+      // deletion
       const deleted = await User.findOneAndDelete({
-        _id: req.auth?.user?._id,
+        _id: found?._id,
       });
+
+      const bucket = await GridStorage();
+      await bucket.delete(new mongoose.Types.ObjectId(found?.photo));
 
       // resposne
       return res.json({
         success: true,
         message: "User deleted successfully",
-        user: exceptObjectProp(deleted?.toObject(), ["password"]),
+        user: deleted,
       });
     } catch (error) {
       // console.error(error)

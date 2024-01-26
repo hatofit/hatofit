@@ -96,7 +96,7 @@ const ApiExercises = ({ route }) => {
             return res.json({
                 success: true,
                 message: "Exercise deleted successfully",
-                id: deleted === null || deleted === void 0 ? void 0 : deleted._id,
+                // id: deleted?._id,
             });
         }
         catch (error) {

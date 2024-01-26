@@ -24,8 +24,8 @@ class InternetService extends GetConnect {
     return this;
   }
 
-  static const String _base = 'https://api.hatofit.com/api';
-  // static const String _base = 'http://192.168.124.169:3000/api';
+  // static const String _base = 'https://api.hatofit.com/api';
+  static const String _base = 'http://192.168.161.169:3000/api';
   static const String _sesion = '/session';
   static const String _exercise = '/exercise';
   static const String _report = '/report';

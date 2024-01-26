@@ -33,11 +33,13 @@ class SettingsCubit extends Cubit<DataHelper> with MainBoxMixin {
     String locale,
     String heightUnit,
     String weightUnit,
+    String energyUnit,
   ) {
     addData(MainBoxKeys.theme, theme.name);
     addData(MainBoxKeys.locale, locale);
     addData(MainBoxKeys.heightUnit, heightUnit);
     addData(MainBoxKeys.weightUnit, weightUnit);
+    addData(MainBoxKeys.energyUnit, energyUnit);
   }
 
   ActiveTheme getActiveTheme() {

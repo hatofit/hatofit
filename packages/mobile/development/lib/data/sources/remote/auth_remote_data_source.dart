@@ -7,8 +7,12 @@ abstract class AuthRemoteDatasource {
   Future<Either<Failure, AuthResponseModel>> login(LoginParams params);
   Future<Either<Failure, AuthResponseModel>> register(RegisterParams params);
   Future<Either<Failure, AuthResponseModel>> me();
-  Future<Either<Failure, AuthResponseModel>> forgotPassword(
+  Future<Either<Failure, BaseResponseModel>> forgotPassword(
       ForgotPasswordParams params);
+  Future<Either<Failure, AuthResponseModel>> resetPassword(
+      ResetPasswordParams params);
+  Future<Either<Failure, BaseResponseModel>> verifyCode(
+      ResetPasswordParams params);
 }
 
 class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
@@ -32,8 +36,8 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
   Future<Either<Failure, AuthResponseModel>> register(
       RegisterParams params) async {
     final res = await _client.postRequest(
-      ListAPI.authLogin,
-      data: params.toJson(),
+      ListAPI.authRegister,
+      formData: params.toFromData(),
       converter: (res) =>
           AuthResponseModel.fromJson(res as Map<String, dynamic>),
     );
@@ -53,12 +57,38 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
   }
 
   @override
-  Future<Either<Failure, AuthResponseModel>> forgotPassword(
+  Future<Either<Failure, BaseResponseModel>> forgotPassword(
       ForgotPasswordParams params) {
     final res = _client.getRequest(
       "${ListAPI.forgotPassword}/${params.email}",
       converter: (res) =>
+          BaseResponseModel.fromJson(res as Map<String, dynamic>, (res) => res),
+    );
+
+    return res;
+  }
+
+  @override
+  Future<Either<Failure, AuthResponseModel>> resetPassword(
+      ResetPasswordParams params) {
+    final res = _client.putRequest(
+      ListAPI.resetPassword,
+      data: params.toJson(),
+      converter: (res) =>
           AuthResponseModel.fromJson(res as Map<String, dynamic>),
+    );
+
+    return res;
+  }
+
+  @override
+  Future<Either<Failure, BaseResponseModel>> verifyCode(
+      ResetPasswordParams params) {
+    final res = _client.postRequest(
+      ListAPI.verifyCode,
+      data: params.toJson(),
+      converter: (res) =>
+          BaseResponseModel.fromJson(res as Map<String, dynamic>, (res) => res),
     );
 
     return res;

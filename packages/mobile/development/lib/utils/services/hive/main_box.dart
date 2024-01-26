@@ -22,9 +22,11 @@ enum MainBoxKeys {
   todayMood,
   weight,
   height,
+  energyUnit,
   weightUnit,
   heightUnit,
   gender,
+  dateOfBirth,
 }
 
 mixin class MainBoxMixin {

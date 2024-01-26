@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 services:
   mongodb:
     image: mongo:latest
@@ -10,9 +10,11 @@ services:
       - 27017:27017
     volumes:
       - mongodb:/data/db
+
 networks:
   sail:
     driver: bridge
+
 volumes:
   mongodb:
     driver: local

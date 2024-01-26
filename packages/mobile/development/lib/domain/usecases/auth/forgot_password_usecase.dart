@@ -7,13 +7,13 @@ part 'forgot_password_usecase.freezed.dart';
 part 'forgot_password_usecase.g.dart';
 
 class ForgotPasswordUsecase
-    extends WithParamsUseCase<AuthResponseEntity, ForgotPasswordParams> {
+    extends WithParamsUseCase<BaseResponseEntity, ForgotPasswordParams> {
   final AuthRepository _repo;
 
   ForgotPasswordUsecase(this._repo);
 
   @override
-  Future<Either<Failure, AuthResponseEntity>> call(
+  Future<Either<Failure, BaseResponseEntity>> call(
           ForgotPasswordParams params) =>
       _repo.forgotPassword(params);
 }

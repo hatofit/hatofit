@@ -4,3 +4,4 @@ export 'report/report_entity.dart';
 export 'session/session_entity.dart';
 export 'user/mood_entity.dart';
 export 'user/user_entity.dart';
+export 'base/base_response_entity.dart';

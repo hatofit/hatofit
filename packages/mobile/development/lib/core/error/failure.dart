@@ -17,6 +17,10 @@ class ServerFailure extends Failure {
 }
 
 class NoDataFailure extends Failure {
+  final String? message;
+
+  const NoDataFailure(this.message);
+
   @override
   bool operator ==(Object other) => other is NoDataFailure;
 

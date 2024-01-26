@@ -56,9 +56,6 @@ class StringsEn extends Strings {
   String get errorPasswordLength => 'Password must be at least 8 characters long';
 
   @override
-  String get email => 'Email';
-
-  @override
   String get password => 'Password';
 
   @override
@@ -74,9 +71,6 @@ class StringsEn extends Strings {
   String get dontHaveHatofitAccount => 'Don\'t have a Hatofit account?';
 
   @override
-  String get alreadyHaveHatofitAccount => 'Already have a Hatofit account?';
-
-  @override
   String get signUpWith => 'Sign up with';
 
   @override
@@ -89,17 +83,107 @@ class StringsEn extends Strings {
   String get pleaseEnterYourEmailAddressToReceiveVerificationCode => 'Please enter your email address to receive verification code';
 
   @override
-  String get verificationCode => 'Verification Code';
+  String get verification => 'Verification';
 
   @override
-  String get pleaseEnterYourVerificationCode => 'Please enter your verification code';
+  String get enterTheCodeThatWasSentTo => 'Enter the code that was sent to';
 
   @override
-  String get verify => 'Verify';
+  String get submit => 'Submit';
+
+  @override
+  String get changePassword => 'Change password';
+
+  @override
+  String get enterYourNewPassword => 'Enter your new password';
+
+  @override
+  String get dintReceiveCode => 'Didn\'t receive code?';
 
   @override
   String get resend => 'Resend';
 
   @override
   String get emailSentedPleaseCheckYourInbox => 'Email sent, please check your inbox';
+
+  @override
+  String get pickYourDateOfBirth => 'Pick your date of birth';
+
+  @override
+  String get pleaseEnterYourDateOfBirth => 'Please enter your date of birth';
+
+  @override
+  String get january => 'January';
+
+  @override
+  String get february => 'February';
+
+  @override
+  String get march => 'March';
+
+  @override
+  String get april => 'April';
+
+  @override
+  String get may => 'May';
+
+  @override
+  String get june => 'June';
+
+  @override
+  String get july => 'July';
+
+  @override
+  String get august => 'August';
+
+  @override
+  String get september => 'September';
+
+  @override
+  String get october => 'October';
+
+  @override
+  String get november => 'November';
+
+  @override
+  String get december => 'December';
+
+  @override
+  String get captureAPhoto => 'Capture a photo';
+
+  @override
+  String get selectFromGallery => 'Select from gallery';
+
+  @override
+  String get chooseYourProfilePhoto => 'Choose your profile photo';
+
+  @override
+  String get firstName => 'First Name';
+
+  @override
+  String get lastName => 'Last Name';
+
+  @override
+  String get firstNameCannotBeEmpty => 'First name cannot be empty';
+
+  @override
+  String get lastNameCannotBeEmpty => 'Last name cannot be empty';
+
+  @override
+  String get confirmPassword => 'Confirm Password';
+
+  @override
+  String get errorPasswordNotMatch => 'Password does not match';
+
+  @override
+  String get alreadyHaveHatofitAccount => 'Already have a Hatofit account?';
+
+  @override
+  String get energyUnit => 'Energy Unit';
+
+  @override
+  String get signInSuccessfully => 'Sign in successfully';
+
+  @override
+  String get signUpSuccessfully => 'Sign up successfully';
 }

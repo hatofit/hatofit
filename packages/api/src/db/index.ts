@@ -37,24 +37,28 @@ const ExerciseSchema = new Schema(
 );
 export const Exercise = mongoose.model("Exercise", ExerciseSchema);
 
-export const CompanySchema = new Schema({
-  _id: String,
-  name: String,
-  meta: {
-    description: String,
-    address: String,
+export const CompanySchema = new Schema(
+  {
+    _id: String,
+    name: String,
+    meta: {
+      description: String,
+      address: String,
+    },
+    admins: [
+      {
+        userId: String,
+        role: String,
+        isCreated: Boolean,
+      },
+    ],
   },
-  admins: [{
-    userId: String,
-    role: String,
-    isCreated: Boolean,
-  }]
-}, {
-  typeKey: "$type",
-  timestamps: true,
-})
+  {
+    typeKey: "$type",
+    timestamps: true,
+  }
+);
 export const Company = mongoose.model("Company", CompanySchema);
-
 
 const UserSchema = new Schema(
   {

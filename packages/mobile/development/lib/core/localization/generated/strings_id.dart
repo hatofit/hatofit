@@ -56,9 +56,6 @@ class StringsId extends Strings {
   String get errorPasswordLength => 'Kata sandi harus lebih dari 8 karakter';
 
   @override
-  String get email => 'Email';
-
-  @override
   String get password => 'Kata sandi';
 
   @override
@@ -74,9 +71,6 @@ class StringsId extends Strings {
   String get dontHaveHatofitAccount => 'Belum punya akun Hatofit?';
 
   @override
-  String get alreadyHaveHatofitAccount => 'Sudah punya akun Hatofit?';
-
-  @override
   String get signUpWith => 'Daftar dengan';
 
   @override
@@ -89,17 +83,107 @@ class StringsId extends Strings {
   String get pleaseEnterYourEmailAddressToReceiveVerificationCode => 'Masukkan alamat email anda untuk menerima kode verifikasi';
 
   @override
-  String get verificationCode => 'Kode verifikasi';
+  String get verification => 'Verifikasi';
 
   @override
-  String get pleaseEnterYourVerificationCode => 'Masukkan kode verifikasi anda';
+  String get enterTheCodeThatWasSentTo => 'Masukkan kode yang dikirim ke';
 
   @override
-  String get verify => 'Verifikasi';
+  String get submit => 'Kirim';
+
+  @override
+  String get changePassword => 'Ganti kata sandi';
+
+  @override
+  String get enterYourNewPassword => 'Masukkan kata sandi baru anda';
+
+  @override
+  String get dintReceiveCode => 'Tidak menerima kode?';
 
   @override
   String get resend => 'Kirim ulang';
 
   @override
   String get emailSentedPleaseCheckYourInbox => 'Email terkirim, silahkan cek kotak masuk anda';
+
+  @override
+  String get pickYourDateOfBirth => 'Pilih tanggal lahir anda';
+
+  @override
+  String get pleaseEnterYourDateOfBirth => 'Masukkan tanggal lahir anda';
+
+  @override
+  String get january => 'Januari';
+
+  @override
+  String get february => 'Februari';
+
+  @override
+  String get march => 'Maret';
+
+  @override
+  String get april => 'April';
+
+  @override
+  String get may => 'Mei';
+
+  @override
+  String get june => 'Juni';
+
+  @override
+  String get july => 'Juli';
+
+  @override
+  String get august => 'Agustus';
+
+  @override
+  String get september => 'September';
+
+  @override
+  String get october => 'Oktober';
+
+  @override
+  String get november => 'November';
+
+  @override
+  String get december => 'Desember';
+
+  @override
+  String get captureAPhoto => 'Ambil foto';
+
+  @override
+  String get selectFromGallery => 'Pilih dari galeri';
+
+  @override
+  String get chooseYourProfilePhoto => 'Pilih foto profil anda';
+
+  @override
+  String get firstName => 'Nama depan';
+
+  @override
+  String get lastName => 'Nama belakang';
+
+  @override
+  String get firstNameCannotBeEmpty => 'Nama depan tidak boleh kosong';
+
+  @override
+  String get lastNameCannotBeEmpty => 'Nama belakang tidak boleh kosong';
+
+  @override
+  String get confirmPassword => 'Konfirmasi kata sandi';
+
+  @override
+  String get errorPasswordNotMatch => 'Kata sandi tidak cocok';
+
+  @override
+  String get alreadyHaveHatofitAccount => 'Sudah punya akun Hatofit?';
+
+  @override
+  String get energyUnit => 'Satuan energi';
+
+  @override
+  String get signInSuccessfully => 'Berhasil masuk';
+
+  @override
+  String get signUpSuccessfully => 'Berhasil daftar';
 }

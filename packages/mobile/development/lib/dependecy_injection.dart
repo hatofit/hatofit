@@ -7,9 +7,10 @@ import 'package:hatofit/utils/utils.dart';
 
 GetIt di = GetIt.instance;
 
-Future<void> dependencyInjection() async {
+Future<void> mainInjection() async {
   await _initHiveBoxes();
   di.registerSingleton<DioClient>(DioClient());
+  di.registerSingleton<ImagePickerClient>(ImagePickerClient());
 
   _dataSources();
   _repositories();
@@ -27,11 +28,17 @@ void _dataSources() {
   di.registerLazySingleton<AuthRemoteDatasource>(
     () => AuthRemoteDatasourceImpl(di()),
   );
+  di.registerLazySingleton<ImageLocalDataSource>(
+    () => ImageLocalDataSourceImpl(di()),
+  );
 }
 
 void _repositories() {
   di.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(di(), di()),
+  );
+  di.registerLazySingleton<ImageRepository>(
+    () => ImageRepositoryImpl(di()),
   );
 }
 
@@ -40,11 +47,23 @@ void _useCase() {
   di.registerLazySingleton(() => RegisterUsecase(di()));
   di.registerLazySingleton(() => MeUseCase(di()));
   di.registerLazySingleton(() => ForgotPasswordUsecase(di()));
+  di.registerLazySingleton(() => ImageFromCameraUsecase(di()));
+  di.registerLazySingleton(() => ImageFromGalleryUsecase(di()));
+  di.registerLazySingleton(() => VerifyCodeUseCase(di()));
+  di.registerLazySingleton(() => ResetPasswordUsecase(di()));
 }
 
 void _cubit() {
   di.registerFactory(() => SplashCubit(di()));
-  di.registerFactory(() => AuthCubit(di(), di()));
+  di.registerFactory(() => AuthCubit(
+        di(),
+        di(),
+        di(),
+        di(),
+        di(),
+        di(),
+        di(),
+      ));
   di.registerFactory(() => IntroCubit());
   di.registerFactory(() => HomeCubit());
   di.registerFactory(() => SettingsCubit());

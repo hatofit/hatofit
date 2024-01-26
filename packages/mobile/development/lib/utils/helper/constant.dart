@@ -10,8 +10,12 @@ class Constants {
   String centimeter = "Centimeter";
   String inch = "Inch";
 
+  String kilocalorie = "Kilocalorie";
+  String kilojoule = "Kilojoule";
+
   String kilogram = "Kilogram";
   String pound = "Pound";
 
   String google = "Google";
+  String email = "Email";
 }

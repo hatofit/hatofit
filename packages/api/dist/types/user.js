@@ -8,15 +8,17 @@ exports.UserSchema = zod_1.z.object({
     firstName: zod_1.z.string(),
     lastName: zod_1.z.string(),
     dateOfBirth: zod_1.z.date(),
-    photo: zod_1.z.string(),
-    weight: zod_1.z.number(),
-    height: zod_1.z.number(),
+    photo: zod_1.z.any(),
+    weight: zod_1.z.string(),
+    height: zod_1.z.string(),
     gender: zod_1.z.enum(["male", "female"]),
-    metricUnits: zod_1.z.object({
+    metricUnits: zod_1.z
+        .object({
         energyUnits: zod_1.z.string(),
         weightUnits: zod_1.z.string(),
         heightUnits: zod_1.z.string(),
-    }),
+    })
+        .optional(),
     //
     linkedCompanyId: zod_1.z.string().optional(),
 });

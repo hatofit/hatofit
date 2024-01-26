@@ -14,10 +14,6 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-RegisterParams _$RegisterParamsFromJson(Map<String, dynamic> json) {
-  return _RegisterParams.fromJson(json);
-}
-
 /// @nodoc
 mixin _$RegisterParams {
   String get firstName => throw _privateConstructorUsedError;
@@ -27,13 +23,11 @@ mixin _$RegisterParams {
   String get password => throw _privateConstructorUsedError;
   String get confirmPassword => throw _privateConstructorUsedError;
   String get dateOfBirth => throw _privateConstructorUsedError;
-  String get photo => throw _privateConstructorUsedError;
-  String get height => throw _privateConstructorUsedError;
-  String get weight => throw _privateConstructorUsedError;
-  MetricUnitsParams? get metricUnitsParams =>
-      throw _privateConstructorUsedError;
+  File? get photo => throw _privateConstructorUsedError;
+  int get height => throw _privateConstructorUsedError;
+  int get weight => throw _privateConstructorUsedError;
+  Map<String, String>? get metricUnits => throw _privateConstructorUsedError;
 
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $RegisterParamsCopyWith<RegisterParams> get copyWith =>
       throw _privateConstructorUsedError;
@@ -53,12 +47,10 @@ abstract class $RegisterParamsCopyWith<$Res> {
       String password,
       String confirmPassword,
       String dateOfBirth,
-      String photo,
-      String height,
-      String weight,
-      MetricUnitsParams? metricUnitsParams});
-
-  $MetricUnitsParamsCopyWith<$Res>? get metricUnitsParams;
+      File? photo,
+      int height,
+      int weight,
+      Map<String, String>? metricUnits});
 }
 
 /// @nodoc
@@ -81,10 +73,10 @@ class _$RegisterParamsCopyWithImpl<$Res, $Val extends RegisterParams>
     Object? password = null,
     Object? confirmPassword = null,
     Object? dateOfBirth = null,
-    Object? photo = null,
+    Object? photo = freezed,
     Object? height = null,
     Object? weight = null,
-    Object? metricUnitsParams = freezed,
+    Object? metricUnits = freezed,
   }) {
     return _then(_value.copyWith(
       firstName: null == firstName
@@ -115,35 +107,23 @@ class _$RegisterParamsCopyWithImpl<$Res, $Val extends RegisterParams>
           ? _value.dateOfBirth
           : dateOfBirth // ignore: cast_nullable_to_non_nullable
               as String,
-      photo: null == photo
+      photo: freezed == photo
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
-              as String,
+              as File?,
       height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
-              as String,
-      metricUnitsParams: freezed == metricUnitsParams
-          ? _value.metricUnitsParams
-          : metricUnitsParams // ignore: cast_nullable_to_non_nullable
-              as MetricUnitsParams?,
+              as int,
+      metricUnits: freezed == metricUnits
+          ? _value.metricUnits
+          : metricUnits // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
     ) as $Val);
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $MetricUnitsParamsCopyWith<$Res>? get metricUnitsParams {
-    if (_value.metricUnitsParams == null) {
-      return null;
-    }
-
-    return $MetricUnitsParamsCopyWith<$Res>(_value.metricUnitsParams!, (value) {
-      return _then(_value.copyWith(metricUnitsParams: value) as $Val);
-    });
   }
 }
 
@@ -163,13 +143,10 @@ abstract class _$$RegisterParamsImplCopyWith<$Res>
       String password,
       String confirmPassword,
       String dateOfBirth,
-      String photo,
-      String height,
-      String weight,
-      MetricUnitsParams? metricUnitsParams});
-
-  @override
-  $MetricUnitsParamsCopyWith<$Res>? get metricUnitsParams;
+      File? photo,
+      int height,
+      int weight,
+      Map<String, String>? metricUnits});
 }
 
 /// @nodoc
@@ -190,10 +167,10 @@ class __$$RegisterParamsImplCopyWithImpl<$Res>
     Object? password = null,
     Object? confirmPassword = null,
     Object? dateOfBirth = null,
-    Object? photo = null,
+    Object? photo = freezed,
     Object? height = null,
     Object? weight = null,
-    Object? metricUnitsParams = freezed,
+    Object? metricUnits = freezed,
   }) {
     return _then(_$RegisterParamsImpl(
       firstName: null == firstName
@@ -224,29 +201,29 @@ class __$$RegisterParamsImplCopyWithImpl<$Res>
           ? _value.dateOfBirth
           : dateOfBirth // ignore: cast_nullable_to_non_nullable
               as String,
-      photo: null == photo
+      photo: freezed == photo
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
-              as String,
+              as File?,
       height: null == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
-              as String,
-      metricUnitsParams: freezed == metricUnitsParams
-          ? _value.metricUnitsParams
-          : metricUnitsParams // ignore: cast_nullable_to_non_nullable
-              as MetricUnitsParams?,
+              as int,
+      metricUnits: freezed == metricUnits
+          ? _value._metricUnits
+          : metricUnits // ignore: cast_nullable_to_non_nullable
+              as Map<String, String>?,
     ));
   }
 }
 
 /// @nodoc
-@JsonSerializable()
-class _$RegisterParamsImpl implements _RegisterParams {
+
+class _$RegisterParamsImpl extends _RegisterParams {
   const _$RegisterParamsImpl(
       {this.firstName = "",
       this.lastName = "",
@@ -255,13 +232,12 @@ class _$RegisterParamsImpl implements _RegisterParams {
       this.password = "",
       this.confirmPassword = "",
       this.dateOfBirth = "",
-      this.photo = "",
-      this.height = "",
-      this.weight = "",
-      this.metricUnitsParams = null});
-
-  factory _$RegisterParamsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$RegisterParamsImplFromJson(json);
+      this.photo = null,
+      this.height = 0,
+      this.weight = 0,
+      final Map<String, String>? metricUnits = null})
+      : _metricUnits = metricUnits,
+        super._();
 
   @override
   @JsonKey()
@@ -286,20 +262,27 @@ class _$RegisterParamsImpl implements _RegisterParams {
   final String dateOfBirth;
   @override
   @JsonKey()
-  final String photo;
+  final File? photo;
   @override
   @JsonKey()
-  final String height;
+  final int height;
   @override
   @JsonKey()
-  final String weight;
+  final int weight;
+  final Map<String, String>? _metricUnits;
   @override
   @JsonKey()
-  final MetricUnitsParams? metricUnitsParams;
+  Map<String, String>? get metricUnits {
+    final value = _metricUnits;
+    if (value == null) return null;
+    if (_metricUnits is EqualUnmodifiableMapView) return _metricUnits;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
 
   @override
   String toString() {
-    return 'RegisterParams(firstName: $firstName, lastName: $lastName, gender: $gender, email: $email, password: $password, confirmPassword: $confirmPassword, dateOfBirth: $dateOfBirth, photo: $photo, height: $height, weight: $weight, metricUnitsParams: $metricUnitsParams)';
+    return 'RegisterParams(firstName: $firstName, lastName: $lastName, gender: $gender, email: $email, password: $password, confirmPassword: $confirmPassword, dateOfBirth: $dateOfBirth, photo: $photo, height: $height, weight: $weight, metricUnits: $metricUnits)';
   }
 
   @override
@@ -322,11 +305,10 @@ class _$RegisterParamsImpl implements _RegisterParams {
             (identical(other.photo, photo) || other.photo == photo) &&
             (identical(other.height, height) || other.height == height) &&
             (identical(other.weight, weight) || other.weight == weight) &&
-            (identical(other.metricUnitsParams, metricUnitsParams) ||
-                other.metricUnitsParams == metricUnitsParams));
+            const DeepCollectionEquality()
+                .equals(other._metricUnits, _metricUnits));
   }
 
-  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -340,7 +322,7 @@ class _$RegisterParamsImpl implements _RegisterParams {
       photo,
       height,
       weight,
-      metricUnitsParams);
+      const DeepCollectionEquality().hash(_metricUnits));
 
   @JsonKey(ignore: true)
   @override
@@ -348,16 +330,9 @@ class _$RegisterParamsImpl implements _RegisterParams {
   _$$RegisterParamsImplCopyWith<_$RegisterParamsImpl> get copyWith =>
       __$$RegisterParamsImplCopyWithImpl<_$RegisterParamsImpl>(
           this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$RegisterParamsImplToJson(
-      this,
-    );
-  }
 }
 
-abstract class _RegisterParams implements RegisterParams {
+abstract class _RegisterParams extends RegisterParams {
   const factory _RegisterParams(
       {final String firstName,
       final String lastName,
@@ -366,13 +341,11 @@ abstract class _RegisterParams implements RegisterParams {
       final String password,
       final String confirmPassword,
       final String dateOfBirth,
-      final String photo,
-      final String height,
-      final String weight,
-      final MetricUnitsParams? metricUnitsParams}) = _$RegisterParamsImpl;
-
-  factory _RegisterParams.fromJson(Map<String, dynamic> json) =
-      _$RegisterParamsImpl.fromJson;
+      final File? photo,
+      final int height,
+      final int weight,
+      final Map<String, String>? metricUnits}) = _$RegisterParamsImpl;
+  const _RegisterParams._() : super._();
 
   @override
   String get firstName;
@@ -389,195 +362,15 @@ abstract class _RegisterParams implements RegisterParams {
   @override
   String get dateOfBirth;
   @override
-  String get photo;
+  File? get photo;
   @override
-  String get height;
+  int get height;
   @override
-  String get weight;
+  int get weight;
   @override
-  MetricUnitsParams? get metricUnitsParams;
+  Map<String, String>? get metricUnits;
   @override
   @JsonKey(ignore: true)
   _$$RegisterParamsImplCopyWith<_$RegisterParamsImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-MetricUnitsParams _$MetricUnitsParamsFromJson(Map<String, dynamic> json) {
-  return _MetricUnitsParams.fromJson(json);
-}
-
-/// @nodoc
-mixin _$MetricUnitsParams {
-  String get energyUnits => throw _privateConstructorUsedError;
-  String get heightUnits => throw _privateConstructorUsedError;
-  String get weightUnits => throw _privateConstructorUsedError;
-
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
-  $MetricUnitsParamsCopyWith<MetricUnitsParams> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $MetricUnitsParamsCopyWith<$Res> {
-  factory $MetricUnitsParamsCopyWith(
-          MetricUnitsParams value, $Res Function(MetricUnitsParams) then) =
-      _$MetricUnitsParamsCopyWithImpl<$Res, MetricUnitsParams>;
-  @useResult
-  $Res call({String energyUnits, String heightUnits, String weightUnits});
-}
-
-/// @nodoc
-class _$MetricUnitsParamsCopyWithImpl<$Res, $Val extends MetricUnitsParams>
-    implements $MetricUnitsParamsCopyWith<$Res> {
-  _$MetricUnitsParamsCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? energyUnits = null,
-    Object? heightUnits = null,
-    Object? weightUnits = null,
-  }) {
-    return _then(_value.copyWith(
-      energyUnits: null == energyUnits
-          ? _value.energyUnits
-          : energyUnits // ignore: cast_nullable_to_non_nullable
-              as String,
-      heightUnits: null == heightUnits
-          ? _value.heightUnits
-          : heightUnits // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightUnits: null == weightUnits
-          ? _value.weightUnits
-          : weightUnits // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$MetricUnitsParamsImplCopyWith<$Res>
-    implements $MetricUnitsParamsCopyWith<$Res> {
-  factory _$$MetricUnitsParamsImplCopyWith(_$MetricUnitsParamsImpl value,
-          $Res Function(_$MetricUnitsParamsImpl) then) =
-      __$$MetricUnitsParamsImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String energyUnits, String heightUnits, String weightUnits});
-}
-
-/// @nodoc
-class __$$MetricUnitsParamsImplCopyWithImpl<$Res>
-    extends _$MetricUnitsParamsCopyWithImpl<$Res, _$MetricUnitsParamsImpl>
-    implements _$$MetricUnitsParamsImplCopyWith<$Res> {
-  __$$MetricUnitsParamsImplCopyWithImpl(_$MetricUnitsParamsImpl _value,
-      $Res Function(_$MetricUnitsParamsImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? energyUnits = null,
-    Object? heightUnits = null,
-    Object? weightUnits = null,
-  }) {
-    return _then(_$MetricUnitsParamsImpl(
-      energyUnits: null == energyUnits
-          ? _value.energyUnits
-          : energyUnits // ignore: cast_nullable_to_non_nullable
-              as String,
-      heightUnits: null == heightUnits
-          ? _value.heightUnits
-          : heightUnits // ignore: cast_nullable_to_non_nullable
-              as String,
-      weightUnits: null == weightUnits
-          ? _value.weightUnits
-          : weightUnits // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$MetricUnitsParamsImpl implements _MetricUnitsParams {
-  const _$MetricUnitsParamsImpl(
-      {this.energyUnits = "", this.heightUnits = "", this.weightUnits = ""});
-
-  factory _$MetricUnitsParamsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MetricUnitsParamsImplFromJson(json);
-
-  @override
-  @JsonKey()
-  final String energyUnits;
-  @override
-  @JsonKey()
-  final String heightUnits;
-  @override
-  @JsonKey()
-  final String weightUnits;
-
-  @override
-  String toString() {
-    return 'MetricUnitsParams(energyUnits: $energyUnits, heightUnits: $heightUnits, weightUnits: $weightUnits)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$MetricUnitsParamsImpl &&
-            (identical(other.energyUnits, energyUnits) ||
-                other.energyUnits == energyUnits) &&
-            (identical(other.heightUnits, heightUnits) ||
-                other.heightUnits == heightUnits) &&
-            (identical(other.weightUnits, weightUnits) ||
-                other.weightUnits == weightUnits));
-  }
-
-  @JsonKey(ignore: true)
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, energyUnits, heightUnits, weightUnits);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$MetricUnitsParamsImplCopyWith<_$MetricUnitsParamsImpl> get copyWith =>
-      __$$MetricUnitsParamsImplCopyWithImpl<_$MetricUnitsParamsImpl>(
-          this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$MetricUnitsParamsImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _MetricUnitsParams implements MetricUnitsParams {
-  const factory _MetricUnitsParams(
-      {final String energyUnits,
-      final String heightUnits,
-      final String weightUnits}) = _$MetricUnitsParamsImpl;
-
-  factory _MetricUnitsParams.fromJson(Map<String, dynamic> json) =
-      _$MetricUnitsParamsImpl.fromJson;
-
-  @override
-  String get energyUnits;
-  @override
-  String get heightUnits;
-  @override
-  String get weightUnits;
-  @override
-  @JsonKey(ignore: true)
-  _$$MetricUnitsParamsImplCopyWith<_$MetricUnitsParamsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

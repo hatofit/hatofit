@@ -60,9 +60,9 @@ class _LoginViewState extends State<LoginView> {
             loading: () => context.show(),
             success: (data) {
               context.dismiss();
-              data.toString().toToastSuccess(context);
-
+              Strings.of(context)!.signInSuccessfully.toToastSuccess(context);
               TextInput.finishAutofillContext();
+              context.goNamed(Routes.home.name);
             },
             failure: (message) {
               context.dismiss();
@@ -79,7 +79,7 @@ class _LoginViewState extends State<LoginView> {
                   Stack(
                     children: [
                       SizedBox(
-                        height: Dimens.height300,
+                        height: Dimens.height270,
                         child: ColorFiltered(
                           colorFilter: ColorFilter.mode(
                             Theme.of(context)
@@ -109,7 +109,7 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ),
                       SizedBox(
-                          height: Dimens.height300,
+                          height: Dimens.height270,
                           child: const Center(
                             child: BreathingAnimation(),
                           )),
@@ -145,7 +145,7 @@ class _LoginViewState extends State<LoginView> {
                             color: Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                           hintText: "john@gmail.com",
-                          hint: Strings.of(context)!.email,
+                          hint: Constants.get.email,
                           validator: (String? value) => value != null
                               ? (!value.isValidEmail()
                                   ? Strings.of(context)?.errorInvalidEmail
@@ -240,7 +240,6 @@ class _LoginViewState extends State<LoginView> {
                           child: OutlinedButton(
                             onPressed: () {
                               if (_keyForm.currentState?.validate() ?? false) {
-                               
                                 context.read<AuthCubit>().signInWithRestAPI(
                                       LoginParams(
                                         email: _conEmail.text,
@@ -330,7 +329,7 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ),
                         SizedBox(
-                          height: Dimens.height16,
+                          height: Dimens.height8,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -348,7 +347,7 @@ class _LoginViewState extends State<LoginView> {
                                     .textTheme
                                     .bodyMedium!
                                     .copyWith(
-                                      color: Theme.of(context).primaryColor,
+                                      color: Palette.blueLatte,
                                     ),
                               ),
                             )

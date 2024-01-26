@@ -100,6 +100,20 @@ class AppRoute {
         name: Routes.forgotPassword.name,
         builder: (_, __) => const ForgotPasswordView(),
       ),
+      GoRoute(
+          path: Routes.resetPassword.path,
+          name: Routes.resetPassword.name,
+          builder: (_, state) {
+            String email = state.extra as String;
+            return ResetPasswordView(
+              email: email,
+            );
+          }),
+      GoRoute(
+        path: Routes.home.path,
+        name: Routes.home.name,
+        builder: (_, __) => const HomeView(),
+      ),
     ],
     initialLocation: Routes.splashScreen.path,
     routerNeglect: true,

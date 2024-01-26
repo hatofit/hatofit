@@ -23,6 +23,11 @@ class IntroCubit extends Cubit<IntroState> with MainBoxMixin {
     getState();
   }
 
+  void updateDateOfBirth(String dateOfBirth) {
+    addData(MainBoxKeys.dateOfBirth, dateOfBirth);
+    getState();
+  }
+
   void updateAll() {
     int height = getData(MainBoxKeys.height) ?? 150;
     int weight = getData(MainBoxKeys.weight) ?? 125;

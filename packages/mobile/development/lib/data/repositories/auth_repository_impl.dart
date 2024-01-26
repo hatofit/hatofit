@@ -27,7 +27,10 @@ class AuthRepositoryImpl implements AuthRepository {
     final res = await authRemoteDatasource.me();
     return res.fold(
       (failure) => Left(failure),
-      (authResponseModel) => Right(authResponseModel.toEntity()),
+      (authResponseModel) {
+        mainBoxMixin.addData(MainBoxKeys.token, authResponseModel.token);
+        return Right(authResponseModel.toEntity());
+      },
     );
   }
 
@@ -42,12 +45,35 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Failure, AuthResponseEntity>> forgotPassword(
+  Future<Either<Failure, BaseResponseEntity<dynamic>>> forgotPassword(
       ForgotPasswordParams params) async {
     final res = await authRemoteDatasource.forgotPassword(params);
     return res.fold(
       (failure) => Left(failure),
-      (authResponseModel) => Right(authResponseModel.toEntity()),
+      (baseResponseModel) => Right(baseResponseModel.toEntity()),
+    );
+  }
+
+  @override
+  Future<Either<Failure, AuthResponseEntity>> resetPassword(
+      ResetPasswordParams params) async {
+    final res = await authRemoteDatasource.resetPassword(params);
+    return res.fold(
+      (failure) => Left(failure),
+      (authResponseModel) {
+        mainBoxMixin.addData(MainBoxKeys.token, authResponseModel.token);
+        return Right(authResponseModel.toEntity());
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, BaseResponseEntity>> verifyCode(
+      ResetPasswordParams params) async {
+    final res = await authRemoteDatasource.verifyCode(params);
+    return res.fold(
+      (failure) => Left(failure),
+      (baseResponseModel) => Right(baseResponseModel.toEntity()),
     );
   }
 }

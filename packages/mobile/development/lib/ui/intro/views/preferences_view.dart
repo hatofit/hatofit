@@ -30,6 +30,21 @@ class _PreferenceViewState extends State<PreferenceView> with MainBoxMixin {
           ? _listLanguage[0]
           : _listLanguage[1];
 
+  late final List<DataHelper> _listEnergyUnit = [
+    DataHelper(
+      title: Constants.get.kilocalorie,
+      type: "kcal",
+    ),
+    DataHelper(
+      title: Constants.get.kilojoule,
+      type: "kj",
+    ),
+  ];
+  late DataHelper _selectedEnergyUnit =
+      (getData(MainBoxKeys.energyUnit) ?? "kcal") == "kcal"
+          ? _listEnergyUnit[0]
+          : _listEnergyUnit[1];
+
   late final List<DataHelper> _listHeightUnit = [
     DataHelper(
       title: Constants.get.centimeter,
@@ -114,11 +129,11 @@ class _PreferenceViewState extends State<PreferenceView> with MainBoxMixin {
             ),
             Text(
               Strings.of(context)!.adjustPreferences,
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
         ),
-        titleTextStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
+        titleTextStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
               fontWeight: FontWeight.w500,
             ),
         centerTitle: true,
@@ -216,6 +231,29 @@ class _PreferenceViewState extends State<PreferenceView> with MainBoxMixin {
                   height: Dimens.height16,
                 ),
                 DropDown<DataHelper>(
+                  key: const Key("energy_metric"),
+                  hint: Strings.of(context)!.energyUnit,
+                  value: _selectedEnergyUnit,
+                  prefixIcon: const Icon(Icons.bolt_outlined),
+                  items: _listEnergyUnit
+                      .map(
+                        (data) => DropdownMenuItem(
+                          value: data,
+                          child: Text(
+                            data.title ?? "-",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  onChanged: (DataHelper? value) {
+                    _selectedEnergyUnit = value ?? _listEnergyUnit[0];
+                  },
+                ),
+                SizedBox(
+                  height: Dimens.height16,
+                ),
+                DropDown<DataHelper>(
                   key: const Key("height_metric"),
                   hint: Strings.of(context)!.heightUnit,
                   value: _selectedHeightUnit,
@@ -258,6 +296,9 @@ class _PreferenceViewState extends State<PreferenceView> with MainBoxMixin {
                     _selectedWeightUnit = value ?? _listWeightUnit[0];
                   },
                 ),
+                SizedBox(
+                  height: Dimens.height16,
+                ),
               ],
             ),
             SizedBox(
@@ -269,6 +310,7 @@ class _PreferenceViewState extends State<PreferenceView> with MainBoxMixin {
                         _selectedLanguage.type ?? "en",
                         _selectedHeightUnit.type ?? "cm",
                         _selectedWeightUnit.type ?? "kg",
+                        _selectedEnergyUnit.type ?? "kcal",
                       );
                   context.pushNamed(Routes.userInfo.name);
                 },

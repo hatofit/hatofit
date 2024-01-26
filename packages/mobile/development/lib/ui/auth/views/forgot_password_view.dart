@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 import 'package:hatofit/ui/ui.dart';
@@ -45,92 +47,114 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         ),
         centerTitle: true,
       ),
-      child: Padding(
-        padding: EdgeInsets.all(Dimens.width16),
-        child: Center(
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(28),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(666),
-                  color: Colors.red.withOpacity(0.25),
-                ),
-                child: const Icon(
-                  Icons.vpn_key,
-                  size: 50,
-                  color: Colors.red,
-                ),
-              ),
-              SizedBox(
-                height: Dimens.height32,
-              ),
-              Text(
-                Strings.of(context)!
-                    .pleaseEnterYourEmailAddressToReceiveVerificationCode,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              SizedBox(
-                height: Dimens.height32,
-              ),
-              AutofillGroup(
-                child: Form(
-                  key: _keyForm,
-                  child: TextF(
-                    autofillHints: const [AutofillHints.email],
-                    key: const Key("email"),
-                    curFocusNode: _fnEmail,
-                    textInputAction: TextInputAction.next,
-                    controller: _conEmail,
-                    keyboardType: TextInputType.emailAddress,
-                    prefixIcon: Icon(
-                      Icons.alternate_email,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
-                    ),
-                    hintText: "john@gmail.com",
-                    hint: Strings.of(context)!.email,
-                    validator: (String? value) => value != null
-                        ? (!value.isValidEmail()
-                            ? Strings.of(context)?.errorInvalidEmail
-                            : null)
-                        : null,
+      child: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          state.whenOrNull(
+            loading: () => context.show(),
+            success: (data) {
+              context.dismiss();
+              Strings.of(context)!
+                  .emailSentedPleaseCheckYourInbox
+                  .toToastSuccess(context);
+              TextInput.finishAutofillContext();
+              context.pushNamed(
+                Routes.resetPassword.name,
+                extra: _conEmail.text,
+              );
+            },
+            failure: (message) {
+              context.dismiss();
+              message.toToastError(context);
+            },
+          );
+        },
+        child: Padding(
+          padding: EdgeInsets.all(Dimens.width16),
+          child: Center(
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(28),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(666),
+                    color: Colors.red.withOpacity(0.25),
+                  ),
+                  child: const Icon(
+                    Icons.vpn_key,
+                    size: 50,
+                    color: Colors.red,
                   ),
                 ),
-              ),
-              SizedBox(
-                height: Dimens.height16,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () {
-                    if (_keyForm.currentState?.validate() ?? false) {
-                      log?.d("ForgotPasswordView: ${_conEmail.text}");
-                      context.read<AuthCubit>().forgotPassword(
-                            ForgotPasswordParams(
-                              email: _conEmail.text,
-                            ),
-                          );
-                    }
-                  },
-                  style: OutlinedButton.styleFrom(
-                    backgroundColor: Palette.primary,
-                    padding: EdgeInsets.symmetric(vertical: Dimens.height8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(Dimens.radius8),
+                SizedBox(
+                  height: Dimens.height32,
+                ),
+                Text(
+                  Strings.of(context)!
+                      .pleaseEnterYourEmailAddressToReceiveVerificationCode,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                SizedBox(
+                  height: Dimens.height32,
+                ),
+                AutofillGroup(
+                  child: Form(
+                    key: _keyForm,
+                    child: TextF(
+                      autofillHints: const [AutofillHints.email],
+                      key: const Key("email"),
+                      curFocusNode: _fnEmail,
+                      textInputAction: TextInputAction.next,
+                      controller: _conEmail,
+                      keyboardType: TextInputType.emailAddress,
+                      prefixIcon: Icon(
+                        Icons.alternate_email,
+                        color: Theme.of(context).textTheme.bodyLarge?.color,
+                      ),
+                      hintText: "john@gmail.com",
+                      hint: Constants.get.email,
+                      validator: (String? value) => value != null
+                          ? (!value.isValidEmail()
+                              ? Strings.of(context)?.errorInvalidEmail
+                              : null)
+                          : null,
                     ),
                   ),
-                  child: Text(
-                    Strings.of(context)!.signIn,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge!
-                        .copyWith(color: Colors.white),
+                ),
+                SizedBox(
+                  height: Dimens.height16,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      if (_keyForm.currentState?.validate() ?? false) {
+                        log?.d("ForgotPasswordView: ${_conEmail.text}");
+                        context.read<AuthCubit>().forgotPassword(
+                              ForgotPasswordParams(
+                                email: _conEmail.text,
+                              ),
+                            );
+                      }
+                    },
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Palette.primary,
+                      padding: EdgeInsets.symmetric(vertical: Dimens.height8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(Dimens.radius8),
+                      ),
+                    ),
+                    child: Text(
+                      Strings.of(context)!.signIn,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge!
+                          .copyWith(color: Colors.white),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -22,6 +22,7 @@ mixin _$AuthState {
     required TResult Function() loading,
     required TResult Function() showHide,
     required TResult Function(String? message) success,
+    required TResult Function(File? image) imagePicked,
     required TResult Function(String message) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -31,6 +32,7 @@ mixin _$AuthState {
     TResult? Function()? loading,
     TResult? Function()? showHide,
     TResult? Function(String? message)? success,
+    TResult? Function(File? image)? imagePicked,
     TResult? Function(String message)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -40,6 +42,7 @@ mixin _$AuthState {
     TResult Function()? loading,
     TResult Function()? showHide,
     TResult Function(String? message)? success,
+    TResult Function(File? image)? imagePicked,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) =>
@@ -50,6 +53,7 @@ mixin _$AuthState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_ShowHide value) showHide,
     required TResult Function(_Success value) success,
+    required TResult Function(ImagePicked value) imagePicked,
     required TResult Function(_Failure value) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -59,6 +63,7 @@ mixin _$AuthState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ShowHide value)? showHide,
     TResult? Function(_Success value)? success,
+    TResult? Function(ImagePicked value)? imagePicked,
     TResult? Function(_Failure value)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -68,6 +73,7 @@ mixin _$AuthState {
     TResult Function(_Loading value)? loading,
     TResult Function(_ShowHide value)? showHide,
     TResult Function(_Success value)? success,
+    TResult Function(ImagePicked value)? imagePicked,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) =>
@@ -133,6 +139,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function() loading,
     required TResult Function() showHide,
     required TResult Function(String? message) success,
+    required TResult Function(File? image) imagePicked,
     required TResult Function(String message) failure,
   }) {
     return initial();
@@ -145,6 +152,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? loading,
     TResult? Function()? showHide,
     TResult? Function(String? message)? success,
+    TResult? Function(File? image)? imagePicked,
     TResult? Function(String message)? failure,
   }) {
     return initial?.call();
@@ -157,6 +165,7 @@ class _$InitialImpl implements _Initial {
     TResult Function()? loading,
     TResult Function()? showHide,
     TResult Function(String? message)? success,
+    TResult Function(File? image)? imagePicked,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -173,6 +182,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Loading value) loading,
     required TResult Function(_ShowHide value) showHide,
     required TResult Function(_Success value) success,
+    required TResult Function(ImagePicked value) imagePicked,
     required TResult Function(_Failure value) failure,
   }) {
     return initial(this);
@@ -185,6 +195,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ShowHide value)? showHide,
     TResult? Function(_Success value)? success,
+    TResult? Function(ImagePicked value)? imagePicked,
     TResult? Function(_Failure value)? failure,
   }) {
     return initial?.call(this);
@@ -197,6 +208,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Loading value)? loading,
     TResult Function(_ShowHide value)? showHide,
     TResult Function(_Success value)? success,
+    TResult Function(ImagePicked value)? imagePicked,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -253,6 +265,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() loading,
     required TResult Function() showHide,
     required TResult Function(String? message) success,
+    required TResult Function(File? image) imagePicked,
     required TResult Function(String message) failure,
   }) {
     return loading();
@@ -265,6 +278,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? loading,
     TResult? Function()? showHide,
     TResult? Function(String? message)? success,
+    TResult? Function(File? image)? imagePicked,
     TResult? Function(String message)? failure,
   }) {
     return loading?.call();
@@ -277,6 +291,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? loading,
     TResult Function()? showHide,
     TResult Function(String? message)? success,
+    TResult Function(File? image)? imagePicked,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -293,6 +308,7 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Loading value) loading,
     required TResult Function(_ShowHide value) showHide,
     required TResult Function(_Success value) success,
+    required TResult Function(ImagePicked value) imagePicked,
     required TResult Function(_Failure value) failure,
   }) {
     return loading(this);
@@ -305,6 +321,7 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ShowHide value)? showHide,
     TResult? Function(_Success value)? success,
+    TResult? Function(ImagePicked value)? imagePicked,
     TResult? Function(_Failure value)? failure,
   }) {
     return loading?.call(this);
@@ -317,6 +334,7 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_ShowHide value)? showHide,
     TResult Function(_Success value)? success,
+    TResult Function(ImagePicked value)? imagePicked,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -373,6 +391,7 @@ class _$ShowHideImpl implements _ShowHide {
     required TResult Function() loading,
     required TResult Function() showHide,
     required TResult Function(String? message) success,
+    required TResult Function(File? image) imagePicked,
     required TResult Function(String message) failure,
   }) {
     return showHide();
@@ -385,6 +404,7 @@ class _$ShowHideImpl implements _ShowHide {
     TResult? Function()? loading,
     TResult? Function()? showHide,
     TResult? Function(String? message)? success,
+    TResult? Function(File? image)? imagePicked,
     TResult? Function(String message)? failure,
   }) {
     return showHide?.call();
@@ -397,6 +417,7 @@ class _$ShowHideImpl implements _ShowHide {
     TResult Function()? loading,
     TResult Function()? showHide,
     TResult Function(String? message)? success,
+    TResult Function(File? image)? imagePicked,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -413,6 +434,7 @@ class _$ShowHideImpl implements _ShowHide {
     required TResult Function(_Loading value) loading,
     required TResult Function(_ShowHide value) showHide,
     required TResult Function(_Success value) success,
+    required TResult Function(ImagePicked value) imagePicked,
     required TResult Function(_Failure value) failure,
   }) {
     return showHide(this);
@@ -425,6 +447,7 @@ class _$ShowHideImpl implements _ShowHide {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ShowHide value)? showHide,
     TResult? Function(_Success value)? success,
+    TResult? Function(ImagePicked value)? imagePicked,
     TResult? Function(_Failure value)? failure,
   }) {
     return showHide?.call(this);
@@ -437,6 +460,7 @@ class _$ShowHideImpl implements _ShowHide {
     TResult Function(_Loading value)? loading,
     TResult Function(_ShowHide value)? showHide,
     TResult Function(_Success value)? success,
+    TResult Function(ImagePicked value)? imagePicked,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -519,6 +543,7 @@ class _$SuccessImpl implements _Success {
     required TResult Function() loading,
     required TResult Function() showHide,
     required TResult Function(String? message) success,
+    required TResult Function(File? image) imagePicked,
     required TResult Function(String message) failure,
   }) {
     return success(message);
@@ -531,6 +556,7 @@ class _$SuccessImpl implements _Success {
     TResult? Function()? loading,
     TResult? Function()? showHide,
     TResult? Function(String? message)? success,
+    TResult? Function(File? image)? imagePicked,
     TResult? Function(String message)? failure,
   }) {
     return success?.call(message);
@@ -543,6 +569,7 @@ class _$SuccessImpl implements _Success {
     TResult Function()? loading,
     TResult Function()? showHide,
     TResult Function(String? message)? success,
+    TResult Function(File? image)? imagePicked,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -559,6 +586,7 @@ class _$SuccessImpl implements _Success {
     required TResult Function(_Loading value) loading,
     required TResult Function(_ShowHide value) showHide,
     required TResult Function(_Success value) success,
+    required TResult Function(ImagePicked value) imagePicked,
     required TResult Function(_Failure value) failure,
   }) {
     return success(this);
@@ -571,6 +599,7 @@ class _$SuccessImpl implements _Success {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ShowHide value)? showHide,
     TResult? Function(_Success value)? success,
+    TResult? Function(ImagePicked value)? imagePicked,
     TResult? Function(_Failure value)? failure,
   }) {
     return success?.call(this);
@@ -583,6 +612,7 @@ class _$SuccessImpl implements _Success {
     TResult Function(_Loading value)? loading,
     TResult Function(_ShowHide value)? showHide,
     TResult Function(_Success value)? success,
+    TResult Function(ImagePicked value)? imagePicked,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
@@ -599,6 +629,163 @@ abstract class _Success implements AuthState {
   String? get message;
   @JsonKey(ignore: true)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ImagePickedImplCopyWith<$Res> {
+  factory _$$ImagePickedImplCopyWith(
+          _$ImagePickedImpl value, $Res Function(_$ImagePickedImpl) then) =
+      __$$ImagePickedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({File? image});
+}
+
+/// @nodoc
+class __$$ImagePickedImplCopyWithImpl<$Res>
+    extends _$AuthStateCopyWithImpl<$Res, _$ImagePickedImpl>
+    implements _$$ImagePickedImplCopyWith<$Res> {
+  __$$ImagePickedImplCopyWithImpl(
+      _$ImagePickedImpl _value, $Res Function(_$ImagePickedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? image = freezed,
+  }) {
+    return _then(_$ImagePickedImpl(
+      freezed == image
+          ? _value.image
+          : image // ignore: cast_nullable_to_non_nullable
+              as File?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ImagePickedImpl implements ImagePicked {
+  const _$ImagePickedImpl(this.image);
+
+  @override
+  final File? image;
+
+  @override
+  String toString() {
+    return 'AuthState.imagePicked(image: $image)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ImagePickedImpl &&
+            (identical(other.image, image) || other.image == image));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, image);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ImagePickedImplCopyWith<_$ImagePickedImpl> get copyWith =>
+      __$$ImagePickedImplCopyWithImpl<_$ImagePickedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() showHide,
+    required TResult Function(String? message) success,
+    required TResult Function(File? image) imagePicked,
+    required TResult Function(String message) failure,
+  }) {
+    return imagePicked(image);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? showHide,
+    TResult? Function(String? message)? success,
+    TResult? Function(File? image)? imagePicked,
+    TResult? Function(String message)? failure,
+  }) {
+    return imagePicked?.call(image);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? showHide,
+    TResult Function(String? message)? success,
+    TResult Function(File? image)? imagePicked,
+    TResult Function(String message)? failure,
+    required TResult orElse(),
+  }) {
+    if (imagePicked != null) {
+      return imagePicked(image);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_ShowHide value) showHide,
+    required TResult Function(_Success value) success,
+    required TResult Function(ImagePicked value) imagePicked,
+    required TResult Function(_Failure value) failure,
+  }) {
+    return imagePicked(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_ShowHide value)? showHide,
+    TResult? Function(_Success value)? success,
+    TResult? Function(ImagePicked value)? imagePicked,
+    TResult? Function(_Failure value)? failure,
+  }) {
+    return imagePicked?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_ShowHide value)? showHide,
+    TResult Function(_Success value)? success,
+    TResult Function(ImagePicked value)? imagePicked,
+    TResult Function(_Failure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (imagePicked != null) {
+      return imagePicked(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ImagePicked implements AuthState {
+  const factory ImagePicked(final File? image) = _$ImagePickedImpl;
+
+  File? get image;
+  @JsonKey(ignore: true)
+  _$$ImagePickedImplCopyWith<_$ImagePickedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -670,6 +857,7 @@ class _$FailureImpl implements _Failure {
     required TResult Function() loading,
     required TResult Function() showHide,
     required TResult Function(String? message) success,
+    required TResult Function(File? image) imagePicked,
     required TResult Function(String message) failure,
   }) {
     return failure(message);
@@ -682,6 +870,7 @@ class _$FailureImpl implements _Failure {
     TResult? Function()? loading,
     TResult? Function()? showHide,
     TResult? Function(String? message)? success,
+    TResult? Function(File? image)? imagePicked,
     TResult? Function(String message)? failure,
   }) {
     return failure?.call(message);
@@ -694,6 +883,7 @@ class _$FailureImpl implements _Failure {
     TResult Function()? loading,
     TResult Function()? showHide,
     TResult Function(String? message)? success,
+    TResult Function(File? image)? imagePicked,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -710,6 +900,7 @@ class _$FailureImpl implements _Failure {
     required TResult Function(_Loading value) loading,
     required TResult Function(_ShowHide value) showHide,
     required TResult Function(_Success value) success,
+    required TResult Function(ImagePicked value) imagePicked,
     required TResult Function(_Failure value) failure,
   }) {
     return failure(this);
@@ -722,6 +913,7 @@ class _$FailureImpl implements _Failure {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ShowHide value)? showHide,
     TResult? Function(_Success value)? success,
+    TResult? Function(ImagePicked value)? imagePicked,
     TResult? Function(_Failure value)? failure,
   }) {
     return failure?.call(this);
@@ -734,6 +926,7 @@ class _$FailureImpl implements _Failure {
     TResult Function(_Loading value)? loading,
     TResult Function(_ShowHide value)? showHide,
     TResult Function(_Success value)? success,
+    TResult Function(ImagePicked value)? imagePicked,
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
