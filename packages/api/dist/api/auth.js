@@ -645,21 +645,23 @@ const ApiAuth = ({ route }) => {
         var _m, _o;
         console.log("DATA BODY", req.body);
         try {
-            // find user base session
+            // find user based user session
             const found = yield db_1.User.findOne({
                 _id: (_o = (_m = req.auth) === null || _m === void 0 ? void 0 : _m.user) === null || _o === void 0 ? void 0 : _o._id,
             });
-            // deletion
-            const deleted = yield db_1.User.findOneAndDelete({
+            // user deletion
+            yield db_1.User.findOneAndDelete({
                 _id: found === null || found === void 0 ? void 0 : found._id,
             });
-            const bucket = yield (0, storage_1.GridStorage)();
-            yield bucket.delete(new mongoose_1.default.Types.ObjectId(found === null || found === void 0 ? void 0 : found.photo));
-            // resposne
+            // check if user photo is not empty string or length must same as object id length
+            if ((found === null || found === void 0 ? void 0 : found.photo) && (found === null || found === void 0 ? void 0 : found.photo.length) >= 24) {
+                const bucket = yield (0, storage_1.GridStorage)();
+                yield bucket.delete(new mongoose_1.default.Types.ObjectId(found === null || found === void 0 ? void 0 : found.photo));
+            }
             return res.json({
                 success: true,
                 message: "User deleted successfully",
-                user: deleted,
+                user: (0, obj_1.exceptObjectProp)(found === null || found === void 0 ? void 0 : found.toObject(), ["password"]),
             });
         }
         catch (error) {

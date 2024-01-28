@@ -8,3 +8,11 @@ abstract class WithParamsUseCase<Type, Params> {
 abstract class NoParamsUseCase<Type> {
   Future<Either<Failure, Type>> call();
 }
+
+abstract class StreamUseCase<Type, Params> {
+  Stream<Either<Failure, Type>> call(Params params);
+}
+
+abstract class StreamNoParamsUseCase<Type> {
+  Stream<Either<Failure, Type>> call();
+}

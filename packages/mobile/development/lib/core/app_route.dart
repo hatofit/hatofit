@@ -112,7 +112,10 @@ class AppRoute {
       GoRoute(
         path: Routes.home.path,
         name: Routes.home.name,
-        builder: (_, __) => const HomeView(),
+        builder: (_, __) => BlocProvider(
+          create: (_) => di<HomeCubit>()..streamScan(),
+          child: const HomeView(),
+        ),
       ),
     ],
     initialLocation: Routes.splashScreen.path,

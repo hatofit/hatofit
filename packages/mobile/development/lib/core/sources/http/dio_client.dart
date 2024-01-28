@@ -6,7 +6,7 @@ import 'package:hatofit/utils/utils.dart';
 typedef ResponseConverter<T> = T Function(dynamic response);
 
 class DioClient with MainBoxMixin, FirebaseCrashLogger {
-  static String baseUrl = 'http://192.168.161.169:3000';
+  static String baseUrl = 'http://192.168.254.169:3000';
 
   String? _auth;
   late Dio _dio;
@@ -29,10 +29,11 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
       _auth = getData(MainBoxKeys.token);
       _dio = _createDio();
       _dio.interceptors.add(DioInterceptor());
-    } catch (e) {
+    } catch (error, stackTrace) {
       log?.e("""[DioClient] || Dio get dio || core/api/dio_client.dart\n
-      Error: $e\n
+      Error: $error\n
       """);
+      nonFatalError(error: error, stackTrace: stackTrace);
     }
     return _dio;
   }
@@ -62,6 +63,7 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
+      log?.f("TOKEN: ${getData(MainBoxKeys.token)}");
       final response = await dio.get(
         url,
         queryParameters: queryParameters,

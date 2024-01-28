@@ -186,4 +186,7 @@ class StringsId extends Strings {
 
   @override
   String get signUpSuccessfully => 'Berhasil daftar';
+
+  @override
+  String get pleaseSelectYourGender => 'Silahkan pilih jenis kelamin anda';
 }

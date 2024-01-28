@@ -19,32 +19,44 @@ mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
+    required TResult Function() scanning,
+    required TResult Function() scanned,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
+    TResult? Function()? scanning,
+    TResult? Function()? scanned,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? scanning,
+    TResult Function()? scanned,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_Scanning value) scanning,
+    required TResult Function(_Scanned value) scanned,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
+    TResult? Function(_Scanning value)? scanning,
+    TResult? Function(_Scanned value)? scanned,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_Scanning value)? scanning,
+    TResult Function(_Scanned value)? scanned,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -85,12 +97,18 @@ class __$$InitialImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$InitialImpl implements _Initial {
+class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   const _$InitialImpl();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'HomeState.initial()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'HomeState.initial'));
   }
 
   @override
@@ -106,6 +124,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
+    required TResult Function() scanning,
+    required TResult Function() scanned,
   }) {
     return initial();
   }
@@ -114,6 +134,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
+    TResult? Function()? scanning,
+    TResult? Function()? scanned,
   }) {
     return initial?.call();
   }
@@ -122,6 +144,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
+    TResult Function()? scanning,
+    TResult Function()? scanned,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -134,6 +158,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
+    required TResult Function(_Scanning value) scanning,
+    required TResult Function(_Scanned value) scanned,
   }) {
     return initial(this);
   }
@@ -142,6 +168,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
+    TResult? Function(_Scanning value)? scanning,
+    TResult? Function(_Scanned value)? scanned,
   }) {
     return initial?.call(this);
   }
@@ -150,6 +178,8 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
+    TResult Function(_Scanning value)? scanning,
+    TResult Function(_Scanned value)? scanned,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -161,4 +191,232 @@ class _$InitialImpl implements _Initial {
 
 abstract class _Initial implements HomeState {
   const factory _Initial() = _$InitialImpl;
+}
+
+/// @nodoc
+abstract class _$$ScanningImplCopyWith<$Res> {
+  factory _$$ScanningImplCopyWith(
+          _$ScanningImpl value, $Res Function(_$ScanningImpl) then) =
+      __$$ScanningImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ScanningImplCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$ScanningImpl>
+    implements _$$ScanningImplCopyWith<$Res> {
+  __$$ScanningImplCopyWithImpl(
+      _$ScanningImpl _value, $Res Function(_$ScanningImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$ScanningImpl with DiagnosticableTreeMixin implements _Scanning {
+  const _$ScanningImpl();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'HomeState.scanning()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'HomeState.scanning'));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$ScanningImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() scanning,
+    required TResult Function() scanned,
+  }) {
+    return scanning();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? scanning,
+    TResult? Function()? scanned,
+  }) {
+    return scanning?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? scanning,
+    TResult Function()? scanned,
+    required TResult orElse(),
+  }) {
+    if (scanning != null) {
+      return scanning();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Scanning value) scanning,
+    required TResult Function(_Scanned value) scanned,
+  }) {
+    return scanning(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Scanning value)? scanning,
+    TResult? Function(_Scanned value)? scanned,
+  }) {
+    return scanning?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Scanning value)? scanning,
+    TResult Function(_Scanned value)? scanned,
+    required TResult orElse(),
+  }) {
+    if (scanning != null) {
+      return scanning(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Scanning implements HomeState {
+  const factory _Scanning() = _$ScanningImpl;
+}
+
+/// @nodoc
+abstract class _$$ScannedImplCopyWith<$Res> {
+  factory _$$ScannedImplCopyWith(
+          _$ScannedImpl value, $Res Function(_$ScannedImpl) then) =
+      __$$ScannedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ScannedImplCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$ScannedImpl>
+    implements _$$ScannedImplCopyWith<$Res> {
+  __$$ScannedImplCopyWithImpl(
+      _$ScannedImpl _value, $Res Function(_$ScannedImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$ScannedImpl with DiagnosticableTreeMixin implements _Scanned {
+  const _$ScannedImpl();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'HomeState.scanned()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'HomeState.scanned'));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$ScannedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() scanning,
+    required TResult Function() scanned,
+  }) {
+    return scanned();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? scanning,
+    TResult? Function()? scanned,
+  }) {
+    return scanned?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? scanning,
+    TResult Function()? scanned,
+    required TResult orElse(),
+  }) {
+    if (scanned != null) {
+      return scanned();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Scanning value) scanning,
+    required TResult Function(_Scanned value) scanned,
+  }) {
+    return scanned(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Scanning value)? scanning,
+    TResult? Function(_Scanned value)? scanned,
+  }) {
+    return scanned?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Scanning value)? scanning,
+    TResult Function(_Scanned value)? scanned,
+    required TResult orElse(),
+  }) {
+    if (scanned != null) {
+      return scanned(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Scanned implements HomeState {
+  const factory _Scanned() = _$ScannedImpl;
 }

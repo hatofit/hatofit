@@ -186,4 +186,7 @@ class StringsEn extends Strings {
 
   @override
   String get signUpSuccessfully => 'Sign up successfully';
+
+  @override
+  String get pleaseSelectYourGender => 'Please select your gender';
 }

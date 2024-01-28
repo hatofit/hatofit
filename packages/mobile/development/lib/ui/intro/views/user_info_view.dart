@@ -171,8 +171,14 @@ class _UserInfoViewState extends State<UserInfoView> {
                   child: OutlinedButton(
                     onPressed: () {
                       if (_keyForm.currentState?.validate() ?? false) {
-                        context.read<IntroCubit>().updateAll();
-                        context.pushNamed(Routes.login.name);
+                        if (state.selectedGender == null) {
+                          return Strings.of(context)!
+                              .pleaseSelectYourGender
+                              .toToastError(context);
+                        } else {
+                          context.read<IntroCubit>().updateAll();
+                          context.pushNamed(Routes.login.name);
+                        }
                       }
                     },
                     style: OutlinedButton.styleFrom(

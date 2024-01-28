@@ -27,10 +27,7 @@ class AuthRepositoryImpl implements AuthRepository {
     final res = await authRemoteDatasource.me();
     return res.fold(
       (failure) => Left(failure),
-      (authResponseModel) {
-        mainBoxMixin.addData(MainBoxKeys.token, authResponseModel.token);
-        return Right(authResponseModel.toEntity());
-      },
+      (authResponseModel) => Right(authResponseModel.toEntity()),
     );
   }
 
@@ -40,7 +37,11 @@ class AuthRepositoryImpl implements AuthRepository {
     final res = await authRemoteDatasource.register(params);
     return res.fold(
       (failure) => Left(failure),
-      (authResponseModel) => Right(authResponseModel.toEntity()),
+      (authResponseModel) {
+        log?.f(authResponseModel);
+        mainBoxMixin.addData(MainBoxKeys.token, authResponseModel.token);
+        return Right(authResponseModel.toEntity());
+      },
     );
   }
 

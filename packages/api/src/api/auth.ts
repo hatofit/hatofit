@@ -723,24 +723,26 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
   route.delete("/delete", AuthJwtMiddleware, async (req, res) => {
     console.log("DATA BODY", req.body);
     try {
-      // find user base session
+      // find user based user session
       const found = await User.findOne({
         _id: req.auth?.user?._id,
       });
 
-      // deletion
-      const deleted = await User.findOneAndDelete({
+      // user deletion
+      await User.findOneAndDelete({
         _id: found?._id,
       });
 
-      const bucket = await GridStorage();
-      await bucket.delete(new mongoose.Types.ObjectId(found?.photo));
+      // check if user photo is not empty string or length must same as object id length
+      if (found?.photo && found?.photo.length >= 24) {
+        const bucket = await GridStorage();
+        await bucket.delete(new mongoose.Types.ObjectId(found?.photo));
+      }
 
-      // resposne
       return res.json({
         success: true,
         message: "User deleted successfully",
-        user: deleted,
+        user: exceptObjectProp(found?.toObject(), ["password"]),
       });
     } catch (error) {
       // console.error(error)

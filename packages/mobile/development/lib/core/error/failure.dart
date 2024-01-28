@@ -16,6 +16,19 @@ class ServerFailure extends Failure {
   int get hashCode => message.hashCode;
 }
 
+class BluetoothFailure extends Failure {
+  final String? message;
+
+  const BluetoothFailure(this.message);
+
+  @override
+  bool operator ==(Object other) =>
+      other is BluetoothFailure && other.message == message;
+
+  @override
+  int get hashCode => message.hashCode;
+}
+
 class NoDataFailure extends Failure {
   final String? message;
 

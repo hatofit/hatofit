@@ -11,6 +11,7 @@ Future<void> mainInjection() async {
   await _initHiveBoxes();
   di.registerSingleton<DioClient>(DioClient());
   di.registerSingleton<ImagePickerClient>(ImagePickerClient());
+  di.registerSingleton<PolarClient>(PolarClient());
 
   _dataSources();
   _repositories();
@@ -40,6 +41,9 @@ void _repositories() {
   di.registerLazySingleton<ImageRepository>(
     () => ImageRepositoryImpl(di()),
   );
+  di.registerLazySingleton<BluetoothRepository>(
+    () => BluetoothRepositoryImpl(di()),
+  );
 }
 
 void _useCase() {
@@ -51,6 +55,9 @@ void _useCase() {
   di.registerLazySingleton(() => ImageFromGalleryUsecase(di()));
   di.registerLazySingleton(() => VerifyCodeUseCase(di()));
   di.registerLazySingleton(() => ResetPasswordUsecase(di()));
+  di.registerLazySingleton(() => ConnectBluetoothUsecase(di()));
+  di.registerLazySingleton(() => ScanBluetoothUsecase(di()));
+  di.registerLazySingleton(() => RequestBluetoothUsecase(di()));
 }
 
 void _cubit() {
@@ -65,7 +72,11 @@ void _cubit() {
         di(),
       ));
   di.registerFactory(() => IntroCubit());
-  di.registerFactory(() => HomeCubit());
+  di.registerFactory(() => HomeCubit(
+        di(),
+        di(),
+        di(),
+      ));
   di.registerFactory(() => SettingsCubit());
   di.registerFactory(() => WorkoutCubit());
   di.registerFactory(() => ActivityCubit());

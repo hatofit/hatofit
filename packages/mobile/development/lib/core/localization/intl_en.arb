@@ -59,5 +59,6 @@
   "alreadyHaveHatofitAccount": "Already have a Hatofit account?",
   "energyUnit": "Energy Unit",
   "signInSuccessfully": "Sign in successfully",
-  "signUpSuccessfully": "Sign up successfully"
+  "signUpSuccessfully": "Sign up successfully",
+  "pleaseSelectYourGender": "Please select your gender"
 }

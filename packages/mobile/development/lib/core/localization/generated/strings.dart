@@ -458,6 +458,12 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Sign up successfully'**
   String get signUpSuccessfully;
+
+  /// No description provided for @pleaseSelectYourGender.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select your gender'**
+  String get pleaseSelectYourGender;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {
