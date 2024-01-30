@@ -7,6 +7,8 @@ part 'get_exercises_params.g.dart';
 class GetExercisesParams with _$GetExercisesParams {
   const factory GetExercisesParams({
     @Default(false) bool showFromCompany,
+    @Default(0) int page,
+    @Default(10) int limit,
   }) = _GetExercisesParams;
 
   factory GetExercisesParams.fromJson(Map<String, dynamic> json) =>

@@ -6,19 +6,19 @@ import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
 
 class ImageRepositoryImpl implements ImageRepository {
-  final ImageLocalDataSource _imageLocalDataSource;
+  final ImageLocalDataSource _local;
 
-  ImageRepositoryImpl(this._imageLocalDataSource);
+  ImageRepositoryImpl(this._local);
 
   @override
   Future<Either<Failure, File>> getImageFromCamera() async {
-    final res = await _imageLocalDataSource.getImageFromCamera();
+    final res = await _local.getImageFromCamera();
     return res.fold((l) => Left(l), (r) => Right(File(r.path)));
   }
 
   @override
   Future<Either<Failure, File>> getImageFromSource() async {
-    final res = await _imageLocalDataSource.getImageFromSource();
+    final res = await _local.getImageFromSource();
     return res.fold((l) => Left(l), (r) => Right(File(r.path)));
   }
 }

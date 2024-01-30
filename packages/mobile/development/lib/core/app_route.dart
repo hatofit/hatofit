@@ -140,7 +140,7 @@ class AppRoute {
                 path: Routes.workout.path,
                 name: Routes.workout.name,
                 builder: (_, __) => BlocProvider(
-                  create: (_) => di<WorkoutCubit>(),
+                  create: (_) => di<WorkoutCubit>()..init(),
                   child: const WorkoutView(),
                 ),
               ),
@@ -161,7 +161,7 @@ class AppRoute {
                 path: Routes.activity.path,
                 name: Routes.activity.name,
                 builder: (_, __) => BlocProvider(
-                  create: (_) => di<ActivityCubit>(),
+                  create: (_) => di<ActivityCubit>()..init(),
                   child: const ActivityView(),
                 ),
               ),

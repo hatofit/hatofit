@@ -3,13 +3,20 @@ import 'package:hatofit/core/error/failure.dart';
 import 'package:hatofit/domain/domain.dart';
 
 abstract class AuthRepository {
-  Future<Either<Failure, AuthResponseEntity>> login(LoginParams params);
-  Future<Either<Failure, AuthResponseEntity>> register(RegisterParams params);
   Future<Either<Failure, AuthResponseEntity>> me();
+  Future<Either<Failure, AuthResponseEntity>> login(
+    LoginParams params,
+  );
+  Future<Either<Failure, AuthResponseEntity>> register(
+    RegisterParams params,
+  );
   Future<Either<Failure, BaseResponseEntity>> forgotPassword(
-      ForgotPasswordParams params);
+    ForgotPasswordParams params,
+  );
   Future<Either<Failure, AuthResponseEntity>> resetPassword(
-      ResetPasswordParams params);
+    ResetPasswordParams params,
+  );
   Future<Either<Failure, BaseResponseEntity>> verifyCode(
-      ResetPasswordParams params);
+    ResetPasswordParams params,
+  );
 }

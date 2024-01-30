@@ -5,14 +5,16 @@ import 'package:hatofit/domain/domain.dart';
 import 'package:hatofit/utils/utils.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthRemoteDatasource authRemoteDatasource;
+  final AuthRemoteDatasource _remote;
   final MainBoxMixin mainBoxMixin;
 
-  const AuthRepositoryImpl(this.authRemoteDatasource, this.mainBoxMixin);
+  const AuthRepositoryImpl(this._remote, this.mainBoxMixin);
 
   @override
-  Future<Either<Failure, AuthResponseEntity>> login(LoginParams params) async {
-    final res = await authRemoteDatasource.login(params);
+  Future<Either<Failure, AuthResponseEntity>> login(
+    LoginParams params,
+  ) async {
+    final res = await _remote.login(params);
     return res.fold(
       (failure) => Left(failure),
       (authResponseModel) {
@@ -24,7 +26,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, AuthResponseEntity>> me() async {
-    final res = await authRemoteDatasource.me();
+    final res = await _remote.me();
     return res.fold(
       (failure) => Left(failure),
       (authResponseModel) => Right(authResponseModel.toEntity()),
@@ -33,8 +35,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, AuthResponseEntity>> register(
-      RegisterParams params) async {
-    final res = await authRemoteDatasource.register(params);
+    RegisterParams params,
+  ) async {
+    final res = await _remote.register(params);
     return res.fold(
       (failure) => Left(failure),
       (authResponseModel) {
@@ -47,8 +50,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, BaseResponseEntity<dynamic>>> forgotPassword(
-      ForgotPasswordParams params) async {
-    final res = await authRemoteDatasource.forgotPassword(params);
+    ForgotPasswordParams params,
+  ) async {
+    final res = await _remote.forgotPassword(params);
     return res.fold(
       (failure) => Left(failure),
       (baseResponseModel) => Right(baseResponseModel.toEntity()),
@@ -57,8 +61,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, AuthResponseEntity>> resetPassword(
-      ResetPasswordParams params) async {
-    final res = await authRemoteDatasource.resetPassword(params);
+    ResetPasswordParams params,
+  ) async {
+    final res = await _remote.resetPassword(params);
     return res.fold(
       (failure) => Left(failure),
       (authResponseModel) {
@@ -70,8 +75,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, BaseResponseEntity>> verifyCode(
-      ResetPasswordParams params) async {
-    final res = await authRemoteDatasource.verifyCode(params);
+    ResetPasswordParams params,
+  ) async {
+    final res = await _remote.verifyCode(params);
     return res.fold(
       (failure) => Left(failure),
       (baseResponseModel) => Right(baseResponseModel.toEntity()),

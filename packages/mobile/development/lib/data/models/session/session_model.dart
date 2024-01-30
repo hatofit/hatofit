@@ -33,6 +33,22 @@ class SessionModel with _$SessionModel {
         timeline: timeline?.map((e) => e.toEntity()).toList(),
         data: data?.map((e) => e.toEntity()).toList(),
       );
+
+  factory SessionModel.fromEntity(SessionEntity entity) => SessionModel(
+        id: entity.id,
+        userId: entity.userId,
+        mood: entity.mood,
+        exercise:
+            ExerciseModel.fromEntity(entity.exercise ?? const ExerciseEntity()),
+        startTime: entity.startTime,
+        endTime: entity.endTime,
+        timeline: entity.timeline
+            ?.map((e) => SessionTimelineModel.fromEntity(e))
+            .toList(),
+        data: entity.data
+            ?.map((e) => SessionDataItemModel.fromEntity(e))
+            .toList(),
+      );
 }
 
 @freezed
@@ -50,6 +66,12 @@ class SessionTimelineModel with _$SessionTimelineModel {
   SessionTimelineEntity toEntity() => SessionTimelineEntity(
         name: name,
         startTime: startTime,
+      );
+
+  factory SessionTimelineModel.fromEntity(SessionTimelineEntity entity) =>
+      SessionTimelineModel(
+        name: entity.name,
+        startTime: entity.startTime,
       );
 }
 
@@ -71,6 +93,15 @@ class SessionDataItemModel with _$SessionDataItemModel {
         timeStamp: timeStamp,
         devices: devices?.map((e) => e.toEntity()).toList(),
       );
+
+  factory SessionDataItemModel.fromEntity(SessionDataItemEntity entity) =>
+      SessionDataItemModel(
+        second: entity.second,
+        timeStamp: entity.timeStamp,
+        devices: entity.devices
+            ?.map((e) => SessionDataItemDeviceModel.fromEntity(e))
+            .toList(),
+      );
 }
 
 @freezed
@@ -90,5 +121,13 @@ class SessionDataItemDeviceModel with _$SessionDataItemDeviceModel {
         type: type,
         identifier: identifier,
         value: value,
+      );
+
+  factory SessionDataItemDeviceModel.fromEntity(
+          SessionDataItemDeviceEntity entity) =>
+      SessionDataItemDeviceModel(
+        type: entity.type,
+        identifier: entity.identifier,
+        value: entity.value,
       );
 }

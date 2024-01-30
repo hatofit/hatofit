@@ -21,6 +21,8 @@ GetExercisesParams _$GetExercisesParamsFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$GetExercisesParams {
   bool get showFromCompany => throw _privateConstructorUsedError;
+  int get page => throw _privateConstructorUsedError;
+  int get limit => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +36,7 @@ abstract class $GetExercisesParamsCopyWith<$Res> {
           GetExercisesParams value, $Res Function(GetExercisesParams) then) =
       _$GetExercisesParamsCopyWithImpl<$Res, GetExercisesParams>;
   @useResult
-  $Res call({bool showFromCompany});
+  $Res call({bool showFromCompany, int page, int limit});
 }
 
 /// @nodoc
@@ -51,12 +53,22 @@ class _$GetExercisesParamsCopyWithImpl<$Res, $Val extends GetExercisesParams>
   @override
   $Res call({
     Object? showFromCompany = null,
+    Object? page = null,
+    Object? limit = null,
   }) {
     return _then(_value.copyWith(
       showFromCompany: null == showFromCompany
           ? _value.showFromCompany
           : showFromCompany // ignore: cast_nullable_to_non_nullable
               as bool,
+      page: null == page
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -69,7 +81,7 @@ abstract class _$$GetExercisesParamsImplCopyWith<$Res>
       __$$GetExercisesParamsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool showFromCompany});
+  $Res call({bool showFromCompany, int page, int limit});
 }
 
 /// @nodoc
@@ -84,12 +96,22 @@ class __$$GetExercisesParamsImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? showFromCompany = null,
+    Object? page = null,
+    Object? limit = null,
   }) {
     return _then(_$GetExercisesParamsImpl(
       showFromCompany: null == showFromCompany
           ? _value.showFromCompany
           : showFromCompany // ignore: cast_nullable_to_non_nullable
               as bool,
+      page: null == page
+          ? _value.page
+          : page // ignore: cast_nullable_to_non_nullable
+              as int,
+      limit: null == limit
+          ? _value.limit
+          : limit // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -97,7 +119,8 @@ class __$$GetExercisesParamsImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$GetExercisesParamsImpl implements _GetExercisesParams {
-  const _$GetExercisesParamsImpl({this.showFromCompany = false});
+  const _$GetExercisesParamsImpl(
+      {this.showFromCompany = false, this.page = 0, this.limit = 10});
 
   factory _$GetExercisesParamsImpl.fromJson(Map<String, dynamic> json) =>
       _$$GetExercisesParamsImplFromJson(json);
@@ -105,10 +128,16 @@ class _$GetExercisesParamsImpl implements _GetExercisesParams {
   @override
   @JsonKey()
   final bool showFromCompany;
+  @override
+  @JsonKey()
+  final int page;
+  @override
+  @JsonKey()
+  final int limit;
 
   @override
   String toString() {
-    return 'GetExercisesParams(showFromCompany: $showFromCompany)';
+    return 'GetExercisesParams(showFromCompany: $showFromCompany, page: $page, limit: $limit)';
   }
 
   @override
@@ -117,12 +146,14 @@ class _$GetExercisesParamsImpl implements _GetExercisesParams {
         (other.runtimeType == runtimeType &&
             other is _$GetExercisesParamsImpl &&
             (identical(other.showFromCompany, showFromCompany) ||
-                other.showFromCompany == showFromCompany));
+                other.showFromCompany == showFromCompany) &&
+            (identical(other.page, page) || other.page == page) &&
+            (identical(other.limit, limit) || other.limit == limit));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, showFromCompany);
+  int get hashCode => Object.hash(runtimeType, showFromCompany, page, limit);
 
   @JsonKey(ignore: true)
   @override
@@ -140,14 +171,20 @@ class _$GetExercisesParamsImpl implements _GetExercisesParams {
 }
 
 abstract class _GetExercisesParams implements GetExercisesParams {
-  const factory _GetExercisesParams({final bool showFromCompany}) =
-      _$GetExercisesParamsImpl;
+  const factory _GetExercisesParams(
+      {final bool showFromCompany,
+      final int page,
+      final int limit}) = _$GetExercisesParamsImpl;
 
   factory _GetExercisesParams.fromJson(Map<String, dynamic> json) =
       _$GetExercisesParamsImpl.fromJson;
 
   @override
   bool get showFromCompany;
+  @override
+  int get page;
+  @override
+  int get limit;
   @override
   @JsonKey(ignore: true)
   _$$GetExercisesParamsImplCopyWith<_$GetExercisesParamsImpl> get copyWith =>

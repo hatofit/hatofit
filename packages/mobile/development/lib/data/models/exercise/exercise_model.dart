@@ -36,6 +36,21 @@ class ExerciseModel with _$ExerciseModel {
         createdAt: createdAt,
         updatedAt: updatedAt,
       );
+
+  factory ExerciseModel.fromEntity(ExerciseEntity entity) => ExerciseModel(
+        id: entity.id,
+        name: entity.name,
+        description: entity.description,
+        difficulty: entity.difficulty,
+        type: entity.type,
+        thumbnail: entity.thumbnail,
+        duration: entity.duration,
+        instructions: entity.instructions
+            ?.map((e) => InstructionModel.fromEntity(e))
+            .toList(),
+        createdAt: entity.createdAt,
+        updatedAt: entity.updatedAt,
+      );
 }
 
 @freezed
@@ -62,6 +77,18 @@ class InstructionModel with _$InstructionModel {
         description: description,
         content: content?.toEntity(),
       );
+
+  factory InstructionModel.fromEntity(InstructionEntity entity) =>
+      InstructionModel(
+        id: entity.id,
+        type: entity.type,
+        duration: entity.duration,
+        name: entity.name,
+        description: entity.description,
+        content: entity.content != null
+            ? ContentModel.fromEntity(entity.content!)
+            : null,
+      );
 }
 
 @freezed
@@ -81,5 +108,11 @@ class ContentModel with _$ContentModel {
         video: video,
         text: text,
         lottie: lottie,
+      );
+
+  factory ContentModel.fromEntity(ContentEntity entity) => ContentModel(
+        video: entity.video,
+        text: entity.text,
+        lottie: entity.lottie,
       );
 }

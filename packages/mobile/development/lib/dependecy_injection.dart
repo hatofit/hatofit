@@ -13,7 +13,8 @@ Future<void> mainInjection() async {
   di.registerSingleton<ImagePickerClient>(ImagePickerClient());
   di.registerSingleton<BleClient>(BleClient());
 
-  _dataSources();
+  _remoteDataSources();
+  _localDataSources();
   _repositories();
   _useCase();
   _cubit();
@@ -25,12 +26,27 @@ Future<void> _initHiveBoxes() async {
   di.registerSingleton<MainBoxMixin>(MainBoxMixin());
 }
 
-void _dataSources() {
+void _remoteDataSources() {
   di.registerLazySingleton<AuthRemoteDatasource>(
     () => AuthRemoteDatasourceImpl(di()),
   );
+  di.registerLazySingleton<ExerciseRemoteDataSource>(
+    () => ExerciseRemoteDataSourceImpl(di()),
+  );
+  di.registerLazySingleton<SessionRemoteDataSource>(
+    () => SessionRemoteDataSourceImpl(di()),
+  );
+}
+
+void _localDataSources() {
   di.registerLazySingleton<ImageLocalDataSource>(
     () => ImageLocalDataSourceImpl(di()),
+  );
+  di.registerLazySingleton<ExerciseLocalDataSource>(
+    () => ExerciseLocalDataSourceImpl(di()),
+  );
+  di.registerLazySingleton<SessionLocalDataSource>(
+    () => SessionLocalDataSourceImpl(di()),
   );
 }
 
@@ -43,6 +59,18 @@ void _repositories() {
   );
   di.registerLazySingleton<BluetoothRepository>(
     () => BluetoothRepositoryImpl(di()),
+  );
+  di.registerLazySingleton<ExerciseRepository>(
+    () => ExerciseRepositoryImpl(
+      di(),
+      di(),
+    ),
+  );
+  di.registerLazySingleton<SessionRepository>(
+    () => SessionRepositoryImpl(
+      di(),
+      di(),
+    ),
   );
 }
 
@@ -58,6 +86,8 @@ void _useCase() {
   di.registerLazySingleton(() => ConnectBluetoothUsecase(di()));
   di.registerLazySingleton(() => ScanBluetoothUsecase(di()));
   di.registerLazySingleton(() => RequestBluetoothUsecase(di()));
+  di.registerLazySingleton(() => GetExercisesUsecase(di()));
+  di.registerLazySingleton(() => GetSessionsUsecase(di()));
 }
 
 void _cubit() {
@@ -78,6 +108,10 @@ void _cubit() {
         di(),
       ));
   di.registerFactory(() => SettingsCubit());
-  di.registerFactory(() => WorkoutCubit());
-  di.registerFactory(() => ActivityCubit());
+  di.registerFactory(() => WorkoutCubit(
+        di(),
+      ));
+  di.registerFactory(() => ActivityCubit(
+        di(),
+      ));
 }

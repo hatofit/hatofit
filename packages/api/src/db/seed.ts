@@ -1,4 +1,5 @@
-import { Exercise } from ".";
+import mongoose from "mongoose";
+import { Company, Exercise } from ".";
 
 const exerciseSeed = [
   {
@@ -56,7 +57,25 @@ const exerciseSeed = [
     duration: 0,
     instructions: [],
   },
-];
+] as const;
+
+const companySeed = [
+  {
+    _id: new mongoose.Types.ObjectId("65b8b28bb68956c7d206a02a").toHexString(),
+    name: "Apollo",
+    meta: {
+      description: "Apollo is a health company that helps people to be healthy",
+      address: "St.Cruzz, Nepal",
+    },
+    admins: [
+      {
+        userId: "admin",
+        role: "admin",
+        isCreated: true,
+      },
+    ],
+  },
+] as const;
 
 export const seed = async () => {
   for (var exercise of exerciseSeed) {
@@ -65,6 +84,15 @@ export const seed = async () => {
       await Exercise.updateOne({ _id: exercise._id }, exercise);
     } else {
       await Exercise.create(exercise);
+    }
+  }
+
+  for (var company of companySeed) {
+    const exist = await Company.findById(company._id);
+    if (exist) {
+      await Company.updateOne({ _id: company._id }, company);
+    } else {
+      await Company.create(company);
     }
   }
 };

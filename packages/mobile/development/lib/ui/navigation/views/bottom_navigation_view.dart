@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hatofit/core/core.dart';
-import 'package:hatofit/utils/utils.dart';
 
 class BottomNavigationView extends StatelessWidget {
   const BottomNavigationView({
@@ -71,16 +70,12 @@ class BottomNavigationView extends StatelessWidget {
 
   bool get isRootBar {
     final split = state.uri.toString().split("/");
-    log?.e(split);
-    if (split.length >= 3) {
-      return false;
-    }
+    if (split.length >= 3) return false;
     return true;
   }
 
   @override
   Widget build(BuildContext context) {
-    log?.e(state.uri);
     return Parent(
       bottomNavigation: isRootBar
           ? NavigationBar(

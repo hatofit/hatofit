@@ -27,6 +27,10 @@ enum MainBoxKeys {
   heightUnit,
   gender,
   dateOfBirth,
+  exerciseIds,
+  sessionIds,
+  exercises,
+  sessions,
 }
 
 mixin class MainBoxMixin {
