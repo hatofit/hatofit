@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/ui/ui.dart';
 
@@ -24,6 +25,10 @@ class _HomeViewState extends State<HomeView> {
                 child: Text("Request Bluetooth"),
               ),
               SizedBox(height: Dimens.height32),
+              TextButton(
+                onPressed: () => context.pushNamed(Routes.workoutDetail.name),
+                child: Text("Detail"),
+              ),
             ],
           ),
         ),

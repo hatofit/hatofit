@@ -99,6 +99,12 @@ ThemeData themeLight(BuildContext context) => ThemeData(
         shadowColor: Palette.shadow,
         elevation: 0,
       ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: Colors.transparent,
+        indicatorColor: Colors.transparent,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+        height: Dimens.height48,
+      ),
       drawerTheme: const DrawerThemeData().copyWith(
         elevation: Dimens.zero,
         surfaceTintColor: Palette.background,
@@ -234,6 +240,12 @@ ThemeData themeDark(BuildContext context) => ThemeData(
         surfaceTintColor: Palette.backgroundDark,
         shadowColor: Palette.shadowDark,
         elevation: 0,
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: Colors.transparent,
+        indicatorColor: Colors.transparent,
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+        height: Dimens.height48,
       ),
       drawerTheme: const DrawerThemeData().copyWith(
         elevation: Dimens.zero,

@@ -11,7 +11,7 @@ Future<void> mainInjection() async {
   await _initHiveBoxes();
   di.registerSingleton<DioClient>(DioClient());
   di.registerSingleton<ImagePickerClient>(ImagePickerClient());
-  di.registerSingleton<PolarClient>(PolarClient());
+  di.registerSingleton<BleClient>(BleClient());
 
   _dataSources();
   _repositories();

@@ -42,12 +42,17 @@ enum Routes {
 
 class AppRoute {
   static late BuildContext context;
-
+  static final _rootNavKey = GlobalKey<NavigatorState>();
+  static final _homeShellNavKey = GlobalKey<NavigatorState>();
+  static final _workoutShellNavKey = GlobalKey<NavigatorState>();
+  static final _activityShellNavKey = GlobalKey<NavigatorState>();
+  static final _settingShellNavKey = GlobalKey<NavigatorState>();
   AppRoute.setStream(BuildContext ctx) {
     context = ctx;
   }
 
   static final GoRouter router = GoRouter(
+    navigatorKey: _rootNavKey,
     routes: [
       GoRoute(
         path: Routes.splashScreen.path,
@@ -109,13 +114,73 @@ class AppRoute {
               email: email,
             );
           }),
-      GoRoute(
-        path: Routes.home.path,
-        name: Routes.home.name,
-        builder: (_, __) => BlocProvider(
-          create: (_) => di<HomeCubit>()..streamScan(),
-          child: const HomeView(),
+      StatefulShellRoute.indexedStack(
+        builder: (_, state, navigationShell) => BottomNavigationView(
+          navigationShell: navigationShell,
+          state: state,
         ),
+        branches: [
+          StatefulShellBranch(
+            navigatorKey: _homeShellNavKey,
+            routes: [
+              GoRoute(
+                path: Routes.home.path,
+                name: Routes.home.name,
+                builder: (_, __) => BlocProvider(
+                  create: (_) => di<HomeCubit>()..streamScan(),
+                  child: const HomeView(),
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _workoutShellNavKey,
+            routes: [
+              GoRoute(
+                path: Routes.workout.path,
+                name: Routes.workout.name,
+                builder: (_, __) => BlocProvider(
+                  create: (_) => di<WorkoutCubit>(),
+                  child: const WorkoutView(),
+                ),
+              ),
+              GoRoute(
+                path: Routes.workoutDetail.path,
+                name: Routes.workoutDetail.name,
+                builder: (_, __) => BlocProvider(
+                  create: (_) => di<WorkoutCubit>(),
+                  child: const WorkoutDetailView(),
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _activityShellNavKey,
+            routes: [
+              GoRoute(
+                path: Routes.activity.path,
+                name: Routes.activity.name,
+                builder: (_, __) => BlocProvider(
+                  create: (_) => di<ActivityCubit>(),
+                  child: const ActivityView(),
+                ),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _settingShellNavKey,
+            routes: [
+              GoRoute(
+                path: Routes.settings.path,
+                name: Routes.settings.name,
+                builder: (_, __) => BlocProvider(
+                  create: (_) => di<SettingsCubit>(),
+                  child: const SettingsView(),
+                ),
+              ),
+            ],
+          )
+        ],
       ),
     ],
     initialLocation: Routes.splashScreen.path,

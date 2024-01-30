@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'forgot_password_usecase.dart';
+part of 'forgot_password_params.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

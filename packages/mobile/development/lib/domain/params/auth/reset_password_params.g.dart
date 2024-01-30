@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'reset_password_usecase.dart';
+part of 'reset_password_params.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
