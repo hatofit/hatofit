@@ -379,7 +379,7 @@ mixin _$InstructionModel {
   int? get duration => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
-  ContentModel? get content => throw _privateConstructorUsedError;
+  ExerciseContentModel? get content => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -399,9 +399,9 @@ abstract class $InstructionModelCopyWith<$Res> {
       int? duration,
       String? name,
       String? description,
-      ContentModel? content});
+      ExerciseContentModel? content});
 
-  $ContentModelCopyWith<$Res>? get content;
+  $ExerciseContentModelCopyWith<$Res>? get content;
 }
 
 /// @nodoc
@@ -448,18 +448,18 @@ class _$InstructionModelCopyWithImpl<$Res, $Val extends InstructionModel>
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as ContentModel?,
+              as ExerciseContentModel?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ContentModelCopyWith<$Res>? get content {
+  $ExerciseContentModelCopyWith<$Res>? get content {
     if (_value.content == null) {
       return null;
     }
 
-    return $ContentModelCopyWith<$Res>(_value.content!, (value) {
+    return $ExerciseContentModelCopyWith<$Res>(_value.content!, (value) {
       return _then(_value.copyWith(content: value) as $Val);
     });
   }
@@ -479,10 +479,10 @@ abstract class _$$InstructionModelImplCopyWith<$Res>
       int? duration,
       String? name,
       String? description,
-      ContentModel? content});
+      ExerciseContentModel? content});
 
   @override
-  $ContentModelCopyWith<$Res>? get content;
+  $ExerciseContentModelCopyWith<$Res>? get content;
 }
 
 /// @nodoc
@@ -527,7 +527,7 @@ class __$$InstructionModelImplCopyWithImpl<$Res>
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as ContentModel?,
+              as ExerciseContentModel?,
     ));
   }
 }
@@ -559,7 +559,7 @@ class _$InstructionModelImpl extends _InstructionModel {
   @override
   final String? description;
   @override
-  final ContentModel? content;
+  final ExerciseContentModel? content;
 
   @override
   String toString() {
@@ -608,7 +608,7 @@ abstract class _InstructionModel extends InstructionModel {
       final int? duration,
       final String? name,
       final String? description,
-      final ContentModel? content}) = _$InstructionModelImpl;
+      final ExerciseContentModel? content}) = _$InstructionModelImpl;
   const _InstructionModel._() : super._();
 
   factory _InstructionModel.fromJson(Map<String, dynamic> json) =
@@ -626,42 +626,43 @@ abstract class _InstructionModel extends InstructionModel {
   @override
   String? get description;
   @override
-  ContentModel? get content;
+  ExerciseContentModel? get content;
   @override
   @JsonKey(ignore: true)
   _$$InstructionModelImplCopyWith<_$InstructionModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-ContentModel _$ContentModelFromJson(Map<String, dynamic> json) {
-  return _ContentModel.fromJson(json);
+ExerciseContentModel _$ExerciseContentModelFromJson(Map<String, dynamic> json) {
+  return _ExerciseContentModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ContentModel {
+mixin _$ExerciseContentModel {
   String? get video => throw _privateConstructorUsedError;
   String? get text => throw _privateConstructorUsedError;
   String? get lottie => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $ContentModelCopyWith<ContentModel> get copyWith =>
+  $ExerciseContentModelCopyWith<ExerciseContentModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ContentModelCopyWith<$Res> {
-  factory $ContentModelCopyWith(
-          ContentModel value, $Res Function(ContentModel) then) =
-      _$ContentModelCopyWithImpl<$Res, ContentModel>;
+abstract class $ExerciseContentModelCopyWith<$Res> {
+  factory $ExerciseContentModelCopyWith(ExerciseContentModel value,
+          $Res Function(ExerciseContentModel) then) =
+      _$ExerciseContentModelCopyWithImpl<$Res, ExerciseContentModel>;
   @useResult
   $Res call({String? video, String? text, String? lottie});
 }
 
 /// @nodoc
-class _$ContentModelCopyWithImpl<$Res, $Val extends ContentModel>
-    implements $ContentModelCopyWith<$Res> {
-  _$ContentModelCopyWithImpl(this._value, this._then);
+class _$ExerciseContentModelCopyWithImpl<$Res,
+        $Val extends ExerciseContentModel>
+    implements $ExerciseContentModelCopyWith<$Res> {
+  _$ExerciseContentModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -693,22 +694,22 @@ class _$ContentModelCopyWithImpl<$Res, $Val extends ContentModel>
 }
 
 /// @nodoc
-abstract class _$$ContentModelImplCopyWith<$Res>
-    implements $ContentModelCopyWith<$Res> {
-  factory _$$ContentModelImplCopyWith(
-          _$ContentModelImpl value, $Res Function(_$ContentModelImpl) then) =
-      __$$ContentModelImplCopyWithImpl<$Res>;
+abstract class _$$ExerciseContentModelImplCopyWith<$Res>
+    implements $ExerciseContentModelCopyWith<$Res> {
+  factory _$$ExerciseContentModelImplCopyWith(_$ExerciseContentModelImpl value,
+          $Res Function(_$ExerciseContentModelImpl) then) =
+      __$$ExerciseContentModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? video, String? text, String? lottie});
 }
 
 /// @nodoc
-class __$$ContentModelImplCopyWithImpl<$Res>
-    extends _$ContentModelCopyWithImpl<$Res, _$ContentModelImpl>
-    implements _$$ContentModelImplCopyWith<$Res> {
-  __$$ContentModelImplCopyWithImpl(
-      _$ContentModelImpl _value, $Res Function(_$ContentModelImpl) _then)
+class __$$ExerciseContentModelImplCopyWithImpl<$Res>
+    extends _$ExerciseContentModelCopyWithImpl<$Res, _$ExerciseContentModelImpl>
+    implements _$$ExerciseContentModelImplCopyWith<$Res> {
+  __$$ExerciseContentModelImplCopyWithImpl(_$ExerciseContentModelImpl _value,
+      $Res Function(_$ExerciseContentModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -718,7 +719,7 @@ class __$$ContentModelImplCopyWithImpl<$Res>
     Object? text = freezed,
     Object? lottie = freezed,
   }) {
-    return _then(_$ContentModelImpl(
+    return _then(_$ExerciseContentModelImpl(
       video: freezed == video
           ? _value.video
           : video // ignore: cast_nullable_to_non_nullable
@@ -737,11 +738,12 @@ class __$$ContentModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ContentModelImpl extends _ContentModel {
-  const _$ContentModelImpl({this.video, this.text, this.lottie}) : super._();
+class _$ExerciseContentModelImpl extends _ExerciseContentModel {
+  const _$ExerciseContentModelImpl({this.video, this.text, this.lottie})
+      : super._();
 
-  factory _$ContentModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ContentModelImplFromJson(json);
+  factory _$ExerciseContentModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ExerciseContentModelImplFromJson(json);
 
   @override
   final String? video;
@@ -752,14 +754,14 @@ class _$ContentModelImpl extends _ContentModel {
 
   @override
   String toString() {
-    return 'ContentModel(video: $video, text: $text, lottie: $lottie)';
+    return 'ExerciseContentModel(video: $video, text: $text, lottie: $lottie)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ContentModelImpl &&
+            other is _$ExerciseContentModelImpl &&
             (identical(other.video, video) || other.video == video) &&
             (identical(other.text, text) || other.text == text) &&
             (identical(other.lottie, lottie) || other.lottie == lottie));
@@ -772,26 +774,28 @@ class _$ContentModelImpl extends _ContentModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ContentModelImplCopyWith<_$ContentModelImpl> get copyWith =>
-      __$$ContentModelImplCopyWithImpl<_$ContentModelImpl>(this, _$identity);
+  _$$ExerciseContentModelImplCopyWith<_$ExerciseContentModelImpl>
+      get copyWith =>
+          __$$ExerciseContentModelImplCopyWithImpl<_$ExerciseContentModelImpl>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ContentModelImplToJson(
+    return _$$ExerciseContentModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _ContentModel extends ContentModel {
-  const factory _ContentModel(
+abstract class _ExerciseContentModel extends ExerciseContentModel {
+  const factory _ExerciseContentModel(
       {final String? video,
       final String? text,
-      final String? lottie}) = _$ContentModelImpl;
-  const _ContentModel._() : super._();
+      final String? lottie}) = _$ExerciseContentModelImpl;
+  const _ExerciseContentModel._() : super._();
 
-  factory _ContentModel.fromJson(Map<String, dynamic> json) =
-      _$ContentModelImpl.fromJson;
+  factory _ExerciseContentModel.fromJson(Map<String, dynamic> json) =
+      _$ExerciseContentModelImpl.fromJson;
 
   @override
   String? get video;
@@ -801,6 +805,6 @@ abstract class _ContentModel extends ContentModel {
   String? get lottie;
   @override
   @JsonKey(ignore: true)
-  _$$ContentModelImplCopyWith<_$ContentModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ExerciseContentModelImplCopyWith<_$ExerciseContentModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

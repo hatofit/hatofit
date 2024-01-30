@@ -51,7 +51,7 @@ _$ReportDataModelImpl _$$ReportDataModelImplFromJson(
     _$ReportDataModelImpl(
       type: json['type'] as String?,
       data: (json['data'] as List<dynamic>?)
-          ?.map((e) => DataValueModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => ReportDataValueModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -62,16 +62,17 @@ Map<String, dynamic> _$$ReportDataModelImplToJson(
       'data': instance.data,
     };
 
-_$DataValueModelImpl _$$DataValueModelImplFromJson(Map<String, dynamic> json) =>
-    _$DataValueModelImpl(
+_$ReportDataValueModelImpl _$$ReportDataValueModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ReportDataValueModelImpl(
       device: json['device'] as String?,
       value: (json['value'] as List<dynamic>?)
           ?.map((e) => e as List<dynamic>)
           .toList(),
     );
 
-Map<String, dynamic> _$$DataValueModelImplToJson(
-        _$DataValueModelImpl instance) =>
+Map<String, dynamic> _$$ReportDataValueModelImplToJson(
+        _$ReportDataValueModelImpl instance) =>
     <String, dynamic>{
       'device': instance.device,
       'value': instance.value,

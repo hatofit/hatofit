@@ -18,17 +18,17 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ReportEntity {
   @HiveField(0)
   String? get id => throw _privateConstructorUsedError;
-  @HiveField(2)
+  @HiveField(1)
   String? get sessionId => throw _privateConstructorUsedError;
-  @HiveField(3)
+  @HiveField(2)
   String? get exerciseId => throw _privateConstructorUsedError;
-  @HiveField(4)
+  @HiveField(3)
   int? get startTime => throw _privateConstructorUsedError;
-  @HiveField(5)
+  @HiveField(4)
   int? get endTime => throw _privateConstructorUsedError;
-  @HiveField(6)
+  @HiveField(5)
   List<ReportDeviceEntity>? get devices => throw _privateConstructorUsedError;
-  @HiveField(7)
+  @HiveField(6)
   List<ReportDataEntity>? get reports => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -44,12 +44,12 @@ abstract class $ReportEntityCopyWith<$Res> {
   @useResult
   $Res call(
       {@HiveField(0) String? id,
-      @HiveField(2) String? sessionId,
-      @HiveField(3) String? exerciseId,
-      @HiveField(4) int? startTime,
-      @HiveField(5) int? endTime,
-      @HiveField(6) List<ReportDeviceEntity>? devices,
-      @HiveField(7) List<ReportDataEntity>? reports});
+      @HiveField(1) String? sessionId,
+      @HiveField(2) String? exerciseId,
+      @HiveField(3) int? startTime,
+      @HiveField(4) int? endTime,
+      @HiveField(5) List<ReportDeviceEntity>? devices,
+      @HiveField(6) List<ReportDataEntity>? reports});
 }
 
 /// @nodoc
@@ -116,12 +116,12 @@ abstract class _$$ReportEntityImplCopyWith<$Res>
   @useResult
   $Res call(
       {@HiveField(0) String? id,
-      @HiveField(2) String? sessionId,
-      @HiveField(3) String? exerciseId,
-      @HiveField(4) int? startTime,
-      @HiveField(5) int? endTime,
-      @HiveField(6) List<ReportDeviceEntity>? devices,
-      @HiveField(7) List<ReportDataEntity>? reports});
+      @HiveField(1) String? sessionId,
+      @HiveField(2) String? exerciseId,
+      @HiveField(3) int? startTime,
+      @HiveField(4) int? endTime,
+      @HiveField(5) List<ReportDeviceEntity>? devices,
+      @HiveField(6) List<ReportDataEntity>? reports});
 }
 
 /// @nodoc
@@ -178,16 +178,18 @@ class __$$ReportEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@HiveType(typeId: 8, adapterName: 'ReportEntityAdapter')
+@HiveType(
+    typeId: BoxTypeId.reportEntityIndex,
+    adapterName: BoxTypeId.reportEntityAdapterName)
 class _$ReportEntityImpl implements _ReportEntity {
   const _$ReportEntityImpl(
       {@HiveField(0) this.id,
-      @HiveField(2) this.sessionId,
-      @HiveField(3) this.exerciseId,
-      @HiveField(4) this.startTime,
-      @HiveField(5) this.endTime,
-      @HiveField(6) final List<ReportDeviceEntity>? devices,
-      @HiveField(7) final List<ReportDataEntity>? reports})
+      @HiveField(1) this.sessionId,
+      @HiveField(2) this.exerciseId,
+      @HiveField(3) this.startTime,
+      @HiveField(4) this.endTime,
+      @HiveField(5) final List<ReportDeviceEntity>? devices,
+      @HiveField(6) final List<ReportDataEntity>? reports})
       : _devices = devices,
         _reports = reports;
 
@@ -195,20 +197,20 @@ class _$ReportEntityImpl implements _ReportEntity {
   @HiveField(0)
   final String? id;
   @override
-  @HiveField(2)
+  @HiveField(1)
   final String? sessionId;
   @override
-  @HiveField(3)
+  @HiveField(2)
   final String? exerciseId;
   @override
-  @HiveField(4)
+  @HiveField(3)
   final int? startTime;
   @override
-  @HiveField(5)
+  @HiveField(4)
   final int? endTime;
   final List<ReportDeviceEntity>? _devices;
   @override
-  @HiveField(6)
+  @HiveField(5)
   List<ReportDeviceEntity>? get devices {
     final value = _devices;
     if (value == null) return null;
@@ -219,7 +221,7 @@ class _$ReportEntityImpl implements _ReportEntity {
 
   final List<ReportDataEntity>? _reports;
   @override
-  @HiveField(7)
+  @HiveField(6)
   List<ReportDataEntity>? get reports {
     final value = _reports;
     if (value == null) return null;
@@ -271,34 +273,34 @@ class _$ReportEntityImpl implements _ReportEntity {
 abstract class _ReportEntity implements ReportEntity {
   const factory _ReportEntity(
           {@HiveField(0) final String? id,
-          @HiveField(2) final String? sessionId,
-          @HiveField(3) final String? exerciseId,
-          @HiveField(4) final int? startTime,
-          @HiveField(5) final int? endTime,
-          @HiveField(6) final List<ReportDeviceEntity>? devices,
-          @HiveField(7) final List<ReportDataEntity>? reports}) =
+          @HiveField(1) final String? sessionId,
+          @HiveField(2) final String? exerciseId,
+          @HiveField(3) final int? startTime,
+          @HiveField(4) final int? endTime,
+          @HiveField(5) final List<ReportDeviceEntity>? devices,
+          @HiveField(6) final List<ReportDataEntity>? reports}) =
       _$ReportEntityImpl;
 
   @override
   @HiveField(0)
   String? get id;
   @override
-  @HiveField(2)
+  @HiveField(1)
   String? get sessionId;
   @override
-  @HiveField(3)
+  @HiveField(2)
   String? get exerciseId;
   @override
-  @HiveField(4)
+  @HiveField(3)
   int? get startTime;
   @override
-  @HiveField(5)
+  @HiveField(4)
   int? get endTime;
   @override
-  @HiveField(6)
+  @HiveField(5)
   List<ReportDeviceEntity>? get devices;
   @override
-  @HiveField(7)
+  @HiveField(6)
   List<ReportDataEntity>? get reports;
   @override
   @JsonKey(ignore: true)
@@ -396,7 +398,9 @@ class __$$ReportDeviceEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@HiveType(typeId: 9, adapterName: 'ReportDeviceEntityAdapter')
+@HiveType(
+    typeId: BoxTypeId.reportDeviceEntityIndex,
+    adapterName: BoxTypeId.reportDeviceEntityAdapterName)
 class _$ReportDeviceEntityImpl implements _ReportDeviceEntity {
   const _$ReportDeviceEntityImpl(
       {@HiveField(0) this.name, @HiveField(1) this.identifier});
@@ -456,7 +460,7 @@ mixin _$ReportDataEntity {
   @HiveField(0)
   String? get type => throw _privateConstructorUsedError;
   @HiveField(1)
-  List<DataValueEntity>? get data => throw _privateConstructorUsedError;
+  List<ReportDataValueEntity>? get data => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ReportDataEntityCopyWith<ReportDataEntity> get copyWith =>
@@ -470,7 +474,8 @@ abstract class $ReportDataEntityCopyWith<$Res> {
       _$ReportDataEntityCopyWithImpl<$Res, ReportDataEntity>;
   @useResult
   $Res call(
-      {@HiveField(0) String? type, @HiveField(1) List<DataValueEntity>? data});
+      {@HiveField(0) String? type,
+      @HiveField(1) List<ReportDataValueEntity>? data});
 }
 
 /// @nodoc
@@ -497,7 +502,7 @@ class _$ReportDataEntityCopyWithImpl<$Res, $Val extends ReportDataEntity>
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<DataValueEntity>?,
+              as List<ReportDataValueEntity>?,
     ) as $Val);
   }
 }
@@ -511,7 +516,8 @@ abstract class _$$ReportDataEntityImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@HiveField(0) String? type, @HiveField(1) List<DataValueEntity>? data});
+      {@HiveField(0) String? type,
+      @HiveField(1) List<ReportDataValueEntity>? data});
 }
 
 /// @nodoc
@@ -536,27 +542,29 @@ class __$$ReportDataEntityImplCopyWithImpl<$Res>
       data: freezed == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<DataValueEntity>?,
+              as List<ReportDataValueEntity>?,
     ));
   }
 }
 
 /// @nodoc
 
-@HiveType(typeId: 10, adapterName: 'ReportDataEntityAdapter')
+@HiveType(
+    typeId: BoxTypeId.reportDataEntityIndex,
+    adapterName: BoxTypeId.reportDataEntityAdapterName)
 class _$ReportDataEntityImpl implements _ReportDataEntity {
   const _$ReportDataEntityImpl(
       {@HiveField(0) this.type,
-      @HiveField(1) final List<DataValueEntity>? data})
+      @HiveField(1) final List<ReportDataValueEntity>? data})
       : _data = data;
 
   @override
   @HiveField(0)
   final String? type;
-  final List<DataValueEntity>? _data;
+  final List<ReportDataValueEntity>? _data;
   @override
   @HiveField(1)
-  List<DataValueEntity>? get data {
+  List<ReportDataValueEntity>? get data {
     final value = _data;
     if (value == null) return null;
     if (_data is EqualUnmodifiableListView) return _data;
@@ -593,7 +601,7 @@ class _$ReportDataEntityImpl implements _ReportDataEntity {
 abstract class _ReportDataEntity implements ReportDataEntity {
   const factory _ReportDataEntity(
           {@HiveField(0) final String? type,
-          @HiveField(1) final List<DataValueEntity>? data}) =
+          @HiveField(1) final List<ReportDataValueEntity>? data}) =
       _$ReportDataEntityImpl;
 
   @override
@@ -601,7 +609,7 @@ abstract class _ReportDataEntity implements ReportDataEntity {
   String? get type;
   @override
   @HiveField(1)
-  List<DataValueEntity>? get data;
+  List<ReportDataValueEntity>? get data;
   @override
   @JsonKey(ignore: true)
   _$$ReportDataEntityImplCopyWith<_$ReportDataEntityImpl> get copyWith =>
@@ -609,31 +617,32 @@ abstract class _ReportDataEntity implements ReportDataEntity {
 }
 
 /// @nodoc
-mixin _$DataValueEntity {
+mixin _$ReportDataValueEntity {
   @HiveField(0)
   String? get device => throw _privateConstructorUsedError;
   @HiveField(1)
   List<List<dynamic>>? get value => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $DataValueEntityCopyWith<DataValueEntity> get copyWith =>
+  $ReportDataValueEntityCopyWith<ReportDataValueEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $DataValueEntityCopyWith<$Res> {
-  factory $DataValueEntityCopyWith(
-          DataValueEntity value, $Res Function(DataValueEntity) then) =
-      _$DataValueEntityCopyWithImpl<$Res, DataValueEntity>;
+abstract class $ReportDataValueEntityCopyWith<$Res> {
+  factory $ReportDataValueEntityCopyWith(ReportDataValueEntity value,
+          $Res Function(ReportDataValueEntity) then) =
+      _$ReportDataValueEntityCopyWithImpl<$Res, ReportDataValueEntity>;
   @useResult
   $Res call(
       {@HiveField(0) String? device, @HiveField(1) List<List<dynamic>>? value});
 }
 
 /// @nodoc
-class _$DataValueEntityCopyWithImpl<$Res, $Val extends DataValueEntity>
-    implements $DataValueEntityCopyWith<$Res> {
-  _$DataValueEntityCopyWithImpl(this._value, this._then);
+class _$ReportDataValueEntityCopyWithImpl<$Res,
+        $Val extends ReportDataValueEntity>
+    implements $ReportDataValueEntityCopyWith<$Res> {
+  _$ReportDataValueEntityCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -660,11 +669,12 @@ class _$DataValueEntityCopyWithImpl<$Res, $Val extends DataValueEntity>
 }
 
 /// @nodoc
-abstract class _$$DataValueEntityImplCopyWith<$Res>
-    implements $DataValueEntityCopyWith<$Res> {
-  factory _$$DataValueEntityImplCopyWith(_$DataValueEntityImpl value,
-          $Res Function(_$DataValueEntityImpl) then) =
-      __$$DataValueEntityImplCopyWithImpl<$Res>;
+abstract class _$$ReportDataValueEntityImplCopyWith<$Res>
+    implements $ReportDataValueEntityCopyWith<$Res> {
+  factory _$$ReportDataValueEntityImplCopyWith(
+          _$ReportDataValueEntityImpl value,
+          $Res Function(_$ReportDataValueEntityImpl) then) =
+      __$$ReportDataValueEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -672,11 +682,12 @@ abstract class _$$DataValueEntityImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$DataValueEntityImplCopyWithImpl<$Res>
-    extends _$DataValueEntityCopyWithImpl<$Res, _$DataValueEntityImpl>
-    implements _$$DataValueEntityImplCopyWith<$Res> {
-  __$$DataValueEntityImplCopyWithImpl(
-      _$DataValueEntityImpl _value, $Res Function(_$DataValueEntityImpl) _then)
+class __$$ReportDataValueEntityImplCopyWithImpl<$Res>
+    extends _$ReportDataValueEntityCopyWithImpl<$Res,
+        _$ReportDataValueEntityImpl>
+    implements _$$ReportDataValueEntityImplCopyWith<$Res> {
+  __$$ReportDataValueEntityImplCopyWithImpl(_$ReportDataValueEntityImpl _value,
+      $Res Function(_$ReportDataValueEntityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -685,7 +696,7 @@ class __$$DataValueEntityImplCopyWithImpl<$Res>
     Object? device = freezed,
     Object? value = freezed,
   }) {
-    return _then(_$DataValueEntityImpl(
+    return _then(_$ReportDataValueEntityImpl(
       device: freezed == device
           ? _value.device
           : device // ignore: cast_nullable_to_non_nullable
@@ -700,9 +711,11 @@ class __$$DataValueEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@HiveType(typeId: 11, adapterName: 'DataValueEntityAdapter')
-class _$DataValueEntityImpl implements _DataValueEntity {
-  const _$DataValueEntityImpl(
+@HiveType(
+    typeId: BoxTypeId.reportDataValueEntityIndex,
+    adapterName: BoxTypeId.reportDataValueEntityAdapterName)
+class _$ReportDataValueEntityImpl implements _ReportDataValueEntity {
+  const _$ReportDataValueEntityImpl(
       {@HiveField(0) this.device,
       @HiveField(1) final List<List<dynamic>>? value})
       : _value = value;
@@ -723,14 +736,14 @@ class _$DataValueEntityImpl implements _DataValueEntity {
 
   @override
   String toString() {
-    return 'DataValueEntity(device: $device, value: $value)';
+    return 'ReportDataValueEntity(device: $device, value: $value)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DataValueEntityImpl &&
+            other is _$ReportDataValueEntityImpl &&
             (identical(other.device, device) || other.device == device) &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
@@ -742,15 +755,16 @@ class _$DataValueEntityImpl implements _DataValueEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DataValueEntityImplCopyWith<_$DataValueEntityImpl> get copyWith =>
-      __$$DataValueEntityImplCopyWithImpl<_$DataValueEntityImpl>(
-          this, _$identity);
+  _$$ReportDataValueEntityImplCopyWith<_$ReportDataValueEntityImpl>
+      get copyWith => __$$ReportDataValueEntityImplCopyWithImpl<
+          _$ReportDataValueEntityImpl>(this, _$identity);
 }
 
-abstract class _DataValueEntity implements DataValueEntity {
-  const factory _DataValueEntity(
-      {@HiveField(0) final String? device,
-      @HiveField(1) final List<List<dynamic>>? value}) = _$DataValueEntityImpl;
+abstract class _ReportDataValueEntity implements ReportDataValueEntity {
+  const factory _ReportDataValueEntity(
+          {@HiveField(0) final String? device,
+          @HiveField(1) final List<List<dynamic>>? value}) =
+      _$ReportDataValueEntityImpl;
 
   @override
   @HiveField(0)
@@ -760,6 +774,6 @@ abstract class _DataValueEntity implements DataValueEntity {
   List<List<dynamic>>? get value;
   @override
   @JsonKey(ignore: true)
-  _$$DataValueEntityImplCopyWith<_$DataValueEntityImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ReportDataValueEntityImplCopyWith<_$ReportDataValueEntityImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

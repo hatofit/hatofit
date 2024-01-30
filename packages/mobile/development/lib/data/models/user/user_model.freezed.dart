@@ -28,7 +28,7 @@ mixin _$UserModel {
   String? get email => throw _privateConstructorUsedError;
   DateTime? get dateOfBirth => throw _privateConstructorUsedError;
   String? get photo => throw _privateConstructorUsedError;
-  MetricUnitsModel? get metricUnitsModel => throw _privateConstructorUsedError;
+  UserMetricUnitsModel? get metricUnits => throw _privateConstructorUsedError;
   int? get height => throw _privateConstructorUsedError;
   int? get weight => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -53,13 +53,13 @@ abstract class $UserModelCopyWith<$Res> {
       String? email,
       DateTime? dateOfBirth,
       String? photo,
-      MetricUnitsModel? metricUnitsModel,
+      UserMetricUnitsModel? metricUnits,
       int? height,
       int? weight,
       DateTime? createdAt,
       DateTime? updatedAt});
 
-  $MetricUnitsModelCopyWith<$Res>? get metricUnitsModel;
+  $UserMetricUnitsModelCopyWith<$Res>? get metricUnits;
 }
 
 /// @nodoc
@@ -82,7 +82,7 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
     Object? email = freezed,
     Object? dateOfBirth = freezed,
     Object? photo = freezed,
-    Object? metricUnitsModel = freezed,
+    Object? metricUnits = freezed,
     Object? height = freezed,
     Object? weight = freezed,
     Object? createdAt = freezed,
@@ -117,10 +117,10 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
               as String?,
-      metricUnitsModel: freezed == metricUnitsModel
-          ? _value.metricUnitsModel
-          : metricUnitsModel // ignore: cast_nullable_to_non_nullable
-              as MetricUnitsModel?,
+      metricUnits: freezed == metricUnits
+          ? _value.metricUnits
+          : metricUnits // ignore: cast_nullable_to_non_nullable
+              as UserMetricUnitsModel?,
       height: freezed == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -142,13 +142,13 @@ class _$UserModelCopyWithImpl<$Res, $Val extends UserModel>
 
   @override
   @pragma('vm:prefer-inline')
-  $MetricUnitsModelCopyWith<$Res>? get metricUnitsModel {
-    if (_value.metricUnitsModel == null) {
+  $UserMetricUnitsModelCopyWith<$Res>? get metricUnits {
+    if (_value.metricUnits == null) {
       return null;
     }
 
-    return $MetricUnitsModelCopyWith<$Res>(_value.metricUnitsModel!, (value) {
-      return _then(_value.copyWith(metricUnitsModel: value) as $Val);
+    return $UserMetricUnitsModelCopyWith<$Res>(_value.metricUnits!, (value) {
+      return _then(_value.copyWith(metricUnits: value) as $Val);
     });
   }
 }
@@ -169,14 +169,14 @@ abstract class _$$UserModelImplCopyWith<$Res>
       String? email,
       DateTime? dateOfBirth,
       String? photo,
-      MetricUnitsModel? metricUnitsModel,
+      UserMetricUnitsModel? metricUnits,
       int? height,
       int? weight,
       DateTime? createdAt,
       DateTime? updatedAt});
 
   @override
-  $MetricUnitsModelCopyWith<$Res>? get metricUnitsModel;
+  $UserMetricUnitsModelCopyWith<$Res>? get metricUnits;
 }
 
 /// @nodoc
@@ -197,7 +197,7 @@ class __$$UserModelImplCopyWithImpl<$Res>
     Object? email = freezed,
     Object? dateOfBirth = freezed,
     Object? photo = freezed,
-    Object? metricUnitsModel = freezed,
+    Object? metricUnits = freezed,
     Object? height = freezed,
     Object? weight = freezed,
     Object? createdAt = freezed,
@@ -232,10 +232,10 @@ class __$$UserModelImplCopyWithImpl<$Res>
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
               as String?,
-      metricUnitsModel: freezed == metricUnitsModel
-          ? _value.metricUnitsModel
-          : metricUnitsModel // ignore: cast_nullable_to_non_nullable
-              as MetricUnitsModel?,
+      metricUnits: freezed == metricUnits
+          ? _value.metricUnits
+          : metricUnits // ignore: cast_nullable_to_non_nullable
+              as UserMetricUnitsModel?,
       height: freezed == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -267,7 +267,7 @@ class _$UserModelImpl extends _UserModel {
       this.email,
       this.dateOfBirth,
       this.photo,
-      this.metricUnitsModel,
+      this.metricUnits,
       this.height,
       this.weight,
       this.createdAt,
@@ -293,7 +293,7 @@ class _$UserModelImpl extends _UserModel {
   @override
   final String? photo;
   @override
-  final MetricUnitsModel? metricUnitsModel;
+  final UserMetricUnitsModel? metricUnits;
   @override
   final int? height;
   @override
@@ -305,7 +305,7 @@ class _$UserModelImpl extends _UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, firstName: $firstName, lastName: $lastName, gender: $gender, email: $email, dateOfBirth: $dateOfBirth, photo: $photo, metricUnitsModel: $metricUnitsModel, height: $height, weight: $weight, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserModel(id: $id, firstName: $firstName, lastName: $lastName, gender: $gender, email: $email, dateOfBirth: $dateOfBirth, photo: $photo, metricUnits: $metricUnits, height: $height, weight: $weight, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -323,8 +323,8 @@ class _$UserModelImpl extends _UserModel {
             (identical(other.dateOfBirth, dateOfBirth) ||
                 other.dateOfBirth == dateOfBirth) &&
             (identical(other.photo, photo) || other.photo == photo) &&
-            (identical(other.metricUnitsModel, metricUnitsModel) ||
-                other.metricUnitsModel == metricUnitsModel) &&
+            (identical(other.metricUnits, metricUnits) ||
+                other.metricUnits == metricUnits) &&
             (identical(other.height, height) || other.height == height) &&
             (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.createdAt, createdAt) ||
@@ -344,7 +344,7 @@ class _$UserModelImpl extends _UserModel {
       email,
       dateOfBirth,
       photo,
-      metricUnitsModel,
+      metricUnits,
       height,
       weight,
       createdAt,
@@ -373,7 +373,7 @@ abstract class _UserModel extends UserModel {
       final String? email,
       final DateTime? dateOfBirth,
       final String? photo,
-      final MetricUnitsModel? metricUnitsModel,
+      final UserMetricUnitsModel? metricUnits,
       final int? height,
       final int? weight,
       final DateTime? createdAt,
@@ -399,7 +399,7 @@ abstract class _UserModel extends UserModel {
   @override
   String? get photo;
   @override
-  MetricUnitsModel? get metricUnitsModel;
+  UserMetricUnitsModel? get metricUnits;
   @override
   int? get height;
   @override
@@ -414,35 +414,36 @@ abstract class _UserModel extends UserModel {
       throw _privateConstructorUsedError;
 }
 
-MetricUnitsModel _$MetricUnitsModelFromJson(Map<String, dynamic> json) {
-  return _MetricUnitsModel.fromJson(json);
+UserMetricUnitsModel _$UserMetricUnitsModelFromJson(Map<String, dynamic> json) {
+  return _UserMetricUnitsModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$MetricUnitsModel {
+mixin _$UserMetricUnitsModel {
   String? get energyUnits => throw _privateConstructorUsedError;
   String? get heightUnits => throw _privateConstructorUsedError;
   String? get weightUnits => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $MetricUnitsModelCopyWith<MetricUnitsModel> get copyWith =>
+  $UserMetricUnitsModelCopyWith<UserMetricUnitsModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $MetricUnitsModelCopyWith<$Res> {
-  factory $MetricUnitsModelCopyWith(
-          MetricUnitsModel value, $Res Function(MetricUnitsModel) then) =
-      _$MetricUnitsModelCopyWithImpl<$Res, MetricUnitsModel>;
+abstract class $UserMetricUnitsModelCopyWith<$Res> {
+  factory $UserMetricUnitsModelCopyWith(UserMetricUnitsModel value,
+          $Res Function(UserMetricUnitsModel) then) =
+      _$UserMetricUnitsModelCopyWithImpl<$Res, UserMetricUnitsModel>;
   @useResult
   $Res call({String? energyUnits, String? heightUnits, String? weightUnits});
 }
 
 /// @nodoc
-class _$MetricUnitsModelCopyWithImpl<$Res, $Val extends MetricUnitsModel>
-    implements $MetricUnitsModelCopyWith<$Res> {
-  _$MetricUnitsModelCopyWithImpl(this._value, this._then);
+class _$UserMetricUnitsModelCopyWithImpl<$Res,
+        $Val extends UserMetricUnitsModel>
+    implements $UserMetricUnitsModelCopyWith<$Res> {
+  _$UserMetricUnitsModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -474,22 +475,22 @@ class _$MetricUnitsModelCopyWithImpl<$Res, $Val extends MetricUnitsModel>
 }
 
 /// @nodoc
-abstract class _$$MetricUnitsModelImplCopyWith<$Res>
-    implements $MetricUnitsModelCopyWith<$Res> {
-  factory _$$MetricUnitsModelImplCopyWith(_$MetricUnitsModelImpl value,
-          $Res Function(_$MetricUnitsModelImpl) then) =
-      __$$MetricUnitsModelImplCopyWithImpl<$Res>;
+abstract class _$$UserMetricUnitsModelImplCopyWith<$Res>
+    implements $UserMetricUnitsModelCopyWith<$Res> {
+  factory _$$UserMetricUnitsModelImplCopyWith(_$UserMetricUnitsModelImpl value,
+          $Res Function(_$UserMetricUnitsModelImpl) then) =
+      __$$UserMetricUnitsModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? energyUnits, String? heightUnits, String? weightUnits});
 }
 
 /// @nodoc
-class __$$MetricUnitsModelImplCopyWithImpl<$Res>
-    extends _$MetricUnitsModelCopyWithImpl<$Res, _$MetricUnitsModelImpl>
-    implements _$$MetricUnitsModelImplCopyWith<$Res> {
-  __$$MetricUnitsModelImplCopyWithImpl(_$MetricUnitsModelImpl _value,
-      $Res Function(_$MetricUnitsModelImpl) _then)
+class __$$UserMetricUnitsModelImplCopyWithImpl<$Res>
+    extends _$UserMetricUnitsModelCopyWithImpl<$Res, _$UserMetricUnitsModelImpl>
+    implements _$$UserMetricUnitsModelImplCopyWith<$Res> {
+  __$$UserMetricUnitsModelImplCopyWithImpl(_$UserMetricUnitsModelImpl _value,
+      $Res Function(_$UserMetricUnitsModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -499,7 +500,7 @@ class __$$MetricUnitsModelImplCopyWithImpl<$Res>
     Object? heightUnits = freezed,
     Object? weightUnits = freezed,
   }) {
-    return _then(_$MetricUnitsModelImpl(
+    return _then(_$UserMetricUnitsModelImpl(
       energyUnits: freezed == energyUnits
           ? _value.energyUnits
           : energyUnits // ignore: cast_nullable_to_non_nullable
@@ -518,13 +519,13 @@ class __$$MetricUnitsModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$MetricUnitsModelImpl extends _MetricUnitsModel {
-  const _$MetricUnitsModelImpl(
+class _$UserMetricUnitsModelImpl extends _UserMetricUnitsModel {
+  const _$UserMetricUnitsModelImpl(
       {this.energyUnits, this.heightUnits, this.weightUnits})
       : super._();
 
-  factory _$MetricUnitsModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$MetricUnitsModelImplFromJson(json);
+  factory _$UserMetricUnitsModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserMetricUnitsModelImplFromJson(json);
 
   @override
   final String? energyUnits;
@@ -535,14 +536,14 @@ class _$MetricUnitsModelImpl extends _MetricUnitsModel {
 
   @override
   String toString() {
-    return 'MetricUnitsModel(energyUnits: $energyUnits, heightUnits: $heightUnits, weightUnits: $weightUnits)';
+    return 'UserMetricUnitsModel(energyUnits: $energyUnits, heightUnits: $heightUnits, weightUnits: $weightUnits)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MetricUnitsModelImpl &&
+            other is _$UserMetricUnitsModelImpl &&
             (identical(other.energyUnits, energyUnits) ||
                 other.energyUnits == energyUnits) &&
             (identical(other.heightUnits, heightUnits) ||
@@ -559,27 +560,28 @@ class _$MetricUnitsModelImpl extends _MetricUnitsModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MetricUnitsModelImplCopyWith<_$MetricUnitsModelImpl> get copyWith =>
-      __$$MetricUnitsModelImplCopyWithImpl<_$MetricUnitsModelImpl>(
-          this, _$identity);
+  _$$UserMetricUnitsModelImplCopyWith<_$UserMetricUnitsModelImpl>
+      get copyWith =>
+          __$$UserMetricUnitsModelImplCopyWithImpl<_$UserMetricUnitsModelImpl>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$MetricUnitsModelImplToJson(
+    return _$$UserMetricUnitsModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _MetricUnitsModel extends MetricUnitsModel {
-  const factory _MetricUnitsModel(
+abstract class _UserMetricUnitsModel extends UserMetricUnitsModel {
+  const factory _UserMetricUnitsModel(
       {final String? energyUnits,
       final String? heightUnits,
-      final String? weightUnits}) = _$MetricUnitsModelImpl;
-  const _MetricUnitsModel._() : super._();
+      final String? weightUnits}) = _$UserMetricUnitsModelImpl;
+  const _UserMetricUnitsModel._() : super._();
 
-  factory _MetricUnitsModel.fromJson(Map<String, dynamic> json) =
-      _$MetricUnitsModelImpl.fromJson;
+  factory _UserMetricUnitsModel.fromJson(Map<String, dynamic> json) =
+      _$UserMetricUnitsModelImpl.fromJson;
 
   @override
   String? get energyUnits;
@@ -589,6 +591,6 @@ abstract class _MetricUnitsModel extends MetricUnitsModel {
   String? get weightUnits;
   @override
   @JsonKey(ignore: true)
-  _$$MetricUnitsModelImplCopyWith<_$MetricUnitsModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$UserMetricUnitsModelImplCopyWith<_$UserMetricUnitsModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

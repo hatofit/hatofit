@@ -54,7 +54,7 @@ class ReportDeviceModel with _$ReportDeviceModel {
 class ReportDataModel with _$ReportDataModel {
   const factory ReportDataModel({
     String? type,
-    List<DataValueModel>? data,
+    List<ReportDataValueModel>? data,
   }) = _ReportDataModel;
 
   const ReportDataModel._();
@@ -69,18 +69,18 @@ class ReportDataModel with _$ReportDataModel {
 }
 
 @freezed
-class DataValueModel with _$DataValueModel {
-  const factory DataValueModel({
+class ReportDataValueModel with _$ReportDataValueModel {
+  const factory ReportDataValueModel({
     String? device,
     List<List<dynamic>>? value,
-  }) = _DataValueModel;
+  }) = _ReportDataValueModel;
 
-  const DataValueModel._();
+  const ReportDataValueModel._();
 
-  factory DataValueModel.fromJson(Map<String, dynamic> json) =>
-      _$DataValueModelFromJson(json);
+  factory ReportDataValueModel.fromJson(Map<String, dynamic> json) =>
+      _$ReportDataValueModelFromJson(json);
 
-  DataValueEntity toEntity() => DataValueEntity(
+  ReportDataValueEntity toEntity() => ReportDataValueEntity(
         device: device,
         value: value,
       );

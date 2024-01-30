@@ -31,8 +31,7 @@ mixin _$UserEntity {
   @HiveField(6)
   String? get photo => throw _privateConstructorUsedError;
   @HiveField(7)
-  MetricUnitsEntity? get metricUnitsEntity =>
-      throw _privateConstructorUsedError;
+  UserMetricUnitsEntity? get metricUnits => throw _privateConstructorUsedError;
   @HiveField(8)
   int? get height => throw _privateConstructorUsedError;
   @HiveField(9)
@@ -61,13 +60,13 @@ abstract class $UserEntityCopyWith<$Res> {
       @HiveField(4) String? email,
       @HiveField(5) DateTime? dateOfBirth,
       @HiveField(6) String? photo,
-      @HiveField(7) MetricUnitsEntity? metricUnitsEntity,
+      @HiveField(7) UserMetricUnitsEntity? metricUnits,
       @HiveField(8) int? height,
       @HiveField(9) int? weight,
       @HiveField(10) DateTime? createdAt,
       @HiveField(11) DateTime? updatedAt});
 
-  $MetricUnitsEntityCopyWith<$Res>? get metricUnitsEntity;
+  $UserMetricUnitsEntityCopyWith<$Res>? get metricUnits;
 }
 
 /// @nodoc
@@ -90,7 +89,7 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
     Object? email = freezed,
     Object? dateOfBirth = freezed,
     Object? photo = freezed,
-    Object? metricUnitsEntity = freezed,
+    Object? metricUnits = freezed,
     Object? height = freezed,
     Object? weight = freezed,
     Object? createdAt = freezed,
@@ -125,10 +124,10 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
               as String?,
-      metricUnitsEntity: freezed == metricUnitsEntity
-          ? _value.metricUnitsEntity
-          : metricUnitsEntity // ignore: cast_nullable_to_non_nullable
-              as MetricUnitsEntity?,
+      metricUnits: freezed == metricUnits
+          ? _value.metricUnits
+          : metricUnits // ignore: cast_nullable_to_non_nullable
+              as UserMetricUnitsEntity?,
       height: freezed == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -150,13 +149,13 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
 
   @override
   @pragma('vm:prefer-inline')
-  $MetricUnitsEntityCopyWith<$Res>? get metricUnitsEntity {
-    if (_value.metricUnitsEntity == null) {
+  $UserMetricUnitsEntityCopyWith<$Res>? get metricUnits {
+    if (_value.metricUnits == null) {
       return null;
     }
 
-    return $MetricUnitsEntityCopyWith<$Res>(_value.metricUnitsEntity!, (value) {
-      return _then(_value.copyWith(metricUnitsEntity: value) as $Val);
+    return $UserMetricUnitsEntityCopyWith<$Res>(_value.metricUnits!, (value) {
+      return _then(_value.copyWith(metricUnits: value) as $Val);
     });
   }
 }
@@ -177,14 +176,14 @@ abstract class _$$UserEntityImplCopyWith<$Res>
       @HiveField(4) String? email,
       @HiveField(5) DateTime? dateOfBirth,
       @HiveField(6) String? photo,
-      @HiveField(7) MetricUnitsEntity? metricUnitsEntity,
+      @HiveField(7) UserMetricUnitsEntity? metricUnits,
       @HiveField(8) int? height,
       @HiveField(9) int? weight,
       @HiveField(10) DateTime? createdAt,
       @HiveField(11) DateTime? updatedAt});
 
   @override
-  $MetricUnitsEntityCopyWith<$Res>? get metricUnitsEntity;
+  $UserMetricUnitsEntityCopyWith<$Res>? get metricUnits;
 }
 
 /// @nodoc
@@ -205,7 +204,7 @@ class __$$UserEntityImplCopyWithImpl<$Res>
     Object? email = freezed,
     Object? dateOfBirth = freezed,
     Object? photo = freezed,
-    Object? metricUnitsEntity = freezed,
+    Object? metricUnits = freezed,
     Object? height = freezed,
     Object? weight = freezed,
     Object? createdAt = freezed,
@@ -240,10 +239,10 @@ class __$$UserEntityImplCopyWithImpl<$Res>
           ? _value.photo
           : photo // ignore: cast_nullable_to_non_nullable
               as String?,
-      metricUnitsEntity: freezed == metricUnitsEntity
-          ? _value.metricUnitsEntity
-          : metricUnitsEntity // ignore: cast_nullable_to_non_nullable
-              as MetricUnitsEntity?,
+      metricUnits: freezed == metricUnits
+          ? _value.metricUnits
+          : metricUnits // ignore: cast_nullable_to_non_nullable
+              as UserMetricUnitsEntity?,
       height: freezed == height
           ? _value.height
           : height // ignore: cast_nullable_to_non_nullable
@@ -266,7 +265,9 @@ class __$$UserEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@HiveType(typeId: 0, adapterName: 'UserEntityAdapter')
+@HiveType(
+    typeId: BoxTypeId.userEntityIndex,
+    adapterName: BoxTypeId.userEntityAdapterName)
 class _$UserEntityImpl implements _UserEntity {
   const _$UserEntityImpl(
       {@HiveField(0) this.id,
@@ -276,7 +277,7 @@ class _$UserEntityImpl implements _UserEntity {
       @HiveField(4) this.email,
       @HiveField(5) this.dateOfBirth,
       @HiveField(6) this.photo,
-      @HiveField(7) this.metricUnitsEntity,
+      @HiveField(7) this.metricUnits,
       @HiveField(8) this.height,
       @HiveField(9) this.weight,
       @HiveField(10) this.createdAt,
@@ -305,7 +306,7 @@ class _$UserEntityImpl implements _UserEntity {
   final String? photo;
   @override
   @HiveField(7)
-  final MetricUnitsEntity? metricUnitsEntity;
+  final UserMetricUnitsEntity? metricUnits;
   @override
   @HiveField(8)
   final int? height;
@@ -321,7 +322,7 @@ class _$UserEntityImpl implements _UserEntity {
 
   @override
   String toString() {
-    return 'UserEntity(id: $id, firstName: $firstName, lastName: $lastName, gender: $gender, email: $email, dateOfBirth: $dateOfBirth, photo: $photo, metricUnitsEntity: $metricUnitsEntity, height: $height, weight: $weight, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserEntity(id: $id, firstName: $firstName, lastName: $lastName, gender: $gender, email: $email, dateOfBirth: $dateOfBirth, photo: $photo, metricUnits: $metricUnits, height: $height, weight: $weight, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -339,8 +340,8 @@ class _$UserEntityImpl implements _UserEntity {
             (identical(other.dateOfBirth, dateOfBirth) ||
                 other.dateOfBirth == dateOfBirth) &&
             (identical(other.photo, photo) || other.photo == photo) &&
-            (identical(other.metricUnitsEntity, metricUnitsEntity) ||
-                other.metricUnitsEntity == metricUnitsEntity) &&
+            (identical(other.metricUnits, metricUnits) ||
+                other.metricUnits == metricUnits) &&
             (identical(other.height, height) || other.height == height) &&
             (identical(other.weight, weight) || other.weight == weight) &&
             (identical(other.createdAt, createdAt) ||
@@ -359,7 +360,7 @@ class _$UserEntityImpl implements _UserEntity {
       email,
       dateOfBirth,
       photo,
-      metricUnitsEntity,
+      metricUnits,
       height,
       weight,
       createdAt,
@@ -381,7 +382,7 @@ abstract class _UserEntity implements UserEntity {
       @HiveField(4) final String? email,
       @HiveField(5) final DateTime? dateOfBirth,
       @HiveField(6) final String? photo,
-      @HiveField(7) final MetricUnitsEntity? metricUnitsEntity,
+      @HiveField(7) final UserMetricUnitsEntity? metricUnits,
       @HiveField(8) final int? height,
       @HiveField(9) final int? weight,
       @HiveField(10) final DateTime? createdAt,
@@ -410,7 +411,7 @@ abstract class _UserEntity implements UserEntity {
   String? get photo;
   @override
   @HiveField(7)
-  MetricUnitsEntity? get metricUnitsEntity;
+  UserMetricUnitsEntity? get metricUnits;
   @override
   @HiveField(8)
   int? get height;
@@ -430,7 +431,7 @@ abstract class _UserEntity implements UserEntity {
 }
 
 /// @nodoc
-mixin _$MetricUnitsEntity {
+mixin _$UserMetricUnitsEntity {
   @HiveField(0)
   String? get energyUnits => throw _privateConstructorUsedError;
   @HiveField(1)
@@ -439,15 +440,15 @@ mixin _$MetricUnitsEntity {
   String? get weightUnits => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $MetricUnitsEntityCopyWith<MetricUnitsEntity> get copyWith =>
+  $UserMetricUnitsEntityCopyWith<UserMetricUnitsEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $MetricUnitsEntityCopyWith<$Res> {
-  factory $MetricUnitsEntityCopyWith(
-          MetricUnitsEntity value, $Res Function(MetricUnitsEntity) then) =
-      _$MetricUnitsEntityCopyWithImpl<$Res, MetricUnitsEntity>;
+abstract class $UserMetricUnitsEntityCopyWith<$Res> {
+  factory $UserMetricUnitsEntityCopyWith(UserMetricUnitsEntity value,
+          $Res Function(UserMetricUnitsEntity) then) =
+      _$UserMetricUnitsEntityCopyWithImpl<$Res, UserMetricUnitsEntity>;
   @useResult
   $Res call(
       {@HiveField(0) String? energyUnits,
@@ -456,9 +457,10 @@ abstract class $MetricUnitsEntityCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$MetricUnitsEntityCopyWithImpl<$Res, $Val extends MetricUnitsEntity>
-    implements $MetricUnitsEntityCopyWith<$Res> {
-  _$MetricUnitsEntityCopyWithImpl(this._value, this._then);
+class _$UserMetricUnitsEntityCopyWithImpl<$Res,
+        $Val extends UserMetricUnitsEntity>
+    implements $UserMetricUnitsEntityCopyWith<$Res> {
+  _$UserMetricUnitsEntityCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -490,11 +492,12 @@ class _$MetricUnitsEntityCopyWithImpl<$Res, $Val extends MetricUnitsEntity>
 }
 
 /// @nodoc
-abstract class _$$MetricUnitsEntityImplCopyWith<$Res>
-    implements $MetricUnitsEntityCopyWith<$Res> {
-  factory _$$MetricUnitsEntityImplCopyWith(_$MetricUnitsEntityImpl value,
-          $Res Function(_$MetricUnitsEntityImpl) then) =
-      __$$MetricUnitsEntityImplCopyWithImpl<$Res>;
+abstract class _$$UserMetricUnitsEntityImplCopyWith<$Res>
+    implements $UserMetricUnitsEntityCopyWith<$Res> {
+  factory _$$UserMetricUnitsEntityImplCopyWith(
+          _$UserMetricUnitsEntityImpl value,
+          $Res Function(_$UserMetricUnitsEntityImpl) then) =
+      __$$UserMetricUnitsEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -504,11 +507,12 @@ abstract class _$$MetricUnitsEntityImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$MetricUnitsEntityImplCopyWithImpl<$Res>
-    extends _$MetricUnitsEntityCopyWithImpl<$Res, _$MetricUnitsEntityImpl>
-    implements _$$MetricUnitsEntityImplCopyWith<$Res> {
-  __$$MetricUnitsEntityImplCopyWithImpl(_$MetricUnitsEntityImpl _value,
-      $Res Function(_$MetricUnitsEntityImpl) _then)
+class __$$UserMetricUnitsEntityImplCopyWithImpl<$Res>
+    extends _$UserMetricUnitsEntityCopyWithImpl<$Res,
+        _$UserMetricUnitsEntityImpl>
+    implements _$$UserMetricUnitsEntityImplCopyWith<$Res> {
+  __$$UserMetricUnitsEntityImplCopyWithImpl(_$UserMetricUnitsEntityImpl _value,
+      $Res Function(_$UserMetricUnitsEntityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -518,7 +522,7 @@ class __$$MetricUnitsEntityImplCopyWithImpl<$Res>
     Object? heightUnits = freezed,
     Object? weightUnits = freezed,
   }) {
-    return _then(_$MetricUnitsEntityImpl(
+    return _then(_$UserMetricUnitsEntityImpl(
       energyUnits: freezed == energyUnits
           ? _value.energyUnits
           : energyUnits // ignore: cast_nullable_to_non_nullable
@@ -537,9 +541,11 @@ class __$$MetricUnitsEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@HiveType(typeId: 1, adapterName: 'MetricUnitsEntityAdapter')
-class _$MetricUnitsEntityImpl implements _MetricUnitsEntity {
-  const _$MetricUnitsEntityImpl(
+@HiveType(
+    typeId: BoxTypeId.metricUnitsEntityIndex,
+    adapterName: BoxTypeId.metricUnitsEntityAdapterName)
+class _$UserMetricUnitsEntityImpl implements _UserMetricUnitsEntity {
+  const _$UserMetricUnitsEntityImpl(
       {@HiveField(0) this.energyUnits,
       @HiveField(1) this.heightUnits,
       @HiveField(2) this.weightUnits});
@@ -556,14 +562,14 @@ class _$MetricUnitsEntityImpl implements _MetricUnitsEntity {
 
   @override
   String toString() {
-    return 'MetricUnitsEntity(energyUnits: $energyUnits, heightUnits: $heightUnits, weightUnits: $weightUnits)';
+    return 'UserMetricUnitsEntity(energyUnits: $energyUnits, heightUnits: $heightUnits, weightUnits: $weightUnits)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$MetricUnitsEntityImpl &&
+            other is _$UserMetricUnitsEntityImpl &&
             (identical(other.energyUnits, energyUnits) ||
                 other.energyUnits == energyUnits) &&
             (identical(other.heightUnits, heightUnits) ||
@@ -579,16 +585,16 @@ class _$MetricUnitsEntityImpl implements _MetricUnitsEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$MetricUnitsEntityImplCopyWith<_$MetricUnitsEntityImpl> get copyWith =>
-      __$$MetricUnitsEntityImplCopyWithImpl<_$MetricUnitsEntityImpl>(
-          this, _$identity);
+  _$$UserMetricUnitsEntityImplCopyWith<_$UserMetricUnitsEntityImpl>
+      get copyWith => __$$UserMetricUnitsEntityImplCopyWithImpl<
+          _$UserMetricUnitsEntityImpl>(this, _$identity);
 }
 
-abstract class _MetricUnitsEntity implements MetricUnitsEntity {
-  const factory _MetricUnitsEntity(
+abstract class _UserMetricUnitsEntity implements UserMetricUnitsEntity {
+  const factory _UserMetricUnitsEntity(
       {@HiveField(0) final String? energyUnits,
       @HiveField(1) final String? heightUnits,
-      @HiveField(2) final String? weightUnits}) = _$MetricUnitsEntityImpl;
+      @HiveField(2) final String? weightUnits}) = _$UserMetricUnitsEntityImpl;
 
   @override
   @HiveField(0)
@@ -601,6 +607,6 @@ abstract class _MetricUnitsEntity implements MetricUnitsEntity {
   String? get weightUnits;
   @override
   @JsonKey(ignore: true)
-  _$$MetricUnitsEntityImplCopyWith<_$MetricUnitsEntityImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$UserMetricUnitsEntityImplCopyWith<_$UserMetricUnitsEntityImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

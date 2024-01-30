@@ -61,7 +61,7 @@ class InstructionModel with _$InstructionModel {
     int? duration,
     String? name,
     String? description,
-    ContentModel? content,
+    ExerciseContentModel? content,
   }) = _InstructionModel;
 
   const InstructionModel._();
@@ -69,7 +69,7 @@ class InstructionModel with _$InstructionModel {
   factory InstructionModel.fromJson(Map<String, dynamic> json) =>
       _$InstructionModelFromJson(json);
 
-  InstructionEntity toEntity() => InstructionEntity(
+  ExerciseInstructionEntity toEntity() => ExerciseInstructionEntity(
         id: id,
         type: type,
         duration: duration,
@@ -78,7 +78,7 @@ class InstructionModel with _$InstructionModel {
         content: content?.toEntity(),
       );
 
-  factory InstructionModel.fromEntity(InstructionEntity entity) =>
+  factory InstructionModel.fromEntity(ExerciseInstructionEntity entity) =>
       InstructionModel(
         id: entity.id,
         type: entity.type,
@@ -86,31 +86,32 @@ class InstructionModel with _$InstructionModel {
         name: entity.name,
         description: entity.description,
         content: entity.content != null
-            ? ContentModel.fromEntity(entity.content!)
+            ? ExerciseContentModel.fromEntity(entity.content!)
             : null,
       );
 }
 
 @freezed
-class ContentModel with _$ContentModel {
-  const factory ContentModel({
+class ExerciseContentModel with _$ExerciseContentModel {
+  const factory ExerciseContentModel({
     String? video,
     String? text,
     String? lottie,
-  }) = _ContentModel;
+  }) = _ExerciseContentModel;
 
-  const ContentModel._();
+  const ExerciseContentModel._();
 
-  factory ContentModel.fromJson(Map<String, dynamic> json) =>
-      _$ContentModelFromJson(json);
+  factory ExerciseContentModel.fromJson(Map<String, dynamic> json) =>
+      _$ExerciseContentModelFromJson(json);
 
-  ContentEntity toEntity() => ContentEntity(
+  ExerciseContentEntity toEntity() => ExerciseContentEntity(
         video: video,
         text: text,
         lottie: lottie,
       );
 
-  factory ContentModel.fromEntity(ContentEntity entity) => ContentModel(
+  factory ExerciseContentModel.fromEntity(ExerciseContentEntity entity) =>
+      ExerciseContentModel(
         video: entity.video,
         text: entity.text,
         lottie: entity.lottie,

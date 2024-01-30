@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hatofit/core/core.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 part 'user_entity.freezed.dart';
@@ -6,7 +7,10 @@ part 'user_entity.g.dart';
 
 @freezed
 class UserEntity with _$UserEntity {
-  @HiveType(typeId: 0, adapterName: 'UserEntityAdapter')
+  @HiveType(
+    typeId: BoxTypeId.userEntityIndex,
+    adapterName: BoxTypeId.userEntityAdapterName,
+  )
   const factory UserEntity({
     @HiveField(0) String? id,
     @HiveField(1) String? firstName,
@@ -15,7 +19,7 @@ class UserEntity with _$UserEntity {
     @HiveField(4) String? email,
     @HiveField(5) DateTime? dateOfBirth,
     @HiveField(6) String? photo,
-    @HiveField(7) MetricUnitsEntity? metricUnitsEntity,
+    @HiveField(7) UserMetricUnitsEntity? metricUnits,
     @HiveField(8) int? height,
     @HiveField(9) int? weight,
     @HiveField(10) DateTime? createdAt,
@@ -24,11 +28,14 @@ class UserEntity with _$UserEntity {
 }
 
 @freezed
-class MetricUnitsEntity with _$MetricUnitsEntity {
-  @HiveType(typeId: 1, adapterName: 'MetricUnitsEntityAdapter')
-  const factory MetricUnitsEntity({
+class UserMetricUnitsEntity with _$UserMetricUnitsEntity {
+  @HiveType(
+    typeId: BoxTypeId.metricUnitsEntityIndex,
+    adapterName: BoxTypeId.metricUnitsEntityAdapterName,
+  )
+  const factory UserMetricUnitsEntity({
     @HiveField(0) String? energyUnits,
     @HiveField(1) String? heightUnits,
     @HiveField(2) String? weightUnits,
-  }) = _MetricUnitsEntity;
+  }) = _UserMetricUnitsEntity;
 }

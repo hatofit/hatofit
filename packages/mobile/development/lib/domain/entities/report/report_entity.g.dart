@@ -8,7 +8,7 @@ part of 'report_entity.dart';
 
 class ReportEntityAdapter extends TypeAdapter<_$ReportEntityImpl> {
   @override
-  final int typeId = 8;
+  final int typeId = 9;
 
   @override
   _$ReportEntityImpl read(BinaryReader reader) {
@@ -18,12 +18,12 @@ class ReportEntityAdapter extends TypeAdapter<_$ReportEntityImpl> {
     };
     return _$ReportEntityImpl(
       id: fields[0] as String?,
-      sessionId: fields[2] as String?,
-      exerciseId: fields[3] as String?,
-      startTime: fields[4] as int?,
-      endTime: fields[5] as int?,
-      devices: (fields[6] as List?)?.cast<ReportDeviceEntity>(),
-      reports: (fields[7] as List?)?.cast<ReportDataEntity>(),
+      sessionId: fields[1] as String?,
+      exerciseId: fields[2] as String?,
+      startTime: fields[3] as int?,
+      endTime: fields[4] as int?,
+      devices: (fields[5] as List?)?.cast<ReportDeviceEntity>(),
+      reports: (fields[6] as List?)?.cast<ReportDataEntity>(),
     );
   }
 
@@ -33,17 +33,17 @@ class ReportEntityAdapter extends TypeAdapter<_$ReportEntityImpl> {
       ..writeByte(7)
       ..writeByte(0)
       ..write(obj.id)
-      ..writeByte(2)
+      ..writeByte(1)
       ..write(obj.sessionId)
-      ..writeByte(3)
+      ..writeByte(2)
       ..write(obj.exerciseId)
-      ..writeByte(4)
+      ..writeByte(3)
       ..write(obj.startTime)
-      ..writeByte(5)
+      ..writeByte(4)
       ..write(obj.endTime)
-      ..writeByte(6)
+      ..writeByte(5)
       ..write(obj.devices)
-      ..writeByte(7)
+      ..writeByte(6)
       ..write(obj.reports);
   }
 
@@ -60,7 +60,7 @@ class ReportEntityAdapter extends TypeAdapter<_$ReportEntityImpl> {
 
 class ReportDeviceEntityAdapter extends TypeAdapter<_$ReportDeviceEntityImpl> {
   @override
-  final int typeId = 9;
+  final int typeId = 10;
 
   @override
   _$ReportDeviceEntityImpl read(BinaryReader reader) {
@@ -97,7 +97,7 @@ class ReportDeviceEntityAdapter extends TypeAdapter<_$ReportDeviceEntityImpl> {
 
 class ReportDataEntityAdapter extends TypeAdapter<_$ReportDataEntityImpl> {
   @override
-  final int typeId = 10;
+  final int typeId = 11;
 
   @override
   _$ReportDataEntityImpl read(BinaryReader reader) {
@@ -107,7 +107,7 @@ class ReportDataEntityAdapter extends TypeAdapter<_$ReportDataEntityImpl> {
     };
     return _$ReportDataEntityImpl(
       type: fields[0] as String?,
-      data: (fields[1] as List?)?.cast<DataValueEntity>(),
+      data: (fields[1] as List?)?.cast<ReportDataValueEntity>(),
     );
   }
 
@@ -132,17 +132,18 @@ class ReportDataEntityAdapter extends TypeAdapter<_$ReportDataEntityImpl> {
           typeId == other.typeId;
 }
 
-class DataValueEntityAdapter extends TypeAdapter<_$DataValueEntityImpl> {
+class ReportDataValueEntityAdapter
+    extends TypeAdapter<_$ReportDataValueEntityImpl> {
   @override
-  final int typeId = 11;
+  final int typeId = 12;
 
   @override
-  _$DataValueEntityImpl read(BinaryReader reader) {
+  _$ReportDataValueEntityImpl read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return _$DataValueEntityImpl(
+    return _$ReportDataValueEntityImpl(
       device: fields[0] as String?,
       value: (fields[1] as List?)
           ?.map((dynamic e) => (e as List).cast<dynamic>())
@@ -151,7 +152,7 @@ class DataValueEntityAdapter extends TypeAdapter<_$DataValueEntityImpl> {
   }
 
   @override
-  void write(BinaryWriter writer, _$DataValueEntityImpl obj) {
+  void write(BinaryWriter writer, _$ReportDataValueEntityImpl obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
@@ -166,7 +167,7 @@ class DataValueEntityAdapter extends TypeAdapter<_$DataValueEntityImpl> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is DataValueEntityAdapter &&
+      other is ReportDataValueEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

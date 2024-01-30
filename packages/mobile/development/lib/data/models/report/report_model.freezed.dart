@@ -470,7 +470,7 @@ ReportDataModel _$ReportDataModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ReportDataModel {
   String? get type => throw _privateConstructorUsedError;
-  List<DataValueModel>? get data => throw _privateConstructorUsedError;
+  List<ReportDataValueModel>? get data => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -484,7 +484,7 @@ abstract class $ReportDataModelCopyWith<$Res> {
           ReportDataModel value, $Res Function(ReportDataModel) then) =
       _$ReportDataModelCopyWithImpl<$Res, ReportDataModel>;
   @useResult
-  $Res call({String? type, List<DataValueModel>? data});
+  $Res call({String? type, List<ReportDataValueModel>? data});
 }
 
 /// @nodoc
@@ -511,7 +511,7 @@ class _$ReportDataModelCopyWithImpl<$Res, $Val extends ReportDataModel>
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<DataValueModel>?,
+              as List<ReportDataValueModel>?,
     ) as $Val);
   }
 }
@@ -524,7 +524,7 @@ abstract class _$$ReportDataModelImplCopyWith<$Res>
       __$$ReportDataModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? type, List<DataValueModel>? data});
+  $Res call({String? type, List<ReportDataValueModel>? data});
 }
 
 /// @nodoc
@@ -549,7 +549,7 @@ class __$$ReportDataModelImplCopyWithImpl<$Res>
       data: freezed == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
-              as List<DataValueModel>?,
+              as List<ReportDataValueModel>?,
     ));
   }
 }
@@ -557,7 +557,8 @@ class __$$ReportDataModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ReportDataModelImpl extends _ReportDataModel {
-  const _$ReportDataModelImpl({this.type, final List<DataValueModel>? data})
+  const _$ReportDataModelImpl(
+      {this.type, final List<ReportDataValueModel>? data})
       : _data = data,
         super._();
 
@@ -566,9 +567,9 @@ class _$ReportDataModelImpl extends _ReportDataModel {
 
   @override
   final String? type;
-  final List<DataValueModel>? _data;
+  final List<ReportDataValueModel>? _data;
   @override
-  List<DataValueModel>? get data {
+  List<ReportDataValueModel>? get data {
     final value = _data;
     if (value == null) return null;
     if (_data is EqualUnmodifiableListView) return _data;
@@ -613,7 +614,7 @@ class _$ReportDataModelImpl extends _ReportDataModel {
 abstract class _ReportDataModel extends ReportDataModel {
   const factory _ReportDataModel(
       {final String? type,
-      final List<DataValueModel>? data}) = _$ReportDataModelImpl;
+      final List<ReportDataValueModel>? data}) = _$ReportDataModelImpl;
   const _ReportDataModel._() : super._();
 
   factory _ReportDataModel.fromJson(Map<String, dynamic> json) =
@@ -622,41 +623,42 @@ abstract class _ReportDataModel extends ReportDataModel {
   @override
   String? get type;
   @override
-  List<DataValueModel>? get data;
+  List<ReportDataValueModel>? get data;
   @override
   @JsonKey(ignore: true)
   _$$ReportDataModelImplCopyWith<_$ReportDataModelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-DataValueModel _$DataValueModelFromJson(Map<String, dynamic> json) {
-  return _DataValueModel.fromJson(json);
+ReportDataValueModel _$ReportDataValueModelFromJson(Map<String, dynamic> json) {
+  return _ReportDataValueModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$DataValueModel {
+mixin _$ReportDataValueModel {
   String? get device => throw _privateConstructorUsedError;
   List<List<dynamic>>? get value => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $DataValueModelCopyWith<DataValueModel> get copyWith =>
+  $ReportDataValueModelCopyWith<ReportDataValueModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $DataValueModelCopyWith<$Res> {
-  factory $DataValueModelCopyWith(
-          DataValueModel value, $Res Function(DataValueModel) then) =
-      _$DataValueModelCopyWithImpl<$Res, DataValueModel>;
+abstract class $ReportDataValueModelCopyWith<$Res> {
+  factory $ReportDataValueModelCopyWith(ReportDataValueModel value,
+          $Res Function(ReportDataValueModel) then) =
+      _$ReportDataValueModelCopyWithImpl<$Res, ReportDataValueModel>;
   @useResult
   $Res call({String? device, List<List<dynamic>>? value});
 }
 
 /// @nodoc
-class _$DataValueModelCopyWithImpl<$Res, $Val extends DataValueModel>
-    implements $DataValueModelCopyWith<$Res> {
-  _$DataValueModelCopyWithImpl(this._value, this._then);
+class _$ReportDataValueModelCopyWithImpl<$Res,
+        $Val extends ReportDataValueModel>
+    implements $ReportDataValueModelCopyWith<$Res> {
+  _$ReportDataValueModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -683,22 +685,22 @@ class _$DataValueModelCopyWithImpl<$Res, $Val extends DataValueModel>
 }
 
 /// @nodoc
-abstract class _$$DataValueModelImplCopyWith<$Res>
-    implements $DataValueModelCopyWith<$Res> {
-  factory _$$DataValueModelImplCopyWith(_$DataValueModelImpl value,
-          $Res Function(_$DataValueModelImpl) then) =
-      __$$DataValueModelImplCopyWithImpl<$Res>;
+abstract class _$$ReportDataValueModelImplCopyWith<$Res>
+    implements $ReportDataValueModelCopyWith<$Res> {
+  factory _$$ReportDataValueModelImplCopyWith(_$ReportDataValueModelImpl value,
+          $Res Function(_$ReportDataValueModelImpl) then) =
+      __$$ReportDataValueModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? device, List<List<dynamic>>? value});
 }
 
 /// @nodoc
-class __$$DataValueModelImplCopyWithImpl<$Res>
-    extends _$DataValueModelCopyWithImpl<$Res, _$DataValueModelImpl>
-    implements _$$DataValueModelImplCopyWith<$Res> {
-  __$$DataValueModelImplCopyWithImpl(
-      _$DataValueModelImpl _value, $Res Function(_$DataValueModelImpl) _then)
+class __$$ReportDataValueModelImplCopyWithImpl<$Res>
+    extends _$ReportDataValueModelCopyWithImpl<$Res, _$ReportDataValueModelImpl>
+    implements _$$ReportDataValueModelImplCopyWith<$Res> {
+  __$$ReportDataValueModelImplCopyWithImpl(_$ReportDataValueModelImpl _value,
+      $Res Function(_$ReportDataValueModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -707,7 +709,7 @@ class __$$DataValueModelImplCopyWithImpl<$Res>
     Object? device = freezed,
     Object? value = freezed,
   }) {
-    return _then(_$DataValueModelImpl(
+    return _then(_$ReportDataValueModelImpl(
       device: freezed == device
           ? _value.device
           : device // ignore: cast_nullable_to_non_nullable
@@ -722,13 +724,14 @@ class __$$DataValueModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$DataValueModelImpl extends _DataValueModel {
-  const _$DataValueModelImpl({this.device, final List<List<dynamic>>? value})
+class _$ReportDataValueModelImpl extends _ReportDataValueModel {
+  const _$ReportDataValueModelImpl(
+      {this.device, final List<List<dynamic>>? value})
       : _value = value,
         super._();
 
-  factory _$DataValueModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DataValueModelImplFromJson(json);
+  factory _$ReportDataValueModelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ReportDataValueModelImplFromJson(json);
 
   @override
   final String? device;
@@ -744,14 +747,14 @@ class _$DataValueModelImpl extends _DataValueModel {
 
   @override
   String toString() {
-    return 'DataValueModel(device: $device, value: $value)';
+    return 'ReportDataValueModel(device: $device, value: $value)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$DataValueModelImpl &&
+            other is _$ReportDataValueModelImpl &&
             (identical(other.device, device) || other.device == device) &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
@@ -764,26 +767,27 @@ class _$DataValueModelImpl extends _DataValueModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$DataValueModelImplCopyWith<_$DataValueModelImpl> get copyWith =>
-      __$$DataValueModelImplCopyWithImpl<_$DataValueModelImpl>(
-          this, _$identity);
+  _$$ReportDataValueModelImplCopyWith<_$ReportDataValueModelImpl>
+      get copyWith =>
+          __$$ReportDataValueModelImplCopyWithImpl<_$ReportDataValueModelImpl>(
+              this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$DataValueModelImplToJson(
+    return _$$ReportDataValueModelImplToJson(
       this,
     );
   }
 }
 
-abstract class _DataValueModel extends DataValueModel {
-  const factory _DataValueModel(
+abstract class _ReportDataValueModel extends ReportDataValueModel {
+  const factory _ReportDataValueModel(
       {final String? device,
-      final List<List<dynamic>>? value}) = _$DataValueModelImpl;
-  const _DataValueModel._() : super._();
+      final List<List<dynamic>>? value}) = _$ReportDataValueModelImpl;
+  const _ReportDataValueModel._() : super._();
 
-  factory _DataValueModel.fromJson(Map<String, dynamic> json) =
-      _$DataValueModelImpl.fromJson;
+  factory _ReportDataValueModel.fromJson(Map<String, dynamic> json) =
+      _$ReportDataValueModelImpl.fromJson;
 
   @override
   String? get device;
@@ -791,6 +795,6 @@ abstract class _DataValueModel extends DataValueModel {
   List<List<dynamic>>? get value;
   @override
   @JsonKey(ignore: true)
-  _$$DataValueModelImplCopyWith<_$DataValueModelImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ReportDataValueModelImplCopyWith<_$ReportDataValueModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

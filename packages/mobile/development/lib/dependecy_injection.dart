@@ -128,9 +128,7 @@ void _cubit() {
   di.registerFactory(() => IntroCubit());
   di.registerFactory(() => HomeCubit(
         di(),
-        di(),
-        di(),
-        di(),
+        di(),  
       ));
   di.registerFactory(() => SettingsCubit());
   di.registerFactory(() => WorkoutCubit(

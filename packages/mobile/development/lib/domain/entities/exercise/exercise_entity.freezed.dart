@@ -31,7 +31,7 @@ mixin _$ExerciseEntity {
   @HiveField(6)
   int? get duration => throw _privateConstructorUsedError;
   @HiveField(7)
-  List<InstructionEntity>? get instructions =>
+  List<ExerciseInstructionEntity>? get instructions =>
       throw _privateConstructorUsedError;
   @HiveField(8)
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -57,7 +57,7 @@ abstract class $ExerciseEntityCopyWith<$Res> {
       @HiveField(4) String? type,
       @HiveField(5) String? thumbnail,
       @HiveField(6) int? duration,
-      @HiveField(7) List<InstructionEntity>? instructions,
+      @HiveField(7) List<ExerciseInstructionEntity>? instructions,
       @HiveField(8) DateTime? createdAt,
       @HiveField(9) DateTime? updatedAt});
 }
@@ -118,7 +118,7 @@ class _$ExerciseEntityCopyWithImpl<$Res, $Val extends ExerciseEntity>
       instructions: freezed == instructions
           ? _value.instructions
           : instructions // ignore: cast_nullable_to_non_nullable
-              as List<InstructionEntity>?,
+              as List<ExerciseInstructionEntity>?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -147,7 +147,7 @@ abstract class _$$ExerciseEntityImplCopyWith<$Res>
       @HiveField(4) String? type,
       @HiveField(5) String? thumbnail,
       @HiveField(6) int? duration,
-      @HiveField(7) List<InstructionEntity>? instructions,
+      @HiveField(7) List<ExerciseInstructionEntity>? instructions,
       @HiveField(8) DateTime? createdAt,
       @HiveField(9) DateTime? updatedAt});
 }
@@ -206,7 +206,7 @@ class __$$ExerciseEntityImplCopyWithImpl<$Res>
       instructions: freezed == instructions
           ? _value._instructions
           : instructions // ignore: cast_nullable_to_non_nullable
-              as List<InstructionEntity>?,
+              as List<ExerciseInstructionEntity>?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -221,7 +221,9 @@ class __$$ExerciseEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@HiveType(typeId: 2, adapterName: 'ExerciseEntityAdapter')
+@HiveType(
+    typeId: BoxTypeId.exerciseEntityIndex,
+    adapterName: BoxTypeId.exerciseEntityAdapterName)
 class _$ExerciseEntityImpl implements _ExerciseEntity {
   const _$ExerciseEntityImpl(
       {@HiveField(0) this.id,
@@ -231,7 +233,7 @@ class _$ExerciseEntityImpl implements _ExerciseEntity {
       @HiveField(4) this.type,
       @HiveField(5) this.thumbnail,
       @HiveField(6) this.duration,
-      @HiveField(7) final List<InstructionEntity>? instructions,
+      @HiveField(7) final List<ExerciseInstructionEntity>? instructions,
       @HiveField(8) this.createdAt,
       @HiveField(9) this.updatedAt})
       : _instructions = instructions;
@@ -257,10 +259,10 @@ class _$ExerciseEntityImpl implements _ExerciseEntity {
   @override
   @HiveField(6)
   final int? duration;
-  final List<InstructionEntity>? _instructions;
+  final List<ExerciseInstructionEntity>? _instructions;
   @override
   @HiveField(7)
-  List<InstructionEntity>? get instructions {
+  List<ExerciseInstructionEntity>? get instructions {
     final value = _instructions;
     if (value == null) return null;
     if (_instructions is EqualUnmodifiableListView) return _instructions;
@@ -335,7 +337,7 @@ abstract class _ExerciseEntity implements ExerciseEntity {
       @HiveField(4) final String? type,
       @HiveField(5) final String? thumbnail,
       @HiveField(6) final int? duration,
-      @HiveField(7) final List<InstructionEntity>? instructions,
+      @HiveField(7) final List<ExerciseInstructionEntity>? instructions,
       @HiveField(8) final DateTime? createdAt,
       @HiveField(9) final DateTime? updatedAt}) = _$ExerciseEntityImpl;
 
@@ -362,7 +364,7 @@ abstract class _ExerciseEntity implements ExerciseEntity {
   int? get duration;
   @override
   @HiveField(7)
-  List<InstructionEntity>? get instructions;
+  List<ExerciseInstructionEntity>? get instructions;
   @override
   @HiveField(8)
   DateTime? get createdAt;
@@ -376,7 +378,7 @@ abstract class _ExerciseEntity implements ExerciseEntity {
 }
 
 /// @nodoc
-mixin _$InstructionEntity {
+mixin _$ExerciseInstructionEntity {
   @HiveField(0)
   String? get id => throw _privateConstructorUsedError;
   @HiveField(1)
@@ -388,18 +390,18 @@ mixin _$InstructionEntity {
   @HiveField(4)
   String? get description => throw _privateConstructorUsedError;
   @HiveField(5)
-  ContentEntity? get content => throw _privateConstructorUsedError;
+  ExerciseContentEntity? get content => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $InstructionEntityCopyWith<InstructionEntity> get copyWith =>
+  $ExerciseInstructionEntityCopyWith<ExerciseInstructionEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $InstructionEntityCopyWith<$Res> {
-  factory $InstructionEntityCopyWith(
-          InstructionEntity value, $Res Function(InstructionEntity) then) =
-      _$InstructionEntityCopyWithImpl<$Res, InstructionEntity>;
+abstract class $ExerciseInstructionEntityCopyWith<$Res> {
+  factory $ExerciseInstructionEntityCopyWith(ExerciseInstructionEntity value,
+          $Res Function(ExerciseInstructionEntity) then) =
+      _$ExerciseInstructionEntityCopyWithImpl<$Res, ExerciseInstructionEntity>;
   @useResult
   $Res call(
       {@HiveField(0) String? id,
@@ -407,15 +409,16 @@ abstract class $InstructionEntityCopyWith<$Res> {
       @HiveField(2) int? duration,
       @HiveField(3) String? name,
       @HiveField(4) String? description,
-      @HiveField(5) ContentEntity? content});
+      @HiveField(5) ExerciseContentEntity? content});
 
-  $ContentEntityCopyWith<$Res>? get content;
+  $ExerciseContentEntityCopyWith<$Res>? get content;
 }
 
 /// @nodoc
-class _$InstructionEntityCopyWithImpl<$Res, $Val extends InstructionEntity>
-    implements $InstructionEntityCopyWith<$Res> {
-  _$InstructionEntityCopyWithImpl(this._value, this._then);
+class _$ExerciseInstructionEntityCopyWithImpl<$Res,
+        $Val extends ExerciseInstructionEntity>
+    implements $ExerciseInstructionEntityCopyWith<$Res> {
+  _$ExerciseInstructionEntityCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -456,29 +459,30 @@ class _$InstructionEntityCopyWithImpl<$Res, $Val extends InstructionEntity>
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as ContentEntity?,
+              as ExerciseContentEntity?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $ContentEntityCopyWith<$Res>? get content {
+  $ExerciseContentEntityCopyWith<$Res>? get content {
     if (_value.content == null) {
       return null;
     }
 
-    return $ContentEntityCopyWith<$Res>(_value.content!, (value) {
+    return $ExerciseContentEntityCopyWith<$Res>(_value.content!, (value) {
       return _then(_value.copyWith(content: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$InstructionEntityImplCopyWith<$Res>
-    implements $InstructionEntityCopyWith<$Res> {
-  factory _$$InstructionEntityImplCopyWith(_$InstructionEntityImpl value,
-          $Res Function(_$InstructionEntityImpl) then) =
-      __$$InstructionEntityImplCopyWithImpl<$Res>;
+abstract class _$$ExerciseInstructionEntityImplCopyWith<$Res>
+    implements $ExerciseInstructionEntityCopyWith<$Res> {
+  factory _$$ExerciseInstructionEntityImplCopyWith(
+          _$ExerciseInstructionEntityImpl value,
+          $Res Function(_$ExerciseInstructionEntityImpl) then) =
+      __$$ExerciseInstructionEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -487,18 +491,20 @@ abstract class _$$InstructionEntityImplCopyWith<$Res>
       @HiveField(2) int? duration,
       @HiveField(3) String? name,
       @HiveField(4) String? description,
-      @HiveField(5) ContentEntity? content});
+      @HiveField(5) ExerciseContentEntity? content});
 
   @override
-  $ContentEntityCopyWith<$Res>? get content;
+  $ExerciseContentEntityCopyWith<$Res>? get content;
 }
 
 /// @nodoc
-class __$$InstructionEntityImplCopyWithImpl<$Res>
-    extends _$InstructionEntityCopyWithImpl<$Res, _$InstructionEntityImpl>
-    implements _$$InstructionEntityImplCopyWith<$Res> {
-  __$$InstructionEntityImplCopyWithImpl(_$InstructionEntityImpl _value,
-      $Res Function(_$InstructionEntityImpl) _then)
+class __$$ExerciseInstructionEntityImplCopyWithImpl<$Res>
+    extends _$ExerciseInstructionEntityCopyWithImpl<$Res,
+        _$ExerciseInstructionEntityImpl>
+    implements _$$ExerciseInstructionEntityImplCopyWith<$Res> {
+  __$$ExerciseInstructionEntityImplCopyWithImpl(
+      _$ExerciseInstructionEntityImpl _value,
+      $Res Function(_$ExerciseInstructionEntityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -511,7 +517,7 @@ class __$$InstructionEntityImplCopyWithImpl<$Res>
     Object? description = freezed,
     Object? content = freezed,
   }) {
-    return _then(_$InstructionEntityImpl(
+    return _then(_$ExerciseInstructionEntityImpl(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -535,16 +541,18 @@ class __$$InstructionEntityImplCopyWithImpl<$Res>
       content: freezed == content
           ? _value.content
           : content // ignore: cast_nullable_to_non_nullable
-              as ContentEntity?,
+              as ExerciseContentEntity?,
     ));
   }
 }
 
 /// @nodoc
 
-@HiveType(typeId: 3, adapterName: 'InstructionEntityAdapter')
-class _$InstructionEntityImpl implements _InstructionEntity {
-  const _$InstructionEntityImpl(
+@HiveType(
+    typeId: BoxTypeId.exerciseInstructionEntityIndex,
+    adapterName: BoxTypeId.exerciseInstructionEntityAdapterName)
+class _$ExerciseInstructionEntityImpl implements _ExerciseInstructionEntity {
+  const _$ExerciseInstructionEntityImpl(
       {@HiveField(0) this.id,
       @HiveField(1) this.type,
       @HiveField(2) this.duration,
@@ -569,18 +577,18 @@ class _$InstructionEntityImpl implements _InstructionEntity {
   final String? description;
   @override
   @HiveField(5)
-  final ContentEntity? content;
+  final ExerciseContentEntity? content;
 
   @override
   String toString() {
-    return 'InstructionEntity(id: $id, type: $type, duration: $duration, name: $name, description: $description, content: $content)';
+    return 'ExerciseInstructionEntity(id: $id, type: $type, duration: $duration, name: $name, description: $description, content: $content)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$InstructionEntityImpl &&
+            other is _$ExerciseInstructionEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.duration, duration) ||
@@ -598,19 +606,20 @@ class _$InstructionEntityImpl implements _InstructionEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$InstructionEntityImplCopyWith<_$InstructionEntityImpl> get copyWith =>
-      __$$InstructionEntityImplCopyWithImpl<_$InstructionEntityImpl>(
-          this, _$identity);
+  _$$ExerciseInstructionEntityImplCopyWith<_$ExerciseInstructionEntityImpl>
+      get copyWith => __$$ExerciseInstructionEntityImplCopyWithImpl<
+          _$ExerciseInstructionEntityImpl>(this, _$identity);
 }
 
-abstract class _InstructionEntity implements InstructionEntity {
-  const factory _InstructionEntity(
-      {@HiveField(0) final String? id,
-      @HiveField(1) final String? type,
-      @HiveField(2) final int? duration,
-      @HiveField(3) final String? name,
-      @HiveField(4) final String? description,
-      @HiveField(5) final ContentEntity? content}) = _$InstructionEntityImpl;
+abstract class _ExerciseInstructionEntity implements ExerciseInstructionEntity {
+  const factory _ExerciseInstructionEntity(
+          {@HiveField(0) final String? id,
+          @HiveField(1) final String? type,
+          @HiveField(2) final int? duration,
+          @HiveField(3) final String? name,
+          @HiveField(4) final String? description,
+          @HiveField(5) final ExerciseContentEntity? content}) =
+      _$ExerciseInstructionEntityImpl;
 
   @override
   @HiveField(0)
@@ -629,15 +638,15 @@ abstract class _InstructionEntity implements InstructionEntity {
   String? get description;
   @override
   @HiveField(5)
-  ContentEntity? get content;
+  ExerciseContentEntity? get content;
   @override
   @JsonKey(ignore: true)
-  _$$InstructionEntityImplCopyWith<_$InstructionEntityImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ExerciseInstructionEntityImplCopyWith<_$ExerciseInstructionEntityImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-mixin _$ContentEntity {
+mixin _$ExerciseContentEntity {
   @HiveField(0)
   String? get video => throw _privateConstructorUsedError;
   @HiveField(1)
@@ -648,15 +657,15 @@ mixin _$ContentEntity {
   String? get lottie => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $ContentEntityCopyWith<ContentEntity> get copyWith =>
+  $ExerciseContentEntityCopyWith<ExerciseContentEntity> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ContentEntityCopyWith<$Res> {
-  factory $ContentEntityCopyWith(
-          ContentEntity value, $Res Function(ContentEntity) then) =
-      _$ContentEntityCopyWithImpl<$Res, ContentEntity>;
+abstract class $ExerciseContentEntityCopyWith<$Res> {
+  factory $ExerciseContentEntityCopyWith(ExerciseContentEntity value,
+          $Res Function(ExerciseContentEntity) then) =
+      _$ExerciseContentEntityCopyWithImpl<$Res, ExerciseContentEntity>;
   @useResult
   $Res call(
       {@HiveField(0) String? video,
@@ -666,9 +675,10 @@ abstract class $ContentEntityCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ContentEntityCopyWithImpl<$Res, $Val extends ContentEntity>
-    implements $ContentEntityCopyWith<$Res> {
-  _$ContentEntityCopyWithImpl(this._value, this._then);
+class _$ExerciseContentEntityCopyWithImpl<$Res,
+        $Val extends ExerciseContentEntity>
+    implements $ExerciseContentEntityCopyWith<$Res> {
+  _$ExerciseContentEntityCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -705,11 +715,12 @@ class _$ContentEntityCopyWithImpl<$Res, $Val extends ContentEntity>
 }
 
 /// @nodoc
-abstract class _$$ContentEntityImplCopyWith<$Res>
-    implements $ContentEntityCopyWith<$Res> {
-  factory _$$ContentEntityImplCopyWith(
-          _$ContentEntityImpl value, $Res Function(_$ContentEntityImpl) then) =
-      __$$ContentEntityImplCopyWithImpl<$Res>;
+abstract class _$$ExerciseContentEntityImplCopyWith<$Res>
+    implements $ExerciseContentEntityCopyWith<$Res> {
+  factory _$$ExerciseContentEntityImplCopyWith(
+          _$ExerciseContentEntityImpl value,
+          $Res Function(_$ExerciseContentEntityImpl) then) =
+      __$$ExerciseContentEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -720,11 +731,12 @@ abstract class _$$ContentEntityImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ContentEntityImplCopyWithImpl<$Res>
-    extends _$ContentEntityCopyWithImpl<$Res, _$ContentEntityImpl>
-    implements _$$ContentEntityImplCopyWith<$Res> {
-  __$$ContentEntityImplCopyWithImpl(
-      _$ContentEntityImpl _value, $Res Function(_$ContentEntityImpl) _then)
+class __$$ExerciseContentEntityImplCopyWithImpl<$Res>
+    extends _$ExerciseContentEntityCopyWithImpl<$Res,
+        _$ExerciseContentEntityImpl>
+    implements _$$ExerciseContentEntityImplCopyWith<$Res> {
+  __$$ExerciseContentEntityImplCopyWithImpl(_$ExerciseContentEntityImpl _value,
+      $Res Function(_$ExerciseContentEntityImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -735,7 +747,7 @@ class __$$ContentEntityImplCopyWithImpl<$Res>
     Object? text = freezed,
     Object? lottie = freezed,
   }) {
-    return _then(_$ContentEntityImpl(
+    return _then(_$ExerciseContentEntityImpl(
       video: freezed == video
           ? _value.video
           : video // ignore: cast_nullable_to_non_nullable
@@ -758,9 +770,11 @@ class __$$ContentEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@HiveType(typeId: 4, adapterName: 'ContentEntityAdapter')
-class _$ContentEntityImpl implements _ContentEntity {
-  const _$ContentEntityImpl(
+@HiveType(
+    typeId: BoxTypeId.exerciseContentEntityIndex,
+    adapterName: BoxTypeId.exerciseContentEntityAdapterName)
+class _$ExerciseContentEntityImpl implements _ExerciseContentEntity {
+  const _$ExerciseContentEntityImpl(
       {@HiveField(0) this.video,
       @HiveField(1) this.image,
       @HiveField(2) this.text,
@@ -781,14 +795,14 @@ class _$ContentEntityImpl implements _ContentEntity {
 
   @override
   String toString() {
-    return 'ContentEntity(video: $video, image: $image, text: $text, lottie: $lottie)';
+    return 'ExerciseContentEntity(video: $video, image: $image, text: $text, lottie: $lottie)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ContentEntityImpl &&
+            other is _$ExerciseContentEntityImpl &&
             (identical(other.video, video) || other.video == video) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.text, text) || other.text == text) &&
@@ -801,16 +815,17 @@ class _$ContentEntityImpl implements _ContentEntity {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$ContentEntityImplCopyWith<_$ContentEntityImpl> get copyWith =>
-      __$$ContentEntityImplCopyWithImpl<_$ContentEntityImpl>(this, _$identity);
+  _$$ExerciseContentEntityImplCopyWith<_$ExerciseContentEntityImpl>
+      get copyWith => __$$ExerciseContentEntityImplCopyWithImpl<
+          _$ExerciseContentEntityImpl>(this, _$identity);
 }
 
-abstract class _ContentEntity implements ContentEntity {
-  const factory _ContentEntity(
+abstract class _ExerciseContentEntity implements ExerciseContentEntity {
+  const factory _ExerciseContentEntity(
       {@HiveField(0) final String? video,
       @HiveField(1) final String? image,
       @HiveField(2) final String? text,
-      @HiveField(3) final String? lottie}) = _$ContentEntityImpl;
+      @HiveField(3) final String? lottie}) = _$ExerciseContentEntityImpl;
 
   @override
   @HiveField(0)
@@ -826,6 +841,6 @@ abstract class _ContentEntity implements ContentEntity {
   String? get lottie;
   @override
   @JsonKey(ignore: true)
-  _$$ContentEntityImplCopyWith<_$ContentEntityImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ExerciseContentEntityImplCopyWith<_$ExerciseContentEntityImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

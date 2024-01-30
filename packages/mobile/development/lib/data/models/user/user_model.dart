@@ -14,7 +14,7 @@ class UserModel with _$UserModel {
     String? email,
     DateTime? dateOfBirth,
     String? photo,
-    MetricUnitsModel? metricUnitsModel,
+    UserMetricUnitsModel? metricUnits,
     int? height,
     int? weight,
     DateTime? createdAt,
@@ -34,7 +34,7 @@ class UserModel with _$UserModel {
         email: email,
         dateOfBirth: dateOfBirth,
         photo: photo,
-        metricUnitsEntity: metricUnitsModel?.toEntity(),
+        metricUnits: metricUnits?.toEntity(),
         height: height,
         weight: weight,
         createdAt: createdAt,
@@ -43,19 +43,19 @@ class UserModel with _$UserModel {
 }
 
 @freezed
-class MetricUnitsModel with _$MetricUnitsModel {
-  const factory MetricUnitsModel({
+class UserMetricUnitsModel with _$UserMetricUnitsModel {
+  const factory UserMetricUnitsModel({
     String? energyUnits,
     String? heightUnits,
     String? weightUnits,
-  }) = _MetricUnitsModel;
+  }) = _UserMetricUnitsModel;
 
-  const MetricUnitsModel._();
+  const UserMetricUnitsModel._();
 
-  factory MetricUnitsModel.fromJson(Map<String, dynamic> json) =>
-      _$MetricUnitsModelFromJson(json);
+  factory UserMetricUnitsModel.fromJson(Map<String, dynamic> json) =>
+      _$UserMetricUnitsModelFromJson(json);
 
-  MetricUnitsEntity toEntity() => MetricUnitsEntity(
+  UserMetricUnitsEntity toEntity() => UserMetricUnitsEntity(
         energyUnits: energyUnits,
         heightUnits: heightUnits,
         weightUnits: weightUnits,

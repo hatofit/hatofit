@@ -17,10 +17,10 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['dateOfBirth'] as String),
       photo: json['photo'] as String?,
-      metricUnitsModel: json['metricUnitsModel'] == null
+      metricUnits: json['metricUnits'] == null
           ? null
-          : MetricUnitsModel.fromJson(
-              json['metricUnitsModel'] as Map<String, dynamic>),
+          : UserMetricUnitsModel.fromJson(
+              json['metricUnits'] as Map<String, dynamic>),
       height: json['height'] as int?,
       weight: json['weight'] as int?,
       createdAt: json['createdAt'] == null
@@ -40,23 +40,23 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'email': instance.email,
       'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
       'photo': instance.photo,
-      'metricUnitsModel': instance.metricUnitsModel,
+      'metricUnits': instance.metricUnits,
       'height': instance.height,
       'weight': instance.weight,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
-_$MetricUnitsModelImpl _$$MetricUnitsModelImplFromJson(
+_$UserMetricUnitsModelImpl _$$UserMetricUnitsModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$MetricUnitsModelImpl(
+    _$UserMetricUnitsModelImpl(
       energyUnits: json['energyUnits'] as String?,
       heightUnits: json['heightUnits'] as String?,
       weightUnits: json['weightUnits'] as String?,
     );
 
-Map<String, dynamic> _$$MetricUnitsModelImplToJson(
-        _$MetricUnitsModelImpl instance) =>
+Map<String, dynamic> _$$UserMetricUnitsModelImplToJson(
+        _$UserMetricUnitsModelImpl instance) =>
     <String, dynamic>{
       'energyUnits': instance.energyUnits,
       'heightUnits': instance.heightUnits,

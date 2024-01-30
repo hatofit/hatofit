@@ -47,10 +47,10 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   final formatter = DateFormat('d MMMM yyyy');
-  List<HrBarChartItem> hrToReport(List<ReportEntity> reports) {
-    if (reports.isEmpty) return [];
-    
-  }
+  // List<HrBarChartItem> hrToReport(List<ReportEntity> reports) {
+  //   if (reports.isEmpty) return [];
+
+  // }
 
   String getBmiStatus(double bmi) {
     if (bmi < 18.5) {
@@ -67,7 +67,7 @@ class HomeCubit extends Cubit<HomeState> {
   double getBmi(UserEntity user) {
     final height = user.height ?? 0;
     final weight = user.weight ?? 0;
-    final metricUnits = user.metricUnitsEntity;
+    final metricUnits = user.metricUnits;
     if (metricUnits == null) return 0;
 
     double? bmi;

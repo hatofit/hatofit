@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -7,7 +8,10 @@ part 'session_entity.g.dart';
 
 @freezed
 class SessionEntity with _$SessionEntity {
-  @HiveType(typeId: 5, adapterName: 'SessionEntityAdapter')
+  @HiveType(
+    typeId: BoxTypeId.sessionEntityIndex,
+    adapterName: BoxTypeId.sessionEntityAdapterName,
+  )
   const factory SessionEntity({
     @HiveField(0) String? id,
     @HiveField(1) String? userId,
@@ -22,7 +26,10 @@ class SessionEntity with _$SessionEntity {
 
 @freezed
 class SessionTimelineEntity with _$SessionTimelineEntity {
-  @HiveType(typeId: 6, adapterName: 'SessionTimelineEntityAdapter')
+  @HiveType(
+    typeId: BoxTypeId.sessionTimelineEntityIndex,
+    adapterName: BoxTypeId.sessionTimelineEntityAdapterName,
+  )
   const factory SessionTimelineEntity({
     @HiveField(0) String? name,
     @HiveField(1) int? startTime,
@@ -31,7 +38,10 @@ class SessionTimelineEntity with _$SessionTimelineEntity {
 
 @freezed
 class SessionDataItemEntity with _$SessionDataItemEntity {
-  @HiveType(typeId: 7, adapterName: 'SessionDataItemEntityAdapter')
+  @HiveType(
+    typeId: BoxTypeId.sessionDataItemEntityIndex,
+    adapterName: BoxTypeId.sessionDataItemEntityAdapterName,
+  )
   const factory SessionDataItemEntity({
     @HiveField(0) int? second,
     @HiveField(1) int? timeStamp,
@@ -41,7 +51,10 @@ class SessionDataItemEntity with _$SessionDataItemEntity {
 
 @freezed
 class SessionDataItemDeviceEntity with _$SessionDataItemDeviceEntity {
-  @HiveType(typeId: 8, adapterName: 'SessionDataItemDeviceEntityAdapter')
+  @HiveType(
+    typeId: BoxTypeId.sessionDataItemDeviceEntityIndex,
+    adapterName: BoxTypeId.sessionDataItemDeviceEntityAdapterName,
+  )
   const factory SessionDataItemDeviceEntity({
     @HiveField(0) String? type,
     @HiveField(1) String? identifier,

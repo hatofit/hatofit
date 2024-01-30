@@ -24,7 +24,7 @@ class ExerciseEntityAdapter extends TypeAdapter<_$ExerciseEntityImpl> {
       type: fields[4] as String?,
       thumbnail: fields[5] as String?,
       duration: fields[6] as int?,
-      instructions: (fields[7] as List?)?.cast<InstructionEntity>(),
+      instructions: (fields[7] as List?)?.cast<ExerciseInstructionEntity>(),
       createdAt: fields[8] as DateTime?,
       updatedAt: fields[9] as DateTime?,
     );
@@ -67,28 +67,29 @@ class ExerciseEntityAdapter extends TypeAdapter<_$ExerciseEntityImpl> {
           typeId == other.typeId;
 }
 
-class InstructionEntityAdapter extends TypeAdapter<_$InstructionEntityImpl> {
+class ExerciseInstructionEntityAdapter
+    extends TypeAdapter<_$ExerciseInstructionEntityImpl> {
   @override
   final int typeId = 3;
 
   @override
-  _$InstructionEntityImpl read(BinaryReader reader) {
+  _$ExerciseInstructionEntityImpl read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return _$InstructionEntityImpl(
+    return _$ExerciseInstructionEntityImpl(
       id: fields[0] as String?,
       type: fields[1] as String?,
       duration: fields[2] as int?,
       name: fields[3] as String?,
       description: fields[4] as String?,
-      content: fields[5] as ContentEntity?,
+      content: fields[5] as ExerciseContentEntity?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, _$InstructionEntityImpl obj) {
+  void write(BinaryWriter writer, _$ExerciseInstructionEntityImpl obj) {
     writer
       ..writeByte(6)
       ..writeByte(0)
@@ -111,22 +112,23 @@ class InstructionEntityAdapter extends TypeAdapter<_$InstructionEntityImpl> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is InstructionEntityAdapter &&
+      other is ExerciseInstructionEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
 
-class ContentEntityAdapter extends TypeAdapter<_$ContentEntityImpl> {
+class ExerciseContentEntityAdapter
+    extends TypeAdapter<_$ExerciseContentEntityImpl> {
   @override
   final int typeId = 4;
 
   @override
-  _$ContentEntityImpl read(BinaryReader reader) {
+  _$ExerciseContentEntityImpl read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return _$ContentEntityImpl(
+    return _$ExerciseContentEntityImpl(
       video: fields[0] as String?,
       image: fields[1] as String?,
       text: fields[2] as String?,
@@ -135,7 +137,7 @@ class ContentEntityAdapter extends TypeAdapter<_$ContentEntityImpl> {
   }
 
   @override
-  void write(BinaryWriter writer, _$ContentEntityImpl obj) {
+  void write(BinaryWriter writer, _$ExerciseContentEntityImpl obj) {
     writer
       ..writeByte(4)
       ..writeByte(0)
@@ -154,7 +156,7 @@ class ContentEntityAdapter extends TypeAdapter<_$ContentEntityImpl> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ContentEntityAdapter &&
+      other is ExerciseContentEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

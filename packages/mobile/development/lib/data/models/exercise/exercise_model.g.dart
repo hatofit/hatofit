@@ -50,7 +50,8 @@ _$InstructionModelImpl _$$InstructionModelImplFromJson(
       description: json['description'] as String?,
       content: json['content'] == null
           ? null
-          : ContentModel.fromJson(json['content'] as Map<String, dynamic>),
+          : ExerciseContentModel.fromJson(
+              json['content'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$InstructionModelImplToJson(
@@ -64,14 +65,16 @@ Map<String, dynamic> _$$InstructionModelImplToJson(
       'content': instance.content,
     };
 
-_$ContentModelImpl _$$ContentModelImplFromJson(Map<String, dynamic> json) =>
-    _$ContentModelImpl(
+_$ExerciseContentModelImpl _$$ExerciseContentModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ExerciseContentModelImpl(
       video: json['video'] as String?,
       text: json['text'] as String?,
       lottie: json['lottie'] as String?,
     );
 
-Map<String, dynamic> _$$ContentModelImplToJson(_$ContentModelImpl instance) =>
+Map<String, dynamic> _$$ExerciseContentModelImplToJson(
+        _$ExerciseContentModelImpl instance) =>
     <String, dynamic>{
       'video': instance.video,
       'text': instance.text,

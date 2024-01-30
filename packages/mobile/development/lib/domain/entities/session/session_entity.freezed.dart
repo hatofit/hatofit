@@ -210,7 +210,9 @@ class __$$SessionEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@HiveType(typeId: 5, adapterName: 'SessionEntityAdapter')
+@HiveType(
+    typeId: BoxTypeId.sessionEntityIndex,
+    adapterName: BoxTypeId.sessionEntityAdapterName)
 class _$SessionEntityImpl implements _SessionEntity {
   const _$SessionEntityImpl(
       {@HiveField(0) this.id,
@@ -440,7 +442,9 @@ class __$$SessionTimelineEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@HiveType(typeId: 6, adapterName: 'SessionTimelineEntityAdapter')
+@HiveType(
+    typeId: BoxTypeId.sessionTimelineEntityIndex,
+    adapterName: BoxTypeId.sessionTimelineEntityAdapterName)
 class _$SessionTimelineEntityImpl implements _SessionTimelineEntity {
   const _$SessionTimelineEntityImpl(
       {@HiveField(0) this.name, @HiveField(1) this.startTime});
@@ -607,7 +611,9 @@ class __$$SessionDataItemEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@HiveType(typeId: 7, adapterName: 'SessionDataItemEntityAdapter')
+@HiveType(
+    typeId: BoxTypeId.sessionDataItemEntityIndex,
+    adapterName: BoxTypeId.sessionDataItemEntityAdapterName)
 class _$SessionDataItemEntityImpl implements _SessionDataItemEntity {
   const _$SessionDataItemEntityImpl(
       {@HiveField(0) this.second,
@@ -796,7 +802,9 @@ class __$$SessionDataItemDeviceEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-@HiveType(typeId: 8, adapterName: 'SessionDataItemDeviceEntityAdapter')
+@HiveType(
+    typeId: BoxTypeId.sessionDataItemDeviceEntityIndex,
+    adapterName: BoxTypeId.sessionDataItemDeviceEntityAdapterName)
 class _$SessionDataItemDeviceEntityImpl
     implements _SessionDataItemDeviceEntity {
   const _$SessionDataItemDeviceEntityImpl(
