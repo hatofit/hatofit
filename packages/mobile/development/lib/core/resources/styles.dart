@@ -9,7 +9,7 @@ ThemeData themeLight(BuildContext context) => ThemeData(
       primaryColor: Palette.primary,
       disabledColor: Palette.shadowDark,
       hintColor: Palette.subText,
-      cardColor: Palette.background,
+      cardColor: Palette.card,
       scaffoldBackgroundColor: Palette.background,
       colorScheme: const ColorScheme.light().copyWith(
         primary: Palette.primary,
@@ -154,7 +154,7 @@ ThemeData themeDark(BuildContext context) => ThemeData(
       primaryColor: Palette.primary,
       disabledColor: Palette.shadowDark,
       hintColor: Palette.subTextDark,
-      cardColor: Palette.backgroundDark,
+      cardColor: Palette.cardDark,
       scaffoldBackgroundColor: Palette.backgroundDark,
       colorScheme: const ColorScheme.dark().copyWith(primary: Palette.primary),
       textTheme: TextTheme(

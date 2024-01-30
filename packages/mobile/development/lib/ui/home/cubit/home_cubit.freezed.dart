@@ -18,45 +18,51 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() scanning,
-    required TResult Function() scanned,
+    required TResult Function() loading,
+    required TResult Function(SuccessResponse success) success,
+    required TResult Function(String message) failure,
+    required TResult Function() empty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? scanning,
-    TResult? Function()? scanned,
+    TResult? Function()? loading,
+    TResult? Function(SuccessResponse success)? success,
+    TResult? Function(String message)? failure,
+    TResult? Function()? empty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? scanning,
-    TResult Function()? scanned,
+    TResult Function()? loading,
+    TResult Function(SuccessResponse success)? success,
+    TResult Function(String message)? failure,
+    TResult Function()? empty,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Scanning value) scanning,
-    required TResult Function(_Scanned value) scanned,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failure value) failure,
+    required TResult Function(_Empty value) empty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Scanning value)? scanning,
-    TResult? Function(_Scanned value)? scanned,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_Failure value)? failure,
+    TResult? Function(_Empty value)? empty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Scanning value)? scanning,
-    TResult Function(_Scanned value)? scanned,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failure value)? failure,
+    TResult Function(_Empty value)? empty,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -80,41 +86,41 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
 }
 
 /// @nodoc
-abstract class _$$InitialImplCopyWith<$Res> {
-  factory _$$InitialImplCopyWith(
-          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
-      __$$InitialImplCopyWithImpl<$Res>;
+abstract class _$$LoadingImplCopyWith<$Res> {
+  factory _$$LoadingImplCopyWith(
+          _$LoadingImpl value, $Res Function(_$LoadingImpl) then) =
+      __$$LoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$InitialImplCopyWithImpl<$Res>
-    extends _$HomeStateCopyWithImpl<$Res, _$InitialImpl>
-    implements _$$InitialImplCopyWith<$Res> {
-  __$$InitialImplCopyWithImpl(
-      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
+class __$$LoadingImplCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$LoadingImpl>
+    implements _$$LoadingImplCopyWith<$Res> {
+  __$$LoadingImplCopyWithImpl(
+      _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
-  const _$InitialImpl();
+class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
+  const _$LoadingImpl();
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'HomeState.initial()';
+    return 'HomeState.loading()';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'HomeState.initial'));
+    properties.add(DiagnosticsProperty('type', 'HomeState.loading'));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InitialImpl);
+        (other.runtimeType == runtimeType && other is _$LoadingImpl);
   }
 
   @override
@@ -123,33 +129,36 @@ class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() scanning,
-    required TResult Function() scanned,
+    required TResult Function() loading,
+    required TResult Function(SuccessResponse success) success,
+    required TResult Function(String message) failure,
+    required TResult Function() empty,
   }) {
-    return initial();
+    return loading();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? scanning,
-    TResult? Function()? scanned,
+    TResult? Function()? loading,
+    TResult? Function(SuccessResponse success)? success,
+    TResult? Function(String message)? failure,
+    TResult? Function()? empty,
   }) {
-    return initial?.call();
+    return loading?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? scanning,
-    TResult Function()? scanned,
+    TResult Function()? loading,
+    TResult Function(SuccessResponse success)? success,
+    TResult Function(String message)? failure,
+    TResult Function()? empty,
     required TResult orElse(),
   }) {
-    if (initial != null) {
-      return initial();
+    if (loading != null) {
+      return loading();
     }
     return orElse();
   }
@@ -157,78 +166,387 @@ class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Scanning value) scanning,
-    required TResult Function(_Scanned value) scanned,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failure value) failure,
+    required TResult Function(_Empty value) empty,
   }) {
-    return initial(this);
+    return loading(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Scanning value)? scanning,
-    TResult? Function(_Scanned value)? scanned,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_Failure value)? failure,
+    TResult? Function(_Empty value)? empty,
   }) {
-    return initial?.call(this);
+    return loading?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Scanning value)? scanning,
-    TResult Function(_Scanned value)? scanned,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failure value)? failure,
+    TResult Function(_Empty value)? empty,
     required TResult orElse(),
   }) {
-    if (initial != null) {
-      return initial(this);
+    if (loading != null) {
+      return loading(this);
     }
     return orElse();
   }
 }
 
-abstract class _Initial implements HomeState {
-  const factory _Initial() = _$InitialImpl;
+abstract class _Loading implements HomeState {
+  const factory _Loading() = _$LoadingImpl;
 }
 
 /// @nodoc
-abstract class _$$ScanningImplCopyWith<$Res> {
-  factory _$$ScanningImplCopyWith(
-          _$ScanningImpl value, $Res Function(_$ScanningImpl) then) =
-      __$$ScanningImplCopyWithImpl<$Res>;
+abstract class _$$SuccessImplCopyWith<$Res> {
+  factory _$$SuccessImplCopyWith(
+          _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
+      __$$SuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({SuccessResponse success});
 }
 
 /// @nodoc
-class __$$ScanningImplCopyWithImpl<$Res>
-    extends _$HomeStateCopyWithImpl<$Res, _$ScanningImpl>
-    implements _$$ScanningImplCopyWith<$Res> {
-  __$$ScanningImplCopyWithImpl(
-      _$ScanningImpl _value, $Res Function(_$ScanningImpl) _then)
+class __$$SuccessImplCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$SuccessImpl>
+    implements _$$SuccessImplCopyWith<$Res> {
+  __$$SuccessImplCopyWithImpl(
+      _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? success = null,
+  }) {
+    return _then(_$SuccessImpl(
+      null == success
+          ? _value.success
+          : success // ignore: cast_nullable_to_non_nullable
+              as SuccessResponse,
+    ));
+  }
 }
 
 /// @nodoc
 
-class _$ScanningImpl with DiagnosticableTreeMixin implements _Scanning {
-  const _$ScanningImpl();
+class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
+  const _$SuccessImpl(this.success);
+
+  @override
+  final SuccessResponse success;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'HomeState.scanning()';
+    return 'HomeState.success(success: $success)';
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'HomeState.scanning'));
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeState.success'))
+      ..add(DiagnosticsProperty('success', success));
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ScanningImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$SuccessImpl &&
+            (identical(other.success, success) || other.success == success));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, success);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loading,
+    required TResult Function(SuccessResponse success) success,
+    required TResult Function(String message) failure,
+    required TResult Function() empty,
+  }) {
+    return success(this.success);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loading,
+    TResult? Function(SuccessResponse success)? success,
+    TResult? Function(String message)? failure,
+    TResult? Function()? empty,
+  }) {
+    return success?.call(this.success);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loading,
+    TResult Function(SuccessResponse success)? success,
+    TResult Function(String message)? failure,
+    TResult Function()? empty,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(this.success);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failure value) failure,
+    required TResult Function(_Empty value) empty,
+  }) {
+    return success(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_Failure value)? failure,
+    TResult? Function(_Empty value)? empty,
+  }) {
+    return success?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failure value)? failure,
+    TResult Function(_Empty value)? empty,
+    required TResult orElse(),
+  }) {
+    if (success != null) {
+      return success(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Success implements HomeState {
+  const factory _Success(final SuccessResponse success) = _$SuccessImpl;
+
+  SuccessResponse get success;
+  @JsonKey(ignore: true)
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FailureImplCopyWith<$Res> {
+  factory _$$FailureImplCopyWith(
+          _$FailureImpl value, $Res Function(_$FailureImpl) then) =
+      __$$FailureImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$FailureImplCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$FailureImpl>
+    implements _$$FailureImplCopyWith<$Res> {
+  __$$FailureImplCopyWithImpl(
+      _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$FailureImpl(
+      null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FailureImpl with DiagnosticableTreeMixin implements _Failure {
+  const _$FailureImpl(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'HomeState.failure(message: $message)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'HomeState.failure'))
+      ..add(DiagnosticsProperty('message', message));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FailureImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
+      __$$FailureImplCopyWithImpl<_$FailureImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loading,
+    required TResult Function(SuccessResponse success) success,
+    required TResult Function(String message) failure,
+    required TResult Function() empty,
+  }) {
+    return failure(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loading,
+    TResult? Function(SuccessResponse success)? success,
+    TResult? Function(String message)? failure,
+    TResult? Function()? empty,
+  }) {
+    return failure?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loading,
+    TResult Function(SuccessResponse success)? success,
+    TResult Function(String message)? failure,
+    TResult Function()? empty,
+    required TResult orElse(),
+  }) {
+    if (failure != null) {
+      return failure(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failure value) failure,
+    required TResult Function(_Empty value) empty,
+  }) {
+    return failure(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_Failure value)? failure,
+    TResult? Function(_Empty value)? empty,
+  }) {
+    return failure?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failure value)? failure,
+    TResult Function(_Empty value)? empty,
+    required TResult orElse(),
+  }) {
+    if (failure != null) {
+      return failure(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Failure implements HomeState {
+  const factory _Failure(final String message) = _$FailureImpl;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$EmptyImplCopyWith<$Res> {
+  factory _$$EmptyImplCopyWith(
+          _$EmptyImpl value, $Res Function(_$EmptyImpl) then) =
+      __$$EmptyImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$EmptyImplCopyWithImpl<$Res>
+    extends _$HomeStateCopyWithImpl<$Res, _$EmptyImpl>
+    implements _$$EmptyImplCopyWith<$Res> {
+  __$$EmptyImplCopyWithImpl(
+      _$EmptyImpl _value, $Res Function(_$EmptyImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$EmptyImpl with DiagnosticableTreeMixin implements _Empty {
+  const _$EmptyImpl();
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'HomeState.empty()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty('type', 'HomeState.empty'));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$EmptyImpl);
   }
 
   @override
@@ -237,33 +555,36 @@ class _$ScanningImpl with DiagnosticableTreeMixin implements _Scanning {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() scanning,
-    required TResult Function() scanned,
+    required TResult Function() loading,
+    required TResult Function(SuccessResponse success) success,
+    required TResult Function(String message) failure,
+    required TResult Function() empty,
   }) {
-    return scanning();
+    return empty();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? scanning,
-    TResult? Function()? scanned,
+    TResult? Function()? loading,
+    TResult? Function(SuccessResponse success)? success,
+    TResult? Function(String message)? failure,
+    TResult? Function()? empty,
   }) {
-    return scanning?.call();
+    return empty?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? scanning,
-    TResult Function()? scanned,
+    TResult Function()? loading,
+    TResult Function(SuccessResponse success)? success,
+    TResult Function(String message)? failure,
+    TResult Function()? empty,
     required TResult orElse(),
   }) {
-    if (scanning != null) {
-      return scanning();
+    if (empty != null) {
+      return empty();
     }
     return orElse();
   }
@@ -271,152 +592,41 @@ class _$ScanningImpl with DiagnosticableTreeMixin implements _Scanning {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Scanning value) scanning,
-    required TResult Function(_Scanned value) scanned,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failure value) failure,
+    required TResult Function(_Empty value) empty,
   }) {
-    return scanning(this);
+    return empty(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Scanning value)? scanning,
-    TResult? Function(_Scanned value)? scanned,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_Failure value)? failure,
+    TResult? Function(_Empty value)? empty,
   }) {
-    return scanning?.call(this);
+    return empty?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Scanning value)? scanning,
-    TResult Function(_Scanned value)? scanned,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failure value)? failure,
+    TResult Function(_Empty value)? empty,
     required TResult orElse(),
   }) {
-    if (scanning != null) {
-      return scanning(this);
+    if (empty != null) {
+      return empty(this);
     }
     return orElse();
   }
 }
 
-abstract class _Scanning implements HomeState {
-  const factory _Scanning() = _$ScanningImpl;
-}
-
-/// @nodoc
-abstract class _$$ScannedImplCopyWith<$Res> {
-  factory _$$ScannedImplCopyWith(
-          _$ScannedImpl value, $Res Function(_$ScannedImpl) then) =
-      __$$ScannedImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ScannedImplCopyWithImpl<$Res>
-    extends _$HomeStateCopyWithImpl<$Res, _$ScannedImpl>
-    implements _$$ScannedImplCopyWith<$Res> {
-  __$$ScannedImplCopyWithImpl(
-      _$ScannedImpl _value, $Res Function(_$ScannedImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$ScannedImpl with DiagnosticableTreeMixin implements _Scanned {
-  const _$ScannedImpl();
-
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'HomeState.scanned()';
-  }
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty('type', 'HomeState.scanned'));
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ScannedImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() scanning,
-    required TResult Function() scanned,
-  }) {
-    return scanned();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? scanning,
-    TResult? Function()? scanned,
-  }) {
-    return scanned?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? scanning,
-    TResult Function()? scanned,
-    required TResult orElse(),
-  }) {
-    if (scanned != null) {
-      return scanned();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Scanning value) scanning,
-    required TResult Function(_Scanned value) scanned,
-  }) {
-    return scanned(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Scanning value)? scanning,
-    TResult? Function(_Scanned value)? scanned,
-  }) {
-    return scanned?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Scanning value)? scanning,
-    TResult Function(_Scanned value)? scanned,
-    required TResult orElse(),
-  }) {
-    if (scanned != null) {
-      return scanned(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Scanned implements HomeState {
-  const factory _Scanned() = _$ScannedImpl;
+abstract class _Empty implements HomeState {
+  const factory _Empty() = _$EmptyImpl;
 }

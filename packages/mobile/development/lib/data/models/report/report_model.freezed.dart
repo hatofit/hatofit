@@ -635,8 +635,8 @@ DataValueModel _$DataValueModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$DataValueModel {
-  String? get name => throw _privateConstructorUsedError;
-  String? get value => throw _privateConstructorUsedError;
+  String? get device => throw _privateConstructorUsedError;
+  List<List<dynamic>>? get value => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -650,7 +650,7 @@ abstract class $DataValueModelCopyWith<$Res> {
           DataValueModel value, $Res Function(DataValueModel) then) =
       _$DataValueModelCopyWithImpl<$Res, DataValueModel>;
   @useResult
-  $Res call({String? name, String? value});
+  $Res call({String? device, List<List<dynamic>>? value});
 }
 
 /// @nodoc
@@ -666,18 +666,18 @@ class _$DataValueModelCopyWithImpl<$Res, $Val extends DataValueModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? device = freezed,
     Object? value = freezed,
   }) {
     return _then(_value.copyWith(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      device: freezed == device
+          ? _value.device
+          : device // ignore: cast_nullable_to_non_nullable
               as String?,
       value: freezed == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<List<dynamic>>?,
     ) as $Val);
   }
 }
@@ -690,7 +690,7 @@ abstract class _$$DataValueModelImplCopyWith<$Res>
       __$$DataValueModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name, String? value});
+  $Res call({String? device, List<List<dynamic>>? value});
 }
 
 /// @nodoc
@@ -704,18 +704,18 @@ class __$$DataValueModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? device = freezed,
     Object? value = freezed,
   }) {
     return _then(_$DataValueModelImpl(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      device: freezed == device
+          ? _value.device
+          : device // ignore: cast_nullable_to_non_nullable
               as String?,
       value: freezed == value
-          ? _value.value
+          ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<List<dynamic>>?,
     ));
   }
 }
@@ -723,19 +723,28 @@ class __$$DataValueModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$DataValueModelImpl extends _DataValueModel {
-  const _$DataValueModelImpl({this.name, this.value}) : super._();
+  const _$DataValueModelImpl({this.device, final List<List<dynamic>>? value})
+      : _value = value,
+        super._();
 
   factory _$DataValueModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$DataValueModelImplFromJson(json);
 
   @override
-  final String? name;
+  final String? device;
+  final List<List<dynamic>>? _value;
   @override
-  final String? value;
+  List<List<dynamic>>? get value {
+    final value = _value;
+    if (value == null) return null;
+    if (_value is EqualUnmodifiableListView) return _value;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'DataValueModel(name: $name, value: $value)';
+    return 'DataValueModel(device: $device, value: $value)';
   }
 
   @override
@@ -743,13 +752,14 @@ class _$DataValueModelImpl extends _DataValueModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DataValueModelImpl &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.value, value) || other.value == value));
+            (identical(other.device, device) || other.device == device) &&
+            const DeepCollectionEquality().equals(other._value, _value));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, value);
+  int get hashCode => Object.hash(
+      runtimeType, device, const DeepCollectionEquality().hash(_value));
 
   @JsonKey(ignore: true)
   @override
@@ -767,17 +777,18 @@ class _$DataValueModelImpl extends _DataValueModel {
 }
 
 abstract class _DataValueModel extends DataValueModel {
-  const factory _DataValueModel({final String? name, final String? value}) =
-      _$DataValueModelImpl;
+  const factory _DataValueModel(
+      {final String? device,
+      final List<List<dynamic>>? value}) = _$DataValueModelImpl;
   const _DataValueModel._() : super._();
 
   factory _DataValueModel.fromJson(Map<String, dynamic> json) =
       _$DataValueModelImpl.fromJson;
 
   @override
-  String? get name;
+  String? get device;
   @override
-  String? get value;
+  List<List<dynamic>>? get value;
   @override
   @JsonKey(ignore: true)
   _$$DataValueModelImplCopyWith<_$DataValueModelImpl> get copyWith =>

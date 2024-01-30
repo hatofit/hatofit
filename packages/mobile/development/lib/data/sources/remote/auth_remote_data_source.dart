@@ -3,7 +3,7 @@ import 'package:hatofit/core/core.dart';
 import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
 
-abstract class AuthRemoteDatasource {
+abstract class AuthRemoteDataSource {
   Future<Either<Failure, AuthResponseModel>> login(LoginParams params);
   Future<Either<Failure, AuthResponseModel>> register(RegisterParams params);
   Future<Either<Failure, AuthResponseModel>> me();
@@ -15,10 +15,10 @@ abstract class AuthRemoteDatasource {
       ResetPasswordParams params);
 }
 
-class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
+class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   final DioClient _client;
 
-  AuthRemoteDatasourceImpl(this._client);
+  AuthRemoteDataSourceImpl(this._client);
 
   @override
   Future<Either<Failure, AuthResponseModel>> login(LoginParams params) async {
@@ -50,7 +50,7 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
     final res = await _client.getRequest(
       ListAPI.authMe,
       converter: (res) =>
-          AuthResponseModel.fromJson(res as Map<String, dynamic>),
+          AuthResponseModel.fromJson(res["auth"] as Map<String, dynamic>),
     );
 
     return res;

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-let bucket: any = null;
+let bucket: null | mongoose.mongo.GridFSBucket = null;
 
 export const GridStorage = async () => {
   if (bucket) return bucket;

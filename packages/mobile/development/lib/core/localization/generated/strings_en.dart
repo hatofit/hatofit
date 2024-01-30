@@ -189,4 +189,10 @@ class StringsEn extends Strings {
 
   @override
   String get pleaseSelectYourGender => 'Please select your gender';
+
+  @override
+  String get todayActivity => 'Today Activity';
+
+  @override
+  String get activityTrends => 'Activity Trends';
 }

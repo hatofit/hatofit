@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 part 'user_entity.freezed.dart';
+part 'user_entity.g.dart';
 
 @freezed
 class UserEntity with _$UserEntity {
@@ -12,13 +13,13 @@ class UserEntity with _$UserEntity {
     @HiveField(2) String? lastName,
     @HiveField(3) String? gender,
     @HiveField(4) String? email,
-    @HiveField(7) DateTime? dateOfBirth,
-    @HiveField(8) String? photo,
-    @HiveField(9) MetricUnitsEntity? metricUnitsEntity,
-    @HiveField(10) int? height,
-    @HiveField(11) int? weight,
-    @HiveField(12) DateTime? createdAt,
-    @HiveField(13) DateTime? updatedAt,
+    @HiveField(5) DateTime? dateOfBirth,
+    @HiveField(6) String? photo,
+    @HiveField(7) MetricUnitsEntity? metricUnitsEntity,
+    @HiveField(8) int? height,
+    @HiveField(9) int? weight,
+    @HiveField(10) DateTime? createdAt,
+    @HiveField(11) DateTime? updatedAt,
   }) = _UserEntity;
 }
 

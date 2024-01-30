@@ -16,8 +16,8 @@ export const ApiPublic = ({ route }: { route: express.Router }) => {
           message: "File not found",
         });
       }
-      console.log("FILE", file[0].metadata.contentType);
-      res.setHeader("Content-Type", file[0].metadata.contentType);
+      console.log("FILE", file[0].metadata!.contentType);
+      res.setHeader("Content-Type", file[0].metadata!.contentType);
       const readStream = bucket.openDownloadStream(
         new mongoose.Types.ObjectId(id)
       );

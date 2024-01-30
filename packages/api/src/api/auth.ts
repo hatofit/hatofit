@@ -101,7 +101,7 @@ export const ApiAuth = ({ route }: { route: express.Router }) => {
       console.log("USER", user);
 
       if (user.photo) {
-        const photoPath: String = req.body.photo.path.split("\\")[1];
+        const photoPath: string = req.body.photo.path.split("\\")[1];
         const bucket = await GridStorage();
         const file = fs.createReadStream(`./uploads/${photoPath}`).pipe(
           bucket.openUploadStream(photoPath, {

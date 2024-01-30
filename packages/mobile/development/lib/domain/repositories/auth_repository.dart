@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:hatofit/core/error/failure.dart';
+import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 
 abstract class AuthRepository {

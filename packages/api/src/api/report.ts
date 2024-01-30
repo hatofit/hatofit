@@ -295,4 +295,45 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
       return res.status(500).json({ error });
     }
   });
+
+  route.get("/report", AuthJwtMiddleware, async (req, res) => {
+    try {
+      const userId = req.auth?.user?._id;
+      if (!userId || typeof userId !== "string" || userId.length === 0) {
+        return res.json({
+          success: false,
+          message: "Invalid userId",
+        });
+      }
+      const { page, limit } = req.query;
+      console.log("PAGE", page);
+      console.log("LIMIT", limit);
+      const sessions = await Session.find({
+        userId: userId,
+      })
+        .sort({ createdAt: -1 })
+        .skip(Number(page || 0) * Number(limit || 10))
+        .limit(Number(limit || 10));
+
+      const reports = await Promise.all(
+        sessions.map(async (session) => {
+          const report = await getReportFromSession(session);
+          return {
+            report,
+            mood: session.mood,
+            exercise: session.exercise,
+          };
+        })
+      );
+
+      return res.json({
+        success: true,
+        message: "Reports generated",
+        reports,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error });
+    }
+  });
 };

@@ -611,9 +611,9 @@ abstract class _ReportDataEntity implements ReportDataEntity {
 /// @nodoc
 mixin _$DataValueEntity {
   @HiveField(0)
-  String? get name => throw _privateConstructorUsedError;
+  String? get device => throw _privateConstructorUsedError;
   @HiveField(1)
-  String? get value => throw _privateConstructorUsedError;
+  List<List<dynamic>>? get value => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DataValueEntityCopyWith<DataValueEntity> get copyWith =>
@@ -626,7 +626,8 @@ abstract class $DataValueEntityCopyWith<$Res> {
           DataValueEntity value, $Res Function(DataValueEntity) then) =
       _$DataValueEntityCopyWithImpl<$Res, DataValueEntity>;
   @useResult
-  $Res call({@HiveField(0) String? name, @HiveField(1) String? value});
+  $Res call(
+      {@HiveField(0) String? device, @HiveField(1) List<List<dynamic>>? value});
 }
 
 /// @nodoc
@@ -642,18 +643,18 @@ class _$DataValueEntityCopyWithImpl<$Res, $Val extends DataValueEntity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? device = freezed,
     Object? value = freezed,
   }) {
     return _then(_value.copyWith(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      device: freezed == device
+          ? _value.device
+          : device // ignore: cast_nullable_to_non_nullable
               as String?,
       value: freezed == value
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<List<dynamic>>?,
     ) as $Val);
   }
 }
@@ -666,7 +667,8 @@ abstract class _$$DataValueEntityImplCopyWith<$Res>
       __$$DataValueEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@HiveField(0) String? name, @HiveField(1) String? value});
+  $Res call(
+      {@HiveField(0) String? device, @HiveField(1) List<List<dynamic>>? value});
 }
 
 /// @nodoc
@@ -680,18 +682,18 @@ class __$$DataValueEntityImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
+    Object? device = freezed,
     Object? value = freezed,
   }) {
     return _then(_$DataValueEntityImpl(
-      name: freezed == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
+      device: freezed == device
+          ? _value.device
+          : device // ignore: cast_nullable_to_non_nullable
               as String?,
       value: freezed == value
-          ? _value.value
+          ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<List<dynamic>>?,
     ));
   }
 }
@@ -701,18 +703,27 @@ class __$$DataValueEntityImplCopyWithImpl<$Res>
 @HiveType(typeId: 11, adapterName: 'DataValueEntityAdapter')
 class _$DataValueEntityImpl implements _DataValueEntity {
   const _$DataValueEntityImpl(
-      {@HiveField(0) this.name, @HiveField(1) this.value});
+      {@HiveField(0) this.device,
+      @HiveField(1) final List<List<dynamic>>? value})
+      : _value = value;
 
   @override
   @HiveField(0)
-  final String? name;
+  final String? device;
+  final List<List<dynamic>>? _value;
   @override
   @HiveField(1)
-  final String? value;
+  List<List<dynamic>>? get value {
+    final value = _value;
+    if (value == null) return null;
+    if (_value is EqualUnmodifiableListView) return _value;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'DataValueEntity(name: $name, value: $value)';
+    return 'DataValueEntity(device: $device, value: $value)';
   }
 
   @override
@@ -720,12 +731,13 @@ class _$DataValueEntityImpl implements _DataValueEntity {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DataValueEntityImpl &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.value, value) || other.value == value));
+            (identical(other.device, device) || other.device == device) &&
+            const DeepCollectionEquality().equals(other._value, _value));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name, value);
+  int get hashCode => Object.hash(
+      runtimeType, device, const DeepCollectionEquality().hash(_value));
 
   @JsonKey(ignore: true)
   @override
@@ -737,15 +749,15 @@ class _$DataValueEntityImpl implements _DataValueEntity {
 
 abstract class _DataValueEntity implements DataValueEntity {
   const factory _DataValueEntity(
-      {@HiveField(0) final String? name,
-      @HiveField(1) final String? value}) = _$DataValueEntityImpl;
+      {@HiveField(0) final String? device,
+      @HiveField(1) final List<List<dynamic>>? value}) = _$DataValueEntityImpl;
 
   @override
   @HiveField(0)
-  String? get name;
+  String? get device;
   @override
   @HiveField(1)
-  String? get value;
+  List<List<dynamic>>? get value;
   @override
   @JsonKey(ignore: true)
   _$$DataValueEntityImplCopyWith<_$DataValueEntityImpl> get copyWith =>

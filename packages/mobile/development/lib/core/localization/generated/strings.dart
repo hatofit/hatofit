@@ -464,6 +464,18 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Please select your gender'**
   String get pleaseSelectYourGender;
+
+  /// No description provided for @todayActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Today Activity'**
+  String get todayActivity;
+
+  /// No description provided for @activityTrends.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Trends'**
+  String get activityTrends;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

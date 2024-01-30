@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hatofit/domain/domain.dart';
 import 'package:hatofit/utils/utils.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -36,9 +37,15 @@ enum MainBoxKeys {
 mixin class MainBoxMixin {
   static late Box? mainBox;
 
+  static Future<void> entitiesRegister() async {
+    Hive.registerAdapter(UserEntityAdapter());
+    Hive.registerAdapter(MetricUnitsEntityAdapter());
+  }
+
   static Future<void> initHive() async {
     await Hive.initFlutter();
-    mainBox = await Hive.openBox('hatofit');
+    await entitiesRegister();
+    mainBox = await Hive.openBox('hatofit'); 
   }
 
   Future<void> addData<T>(MainBoxKeys key, T value) async {
@@ -57,16 +64,14 @@ mixin class MainBoxMixin {
     removeData(MainBoxKeys.token);
   }
 
-  Future<void> closeBox({bool isUnitTest = false}) async {
+  Future<void> closeBox() async {
     try {
       if (mainBox != null) {
         await mainBox?.close();
         await mainBox?.deleteFromDisk();
       }
     } catch (e, stackTrace) {
-      if (!isUnitTest) {
-        FirebaseCrashLogger().nonFatalError(error: e, stackTrace: stackTrace);
-      }
+      FirebaseCrashLogger().nonFatalError(error: e, stackTrace: stackTrace);
     }
   }
 }

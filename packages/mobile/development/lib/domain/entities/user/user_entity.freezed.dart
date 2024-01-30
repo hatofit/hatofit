@@ -26,20 +26,20 @@ mixin _$UserEntity {
   String? get gender => throw _privateConstructorUsedError;
   @HiveField(4)
   String? get email => throw _privateConstructorUsedError;
-  @HiveField(7)
+  @HiveField(5)
   DateTime? get dateOfBirth => throw _privateConstructorUsedError;
-  @HiveField(8)
+  @HiveField(6)
   String? get photo => throw _privateConstructorUsedError;
-  @HiveField(9)
+  @HiveField(7)
   MetricUnitsEntity? get metricUnitsEntity =>
       throw _privateConstructorUsedError;
-  @HiveField(10)
+  @HiveField(8)
   int? get height => throw _privateConstructorUsedError;
-  @HiveField(11)
+  @HiveField(9)
   int? get weight => throw _privateConstructorUsedError;
-  @HiveField(12)
+  @HiveField(10)
   DateTime? get createdAt => throw _privateConstructorUsedError;
-  @HiveField(13)
+  @HiveField(11)
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -59,13 +59,13 @@ abstract class $UserEntityCopyWith<$Res> {
       @HiveField(2) String? lastName,
       @HiveField(3) String? gender,
       @HiveField(4) String? email,
-      @HiveField(7) DateTime? dateOfBirth,
-      @HiveField(8) String? photo,
-      @HiveField(9) MetricUnitsEntity? metricUnitsEntity,
-      @HiveField(10) int? height,
-      @HiveField(11) int? weight,
-      @HiveField(12) DateTime? createdAt,
-      @HiveField(13) DateTime? updatedAt});
+      @HiveField(5) DateTime? dateOfBirth,
+      @HiveField(6) String? photo,
+      @HiveField(7) MetricUnitsEntity? metricUnitsEntity,
+      @HiveField(8) int? height,
+      @HiveField(9) int? weight,
+      @HiveField(10) DateTime? createdAt,
+      @HiveField(11) DateTime? updatedAt});
 
   $MetricUnitsEntityCopyWith<$Res>? get metricUnitsEntity;
 }
@@ -175,13 +175,13 @@ abstract class _$$UserEntityImplCopyWith<$Res>
       @HiveField(2) String? lastName,
       @HiveField(3) String? gender,
       @HiveField(4) String? email,
-      @HiveField(7) DateTime? dateOfBirth,
-      @HiveField(8) String? photo,
-      @HiveField(9) MetricUnitsEntity? metricUnitsEntity,
-      @HiveField(10) int? height,
-      @HiveField(11) int? weight,
-      @HiveField(12) DateTime? createdAt,
-      @HiveField(13) DateTime? updatedAt});
+      @HiveField(5) DateTime? dateOfBirth,
+      @HiveField(6) String? photo,
+      @HiveField(7) MetricUnitsEntity? metricUnitsEntity,
+      @HiveField(8) int? height,
+      @HiveField(9) int? weight,
+      @HiveField(10) DateTime? createdAt,
+      @HiveField(11) DateTime? updatedAt});
 
   @override
   $MetricUnitsEntityCopyWith<$Res>? get metricUnitsEntity;
@@ -274,13 +274,13 @@ class _$UserEntityImpl implements _UserEntity {
       @HiveField(2) this.lastName,
       @HiveField(3) this.gender,
       @HiveField(4) this.email,
-      @HiveField(7) this.dateOfBirth,
-      @HiveField(8) this.photo,
-      @HiveField(9) this.metricUnitsEntity,
-      @HiveField(10) this.height,
-      @HiveField(11) this.weight,
-      @HiveField(12) this.createdAt,
-      @HiveField(13) this.updatedAt});
+      @HiveField(5) this.dateOfBirth,
+      @HiveField(6) this.photo,
+      @HiveField(7) this.metricUnitsEntity,
+      @HiveField(8) this.height,
+      @HiveField(9) this.weight,
+      @HiveField(10) this.createdAt,
+      @HiveField(11) this.updatedAt});
 
   @override
   @HiveField(0)
@@ -298,25 +298,25 @@ class _$UserEntityImpl implements _UserEntity {
   @HiveField(4)
   final String? email;
   @override
-  @HiveField(7)
+  @HiveField(5)
   final DateTime? dateOfBirth;
   @override
-  @HiveField(8)
+  @HiveField(6)
   final String? photo;
   @override
-  @HiveField(9)
+  @HiveField(7)
   final MetricUnitsEntity? metricUnitsEntity;
   @override
-  @HiveField(10)
+  @HiveField(8)
   final int? height;
   @override
-  @HiveField(11)
+  @HiveField(9)
   final int? weight;
   @override
-  @HiveField(12)
+  @HiveField(10)
   final DateTime? createdAt;
   @override
-  @HiveField(13)
+  @HiveField(11)
   final DateTime? updatedAt;
 
   @override
@@ -379,13 +379,13 @@ abstract class _UserEntity implements UserEntity {
       @HiveField(2) final String? lastName,
       @HiveField(3) final String? gender,
       @HiveField(4) final String? email,
-      @HiveField(7) final DateTime? dateOfBirth,
-      @HiveField(8) final String? photo,
-      @HiveField(9) final MetricUnitsEntity? metricUnitsEntity,
-      @HiveField(10) final int? height,
-      @HiveField(11) final int? weight,
-      @HiveField(12) final DateTime? createdAt,
-      @HiveField(13) final DateTime? updatedAt}) = _$UserEntityImpl;
+      @HiveField(5) final DateTime? dateOfBirth,
+      @HiveField(6) final String? photo,
+      @HiveField(7) final MetricUnitsEntity? metricUnitsEntity,
+      @HiveField(8) final int? height,
+      @HiveField(9) final int? weight,
+      @HiveField(10) final DateTime? createdAt,
+      @HiveField(11) final DateTime? updatedAt}) = _$UserEntityImpl;
 
   @override
   @HiveField(0)
@@ -403,25 +403,25 @@ abstract class _UserEntity implements UserEntity {
   @HiveField(4)
   String? get email;
   @override
-  @HiveField(7)
+  @HiveField(5)
   DateTime? get dateOfBirth;
   @override
-  @HiveField(8)
+  @HiveField(6)
   String? get photo;
   @override
-  @HiveField(9)
+  @HiveField(7)
   MetricUnitsEntity? get metricUnitsEntity;
   @override
-  @HiveField(10)
+  @HiveField(8)
   int? get height;
   @override
-  @HiveField(11)
+  @HiveField(9)
   int? get weight;
   @override
-  @HiveField(12)
+  @HiveField(10)
   DateTime? get createdAt;
   @override
-  @HiveField(13)
+  @HiveField(11)
   DateTime? get updatedAt;
   @override
   @JsonKey(ignore: true)

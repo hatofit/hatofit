@@ -66,20 +66,20 @@ class Palette {
   static const Color shadow = Color(0xff8c8fa1);
   static const Color shadowDark = Color(0xff7f849c);
 
-  static const Color redMocha = Color(0xfff38ba8);
-  static const Color greenMocha = Color(0xffa6e3a1);
-  static const Color roseWaterMocha = Color(0xfff5e0dc);
-  static const Color flamingoMocha = Color(0xfff2cdcd);
-  static const Color pinkMocha = Color(0xfff5c2e7);
-  static const Color mauveMocha = Color(0xffcba6f7);
-  static const Color maroonMocha = Color(0xffeba0ac);
-  static const Color peachMocha = Color(0xfffab387);
-  static const Color yellowMocha = Color(0xfff9e2af);
-  static const Color tealMocha = Color(0xff94e2d5);
-  static const Color sapphireMocha = Color(0xff89dceb);
-  static const Color skyMocha = Color(0xff89dceb);
-  static const Color blueMocha = Color(0xff89b4fa);
-  static const Color lavenderMocha = Color(0xffb4befe);
+  static const Color redMocha = Color(0xffe73982);
+  static const Color greenMocha = Color(0xff5ccf61);
+  static const Color roseWaterMocha = Color(0xfff9c7b8);
+  static const Color flamingoMocha = Color(0xffe99696);
+  static const Color pinkMocha = Color(0xfff18ad2);
+  static const Color mauveMocha = Color(0xffa775f9);
+  static const Color maroonMocha = Color(0xffec6b77);
+  static const Color peachMocha = Color(0xfffcb466);
+  static const Color yellowMocha = Color(0xfff6d76d);
+  static const Color tealMocha = Color(0xff59dbc8);
+  static const Color sapphireMocha = Color(0xff54b9e4);
+  static const Color skyMocha = Color(0xff55b8e5);
+  static const Color blueMocha = Color(0xff5788ff);
+  static const Color lavenderMocha = Color(0xff8b8dff);
 
   static const Color redLatte = Color(0xffd20f39);
   static const Color greenLatte = Color(0xff40a02b);
@@ -95,7 +95,7 @@ class Palette {
   static const Color skyLatte = Color(0xff04a5e5);
   static const Color blueLatte = Color(0xff1e66f5);
   static const Color lavenderLatte = Color(0xff7287fd);
-  
+
   static const Color male = Color(0xFF2B3595);
   static const Color female = Color(0xFFE14594);
 }

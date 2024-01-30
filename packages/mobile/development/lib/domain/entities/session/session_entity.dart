@@ -3,6 +3,7 @@ import 'package:hatofit/domain/domain.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 part 'session_entity.freezed.dart';
+part 'session_entity.g.dart';
 
 @freezed
 class SessionEntity with _$SessionEntity {

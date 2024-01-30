@@ -10,7 +10,5 @@ class ImageFromGalleryUsecase extends NoParamsUseCase<File> {
   ImageFromGalleryUsecase(this._repo);
 
   @override
-  Future<Either<Failure, File>> call() async {
-    return await _repo.getImageFromSource();
-  }
+  Future<Either<Failure, File>> call() => _repo.getImageFromSource();
 }

@@ -24,6 +24,7 @@ class Dimens {
 
   static double zero = 0.w;
 
+  static double width2 = 2.w;
   static double width4 = 4.w;
   static double width8 = 8.w;
   static double width12 = 12.w;
@@ -52,7 +53,7 @@ class Dimens {
   static double height84 = 84.h;
   static double height100 = 100.h;
   static double height128 = 128.h;
-  static double height175 = 175.h; 
+  static double height175 = 175.h;
   static double height270 = 270.h;
 
   static double selectedIndicatorW = 43.w;

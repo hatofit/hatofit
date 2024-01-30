@@ -189,4 +189,10 @@ class StringsId extends Strings {
 
   @override
   String get pleaseSelectYourGender => 'Silahkan pilih jenis kelamin anda';
+
+  @override
+  String get todayActivity => 'Aktivitas hari ini';
+
+  @override
+  String get activityTrends => 'Tren aktivitas';
 }

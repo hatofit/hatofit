@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 part 'exercise_entity.freezed.dart';
+part 'exercise_entity.g.dart';
 
 @freezed
 class ExerciseEntity with _$ExerciseEntity {

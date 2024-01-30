@@ -60,5 +60,7 @@
   "energyUnit": "Energy Unit",
   "signInSuccessfully": "Sign in successfully",
   "signUpSuccessfully": "Sign up successfully",
-  "pleaseSelectYourGender": "Please select your gender"
+  "pleaseSelectYourGender": "Please select your gender",
+  "todayActivity": "Today Activity",
+  "activityTrends": "Activity Trends"
 }

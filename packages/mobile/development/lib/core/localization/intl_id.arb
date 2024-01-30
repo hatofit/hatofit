@@ -60,5 +60,7 @@
   "energyUnit": "Satuan energi",
   "signInSuccessfully": "Berhasil masuk",
   "signUpSuccessfully": "Berhasil daftar",
-  "pleaseSelectYourGender": "Silahkan pilih jenis kelamin anda"
+  "pleaseSelectYourGender": "Silahkan pilih jenis kelamin anda",
+  "todayActivity": "Aktivitas hari ini",
+  "activityTrends": "Tren aktivitas"
 }

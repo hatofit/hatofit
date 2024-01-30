@@ -8,6 +8,6 @@ class ConnectBluetoothUsecase extends WithParamsUseCase<void, BluetoothParams> {
   ConnectBluetoothUsecase(this._repo);
 
   @override
-  Future<Either<Failure, void>> call(BluetoothParams params) async =>
-      await _repo.connectToDevice(params);
+  Future<Either<Failure, void>> call(BluetoothParams params) =>
+      _repo.connectToDevice(params);
 }

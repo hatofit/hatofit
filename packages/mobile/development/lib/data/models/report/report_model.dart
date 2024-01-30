@@ -71,8 +71,8 @@ class ReportDataModel with _$ReportDataModel {
 @freezed
 class DataValueModel with _$DataValueModel {
   const factory DataValueModel({
-    String? name,
-    String? value,
+    String? device,
+    List<List<dynamic>>? value,
   }) = _DataValueModel;
 
   const DataValueModel._();
@@ -81,7 +81,7 @@ class DataValueModel with _$DataValueModel {
       _$DataValueModelFromJson(json);
 
   DataValueEntity toEntity() => DataValueEntity(
-        name: name,
+        device: device,
         value: value,
       );
 }

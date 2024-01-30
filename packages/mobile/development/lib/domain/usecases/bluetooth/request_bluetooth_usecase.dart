@@ -10,6 +10,6 @@ class RequestBluetoothUsecase
   RequestBluetoothUsecase(this._repo);
 
   @override
-  Future<Either<Failure, Map<Permission, PermissionStatus>>> call() async =>
-      await _repo.requestPermissions();
+  Future<Either<Failure, Map<Permission, PermissionStatus>>> call() =>
+      _repo.requestPermissions();
 }

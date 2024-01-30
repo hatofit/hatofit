@@ -85,6 +85,12 @@ const companySeed = [
     },
 ];
 const seed = () => __awaiter(void 0, void 0, void 0, function* () {
+    // await Exercise.deleteMany({});
+    // await Company.deleteMany({});
+    // await User.deleteMany({});
+    // await Session.deleteMany({});
+    // await ReportShare.deleteMany({});
+    // (await GridStorage()).drop();
     for (var exercise of exerciseSeed) {
         const exist = yield _1.Exercise.findById(exercise._id);
         if (exist) {

@@ -1,7 +1,7 @@
- 
 export 'color_loader.dart';
 export 'drop_down.dart';
 export 'horizontal_picker.dart';
+export 'icon_wrapper.dart';
 export 'loading.dart';
 export 'parent.dart';
 export 'spacer_v.dart';

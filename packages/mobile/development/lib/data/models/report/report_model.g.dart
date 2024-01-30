@@ -64,13 +64,15 @@ Map<String, dynamic> _$$ReportDataModelImplToJson(
 
 _$DataValueModelImpl _$$DataValueModelImplFromJson(Map<String, dynamic> json) =>
     _$DataValueModelImpl(
-      name: json['name'] as String?,
-      value: json['value'] as String?,
+      device: json['device'] as String?,
+      value: (json['value'] as List<dynamic>?)
+          ?.map((e) => e as List<dynamic>)
+          .toList(),
     );
 
 Map<String, dynamic> _$$DataValueModelImplToJson(
         _$DataValueModelImpl instance) =>
     <String, dynamic>{
-      'name': instance.name,
+      'device': instance.device,
       'value': instance.value,
     };

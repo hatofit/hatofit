@@ -78,6 +78,12 @@ const companySeed = [
 ] as const;
 
 export const seed = async () => {
+  // await Exercise.deleteMany({});
+  // await Company.deleteMany({});
+  // await User.deleteMany({});
+  // await Session.deleteMany({});
+  // await ReportShare.deleteMany({});
+  // (await GridStorage()).drop();
   for (var exercise of exerciseSeed) {
     const exist = await Exercise.findById(exercise._id);
     if (exist) {

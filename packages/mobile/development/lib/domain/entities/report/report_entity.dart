@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 part 'report_entity.freezed.dart';
+part 'report_entity.g.dart';
 
 @freezed
 class ReportEntity with _$ReportEntity {
@@ -39,7 +40,7 @@ class ReportDataEntity with _$ReportDataEntity {
 class DataValueEntity with _$DataValueEntity {
   @HiveType(typeId: 11, adapterName: 'DataValueEntityAdapter')
   const factory DataValueEntity({
-    @HiveField(0) String? name,
-    @HiveField(1) String? value,
+    @HiveField(0) String? device,
+    @HiveField(1) List<List<dynamic>>? value,
   }) = _DataValueEntity;
 }

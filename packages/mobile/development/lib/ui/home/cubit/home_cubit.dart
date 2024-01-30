@@ -2,33 +2,99 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/helper/logger.dart';
+import 'package:intl/intl.dart';
 
 part 'home_cubit.freezed.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
+  final GetReportsUsecase _getReportsUsecase;
+  final GetUserUsecase _getUserUsecase;
   HomeCubit(
-    this._connectBluetoothUsecase,
-    this._scanBluetoothUsecase,
-    this._requestBluetoothUsecase,
-  ) : super(_Initial());
-  final ConnectBluetoothUsecase _connectBluetoothUsecase;
-  final ScanBluetoothUsecase _scanBluetoothUsecase;
-  final RequestBluetoothUsecase _requestBluetoothUsecase;
-  void scan() async {
-    await _requestBluetoothUsecase();
-    final scan = _scanBluetoothUsecase();
-    scan.listen((event) {
-      log?.i("Scan Bluetooth: $event");
-    });
+    this._getReportsUsecase,
+    this._getUserUsecase,
+  ) : super(const _Loading());
+
+  String userName = "User";
+  Future<void> init() async {
+    await getData();
   }
 
-  void streamScan() async {}
+  Future<void> getData() async {
+    emit(const _Loading());
+    final res = await _getReportsUsecase.call(const GetReportsParams(
+      page: 0,
+      limit: 5,
+    ));
+    res.fold(
+      (failure) => emit(_Failure(failure.toString())),
+      (session) async {
+        final user = await getUser();
+        if (user == null) return emit(const _Failure("User not found"));
+        userName = user.firstName ?? "User";
+        final bmi = getBmi(user);
+        final bmiStatus = getBmiStatus(bmi);
+      },
+    );
+  }
 
-  void findDevs() {}
+  Future<UserEntity?> getUser() async {
+    final res = await _getUserUsecase.call();
+    return res.fold(
+      (l) => null,
+      (r) => r,
+    );
+  }
 
-  void req() async {
-    await _requestBluetoothUsecase();
+  final formatter = DateFormat('d MMMM yyyy');
+  List<HrBarChartItem> hrToReport(List<ReportEntity> reports) {
+    if (reports.isEmpty) return [];
+    
+  }
+
+  String getBmiStatus(double bmi) {
+    if (bmi < 18.5) {
+      return "Underweight";
+    } else if (bmi >= 18.5 && bmi < 25) {
+      return "Normal";
+    } else if (bmi >= 25 && bmi < 30) {
+      return "Overweight";
+    } else {
+      return "Obese";
+    }
+  }
+
+  double getBmi(UserEntity user) {
+    final height = user.height ?? 0;
+    final weight = user.weight ?? 0;
+    final metricUnits = user.metricUnitsEntity;
+    if (metricUnits == null) return 0;
+
+    double? bmi;
+    switch (metricUnits.weightUnits) {
+      case 'kg':
+        switch (metricUnits.heightUnits) {
+          case 'cm':
+            bmi = weight / ((height / 100) * (height / 100));
+            break;
+          case 'ft':
+            bmi = weight / ((height * 12) * (height * 12)) * 703;
+            break;
+        }
+        break;
+
+      case 'lbs':
+        switch (metricUnits.heightUnits) {
+          case 'cm':
+            bmi = weight / ((height / 100) * (height / 100)) * 703;
+            break;
+          case 'ft':
+            bmi = weight / ((height * 12) * (height * 12));
+            break;
+        }
+        break;
+    }
+
+    return double.parse(bmi!.toStringAsFixed(1));
   }
 }

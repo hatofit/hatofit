@@ -8,7 +8,5 @@ class MeUseCase extends NoParamsUseCase<AuthResponseEntity> {
   MeUseCase(this.repository);
 
   @override
-  Future<Either<Failure, AuthResponseEntity>> call() async {
-    return await repository.me();
-  }
+  Future<Either<Failure, AuthResponseEntity>> call() => repository.me();
 }

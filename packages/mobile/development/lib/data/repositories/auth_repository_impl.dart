@@ -2,13 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:hatofit/core/error/failure.dart';
 import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/utils.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  final AuthRemoteDatasource _remote;
-  final MainBoxMixin mainBoxMixin;
+  final AuthRemoteDataSource _remote;
+  final UserLocalDataSource _local;
 
-  const AuthRepositoryImpl(this._remote, this.mainBoxMixin);
+  const AuthRepositoryImpl(this._remote, this._local);
 
   @override
   Future<Either<Failure, AuthResponseEntity>> login(
@@ -18,7 +17,8 @@ class AuthRepositoryImpl implements AuthRepository {
     return res.fold(
       (failure) => Left(failure),
       (authResponseModel) {
-        mainBoxMixin.addData(MainBoxKeys.token, authResponseModel.token);
+        _local.saveToken(authResponseModel.token ?? "");
+        _local.saveUser(authResponseModel.user?.toEntity() ?? UserEntity());
         return Right(authResponseModel.toEntity());
       },
     );
@@ -29,7 +29,11 @@ class AuthRepositoryImpl implements AuthRepository {
     final res = await _remote.me();
     return res.fold(
       (failure) => Left(failure),
-      (authResponseModel) => Right(authResponseModel.toEntity()),
+      (authResponseModel) {
+        _local.saveToken(authResponseModel.token ?? "");
+        _local.saveUser(authResponseModel.user?.toEntity() ?? UserEntity());
+        return Right(authResponseModel.toEntity());
+      },
     );
   }
 
@@ -41,8 +45,8 @@ class AuthRepositoryImpl implements AuthRepository {
     return res.fold(
       (failure) => Left(failure),
       (authResponseModel) {
-        log?.f(authResponseModel);
-        mainBoxMixin.addData(MainBoxKeys.token, authResponseModel.token);
+        _local.saveToken(authResponseModel.token ?? "");
+        _local.saveUser(authResponseModel.user?.toEntity() ?? UserEntity());
         return Right(authResponseModel.toEntity());
       },
     );
@@ -67,7 +71,6 @@ class AuthRepositoryImpl implements AuthRepository {
     return res.fold(
       (failure) => Left(failure),
       (authResponseModel) {
-        mainBoxMixin.addData(MainBoxKeys.token, authResponseModel.token);
         return Right(authResponseModel.toEntity());
       },
     );

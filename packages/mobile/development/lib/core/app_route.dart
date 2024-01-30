@@ -115,9 +115,12 @@ class AppRoute {
             );
           }),
       StatefulShellRoute.indexedStack(
-        builder: (_, state, navigationShell) => BottomNavigationView(
-          navigationShell: navigationShell,
-          state: state,
+        builder: (_, state, navigationShell) => BlocProvider(
+          create: (context) => di<NavigationCubit>(),
+          child: BottomNavigationView(
+            navigationShell: navigationShell,
+            state: state,
+          ),
         ),
         branches: [
           StatefulShellBranch(
@@ -127,7 +130,7 @@ class AppRoute {
                 path: Routes.home.path,
                 name: Routes.home.name,
                 builder: (_, __) => BlocProvider(
-                  create: (_) => di<HomeCubit>()..streamScan(),
+                  create: (_) => di<HomeCubit>()..init(),
                   child: const HomeView(),
                 ),
               ),
