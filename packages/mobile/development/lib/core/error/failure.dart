@@ -42,6 +42,10 @@ class NoDataFailure extends Failure {
 }
 
 class CacheFailure extends Failure {
+  final String? message;
+
+  const CacheFailure([this.message]);
+
   @override
   bool operator ==(Object other) => other is CacheFailure;
 

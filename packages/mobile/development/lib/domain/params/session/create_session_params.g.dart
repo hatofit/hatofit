@@ -32,8 +32,8 @@ Map<String, dynamic> _$$CreateSessionParamsImplToJson(
       'startTime': instance.startTime,
       'endTime': instance.endTime,
       'mood': instance.mood,
-      'timeline': instance.timeline,
-      'data': instance.data,
+      'timeline': instance.timeline.map((e) => e.toJson()).toList(),
+      'data': instance.data.map((e) => e.toJson()).toList(),
     };
 
 _$SessionTimelineParamsImpl _$$SessionTimelineParamsImplFromJson(
@@ -67,7 +67,7 @@ Map<String, dynamic> _$$SessionDataItemParamsImplToJson(
     <String, dynamic>{
       'second': instance.second,
       'timeStamp': instance.timeStamp,
-      'devices': instance.devices,
+      'devices': instance.devices.map((e) => e.toJson()).toList(),
     };
 
 _$SessionDataItemDeviceParamsImpl _$$SessionDataItemDeviceParamsImplFromJson(

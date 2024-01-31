@@ -9,10 +9,12 @@ part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final GetReportsUsecase _getReportsUsecase;
+  final GetSessionUsecase _getSessionsUsecase;
   final GetUserUsecase _getUserUsecase;
   HomeCubit(
     this._getReportsUsecase,
     this._getUserUsecase,
+    this._getSessionsUsecase,
   ) : super(const _Loading());
 
   String userName = "User";
@@ -21,11 +23,16 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getData() async {
+    final sesRes = await _getSessionsUsecase.call(const GetSessionParams(
+      id: "65b908b702a0e72a0ffd237c",
+    ));
+
     emit(const _Loading());
     final res = await _getReportsUsecase.call(const GetReportsParams(
       page: 0,
-      limit: 5,
+      limit: 1,
     ));
+
     res.fold(
       (failure) => emit(_Failure(failure.toString())),
       (session) async {
@@ -34,6 +41,13 @@ class HomeCubit extends Cubit<HomeState> {
         userName = user.firstName ?? "User";
         final bmi = getBmi(user);
         final bmiStatus = getBmiStatus(bmi);
+        emit(_Success(SuccessResponse(
+          hrData: [],
+          calories: 0,
+          bmi: bmi,
+          bmiStatus: bmiStatus,
+          userName: userName,
+        )));
       },
     );
   }

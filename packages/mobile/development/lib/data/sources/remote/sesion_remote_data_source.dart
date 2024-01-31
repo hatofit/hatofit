@@ -39,7 +39,8 @@ class SessionRemoteDataSourceImpl implements SessionRemoteDataSource {
   ) async {
     final res = await _client.getRequest(
       "${ListAPI.session}/${params.id}",
-      converter: (res) => SessionModel.fromJson(res as Map<String, dynamic>),
+      converter: (res) =>
+          SessionModel.fromJson(res['session'] as Map<String, dynamic>),
     );
 
     return res;

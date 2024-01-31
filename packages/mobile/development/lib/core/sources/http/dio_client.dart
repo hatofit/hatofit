@@ -64,7 +64,6 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
-      log?.f("TOKEN: ${getData(MainBoxKeys.token)}");
       final response = await dio.get(
         url,
         queryParameters: queryParameters,

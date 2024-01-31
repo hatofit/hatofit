@@ -28,8 +28,8 @@ Map<String, dynamic> _$$ReportModelImplToJson(_$ReportModelImpl instance) =>
       'exerciseId': instance.exerciseId,
       'startTime': instance.startTime,
       'endTime': instance.endTime,
-      'devices': instance.devices,
-      'reports': instance.reports,
+      'devices': instance.devices?.map((e) => e.toJson()).toList(),
+      'reports': instance.reports?.map((e) => e.toJson()).toList(),
     };
 
 _$ReportDeviceModelImpl _$$ReportDeviceModelImplFromJson(
@@ -59,7 +59,7 @@ Map<String, dynamic> _$$ReportDataModelImplToJson(
         _$ReportDataModelImpl instance) =>
     <String, dynamic>{
       'type': instance.type,
-      'data': instance.data,
+      'data': instance.data?.map((e) => e.toJson()).toList(),
     };
 
 _$ReportDataValueModelImpl _$$ReportDataValueModelImplFromJson(

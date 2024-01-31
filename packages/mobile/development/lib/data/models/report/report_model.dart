@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hatofit/data/models/session/session_model.dart';
 import 'package:hatofit/domain/domain.dart';
+import 'package:hatofit/utils/utils.dart';
 
 part 'report_model.freezed.dart';
 part 'report_model.g.dart';
@@ -30,6 +32,146 @@ class ReportModel with _$ReportModel {
         devices: devices?.map((e) => e.toEntity()).toList(),
         reports: reports?.map((e) => e.toEntity()).toList(),
       );
+  factory ReportModel.fromSession(SessionModel session) {
+    const knownBrand = [
+      'Polar',
+      'Magene',
+    ];
+
+    List<ReportDeviceModel> devices = [];
+    List<ReportDataModel> reports = [];
+
+    for (var item in session.data!) {
+      if (item.second == null ||
+          item.timeStamp == null ||
+          item.devices == null ||
+          item.devices!.isEmpty) {
+        continue;
+      }
+      for (var device in item.devices!) {
+        if (device.type == null || device.identifier == null) {
+          continue;
+        }
+        if (device.type!.contains(knownBrand[0]) ||
+            device.type!.contains(knownBrand[1])) {
+          //  check if device is already in list
+          final index = devices.indexWhere(
+            (e) => e.identifier == device.identifier,
+          );
+          if (index == -1) {
+            devices.add(
+              ReportDeviceModel(
+                name: device.type!.contains(knownBrand[0])
+                    ? knownBrand[0]
+                    : knownBrand[1],
+                identifier: device.identifier,
+              ),
+            );
+          }
+          if (device.type! == "PolarDataType.hr") {
+            final reportIndex = reports.indexWhere(
+              (e) => e.type == "hr",
+            );
+            if (reportIndex == -1) {
+              reports.add(ReportDataModel(
+                type: "hr",
+                data: [
+                  ReportDataValueModel(
+                    device: device.identifier,
+                    value: [
+                      [item.second!, device.value!.first['hr']],
+                    ],
+                  )
+                ],
+              ));
+            } else {
+              reports[reportIndex].data![0].value!.add(
+                [
+                  item.second!,
+                  device.value!.first['hr'],
+                ],
+              );
+            }
+          }
+          if (device.type! == "PolarDataType.acc") {
+            final reportIndex = reports.indexWhere(
+              (e) => e.type == "acc",
+            );
+            if (reportIndex == -1) {
+              reports.add(ReportDataModel(
+                type: "acc",
+                data: [
+                  ReportDataValueModel(
+                    device: device.identifier,
+                    value: [
+                      [
+                        item.second!,
+                        device.value!.first['x'],
+                        device.value!.first['y'],
+                        device.value!.first['z']
+                      ],
+                    ],
+                  )
+                ],
+              ));
+            } else {
+              reports[reportIndex].data![0].value!.add(
+                [
+                  item.second!,
+                  device.value!.first['x'],
+                  device.value!.first['y'],
+                  device.value!.first['z'],
+                ],
+              );
+            }
+          }
+          if (device.type! == "PolarDataType.gyro") {
+            final reportIndex = reports.indexWhere(
+              (e) => e.type == "gyro",
+            );
+            if (reportIndex == -1) {
+              reports.add(ReportDataModel(
+                type: "gyro",
+                data: [
+                  ReportDataValueModel(
+                    device: device.identifier,
+                    value: [
+                      [
+                        item.second!,
+                        device.value!.first['x'],
+                        device.value!.first['y'],
+                        device.value!.first['z']
+                      ],
+                    ],
+                  )
+                ],
+              ));
+            } else {
+              reports[reportIndex].data![0].value!.add(
+                [
+                  item.second!,
+                  device.value!.first['x'],
+                  device.value!.first['y'],
+                  device.value!.first['z'],
+                ],
+              );
+            }
+          }
+        }
+      }
+    }
+
+    final report = ReportModel(
+      exerciseId: session.exercise!.id,
+      sessionId: session.id,
+      startTime: session.startTime,
+      endTime: session.endTime,
+      devices: devices,
+      reports: reports,
+    );
+    log?.f('report: ${report.toJson()}');
+    return report;
+  }
 }
 
 @freezed
@@ -50,7 +192,7 @@ class ReportDeviceModel with _$ReportDeviceModel {
       );
 }
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class ReportDataModel with _$ReportDataModel {
   const factory ReportDataModel({
     String? type,
@@ -68,7 +210,7 @@ class ReportDataModel with _$ReportDataModel {
       );
 }
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class ReportDataValueModel with _$ReportDataValueModel {
   const factory ReportDataValueModel({
     String? device,

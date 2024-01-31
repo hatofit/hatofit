@@ -547,7 +547,7 @@ class __$$ReportDataModelImplCopyWithImpl<$Res>
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
       data: freezed == data
-          ? _value._data
+          ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
               as List<ReportDataValueModel>?,
     ));
@@ -557,25 +557,15 @@ class __$$ReportDataModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ReportDataModelImpl extends _ReportDataModel {
-  const _$ReportDataModelImpl(
-      {this.type, final List<ReportDataValueModel>? data})
-      : _data = data,
-        super._();
+  const _$ReportDataModelImpl({this.type, this.data}) : super._();
 
   factory _$ReportDataModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReportDataModelImplFromJson(json);
 
   @override
   final String? type;
-  final List<ReportDataValueModel>? _data;
   @override
-  List<ReportDataValueModel>? get data {
-    final value = _data;
-    if (value == null) return null;
-    if (_data is EqualUnmodifiableListView) return _data;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+  final List<ReportDataValueModel>? data;
 
   @override
   String toString() {
@@ -588,13 +578,13 @@ class _$ReportDataModelImpl extends _ReportDataModel {
         (other.runtimeType == runtimeType &&
             other is _$ReportDataModelImpl &&
             (identical(other.type, type) || other.type == type) &&
-            const DeepCollectionEquality().equals(other._data, _data));
+            const DeepCollectionEquality().equals(other.data, data));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, type, const DeepCollectionEquality().hash(_data));
+  int get hashCode =>
+      Object.hash(runtimeType, type, const DeepCollectionEquality().hash(data));
 
   @JsonKey(ignore: true)
   @override
@@ -715,7 +705,7 @@ class __$$ReportDataValueModelImplCopyWithImpl<$Res>
           : device // ignore: cast_nullable_to_non_nullable
               as String?,
       value: freezed == value
-          ? _value._value
+          ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as List<List<dynamic>>?,
     ));
@@ -725,25 +715,15 @@ class __$$ReportDataValueModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ReportDataValueModelImpl extends _ReportDataValueModel {
-  const _$ReportDataValueModelImpl(
-      {this.device, final List<List<dynamic>>? value})
-      : _value = value,
-        super._();
+  const _$ReportDataValueModelImpl({this.device, this.value}) : super._();
 
   factory _$ReportDataValueModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReportDataValueModelImplFromJson(json);
 
   @override
   final String? device;
-  final List<List<dynamic>>? _value;
   @override
-  List<List<dynamic>>? get value {
-    final value = _value;
-    if (value == null) return null;
-    if (_value is EqualUnmodifiableListView) return _value;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
+  final List<List<dynamic>>? value;
 
   @override
   String toString() {
@@ -756,13 +736,13 @@ class _$ReportDataValueModelImpl extends _ReportDataValueModel {
         (other.runtimeType == runtimeType &&
             other is _$ReportDataValueModelImpl &&
             (identical(other.device, device) || other.device == device) &&
-            const DeepCollectionEquality().equals(other._value, _value));
+            const DeepCollectionEquality().equals(other.value, value));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, device, const DeepCollectionEquality().hash(_value));
+      runtimeType, device, const DeepCollectionEquality().hash(value));
 
   @JsonKey(ignore: true)
   @override

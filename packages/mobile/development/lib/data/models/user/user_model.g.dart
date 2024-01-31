@@ -40,7 +40,7 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'email': instance.email,
       'dateOfBirth': instance.dateOfBirth?.toIso8601String(),
       'photo': instance.photo,
-      'metricUnits': instance.metricUnits,
+      'metricUnits': instance.metricUnits?.toJson(),
       'height': instance.height,
       'weight': instance.weight,
       'createdAt': instance.createdAt?.toIso8601String(),

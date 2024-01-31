@@ -15,7 +15,6 @@ enum ActiveTheme {
 
 enum MainBoxKeys {
   token,
-  fcm,
   language,
   theme,
   locale,
@@ -45,7 +44,7 @@ mixin class MainBoxMixin {
   static Future<void> initHive() async {
     await Hive.initFlutter();
     await entitiesRegister();
-    mainBox = await Hive.openBox('hatofit'); 
+    mainBox = await Hive.openBox('hatofit');
   }
 
   Future<void> addData<T>(MainBoxKeys key, T value) async {

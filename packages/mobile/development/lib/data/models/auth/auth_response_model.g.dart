@@ -19,5 +19,5 @@ Map<String, dynamic> _$$AuthResponseModelImplToJson(
         _$AuthResponseModelImpl instance) =>
     <String, dynamic>{
       'token': instance.token,
-      'user': instance.user,
+      'user': instance.user?.toJson(),
     };

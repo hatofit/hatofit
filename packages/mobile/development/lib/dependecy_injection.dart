@@ -13,6 +13,7 @@ Future<void> mainInjection() async {
   di.registerSingleton<DioClient>(DioClient());
   di.registerSingleton<ImagePickerClient>(ImagePickerClient());
   di.registerSingleton<BleClient>(BleClient());
+  di.registerSingleton<BoxClient>(BoxClient());
 
   _remoteDataSources();
   _localDataSources();
@@ -24,6 +25,7 @@ Future<void> mainInjection() async {
 
 Future<void> _initHiveBoxes() async {
   await MainBoxMixin.initHive();
+  await BoxClient.initHive();
   di.registerSingleton<MainBoxMixin>(MainBoxMixin());
 }
 
@@ -110,6 +112,7 @@ void _useCase() {
   di.registerLazySingleton(() => RequestBluetoothUsecase(di()));
   di.registerLazySingleton(() => GetExercisesUsecase(di()));
   di.registerLazySingleton(() => GetSessionsUsecase(di()));
+  di.registerLazySingleton(() => GetSessionUsecase(di()));
   di.registerLazySingleton(() => GetUserUsecase(di()));
   di.registerLazySingleton(() => GetReportsUsecase(di()));
 }
@@ -128,7 +131,8 @@ void _cubit() {
   di.registerFactory(() => IntroCubit());
   di.registerFactory(() => HomeCubit(
         di(),
-        di(),  
+        di(),
+        di(),
       ));
   di.registerFactory(() => SettingsCubit());
   di.registerFactory(() => WorkoutCubit(

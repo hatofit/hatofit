@@ -29,11 +29,11 @@ Map<String, dynamic> _$$SessionModelImplToJson(_$SessionModelImpl instance) =>
       '_id': instance.id,
       'userId': instance.userId,
       'mood': instance.mood,
-      'exercise': instance.exercise,
+      'exercise': instance.exercise?.toJson(),
       'startTime': instance.startTime,
       'endTime': instance.endTime,
-      'timeline': instance.timeline,
-      'data': instance.data,
+      'timeline': instance.timeline?.map((e) => e.toJson()).toList(),
+      'data': instance.data?.map((e) => e.toJson()).toList(),
     };
 
 _$SessionTimelineModelImpl _$$SessionTimelineModelImplFromJson(
@@ -66,7 +66,7 @@ Map<String, dynamic> _$$SessionDataItemModelImplToJson(
     <String, dynamic>{
       'second': instance.second,
       'timeStamp': instance.timeStamp,
-      'devices': instance.devices,
+      'devices': instance.devices?.map((e) => e.toJson()).toList(),
     };
 
 _$SessionDataItemDeviceModelImpl _$$SessionDataItemDeviceModelImplFromJson(
