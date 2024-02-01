@@ -476,6 +476,18 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Activity Trends'**
   String get activityTrends;
+
+  /// No description provided for @didntDetectAnyDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Didn\'t detect any device 🤔'**
+  String get didntDetectAnyDevice;
+
+  /// No description provided for @makeSureYourDeviceIsTurnedOnAndNearby.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure your device is turned on and nearby'**
+  String get makeSureYourDeviceIsTurnedOnAndNearby;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:hatofit/core/error/failure.dart';
 import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/utils.dart';
 
 class SessionRepositoryImpl implements SessionRepository {
   final SessionRemoteDataSource _remote;
@@ -39,9 +38,6 @@ class SessionRepositoryImpl implements SessionRepository {
       },
       (sessionModel) async {
         final entity = sessionModel.toEntity();
-        final report = ReportModel.fromSession(sessionModel);
-        jsonPrettyPrint(report.toJson());
-
         return Right(entity);
       },
     );

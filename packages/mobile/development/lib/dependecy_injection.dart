@@ -110,6 +110,7 @@ void _useCase() {
   di.registerLazySingleton(() => ConnectBluetoothUsecase(di()));
   di.registerLazySingleton(() => ScanBluetoothUsecase(di()));
   di.registerLazySingleton(() => RequestBluetoothUsecase(di()));
+  di.registerLazySingleton(() => BleStatusUcecase(di()));
   di.registerLazySingleton(() => GetExercisesUsecase(di()));
   di.registerLazySingleton(() => GetSessionsUsecase(di()));
   di.registerLazySingleton(() => GetSessionUsecase(di()));
@@ -142,5 +143,8 @@ void _cubit() {
         di(),
       ));
 
-  di.registerFactory(() => NavigationCubit());
+  di.registerFactory(() => NavigationCubit(
+        di(),
+        di(),
+      ));
 }

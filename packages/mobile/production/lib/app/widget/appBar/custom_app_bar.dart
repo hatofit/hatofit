@@ -6,7 +6,6 @@ import 'package:hatofit/app/models/polar_device.dart';
 import 'package:hatofit/utils/snackbar.dart';
 
 import '../../../app/services/bluetooth_service.dart';
-import '../../../app/themes/app_theme.dart';
 import '../../../app/themes/colors_constants.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -79,16 +78,14 @@ class _CustomAppBarState extends State<CustomAppBar> {
         //       Get.isDarkMode ? CupertinoIcons.sun_max : CupertinoIcons.moon),
         //   onPressed: () {
         //     final isDarkMode = Get.isDarkMode;
-        //     debugPrint('before isDarkMode $isDarkMode');
-
+        //     debugPrint('before isDarkMode $isDarkMode'); 
         //     if (isDarkMode) {
         //       Get.changeThemeMode(ThemeMode.light);
         //       Get.find<PreferencesService>().isDarkMode = false;
         //     } else {
         //       Get.changeThemeMode(ThemeMode.dark);
         //       Get.find<PreferencesService>().isDarkMode = true;
-        //     }
-
+        //     } 
         //     debugPrint(
         //         'isDarkMode ${Get.find<PreferencesService>().isDarkMode}');
         //   },

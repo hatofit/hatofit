@@ -1,9 +1,11 @@
 import { z } from "zod";
 import { getParsedFromDataDevice } from "../api/report";
-import { ReportDevicesSchema, ReportItemsSchema, ReportSchema } from "../types/report";
+import {
+  ReportDevicesSchema,
+  ReportItemsSchema,
+  ReportSchema,
+} from "../types/report";
 import { SessionDataItemDeviceSchema } from "../types/session";
-import mongoose from "mongoose";
-import { Session } from "../db/index"
 
 export const getReportFromSession = async (session: any) => {
   // vars
@@ -33,6 +35,7 @@ export const getReportFromSession = async (session: any) => {
       const parsed = getParsedFromDataDevice(
         device as z.input<typeof SessionDataItemDeviceSchema>
       );
+      console.log("parsed", parsed);
       // console.log("parsed", parsed.deviceName, device.type);
 
       // check if device already exists
@@ -108,5 +111,5 @@ export const getReportFromSession = async (session: any) => {
     reports: reportsItems,
   } as z.input<typeof ReportSchema>);
 
-  return report
-}
+  return report;
+};

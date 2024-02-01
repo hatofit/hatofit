@@ -195,4 +195,10 @@ class StringsId extends Strings {
 
   @override
   String get activityTrends => 'Tren aktivitas';
+
+  @override
+  String get didntDetectAnyDevice => 'Tidak mendeteksi perangkat apapun 🤔';
+
+  @override
+  String get makeSureYourDeviceIsTurnedOnAndNearby => 'Pastikan perangkat anda menyala dan berada di dekat anda';
 }

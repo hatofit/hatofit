@@ -9,6 +9,7 @@ abstract class BleRemoteDataSource {
       requestPermissions();
   Stream<Either<Failure, DiscoveredDevice>> scanDevices();
   Future<Either<Failure, void>> connectToDevice(BluetoothParams params);
+  Stream<Either<Failure, BleStatus>> bleStatus();
 }
 
 class BleRemoteDataSourceImpl implements BleRemoteDataSource {
@@ -35,6 +36,14 @@ class BleRemoteDataSourceImpl implements BleRemoteDataSource {
     final res = _client.scanDevices([Uuid.parse("180D")]);
     await for (final device in res) {
       yield device;
+    }
+  }
+
+  @override
+  Stream<Either<Failure, BleStatus>> bleStatus() async* {
+    final res = _client.bleStatus();
+    await for (final status in res) {
+      yield status;
     }
   }
 }

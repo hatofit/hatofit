@@ -62,5 +62,7 @@
   "signUpSuccessfully": "Sign up successfully",
   "pleaseSelectYourGender": "Please select your gender",
   "todayActivity": "Today Activity",
-  "activityTrends": "Activity Trends"
+  "activityTrends": "Activity Trends",
+  "didntDetectAnyDevice": "Didn't detect any device 🤔",
+  "makeSureYourDeviceIsTurnedOnAndNearby": "Make sure your device is turned on and nearby"
 }

@@ -195,4 +195,10 @@ class StringsEn extends Strings {
 
   @override
   String get activityTrends => 'Activity Trends';
+
+  @override
+  String get didntDetectAnyDevice => 'Didn\'t detect any device 🤔';
+
+  @override
+  String get makeSureYourDeviceIsTurnedOnAndNearby => 'Make sure your device is turned on and nearby';
 }

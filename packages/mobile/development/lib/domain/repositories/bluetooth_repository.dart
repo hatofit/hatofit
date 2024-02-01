@@ -9,4 +9,5 @@ abstract class BluetoothRepository {
       requestPermissions();
   Stream<Either<Failure, DiscoveredDevice>> scanDevices();
   Future<Either<Failure, void>> connectToDevice(BluetoothParams params);
+  Stream<Either<Failure, BleStatus>> bleStatus();
 }

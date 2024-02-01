@@ -17,9 +17,6 @@ class BleClient with MainBoxMixin, FirebaseCrashLogger {
       _common = _createCommon();
       _polar = _createPolar();
     } catch (error, stackTrace) {
-      log?.e("""[BleClient] || BleClient() || core/sources/ble/ble_client.dart\n
-      Error: $error\n
-      """);
       nonFatalError(error: error, stackTrace: stackTrace);
     }
   }
@@ -28,10 +25,6 @@ class BleClient with MainBoxMixin, FirebaseCrashLogger {
     try {
       _common = _createCommon();
     } catch (error, stackTrace) {
-      log?.e(
-          """[BleClient] || FlutterReactiveBle get common || core/sources/ble/ble_client.dart\n
-      Error: $error\n
-      """);
       nonFatalError(error: error, stackTrace: stackTrace);
     }
     return _common;
@@ -41,10 +34,6 @@ class BleClient with MainBoxMixin, FirebaseCrashLogger {
     try {
       _polar = _createPolar();
     } catch (error, stackTrace) {
-      log?.e(
-          """[BleClient] || Polar get polar || core/sources/ble/ble_client.dart\n
-      Error: $error\n
-      """);
       nonFatalError(error: error, stackTrace: stackTrace);
     }
     return _polar;
@@ -95,6 +84,18 @@ class BleClient with MainBoxMixin, FirebaseCrashLogger {
             (e) => e.id == uuid,
           )
           .subscribe();
+      await for (final data in res) {
+        yield Right(data);
+      }
+    } catch (error, stackTrace) {
+      nonFatalError(error: error, stackTrace: stackTrace);
+      yield Left(BluetoothFailure(error.toString()));
+    }
+  }
+
+  Stream<Either<Failure, BleStatus>> bleStatus() async* {
+    try {
+      final res = common.statusStream;
       await for (final data in res) {
         yield Right(data);
       }

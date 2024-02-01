@@ -62,5 +62,7 @@
   "signUpSuccessfully": "Berhasil daftar",
   "pleaseSelectYourGender": "Silahkan pilih jenis kelamin anda",
   "todayActivity": "Aktivitas hari ini",
-  "activityTrends": "Tren aktivitas"
+  "activityTrends": "Tren aktivitas",
+  "didntDetectAnyDevice": "Tidak mendeteksi perangkat apapun 🤔",
+  "makeSureYourDeviceIsTurnedOnAndNearby": "Pastikan perangkat anda menyala dan berada di dekat anda"
 }

@@ -116,7 +116,7 @@ class AppRoute {
           }),
       StatefulShellRoute.indexedStack(
         builder: (_, state, navigationShell) => BlocProvider(
-          create: (context) => di<NavigationCubit>(),
+          create: (context) => di<NavigationCubit>()..init(),
           child: BottomNavigationView(
             navigationShell: navigationShell,
             state: state,

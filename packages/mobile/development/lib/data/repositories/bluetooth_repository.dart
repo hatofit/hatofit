@@ -32,4 +32,12 @@ class BluetoothRepositoryImpl implements BluetoothRepository {
       yield device;
     }
   }
+
+  @override
+  Stream<Either<Failure, BleStatus>> bleStatus() async* {
+    final res = _client.bleStatus();
+    await for (final status in res) {
+      yield status;
+    }
+  }
 }

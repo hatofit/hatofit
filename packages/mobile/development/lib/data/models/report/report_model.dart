@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hatofit/data/models/session/session_model.dart';
 import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/utils.dart';
 
 part 'report_model.freezed.dart';
 part 'report_model.g.dart';
@@ -169,7 +168,6 @@ class ReportModel with _$ReportModel {
       devices: devices,
       reports: reports,
     );
-    log?.f('report: ${report.toJson()}');
     return report;
   }
 }

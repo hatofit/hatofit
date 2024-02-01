@@ -35,6 +35,7 @@ const getReportFromSession = (session) => __awaiter(void 0, void 0, void 0, func
             }
             // console.log("device", device);
             const parsed = (0, report_1.getParsedFromDataDevice)(device);
+            console.log("parsed", parsed);
             // console.log("parsed", parsed.deviceName, device.type);
             // check if device already exists
             const deviceIndex = devices.findIndex((d) => d.identifier === device.identifier);
