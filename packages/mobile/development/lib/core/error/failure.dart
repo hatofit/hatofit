@@ -57,9 +57,9 @@ class NoInternetFailure extends Failure {
 }
 
 class CacheFailure extends Failure {
-  final String? message;
+  final String? reason;
 
-  const CacheFailure([this.message]);
+  const CacheFailure([this.reason]);
 
   @override
   bool operator ==(Object other) => other is CacheFailure;

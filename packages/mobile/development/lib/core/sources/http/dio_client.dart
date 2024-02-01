@@ -78,7 +78,7 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
         );
       }
 
-      final isolateParse = IsolateParser<T>(
+      final isolateParse = JSONIsolateParser<T>(
         response.data as Map<String, dynamic>,
         converter,
       );
@@ -124,7 +124,7 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
       if (converter == null) {
         return Right(response.data as T);
       } else {
-        final isolateParse = IsolateParser<T>(
+        final isolateParse = JSONIsolateParser<T>(
           response.data as Map<String, dynamic>,
           converter,
         );
@@ -171,7 +171,7 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
       if (converter == null) {
         return Right(response.data as T);
       } else {
-        final isolateParse = IsolateParser<T>(
+        final isolateParse = JSONIsolateParser<T>(
           response.data as Map<String, dynamic>,
           converter,
         );
@@ -212,7 +212,7 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
       if (converter == null) {
         return Right(response.data as T);
       } else {
-        final isolateParse = IsolateParser<T>(
+        final isolateParse = JSONIsolateParser<T>(
           response.data as Map<String, dynamic>,
           converter,
         );

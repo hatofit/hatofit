@@ -1,83 +1,87 @@
 import 'package:dartz/dartz.dart';
 import 'package:hatofit/core/error/failure.dart';
-import 'package:hatofit/data/data.dart';
+import 'package:hatofit/core/sources/local/box_client.dart';
+import 'package:hatofit/data/models/session/session_model.dart';
 import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/utils.dart';
 
 abstract class SessionLocalDataSource {
-  Future<Either<Failure, SessionModel>> getSession(
+  Future<Either<Failure, SessionEntity>> getSession(
     GetSessionParams params,
   );
-  Future<Either<Failure, List<SessionModel>>> getSessions(
-    GetSessionsParams params,
+  Future<Either<Failure, List<SessionEntity>>> getSessions();
+  Future<Either<Failure, SessionEntity>> cacheSession(
+    String id,
+    SessionEntity entity,
   );
-  Future<Either<Failure, void>> cacheSessions(
-    List<SessionModel> params,
-  );
-  Future<Either<Failure, void>> cacheSession(
-    SessionModel params,
+  Future<Either<Failure, SessionEntity>> saveSession(
+    CreateSessionParams params,
   );
 }
 
 class SessionLocalDataSourceImpl implements SessionLocalDataSource {
-  final MainBoxMixin _box;
+  final BoxClient _box;
 
   SessionLocalDataSourceImpl(this._box);
 
   @override
-  Future<Either<Failure, void>> cacheSession(
-    SessionModel params,
+  Future<Either<Failure, SessionEntity>> cacheSession(
+    String id,
+    SessionEntity session,
   ) async {
-    List<String> ids = [];
-    List<SessionEntity> sessions = [];
-    ids.add(params.id ?? '');
-    sessions.add(params.toEntity());
-    await _box.addData(MainBoxKeys.sessionIds, ids);
-    await _box.addData(MainBoxKeys.sessions, sessions);
-    return const Right(null);
-  }
-
-  @override
-  Future<Either<Failure, void>> cacheSessions(
-    List<SessionModel> params,
-  ) async {
-    List<String> ids = [];
-    List<SessionEntity> sessions = [];
-    for (var element in params) {
-      ids.add(element.id ?? '');
-      sessions.add(element.toEntity());
+    await _box.sessionBox.put(id, session);
+    final res = _box.sessionBox.get(id);
+    if (res == null) {
+      return const Left(CacheFailure("Failed to cache session"));
     }
-    await _box.addData(MainBoxKeys.sessionIds, ids);
-    await _box.addData(MainBoxKeys.sessions, sessions);
-    return const Right(null);
+    return Right(res);
   }
 
   @override
-  Future<Either<Failure, SessionModel>> getSession(
+  Future<Either<Failure, SessionEntity>> getSession(
     GetSessionParams params,
   ) async {
-    final List<SessionEntity> res = await _box.getData(
-      MainBoxKeys.sessions,
+    final SessionEntity? res = _box.sessionBox.get(
+      params.id,
     );
-    if (res.isEmpty) {
-      return Left(CacheFailure());
+    if (res == null) {
+      return const Left(CacheFailure("Session not found"));
     }
-    final find = res.firstWhere(
-      (element) => element.id == params.id,
-    );
-    return Right(SessionModel.fromEntity(find));
+    return Right(res);
   }
 
   @override
-  Future<Either<Failure, List<SessionModel>>> getSessions(
-    GetSessionsParams params,
-  ) async {
-    final List<SessionEntity> res = await _box.getData(
-      MainBoxKeys.sessions,
-    );
-    if (res.isEmpty) {
-      return Left(CacheFailure());
+  Future<Either<Failure, List<SessionEntity>>> getSessions() async {
+    final keys = _box.sessionBox.keys;
+
+    if (keys.isEmpty) {
+      return const Left(CacheFailure("Sessions not found"));
     }
-    return Right(res.map((e) => SessionModel.fromEntity(e)).toList());
+
+    List<SessionEntity> found = [];
+
+    for (var element in keys) {
+      final res = _box.sessionBox.get(element);
+      if (res != null) {
+        found.add(res);
+      }
+    }
+
+    if (found.isEmpty) {
+      return const Left(CacheFailure("Sessions not found"));
+    }
+    return Right(found);
+  }
+
+  @override
+  Future<Either<Failure, SessionEntity>> saveSession(
+    CreateSessionParams params,
+  ) async {
+    final entity = SessionModel.fromJson(params.toJson()).toEntity();
+    final key = await _box.sessionBox.add(entity);
+    final res = _box.sessionBox.get(key);
+    if (res == null) {
+      return const Left(CacheFailure("Session not found"));
+    }
+    return Right(res);
   }
 }

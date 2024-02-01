@@ -1,67 +1,71 @@
 import 'package:dartz/dartz.dart';
-import 'package:hatofit/core/error/failure.dart';
-import 'package:hatofit/data/data.dart';
+import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/utils.dart';
 
 abstract class ExerciseLocalDataSource {
-  Future<Either<Failure, ExerciseModel>> getExercise(
+  Future<Either<Failure, ExerciseEntity>> getExercise(
     GetExerciseParams params,
   );
-  Future<Either<Failure, List<ExerciseModel>>> getExercises(
-    GetExercisesParams params,
+  Future<Either<Failure, List<ExerciseEntity>>> getExercises();
+  Future<Either<Failure, ExerciseEntity>> cacheExercise(
+    String id,
+    ExerciseEntity entity,
   );
-  Future<Either<Failure, void>> cacheExercises(List<ExerciseModel> params);
 }
 
 class ExerciseLocalDataSourceImpl implements ExerciseLocalDataSource {
-  final MainBoxMixin _box;
+  final BoxClient _box;
 
   ExerciseLocalDataSourceImpl(
     this._box,
   );
 
   @override
-  Future<Either<Failure, void>> cacheExercises(
-    List<ExerciseModel> params,
+  Future<Either<Failure, ExerciseEntity>> cacheExercise(
+    String id,
+    ExerciseEntity entity,
   ) async {
-    List<String> ids = [];
-    List<ExerciseEntity> exercises = [];
-    for (var element in params) {
-      ids.add(element.id ?? '');
-      exercises.add(element.toEntity());
+    await _box.exerciseBox.put(id, entity);
+    final res = _box.exerciseBox.get(id);
+    if (res == null) {
+      return const Left(CacheFailure("Failed to cache exercise"));
     }
-    await _box.addData(MainBoxKeys.exerciseIds, ids);
-    await _box.addData(MainBoxKeys.exercises, exercises);
-    return const Right(null);
+    return Right(res);
   }
 
   @override
-  Future<Either<Failure, ExerciseModel>> getExercise(
+  Future<Either<Failure, ExerciseEntity>> getExercise(
     GetExerciseParams params,
   ) async {
-    final List<ExerciseEntity> res = await _box.getData(
-      MainBoxKeys.exercises,
+    final ExerciseEntity? res = _box.exerciseBox.get(
+      params.id,
     );
-    if (res.isEmpty) {
-      return Left(CacheFailure());
+    if (res == null) {
+      return const Left(CacheFailure("Exercise not found"));
     }
-    final find = res.firstWhere(
-      (element) => element.id == params.id,
-    );
-    return Right(ExerciseModel.fromEntity(find));
+    return Right(res);
   }
 
   @override
-  Future<Either<Failure, List<ExerciseModel>>> getExercises(
-    GetExercisesParams params,
-  ) async {
-    final List<ExerciseEntity> res = await _box.getData(
-      MainBoxKeys.exercises,
-    );
-    if (res.isEmpty) {
-      return Left(CacheFailure());
+  Future<Either<Failure, List<ExerciseEntity>>> getExercises() async {
+    final keys = _box.exerciseBox.keys;
+
+    if (keys.isEmpty) {
+      return const Left(CacheFailure("Exercises not found"));
     }
-    return Right(res.map((e) => ExerciseModel.fromEntity(e)).toList());
+
+    List<ExerciseEntity> found = [];
+
+    for (var element in keys) {
+      final res = _box.exerciseBox.get(element);
+      if (res != null) {
+        found.add(res);
+      }
+    }
+
+    if (found.isEmpty) {
+      return const Left(CacheFailure("Exercises not found"));
+    }
+    return Right(found);
   }
 }

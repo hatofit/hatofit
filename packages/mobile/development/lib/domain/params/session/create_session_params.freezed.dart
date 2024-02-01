@@ -20,6 +20,7 @@ CreateSessionParams _$CreateSessionParamsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CreateSessionParams {
+  String get userId => throw _privateConstructorUsedError;
   String get exerciseId => throw _privateConstructorUsedError;
   int get startTime => throw _privateConstructorUsedError;
   int get endTime => throw _privateConstructorUsedError;
@@ -41,7 +42,8 @@ abstract class $CreateSessionParamsCopyWith<$Res> {
       _$CreateSessionParamsCopyWithImpl<$Res, CreateSessionParams>;
   @useResult
   $Res call(
-      {String exerciseId,
+      {String userId,
+      String exerciseId,
       int startTime,
       int endTime,
       String mood,
@@ -62,6 +64,7 @@ class _$CreateSessionParamsCopyWithImpl<$Res, $Val extends CreateSessionParams>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? userId = null,
     Object? exerciseId = null,
     Object? startTime = null,
     Object? endTime = null,
@@ -70,6 +73,10 @@ class _$CreateSessionParamsCopyWithImpl<$Res, $Val extends CreateSessionParams>
     Object? data = null,
   }) {
     return _then(_value.copyWith(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
       exerciseId: null == exerciseId
           ? _value.exerciseId
           : exerciseId // ignore: cast_nullable_to_non_nullable
@@ -107,7 +114,8 @@ abstract class _$$CreateSessionParamsImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String exerciseId,
+      {String userId,
+      String exerciseId,
       int startTime,
       int endTime,
       String mood,
@@ -126,6 +134,7 @@ class __$$CreateSessionParamsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? userId = null,
     Object? exerciseId = null,
     Object? startTime = null,
     Object? endTime = null,
@@ -134,6 +143,10 @@ class __$$CreateSessionParamsImplCopyWithImpl<$Res>
     Object? data = null,
   }) {
     return _then(_$CreateSessionParamsImpl(
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as String,
       exerciseId: null == exerciseId
           ? _value.exerciseId
           : exerciseId // ignore: cast_nullable_to_non_nullable
@@ -166,7 +179,8 @@ class __$$CreateSessionParamsImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreateSessionParamsImpl implements _CreateSessionParams {
   const _$CreateSessionParamsImpl(
-      {this.exerciseId = "",
+      {this.userId = "",
+      this.exerciseId = "",
       this.startTime = 0,
       this.endTime = 0,
       this.mood = "",
@@ -178,6 +192,9 @@ class _$CreateSessionParamsImpl implements _CreateSessionParams {
   factory _$CreateSessionParamsImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateSessionParamsImplFromJson(json);
 
+  @override
+  @JsonKey()
+  final String userId;
   @override
   @JsonKey()
   final String exerciseId;
@@ -210,7 +227,7 @@ class _$CreateSessionParamsImpl implements _CreateSessionParams {
 
   @override
   String toString() {
-    return 'CreateSessionParams(exerciseId: $exerciseId, startTime: $startTime, endTime: $endTime, mood: $mood, timeline: $timeline, data: $data)';
+    return 'CreateSessionParams(userId: $userId, exerciseId: $exerciseId, startTime: $startTime, endTime: $endTime, mood: $mood, timeline: $timeline, data: $data)';
   }
 
   @override
@@ -218,6 +235,7 @@ class _$CreateSessionParamsImpl implements _CreateSessionParams {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateSessionParamsImpl &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.exerciseId, exerciseId) ||
                 other.exerciseId == exerciseId) &&
             (identical(other.startTime, startTime) ||
@@ -232,6 +250,7 @@ class _$CreateSessionParamsImpl implements _CreateSessionParams {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      userId,
       exerciseId,
       startTime,
       endTime,
@@ -256,7 +275,8 @@ class _$CreateSessionParamsImpl implements _CreateSessionParams {
 
 abstract class _CreateSessionParams implements CreateSessionParams {
   const factory _CreateSessionParams(
-      {final String exerciseId,
+      {final String userId,
+      final String exerciseId,
       final int startTime,
       final int endTime,
       final String mood,
@@ -266,6 +286,8 @@ abstract class _CreateSessionParams implements CreateSessionParams {
   factory _CreateSessionParams.fromJson(Map<String, dynamic> json) =
       _$CreateSessionParamsImpl.fromJson;
 
+  @override
+  String get userId;
   @override
   String get exerciseId;
   @override

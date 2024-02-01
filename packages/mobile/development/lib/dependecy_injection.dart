@@ -69,6 +69,9 @@ void _localDataSources() {
   di.registerLazySingleton<UserLocalDataSource>(
     () => UserLocalDataSourceImpl(di()),
   );
+  di.registerLazySingleton<ReportLocalDataSource>(
+    () => ReportLocalDataSourceImpl(di()),
+  );
 }
 
 void _repositories() {
@@ -85,10 +88,12 @@ void _repositories() {
     () => ExerciseRepositoryImpl(
       di(),
       di(),
+      di(),
     ),
   );
   di.registerLazySingleton<SessionRepository>(
     () => SessionRepositoryImpl(
+      di(),
       di(),
       di(),
     ),
@@ -100,7 +105,11 @@ void _repositories() {
     ),
   );
   di.registerLazySingleton<ReportRepository>(
-    () => ReportRepositoryImpl(di()),
+    () => ReportRepositoryImpl(
+      di(),
+      di(),
+      di(),
+    ),
   );
 }
 

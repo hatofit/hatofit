@@ -9,6 +9,7 @@ part of 'create_session_params.dart';
 _$CreateSessionParamsImpl _$$CreateSessionParamsImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateSessionParamsImpl(
+      userId: json['userId'] as String? ?? "",
       exerciseId: json['exerciseId'] as String? ?? "",
       startTime: json['startTime'] as int? ?? 0,
       endTime: json['endTime'] as int? ?? 0,
@@ -28,6 +29,7 @@ _$CreateSessionParamsImpl _$$CreateSessionParamsImplFromJson(
 Map<String, dynamic> _$$CreateSessionParamsImplToJson(
         _$CreateSessionParamsImpl instance) =>
     <String, dynamic>{
+      'userId': instance.userId,
       'exerciseId': instance.exerciseId,
       'startTime': instance.startTime,
       'endTime': instance.endTime,

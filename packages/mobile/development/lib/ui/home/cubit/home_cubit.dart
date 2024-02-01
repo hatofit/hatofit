@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 import 'package:intl/intl.dart';
 
@@ -23,10 +24,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getData() async {
-    final sesRes = await _getSessionsUsecase.call(const GetSessionParams(
-      id: "65b908b702a0e72a0ffd237c",
-    ));
-
     emit(const _Loading());
     final res = await _getReportsUsecase.call(const GetReportsParams(
       page: 0,
@@ -34,7 +31,11 @@ class HomeCubit extends Cubit<HomeState> {
     ));
 
     res.fold(
-      (failure) => emit(_Failure(failure.toString())),
+      (failure) {
+        if (failure is CacheFailure) {
+          emit(_Failure(failure.reason ?? "Cache Failure"));
+        }
+      },
       (session) async {
         final user = await getUser();
         if (user == null) return emit(const _Failure("User not found"));

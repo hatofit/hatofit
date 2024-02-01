@@ -24,58 +24,42 @@ class _HomeViewState extends State<HomeView> {
         ),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Dimens.width16),
-          child: BlocBuilder<HomeCubit, HomeState>(
-            builder: (context, state) => state.when(
-              loading: () => const Center(child: Loading()),
-              failure: (message) => Center(child: Text(message)),
-              empty: () => Container(),
-              success: (exercises) => SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        // Icon(
-                        //   Icons.local_activity,
-                        //   color: Theme.of(context).colorScheme.primary,
-                        // ),
-                        // SizedBox(width: Dimens.width8),
-                        Text(
-                          Strings.of(context)!.todayActivity,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ],
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(Dimens.width8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Dimens.width8),
-                        color: Theme.of(context).cardColor,
-                      ),
-                      child: Column(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  Strings.of(context)!.todayActivity,
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                SizedBox(height: Dimens.height16),
+                Container(
+                  padding: EdgeInsets.all(Dimens.width8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(Dimens.width8),
+                    color: Theme.of(context).cardColor,
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              IconWrapper(
-                                icon: Icons.show_chart_rounded,
-                                color: Theme.of(context)
-                                    .extension<AppColors>()!
-                                    .red!,
-                              ),
-                              SizedBox(width: Dimens.width8),
-                              Text(
-                                Strings.of(context)!.activityTrends,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ],
+                          IconWrapper(
+                            icon: Icons.show_chart_rounded,
+                            color:
+                                Theme.of(context).extension<AppColors>()!.red!,
                           ),
-                          SizedBox(height: Dimens.height16),
+                          SizedBox(width: Dimens.width8),
+                          Text(
+                            Strings.of(context)!.activityTrends,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
                         ],
                       ),
-                    ),
-                  ],
+                      SizedBox(height: Dimens.height16),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),

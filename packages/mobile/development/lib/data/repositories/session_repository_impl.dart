@@ -1,46 +1,57 @@
 import 'package:dartz/dartz.dart';
-import 'package:hatofit/core/error/failure.dart';
+import 'package:hatofit/core/core.dart';
 import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
 
 class SessionRepositoryImpl implements SessionRepository {
   final SessionRemoteDataSource _remote;
   final SessionLocalDataSource _local;
+  final NetworkInfo _info;
 
   const SessionRepositoryImpl(
     this._remote,
     this._local,
+    this._info,
   );
 
   @override
   Future<Either<Failure, SessionEntity>> createSession(
     CreateSessionParams params,
   ) async {
-    final res = await _remote.createSessions(params);
-    return res.fold(
-      (failure) async {
-        return Left(failure);
-      },
-      (sessionModel) {
-        return Right(sessionModel.toEntity());
-      },
-    );
+    if (await _info.isConnected) {
+      final res = await _remote.createSessions(params);
+      return res.fold(
+        (failure) async {
+          return await _local.saveSession(params);
+        },
+        (sessionModel) {
+          return Right(sessionModel.toEntity());
+        },
+      );
+    } else {
+      return await _local.saveSession(params);
+    }
   }
 
   @override
   Future<Either<Failure, SessionEntity>> getSession(
     GetSessionParams params,
   ) async {
-    final res = await _remote.getSession(params);
-    return res.fold(
-      (failure) async {
-        return Left(failure);
-      },
-      (sessionModel) async {
-        final entity = sessionModel.toEntity();
-        return Right(entity);
-      },
-    );
+    if (await _info.isConnected) {
+      final res = await _remote.getSession(params);
+      return res.fold(
+        (failure) async {
+          return await _local.getSession(params);
+        },
+        (sessionModel) async {
+          final entity = sessionModel.toEntity();
+          await _local.cacheSession(entity.id ?? "", entity);
+          return Right(entity);
+        },
+      );
+    } else {
+      return await _local.getSession(params);
+    }
   }
 
   @override
@@ -50,10 +61,20 @@ class SessionRepositoryImpl implements SessionRepository {
     final res = await _remote.getSessions(params);
     return res.fold(
       (failure) async {
-        return Left(failure);
+        return await _local.getSessions();
       },
-      (sessionModels) {
-        return Right(sessionModels.map((e) => e.toEntity()).toList());
+      (sessionModels) async {
+        final parser = ModelToEntityIsolateParser<List<SessionEntity>>(
+          sessionModels,
+          (res) {
+            return res.map((e) => e.toEntity()).toList();
+          },
+        );
+        final res = await parser.parseInBackground();
+        for (var element in res) {
+          await _local.cacheSession(element.id ?? "", element);
+        }
+        return Right(res);
       },
     );
   }

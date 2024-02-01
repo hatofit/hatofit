@@ -6,6 +6,7 @@ part 'create_session_params.g.dart';
 @freezed
 class CreateSessionParams with _$CreateSessionParams {
   const factory CreateSessionParams({
+    @Default("") String userId,
     @Default("") String exerciseId,
     @Default(0) int startTime,
     @Default(0) int endTime,
