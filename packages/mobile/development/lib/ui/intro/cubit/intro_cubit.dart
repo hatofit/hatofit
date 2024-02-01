@@ -51,4 +51,8 @@ class IntroCubit extends Cubit<IntroState> with MainBoxMixin {
       isClosed: isClosed,
     );
   }
+
+  bool isOfflineMode() {
+    return getData(MainBoxKeys.offlineMode) ?? false;
+  }
 }

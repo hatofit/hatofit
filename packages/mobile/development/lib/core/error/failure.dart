@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 abstract class Failure {
   /// ignore: avoid_unused_constructor_parameters
   const Failure([List properties = const <dynamic>[]]);
@@ -5,8 +7,9 @@ abstract class Failure {
 
 class ServerFailure extends Failure {
   final String? message;
+  final DioException? exception;
 
-  const ServerFailure(this.message);
+  const ServerFailure({this.message, this.exception});
 
   @override
   bool operator ==(Object other) =>
@@ -36,6 +39,18 @@ class NoDataFailure extends Failure {
 
   @override
   bool operator ==(Object other) => other is NoDataFailure;
+
+  @override
+  int get hashCode => 0;
+}
+
+class NoInternetFailure extends Failure {
+  final String? message;
+
+  const NoInternetFailure({this.message});
+
+  @override
+  bool operator ==(Object other) => other is NoInternetFailure;
 
   @override
   int get hashCode => 0;

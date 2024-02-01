@@ -9,11 +9,10 @@ GetIt di = GetIt.instance;
 
 Future<void> mainInjection() async {
   await _initHiveBoxes();
+  await _initNetwork();
 
-  di.registerSingleton<DioClient>(DioClient());
   di.registerSingleton<ImagePickerClient>(ImagePickerClient());
   di.registerSingleton<BleClient>(BleClient());
-  di.registerSingleton<BoxClient>(BoxClient());
 
   _remoteDataSources();
   _localDataSources();
@@ -23,10 +22,17 @@ Future<void> mainInjection() async {
   log?.i("Dependency Injection Done");
 }
 
+Future<void> _initNetwork() async {
+  await NetworkInfo.iniNetworkInfo();
+  di.registerSingleton<NetworkInfo>(NetworkInfo());
+  di.registerSingleton<DioClient>(DioClient());
+}
+
 Future<void> _initHiveBoxes() async {
   await MainBoxMixin.initHive();
   await BoxClient.initHive();
   di.registerSingleton<MainBoxMixin>(MainBoxMixin());
+  di.registerSingleton<BoxClient>(BoxClient());
 }
 
 void _remoteDataSources() {
@@ -67,7 +73,7 @@ void _localDataSources() {
 
 void _repositories() {
   di.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(di(), di()),
+    () => AuthRepositoryImpl(di(), di(), di()),
   );
   di.registerLazySingleton<ImageRepository>(
     () => ImageRepositoryImpl(di()),

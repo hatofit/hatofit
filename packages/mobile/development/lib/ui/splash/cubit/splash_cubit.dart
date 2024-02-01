@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hatofit/core/core.dart';
@@ -14,7 +15,6 @@ class SplashCubit extends Cubit<SplashState> with MainBoxMixin {
   SplashCubit(this._meUseCase) : super(const _Initial());
 
   Future<void> init() async {
-    // removeData(MainBoxKeys.token);
     await checkAuth();
     checkMood();
   }
@@ -23,12 +23,26 @@ class SplashCubit extends Cubit<SplashState> with MainBoxMixin {
     final res = await _meUseCase.call();
     res.fold(
       (l) {
-        if (l is ServerFailure) {
+        if (l is NoInternetFailure) {
           safeEmit(
-            const _Unauthorized("Unauthorized"),
-            isClosed: isClosed,
+            const _Offline(),
             emit: emit,
+            isClosed: isClosed,
           );
+        } else if (l is ServerFailure) {
+          if (l.exception!.type == DioExceptionType.connectionTimeout) {
+            safeEmit(
+              const _Offline(),
+              emit: emit,
+              isClosed: isClosed,
+            );
+          } else {
+            safeEmit(
+              const _Unauthorized("Unauthorized"),
+              isClosed: isClosed,
+              emit: emit,
+            );
+          }
         }
       },
       (r) {
@@ -49,5 +63,14 @@ class SplashCubit extends Cubit<SplashState> with MainBoxMixin {
         removeData(MainBoxKeys.todayMood);
       }
     }
+  }
+
+  UserEntity? getLocalUser() {
+    final res = getData<UserEntity?>(MainBoxKeys.user);
+    return res;
+  }
+
+  void setOfflineMode(bool value) {
+    addData(MainBoxKeys.offlineMode, value);
   }
 }

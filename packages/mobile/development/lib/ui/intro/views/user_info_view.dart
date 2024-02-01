@@ -177,7 +177,13 @@ class _UserInfoViewState extends State<UserInfoView> {
                               .toToastError(context);
                         } else {
                           context.read<IntroCubit>().updateAll();
-                          context.pushNamed(Routes.login.name);
+                          final isOffline =
+                              context.read<IntroCubit>().isOfflineMode();
+                          if (isOffline) {
+                            context.goNamed(Routes.home.name);
+                          } else {
+                            context.pushNamed(Routes.login.name);
+                          }
                         }
                       }
                     },

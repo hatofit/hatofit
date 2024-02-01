@@ -1,18 +1,21 @@
 class ListAPI {
   ListAPI._();
+  static ListAPI get = ListAPI._();
 
-  static const String authRegister = "/api/auth/register";
-  static const String authLogin = "/api/auth/login";
-  static const String authMe = "/api/auth/me";
-  static const String forgotPassword = "/api/auth/forgot-password";
-  static const String resetPassword = "/api/auth/reset-password";
-  static const String verifyCode = "/api/auth/verify-code";
+  String baseUrl = "http://192.168.254.169:3000";
 
-  static const String exercise = "/api/exercise";
+  String authRegister = "/api/auth/register";
+  String authLogin = "/api/auth/login";
+  String authMe = "/api/auth/me";
+  String forgotPassword = "/api/auth/forgot-password";
+  String resetPassword = "/api/auth/reset-password";
+  String verifyCode = "/api/auth/verify-code";
 
-  static const String report = "/api/report";
-  static const String reportShare = "/api/report/share";
+  String exercise = "/api/exercise";
 
-  static const String session = "/api/session";
-  static const String sessionShared = "/api/session/shared";
+  String report = "/api/report";
+  String reportShare = "/api/report/share";
+
+  String session = "/api/session";
+  String sessionShared = "/api/session/shared";
 }

@@ -201,4 +201,10 @@ class StringsEn extends Strings {
 
   @override
   String get makeSureYourDeviceIsTurnedOnAndNearby => 'Make sure your device is turned on and nearby';
+
+  @override
+  String get failedConnectToServer => 'Failed connect to Server';
+
+  @override
+  String get usingOfflineMode => 'Using offline mode';
 }

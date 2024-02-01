@@ -64,5 +64,7 @@
   "todayActivity": "Today Activity",
   "activityTrends": "Activity Trends",
   "didntDetectAnyDevice": "Didn't detect any device 🤔",
-  "makeSureYourDeviceIsTurnedOnAndNearby": "Make sure your device is turned on and nearby"
+  "makeSureYourDeviceIsTurnedOnAndNearby": "Make sure your device is turned on and nearby",
+  "failedConnectToServer": "Failed connect to Server", 
+  "usingOfflineMode": "Using offline mode"
 }

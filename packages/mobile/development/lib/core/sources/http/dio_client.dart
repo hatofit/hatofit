@@ -6,7 +6,7 @@ import 'package:hatofit/utils/utils.dart';
 typedef ResponseConverter<T> = T Function(dynamic response);
 
 class DioClient with MainBoxMixin, FirebaseCrashLogger {
-  static const String baseUrl = 'http://192.168.254.169:3000';
+  // static const String baseUrl = ListAPI.get.baseUrl;
   // static const String baseUrl = 'https://api.hatofit.com';
 
   String? _auth;
@@ -16,7 +16,7 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
     try {
       _auth = getData(MainBoxKeys.token);
       _dio = _createDio();
-      _dio.interceptors.add(DioInterceptor());
+      // _dio.interceptors.add(DioInterceptor());
     } catch (error, stackTrace) {
       log?.e("""[DioClient] || DioClient() || core/api/dio_client.dart\n
       Error: $error\n
@@ -29,7 +29,7 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
     try {
       _auth = getData(MainBoxKeys.token);
       _dio = _createDio();
-      _dio.interceptors.add(DioInterceptor());
+      // _dio.interceptors.add(DioInterceptor());
     } catch (error, stackTrace) {
       log?.e("""[DioClient] || Dio get dio || core/api/dio_client.dart\n
       Error: $error\n
@@ -41,7 +41,7 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
 
   Dio _createDio() => Dio(
         BaseOptions(
-          baseUrl: baseUrl,
+          baseUrl: ListAPI.get.baseUrl,
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -69,6 +69,7 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
         queryParameters: queryParameters,
         onReceiveProgress: onReceiveProgress,
       );
+      log?.e("[DIO Request] $response");
       if ((response.statusCode ?? 0) < 200 ||
           (response.statusCode ?? 0) > 201) {
         throw DioException(
@@ -88,10 +89,11 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
       nonFatalError(error: e, stackTrace: stackTrace);
       return Left(
         ServerFailure(
-          e.response == null
+          message: e.response == null
               ? e.message
               : e.response?.data['message'] as String? ??
                   "Internal Server Error",
+          exception: e,
         ),
       );
     }
@@ -133,10 +135,11 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
       nonFatalError(error: e, stackTrace: stackTrace);
       return Left(
         ServerFailure(
-          e.response == null
+          message: e.response == null
               ? e.message
               : e.response?.data['message'] as String? ??
                   "Internal Server Error",
+          exception: e,
         ),
       );
     }
@@ -179,10 +182,11 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
       nonFatalError(error: e, stackTrace: stackTrace);
       return Left(
         ServerFailure(
-          e.response == null
+          message: e.response == null
               ? e.message
               : e.response?.data['message'] as String? ??
                   "Internal Server Error",
+          exception: e,
         ),
       );
     }
@@ -219,10 +223,11 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
       nonFatalError(error: e, stackTrace: stackTrace);
       return Left(
         ServerFailure(
-          e.response == null
+          message: e.response == null
               ? e.message
               : e.response?.data['message'] as String? ??
                   "Internal Server Error",
+          exception: e,
         ),
       );
     }

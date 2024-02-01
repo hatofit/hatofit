@@ -11,8 +11,8 @@ void main() {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    await mainInjection();
     await FirebaseServices.init();
+    await mainInjection();
 
     return SystemChrome.setPreferredOrientations(
       [

@@ -31,6 +31,7 @@ enum MainBoxKeys {
   sessionIds,
   exercises,
   sessions,
+  offlineMode,
 }
 
 mixin class MainBoxMixin {

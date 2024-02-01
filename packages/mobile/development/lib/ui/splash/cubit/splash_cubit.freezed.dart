@@ -21,6 +21,7 @@ mixin _$SplashState {
     required TResult Function() initial,
     required TResult Function(String? message) authorized,
     required TResult Function(String message) unauthorized,
+    required TResult Function() offline,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +29,7 @@ mixin _$SplashState {
     TResult? Function()? initial,
     TResult? Function(String? message)? authorized,
     TResult? Function(String message)? unauthorized,
+    TResult? Function()? offline,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +37,7 @@ mixin _$SplashState {
     TResult Function()? initial,
     TResult Function(String? message)? authorized,
     TResult Function(String message)? unauthorized,
+    TResult Function()? offline,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,7 @@ mixin _$SplashState {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Authorized value) authorized,
     required TResult Function(_Unauthorized value) unauthorized,
+    required TResult Function(_Offline value) offline,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +54,7 @@ mixin _$SplashState {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Authorized value)? authorized,
     TResult? Function(_Unauthorized value)? unauthorized,
+    TResult? Function(_Offline value)? offline,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +62,7 @@ mixin _$SplashState {
     TResult Function(_Initial value)? initial,
     TResult Function(_Authorized value)? authorized,
     TResult Function(_Unauthorized value)? unauthorized,
+    TResult Function(_Offline value)? offline,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -121,6 +127,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function() initial,
     required TResult Function(String? message) authorized,
     required TResult Function(String message) unauthorized,
+    required TResult Function() offline,
   }) {
     return initial();
   }
@@ -131,6 +138,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? initial,
     TResult? Function(String? message)? authorized,
     TResult? Function(String message)? unauthorized,
+    TResult? Function()? offline,
   }) {
     return initial?.call();
   }
@@ -141,6 +149,7 @@ class _$InitialImpl implements _Initial {
     TResult Function()? initial,
     TResult Function(String? message)? authorized,
     TResult Function(String message)? unauthorized,
+    TResult Function()? offline,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -155,6 +164,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Authorized value) authorized,
     required TResult Function(_Unauthorized value) unauthorized,
+    required TResult Function(_Offline value) offline,
   }) {
     return initial(this);
   }
@@ -165,6 +175,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Authorized value)? authorized,
     TResult? Function(_Unauthorized value)? unauthorized,
+    TResult? Function(_Offline value)? offline,
   }) {
     return initial?.call(this);
   }
@@ -175,6 +186,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(_Authorized value)? authorized,
     TResult Function(_Unauthorized value)? unauthorized,
+    TResult Function(_Offline value)? offline,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -255,6 +267,7 @@ class _$AuthorizedImpl implements _Authorized {
     required TResult Function() initial,
     required TResult Function(String? message) authorized,
     required TResult Function(String message) unauthorized,
+    required TResult Function() offline,
   }) {
     return authorized(message);
   }
@@ -265,6 +278,7 @@ class _$AuthorizedImpl implements _Authorized {
     TResult? Function()? initial,
     TResult? Function(String? message)? authorized,
     TResult? Function(String message)? unauthorized,
+    TResult? Function()? offline,
   }) {
     return authorized?.call(message);
   }
@@ -275,6 +289,7 @@ class _$AuthorizedImpl implements _Authorized {
     TResult Function()? initial,
     TResult Function(String? message)? authorized,
     TResult Function(String message)? unauthorized,
+    TResult Function()? offline,
     required TResult orElse(),
   }) {
     if (authorized != null) {
@@ -289,6 +304,7 @@ class _$AuthorizedImpl implements _Authorized {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Authorized value) authorized,
     required TResult Function(_Unauthorized value) unauthorized,
+    required TResult Function(_Offline value) offline,
   }) {
     return authorized(this);
   }
@@ -299,6 +315,7 @@ class _$AuthorizedImpl implements _Authorized {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Authorized value)? authorized,
     TResult? Function(_Unauthorized value)? unauthorized,
+    TResult? Function(_Offline value)? offline,
   }) {
     return authorized?.call(this);
   }
@@ -309,6 +326,7 @@ class _$AuthorizedImpl implements _Authorized {
     TResult Function(_Initial value)? initial,
     TResult Function(_Authorized value)? authorized,
     TResult Function(_Unauthorized value)? unauthorized,
+    TResult Function(_Offline value)? offline,
     required TResult orElse(),
   }) {
     if (authorized != null) {
@@ -394,6 +412,7 @@ class _$UnauthorizedImpl implements _Unauthorized {
     required TResult Function() initial,
     required TResult Function(String? message) authorized,
     required TResult Function(String message) unauthorized,
+    required TResult Function() offline,
   }) {
     return unauthorized(message);
   }
@@ -404,6 +423,7 @@ class _$UnauthorizedImpl implements _Unauthorized {
     TResult? Function()? initial,
     TResult? Function(String? message)? authorized,
     TResult? Function(String message)? unauthorized,
+    TResult? Function()? offline,
   }) {
     return unauthorized?.call(message);
   }
@@ -414,6 +434,7 @@ class _$UnauthorizedImpl implements _Unauthorized {
     TResult Function()? initial,
     TResult Function(String? message)? authorized,
     TResult Function(String message)? unauthorized,
+    TResult Function()? offline,
     required TResult orElse(),
   }) {
     if (unauthorized != null) {
@@ -428,6 +449,7 @@ class _$UnauthorizedImpl implements _Unauthorized {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Authorized value) authorized,
     required TResult Function(_Unauthorized value) unauthorized,
+    required TResult Function(_Offline value) offline,
   }) {
     return unauthorized(this);
   }
@@ -438,6 +460,7 @@ class _$UnauthorizedImpl implements _Unauthorized {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Authorized value)? authorized,
     TResult? Function(_Unauthorized value)? unauthorized,
+    TResult? Function(_Offline value)? offline,
   }) {
     return unauthorized?.call(this);
   }
@@ -448,6 +471,7 @@ class _$UnauthorizedImpl implements _Unauthorized {
     TResult Function(_Initial value)? initial,
     TResult Function(_Authorized value)? authorized,
     TResult Function(_Unauthorized value)? unauthorized,
+    TResult Function(_Offline value)? offline,
     required TResult orElse(),
   }) {
     if (unauthorized != null) {
@@ -464,4 +488,118 @@ abstract class _Unauthorized implements SplashState {
   @JsonKey(ignore: true)
   _$$UnauthorizedImplCopyWith<_$UnauthorizedImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$OfflineImplCopyWith<$Res> {
+  factory _$$OfflineImplCopyWith(
+          _$OfflineImpl value, $Res Function(_$OfflineImpl) then) =
+      __$$OfflineImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$OfflineImplCopyWithImpl<$Res>
+    extends _$SplashStateCopyWithImpl<$Res, _$OfflineImpl>
+    implements _$$OfflineImplCopyWith<$Res> {
+  __$$OfflineImplCopyWithImpl(
+      _$OfflineImpl _value, $Res Function(_$OfflineImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$OfflineImpl implements _Offline {
+  const _$OfflineImpl();
+
+  @override
+  String toString() {
+    return 'SplashState.offline()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$OfflineImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(String? message) authorized,
+    required TResult Function(String message) unauthorized,
+    required TResult Function() offline,
+  }) {
+    return offline();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(String? message)? authorized,
+    TResult? Function(String message)? unauthorized,
+    TResult? Function()? offline,
+  }) {
+    return offline?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(String? message)? authorized,
+    TResult Function(String message)? unauthorized,
+    TResult Function()? offline,
+    required TResult orElse(),
+  }) {
+    if (offline != null) {
+      return offline();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Authorized value) authorized,
+    required TResult Function(_Unauthorized value) unauthorized,
+    required TResult Function(_Offline value) offline,
+  }) {
+    return offline(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Authorized value)? authorized,
+    TResult? Function(_Unauthorized value)? unauthorized,
+    TResult? Function(_Offline value)? offline,
+  }) {
+    return offline?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Authorized value)? authorized,
+    TResult Function(_Unauthorized value)? unauthorized,
+    TResult Function(_Offline value)? offline,
+    required TResult orElse(),
+  }) {
+    if (offline != null) {
+      return offline(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Offline implements SplashState {
+  const factory _Offline() = _$OfflineImpl;
 }

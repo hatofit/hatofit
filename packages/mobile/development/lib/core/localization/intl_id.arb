@@ -64,5 +64,7 @@
   "todayActivity": "Aktivitas hari ini",
   "activityTrends": "Tren aktivitas",
   "didntDetectAnyDevice": "Tidak mendeteksi perangkat apapun 🤔",
-  "makeSureYourDeviceIsTurnedOnAndNearby": "Pastikan perangkat anda menyala dan berada di dekat anda"
+  "makeSureYourDeviceIsTurnedOnAndNearby": "Pastikan perangkat anda menyala dan berada di dekat anda",
+  "failedConnectToServer": "Gagal terhubung ke Server", 
+  "usingOfflineMode": "Menggunakan mode luring"
 }

@@ -488,6 +488,18 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Make sure your device is turned on and nearby'**
   String get makeSureYourDeviceIsTurnedOnAndNearby;
+
+  /// No description provided for @failedConnectToServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed connect to Server'**
+  String get failedConnectToServer;
+
+  /// No description provided for @usingOfflineMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Using offline mode'**
+  String get usingOfflineMode;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

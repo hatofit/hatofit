@@ -201,4 +201,10 @@ class StringsId extends Strings {
 
   @override
   String get makeSureYourDeviceIsTurnedOnAndNearby => 'Pastikan perangkat anda menyala dan berada di dekat anda';
+
+  @override
+  String get failedConnectToServer => 'Gagal terhubung ke Server';
+
+  @override
+  String get usingOfflineMode => 'Menggunakan mode luring';
 }
