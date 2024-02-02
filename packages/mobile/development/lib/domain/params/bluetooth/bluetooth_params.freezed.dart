@@ -16,8 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$BluetoothParams {
-  String get deviceId => throw _privateConstructorUsedError;
+  String? get deviceId => throw _privateConstructorUsedError;
+  String get polarId => throw _privateConstructorUsedError;
   Set<PolarDataType> get types => throw _privateConstructorUsedError;
+  Uuid? get uuid => throw _privateConstructorUsedError;
+  Service? get service => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BluetoothParamsCopyWith<BluetoothParams> get copyWith =>
@@ -30,7 +33,12 @@ abstract class $BluetoothParamsCopyWith<$Res> {
           BluetoothParams value, $Res Function(BluetoothParams) then) =
       _$BluetoothParamsCopyWithImpl<$Res, BluetoothParams>;
   @useResult
-  $Res call({String deviceId, Set<PolarDataType> types});
+  $Res call(
+      {String? deviceId,
+      String polarId,
+      Set<PolarDataType> types,
+      Uuid? uuid,
+      Service? service});
 }
 
 /// @nodoc
@@ -46,18 +54,33 @@ class _$BluetoothParamsCopyWithImpl<$Res, $Val extends BluetoothParams>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? deviceId = null,
+    Object? deviceId = freezed,
+    Object? polarId = null,
     Object? types = null,
+    Object? uuid = freezed,
+    Object? service = freezed,
   }) {
     return _then(_value.copyWith(
-      deviceId: null == deviceId
+      deviceId: freezed == deviceId
           ? _value.deviceId
           : deviceId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      polarId: null == polarId
+          ? _value.polarId
+          : polarId // ignore: cast_nullable_to_non_nullable
               as String,
       types: null == types
           ? _value.types
           : types // ignore: cast_nullable_to_non_nullable
               as Set<PolarDataType>,
+      uuid: freezed == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as Uuid?,
+      service: freezed == service
+          ? _value.service
+          : service // ignore: cast_nullable_to_non_nullable
+              as Service?,
     ) as $Val);
   }
 }
@@ -70,7 +93,12 @@ abstract class _$$BluetoothParamsImplCopyWith<$Res>
       __$$BluetoothParamsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String deviceId, Set<PolarDataType> types});
+  $Res call(
+      {String? deviceId,
+      String polarId,
+      Set<PolarDataType> types,
+      Uuid? uuid,
+      Service? service});
 }
 
 /// @nodoc
@@ -84,18 +112,33 @@ class __$$BluetoothParamsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? deviceId = null,
+    Object? deviceId = freezed,
+    Object? polarId = null,
     Object? types = null,
+    Object? uuid = freezed,
+    Object? service = freezed,
   }) {
     return _then(_$BluetoothParamsImpl(
-      deviceId: null == deviceId
+      deviceId: freezed == deviceId
           ? _value.deviceId
           : deviceId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      polarId: null == polarId
+          ? _value.polarId
+          : polarId // ignore: cast_nullable_to_non_nullable
               as String,
       types: null == types
           ? _value._types
           : types // ignore: cast_nullable_to_non_nullable
               as Set<PolarDataType>,
+      uuid: freezed == uuid
+          ? _value.uuid
+          : uuid // ignore: cast_nullable_to_non_nullable
+              as Uuid?,
+      service: freezed == service
+          ? _value.service
+          : service // ignore: cast_nullable_to_non_nullable
+              as Service?,
     ));
   }
 }
@@ -104,12 +147,19 @@ class __$$BluetoothParamsImplCopyWithImpl<$Res>
 
 class _$BluetoothParamsImpl implements _BluetoothParams {
   const _$BluetoothParamsImpl(
-      {this.deviceId = "", final Set<PolarDataType> types = const {}})
+      {this.deviceId = null,
+      this.polarId = "",
+      final Set<PolarDataType> types = const {},
+      this.uuid = null,
+      this.service = null})
       : _types = types;
 
   @override
   @JsonKey()
-  final String deviceId;
+  final String? deviceId;
+  @override
+  @JsonKey()
+  final String polarId;
   final Set<PolarDataType> _types;
   @override
   @JsonKey()
@@ -120,8 +170,15 @@ class _$BluetoothParamsImpl implements _BluetoothParams {
   }
 
   @override
+  @JsonKey()
+  final Uuid? uuid;
+  @override
+  @JsonKey()
+  final Service? service;
+
+  @override
   String toString() {
-    return 'BluetoothParams(deviceId: $deviceId, types: $types)';
+    return 'BluetoothParams(deviceId: $deviceId, polarId: $polarId, types: $types, uuid: $uuid, service: $service)';
   }
 
   @override
@@ -131,12 +188,15 @@ class _$BluetoothParamsImpl implements _BluetoothParams {
             other is _$BluetoothParamsImpl &&
             (identical(other.deviceId, deviceId) ||
                 other.deviceId == deviceId) &&
-            const DeepCollectionEquality().equals(other._types, _types));
+            (identical(other.polarId, polarId) || other.polarId == polarId) &&
+            const DeepCollectionEquality().equals(other._types, _types) &&
+            (identical(other.uuid, uuid) || other.uuid == uuid) &&
+            (identical(other.service, service) || other.service == service));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, deviceId, const DeepCollectionEquality().hash(_types));
+  int get hashCode => Object.hash(runtimeType, deviceId, polarId,
+      const DeepCollectionEquality().hash(_types), uuid, service);
 
   @JsonKey(ignore: true)
   @override
@@ -148,13 +208,22 @@ class _$BluetoothParamsImpl implements _BluetoothParams {
 
 abstract class _BluetoothParams implements BluetoothParams {
   const factory _BluetoothParams(
-      {final String deviceId,
-      final Set<PolarDataType> types}) = _$BluetoothParamsImpl;
+      {final String? deviceId,
+      final String polarId,
+      final Set<PolarDataType> types,
+      final Uuid? uuid,
+      final Service? service}) = _$BluetoothParamsImpl;
 
   @override
-  String get deviceId;
+  String? get deviceId;
+  @override
+  String get polarId;
   @override
   Set<PolarDataType> get types;
+  @override
+  Uuid? get uuid;
+  @override
+  Service? get service;
   @override
   @JsonKey(ignore: true)
   _$$BluetoothParamsImplCopyWith<_$BluetoothParamsImpl> get copyWith =>

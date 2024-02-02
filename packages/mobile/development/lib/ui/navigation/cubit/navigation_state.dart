@@ -4,6 +4,11 @@ part of 'navigation_cubit.dart';
 class NavigationState with _$NavigationState {
   factory NavigationState({
     bool? isBleOn,
-    List<DiscoveredDevice>? devices,
+    bool? isScanning,
+    ConnectionStateUpdate? state,
+    List<BluetoothEntity>? devices,
+    Set<PolarDataType>? polarTypes,
+    List<Service>? commonServices,
+    int? hr,
   }) = _NavigationState;
 }

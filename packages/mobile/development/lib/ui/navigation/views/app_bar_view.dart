@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hatofit/core/core.dart';
+import 'package:hatofit/dependecy_injection.dart';
 import 'package:hatofit/ui/navigation/cubit/navigation_cubit.dart';
+import 'package:hatofit/utils/services/native_methods.dart';
 
 class AppBarView extends StatelessWidget {
   const AppBarView({
@@ -17,15 +18,6 @@ class AppBarView extends StatelessWidget {
   final TextStyle? titleTextStyle;
   final bool showActions;
 
-  static const platform = MethodChannel('com.hatofit.hatofit/method');
-  Future<void> _turnOnBluetooth() async {
-    try {
-      await platform.invokeMethod('turnOnBluetooth');
-    } on PlatformException catch (e) {
-      print("Failed to turn on Bluetooth: ${e.message}");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -35,20 +27,24 @@ class AppBarView extends StatelessWidget {
       actions: showActions
           ? [
               BlocBuilder<NavigationCubit, NavigationState>(
+                buildWhen: (previous, current) =>
+                    previous.isBleOn != current.isBleOn,
                 builder: (context, state) {
                   return state.isBleOn!
                       ? IconButton(
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.bluetooth,
-                            color: Colors.blue,
+                            color:
+                                state.hr != null ? Colors.blue : Colors.white,
                           ),
                           onPressed: () {
+                            di<NavigationCubit>().scanDevices();
                             showModalBottomSheet(
+                              showDragHandle: true,
+                              // isScrollControlled: true,
                               context: context,
                               builder: (context) {
-                                return DeviceDiscover(
-                                  state: state,
-                                );
+                                return const DeviceDiscover();
                               },
                             );
                           },
@@ -59,7 +55,7 @@ class AppBarView extends StatelessWidget {
                             color: Colors.red,
                           ),
                           onPressed: () {
-                            _turnOnBluetooth();
+                            di<NativeMethods>().turnOnBluetooth();
                           },
                         );
                 },

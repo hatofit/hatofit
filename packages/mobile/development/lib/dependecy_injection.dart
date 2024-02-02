@@ -13,6 +13,7 @@ Future<void> mainInjection() async {
 
   di.registerSingleton<ImagePickerClient>(ImagePickerClient());
   di.registerSingleton<BleClient>(BleClient());
+  di.registerSingleton<NativeMethods>(NativeMethodsImpl());
 
   _remoteDataSources();
   _localDataSources();
@@ -44,9 +45,6 @@ void _remoteDataSources() {
   );
   di.registerLazySingleton<SessionRemoteDataSource>(
     () => SessionRemoteDataSourceImpl(di()),
-  );
-  di.registerLazySingleton<BleRemoteDataSource>(
-    () => BleRemoteDataSourceImpl(di()),
   );
   di.registerLazySingleton<UserRemoteDataSource>(
     () => UserRemoteDataSourceImpl(di()),
@@ -114,22 +112,49 @@ void _repositories() {
 }
 
 void _useCase() {
+  /// [Auth]
+  ///
   di.registerLazySingleton(() => LoginUsecase(di()));
   di.registerLazySingleton(() => RegisterUsecase(di()));
   di.registerLazySingleton(() => MeUseCase(di()));
   di.registerLazySingleton(() => ForgotPasswordUsecase(di()));
-  di.registerLazySingleton(() => ImageFromCameraUsecase(di()));
-  di.registerLazySingleton(() => ImageFromGalleryUsecase(di()));
   di.registerLazySingleton(() => VerifyCodeUseCase(di()));
   di.registerLazySingleton(() => ResetPasswordUsecase(di()));
-  di.registerLazySingleton(() => ConnectBluetoothUsecase(di()));
+
+  /// [Bluetooth]
+  ///
   di.registerLazySingleton(() => ScanBluetoothUsecase(di()));
-  di.registerLazySingleton(() => RequestBluetoothUsecase(di()));
   di.registerLazySingleton(() => BleStatusUcecase(di()));
+  di.registerLazySingleton(() => RequestBluetoothUsecase(di()));
+  di.registerLazySingleton(() => GetCommonServicesUsecase(di()));
+  di.registerLazySingleton(() => ReadCharacteristicUsecase(di()));
+  di.registerLazySingleton(() => ClearGattCacheUsecase(di()));
+  di.registerLazySingleton(() => ConnectCommonBleUsecase(di()));
+  di.registerLazySingleton(() => ConnectPolarBleUsecase(di()));
+  di.registerLazySingleton(() => GetPolarServicesUsecase(di()));
+  di.registerLazySingleton(() => GetHrPolarUsecase(di()));
+  di.registerLazySingleton(() => GetHrCommonUsecase(di()));
+
+  /// [Image]
+  ///
+  di.registerLazySingleton(() => ImageFromCameraUsecase(di()));
+  di.registerLazySingleton(() => ImageFromGalleryUsecase(di()));
+
+  /// [Exercise]
+  ///
   di.registerLazySingleton(() => GetExercisesUsecase(di()));
+
+  /// [Session]
+  ///
   di.registerLazySingleton(() => GetSessionsUsecase(di()));
   di.registerLazySingleton(() => GetSessionUsecase(di()));
+
+  /// [User]
+  ///
   di.registerLazySingleton(() => GetUserUsecase(di()));
+
+  /// [Report]
+  ///
   di.registerLazySingleton(() => GetReportsUsecase(di()));
 }
 
@@ -159,6 +184,12 @@ void _cubit() {
       ));
 
   di.registerFactory(() => NavigationCubit(
+        di(),
+        di(),
+        di(),
+        di(),
+        di(),
+        di(),
         di(),
         di(),
       ));

@@ -1,4 +1,7 @@
 {
+  "@@locale": "id",
+  "connect": "Hubungkan",
+  "disconnect": "Putuskan",
   "loading": "Memuat...",
   "swipeToChangeTheme": "Geser icon untuk mengganti tema",
   "appPreferences": "Preferensi Aplikasi",
@@ -65,6 +68,7 @@
   "activityTrends": "Tren aktivitas",
   "didntDetectAnyDevice": "Tidak mendeteksi perangkat apapun 🤔",
   "makeSureYourDeviceIsTurnedOnAndNearby": "Pastikan perangkat anda menyala dan berada di dekat anda",
-  "failedConnectToServer": "Gagal terhubung ke Server", 
-  "usingOfflineMode": "Menggunakan mode luring"
+  "failedConnectToServer": "Gagal terhubung ke Server",
+  "usingOfflineMode": "Menggunakan mode luring",
+  "name": "Nama"
 }

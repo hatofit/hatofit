@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hatofit/core/core.dart';
+import 'package:hatofit/utils/helper/logger.dart';
 
-class BottomNavigationView extends StatelessWidget {
+class BottomNavigationView extends StatefulWidget {
   const BottomNavigationView({
     Key? key,
     required this.navigationShell,
@@ -63,15 +64,26 @@ class BottomNavigationView extends StatelessWidget {
     ),
   ];
 
-  void _goBranch(int index) => navigationShell.goBranch(
+  @override
+  State<BottomNavigationView> createState() => _BottomNavigationViewState();
+}
+
+class _BottomNavigationViewState extends State<BottomNavigationView> {
+  void _goBranch(int index) => widget.navigationShell.goBranch(
         index,
-        initialLocation: index == navigationShell.currentIndex,
+        initialLocation: index == widget.navigationShell.currentIndex,
       );
 
   bool get isRootBar {
-    final split = state.uri.toString().split("/");
+    final split = widget.state.uri.toString().split("/");
     if (split.length >= 3) return false;
     return true;
+  }
+
+  @override
+  void didChangeDependencies() {
+    log?.i("BottomNavigationView: didChangeDependencies");
+    super.didChangeDependencies();
   }
 
   @override
@@ -79,12 +91,12 @@ class BottomNavigationView extends StatelessWidget {
     return Parent(
       bottomNavigation: isRootBar
           ? NavigationBar(
-              selectedIndex: navigationShell.currentIndex,
-              destinations: routes,
+              selectedIndex: widget.navigationShell.currentIndex,
+              destinations: BottomNavigationView.routes,
               onDestinationSelected: _goBranch,
             )
           : null,
-      child: navigationShell,
+      child: widget.navigationShell,
     );
   }
 }

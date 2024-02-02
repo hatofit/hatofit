@@ -120,6 +120,14 @@ ThemeData themeLight(BuildContext context) => ThemeData(
         surfaceTintColor: Colors.transparent,
         elevation: Dimens.zero,
       ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Palette.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(Dimens.radius8),
+          ),
+        ),
+      ),
       brightness: Brightness.light,
       iconTheme: const IconThemeData(color: Palette.primary),
       visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -262,6 +270,14 @@ ThemeData themeDark(BuildContext context) => ThemeData(
         backgroundColor: Palette.backgroundDark,
         surfaceTintColor: Colors.transparent,
         elevation: Dimens.zero,
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Palette.primary,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(Dimens.radius8),
+          ),
+        ),
       ),
       brightness: Brightness.dark,
       iconTheme: const IconThemeData(color: Palette.primary),

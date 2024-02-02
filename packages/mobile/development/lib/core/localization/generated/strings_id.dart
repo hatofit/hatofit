@@ -5,6 +5,12 @@ class StringsId extends Strings {
   StringsId([String locale = 'id']) : super(locale);
 
   @override
+  String get connect => 'Hubungkan';
+
+  @override
+  String get disconnect => 'Putuskan';
+
+  @override
   String get loading => 'Memuat...';
 
   @override
@@ -207,4 +213,7 @@ class StringsId extends Strings {
 
   @override
   String get usingOfflineMode => 'Menggunakan mode luring';
+
+  @override
+  String get name => 'Nama';
 }

@@ -93,6 +93,18 @@ abstract class Strings {
     Locale('id')
   ];
 
+  /// No description provided for @connect.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect'**
+  String get connect;
+
+  /// No description provided for @disconnect.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnect'**
+  String get disconnect;
+
   /// No description provided for @loading.
   ///
   /// In en, this message translates to:
@@ -500,6 +512,12 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Using offline mode'**
   String get usingOfflineMode;
+
+  /// No description provided for @name.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get name;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

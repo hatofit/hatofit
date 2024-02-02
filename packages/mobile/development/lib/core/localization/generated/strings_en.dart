@@ -5,6 +5,12 @@ class StringsEn extends Strings {
   StringsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get connect => 'Connect';
+
+  @override
+  String get disconnect => 'Disconnect';
+
+  @override
   String get loading => 'Loading...';
 
   @override
@@ -207,4 +213,7 @@ class StringsEn extends Strings {
 
   @override
   String get usingOfflineMode => 'Using offline mode';
+
+  @override
+  String get name => 'Name';
 }

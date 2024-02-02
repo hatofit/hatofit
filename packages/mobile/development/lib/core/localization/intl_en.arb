@@ -1,4 +1,7 @@
 {
+  "@@locale": "en",
+  "connect": "Connect",
+  "disconnect": "Disconnect",
   "loading": "Loading...",
   "swipeToChangeTheme": "Swipe the icon to change theme",
   "appPreferences": "App Preferences",
@@ -65,6 +68,7 @@
   "activityTrends": "Activity Trends",
   "didntDetectAnyDevice": "Didn't detect any device 🤔",
   "makeSureYourDeviceIsTurnedOnAndNearby": "Make sure your device is turned on and nearby",
-  "failedConnectToServer": "Failed connect to Server", 
-  "usingOfflineMode": "Using offline mode"
+  "failedConnectToServer": "Failed connect to Server",
+  "usingOfflineMode": "Using offline mode",
+  "name": "Name"
 }

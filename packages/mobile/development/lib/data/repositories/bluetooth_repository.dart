@@ -1,21 +1,25 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:hatofit/core/core.dart';
-import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:polar/polar.dart';
 
 class BluetoothRepositoryImpl implements BluetoothRepository {
-  final BleRemoteDataSource _client;
+  final BleClient _client;
 
   BluetoothRepositoryImpl(this._client);
 
   @override
-  Future<Either<Failure, void>> connectToDevice(
+  Stream<Either<Failure, ConnectionStateUpdate>> connectToCommonDevice(
     BluetoothParams params,
-  ) async {
-    final res = await _client.connectToDevice(params);
-    return res;
+  ) async* {
+    final res = _client.connectToCommonDevice(
+      deviceId: params.deviceId ?? '',
+    );
+    await for (final status in res) {
+      yield status;
+    }
   }
 
   @override
@@ -26,8 +30,8 @@ class BluetoothRepositoryImpl implements BluetoothRepository {
   }
 
   @override
-  Stream<Either<Failure, DiscoveredDevice>> scanDevices() async* {
-    final res = _client.scanDevices();
+  Stream<Either<Failure, BluetoothEntity>> scanDevices() async* {
+    final res = _client.scanDevices([Uuid.parse("180D")]);
     await for (final device in res) {
       yield device;
     }
@@ -38,6 +42,69 @@ class BluetoothRepositoryImpl implements BluetoothRepository {
     final res = _client.bleStatus();
     await for (final status in res) {
       yield status;
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Service>>> getCommonServices(
+    BluetoothParams params,
+  ) async {
+    if (params.deviceId != null) {
+      return await _client.getCommonServices(params.deviceId ?? '');
+    } else {
+      return const Left(BluetoothFailure('Device ID is null'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<int>>> commonServiceRead(
+    BluetoothParams params,
+  ) async {
+    final res = await _client.commonServiceRead(params.uuid!, params.service!);
+    return res;
+  }
+
+  @override
+  Future<Either<Failure, void>> clearGatt(
+    BluetoothParams params,
+  ) async {
+    return await _client.clearGatt(params.deviceId!);
+  }
+
+  @override
+  Future<Either<Failure, void>> connectToPolarDevice(
+      BluetoothParams params) async {
+    return await _client.connectToPolarDevice(deviceId: params.polarId);
+  }
+
+  @override
+  Future<Either<Failure, Set<PolarDataType>>> getPolarServices(
+    BluetoothParams params,
+  ) async {
+    return await _client.getPolarServices(
+      params.polarId,
+      PolarSdkFeature.onlineStreaming,
+    );
+  }
+
+  @override
+  Stream<Either<Failure, PolarStreamingData<PolarHrSample>>> streamHRPolar(
+    BluetoothParams params,
+  ) async* {
+    final res = _client.polarHrStream(params.polarId, params.types);
+    await for (final data in res) {
+      yield data;
+    }
+  }
+
+  @override
+  Stream<Either<Failure, List<int>>> streamHRCommon(
+    BluetoothParams params,
+  ) async* {
+    final res =
+        _client.commonServiceSubscribe(Uuid.parse("00002a37-0000-1000-8000-00805f9b34fb"), params.service!);
+    await for (final data in res) {
+      yield data;
     }
   }
 }

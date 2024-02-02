@@ -4,11 +4,16 @@ import 'package:dartz/dartz.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 import 'package:hatofit/core/core.dart';
+import 'package:hatofit/domain/entities/bluetooth/bluetooth_entity.dart';
 import 'package:hatofit/utils/utils.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
 
 class BleClient with MainBoxMixin, FirebaseCrashLogger {
+  static final Uuid _dvcInfSrv =
+      Uuid.parse("0000180a-0000-1000-8000-00805f9b34fb");
+  static final Uuid _btrySrv =
+      Uuid.parse("0000180a-0000-1000-8000-00805f9b34fb");
   late FlutterReactiveBle _common;
   late Polar _polar;
 
@@ -16,6 +21,7 @@ class BleClient with MainBoxMixin, FirebaseCrashLogger {
     try {
       _common = _createCommon();
       _polar = _createPolar();
+      polarInterceptor(_polar);
     } catch (error, stackTrace) {
       nonFatalError(error: error, stackTrace: stackTrace);
     }
@@ -33,10 +39,23 @@ class BleClient with MainBoxMixin, FirebaseCrashLogger {
   Polar get polar {
     try {
       _polar = _createPolar();
+      polarInterceptor(_polar);
     } catch (error, stackTrace) {
       nonFatalError(error: error, stackTrace: stackTrace);
     }
     return _polar;
+  }
+
+  polarInterceptor(Polar p) {
+    p.deviceConnected.listen((event) {
+      log?.i("Polar device connected: ${event.deviceId}");
+    });
+    p.deviceConnecting.listen((event) {
+      log?.i("Polar device connected: ${event.deviceId}");
+    });
+    p.deviceDisconnected.listen((event) {
+      log?.i("Polar device disconnected: ${event.info.deviceId}");
+    });
   }
 
   Polar _createPolar() => Polar();
@@ -45,15 +64,30 @@ class BleClient with MainBoxMixin, FirebaseCrashLogger {
   ///
   /// [Common] methods
   ///
-  Stream<Either<Failure, DiscoveredDevice>> scanDevices(
+  Stream<Either<Failure, BluetoothEntity>> scanDevices(
     List<Uuid> serviceIds,
   ) async* {
     try {
       final res = common.scanForDevices(
         withServices: serviceIds,
+        requireLocationServicesEnabled: false,
       );
       await for (final device in res) {
-        yield Right(device);
+        yield Right(BluetoothEntity(common: device, commonId: device.id));
+      }
+    } catch (error, stackTrace) {
+      nonFatalError(error: error, stackTrace: stackTrace);
+      yield Left(BluetoothFailure(error.toString()));
+    }
+  }
+
+  Stream<Either<Failure, ConnectionStateUpdate>> connectToCommonDevice({
+    required String deviceId,
+  }) async* {
+    try {
+      final res = common.connectToDevice(id: deviceId);
+      await for (final status in res) {
+        yield Right(status);
       }
     } catch (error, stackTrace) {
       nonFatalError(error: error, stackTrace: stackTrace);
@@ -93,6 +127,42 @@ class BleClient with MainBoxMixin, FirebaseCrashLogger {
     }
   }
 
+  Future<Either<Failure, List<int>>> commonServiceRead(
+    Uuid uuid,
+    Service service,
+  ) async {
+    try {
+      final res = await service.characteristics
+          .firstWhere(
+            (e) => e.id == uuid,
+          )
+          .read();
+      return Right(res);
+    } catch (error, stackTrace) {
+      nonFatalError(error: error, stackTrace: stackTrace);
+      return Left(BluetoothFailure(error.toString()));
+    }
+  }
+
+  Stream<Either<Failure, List<int>>> commonServiceSubscribe(
+    Uuid uuid,
+    Service service,
+  ) async* {
+    try {
+      final res = service.characteristics
+          .firstWhere(
+            (e) => e.id == uuid,
+          )
+          .subscribe();
+      await for (final data in res) {
+        yield Right(data);
+      }
+    } catch (error, stackTrace) {
+      nonFatalError(error: error, stackTrace: stackTrace);
+      yield Left(BluetoothFailure(error.toString()));
+    }
+  }
+
   Stream<Either<Failure, BleStatus>> bleStatus() async* {
     try {
       final res = common.statusStream;
@@ -102,6 +172,16 @@ class BleClient with MainBoxMixin, FirebaseCrashLogger {
     } catch (error, stackTrace) {
       nonFatalError(error: error, stackTrace: stackTrace);
       yield Left(BluetoothFailure(error.toString()));
+    }
+  }
+
+  Future<Either<Failure, void>> clearGatt(String deviceId) async {
+    try {
+      await common.clearGattCache(deviceId);
+      return const Right(null);
+    } catch (error, stackTrace) {
+      nonFatalError(error: error, stackTrace: stackTrace);
+      return Left(BluetoothFailure(error.toString()));
     }
   }
 
@@ -135,6 +215,18 @@ class BleClient with MainBoxMixin, FirebaseCrashLogger {
     }
   }
 
+  Future<Either<Failure, void>> connectToPolarDevice({
+    required String deviceId,
+  }) async {
+    try {
+      await polar.connectToDevice(deviceId);
+      return const Right(null);
+    } catch (error, stackTrace) {
+      nonFatalError(error: error, stackTrace: stackTrace);
+      return Left(BluetoothFailure(error.toString()));
+    }
+  }
+
   // get all available service
   Future<Either<Failure, Set<PolarDataType>>> getPolarServices(
     String deviceId,
@@ -152,13 +244,14 @@ class BleClient with MainBoxMixin, FirebaseCrashLogger {
     }
   }
 
-  Stream<Either<Failure, PolarStreamingData>> polarHrStream(
+  Stream<Either<Failure, PolarStreamingData<PolarHrSample>>> polarHrStream(
     String deviceId,
     Set<PolarDataType> types,
   ) async* {
     try {
       if (types.contains(PolarDataType.hr)) {
-        final res = polar.startHrStreaming(deviceId);
+        final Stream<PolarStreamingData<PolarHrSample>> res =
+            polar.startHrStreaming(deviceId);
         await for (final data in res) {
           yield Right(data);
         }

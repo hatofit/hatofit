@@ -8,6 +8,12 @@ part 'bluetooth_entity.freezed.dart';
 class BluetoothEntity with _$BluetoothEntity {
   const factory BluetoothEntity({
     PolarDeviceInfo? polar,
+    String? polarId,
     DiscoveredDevice? common,
+    String? commonId,
+    String? manufacturerName,
+    int? batteryLevel,
+    List<Service>? services,
+    ConnectionStateUpdate? state,
   }) = _BluetootheEntity;
 }

@@ -32,13 +32,31 @@ class _HomeViewState extends State<HomeView> {
                   Strings.of(context)!.todayActivity,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
+                BlocBuilder<NavigationCubit, NavigationState>(
+                  builder: (context, state) {
+                    return state.hr != null
+                        ? ContainerWrapper(
+                            child: Row(
+                              children: [
+                                IconWrapper(
+                                  icon: Icons.favorite,
+                                  color: Theme.of(context)
+                                      .extension<AppColors>()!
+                                      .red!,
+                                ),
+                                SizedBox(width: Dimens.width8),
+                                Text(
+                                  '${state.hr} bpm',
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ],
+                            ),
+                          )
+                        : Container();
+                  },
+                ),
                 SizedBox(height: Dimens.height16),
-                Container(
-                  padding: EdgeInsets.all(Dimens.width8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(Dimens.width8),
-                    color: Theme.of(context).cardColor,
-                  ),
+                ContainerWrapper(
                   child: Column(
                     children: [
                       Row(

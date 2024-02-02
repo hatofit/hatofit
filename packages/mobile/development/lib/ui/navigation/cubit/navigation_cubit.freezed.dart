@@ -18,9 +18,21 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$NavigationState {
   bool? get isBleOn => throw _privateConstructorUsedError;
   set isBleOn(bool? value) => throw _privateConstructorUsedError;
-  List<DiscoveredDevice>? get devices => throw _privateConstructorUsedError;
-  set devices(List<DiscoveredDevice>? value) =>
+  bool? get isScanning => throw _privateConstructorUsedError;
+  set isScanning(bool? value) => throw _privateConstructorUsedError;
+  ConnectionStateUpdate? get state => throw _privateConstructorUsedError;
+  set state(ConnectionStateUpdate? value) => throw _privateConstructorUsedError;
+  List<BluetoothEntity>? get devices => throw _privateConstructorUsedError;
+  set devices(List<BluetoothEntity>? value) =>
       throw _privateConstructorUsedError;
+  Set<PolarDataType>? get polarTypes => throw _privateConstructorUsedError;
+  set polarTypes(Set<PolarDataType>? value) =>
+      throw _privateConstructorUsedError;
+  List<Service>? get commonServices => throw _privateConstructorUsedError;
+  set commonServices(List<Service>? value) =>
+      throw _privateConstructorUsedError;
+  int? get hr => throw _privateConstructorUsedError;
+  set hr(int? value) => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NavigationStateCopyWith<NavigationState> get copyWith =>
@@ -33,7 +45,14 @@ abstract class $NavigationStateCopyWith<$Res> {
           NavigationState value, $Res Function(NavigationState) then) =
       _$NavigationStateCopyWithImpl<$Res, NavigationState>;
   @useResult
-  $Res call({bool? isBleOn, List<DiscoveredDevice>? devices});
+  $Res call(
+      {bool? isBleOn,
+      bool? isScanning,
+      ConnectionStateUpdate? state,
+      List<BluetoothEntity>? devices,
+      Set<PolarDataType>? polarTypes,
+      List<Service>? commonServices,
+      int? hr});
 }
 
 /// @nodoc
@@ -50,17 +69,42 @@ class _$NavigationStateCopyWithImpl<$Res, $Val extends NavigationState>
   @override
   $Res call({
     Object? isBleOn = freezed,
+    Object? isScanning = freezed,
+    Object? state = freezed,
     Object? devices = freezed,
+    Object? polarTypes = freezed,
+    Object? commonServices = freezed,
+    Object? hr = freezed,
   }) {
     return _then(_value.copyWith(
       isBleOn: freezed == isBleOn
           ? _value.isBleOn
           : isBleOn // ignore: cast_nullable_to_non_nullable
               as bool?,
+      isScanning: freezed == isScanning
+          ? _value.isScanning
+          : isScanning // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      state: freezed == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as ConnectionStateUpdate?,
       devices: freezed == devices
           ? _value.devices
           : devices // ignore: cast_nullable_to_non_nullable
-              as List<DiscoveredDevice>?,
+              as List<BluetoothEntity>?,
+      polarTypes: freezed == polarTypes
+          ? _value.polarTypes
+          : polarTypes // ignore: cast_nullable_to_non_nullable
+              as Set<PolarDataType>?,
+      commonServices: freezed == commonServices
+          ? _value.commonServices
+          : commonServices // ignore: cast_nullable_to_non_nullable
+              as List<Service>?,
+      hr: freezed == hr
+          ? _value.hr
+          : hr // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -73,7 +117,14 @@ abstract class _$$NavigationStateImplCopyWith<$Res>
       __$$NavigationStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool? isBleOn, List<DiscoveredDevice>? devices});
+  $Res call(
+      {bool? isBleOn,
+      bool? isScanning,
+      ConnectionStateUpdate? state,
+      List<BluetoothEntity>? devices,
+      Set<PolarDataType>? polarTypes,
+      List<Service>? commonServices,
+      int? hr});
 }
 
 /// @nodoc
@@ -88,17 +139,42 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? isBleOn = freezed,
+    Object? isScanning = freezed,
+    Object? state = freezed,
     Object? devices = freezed,
+    Object? polarTypes = freezed,
+    Object? commonServices = freezed,
+    Object? hr = freezed,
   }) {
     return _then(_$NavigationStateImpl(
       isBleOn: freezed == isBleOn
           ? _value.isBleOn
           : isBleOn // ignore: cast_nullable_to_non_nullable
               as bool?,
+      isScanning: freezed == isScanning
+          ? _value.isScanning
+          : isScanning // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      state: freezed == state
+          ? _value.state
+          : state // ignore: cast_nullable_to_non_nullable
+              as ConnectionStateUpdate?,
       devices: freezed == devices
           ? _value.devices
           : devices // ignore: cast_nullable_to_non_nullable
-              as List<DiscoveredDevice>?,
+              as List<BluetoothEntity>?,
+      polarTypes: freezed == polarTypes
+          ? _value.polarTypes
+          : polarTypes // ignore: cast_nullable_to_non_nullable
+              as Set<PolarDataType>?,
+      commonServices: freezed == commonServices
+          ? _value.commonServices
+          : commonServices // ignore: cast_nullable_to_non_nullable
+              as List<Service>?,
+      hr: freezed == hr
+          ? _value.hr
+          : hr // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -106,16 +182,33 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$NavigationStateImpl implements _NavigationState {
-  _$NavigationStateImpl({this.isBleOn, this.devices});
+  _$NavigationStateImpl(
+      {this.isBleOn,
+      this.isScanning,
+      this.state,
+      this.devices,
+      this.polarTypes,
+      this.commonServices,
+      this.hr});
 
   @override
   bool? isBleOn;
   @override
-  List<DiscoveredDevice>? devices;
+  bool? isScanning;
+  @override
+  ConnectionStateUpdate? state;
+  @override
+  List<BluetoothEntity>? devices;
+  @override
+  Set<PolarDataType>? polarTypes;
+  @override
+  List<Service>? commonServices;
+  @override
+  int? hr;
 
   @override
   String toString() {
-    return 'NavigationState(isBleOn: $isBleOn, devices: $devices)';
+    return 'NavigationState(isBleOn: $isBleOn, isScanning: $isScanning, state: $state, devices: $devices, polarTypes: $polarTypes, commonServices: $commonServices, hr: $hr)';
   }
 
   @JsonKey(ignore: true)
@@ -127,15 +220,36 @@ class _$NavigationStateImpl implements _NavigationState {
 }
 
 abstract class _NavigationState implements NavigationState {
-  factory _NavigationState({bool? isBleOn, List<DiscoveredDevice>? devices}) =
-      _$NavigationStateImpl;
+  factory _NavigationState(
+      {bool? isBleOn,
+      bool? isScanning,
+      ConnectionStateUpdate? state,
+      List<BluetoothEntity>? devices,
+      Set<PolarDataType>? polarTypes,
+      List<Service>? commonServices,
+      int? hr}) = _$NavigationStateImpl;
 
   @override
   bool? get isBleOn;
   set isBleOn(bool? value);
   @override
-  List<DiscoveredDevice>? get devices;
-  set devices(List<DiscoveredDevice>? value);
+  bool? get isScanning;
+  set isScanning(bool? value);
+  @override
+  ConnectionStateUpdate? get state;
+  set state(ConnectionStateUpdate? value);
+  @override
+  List<BluetoothEntity>? get devices;
+  set devices(List<BluetoothEntity>? value);
+  @override
+  Set<PolarDataType>? get polarTypes;
+  set polarTypes(Set<PolarDataType>? value);
+  @override
+  List<Service>? get commonServices;
+  set commonServices(List<Service>? value);
+  @override
+  int? get hr;
+  set hr(int? value);
   @override
   @JsonKey(ignore: true)
   _$$NavigationStateImplCopyWith<_$NavigationStateImpl> get copyWith =>
