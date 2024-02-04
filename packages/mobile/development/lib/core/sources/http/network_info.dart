@@ -30,7 +30,7 @@ class NetworkInfo with FirebaseCrashLogger {
       InternetConnection.createInstance(
         customCheckOptions: [
           InternetCheckOption(
-            uri: Uri.parse(ListAPI.get.baseUrl),
+            uri: Uri.parse(APIConstant.get.baseUrl),
           ),
         ],
         useDefaultOptions: false,

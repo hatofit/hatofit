@@ -22,7 +22,7 @@ class ExerciseRemoteDataSourceImpl implements ExerciseRemoteDataSource {
     GetExerciseParams params,
   ) async {
     final res = await _client.getRequest(
-      "${ListAPI.get.exercise}/${params.id}",
+      "${APIConstant.get.exercise}/${params.id}",
       converter: (res) => ExerciseModel.fromJson(res as Map<String, dynamic>),
     );
 
@@ -34,7 +34,7 @@ class ExerciseRemoteDataSourceImpl implements ExerciseRemoteDataSource {
     GetExercisesParams params,
   ) async {
     final res = await _client.getRequest(
-      ListAPI.get.exercise,
+      APIConstant.get.exercise,
       queryParameters: params.toJson(),
       converter: (res) {
         List<ExerciseModel> exercises = [];

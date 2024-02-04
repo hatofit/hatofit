@@ -6,7 +6,7 @@ import 'package:hatofit/utils/utils.dart';
 typedef ResponseConverter<T> = T Function(dynamic response);
 
 class DioClient with MainBoxMixin, FirebaseCrashLogger {
-  // static const String baseUrl = ListAPI.get.baseUrl;
+  // static const String baseUrl = APIConstant.get.baseUrl;
   // static const String baseUrl = 'https://api.hatofit.com';
 
   String? _auth;
@@ -41,7 +41,7 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
 
   Dio _createDio() => Dio(
         BaseOptions(
-          baseUrl: ListAPI.get.baseUrl,
+          baseUrl: APIConstant.get.baseUrl,
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',

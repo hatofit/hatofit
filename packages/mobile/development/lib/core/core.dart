@@ -1,4 +1,5 @@
 export 'app_route.dart';
+export 'constant/constant.dart';
 export 'error/error.dart';
 export 'localization/localization.dart';
 export 'resources/resources.dart';

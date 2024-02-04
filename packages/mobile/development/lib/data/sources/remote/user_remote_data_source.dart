@@ -14,7 +14,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
   @override
   Future<Either<Failure, UserModel>> getUser() async {
     final res = await _client.getRequest(
-      ListAPI.get.authMe,
+      APIConstant.get.authMe,
       converter: (res) {
         final auth =
             AuthResponseModel.fromJson(res["auth"] as Map<String, dynamic>);

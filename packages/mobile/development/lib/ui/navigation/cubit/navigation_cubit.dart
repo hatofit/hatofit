@@ -71,8 +71,8 @@ class NavigationCubit extends Cubit<NavigationState> {
     });
   }
 
+  List<BluetoothEntity> devices = [];
   Future<void> scanDevices() async {
-    List<BluetoothEntity> devices = [];
     _scanStream ??= _scanBluetoothUsecase.call().listen(
       (event) {
         event.fold(
@@ -178,6 +178,7 @@ class NavigationCubit extends Cubit<NavigationState> {
           }
         },
         (r) {
+          log?.i("HR POLAR: ${r.samples.last.hr}");
           emit(state.copyWith(hr: r.samples.last.hr));
         },
       );
@@ -257,6 +258,7 @@ class NavigationCubit extends Cubit<NavigationState> {
           }
         },
         (r) {
+          log?.e("[HR COMMON] $r");
           emit(state.copyWith(hr: r[1]));
         },
       );

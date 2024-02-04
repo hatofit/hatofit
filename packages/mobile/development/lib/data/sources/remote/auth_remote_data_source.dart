@@ -23,7 +23,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<Either<Failure, AuthResponseModel>> login(LoginParams params) async {
     final res = await _client.postRequest(
-      ListAPI.get.authLogin,
+      APIConstant.get.authLogin,
       data: params.toJson(),
       converter: (res) =>
           AuthResponseModel.fromJson(res as Map<String, dynamic>),
@@ -36,7 +36,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<Either<Failure, AuthResponseModel>> register(
       RegisterParams params) async {
     final res = await _client.postRequest(
-      ListAPI.get.authRegister,
+      APIConstant.get.authRegister,
       formData: params.toFromData(),
       converter: (res) =>
           AuthResponseModel.fromJson(res as Map<String, dynamic>),
@@ -48,7 +48,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<Either<Failure, AuthResponseModel>> me() async {
     final res = await _client.getRequest(
-      ListAPI.get.authMe,
+      APIConstant.get.authMe,
       converter: (res) =>
           AuthResponseModel.fromJson(res["auth"] as Map<String, dynamic>),
     );
@@ -60,7 +60,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<Either<Failure, BaseResponseModel>> forgotPassword(
       ForgotPasswordParams params) {
     final res = _client.getRequest(
-      "${ListAPI.get.forgotPassword}/${params.email}",
+      "${APIConstant.get.forgotPassword}/${params.email}",
       converter: (res) =>
           BaseResponseModel.fromJson(res as Map<String, dynamic>, (res) => res),
     );
@@ -72,7 +72,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<Either<Failure, AuthResponseModel>> resetPassword(
       ResetPasswordParams params) {
     final res = _client.putRequest(
-      ListAPI.get.resetPassword,
+      APIConstant.get.resetPassword,
       data: params.toJson(),
       converter: (res) =>
           AuthResponseModel.fromJson(res as Map<String, dynamic>),
@@ -85,7 +85,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<Either<Failure, BaseResponseModel>> verifyCode(
       ResetPasswordParams params) {
     final res = _client.postRequest(
-      ListAPI.get.verifyCode,
+      APIConstant.get.verifyCode,
       data: params.toJson(),
       converter: (res) =>
           BaseResponseModel.fromJson(res as Map<String, dynamic>, (res) => res),
