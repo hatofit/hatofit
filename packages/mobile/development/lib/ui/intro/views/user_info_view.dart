@@ -5,7 +5,7 @@ import 'package:hatofit/core/core.dart';
 import 'package:hatofit/ui/ui.dart';
 import 'package:hatofit/utils/utils.dart';
 
-class UserInfoView extends StatefulWidget with MainBoxMixin {
+class UserInfoView extends StatefulWidget {
   const UserInfoView({super.key});
 
   @override
@@ -89,7 +89,8 @@ class _UserInfoViewState extends State<UserInfoView> {
                   divisions: 300,
                   height: Dimens.height100,
                   showCursor: true,
-                  initialItem: state.height ?? 150,
+                  initialItem:
+                      state.user == null ? 150 : state.user!.height ?? 150,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   activeItemTextColor: Theme.of(context).primaryColor,
                   onChanged: (value) {
@@ -108,7 +109,8 @@ class _UserInfoViewState extends State<UserInfoView> {
                   divisions: 250,
                   height: Dimens.height100,
                   showCursor: true,
-                  initialItem: state.weight ?? 125,
+                  initialItem:
+                      state.user == null ? 125 : state.user!.weight ?? 125,
                   backgroundColor: Theme.of(context).scaffoldBackgroundColor,
                   activeItemTextColor: Theme.of(context).primaryColor,
                   onChanged: (value) {
@@ -132,8 +134,9 @@ class _UserInfoViewState extends State<UserInfoView> {
                               {
                                 _conDateOfBirth.text =
                                     '${value.day} ${value.month.toStringMonth(context)} ${value.year}',
-                                context.read<IntroCubit>().updateDateOfBirth(
-                                    '${value.year}-${value.day}-${value.month}'),
+                                context
+                                    .read<IntroCubit>()
+                                    .updateDateOfBirth(value),
                               }
                           }),
                       child: TextF(
@@ -171,19 +174,22 @@ class _UserInfoViewState extends State<UserInfoView> {
                   child: OutlinedButton(
                     onPressed: () {
                       if (_keyForm.currentState?.validate() ?? false) {
-                        if (state.selectedGender == null) {
+                        if (state.user == null) {
                           return Strings.of(context)!
                               .pleaseSelectYourGender
                               .toToastError(context);
                         } else {
                           context.read<IntroCubit>().updateAll();
-                          final isOffline =
-                              context.read<IntroCubit>().isOfflineMode();
-                          if (isOffline) {
-                            context.goNamed(Routes.home.name);
-                          } else {
-                            context.pushNamed(Routes.login.name);
-                          }
+                          context
+                              .read<IntroCubit>()
+                              .isOfflineMode()
+                              .then((value) {
+                            if (value) {
+                              context.goNamed(Routes.home.name);
+                            } else {
+                              context.pushNamed(Routes.login.name);
+                            }
+                          });
                         }
                       }
                     },
@@ -219,7 +225,7 @@ class _UserInfoViewState extends State<UserInfoView> {
     IntroState state,
     String type,
   ) {
-    final isSelected = type.toLowerCase() == state.selectedGender;
+    final isSelected = type.toLowerCase() == state.user?.gender?.toLowerCase();
     return GestureDetector(
       onTap: () {
         context.read<IntroCubit>().updateGender(type.toLowerCase());

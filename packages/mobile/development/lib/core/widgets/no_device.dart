@@ -27,13 +27,13 @@ class NoDevice extends StatelessWidget {
         showButton
             ? ElevatedButton(
                 onPressed: onPressed,
-                child: text,
                 style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor,
+                  backgroundColor: Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(Dimens.height8),
                   ),
                 ),
+                child: text,
               )
             : const SizedBox(),
       ],

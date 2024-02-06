@@ -3,10 +3,10 @@ import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 
 class GetUserUsecase extends NoParamsUseCase<UserEntity> {
-  final UserRepository _repo;
+  final UserRepo _repo;
 
   GetUserUsecase(this._repo);
 
   @override
-  Future<Either<Failure, UserEntity>> call() => _repo.getUser();
+  Future<Either<Failure, UserEntity>> call() async => await _repo.getUser();
 }

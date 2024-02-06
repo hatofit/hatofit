@@ -54,3 +54,15 @@ class ExerciseContentEntity with _$ExerciseContentEntity {
     @HiveField(3) String? lottie,
   }) = _ExerciseContentEntity;
 }
+
+void regisExercise() {
+  if (!Hive.isAdapterRegistered(BoxTypeId.exerciseEntityIndex)) {
+    Hive.registerAdapter(ExerciseEntityAdapter());
+  }
+  if (!Hive.isAdapterRegistered(BoxTypeId.exerciseInstructionEntityIndex)) {
+    Hive.registerAdapter(ExerciseInstructionEntityAdapter());
+  }
+  if (!Hive.isAdapterRegistered(BoxTypeId.exerciseContentEntityIndex)) {
+    Hive.registerAdapter(ExerciseContentEntityAdapter());
+  }
+}

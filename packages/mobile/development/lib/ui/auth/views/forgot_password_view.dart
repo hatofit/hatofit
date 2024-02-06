@@ -129,7 +129,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   child: OutlinedButton(
                     onPressed: () {
                       if (_keyForm.currentState?.validate() ?? false) {
-                        log?.d("ForgotPasswordView: ${_conEmail.text}");
                         context.read<AuthCubit>().forgotPassword(
                               ForgotPasswordParams(
                                 email: _conEmail.text,

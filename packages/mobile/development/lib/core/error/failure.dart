@@ -67,3 +67,16 @@ class CacheFailure extends Failure {
   @override
   int get hashCode => 0;
 }
+
+class FirebaseFailure extends Failure {
+  final String? message;
+
+  const FirebaseFailure(this.message);
+
+  @override
+  bool operator ==(Object other) =>
+      other is FirebaseFailure && other.message == message;
+
+  @override
+  int get hashCode => message.hashCode;
+}

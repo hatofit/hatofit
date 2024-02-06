@@ -34,13 +34,13 @@ class ModelToEntityIsolateParser<T> {
 
   Future<T> parseInBackground() async {
     final port = ReceivePort();
-    await Isolate.spawn(_parseListOfModel, port.sendPort);
+    await Isolate.spawn(_parser, port.sendPort);
 
     final result = await port.first;
     return result as T;
   }
 
-  Future<void> _parseListOfModel(SendPort sendPort) async {
+  Future<void> _parser(SendPort sendPort) async {
     final result = converter(model);
     Isolate.exit(sendPort, result);
   }

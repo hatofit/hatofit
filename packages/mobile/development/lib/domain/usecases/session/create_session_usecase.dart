@@ -4,7 +4,7 @@ import 'package:hatofit/domain/domain.dart';
 
 class CreateSessionUsecase
     extends WithParamsUseCase<SessionEntity, CreateSessionParams> {
-  final SessionRepository _repo;
+  final SessionRepo _repo;
 
   CreateSessionUsecase(this._repo);
 

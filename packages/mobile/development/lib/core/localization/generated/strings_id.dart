@@ -8,6 +8,24 @@ class StringsId extends Strings {
   String get connect => 'Hubungkan';
 
   @override
+  String get connectable => 'Dapat dihubungkan';
+
+  @override
+  String get unconnectable => 'Tidak dapat dihubungkan';
+
+  @override
+  String get failedConnectToDevice => 'Gagal terhubung ke perangkat';
+
+  @override
+  String get successConnectToDevice => 'Berhasil terhubung ke perangkat';
+
+  @override
+  String get disconnectedFromDevice => 'Terputus dari perangkat';
+
+  @override
+  String get tooManyConnectionAttempts => 'Terlalu banyak percobaan koneksi, coba beberapa saat lagi';
+
+  @override
   String get disconnect => 'Putuskan';
 
   @override
@@ -216,4 +234,28 @@ class StringsId extends Strings {
 
   @override
   String get name => 'Nama';
+
+  @override
+  String get exerciseNow => 'Olahraga sekarang';
+
+  @override
+  String get start => 'Mulai';
+
+  @override
+  String get currentHeartRate => 'Detak jantung saat ini';
+
+  @override
+  String get underweight => 'Kurus';
+
+  @override
+  String get normal => 'Normal';
+
+  @override
+  String get overweight => 'Kegemukan';
+
+  @override
+  String get obese => 'Obesitas';
+
+  @override
+  String get caloriesBurn => 'Kalori Terbakar';
 }

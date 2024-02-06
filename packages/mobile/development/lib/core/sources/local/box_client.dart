@@ -1,8 +1,10 @@
+import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 import 'package:hatofit/utils/utils.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 enum BoxKeys {
+  appConfig,
   user,
   exercise,
   session,
@@ -10,21 +12,27 @@ enum BoxKeys {
 }
 
 class BoxClient with FirebaseCrashLogger {
+  static late Box _appConfigBox;
   static late Box _userBox;
   static late Box<ExerciseEntity> _exerciseBox;
   static late Box<SessionEntity> _sessionBox;
   static late Box<ReportEntity> _reportBox;
 
-  static Future<void> userRegister() async {
-    // Hive.registerAdapter(UserEntityAdapter());
-    // Hive.registerAdapter(MetricUnitsEntityAdapter());
+  static void registAdapter() {
+    regisTheme();
+    regisUser();
+    regisExercise();
+    regisSession();
+    regisReport();
   }
 
   static Future<void> initHive() async {
     await Hive.initFlutter();
+    registAdapter();
 
-    await userRegister();
-
+    if (!Hive.isBoxOpen(BoxKeys.appConfig.name)) {
+      _appConfigBox = await Hive.openBox(BoxKeys.appConfig.name);
+    }
     if (!Hive.isBoxOpen(BoxKeys.user.name)) {
       _userBox = await Hive.openBox(BoxKeys.user.name);
     }
@@ -41,7 +49,7 @@ class BoxClient with FirebaseCrashLogger {
 
   BoxClient() {
     try {
-      initHive().then((value) => log?.d("Hive initialized"));
+      initHive().then((_) => null);
     } catch (error, stackTrace) {
       nonFatalError(error: error, stackTrace: stackTrace);
     }
@@ -54,4 +62,6 @@ class BoxClient with FirebaseCrashLogger {
   Box<SessionEntity> get sessionBox => _sessionBox;
 
   Box<ReportEntity> get reportBox => _reportBox;
+
+  Box get appConfigBox => _appConfigBox;
 }

@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:hatofit/core/core.dart';
-import 'package:hatofit/domain/repositories/image_repository.dart';
+import 'package:hatofit/domain/domain.dart';
 
 class ImageFromGalleryUsecase extends NoParamsUseCase<File> {
-  final ImageRepository _repo;
+  final ImageRepo _repo;
 
   ImageFromGalleryUsecase(this._repo);
 

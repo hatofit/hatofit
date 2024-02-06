@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hatofit/utils/utils.dart';
 
 extension BlocExtensions on BlocBase {
   void safeEmit<T>(
@@ -8,7 +7,6 @@ extension BlocExtensions on BlocBase {
     required void Function(T) emit,
   }) {
     if (isClosed) {
-      log?.e('Bloc is closed');
       return;
     } else {
       emit(state);

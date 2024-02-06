@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -69,7 +68,7 @@ class AppRoute {
       ),
       ShellRoute(
         builder: (_, __, child) => BlocProvider<IntroCubit>(
-          create: (_) => di<IntroCubit>()..getState(),
+          create: (_) => di<IntroCubit>()..init(),
           child: child,
         ),
         routes: [
@@ -188,7 +187,7 @@ class AppRoute {
     ],
     initialLocation: Routes.splashScreen.path,
     routerNeglect: true,
-    debugLogDiagnostics: kDebugMode,
+    // debugLogDiagnostics: kDebugMode,
     refreshListenable: GoRouterRefreshStream(context.read<AuthCubit>().stream),
   );
 }

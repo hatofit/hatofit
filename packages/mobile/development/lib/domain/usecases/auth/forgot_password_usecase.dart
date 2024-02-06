@@ -4,7 +4,7 @@ import 'package:hatofit/domain/domain.dart';
 
 class ForgotPasswordUsecase
     extends WithParamsUseCase<BaseResponseEntity, ForgotPasswordParams> {
-  final AuthRepository _repo;
+  final AuthRepo _repo;
 
   ForgotPasswordUsecase(this._repo);
 

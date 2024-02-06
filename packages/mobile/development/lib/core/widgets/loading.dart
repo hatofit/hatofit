@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hatofit/core/core.dart';
 
 class Loading extends StatelessWidget {
-  const Loading({this.showMessage = true});
+  const Loading({super.key, this.showMessage = true});
 
   final bool showMessage;
 

@@ -37,7 +37,6 @@ extension StringExt on String {
       );
     } catch (e, stackTrace) {
       FirebaseCrashLogger().nonFatalError(error: e, stackTrace: stackTrace);
-      log?.e("$e");
     }
   }
 
@@ -62,7 +61,6 @@ extension StringExt on String {
       );
     } catch (e, stackTrace) {
       FirebaseCrashLogger().nonFatalError(error: e, stackTrace: stackTrace);
-      log?.e("$e");
     }
   }
 
@@ -74,7 +72,7 @@ extension StringExt on String {
 
       showToastWidget(
         Toast(
-          bgColor: Theme.of(context).extension<AppColors>()!.pink,
+          bgColor: Theme.of(context).extension<AppColors>()?.pink,
           icon: Icons.info,
           message: message,
           textColor: Colors.white,
@@ -85,7 +83,20 @@ extension StringExt on String {
       );
     } catch (e, stackTrace) {
       FirebaseCrashLogger().nonFatalError(error: e, stackTrace: stackTrace);
-      log?.e("$e");
+    }
+  }
+
+  String imageDeviceAssetDecision() {
+    if (contains("Polar H10")) {
+      return 'assets/images/polar/polar-h10.png';
+    } else if (contains("Polar Sense")) {
+      return 'assets/images/polar/polar-verity-sense.png';
+    } else if (contains("Polar H9")) {
+      return 'assets/images/polar/polar-h9.png';
+    } else if (contains("Polar OH1")) {
+      return 'assets/images/polar/polar-oh1.png';
+    } else {
+      return 'assets/images/other-device.png';
     }
   }
 }

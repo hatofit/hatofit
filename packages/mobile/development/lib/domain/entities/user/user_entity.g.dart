@@ -73,7 +73,7 @@ class UserEntityAdapter extends TypeAdapter<_$UserEntityImpl> {
           typeId == other.typeId;
 }
 
-class MetricUnitsEntityAdapter
+class UserMetricUnitsEntityAdapter
     extends TypeAdapter<_$UserMetricUnitsEntityImpl> {
   @override
   final int typeId = 1;
@@ -109,7 +109,7 @@ class MetricUnitsEntityAdapter
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is MetricUnitsEntityAdapter &&
+      other is UserMetricUnitsEntityAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

@@ -8,6 +8,24 @@ class StringsEn extends Strings {
   String get connect => 'Connect';
 
   @override
+  String get connectable => 'Connectable';
+
+  @override
+  String get unconnectable => 'Unconnectable';
+
+  @override
+  String get failedConnectToDevice => 'Failed connect to device';
+
+  @override
+  String get successConnectToDevice => 'Success connect to device';
+
+  @override
+  String get disconnectedFromDevice => 'Disconnected from device';
+
+  @override
+  String get tooManyConnectionAttempts => 'Too many connection attempts, please try again a few minutes later';
+
+  @override
   String get disconnect => 'Disconnect';
 
   @override
@@ -216,4 +234,28 @@ class StringsEn extends Strings {
 
   @override
   String get name => 'Name';
+
+  @override
+  String get exerciseNow => 'Exercise Now';
+
+  @override
+  String get start => 'Start';
+
+  @override
+  String get currentHeartRate => 'Current Heart Rate';
+
+  @override
+  String get underweight => 'Kurus';
+
+  @override
+  String get normal => 'Normal';
+
+  @override
+  String get overweight => 'Kegemukan';
+
+  @override
+  String get obese => 'Obesitas';
+
+  @override
+  String get caloriesBurn => 'Calories Burn';
 }

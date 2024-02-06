@@ -1,0 +1,9 @@
+export 'app_config_repo_impl.dart';
+export 'auth_repo_impl.dart';
+export 'ble/ble_repo.dart';
+export 'exercise_repo_impl.dart';
+export 'firebase_remote_config_repo_impl.dart';
+export 'image_repo_impl.dart';
+export 'report_repo_impl.dart';
+export 'session_repo_impl.dart';
+export 'user_repo_impl.dart';

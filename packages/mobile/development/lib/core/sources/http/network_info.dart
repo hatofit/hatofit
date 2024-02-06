@@ -3,30 +3,42 @@ import 'package:hatofit/utils/services/firebase/firebase_crashlogger.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 
 class NetworkInfo with FirebaseCrashLogger {
-  static late InternetConnection? _internetConnectionChecker;
+  static late InternetConnection? _hatoftServer;
+  static late InternetConnection? _globalServer;
 
-  static Future<void> iniNetworkInfo() async {
-    _internetConnectionChecker = _createInstance();
+  static Future<void> initNetworkInfo() async {
+    _hatoftServer = _createHatofit();
+    _globalServer = _createGlobal();
   }
 
   NetworkInfo() {
     try {
-      _internetConnectionChecker = _createInstance();
+      _hatoftServer = _createHatofit();
+      _globalServer = _createGlobal();
     } catch (error, stackTrace) {
       nonFatalError(error: error, stackTrace: stackTrace);
     }
   }
 
-  InternetConnection get instance {
+  InternetConnection get hatofitInstance {
     try {
-      _internetConnectionChecker = _createInstance();
+      _hatoftServer = _createHatofit();
     } catch (error, stackTrace) {
       nonFatalError(error: error, stackTrace: stackTrace);
     }
-    return _internetConnectionChecker!;
+    return _hatoftServer!;
   }
 
-  static InternetConnection _createInstance() =>
+  InternetConnection get globalInstance {
+    try {
+      _globalServer = _createGlobal();
+    } catch (error, stackTrace) {
+      nonFatalError(error: error, stackTrace: stackTrace);
+    }
+    return _globalServer!;
+  }
+
+  static InternetConnection _createHatofit() =>
       InternetConnection.createInstance(
         customCheckOptions: [
           InternetCheckOption(
@@ -36,5 +48,9 @@ class NetworkInfo with FirebaseCrashLogger {
         useDefaultOptions: false,
       );
 
-  Future<bool> get isConnected => instance.hasInternetAccess;
+  static InternetConnection _createGlobal() =>
+      InternetConnection.createInstance();
+
+  Future<bool> get isHatofitConnected => hatofitInstance.hasInternetAccess;
+  Future<bool> get isGlobalConnected => globalInstance.hasInternetAccess;
 }

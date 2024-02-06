@@ -4,7 +4,7 @@ import 'package:hatofit/domain/domain.dart';
 
 class ResetPasswordUsecase
     extends WithParamsUseCase<AuthResponseEntity, ResetPasswordParams> {
-  final AuthRepository _repo;
+  final AuthRepo _repo;
 
   ResetPasswordUsecase(this._repo);
 

@@ -4,7 +4,7 @@ import 'package:hatofit/domain/domain.dart';
 
 class VerifyCodeUseCase
     extends WithParamsUseCase<BaseResponseEntity, ResetPasswordParams> {
-  final AuthRepository _repo;
+  final AuthRepo _repo;
 
   VerifyCodeUseCase(this._repo);
 

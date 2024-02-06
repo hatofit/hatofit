@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hatofit/core/core.dart';
@@ -10,74 +10,70 @@ part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final GetReportsUsecase _getReportsUsecase;
-  final GetSessionUsecase _getSessionsUsecase;
   final GetUserUsecase _getUserUsecase;
+  final DownloadImageUsecase _downloadImageUsecase;
+  final GetStringFirebaseUsecase _getStringFirebaseUsecase;
   HomeCubit(
     this._getReportsUsecase,
     this._getUserUsecase,
-    this._getSessionsUsecase,
-  ) : super(const _Loading());
+    this._downloadImageUsecase,
+    this._getStringFirebaseUsecase,
+  ) : super(_HomeState());
 
   String userName = "User";
   Future<void> init() async {
+    await getUser();
+    await heroImage();
     await getData();
   }
 
-  Future<void> getData() async {
-    emit(const _Loading());
+  Future<void> heroImage() async {
+    final getUrl =
+        await _getStringFirebaseUsecase.call(FirebaseConstant.get.homeHeroKey);
+
+    return getUrl.fold(
+      (l) => null,
+      (r) async {
+        emit(state.copyWith(heroUrl: r));
+        await _downloadImageUsecase
+            .call(DownloadImageParams(url: r, fileName: "home-hero.png"));
+      },
+    );
+  }
+
+  Future<void> getUser() async {
+    final res = await _getUserUsecase.call();
+    res.fold((l) => null, (r) {
+      userName = r.firstName ?? "User";
+      emit(state.copyWith(user: r));
+    });
+  }
+
+  Future<void> getReport() async {
     final res = await _getReportsUsecase.call(const GetReportsParams(
       page: 0,
       limit: 1,
     ));
-
-    res.fold(
-      (failure) {
-        if (failure is CacheFailure) {
-          emit(_Failure(failure.reason ?? "Cache Failure"));
-        }
-      },
-      (session) async {
-        final user = await getUser();
-        if (user == null) return emit(const _Failure("User not found"));
-        userName = user.firstName ?? "User";
-        final bmi = getBmi(user);
-        final bmiStatus = getBmiStatus(bmi);
-        emit(_Success(SuccessResponse(
-          hrData: [],
-          calories: 0,
-          bmi: bmi,
-          bmiStatus: bmiStatus,
-          userName: userName,
-        )));
-      },
-    );
+    res.fold((l) => null, (r) {
+      emit(state.copyWith(
+        hrData: [],
+        calories: 0,
+      ));
+    });
   }
 
-  Future<UserEntity?> getUser() async {
-    final res = await _getUserUsecase.call();
-    return res.fold(
-      (l) => null,
-      (r) => r,
-    );
+  Future<void> getData() async {
+    final user = state.user;
+    if (user == null) return;
+    final bmi = getBmi(user);
+    emit(state.copyWith(
+      bmi: bmi,
+      dateNow: formatter.format(DateTime.now()),
+    ));
   }
 
   final formatter = DateFormat('d MMMM yyyy');
-  // List<HrBarChartItem> hrToReport(List<ReportEntity> reports) {
-  //   if (reports.isEmpty) return [];
-
-  // }
-
-  String getBmiStatus(double bmi) {
-    if (bmi < 18.5) {
-      return "Underweight";
-    } else if (bmi >= 18.5 && bmi < 25) {
-      return "Normal";
-    } else if (bmi >= 25 && bmi < 30) {
-      return "Overweight";
-    } else {
-      return "Obese";
-    }
-  }
+ 
 
   double getBmi(UserEntity user) {
     final height = user.height ?? 0;

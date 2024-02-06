@@ -13,48 +13,24 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
+    final homeCubit = context.watch<HomeCubit>();
     return RefreshIndicator(
       onRefresh: () => context.read<HomeCubit>().getData(),
       child: Parent(
         appBar: PreferredSize(
           preferredSize: Size(double.infinity, Dimens.height40),
           child: AppBarView(
-            title: Text('Hi, ${context.watch<HomeCubit>().userName} 👋'),
+            title: Text('Hi, ${homeCubit.userName} 👋'),
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Dimens.width16),
+          padding: EdgeInsets.symmetric(horizontal: Dimens.width8),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  Strings.of(context)!.todayActivity,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                BlocBuilder<NavigationCubit, NavigationState>(
-                  builder: (context, state) {
-                    return state.hr != null
-                        ? ContainerWrapper(
-                            child: Row(
-                              children: [
-                                IconWrapper(
-                                  icon: Icons.favorite,
-                                  color: Theme.of(context)
-                                      .extension<AppColors>()!
-                                      .red!,
-                                ),
-                                SizedBox(width: Dimens.width8),
-                                Text(
-                                  '${state.hr} bpm',
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                              ],
-                            ),
-                          )
-                        : Container();
-                  },
-                ),
+                const ConnectedDevice(),
+                const ExerciseNow(),
                 SizedBox(height: Dimens.height16),
                 ContainerWrapper(
                   child: Column(
@@ -73,10 +49,18 @@ class _HomeViewState extends State<HomeView> {
                           ),
                         ],
                       ),
-                      SizedBox(height: Dimens.height16),
                     ],
                   ),
                 ),
+                SizedBox(height: Dimens.height8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Expanded(child: CalorieGauge()),
+                    SizedBox(width: Dimens.width8),
+                    const Expanded(child: BMIGauge()),
+                  ],
+                )
               ],
             ),
           ),

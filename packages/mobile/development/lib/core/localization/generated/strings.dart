@@ -99,6 +99,42 @@ abstract class Strings {
   /// **'Connect'**
   String get connect;
 
+  /// No description provided for @connectable.
+  ///
+  /// In en, this message translates to:
+  /// **'Connectable'**
+  String get connectable;
+
+  /// No description provided for @unconnectable.
+  ///
+  /// In en, this message translates to:
+  /// **'Unconnectable'**
+  String get unconnectable;
+
+  /// No description provided for @failedConnectToDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed connect to device'**
+  String get failedConnectToDevice;
+
+  /// No description provided for @successConnectToDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Success connect to device'**
+  String get successConnectToDevice;
+
+  /// No description provided for @disconnectedFromDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'Disconnected from device'**
+  String get disconnectedFromDevice;
+
+  /// No description provided for @tooManyConnectionAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many connection attempts, please try again a few minutes later'**
+  String get tooManyConnectionAttempts;
+
   /// No description provided for @disconnect.
   ///
   /// In en, this message translates to:
@@ -518,6 +554,54 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Name'**
   String get name;
+
+  /// No description provided for @exerciseNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise Now'**
+  String get exerciseNow;
+
+  /// No description provided for @start.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get start;
+
+  /// No description provided for @currentHeartRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Current Heart Rate'**
+  String get currentHeartRate;
+
+  /// No description provided for @underweight.
+  ///
+  /// In en, this message translates to:
+  /// **'Kurus'**
+  String get underweight;
+
+  /// No description provided for @normal.
+  ///
+  /// In en, this message translates to:
+  /// **'Normal'**
+  String get normal;
+
+  /// No description provided for @overweight.
+  ///
+  /// In en, this message translates to:
+  /// **'Kegemukan'**
+  String get overweight;
+
+  /// No description provided for @obese.
+  ///
+  /// In en, this message translates to:
+  /// **'Obesitas'**
+  String get obese;
+
+  /// No description provided for @caloriesBurn.
+  ///
+  /// In en, this message translates to:
+  /// **'Calories Burn'**
+  String get caloriesBurn;
 }
 
 class _StringsDelegate extends LocalizationsDelegate<Strings> {

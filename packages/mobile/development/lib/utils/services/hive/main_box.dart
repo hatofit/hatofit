@@ -1,77 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/utils.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
-enum ActiveTheme {
-  light(ThemeMode.light),
-  dark(ThemeMode.dark),
-  system(ThemeMode.system);
 
-  final ThemeMode mode;
+// mixin class MainBoxMixin {
+//   static late Box? mainBox;
 
-  const ActiveTheme(this.mode);
-}
+//   static Future<void> entitiesRegister() async {
+//     Hive.registerAdapter(UserEntityAdapter());
+//     Hive.registerAdapter(MetricUnitsEntityAdapter());
+//   }
 
-enum MainBoxKeys {
-  token,
-  language,
-  theme,
-  locale,
-  user,
-  todayMood,
-  weight,
-  height,
-  energyUnit,
-  weightUnit,
-  heightUnit,
-  gender,
-  dateOfBirth,
-  exerciseIds,
-  sessionIds,
-  exercises,
-  sessions,
-  offlineMode,
-}
+//   static Future<void> initHive() async {
+//     await Hive.initFlutter();
+//     await entitiesRegister();
+//     mainBox = await Hive.openBox('hatofit');
+//   }
 
-mixin class MainBoxMixin {
-  static late Box? mainBox;
+//   Future<void> addData<T>(MainBoxKeys key, T value) async {
+//     await mainBox?.put(key.name, value);
+//   }
 
-  static Future<void> entitiesRegister() async {
-    Hive.registerAdapter(UserEntityAdapter());
-    Hive.registerAdapter(MetricUnitsEntityAdapter());
-  }
+//   Future<void> removeData(MainBoxKeys key) async {
+//     await mainBox?.delete(key.name);
+//   }
 
-  static Future<void> initHive() async {
-    await Hive.initFlutter();
-    await entitiesRegister();
-    mainBox = await Hive.openBox('hatofit');
-  }
+//   T getData<T>(MainBoxKeys key) => mainBox?.get(key.name) as T;
 
-  Future<void> addData<T>(MainBoxKeys key, T value) async {
-    await mainBox?.put(key.name, value);
-  }
+//   Future<void> logoutBox() async {
+//     /// Clear the box
+//     removeData(MainBoxKeys.user);
+//     removeData(MainBoxKeys.token);
+//   }
 
-  Future<void> removeData(MainBoxKeys key) async {
-    await mainBox?.delete(key.name);
-  }
-
-  T getData<T>(MainBoxKeys key) => mainBox?.get(key.name) as T;
-
-  Future<void> logoutBox() async {
-    /// Clear the box
-    removeData(MainBoxKeys.user);
-    removeData(MainBoxKeys.token);
-  }
-
-  Future<void> closeBox() async {
-    try {
-      if (mainBox != null) {
-        await mainBox?.close();
-        await mainBox?.deleteFromDisk();
-      }
-    } catch (e, stackTrace) {
-      FirebaseCrashLogger().nonFatalError(error: e, stackTrace: stackTrace);
-    }
-  }
-}
+//   Future<void> closeBox() async {
+//     try {
+//       if (mainBox != null) {
+//         await mainBox?.close();
+//         await mainBox?.deleteFromDisk();
+//       }
+//     } catch (e, stackTrace) {
+//       FirebaseCrashLogger().nonFatalError(error: e, stackTrace: stackTrace);
+//     }
+//   }
+// }

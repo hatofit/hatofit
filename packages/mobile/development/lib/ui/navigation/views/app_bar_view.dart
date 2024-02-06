@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:hatofit/core/core.dart';
-import 'package:hatofit/dependecy_injection.dart';
 import 'package:hatofit/ui/navigation/cubit/navigation_cubit.dart';
 import 'package:hatofit/utils/services/native_methods.dart';
 
@@ -27,10 +27,8 @@ class AppBarView extends StatelessWidget {
       actions: showActions
           ? [
               BlocBuilder<NavigationCubit, NavigationState>(
-                buildWhen: (previous, current) =>
-                    previous.isBleOn != current.isBleOn,
                 builder: (context, state) {
-                  return state.isBleOn!
+                  return state.state != BluetoothAdapterState.off
                       ? IconButton(
                           icon: Icon(
                             Icons.bluetooth,
@@ -38,7 +36,7 @@ class AppBarView extends StatelessWidget {
                                 state.hr != null ? Colors.blue : Colors.white,
                           ),
                           onPressed: () {
-                            di<NavigationCubit>().scanDevices();
+                            context.read<NavigationCubit>().startScan();
                             showModalBottomSheet(
                               showDragHandle: true,
                               // isScrollControlled: true,
@@ -55,7 +53,7 @@ class AppBarView extends StatelessWidget {
                             color: Colors.red,
                           ),
                           onPressed: () {
-                            di<NativeMethods>().turnOnBluetooth();
+                            context.read<NativeMethods>().turnOnBluetooth();
                           },
                         );
                 },

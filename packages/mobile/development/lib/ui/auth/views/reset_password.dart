@@ -232,7 +232,6 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                       child: OutlinedButton(
                         onPressed: () {
                           if (_keyForm2.currentState?.validate() ?? false) {
-                            log?.d("ResetPasswordView: ${_conPin.text}");
                             context.read<AuthCubit>().resetPassword(
                                   ResetPasswordParams(
                                     email: widget.email,
@@ -312,7 +311,6 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
               },
               onCompleted: (value) {
                 if (_keyForm.currentState?.validate() ?? false) {
-                  log?.d("ResetPasswordView: ${_conPin.text}");
                   context.read<AuthCubit>().verifyCode(
                         ResetPasswordParams(
                           email: widget.email,

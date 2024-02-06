@@ -3,12 +3,12 @@ part of 'navigation_cubit.dart';
 @unfreezed
 class NavigationState with _$NavigationState {
   factory NavigationState({
-    bool? isBleOn,
     bool? isScanning,
-    ConnectionStateUpdate? state,
-    List<BluetoothEntity>? devices,
-    Set<PolarDataType>? polarTypes,
-    List<Service>? commonServices,
+    BluetoothAdapterState? state,
+    List<BleEntity>? fDevices,
+    BleEntity? cDevice,
     int? hr,
+    BluetoothFailure? bleFailure,
+    @Default(false) bool isLoading,
   }) = _NavigationState;
 }

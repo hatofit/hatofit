@@ -39,8 +39,8 @@
 //   @override
 //   void onError(DioException dioException, ErrorInterceptorHandler handler) {
 //     log?.e(
-//       "<-- ${dioException.message} ${dioException.response?.requestOptions != null ? (dioException.response!.requestOptions.baseUrl + dioException.response!.requestOptions.path) : 'URL'}\n\n"
-//       "${dioException.response != null ? dioException.response!.data : 'Unknown Error'}",
+//       "<-- ${dioException.message} ${dioException.response?.requestOptions != null ? (dioException.response?.requestOptions.baseUrl + dioException.response?.requestOptions.path) : 'URL'}\n\n"
+//       "${dioException.response != null ? dioException.response?.data : 'Unknown Error'}",
 //     );
 
 //     nonFatalError(error: dioException, stackTrace: dioException.stackTrace);

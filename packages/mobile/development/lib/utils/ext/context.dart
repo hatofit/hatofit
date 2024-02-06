@@ -58,7 +58,7 @@ extension ContextExtensions on BuildContext {
               child: Center(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(this).extension<AppColors>()!.background,
+                    color: Theme.of(this).extension<AppColors>()?.background,
                     borderRadius: BorderRadius.circular(Dimens.radius15),
                   ),
                   margin: EdgeInsets.symmetric(horizontal: Dimens.width32),

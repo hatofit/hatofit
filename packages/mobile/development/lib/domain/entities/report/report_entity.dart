@@ -57,3 +57,18 @@ class ReportDataValueEntity with _$ReportDataValueEntity {
     @HiveField(1) List<List<dynamic>>? value,
   }) = _ReportDataValueEntity;
 }
+
+void regisReport(){
+  if (!Hive.isAdapterRegistered(BoxTypeId.reportEntityIndex)) {
+    Hive.registerAdapter(ReportEntityAdapter());
+  }
+  if (!Hive.isAdapterRegistered(BoxTypeId.reportDeviceEntityIndex)) {
+    Hive.registerAdapter(ReportDeviceEntityAdapter());
+  }
+  if (!Hive.isAdapterRegistered(BoxTypeId.reportDataEntityIndex)) {
+    Hive.registerAdapter(ReportDataEntityAdapter());
+  }
+  if (!Hive.isAdapterRegistered(BoxTypeId.reportDataValueEntityIndex)) {
+    Hive.registerAdapter(ReportDataValueEntityAdapter());
+  }
+}

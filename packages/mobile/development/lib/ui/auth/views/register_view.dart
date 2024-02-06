@@ -490,7 +490,7 @@ class _RegisterViewState extends State<RegisterView> {
                 child: ListTile(
                   onTap: () {
                     context.read<AuthCubit>().getImageFromCamera(context);
-                    Future.delayed(Duration(seconds: 1), () {
+                    Future.delayed(const Duration(seconds: 1), () {
                       context.pop();
                     });
                   },
@@ -509,7 +509,7 @@ class _RegisterViewState extends State<RegisterView> {
                 child: ListTile(
                   onTap: () {
                     context.read<AuthCubit>().getImageFromGallery(context);
-                    Future.delayed(Duration(seconds: 1), () {
+                    Future.delayed(const Duration(seconds: 1), () {
                       context.pop();
                     });
                   },

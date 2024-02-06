@@ -41,7 +41,8 @@ class _SplashScreenPageState extends State<SplashView> {
       child: BlocListener<SplashCubit, SplashState>(
         listener: (context, state) {
           state.whenOrNull(
-            initial: null,
+            initial: () async =>
+                await context.read<SplashCubit>().requestPermissions(),
             authorized: (message) {
               context.read<SplashCubit>().setOfflineMode(false);
               context.goNamed(Routes.root.name);
@@ -55,12 +56,13 @@ class _SplashScreenPageState extends State<SplashView> {
               Strings.of(context)!.failedConnectToServer.toToastError(context);
               Future.delayed(Durations.long3, () {
                 Strings.of(context)!.usingOfflineMode.toToastError(context);
-                final user = context.read<SplashCubit>().getLocalUser();
-                if (user != null) {
-                  context.goNamed(Routes.home.name);
-                } else {
-                  context.goNamed(Routes.greeting.name);
-                }
+                context.read<SplashCubit>().getLocalUser().then((value) {
+                  if (value != null) {
+                    context.goNamed(Routes.home.name);
+                  } else {
+                    context.goNamed(Routes.greeting.name);
+                  }
+                });
               });
             },
           );

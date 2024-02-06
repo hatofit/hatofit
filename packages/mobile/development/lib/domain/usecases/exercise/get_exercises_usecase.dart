@@ -4,7 +4,7 @@ import 'package:hatofit/domain/domain.dart';
 
 class GetExercisesUsecase
     extends WithParamsUseCase<List<ExerciseEntity>, GetExercisesParams> {
-  final ExerciseRepository _repo;
+  final ExerciseRepo _repo;
 
   GetExercisesUsecase(this._repo);
 

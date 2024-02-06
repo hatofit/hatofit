@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hatofit/core/core.dart';
-import 'package:hatofit/utils/helper/logger.dart';
 
 class BottomNavigationView extends StatefulWidget {
   const BottomNavigationView({
@@ -78,12 +77,6 @@ class _BottomNavigationViewState extends State<BottomNavigationView> {
     final split = widget.state.uri.toString().split("/");
     if (split.length >= 3) return false;
     return true;
-  }
-
-  @override
-  void didChangeDependencies() {
-    log?.i("BottomNavigationView: didChangeDependencies");
-    super.didChangeDependencies();
   }
 
   @override

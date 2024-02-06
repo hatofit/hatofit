@@ -61,3 +61,18 @@ class SessionDataItemDeviceEntity with _$SessionDataItemDeviceEntity {
     @HiveField(2) List<Map<String, dynamic>>? value,
   }) = _SessionDataItemDeviceEntity;
 }
+
+void regisSession() {
+  if (!Hive.isAdapterRegistered(BoxTypeId.sessionEntityIndex)) {
+    Hive.registerAdapter(SessionEntityAdapter());
+  }
+  if (!Hive.isAdapterRegistered(BoxTypeId.sessionTimelineEntityIndex)) {
+    Hive.registerAdapter(SessionTimelineEntityAdapter());
+  }
+  if (!Hive.isAdapterRegistered(BoxTypeId.sessionDataItemEntityIndex)) {
+    Hive.registerAdapter(SessionDataItemEntityAdapter());
+  }
+  if (!Hive.isAdapterRegistered(BoxTypeId.sessionDataItemDeviceEntityIndex)) {
+    Hive.registerAdapter(SessionDataItemDeviceEntityAdapter());
+  }
+} 

@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 import 'package:hatofit/utils/helper/logger.dart';
 import 'package:polar/polar.dart';
@@ -11,166 +12,194 @@ part 'navigation_cubit.freezed.dart';
 part 'navigation_state.dart';
 
 class NavigationCubit extends Cubit<NavigationState> {
-  final BleStatusUcecase _bleStatusUcecase;
-  final ScanBluetoothUsecase _scanBluetoothUsecase;
-  final ConnectPolarBleUsecase _connectPolarBleUsecase;
-  final ConnectCommonBleUsecase _connectCommonBleUsecase;
-  final GetPolarServicesUsecase _getPolarServicesUsecase;
-  final GetCommonServicesUsecase _getCommonServicesUsecase;
-  final GetHrPolarUsecase _getHrPolarUsecase;
-  final GetHrCommonUsecase _getHrCommonUsecase;
+  final ScanCommonBLEUsecase _scanCommonBLEUsecase;
+  final ScanResultsBLEUsecase _scanResultsBLEUsecase;
+  final AdapterStateBLEUsecase _adapterStateBLEUsecase;
+  final IsScanningBLEUsecase _isScanningBLEUsecase;
+  final ConnectPolarBLEUsecase _connectPolarBleUsecase;
+  final DisconnectPolarBLEUsecase _disconnectPolarBleDeviceUsecase;
+  final ConnectCommonBLEUsecase _connectCommonBleUsecase;
+  final DisconnectCommonBleUsecase _disconnectCommonBleUsecase;
+  final GetServicesPolarBLEUsecase _getPolarServicesUsecase;
+  final GetServicesCommonBLEUsecase _getCommonServicesUsecase;
+  final StreamHrPolarBLEUsecase _streamHrPolarBLEUsecase;
+  final StreamCommonBLEUsecase _streamCommonBLEUsecase;
+  final StopScanBLEUsecase _stopScanBLEUsecase;
 
   NavigationCubit(
-    this._bleStatusUcecase,
-    this._scanBluetoothUsecase,
+    this._scanCommonBLEUsecase,
+    this._scanResultsBLEUsecase,
+    this._adapterStateBLEUsecase,
+    this._isScanningBLEUsecase,
     this._connectPolarBleUsecase,
+    this._disconnectPolarBleDeviceUsecase,
     this._connectCommonBleUsecase,
+    this._disconnectCommonBleUsecase,
     this._getPolarServicesUsecase,
     this._getCommonServicesUsecase,
-    this._getHrPolarUsecase,
-    this._getHrCommonUsecase,
-  ) : super(NavigationState(
-          isBleOn: false,
-          devices: [],
-        ));
+    this._streamHrPolarBLEUsecase,
+    this._streamCommonBLEUsecase,
+    this._stopScanBLEUsecase,
+  ) : super(NavigationState(bleFailure: null));
 
-  StreamSubscription? bleStream;
+  StreamSubscription? _bleAdapterStateStream;
+  StreamSubscription? _scanResultStream;
+  StreamSubscription? _isScanningStream;
   StreamSubscription? _scanStream;
-  StreamSubscription? _commonConnection;
   StreamSubscription? _hrPolarStream;
   StreamSubscription? _hrCommonStream;
-
-  Future<void> init() async {
-    disposeAll();
-    _bleStatusListener();
+  StreamSubscription? _conStateCommonStream;
+  void init() {
+    _bleAdapterListener();
   }
 
-  disposeAll() {
-    bleStream?.cancel();
-    _scanStream?.cancel();
-    _commonConnection?.cancel();
-    _hrPolarStream?.cancel();
-    _hrCommonStream?.cancel();
-  }
-
-  Future<void> _bleStatusListener() async {
-    bleStream = _bleStatusUcecase.call().listen((event) {
+  void _bleAdapterListener() {
+    _bleAdapterStateStream ??= _adapterStateBLEUsecase.call().listen((event) {
       event.fold(
-        (l) => null,
+        (l) {
+          emit(state.copyWith(state: BluetoothAdapterState.unknown));
+        },
         (r) {
-          if (r == BleStatus.ready) {
-            emit(NavigationState(isBleOn: true, isScanning: true));
-            scanDevices();
-          } else {
-            emit(NavigationState(isBleOn: false, isScanning: false));
-            _scanStream?.cancel();
-            _scanStream = null;
-          }
+          emit(state.copyWith(state: r));
         },
       );
     });
-  }
-
-  List<BluetoothEntity> devices = [];
-  Future<void> scanDevices() async {
-    _scanStream ??= _scanBluetoothUsecase.call().listen(
+    _scanResultStream ??= _scanResultsBLEUsecase.call().listen(
       (event) {
         event.fold(
           (l) {
-            log?.e("[SCAN ERROR] $l");
-            emit(state.copyWith(isScanning: false, state: null, devices: []));
-          },
-          (device) async {
-            final bool isDeviceAlreadyAdded =
-                devices.any((e) => e.commonId == device.commonId);
-            if (!isDeviceAlreadyAdded) {
-              if (device.common!.name.contains("Polar")) {
-                devices.add(device.copyWith(
-                  polarId: getPolarId(device.common!.name),
-                ));
-              } else {
-                devices.add(device);
-              }
-              emit(state.copyWith(
-                  devices: devices, isScanning: true, state: null));
-              log?.i('Device added: $device');
-            } else {
-              final index =
-                  devices.indexWhere((e) => e.commonId == device.commonId);
-              if (device.common!.name.contains("Polar")) {
-                devices[index] = device.copyWith(
-                  polarId: getPolarId(device.common!.name),
-                );
-              } else {
-                devices[index] = device;
-              }
-              emit(state.copyWith(
-                  devices: devices, isScanning: true, state: null));
+            if (l is BluetoothFailure) {
+              log.i("Scan results [F] ${l.message}");
             }
+          },
+          (device) {
+            log.i("Scan results [S] $device");
+            emit(state.copyWith(fDevices: device));
           },
         );
       },
     );
+    _isScanningStream ??= _isScanningBLEUsecase.call().listen((event) {
+      event.fold((l) {
+        emit(state.copyWith(isScanning: false));
+      }, (r) {
+        emit(state.copyWith(isScanning: r));
+      });
+    });
   }
 
-  Future<void> connectToDevice(BluetoothEntity entity) async {
-    if (entity.common!.name.contains("Polar")) {
-      await connectToPolarDevice(entity.copyWith(
-        polarId: getPolarId(entity.common!.name),
-      ));
+  Future<void> startScan() async {
+    await _scanCommonBLEUsecase.call(
+      StartScanCommonParams(
+        serviceIds: [GuidConstant.get.hrS],
+      ),
+    );
+  }
+
+  Future<void> connectToDevice(BleEntity entity) async {
+    if (!entity.isConnectable) {
+      return;
+    } else if (entity.name.contains("Polar")) {
+      await connectToPolarDevice(entity);
     } else {
-      connectToCommonDevice(entity);
+      await connectToCommonDevice(entity);
     }
   }
 
-  Future<void> connectToPolarDevice(BluetoothEntity entity) async {
+  Future<void> connectToPolarDevice(BleEntity entity) async {
     if (_scanStream != null) {
       _scanStream?.cancel();
       _scanStream = null;
     }
-    if (_commonConnection != null) {
-      _commonConnection?.cancel();
-      _commonConnection = null;
+    if (entity.polarId != null) {
+      final con = await _connectPolarBleUsecase.call(ConnectPolarParams(
+        deviceId: entity.polarId ?? "",
+      ));
+      con.fold((l) => null, (_) async {
+        await discoverTypesPolar(entity);
+      });
     }
-    final con = await _connectPolarBleUsecase.call(BluetoothParams(
-      polarId: entity.polarId ?? getPolarId(entity.common!.name),
+  }
+
+  Future<void> connectToCommonDevice(BleEntity entity) async {
+    // if (_scanStream != null) {
+    //   await _stopScanBLEUsecase
+    //       .call(StopScanCommonParams(subscription: _scanStream!));
+    //   await _scanStream?.cancel();
+    //   _scanStream = null;
+    // }
+    emit(state.copyWith(bleFailure: null, isLoading: true));
+    if (entity.device.isConnected) {
+      await _disconnectCommonBleUsecase.call(DisconnectCommonParams(
+        device: entity.device,
+      ));
+    }
+    final con = await _connectCommonBleUsecase.call(ConnectCommonParams(
+      device: entity.device,
+      timeout: const Duration(seconds: 30),
     ));
-    con.fold((l) => log?.e("[POLAR CONNECTION ERROR] $l"), (_) async {
-      await discoverTypesPolar(entity);
+    con.fold((l) {
+      if (l is BluetoothFailure) {
+        log.i("Common connect [F] ${l.message}");
+        emit(state.copyWith(cDevice: null, bleFailure: l, isLoading: false));
+      }
+      ;
+    }, (_) async {
+      log.i("Common connect [S]");
+      emit(state.copyWith(
+        cDevice: entity,
+      ));
+      await discoverTypesCommon(entity);
     });
   }
 
-  Future<void> discoverTypesPolar(BluetoothEntity entity) async {
-    final res = await _getPolarServicesUsecase.call(BluetoothParams(
-      polarId: entity.polarId ?? getPolarId(entity.common!.name),
+  Future<void> discoverTypesPolar(BleEntity entity) async {
+    final res = await _getPolarServicesUsecase.call(GetPolarServicesParams(
+      deviceId: entity.polarId ?? getPolarId(entity.name),
+      feature: PolarSdkFeature.onlineStreaming,
     ));
     res.fold(
-      (l) => log?.e("[POLAR DISCOVER ERROR] $l"),
-      (r) {
-        log?.i("Polar services discovered: $r");
+      (l) => null,
+      (r) async {
+        emit(state.copyWith(
+          fDevices: state.fDevices?.map((e) {
+            if (e.polarId == entity.polarId) {
+              return e.copyWith(polarServices: r);
+            }
+            return e;
+          }).toList(),
+          cDevice: entity,
+        ));
 
-        emit(
-          state.copyWith(
-            isScanning: false,
-            polarTypes: r,
-          ),
-        );
-        subscribeHrPolar(entity, r);
+        await subscribeHrPolar(entity, r);
       },
     );
   }
 
-  Future<void> subscribeHrPolar(
-      BluetoothEntity entity, Set<PolarDataType> r) async {
-    _hrPolarStream ??= _getHrPolarUsecase
-        .call(BluetoothParams(
-      polarId: entity.polarId ?? getPolarId(entity.common!.name),
+  Future<void> discoverTypesCommon(BleEntity entity) async {
+    final res = await _getCommonServicesUsecase.call(GetCommonServicesParams(
+      device: entity.device,
+    ));
+    res.fold(
+      (l) => log.i("Common discover [F] $l"),
+      (r) async {
+        _conStateCommonStream ??= entity.device.connectionState.listen((event) {
+          log.i("Common connection state $event");
+        });
+        await subscribeHrCommon(entity, r);
+      },
+    );
+  }
+
+  Future<void> subscribeHrPolar(BleEntity entity, Set<PolarDataType> r) async {
+    _hrPolarStream ??= _streamHrPolarBLEUsecase
+        .call(StreamPolarParams(
+      deviceId: entity.polarId ?? getPolarId(entity.name),
       types: r,
     ))
         .listen((event) {
       event.fold(
         (l) {
-          log?.e("[HR POLAR ERROR] $l");
           emit(state.copyWith(hr: null));
           if (_hrPolarStream != null) {
             _hrPolarStream?.cancel();
@@ -178,91 +207,69 @@ class NavigationCubit extends Cubit<NavigationState> {
           }
         },
         (r) {
-          log?.i("HR POLAR: ${r.samples.last.hr}");
           emit(state.copyWith(hr: r.samples.last.hr));
         },
       );
     });
   }
 
-  Future<void> connectToCommonDevice(BluetoothEntity entity) async {
-    if (_scanStream != null) {
-      _scanStream?.cancel();
-      _scanStream = null;
-    }
-    if (_commonConnection != null) {
-      _commonConnection?.cancel();
-      _commonConnection = null;
-    }
-    _commonConnection = _connectCommonBleUsecase
-        .call(BluetoothParams(
-      deviceId: entity.commonId,
-    ))
-        .listen((event) {
-      event.fold(
-        (l) => log?.e("[COMMON CONNECTION ERROR] $l"),
-        (r) {
-          log?.i("Connected to common device: $r");
-
-          emit(
-            state.copyWith(
-              isScanning: false,
-              state: r,
-            ),
-          );
-          discoverTypesCommon(entity);
-        },
-      );
-    });
-  }
-
-  Future<void> discoverTypesCommon(BluetoothEntity entity) async {
-    final res = await _getCommonServicesUsecase.call(BluetoothParams(
-      deviceId: entity.commonId,
-    ));
-    res.fold(
-      (l) => log?.e("[COMMON DISCOVER ERROR] $l"),
-      (r) {
-        log?.i("Common services discovered: $r");
-
-        emit(
-          state.copyWith(
-            isScanning: false,
-            commonServices: r,
-          ),
-        );
-        subscribeHrCommon(entity, r);
-      },
-    );
-  }
-
   Future<void> subscribeHrCommon(
-    BluetoothEntity entity,
-    List<Service> services,
+    BleEntity entity,
+    List<BluetoothService> services,
   ) async {
-    _hrCommonStream ??= _getHrCommonUsecase
-        .call(BluetoothParams(
-      deviceId: entity.commonId,
-      service: services.firstWhere(
-        (e) => e.id == Uuid.parse("0000180d-0000-1000-8000-00805f9b34fb"),
-      ),
+    final hrSc = services.firstWhere((e) => e.uuid == GuidConstant.get.hrS);
+    final hrmCr = hrSc.characteristics
+        .firstWhere((e) => e.characteristicUuid == GuidConstant.get.hrmC);
+    _hrCommonStream ??= _streamCommonBLEUsecase
+        .call(StreamCommonParams(
+      characteristic: hrmCr,
     ))
         .listen((event) {
       event.fold(
         (l) {
-          log?.e("[HR COMMON ERROR] $l");
+          log.i("Common hr [F] $l");
           emit(state.copyWith(hr: null));
-          if (_hrCommonStream != null) {
-            _hrCommonStream?.cancel();
-            _hrCommonStream = null;
-          }
+          // if (_hrCommonStream != null) {
+          //   _hrCommonStream?.cancel();
+          //   _hrCommonStream = null;
+          // }
         },
         (r) {
-          log?.e("[HR COMMON] $r");
-          emit(state.copyWith(hr: r[1]));
+          if (r.isNotEmpty) {
+            emit(
+              state.copyWith(hr: r[1], cDevice: entity, isLoading: false),
+            );
+          }
         },
       );
     });
+    entity.device.cancelWhenDisconnected(_hrCommonStream!);
+    if (entity.device.isConnected) {
+      await hrmCr.setNotifyValue(hrmCr.isNotifying == false);
+    }
+  }
+
+  Future<void> disconnectDevice(BleEntity entity) async {
+    if (entity.name.contains("Polar")) {
+      await _disconnectPolarBleDeviceUsecase.call(DisconnectPolarParams(
+        deviceId: entity.polarId ?? getPolarId(entity.name),
+      ));
+      await _hrPolarStream?.cancel();
+      _hrPolarStream = null;
+    } else {
+      await _disconnectCommonBleUsecase.call(DisconnectCommonParams(
+        device: entity.device,
+      ));
+      if (_hrCommonStream != null) {
+        entity.device.cancelWhenDisconnected(_hrCommonStream!);
+      }
+      _hrCommonStream = null;
+    }
+    emit(state.copyWith(
+      state: null,
+      hr: null,
+      cDevice: null,
+    ));
   }
 
   String getPolarId(String commonName) {

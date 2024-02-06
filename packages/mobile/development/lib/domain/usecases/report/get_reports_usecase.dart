@@ -4,7 +4,7 @@ import 'package:hatofit/domain/domain.dart';
 
 class GetReportsUsecase
     extends WithParamsUseCase<List<ReportEntity>, GetReportsParams> {
-  final ReportRepository _repo;
+  final ReportRepo _repo;
 
   GetReportsUsecase(this._repo);
 

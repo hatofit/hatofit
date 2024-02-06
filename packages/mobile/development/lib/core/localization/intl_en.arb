@@ -1,6 +1,12 @@
 {
   "@@locale": "en",
   "connect": "Connect",
+  "connectable": "Connectable",
+  "unconnectable": "Unconnectable",
+  "failedConnectToDevice": "Failed connect to device",
+  "successConnectToDevice": "Success connect to device",
+  "disconnectedFromDevice": "Disconnected from device",
+  "tooManyConnectionAttempts": "Too many connection attempts, please try again a few minutes later",
   "disconnect": "Disconnect",
   "loading": "Loading...",
   "swipeToChangeTheme": "Swipe the icon to change theme",
@@ -70,5 +76,13 @@
   "makeSureYourDeviceIsTurnedOnAndNearby": "Make sure your device is turned on and nearby",
   "failedConnectToServer": "Failed connect to Server",
   "usingOfflineMode": "Using offline mode",
-  "name": "Name"
+  "name": "Name",
+  "exerciseNow": "Exercise Now",
+  "start": "Start",
+  "currentHeartRate": "Current Heart Rate",
+  "underweight": "Kurus",
+  "normal": "Normal",
+  "overweight": "Kegemukan",
+  "obese": "Obesitas",
+  "caloriesBurn": "Calories Burn"
 }

@@ -1,3 +1,3 @@
 export 'models/models.dart';
-export 'repositories/repositories.dart';
+export 'repo/repos.dart';
 export 'sources/sources.dart';

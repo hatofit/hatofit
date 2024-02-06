@@ -116,7 +116,7 @@ class _ColorLoaderState extends State<ColorLoader>
                   ),
                   child: Dot(
                     radius: dotRadius,
-                    color: Theme.of(context).extension<AppColors>()!.red,
+                    color: Theme.of(context).extension<AppColors>()?.red,
                   ),
                 ),
                 Transform.translate(
@@ -126,7 +126,7 @@ class _ColorLoaderState extends State<ColorLoader>
                   ),
                   child: Dot(
                     radius: dotRadius,
-                    color: Theme.of(context).extension<AppColors>()!.yellow,
+                    color: Theme.of(context).extension<AppColors>()?.yellow,
                   ),
                 ),
                 Transform.translate(
@@ -136,7 +136,7 @@ class _ColorLoaderState extends State<ColorLoader>
                   ),
                   child: Dot(
                     radius: dotRadius,
-                    color: Theme.of(context).extension<AppColors>()!.green,
+                    color: Theme.of(context).extension<AppColors>()?.green,
                   ),
                 ),
                 Transform.translate(
@@ -146,7 +146,7 @@ class _ColorLoaderState extends State<ColorLoader>
                   ),
                   child: Dot(
                     radius: dotRadius,
-                    color: Theme.of(context).extension<AppColors>()!.flamingo,
+                    color: Theme.of(context).extension<AppColors>()?.flamingo,
                   ),
                 ),
                 Transform.translate(
@@ -156,7 +156,7 @@ class _ColorLoaderState extends State<ColorLoader>
                   ),
                   child: Dot(
                     radius: dotRadius,
-                    color: Theme.of(context).extension<AppColors>()!.lavender,
+                    color: Theme.of(context).extension<AppColors>()?.lavender,
                   ),
                 ),
                 Transform.translate(
@@ -166,7 +166,7 @@ class _ColorLoaderState extends State<ColorLoader>
                   ),
                   child: Dot(
                     radius: dotRadius,
-                    color: Theme.of(context).extension<AppColors>()!.pink,
+                    color: Theme.of(context).extension<AppColors>()?.pink,
                   ),
                 ),
               ],
@@ -188,7 +188,7 @@ class Dot extends StatelessWidget {
   final double? radius;
   final Color? color;
 
-  const Dot({this.radius, this.color});
+  const Dot({super.key, this.radius, this.color});
 
   @override
   Widget build(BuildContext context) {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/ui/home/cubit/home_cubit.dart';
 import 'package:hatofit/utils/utils.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HrBarChart extends StatelessWidget {
   const HrBarChart({super.key, required this.hrData});
@@ -23,19 +23,19 @@ class HrBarChart extends StatelessWidget {
             xValueMapper: (HrBarChartItem hr, _) =>
                 DateFormat('HH:mm').format(hr.date),
             yValueMapper: (HrBarChartItem hr, _) => hr.avgHr,
-            color: Theme.of(context).extension<AppColors>()!.red!,
+            color: Theme.of(context).extension<AppColors>()?.red!,
             width: 0.3,
             isTrackVisible: true,
             borderRadius: const BorderRadius.all(Radius.circular(66)),
           ),
         ],
-        primaryYAxis: NumericAxis(
+        primaryYAxis: const NumericAxis(
           isVisible: false,
         ),
         borderWidth: 0,
-        primaryXAxis: CategoryAxis(
+        primaryXAxis: const CategoryAxis(
           isVisible: true,
-          labelStyle: const TextStyle(
+          labelStyle: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
           ),

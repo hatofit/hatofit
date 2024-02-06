@@ -6,7 +6,7 @@ class WorkoutDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Parent(
+    return const Parent(
       child: SafeArea(
         child: Text("Workout Detail"),
       ),

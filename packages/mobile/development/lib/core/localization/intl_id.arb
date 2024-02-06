@@ -1,6 +1,12 @@
 {
   "@@locale": "id",
   "connect": "Hubungkan",
+  "connectable": "Dapat dihubungkan",
+  "unconnectable": "Tidak dapat dihubungkan",
+  "failedConnectToDevice": "Gagal terhubung ke perangkat",
+  "successConnectToDevice": "Berhasil terhubung ke perangkat",
+  "disconnectedFromDevice": "Terputus dari perangkat",
+  "tooManyConnectionAttempts": "Terlalu banyak percobaan koneksi, coba beberapa saat lagi",
   "disconnect": "Putuskan",
   "loading": "Memuat...",
   "swipeToChangeTheme": "Geser icon untuk mengganti tema",
@@ -70,5 +76,13 @@
   "makeSureYourDeviceIsTurnedOnAndNearby": "Pastikan perangkat anda menyala dan berada di dekat anda",
   "failedConnectToServer": "Gagal terhubung ke Server",
   "usingOfflineMode": "Menggunakan mode luring",
-  "name": "Nama"
+  "name": "Nama",
+  "exerciseNow": "Olahraga sekarang",
+  "start": "Mulai",
+  "currentHeartRate": "Detak jantung saat ini",
+  "underweight": "Kurus",
+  "normal": "Normal",
+  "overweight": "Kegemukan",
+  "obese": "Obesitas",
+  "caloriesBurn": "Kalori Terbakar"
 }

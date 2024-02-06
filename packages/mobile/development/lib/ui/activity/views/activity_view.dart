@@ -49,7 +49,7 @@ class ActivityView extends StatelessWidget {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: CachedNetworkImageProvider(
-                                session[index].exercise!.thumbnail ??
+                                session[index].exercise?.thumbnail ??
                                     Constants.get.placeholderImage,
                               ),
                             ),
@@ -64,12 +64,12 @@ class ActivityView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                session[index].exercise!.name ?? '',
+                                session[index].exercise?.name ?? '',
                                 style: Theme.of(context).textTheme.bodyLarge,
                               ),
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.calendar_month,
                                   ),
                                   SizedBox(width: Dimens.width8),
@@ -85,7 +85,7 @@ class ActivityView extends StatelessWidget {
                               ),
                               Row(
                                 children: [
-                                  Icon(
+                                  const Icon(
                                     Icons.access_time,
                                   ),
                                   SizedBox(width: Dimens.width8),
@@ -104,7 +104,7 @@ class ActivityView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // Text('Name: ${session[index].exercise!.name}',
+                    // Text('Name: ${session[index].exercise?.name}',
                     //     style: Theme.of(context).textTheme.bodyLarge),
                     // Text(
                     //     'Date: ${DateFormat('d MMMM yyyy').format(

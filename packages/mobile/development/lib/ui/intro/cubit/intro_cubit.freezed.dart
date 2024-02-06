@@ -16,16 +16,16 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$IntroState {
-  String? get selectedGender => throw _privateConstructorUsedError;
-  set selectedGender(String? value) => throw _privateConstructorUsedError;
-  String? get selectedHeigtUnit => throw _privateConstructorUsedError;
-  set selectedHeigtUnit(String? value) => throw _privateConstructorUsedError;
-  String? get selectedWeightUnit => throw _privateConstructorUsedError;
-  set selectedWeightUnit(String? value) => throw _privateConstructorUsedError;
-  int? get height => throw _privateConstructorUsedError;
-  set height(int? value) => throw _privateConstructorUsedError;
-  int? get weight => throw _privateConstructorUsedError;
-  set weight(int? value) => throw _privateConstructorUsedError;
+  UserEntity? get user => throw _privateConstructorUsedError;
+  set user(UserEntity? value) => throw _privateConstructorUsedError;
+  DataHelper? get sLang => throw _privateConstructorUsedError;
+  set sLang(DataHelper? value) => throw _privateConstructorUsedError;
+  DataHelper? get sEUnit => throw _privateConstructorUsedError;
+  set sEUnit(DataHelper? value) => throw _privateConstructorUsedError;
+  DataHelper? get sHUnit => throw _privateConstructorUsedError;
+  set sHUnit(DataHelper? value) => throw _privateConstructorUsedError;
+  DataHelper? get sWUnit => throw _privateConstructorUsedError;
+  set sWUnit(DataHelper? value) => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $IntroStateCopyWith<IntroState> get copyWith =>
@@ -39,11 +39,17 @@ abstract class $IntroStateCopyWith<$Res> {
       _$IntroStateCopyWithImpl<$Res, IntroState>;
   @useResult
   $Res call(
-      {String? selectedGender,
-      String? selectedHeigtUnit,
-      String? selectedWeightUnit,
-      int? height,
-      int? weight});
+      {UserEntity? user,
+      DataHelper? sLang,
+      DataHelper? sEUnit,
+      DataHelper? sHUnit,
+      DataHelper? sWUnit});
+
+  $UserEntityCopyWith<$Res>? get user;
+  $DataHelperCopyWith<$Res>? get sLang;
+  $DataHelperCopyWith<$Res>? get sEUnit;
+  $DataHelperCopyWith<$Res>? get sHUnit;
+  $DataHelperCopyWith<$Res>? get sWUnit;
 }
 
 /// @nodoc
@@ -59,34 +65,94 @@ class _$IntroStateCopyWithImpl<$Res, $Val extends IntroState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? selectedGender = freezed,
-    Object? selectedHeigtUnit = freezed,
-    Object? selectedWeightUnit = freezed,
-    Object? height = freezed,
-    Object? weight = freezed,
+    Object? user = freezed,
+    Object? sLang = freezed,
+    Object? sEUnit = freezed,
+    Object? sHUnit = freezed,
+    Object? sWUnit = freezed,
   }) {
     return _then(_value.copyWith(
-      selectedGender: freezed == selectedGender
-          ? _value.selectedGender
-          : selectedGender // ignore: cast_nullable_to_non_nullable
-              as String?,
-      selectedHeigtUnit: freezed == selectedHeigtUnit
-          ? _value.selectedHeigtUnit
-          : selectedHeigtUnit // ignore: cast_nullable_to_non_nullable
-              as String?,
-      selectedWeightUnit: freezed == selectedWeightUnit
-          ? _value.selectedWeightUnit
-          : selectedWeightUnit // ignore: cast_nullable_to_non_nullable
-              as String?,
-      height: freezed == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int?,
-      weight: freezed == weight
-          ? _value.weight
-          : weight // ignore: cast_nullable_to_non_nullable
-              as int?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserEntity?,
+      sLang: freezed == sLang
+          ? _value.sLang
+          : sLang // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      sEUnit: freezed == sEUnit
+          ? _value.sEUnit
+          : sEUnit // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      sHUnit: freezed == sHUnit
+          ? _value.sHUnit
+          : sHUnit // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      sWUnit: freezed == sWUnit
+          ? _value.sWUnit
+          : sWUnit // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserEntityCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserEntityCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DataHelperCopyWith<$Res>? get sLang {
+    if (_value.sLang == null) {
+      return null;
+    }
+
+    return $DataHelperCopyWith<$Res>(_value.sLang!, (value) {
+      return _then(_value.copyWith(sLang: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DataHelperCopyWith<$Res>? get sEUnit {
+    if (_value.sEUnit == null) {
+      return null;
+    }
+
+    return $DataHelperCopyWith<$Res>(_value.sEUnit!, (value) {
+      return _then(_value.copyWith(sEUnit: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DataHelperCopyWith<$Res>? get sHUnit {
+    if (_value.sHUnit == null) {
+      return null;
+    }
+
+    return $DataHelperCopyWith<$Res>(_value.sHUnit!, (value) {
+      return _then(_value.copyWith(sHUnit: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DataHelperCopyWith<$Res>? get sWUnit {
+    if (_value.sWUnit == null) {
+      return null;
+    }
+
+    return $DataHelperCopyWith<$Res>(_value.sWUnit!, (value) {
+      return _then(_value.copyWith(sWUnit: value) as $Val);
+    });
   }
 }
 
@@ -99,11 +165,22 @@ abstract class _$$IntroStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? selectedGender,
-      String? selectedHeigtUnit,
-      String? selectedWeightUnit,
-      int? height,
-      int? weight});
+      {UserEntity? user,
+      DataHelper? sLang,
+      DataHelper? sEUnit,
+      DataHelper? sHUnit,
+      DataHelper? sWUnit});
+
+  @override
+  $UserEntityCopyWith<$Res>? get user;
+  @override
+  $DataHelperCopyWith<$Res>? get sLang;
+  @override
+  $DataHelperCopyWith<$Res>? get sEUnit;
+  @override
+  $DataHelperCopyWith<$Res>? get sHUnit;
+  @override
+  $DataHelperCopyWith<$Res>? get sWUnit;
 }
 
 /// @nodoc
@@ -117,33 +194,33 @@ class __$$IntroStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? selectedGender = freezed,
-    Object? selectedHeigtUnit = freezed,
-    Object? selectedWeightUnit = freezed,
-    Object? height = freezed,
-    Object? weight = freezed,
+    Object? user = freezed,
+    Object? sLang = freezed,
+    Object? sEUnit = freezed,
+    Object? sHUnit = freezed,
+    Object? sWUnit = freezed,
   }) {
     return _then(_$IntroStateImpl(
-      selectedGender: freezed == selectedGender
-          ? _value.selectedGender
-          : selectedGender // ignore: cast_nullable_to_non_nullable
-              as String?,
-      selectedHeigtUnit: freezed == selectedHeigtUnit
-          ? _value.selectedHeigtUnit
-          : selectedHeigtUnit // ignore: cast_nullable_to_non_nullable
-              as String?,
-      selectedWeightUnit: freezed == selectedWeightUnit
-          ? _value.selectedWeightUnit
-          : selectedWeightUnit // ignore: cast_nullable_to_non_nullable
-              as String?,
-      height: freezed == height
-          ? _value.height
-          : height // ignore: cast_nullable_to_non_nullable
-              as int?,
-      weight: freezed == weight
-          ? _value.weight
-          : weight // ignore: cast_nullable_to_non_nullable
-              as int?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserEntity?,
+      sLang: freezed == sLang
+          ? _value.sLang
+          : sLang // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      sEUnit: freezed == sEUnit
+          ? _value.sEUnit
+          : sEUnit // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      sHUnit: freezed == sHUnit
+          ? _value.sHUnit
+          : sHUnit // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      sWUnit: freezed == sWUnit
+          ? _value.sWUnit
+          : sWUnit // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
     ));
   }
 }
@@ -152,26 +229,22 @@ class __$$IntroStateImplCopyWithImpl<$Res>
 
 class _$IntroStateImpl implements _IntroState {
   _$IntroStateImpl(
-      {this.selectedGender,
-      this.selectedHeigtUnit,
-      this.selectedWeightUnit,
-      this.height,
-      this.weight});
+      {this.user, this.sLang, this.sEUnit, this.sHUnit, this.sWUnit});
 
   @override
-  String? selectedGender;
+  UserEntity? user;
   @override
-  String? selectedHeigtUnit;
+  DataHelper? sLang;
   @override
-  String? selectedWeightUnit;
+  DataHelper? sEUnit;
   @override
-  int? height;
+  DataHelper? sHUnit;
   @override
-  int? weight;
+  DataHelper? sWUnit;
 
   @override
   String toString() {
-    return 'IntroState(selectedGender: $selectedGender, selectedHeigtUnit: $selectedHeigtUnit, selectedWeightUnit: $selectedWeightUnit, height: $height, weight: $weight)';
+    return 'IntroState(user: $user, sLang: $sLang, sEUnit: $sEUnit, sHUnit: $sHUnit, sWUnit: $sWUnit)';
   }
 
   @JsonKey(ignore: true)
@@ -183,27 +256,27 @@ class _$IntroStateImpl implements _IntroState {
 
 abstract class _IntroState implements IntroState {
   factory _IntroState(
-      {String? selectedGender,
-      String? selectedHeigtUnit,
-      String? selectedWeightUnit,
-      int? height,
-      int? weight}) = _$IntroStateImpl;
+      {UserEntity? user,
+      DataHelper? sLang,
+      DataHelper? sEUnit,
+      DataHelper? sHUnit,
+      DataHelper? sWUnit}) = _$IntroStateImpl;
 
   @override
-  String? get selectedGender;
-  set selectedGender(String? value);
+  UserEntity? get user;
+  set user(UserEntity? value);
   @override
-  String? get selectedHeigtUnit;
-  set selectedHeigtUnit(String? value);
+  DataHelper? get sLang;
+  set sLang(DataHelper? value);
   @override
-  String? get selectedWeightUnit;
-  set selectedWeightUnit(String? value);
+  DataHelper? get sEUnit;
+  set sEUnit(DataHelper? value);
   @override
-  int? get height;
-  set height(int? value);
+  DataHelper? get sHUnit;
+  set sHUnit(DataHelper? value);
   @override
-  int? get weight;
-  set weight(int? value);
+  DataHelper? get sWUnit;
+  set sWUnit(DataHelper? value);
   @override
   @JsonKey(ignore: true)
   _$$IntroStateImplCopyWith<_$IntroStateImpl> get copyWith =>

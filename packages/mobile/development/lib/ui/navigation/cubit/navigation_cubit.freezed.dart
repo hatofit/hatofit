@@ -16,23 +16,20 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$NavigationState {
-  bool? get isBleOn => throw _privateConstructorUsedError;
-  set isBleOn(bool? value) => throw _privateConstructorUsedError;
   bool? get isScanning => throw _privateConstructorUsedError;
   set isScanning(bool? value) => throw _privateConstructorUsedError;
-  ConnectionStateUpdate? get state => throw _privateConstructorUsedError;
-  set state(ConnectionStateUpdate? value) => throw _privateConstructorUsedError;
-  List<BluetoothEntity>? get devices => throw _privateConstructorUsedError;
-  set devices(List<BluetoothEntity>? value) =>
-      throw _privateConstructorUsedError;
-  Set<PolarDataType>? get polarTypes => throw _privateConstructorUsedError;
-  set polarTypes(Set<PolarDataType>? value) =>
-      throw _privateConstructorUsedError;
-  List<Service>? get commonServices => throw _privateConstructorUsedError;
-  set commonServices(List<Service>? value) =>
-      throw _privateConstructorUsedError;
+  BluetoothAdapterState? get state => throw _privateConstructorUsedError;
+  set state(BluetoothAdapterState? value) => throw _privateConstructorUsedError;
+  List<BleEntity>? get fDevices => throw _privateConstructorUsedError;
+  set fDevices(List<BleEntity>? value) => throw _privateConstructorUsedError;
+  BleEntity? get cDevice => throw _privateConstructorUsedError;
+  set cDevice(BleEntity? value) => throw _privateConstructorUsedError;
   int? get hr => throw _privateConstructorUsedError;
   set hr(int? value) => throw _privateConstructorUsedError;
+  BluetoothFailure? get bleFailure => throw _privateConstructorUsedError;
+  set bleFailure(BluetoothFailure? value) => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
+  set isLoading(bool value) => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NavigationStateCopyWith<NavigationState> get copyWith =>
@@ -46,13 +43,15 @@ abstract class $NavigationStateCopyWith<$Res> {
       _$NavigationStateCopyWithImpl<$Res, NavigationState>;
   @useResult
   $Res call(
-      {bool? isBleOn,
-      bool? isScanning,
-      ConnectionStateUpdate? state,
-      List<BluetoothEntity>? devices,
-      Set<PolarDataType>? polarTypes,
-      List<Service>? commonServices,
-      int? hr});
+      {bool? isScanning,
+      BluetoothAdapterState? state,
+      List<BleEntity>? fDevices,
+      BleEntity? cDevice,
+      int? hr,
+      BluetoothFailure? bleFailure,
+      bool isLoading});
+
+  $BleEntityCopyWith<$Res>? get cDevice;
 }
 
 /// @nodoc
@@ -68,19 +67,15 @@ class _$NavigationStateCopyWithImpl<$Res, $Val extends NavigationState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isBleOn = freezed,
     Object? isScanning = freezed,
     Object? state = freezed,
-    Object? devices = freezed,
-    Object? polarTypes = freezed,
-    Object? commonServices = freezed,
+    Object? fDevices = freezed,
+    Object? cDevice = freezed,
     Object? hr = freezed,
+    Object? bleFailure = freezed,
+    Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
-      isBleOn: freezed == isBleOn
-          ? _value.isBleOn
-          : isBleOn // ignore: cast_nullable_to_non_nullable
-              as bool?,
       isScanning: freezed == isScanning
           ? _value.isScanning
           : isScanning // ignore: cast_nullable_to_non_nullable
@@ -88,24 +83,40 @@ class _$NavigationStateCopyWithImpl<$Res, $Val extends NavigationState>
       state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
-              as ConnectionStateUpdate?,
-      devices: freezed == devices
-          ? _value.devices
-          : devices // ignore: cast_nullable_to_non_nullable
-              as List<BluetoothEntity>?,
-      polarTypes: freezed == polarTypes
-          ? _value.polarTypes
-          : polarTypes // ignore: cast_nullable_to_non_nullable
-              as Set<PolarDataType>?,
-      commonServices: freezed == commonServices
-          ? _value.commonServices
-          : commonServices // ignore: cast_nullable_to_non_nullable
-              as List<Service>?,
+              as BluetoothAdapterState?,
+      fDevices: freezed == fDevices
+          ? _value.fDevices
+          : fDevices // ignore: cast_nullable_to_non_nullable
+              as List<BleEntity>?,
+      cDevice: freezed == cDevice
+          ? _value.cDevice
+          : cDevice // ignore: cast_nullable_to_non_nullable
+              as BleEntity?,
       hr: freezed == hr
           ? _value.hr
           : hr // ignore: cast_nullable_to_non_nullable
               as int?,
+      bleFailure: freezed == bleFailure
+          ? _value.bleFailure
+          : bleFailure // ignore: cast_nullable_to_non_nullable
+              as BluetoothFailure?,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BleEntityCopyWith<$Res>? get cDevice {
+    if (_value.cDevice == null) {
+      return null;
+    }
+
+    return $BleEntityCopyWith<$Res>(_value.cDevice!, (value) {
+      return _then(_value.copyWith(cDevice: value) as $Val);
+    });
   }
 }
 
@@ -118,13 +129,16 @@ abstract class _$$NavigationStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool? isBleOn,
-      bool? isScanning,
-      ConnectionStateUpdate? state,
-      List<BluetoothEntity>? devices,
-      Set<PolarDataType>? polarTypes,
-      List<Service>? commonServices,
-      int? hr});
+      {bool? isScanning,
+      BluetoothAdapterState? state,
+      List<BleEntity>? fDevices,
+      BleEntity? cDevice,
+      int? hr,
+      BluetoothFailure? bleFailure,
+      bool isLoading});
+
+  @override
+  $BleEntityCopyWith<$Res>? get cDevice;
 }
 
 /// @nodoc
@@ -138,19 +152,15 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isBleOn = freezed,
     Object? isScanning = freezed,
     Object? state = freezed,
-    Object? devices = freezed,
-    Object? polarTypes = freezed,
-    Object? commonServices = freezed,
+    Object? fDevices = freezed,
+    Object? cDevice = freezed,
     Object? hr = freezed,
+    Object? bleFailure = freezed,
+    Object? isLoading = null,
   }) {
     return _then(_$NavigationStateImpl(
-      isBleOn: freezed == isBleOn
-          ? _value.isBleOn
-          : isBleOn // ignore: cast_nullable_to_non_nullable
-              as bool?,
       isScanning: freezed == isScanning
           ? _value.isScanning
           : isScanning // ignore: cast_nullable_to_non_nullable
@@ -158,23 +168,27 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
       state: freezed == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
-              as ConnectionStateUpdate?,
-      devices: freezed == devices
-          ? _value.devices
-          : devices // ignore: cast_nullable_to_non_nullable
-              as List<BluetoothEntity>?,
-      polarTypes: freezed == polarTypes
-          ? _value.polarTypes
-          : polarTypes // ignore: cast_nullable_to_non_nullable
-              as Set<PolarDataType>?,
-      commonServices: freezed == commonServices
-          ? _value.commonServices
-          : commonServices // ignore: cast_nullable_to_non_nullable
-              as List<Service>?,
+              as BluetoothAdapterState?,
+      fDevices: freezed == fDevices
+          ? _value.fDevices
+          : fDevices // ignore: cast_nullable_to_non_nullable
+              as List<BleEntity>?,
+      cDevice: freezed == cDevice
+          ? _value.cDevice
+          : cDevice // ignore: cast_nullable_to_non_nullable
+              as BleEntity?,
       hr: freezed == hr
           ? _value.hr
           : hr // ignore: cast_nullable_to_non_nullable
               as int?,
+      bleFailure: freezed == bleFailure
+          ? _value.bleFailure
+          : bleFailure // ignore: cast_nullable_to_non_nullable
+              as BluetoothFailure?,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -183,32 +197,33 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
 
 class _$NavigationStateImpl implements _NavigationState {
   _$NavigationStateImpl(
-      {this.isBleOn,
-      this.isScanning,
+      {this.isScanning,
       this.state,
-      this.devices,
-      this.polarTypes,
-      this.commonServices,
-      this.hr});
+      this.fDevices,
+      this.cDevice,
+      this.hr,
+      this.bleFailure,
+      this.isLoading = false});
 
-  @override
-  bool? isBleOn;
   @override
   bool? isScanning;
   @override
-  ConnectionStateUpdate? state;
+  BluetoothAdapterState? state;
   @override
-  List<BluetoothEntity>? devices;
+  List<BleEntity>? fDevices;
   @override
-  Set<PolarDataType>? polarTypes;
-  @override
-  List<Service>? commonServices;
+  BleEntity? cDevice;
   @override
   int? hr;
+  @override
+  BluetoothFailure? bleFailure;
+  @override
+  @JsonKey()
+  bool isLoading;
 
   @override
   String toString() {
-    return 'NavigationState(isBleOn: $isBleOn, isScanning: $isScanning, state: $state, devices: $devices, polarTypes: $polarTypes, commonServices: $commonServices, hr: $hr)';
+    return 'NavigationState(isScanning: $isScanning, state: $state, fDevices: $fDevices, cDevice: $cDevice, hr: $hr, bleFailure: $bleFailure, isLoading: $isLoading)';
   }
 
   @JsonKey(ignore: true)
@@ -221,35 +236,35 @@ class _$NavigationStateImpl implements _NavigationState {
 
 abstract class _NavigationState implements NavigationState {
   factory _NavigationState(
-      {bool? isBleOn,
-      bool? isScanning,
-      ConnectionStateUpdate? state,
-      List<BluetoothEntity>? devices,
-      Set<PolarDataType>? polarTypes,
-      List<Service>? commonServices,
-      int? hr}) = _$NavigationStateImpl;
+      {bool? isScanning,
+      BluetoothAdapterState? state,
+      List<BleEntity>? fDevices,
+      BleEntity? cDevice,
+      int? hr,
+      BluetoothFailure? bleFailure,
+      bool isLoading}) = _$NavigationStateImpl;
 
-  @override
-  bool? get isBleOn;
-  set isBleOn(bool? value);
   @override
   bool? get isScanning;
   set isScanning(bool? value);
   @override
-  ConnectionStateUpdate? get state;
-  set state(ConnectionStateUpdate? value);
+  BluetoothAdapterState? get state;
+  set state(BluetoothAdapterState? value);
   @override
-  List<BluetoothEntity>? get devices;
-  set devices(List<BluetoothEntity>? value);
+  List<BleEntity>? get fDevices;
+  set fDevices(List<BleEntity>? value);
   @override
-  Set<PolarDataType>? get polarTypes;
-  set polarTypes(Set<PolarDataType>? value);
-  @override
-  List<Service>? get commonServices;
-  set commonServices(List<Service>? value);
+  BleEntity? get cDevice;
+  set cDevice(BleEntity? value);
   @override
   int? get hr;
   set hr(int? value);
+  @override
+  BluetoothFailure? get bleFailure;
+  set bleFailure(BluetoothFailure? value);
+  @override
+  bool get isLoading;
+  set isLoading(bool value);
   @override
   @JsonKey(ignore: true)
   _$$NavigationStateImplCopyWith<_$NavigationStateImpl> get copyWith =>

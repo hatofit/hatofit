@@ -1,39 +1,34 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/utils/utils.dart';
+import 'package:path_provider/path_provider.dart';
 
 typedef ResponseConverter<T> = T Function(dynamic response);
 
-class DioClient with MainBoxMixin, FirebaseCrashLogger {
-  // static const String baseUrl = APIConstant.get.baseUrl;
-  // static const String baseUrl = 'https://api.hatofit.com';
-
+class DioClient with FirebaseCrashLogger {
   String? _auth;
   late Dio _dio;
+  final BoxClient _boxClient;
 
-  DioClient() {
+  DioClient(this._boxClient) {
     try {
-      _auth = getData(MainBoxKeys.token);
+      _auth = _boxClient.userBox.get(UserBoxKeys.token.name);
       _dio = _createDio();
       // _dio.interceptors.add(DioInterceptor());
     } catch (error, stackTrace) {
-      log?.e("""[DioClient] || DioClient() || core/api/dio_client.dart\n
-      Error: $error\n
-      """);
       nonFatalError(error: error, stackTrace: stackTrace);
     }
   }
 
   Dio get dio {
     try {
-      _auth = getData(MainBoxKeys.token);
+      _auth = _boxClient.userBox.get(UserBoxKeys.token.name);
       _dio = _createDio();
       // _dio.interceptors.add(DioInterceptor());
     } catch (error, stackTrace) {
-      log?.e("""[DioClient] || Dio get dio || core/api/dio_client.dart\n
-      Error: $error\n
-      """);
       nonFatalError(error: error, stackTrace: stackTrace);
     }
     return _dio;
@@ -69,7 +64,6 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
         queryParameters: queryParameters,
         onReceiveProgress: onReceiveProgress,
       );
-      log?.e("[DIO Request] $response");
       if ((response.statusCode ?? 0) < 200 ||
           (response.statusCode ?? 0) > 201) {
         throw DioException(
@@ -219,6 +213,42 @@ class DioClient with MainBoxMixin, FirebaseCrashLogger {
         final result = await isolateParse.parseInBackground();
         return Right(result);
       }
+    } on DioException catch (e, stackTrace) {
+      nonFatalError(error: e, stackTrace: stackTrace);
+      return Left(
+        ServerFailure(
+          message: e.response == null
+              ? e.message
+              : e.response?.data['message'] as String? ??
+                  "Internal Server Error",
+          exception: e,
+        ),
+      );
+    }
+  }
+
+  Future<Either<Failure, File>> downloadRequest(
+    String url,
+    String savePath, {
+    Map<String, dynamic>? queryParameters,
+    ProgressCallback? onReceiveProgress,
+  }) async {
+    try {
+      final defaultPath = (await getExternalStorageDirectory())?.path;
+      final response = await dio.download(
+        url,
+        "$defaultPath/$savePath",
+        queryParameters: queryParameters,
+        onReceiveProgress: onReceiveProgress,
+      );
+      if ((response.statusCode ?? 0) < 200 ||
+          (response.statusCode ?? 0) > 201) {
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+        );
+      }
+      return Right(File(savePath));
     } on DioException catch (e, stackTrace) {
       nonFatalError(error: e, stackTrace: stackTrace);
       return Left(

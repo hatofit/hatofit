@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hatofit/utils/utils.dart';
+import 'package:hatofit/core/core.dart';
 
 part 'data_helper.freezed.dart';
 

@@ -11,8 +11,9 @@ Future<void> mainInjection() async {
   await _initHiveBoxes();
   await _initNetwork();
 
-  di.registerSingleton<ImagePickerClient>(ImagePickerClient());
-  di.registerSingleton<BleClient>(BleClient());
+  di.registerLazySingleton<ImagePickerClient>(() => ImagePickerClient());
+  di.registerLazySingleton<PolarClient>(() => PolarClient());
+  di.registerLazySingleton<CommonClient>(() => CommonClient());
   di.registerSingleton<NativeMethods>(NativeMethodsImpl());
 
   _remoteDataSources();
@@ -20,25 +21,31 @@ Future<void> mainInjection() async {
   _repositories();
   _useCase();
   _cubit();
-  log?.i("Dependency Injection Done");
-}
-
-Future<void> _initNetwork() async {
-  await NetworkInfo.iniNetworkInfo();
-  di.registerSingleton<NetworkInfo>(NetworkInfo());
-  di.registerSingleton<DioClient>(DioClient());
 }
 
 Future<void> _initHiveBoxes() async {
-  await MainBoxMixin.initHive();
+  // await MainBoxMixin.initHive();
   await BoxClient.initHive();
-  di.registerSingleton<MainBoxMixin>(MainBoxMixin());
+  // di.registerSingleton<MainBoxMixin>(MainBoxMixin());
   di.registerSingleton<BoxClient>(BoxClient());
+}
+
+Future<void> _initNetwork() async {
+  await NetworkInfo.initNetworkInfo();
+  di.registerSingleton<NetworkInfo>(NetworkInfo());
+  di.registerSingleton<DioClient>(DioClient(
+    di(),
+  ));
+  await RemoteConfig.init();
+  di.registerSingleton<RemoteConfig>(RemoteConfig());
 }
 
 void _remoteDataSources() {
   di.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(di()),
+  );
+  di.registerLazySingleton<ImageRemoteDataSource>(
+    () => ImageRemoteDataSourceImpl(di()),
   );
   di.registerLazySingleton<ExerciseRemoteDataSource>(
     () => ExerciseRemoteDataSourceImpl(di()),
@@ -70,42 +77,66 @@ void _localDataSources() {
   di.registerLazySingleton<ReportLocalDataSource>(
     () => ReportLocalDataSourceImpl(di()),
   );
+  di.registerLazySingleton<AppConfigLocalDataSource>(
+    () => AppConfigLocalDataSourceImpl(di()),
+  );
 }
 
 void _repositories() {
-  di.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(di(), di(), di()),
+  di.registerLazySingleton<AuthRepo>(
+    () => AuthRepoImpl(di(), di(), di()),
   );
-  di.registerLazySingleton<ImageRepository>(
-    () => ImageRepositoryImpl(di()),
+  di.registerLazySingleton<PolarBLERepo>(
+    () => PolarBLERepoImpl(di()),
   );
-  di.registerLazySingleton<BluetoothRepository>(
-    () => BluetoothRepositoryImpl(di()),
+  di.registerLazySingleton<CommonBLERepo>(
+    () => CommonBLERepoImpl(di()),
   );
-  di.registerLazySingleton<ExerciseRepository>(
-    () => ExerciseRepositoryImpl(
+  di.registerLazySingleton<ImageRepo>(
+    () => ImageRepoImpl(
       di(),
       di(),
       di(),
     ),
   );
-  di.registerLazySingleton<SessionRepository>(
-    () => SessionRepositoryImpl(
+
+  di.registerLazySingleton<ExerciseRepo>(
+    () => ExerciseRepoImpl(
       di(),
       di(),
       di(),
     ),
   );
-  di.registerLazySingleton<UserRepository>(
-    () => UserRepositoryImpl(
+  di.registerLazySingleton<SessionRepo>(
+    () => SessionRepoImpl(
+      di(),
       di(),
       di(),
     ),
   );
-  di.registerLazySingleton<ReportRepository>(
-    () => ReportRepositoryImpl(
+  di.registerLazySingleton<UserRepo>(
+    () => UserRepoImpl(
       di(),
       di(),
+      di(),
+    ),
+  );
+  di.registerLazySingleton<ReportRepo>(
+    () => ReportRepoImpl(
+      di(),
+      di(),
+      di(),
+    ),
+  );
+  di.registerLazySingleton<FirebaseRemoteConfigRepo>(
+    () => FirebaseRemoteConfigRepoImpl(
+      di(),
+      di(),
+      di(),
+    ),
+  );
+  di.registerLazySingleton<AppConfigRepo>(
+    () => AppConfigRepoImpl(
       di(),
     ),
   );
@@ -121,24 +152,29 @@ void _useCase() {
   di.registerLazySingleton(() => VerifyCodeUseCase(di()));
   di.registerLazySingleton(() => ResetPasswordUsecase(di()));
 
-  /// [Bluetooth]
-  ///
-  di.registerLazySingleton(() => ScanBluetoothUsecase(di()));
-  di.registerLazySingleton(() => BleStatusUcecase(di()));
-  di.registerLazySingleton(() => RequestBluetoothUsecase(di()));
-  di.registerLazySingleton(() => GetCommonServicesUsecase(di()));
-  di.registerLazySingleton(() => ReadCharacteristicUsecase(di()));
-  di.registerLazySingleton(() => ClearGattCacheUsecase(di()));
-  di.registerLazySingleton(() => ConnectCommonBleUsecase(di()));
-  di.registerLazySingleton(() => ConnectPolarBleUsecase(di()));
-  di.registerLazySingleton(() => GetPolarServicesUsecase(di()));
-  di.registerLazySingleton(() => GetHrPolarUsecase(di()));
-  di.registerLazySingleton(() => GetHrCommonUsecase(di()));
+  /// [Bluetooth - Common]
+  di.registerLazySingleton(() => ReqBLEPermUsecase(di()));
+  di.registerLazySingleton(() => AdapterStateBLEUsecase(di()));
+  di.registerLazySingleton(() => ConnectCommonBLEUsecase(di()));
+  di.registerLazySingleton(() => DisconnectCommonBleUsecase(di()));
+  di.registerLazySingleton(() => GetServicesCommonBLEUsecase(di()));
+  di.registerLazySingleton(() => IsScanningBLEUsecase(di()));
+  di.registerLazySingleton(() => ScanCommonBLEUsecase(di()));
+  di.registerLazySingleton(() => ScanResultsBLEUsecase(di()));
+  di.registerLazySingleton(() => StopScanBLEUsecase(di()));
+  di.registerLazySingleton(() => StreamCommonBLEUsecase(di()));
+
+  /// [Bluetooth - Polar]
+  di.registerLazySingleton(() => ConnectPolarBLEUsecase(di()));
+  di.registerLazySingleton(() => DisconnectPolarBLEUsecase(di()));
+  di.registerLazySingleton(() => GetServicesPolarBLEUsecase(di()));
+  di.registerLazySingleton(() => StreamHrPolarBLEUsecase(di()));
 
   /// [Image]
   ///
   di.registerLazySingleton(() => ImageFromCameraUsecase(di()));
   di.registerLazySingleton(() => ImageFromGalleryUsecase(di()));
+  di.registerLazySingleton(() => DownloadImageUsecase(di()));
 
   /// [Exercise]
   ///
@@ -152,14 +188,42 @@ void _useCase() {
   /// [User]
   ///
   di.registerLazySingleton(() => GetUserUsecase(di()));
+  di.registerLazySingleton(() => GetMoodUsecase(di()));
+  di.registerLazySingleton(() => GetTokenUsecase(di()));
+  di.registerLazySingleton(() => UpdateUserUsecase(di()));
+  di.registerLazySingleton(() => UpdateTokenUsecase(di()));
+  di.registerLazySingleton(() => UpdateMoodUsecase(di()));
+  di.registerLazySingleton(() => ClearMoodUsecase(di()));
+  di.registerLazySingleton(() => ClearTokenUsecase(di()));
+  di.registerLazySingleton(() => ClearUserUsecase(di()));
 
   /// [Report]
   ///
   di.registerLazySingleton(() => GetReportsUsecase(di()));
+
+  /// [Firebase]
+  ///
+  di.registerLazySingleton(() => GetStringFirebaseUsecase(di()));
+
+  /// [App Config]
+  ///
+  di.registerLazySingleton(() => GetActiveThemeUsecase(di()));
+  di.registerLazySingleton(() => GetLanguageUsecase(di()));
+  di.registerLazySingleton(() => GetOfflineModeUsecase(di()));
+  di.registerLazySingleton(() => UpdateActiveThemeUsecase(di()));
+  di.registerLazySingleton(() => UpdateLanguageUsecase(di()));
+  di.registerLazySingleton(() => UpdateOfflineModeUsecase(di()));
 }
 
 void _cubit() {
-  di.registerFactory(() => SplashCubit(di()));
+  di.registerFactory(() => SplashCubit(
+        di(),
+        di(),
+        di(),
+        di(),
+        di(),
+        di(),
+      ));
   di.registerFactory(() => AuthCubit(
         di(),
         di(),
@@ -168,14 +232,28 @@ void _cubit() {
         di(),
         di(),
         di(),
+        di(),
       ));
-  di.registerFactory(() => IntroCubit());
+  di.registerFactory(() => IntroCubit(
+        di(),
+        di(),
+        di(),
+        di(),
+      ));
   di.registerFactory(() => HomeCubit(
         di(),
         di(),
         di(),
+        di(),
       ));
-  di.registerFactory(() => SettingsCubit());
+  di.registerFactory(() => SettingsCubit(
+        di(),
+        di(),
+        di(),
+        di(),
+        di(),
+        di(),
+      ));
   di.registerFactory(() => WorkoutCubit(
         di(),
       ));
@@ -184,6 +262,11 @@ void _cubit() {
       ));
 
   di.registerFactory(() => NavigationCubit(
+        di(),
+        di(),
+        di(),
+        di(),
+        di(),
         di(),
         di(),
         di(),

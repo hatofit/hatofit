@@ -8,12 +8,20 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/utils.dart';
 
 part 'auth_cubit.freezed.dart';
 part 'auth_state.dart';
 
-class AuthCubit extends Cubit<AuthState> with MainBoxMixin {
+class AuthCubit extends Cubit<AuthState> {
+  final LoginUsecase _loginUsecase;
+  final RegisterUsecase _registerUsecase;
+  final ForgotPasswordUsecase _forgotPasswordUsecase;
+  final ImageFromCameraUsecase _imageFromCameraUsecase;
+  final ImageFromGalleryUsecase _imageFromGalleryUsecase;
+  final VerifyCodeUseCase _verifyCodeUseCase;
+  final ResetPasswordUsecase _resetPasswordUsecase;
+  final GetUserUsecase _getUserUsecase;
+
   AuthCubit(
     this._loginUsecase,
     this._forgotPasswordUsecase,
@@ -22,14 +30,8 @@ class AuthCubit extends Cubit<AuthState> with MainBoxMixin {
     this._imageFromCameraUsecase,
     this._registerUsecase,
     this._imageFromGalleryUsecase,
-  ) : super(_Initial());
-  final LoginUsecase _loginUsecase;
-  final RegisterUsecase _registerUsecase;
-  final ForgotPasswordUsecase _forgotPasswordUsecase;
-  final ImageFromCameraUsecase _imageFromCameraUsecase;
-  final ImageFromGalleryUsecase _imageFromGalleryUsecase;
-  final VerifyCodeUseCase _verifyCodeUseCase;
-  final ResetPasswordUsecase _resetPasswordUsecase;
+    this._getUserUsecase,
+  ) : super(const _Initial());
 
   bool? isPasswordHide = true;
   bool? isPasswordRepeatHide = true;
@@ -65,26 +67,24 @@ class AuthCubit extends Cubit<AuthState> with MainBoxMixin {
   void signOut() async {
     try {
       final res = await _googleSignIn.signOut();
-      log?.i(res);
+
       if (res != null) {
         emit(const _Initial());
       }
     } catch (e, stackTrace) {
       FirebaseCrashlytics.instance.recordError(e, stackTrace);
-      log?.e(e);
     }
   }
 
   void signInWithGoogle() async {
     try {
       final GoogleSignInAccount? res = await _googleSignIn.signIn();
-      log?.i(res);
+
       if (res != null) {
         emit(_Success(res.displayName));
       }
     } catch (e, stackTrace) {
       FirebaseCrashlytics.instance.recordError(e, stackTrace);
-      log?.e(e);
     }
   }
 
@@ -96,52 +96,51 @@ class AuthCubit extends Cubit<AuthState> with MainBoxMixin {
 
       res.fold((l) {
         if (l is ServerFailure) {
-          log?.i(l.message);
           emit(_Failure(l.message ?? ""));
         }
       }, (r) {
-        emit(_Success(r.user!.firstName));
+        emit(_Success(r.user?.firstName));
       });
     } catch (e, stackTrace) {
       FirebaseCrashlytics.instance.recordError(e, stackTrace);
-      log?.e(e);
     }
   }
 
   void signUpWithRestAPI(RegisterParams params) async {
     emit(const _Loading());
-    try {
-      final Either<Failure, AuthResponseEntity> res =
-          await _registerUsecase.call(RegisterParams(
-        firstName: params.firstName,
-        lastName: params.lastName,
-        gender: getData(MainBoxKeys.gender),
-        email: params.email,
-        password: params.password,
-        confirmPassword: params.confirmPassword,
-        photo: pickedImage,
-        dateOfBirth: getData(MainBoxKeys.dateOfBirth),
-        height: getData(MainBoxKeys.height),
-        weight: getData(MainBoxKeys.weight),
-        metricUnits: {
-          "energyUnits": getData(MainBoxKeys.energyUnit),
-          "heightUnits": getData(MainBoxKeys.heightUnit),
-          "weightUnits": getData(MainBoxKeys.weightUnit),
-        },
-      ));
+    final user = await _getUserUsecase.call();
+    user.fold((l) => null, (r) async {
+      try {
+        final Either<Failure, AuthResponseEntity> res =
+            await _registerUsecase.call(RegisterParams(
+          firstName: params.firstName,
+          lastName: params.lastName,
+          gender: r.gender ?? "male",
+          email: params.email,
+          password: params.password,
+          confirmPassword: params.confirmPassword,
+          photo: pickedImage,
+          dateOfBirth: r.dateOfBirth.toString(),
+          height: r.height ?? 150,
+          weight: r.weight ?? 125,
+          metricUnits: {
+            "energyUnits": r.metricUnits?.energyUnits ?? "kcal",
+            "heightUnits": r.metricUnits?.heightUnits ?? "cm",
+            "weightUnits": r.metricUnits?.weightUnits ?? "kg",
+          },
+        ));
 
-      res.fold((l) {
-        if (l is ServerFailure) {
-          log?.i(l.message);
-          emit(_Failure(l.message ?? ""));
-        }
-      }, (r) {
-        emit(_Success(r.user!.firstName));
-      });
-    } catch (e, stackTrace) {
-      FirebaseCrashlytics.instance.recordError(e, stackTrace);
-      log?.e(e);
-    }
+        res.fold((l) {
+          if (l is ServerFailure) {
+            emit(_Failure(l.message ?? ""));
+          }
+        }, (r) {
+          emit(_Success(r.user?.firstName));
+        });
+      } catch (e, stackTrace) {
+        FirebaseCrashlytics.instance.recordError(e, stackTrace);
+      }
+    });
   }
 
   void forgotPassword(ForgotPasswordParams params) async {
@@ -151,7 +150,6 @@ class AuthCubit extends Cubit<AuthState> with MainBoxMixin {
 
       res.fold((l) {
         if (l is ServerFailure) {
-          log?.i(l.message);
           emit(_Failure(l.message ?? ""));
         }
       }, (r) {
@@ -159,7 +157,6 @@ class AuthCubit extends Cubit<AuthState> with MainBoxMixin {
       });
     } catch (e, stackTrace) {
       FirebaseCrashlytics.instance.recordError(e, stackTrace);
-      log?.e(e);
     }
   }
 
@@ -171,16 +168,14 @@ class AuthCubit extends Cubit<AuthState> with MainBoxMixin {
 
       res.fold((l) {
         if (l is ServerFailure) {
-          log?.i(l.message);
           emit(_Failure(l.message ?? ""));
         }
       }, (r) {
         isCodeVerified = true;
-        emit(_Initial());
+        emit(const _Initial());
       });
     } catch (e, stackTrace) {
       FirebaseCrashlytics.instance.recordError(e, stackTrace);
-      log?.e(e);
     }
   }
 
@@ -191,15 +186,13 @@ class AuthCubit extends Cubit<AuthState> with MainBoxMixin {
 
       res.fold((l) {
         if (l is ServerFailure) {
-          log?.i(l.message);
           emit(_Failure(l.message ?? ""));
         }
       }, (r) {
-        emit(_Success(r.user!.firstName));
+        emit(_Success(r.user?.firstName));
       });
     } catch (e, stackTrace) {
       FirebaseCrashlytics.instance.recordError(e, stackTrace);
-      log?.e(e);
     }
   }
 
@@ -213,7 +206,6 @@ class AuthCubit extends Cubit<AuthState> with MainBoxMixin {
 
       res.fold((l) {
         if (l is ServerFailure) {
-          log?.i(l.message);
           emit(_Failure(l.message ?? ""));
         }
       }, (r) async {
@@ -222,7 +214,6 @@ class AuthCubit extends Cubit<AuthState> with MainBoxMixin {
       });
     } catch (e, stackTrace) {
       FirebaseCrashlytics.instance.recordError(e, stackTrace);
-      log?.e(e);
     }
   }
 
@@ -234,7 +225,6 @@ class AuthCubit extends Cubit<AuthState> with MainBoxMixin {
 
       res.fold((l) {
         if (l is ServerFailure) {
-          log?.i(l.message);
           emit(_Failure(l.message ?? ""));
         }
       }, (r) async {
@@ -243,7 +233,6 @@ class AuthCubit extends Cubit<AuthState> with MainBoxMixin {
       });
     } catch (e, stackTrace) {
       FirebaseCrashlytics.instance.recordError(e, stackTrace);
-      log?.e(e);
     }
   }
 }

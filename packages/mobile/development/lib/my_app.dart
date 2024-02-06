@@ -31,8 +31,8 @@ class MyApp extends StatelessWidget {
           builder: (context, __) {
             AppRoute.setStream(context);
 
-            return BlocBuilder<SettingsCubit, DataHelper>(
-              builder: (_, data) => MaterialApp.router(
+            return BlocBuilder<SettingsCubit, DataHelper>(builder: (_, data) {
+              return MaterialApp.router(
                 routerConfig: AppRoute.router,
                 localizationsDelegates: const [
                   Strings.delegate,
@@ -43,10 +43,8 @@ class MyApp extends StatelessWidget {
                 debugShowCheckedModeBanner: false,
                 builder: (BuildContext context, Widget? child) {
                   final MediaQueryData data = MediaQuery.of(context);
-
                   return MediaQuery(
                     data: data.copyWith(
-                      // textScaleFactor: 1,
                       textScaler: const TextScaler.linear(1.0),
                       alwaysUse24HourFormat: true,
                     ),
@@ -59,8 +57,8 @@ class MyApp extends StatelessWidget {
                 locale: Locale(data.type ?? "en"),
                 supportedLocales: L10n.all,
                 themeMode: data.activeTheme.mode,
-              ),
-            );
+              );
+            });
           },
         ),
       ),

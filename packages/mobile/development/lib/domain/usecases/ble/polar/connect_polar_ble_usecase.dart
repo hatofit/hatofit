@@ -2,12 +2,13 @@ import 'package:dartz/dartz.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 
-class ConnectPolarBleUsecase extends WithParamsUseCase<void, BluetoothParams> {
-  final BluetoothRepository _repo;
+class ConnectPolarBLEUsecase
+    extends WithParamsUseCase<void, ConnectPolarParams> {
+  final PolarBLERepo _repo;
 
-  ConnectPolarBleUsecase(this._repo);
+  ConnectPolarBLEUsecase(this._repo);
 
   @override
-  Future<Either<Failure, void>> call(BluetoothParams params) =>
-      _repo.connectToPolarDevice(params);
+  Future<Either<Failure, void>> call(ConnectPolarParams params) =>
+      _repo.connectToDevice(params);
 }

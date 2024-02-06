@@ -41,6 +41,7 @@ class Dimens {
   static double width200 = 200.w;
   static double width300 = 300.w;
 
+  static double height2 = 2.h;
   static double height4 = 4.h;
   static double height8 = 8.h;
   static double height12 = 12.h;
@@ -53,6 +54,7 @@ class Dimens {
   static double height64 = 64.h;
   static double height84 = 84.h;
   static double height100 = 100.h;
+  static double height104 = 104.h;
   static double height128 = 128.h;
   static double height175 = 175.h;
   static double height270 = 270.h;

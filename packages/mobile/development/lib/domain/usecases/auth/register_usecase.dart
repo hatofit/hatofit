@@ -4,7 +4,7 @@ import 'package:hatofit/domain/domain.dart';
 
 class RegisterUsecase
     extends WithParamsUseCase<AuthResponseEntity, RegisterParams> {
-  final AuthRepository _repo;
+  final AuthRepo _repo;
 
   RegisterUsecase(this._repo);
 

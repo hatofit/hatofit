@@ -39,3 +39,12 @@ class UserMetricUnitsEntity with _$UserMetricUnitsEntity {
     @HiveField(2) String? weightUnits,
   }) = _UserMetricUnitsEntity;
 }
+
+void regisUser() {
+  if (!Hive.isAdapterRegistered(BoxTypeId.userEntityIndex)) {
+    Hive.registerAdapter(UserEntityAdapter());
+  }
+  if (!Hive.isAdapterRegistered(BoxTypeId.metricUnitsEntityIndex)) {
+    Hive.registerAdapter(UserMetricUnitsEntityAdapter());
+  }
+}
