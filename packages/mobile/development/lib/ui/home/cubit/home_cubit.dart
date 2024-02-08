@@ -1,20 +1,21 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
+import 'package:hatofit/utils/ext/ext.dart';
+import 'package:hatofit/utils/helper/logger.dart';
 import 'package:intl/intl.dart';
 
 part 'home_cubit.freezed.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  final GetReportsUsecase _getReportsUsecase;
+  final GetSessionsUsecase _getSessionsUsecase;
   final GetUserUsecase _getUserUsecase;
   final DownloadImageUsecase _downloadImageUsecase;
   final GetStringFirebaseUsecase _getStringFirebaseUsecase;
   HomeCubit(
-    this._getReportsUsecase,
+    this._getSessionsUsecase,
     this._getUserUsecase,
     this._downloadImageUsecase,
     this._getStringFirebaseUsecase,
@@ -25,6 +26,7 @@ class HomeCubit extends Cubit<HomeState> {
     await getUser();
     await heroImage();
     await getData();
+    await getSession();
   }
 
   Future<void> heroImage() async {
@@ -42,22 +44,30 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getUser() async {
-    final res = await _getUserUsecase.call();
+    final res = await _getUserUsecase.call(GetUserParams(fromLocal: true));
     res.fold((l) => null, (r) {
       userName = r.firstName ?? "User";
       emit(state.copyWith(user: r));
     });
   }
 
-  Future<void> getReport() async {
-    final res = await _getReportsUsecase.call(const GetReportsParams(
-      page: 0,
-      limit: 1,
-    ));
-    res.fold((l) => null, (r) {
+  Future<void> getSession() async {
+    final res = await _getSessionsUsecase.call(const GetSessionsParams());
+    res.fold((l) => log.e("Report: $l"), (r) async {
+      List<HrBarChartItem> reports = [];
+      final nDate = formatter.format(DateTime.now());
+      for (final i in r) {
+        final sTime = DateTime.fromMicrosecondsSinceEpoch(i.startTime!);
+        final sDate = formatter.format(sTime);
+        if (sDate == nDate) {
+          final report = await i.generateHrData();
+          if (report != null) {
+            reports.add(report);
+          }
+        }
+      }
       emit(state.copyWith(
-        hrData: [],
-        calories: 0,
+        hrData: reports,
       ));
     });
   }
@@ -73,7 +83,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   final formatter = DateFormat('d MMMM yyyy');
- 
 
   double getBmi(UserEntity user) {
     final height = user.height ?? 0;

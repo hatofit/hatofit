@@ -24,6 +24,8 @@ enum Routes {
   // Workout Page
   workout("/workout"),
   workoutDetail("/workout/detail"),
+  freeWorkout("/workout/free"),
+  startWorkout("/workout/start"),
 
   // Activity Page
   activity("/activity"),
@@ -150,8 +152,16 @@ class AppRoute {
                 path: Routes.workoutDetail.path,
                 name: Routes.workoutDetail.name,
                 builder: (_, __) => BlocProvider(
-                  create: (_) => di<WorkoutCubit>(),
+                  create: (_) => di<WorkoutCubit>()..init(),
                   child: const WorkoutDetailView(),
+                ),
+              ),
+              GoRoute(
+                path: Routes.freeWorkout.path,
+                name: Routes.freeWorkout.name,
+                builder: (_, __) => BlocProvider(
+                  create: (_) => di<WorkoutCubit>()..init(),
+                  child: const FreeWorkoutView(),
                 ),
               ),
             ],

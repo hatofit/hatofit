@@ -6,6 +6,7 @@ class Toast extends StatelessWidget {
   final Color? bgColor;
   final Color? textColor;
   final String? message;
+  final TextAlign? textAlign;
 
   const Toast({
     super.key,
@@ -13,6 +14,7 @@ class Toast extends StatelessWidget {
     this.bgColor,
     this.message,
     this.textColor,
+    this.textAlign,
   });
 
   @override
@@ -44,7 +46,7 @@ class Toast extends StatelessWidget {
                       .textTheme
                       .bodyMedium
                       ?.copyWith(color: textColor),
-                  textAlign: TextAlign.start,
+                  textAlign: textAlign ?? TextAlign.start,
                   maxLines: 5,
                   softWrap: true,
                 ),

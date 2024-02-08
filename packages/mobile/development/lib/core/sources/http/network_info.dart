@@ -6,10 +6,14 @@ class NetworkInfo with FirebaseCrashLogger {
   static late InternetConnection? _hatoftServer;
   static late InternetConnection? _globalServer;
 
-  static Future<void> initNetworkInfo() async {
-    _hatoftServer = _createHatofit();
-    _globalServer = _createGlobal();
-  }
+  // static Future<void> initNetworkInfo() async {
+  //   try {
+  //     _hatoftServer = _createHatofit();
+  //     _globalServer = _createGlobal();
+  //   } catch (error, stackTrace) {
+  //     log.e('NetworkInfo: $error');
+  //   }
+  // }
 
   NetworkInfo() {
     try {
@@ -38,15 +42,16 @@ class NetworkInfo with FirebaseCrashLogger {
     return _globalServer!;
   }
 
-  static InternetConnection _createHatofit() =>
-      InternetConnection.createInstance(
-        customCheckOptions: [
-          InternetCheckOption(
-            uri: Uri.parse(APIConstant.get.baseUrl),
-          ),
-        ],
-        useDefaultOptions: false,
-      );
+  static InternetConnection _createHatofit() {
+    return InternetConnection.createInstance(
+      useDefaultOptions: false,
+      customCheckOptions: [
+        InternetCheckOption(
+          uri: Uri.parse("${APIConstant.get.baseUrl}/api"),
+        ),
+      ],
+    );
+  }
 
   static InternetConnection _createGlobal() =>
       InternetConnection.createInstance();

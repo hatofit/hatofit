@@ -20,24 +20,39 @@ mixin _$WorkoutState {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(List<ExerciseEntity> exercises) success,
-    required TResult Function(String message) failure,
-    required TResult Function() empty,
+    required TResult Function(Failure message) failure,
+    required TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)
+        start,
+    required TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)
+        finish,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(List<ExerciseEntity> exercises)? success,
-    TResult? Function(String message)? failure,
-    TResult? Function()? empty,
+    TResult? Function(Failure message)? failure,
+    TResult? Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)?
+        start,
+    TResult? Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)?
+        finish,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(List<ExerciseEntity> exercises)? success,
-    TResult Function(String message)? failure,
-    TResult Function()? empty,
+    TResult Function(Failure message)? failure,
+    TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)?
+        start,
+    TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)?
+        finish,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -46,7 +61,8 @@ mixin _$WorkoutState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_Empty value) empty,
+    required TResult Function(_Start value) start,
+    required TResult Function(_Finish value) finish,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -54,7 +70,8 @@ mixin _$WorkoutState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_Empty value)? empty,
+    TResult? Function(_Start value)? start,
+    TResult? Function(_Finish value)? finish,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -62,7 +79,8 @@ mixin _$WorkoutState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_Empty value)? empty,
+    TResult Function(_Start value)? start,
+    TResult Function(_Finish value)? finish,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -126,8 +144,13 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(List<ExerciseEntity> exercises) success,
-    required TResult Function(String message) failure,
-    required TResult Function() empty,
+    required TResult Function(Failure message) failure,
+    required TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)
+        start,
+    required TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)
+        finish,
   }) {
     return loading();
   }
@@ -137,8 +160,13 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(List<ExerciseEntity> exercises)? success,
-    TResult? Function(String message)? failure,
-    TResult? Function()? empty,
+    TResult? Function(Failure message)? failure,
+    TResult? Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)?
+        start,
+    TResult? Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)?
+        finish,
   }) {
     return loading?.call();
   }
@@ -148,8 +176,13 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(List<ExerciseEntity> exercises)? success,
-    TResult Function(String message)? failure,
-    TResult Function()? empty,
+    TResult Function(Failure message)? failure,
+    TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)?
+        start,
+    TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)?
+        finish,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -164,7 +197,8 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_Empty value) empty,
+    required TResult Function(_Start value) start,
+    required TResult Function(_Finish value) finish,
   }) {
     return loading(this);
   }
@@ -175,7 +209,8 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_Empty value)? empty,
+    TResult? Function(_Start value)? start,
+    TResult? Function(_Finish value)? finish,
   }) {
     return loading?.call(this);
   }
@@ -186,7 +221,8 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_Empty value)? empty,
+    TResult Function(_Start value)? start,
+    TResult Function(_Finish value)? finish,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -274,8 +310,13 @@ class _$SuccessImpl implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(List<ExerciseEntity> exercises) success,
-    required TResult Function(String message) failure,
-    required TResult Function() empty,
+    required TResult Function(Failure message) failure,
+    required TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)
+        start,
+    required TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)
+        finish,
   }) {
     return success(exercises);
   }
@@ -285,8 +326,13 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(List<ExerciseEntity> exercises)? success,
-    TResult? Function(String message)? failure,
-    TResult? Function()? empty,
+    TResult? Function(Failure message)? failure,
+    TResult? Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)?
+        start,
+    TResult? Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)?
+        finish,
   }) {
     return success?.call(exercises);
   }
@@ -296,8 +342,13 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(List<ExerciseEntity> exercises)? success,
-    TResult Function(String message)? failure,
-    TResult Function()? empty,
+    TResult Function(Failure message)? failure,
+    TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)?
+        start,
+    TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)?
+        finish,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -312,7 +363,8 @@ class _$SuccessImpl implements _Success {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_Empty value) empty,
+    required TResult Function(_Start value) start,
+    required TResult Function(_Finish value) finish,
   }) {
     return success(this);
   }
@@ -323,7 +375,8 @@ class _$SuccessImpl implements _Success {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_Empty value)? empty,
+    TResult? Function(_Start value)? start,
+    TResult? Function(_Finish value)? finish,
   }) {
     return success?.call(this);
   }
@@ -334,7 +387,8 @@ class _$SuccessImpl implements _Success {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_Empty value)? empty,
+    TResult Function(_Start value)? start,
+    TResult Function(_Finish value)? finish,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -359,7 +413,7 @@ abstract class _$$FailureImplCopyWith<$Res> {
           _$FailureImpl value, $Res Function(_$FailureImpl) then) =
       __$$FailureImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String message});
+  $Res call({Failure message});
 }
 
 /// @nodoc
@@ -379,7 +433,7 @@ class __$$FailureImplCopyWithImpl<$Res>
       null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Failure,
     ));
   }
 }
@@ -390,7 +444,7 @@ class _$FailureImpl implements _Failure {
   const _$FailureImpl(this.message);
 
   @override
-  final String message;
+  final Failure message;
 
   @override
   String toString() {
@@ -419,8 +473,13 @@ class _$FailureImpl implements _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(List<ExerciseEntity> exercises) success,
-    required TResult Function(String message) failure,
-    required TResult Function() empty,
+    required TResult Function(Failure message) failure,
+    required TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)
+        start,
+    required TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)
+        finish,
   }) {
     return failure(message);
   }
@@ -430,8 +489,13 @@ class _$FailureImpl implements _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(List<ExerciseEntity> exercises)? success,
-    TResult? Function(String message)? failure,
-    TResult? Function()? empty,
+    TResult? Function(Failure message)? failure,
+    TResult? Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)?
+        start,
+    TResult? Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)?
+        finish,
   }) {
     return failure?.call(message);
   }
@@ -441,8 +505,13 @@ class _$FailureImpl implements _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(List<ExerciseEntity> exercises)? success,
-    TResult Function(String message)? failure,
-    TResult Function()? empty,
+    TResult Function(Failure message)? failure,
+    TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)?
+        start,
+    TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)?
+        finish,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -457,7 +526,8 @@ class _$FailureImpl implements _Failure {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_Empty value) empty,
+    required TResult Function(_Start value) start,
+    required TResult Function(_Finish value) finish,
   }) {
     return failure(this);
   }
@@ -468,7 +538,8 @@ class _$FailureImpl implements _Failure {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_Empty value)? empty,
+    TResult? Function(_Start value)? start,
+    TResult? Function(_Finish value)? finish,
   }) {
     return failure?.call(this);
   }
@@ -479,7 +550,8 @@ class _$FailureImpl implements _Failure {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_Empty value)? empty,
+    TResult Function(_Start value)? start,
+    TResult Function(_Finish value)? finish,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -490,58 +562,135 @@ class _$FailureImpl implements _Failure {
 }
 
 abstract class _Failure implements WorkoutState {
-  const factory _Failure(final String message) = _$FailureImpl;
+  const factory _Failure(final Failure message) = _$FailureImpl;
 
-  String get message;
+  Failure get message;
   @JsonKey(ignore: true)
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$EmptyImplCopyWith<$Res> {
-  factory _$$EmptyImplCopyWith(
-          _$EmptyImpl value, $Res Function(_$EmptyImpl) then) =
-      __$$EmptyImplCopyWithImpl<$Res>;
+abstract class _$$StartImplCopyWith<$Res> {
+  factory _$$StartImplCopyWith(
+          _$StartImpl value, $Res Function(_$StartImpl) then) =
+      __$$StartImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({bool freeTraining, ExerciseEntity? exercise, UserEntity? user});
+
+  $ExerciseEntityCopyWith<$Res>? get exercise;
+  $UserEntityCopyWith<$Res>? get user;
 }
 
 /// @nodoc
-class __$$EmptyImplCopyWithImpl<$Res>
-    extends _$WorkoutStateCopyWithImpl<$Res, _$EmptyImpl>
-    implements _$$EmptyImplCopyWith<$Res> {
-  __$$EmptyImplCopyWithImpl(
-      _$EmptyImpl _value, $Res Function(_$EmptyImpl) _then)
+class __$$StartImplCopyWithImpl<$Res>
+    extends _$WorkoutStateCopyWithImpl<$Res, _$StartImpl>
+    implements _$$StartImplCopyWith<$Res> {
+  __$$StartImplCopyWithImpl(
+      _$StartImpl _value, $Res Function(_$StartImpl) _then)
       : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? freeTraining = null,
+    Object? exercise = freezed,
+    Object? user = freezed,
+  }) {
+    return _then(_$StartImpl(
+      freeTraining: null == freeTraining
+          ? _value.freeTraining
+          : freeTraining // ignore: cast_nullable_to_non_nullable
+              as bool,
+      exercise: freezed == exercise
+          ? _value.exercise
+          : exercise // ignore: cast_nullable_to_non_nullable
+              as ExerciseEntity?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserEntity?,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ExerciseEntityCopyWith<$Res>? get exercise {
+    if (_value.exercise == null) {
+      return null;
+    }
+
+    return $ExerciseEntityCopyWith<$Res>(_value.exercise!, (value) {
+      return _then(_value.copyWith(exercise: value));
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserEntityCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserEntityCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value));
+    });
+  }
 }
 
 /// @nodoc
 
-class _$EmptyImpl implements _Empty {
-  const _$EmptyImpl();
+class _$StartImpl implements _Start {
+  const _$StartImpl({this.freeTraining = true, this.exercise, this.user});
+
+  @override
+  @JsonKey()
+  final bool freeTraining;
+  @override
+  final ExerciseEntity? exercise;
+  @override
+  final UserEntity? user;
 
   @override
   String toString() {
-    return 'WorkoutState.empty()';
+    return 'WorkoutState.start(freeTraining: $freeTraining, exercise: $exercise, user: $user)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$EmptyImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$StartImpl &&
+            (identical(other.freeTraining, freeTraining) ||
+                other.freeTraining == freeTraining) &&
+            (identical(other.exercise, exercise) ||
+                other.exercise == exercise) &&
+            (identical(other.user, user) || other.user == user));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, freeTraining, exercise, user);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$StartImplCopyWith<_$StartImpl> get copyWith =>
+      __$$StartImplCopyWithImpl<_$StartImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(List<ExerciseEntity> exercises) success,
-    required TResult Function(String message) failure,
-    required TResult Function() empty,
+    required TResult Function(Failure message) failure,
+    required TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)
+        start,
+    required TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)
+        finish,
   }) {
-    return empty();
+    return start(freeTraining, exercise, user);
   }
 
   @override
@@ -549,10 +698,15 @@ class _$EmptyImpl implements _Empty {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(List<ExerciseEntity> exercises)? success,
-    TResult? Function(String message)? failure,
-    TResult? Function()? empty,
+    TResult? Function(Failure message)? failure,
+    TResult? Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)?
+        start,
+    TResult? Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)?
+        finish,
   }) {
-    return empty?.call();
+    return start?.call(freeTraining, exercise, user);
   }
 
   @override
@@ -560,12 +714,17 @@ class _$EmptyImpl implements _Empty {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(List<ExerciseEntity> exercises)? success,
-    TResult Function(String message)? failure,
-    TResult Function()? empty,
+    TResult Function(Failure message)? failure,
+    TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)?
+        start,
+    TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)?
+        finish,
     required TResult orElse(),
   }) {
-    if (empty != null) {
-      return empty();
+    if (start != null) {
+      return start(freeTraining, exercise, user);
     }
     return orElse();
   }
@@ -576,9 +735,10 @@ class _$EmptyImpl implements _Empty {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_Empty value) empty,
+    required TResult Function(_Start value) start,
+    required TResult Function(_Finish value) finish,
   }) {
-    return empty(this);
+    return start(this);
   }
 
   @override
@@ -587,9 +747,10 @@ class _$EmptyImpl implements _Empty {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_Empty value)? empty,
+    TResult? Function(_Start value)? start,
+    TResult? Function(_Finish value)? finish,
   }) {
-    return empty?.call(this);
+    return start?.call(this);
   }
 
   @override
@@ -598,16 +759,242 @@ class _$EmptyImpl implements _Empty {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_Empty value)? empty,
+    TResult Function(_Start value)? start,
+    TResult Function(_Finish value)? finish,
     required TResult orElse(),
   }) {
-    if (empty != null) {
-      return empty(this);
+    if (start != null) {
+      return start(this);
     }
     return orElse();
   }
 }
 
-abstract class _Empty implements WorkoutState {
-  const factory _Empty() = _$EmptyImpl;
+abstract class _Start implements WorkoutState {
+  const factory _Start(
+      {final bool freeTraining,
+      final ExerciseEntity? exercise,
+      final UserEntity? user}) = _$StartImpl;
+
+  bool get freeTraining;
+  ExerciseEntity? get exercise;
+  UserEntity? get user;
+  @JsonKey(ignore: true)
+  _$$StartImplCopyWith<_$StartImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FinishImplCopyWith<$Res> {
+  factory _$$FinishImplCopyWith(
+          _$FinishImpl value, $Res Function(_$FinishImpl) then) =
+      __$$FinishImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call(
+      {bool freeTraining, ExerciseEntity? exercise, SessionEntity session});
+
+  $ExerciseEntityCopyWith<$Res>? get exercise;
+  $SessionEntityCopyWith<$Res> get session;
+}
+
+/// @nodoc
+class __$$FinishImplCopyWithImpl<$Res>
+    extends _$WorkoutStateCopyWithImpl<$Res, _$FinishImpl>
+    implements _$$FinishImplCopyWith<$Res> {
+  __$$FinishImplCopyWithImpl(
+      _$FinishImpl _value, $Res Function(_$FinishImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? freeTraining = null,
+    Object? exercise = freezed,
+    Object? session = null,
+  }) {
+    return _then(_$FinishImpl(
+      freeTraining: null == freeTraining
+          ? _value.freeTraining
+          : freeTraining // ignore: cast_nullable_to_non_nullable
+              as bool,
+      exercise: freezed == exercise
+          ? _value.exercise
+          : exercise // ignore: cast_nullable_to_non_nullable
+              as ExerciseEntity?,
+      session: null == session
+          ? _value.session
+          : session // ignore: cast_nullable_to_non_nullable
+              as SessionEntity,
+    ));
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ExerciseEntityCopyWith<$Res>? get exercise {
+    if (_value.exercise == null) {
+      return null;
+    }
+
+    return $ExerciseEntityCopyWith<$Res>(_value.exercise!, (value) {
+      return _then(_value.copyWith(exercise: value));
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SessionEntityCopyWith<$Res> get session {
+    return $SessionEntityCopyWith<$Res>(_value.session, (value) {
+      return _then(_value.copyWith(session: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$FinishImpl implements _Finish {
+  const _$FinishImpl(
+      {this.freeTraining = true,
+      this.exercise,
+      this.session = const SessionEntity()});
+
+  @override
+  @JsonKey()
+  final bool freeTraining;
+  @override
+  final ExerciseEntity? exercise;
+  @override
+  @JsonKey()
+  final SessionEntity session;
+
+  @override
+  String toString() {
+    return 'WorkoutState.finish(freeTraining: $freeTraining, exercise: $exercise, session: $session)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FinishImpl &&
+            (identical(other.freeTraining, freeTraining) ||
+                other.freeTraining == freeTraining) &&
+            (identical(other.exercise, exercise) ||
+                other.exercise == exercise) &&
+            (identical(other.session, session) || other.session == session));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, freeTraining, exercise, session);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FinishImplCopyWith<_$FinishImpl> get copyWith =>
+      __$$FinishImplCopyWithImpl<_$FinishImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loading,
+    required TResult Function(List<ExerciseEntity> exercises) success,
+    required TResult Function(Failure message) failure,
+    required TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)
+        start,
+    required TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)
+        finish,
+  }) {
+    return finish(freeTraining, exercise, session);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loading,
+    TResult? Function(List<ExerciseEntity> exercises)? success,
+    TResult? Function(Failure message)? failure,
+    TResult? Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)?
+        start,
+    TResult? Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)?
+        finish,
+  }) {
+    return finish?.call(freeTraining, exercise, session);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loading,
+    TResult Function(List<ExerciseEntity> exercises)? success,
+    TResult Function(Failure message)? failure,
+    TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, UserEntity? user)?
+        start,
+    TResult Function(
+            bool freeTraining, ExerciseEntity? exercise, SessionEntity session)?
+        finish,
+    required TResult orElse(),
+  }) {
+    if (finish != null) {
+      return finish(freeTraining, exercise, session);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failure value) failure,
+    required TResult Function(_Start value) start,
+    required TResult Function(_Finish value) finish,
+  }) {
+    return finish(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_Failure value)? failure,
+    TResult? Function(_Start value)? start,
+    TResult? Function(_Finish value)? finish,
+  }) {
+    return finish?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failure value)? failure,
+    TResult Function(_Start value)? start,
+    TResult Function(_Finish value)? finish,
+    required TResult orElse(),
+  }) {
+    if (finish != null) {
+      return finish(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Finish implements WorkoutState {
+  const factory _Finish(
+      {final bool freeTraining,
+      final ExerciseEntity? exercise,
+      final SessionEntity session}) = _$FinishImpl;
+
+  bool get freeTraining;
+  ExerciseEntity? get exercise;
+  SessionEntity get session;
+  @JsonKey(ignore: true)
+  _$$FinishImplCopyWith<_$FinishImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

@@ -20,7 +20,7 @@
 //     try {
 //       const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 //       final String prettyJson = encoder.convert(options.data);
-//       log?.d(
+//       log.d(
 //         // ignore: unnecessary_null_comparison
 //         "REQUEST ► ${options.method != null ? options.method.toUpperCase() : 'METHOD'} ${"${options.baseUrl}${options.path}"}\n\n"
 //         "Headers:\n"
@@ -29,7 +29,7 @@
 //         "Body: $prettyJson",
 //       );
 //     } catch (e, stackTrace) {
-//       log?.e("Failed to extract json request $e");
+//       log.e("Failed to extract json request $e");
 //       nonFatalError(error: e, stackTrace: stackTrace);
 //     }
 
@@ -38,8 +38,8 @@
 
 //   @override
 //   void onError(DioException dioException, ErrorInterceptorHandler handler) {
-//     log?.e(
-//       "<-- ${dioException.message} ${dioException.response?.requestOptions != null ? (dioException.response?.requestOptions.baseUrl + dioException.response?.requestOptions.path) : 'URL'}\n\n"
+//     log.e(
+//       "<-- ${dioException.message} ${dioException.response?.requestOptions != null ? (dioException.response!.requestOptions.baseUrl + dioException.response!.requestOptions.path) : 'URL'}\n\n"
 //       "${dioException.response != null ? dioException.response?.data : 'Unknown Error'}",
 //     );
 
@@ -54,7 +54,7 @@
 
 //     const JsonEncoder encoder = JsonEncoder.withIndent('  ');
 //     final String prettyJson = encoder.convert(response.data);
-//     log?.d(
+//     log.d(
 //       // ignore: unnecessary_null_comparison
 //       "◀ RESPONSE ${response.statusCode} ${response.requestOptions != null ? (response.requestOptions.baseUrl + response.requestOptions.path) : 'URL'}\n\n"
 //       "Headers:\n"

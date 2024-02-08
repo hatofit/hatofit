@@ -8,18 +8,24 @@ class RemoteConfig with FirebaseCrashLogger {
   static late FirebaseRemoteConfig _remoteConfig;
 
   static Future<bool> init() async {
-    _remoteConfig = FirebaseRemoteConfig.instance;
-    _remoteConfig.ensureInitialized();
-    await _remoteConfig.setConfigSettings(RemoteConfigSettings(
-      fetchTimeout: const Duration(minutes: 1),
-      minimumFetchInterval: const Duration(hours: 1),
-    ));
-    await _remoteConfig.setDefaults({
-      FirebaseConstant.get.homeHeroKey:
-          "https://img.freepik.com/free-photo/sports-tools_53876-138077.jpg",
-    });
-    final res = await _remoteConfig.fetchAndActivate();
-    return res;
+    try {
+      _remoteConfig = FirebaseRemoteConfig.instance;
+      _remoteConfig.ensureInitialized();
+      await _remoteConfig.setConfigSettings(RemoteConfigSettings(
+        fetchTimeout: const Duration(minutes: 1),
+        minimumFetchInterval: const Duration(hours: 1),
+      ));
+      await _remoteConfig.setDefaults({
+        FirebaseConstant.get.homeHeroKey:
+            "https://img.freepik.com/free-photo/sports-tools_53876-138077.jpg",
+        FirebaseConstant.get.isGoogleFitAvailable: false,
+        FirebaseConstant.get.isGoogleOAuthAvailable: false,
+      });
+      final res = await _remoteConfig.fetchAndActivate();
+      return res;
+    } catch (e) {
+      return false;
+    }
   }
 
   RemoteConfig() {
@@ -37,10 +43,23 @@ class RemoteConfig with FirebaseCrashLogger {
       return Right(value);
     } on FirebaseException catch (e, s) {
       nonFatalError(error: e, stackTrace: s);
-      return left(FirebaseFailure(e.message ?? "FirebaseException"));
+      return Left(FirebaseFailure(e.message ?? "FirebaseException"));
     } catch (e, s) {
       nonFatalError(error: e, stackTrace: s);
-      return left(FirebaseFailure(e.toString()));
+      return Left(FirebaseFailure(e.toString()));
+    }
+  }
+
+  Future<Either<Failure, bool>> getBool(String key) async {
+    try {
+      final value = _remoteConfig.getBool(key);
+      return Right(value);
+    } on FirebaseException catch (e, s) {
+      nonFatalError(error: e, stackTrace: s);
+      return Left(FirebaseFailure(e.message ?? "FirebaseException"));
+    } catch (e, s) {
+      nonFatalError(error: e, stackTrace: s);
+      return Left(FirebaseFailure(e.toString()));
     }
   }
 }

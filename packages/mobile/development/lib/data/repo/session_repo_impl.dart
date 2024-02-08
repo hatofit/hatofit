@@ -58,24 +58,31 @@ class SessionRepoImpl implements SessionRepo {
   Future<Either<Failure, List<SessionEntity>>> getSessions(
     GetSessionsParams params,
   ) async {
-    final res = await _remote.getSessions(params);
-    return res.fold(
-      (failure) async {
-        return await _local.getSessions();
-      },
-      (sessionModels) async {
-        final parser = ModelToEntityIsolateParser<List<SessionEntity>>(
-          sessionModels,
-          (res) {
-            return res.map((e) => e.toEntity()).toList();
-          },
-        );
-        final res = await parser.parseInBackground();
-        for (var element in res) {
-          await _local.cacheSession(element.id ?? "", element);
-        }
-        return Right(res);
-      },
-    );
+    if (await _info.isHatofitConnected) {
+      final res = await _remote.getSessions(params);
+      return res.fold(
+        (failure) async {
+          return await _local.getSessions();
+        },
+        (sessionModels) async {
+          final parser = ModelToEntityIsolateParser<List<SessionEntity>>(
+            sessionModels,
+            (res) {
+              final List<SessionModel> resM = res.cast<SessionModel>();
+              final List<SessionEntity> resE =
+                  resM.map((e) => e.toEntity()).toList();
+              return resE;
+            },
+          );
+          final res = await parser.parseInBackground();
+          for (var element in res) {
+            await _local.cacheSession(element.id ?? "", element);
+          }
+          return Right(res);
+        },
+      );
+    } else {
+      return _local.getSessions();
+    }
   }
 }

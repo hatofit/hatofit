@@ -17,11 +17,10 @@ extension StringExt on String {
     return '${this[0].toUpperCase()}${substring(1)}';
   }
 
-  void toToastError(BuildContext context) {
+  void toToastError(BuildContext context, {TextAlign? textAlign}) {
     try {
       final message = isEmpty ? "error" : this;
 
-      //dismiss before show toast
       dismissAllToast(showAnim: true);
 
       showToastWidget(
@@ -30,6 +29,7 @@ extension StringExt on String {
           icon: Icons.error,
           message: message,
           textColor: Colors.white,
+          textAlign: textAlign,
         ),
         dismissOtherToast: true,
         position: ToastPosition.top,

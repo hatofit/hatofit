@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -22,4 +23,5 @@ abstract class PolarBLERepo {
   Stream<Either<Failure, PolarStreamingData<PolarEcgSample>>> streamEcg(
     StreamPolarParams params,
   );
+  Stream<Either<Failure, BluetoothConnectionState>> polarState();
 }

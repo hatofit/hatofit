@@ -29,6 +29,18 @@ class StringsEn extends Strings {
   String get disconnect => 'Disconnect';
 
   @override
+  String get noExerciseDataToday => 'No exercise data today';
+
+  @override
+  String get sessionExpired => 'Session Expired, please sign in again';
+
+  @override
+  String get toUseThisFeatureYouNeedToConnectYourDevice => 'To use this feature, you need to connect your device';
+
+  @override
+  String get workoutMenuNotAvailable => 'Workout menu not available';
+
+  @override
   String get loading => 'Loading...';
 
   @override
@@ -227,13 +239,22 @@ class StringsEn extends Strings {
   String get makeSureYourDeviceIsTurnedOnAndNearby => 'Make sure your device is turned on and nearby';
 
   @override
-  String get failedConnectToServer => 'Failed connect to Server';
-
-  @override
-  String get usingOfflineMode => 'Using offline mode';
+  String get failedConnectToServer => 'Failed connect to server. Using offline mode';
 
   @override
   String get name => 'Name';
+
+  @override
+  String get freeTraining => 'Free Training';
+
+  @override
+  String get failedToStartWorkout => 'Failed to start training, to start training, complete your profile';
+
+  @override
+  String get heartRate => 'Heart Rate';
+
+  @override
+  String get duration => 'Duration';
 
   @override
   String get exerciseNow => 'Exercise Now';

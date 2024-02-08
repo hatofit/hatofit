@@ -80,7 +80,16 @@ class DioClient with FirebaseCrashLogger {
 
       return Right(result);
     } on DioException catch (e, stackTrace) {
+      log.e("Error: $e");
       nonFatalError(error: e, stackTrace: stackTrace);
+
+      if (e.response?.statusCode == 404) {
+        return const Left(
+          ServerFailure(
+            message: "Internal Server Error",
+          ),
+        );
+      }
       return Left(
         ServerFailure(
           message: e.response == null
@@ -235,7 +244,7 @@ class DioClient with FirebaseCrashLogger {
   }) async {
     try {
       final defaultPath = (await getExternalStorageDirectory())?.path;
-      final response = await dio.download(
+      final response = await Dio().download(
         url,
         "$defaultPath/$savePath",
         queryParameters: queryParameters,

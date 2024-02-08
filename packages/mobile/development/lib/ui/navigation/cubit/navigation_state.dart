@@ -7,8 +7,9 @@ class NavigationState with _$NavigationState {
     BluetoothAdapterState? state,
     List<BleEntity>? fDevices,
     BleEntity? cDevice,
-    int? hr,
+    PolarHrSample? hrSample,
     BluetoothFailure? bleFailure,
+    BluetoothConnectionState? conState,
     @Default(false) bool isLoading,
   }) = _NavigationState;
 }

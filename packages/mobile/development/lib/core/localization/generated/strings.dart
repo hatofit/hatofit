@@ -141,6 +141,30 @@ abstract class Strings {
   /// **'Disconnect'**
   String get disconnect;
 
+  /// No description provided for @noExerciseDataToday.
+  ///
+  /// In en, this message translates to:
+  /// **'No exercise data today'**
+  String get noExerciseDataToday;
+
+  /// No description provided for @sessionExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Session Expired, please sign in again'**
+  String get sessionExpired;
+
+  /// No description provided for @toUseThisFeatureYouNeedToConnectYourDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'To use this feature, you need to connect your device'**
+  String get toUseThisFeatureYouNeedToConnectYourDevice;
+
+  /// No description provided for @workoutMenuNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout menu not available'**
+  String get workoutMenuNotAvailable;
+
   /// No description provided for @loading.
   ///
   /// In en, this message translates to:
@@ -540,20 +564,38 @@ abstract class Strings {
   /// No description provided for @failedConnectToServer.
   ///
   /// In en, this message translates to:
-  /// **'Failed connect to Server'**
+  /// **'Failed connect to server. Using offline mode'**
   String get failedConnectToServer;
-
-  /// No description provided for @usingOfflineMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Using offline mode'**
-  String get usingOfflineMode;
 
   /// No description provided for @name.
   ///
   /// In en, this message translates to:
   /// **'Name'**
   String get name;
+
+  /// No description provided for @freeTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'Free Training'**
+  String get freeTraining;
+
+  /// No description provided for @failedToStartWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to start training, to start training, complete your profile'**
+  String get failedToStartWorkout;
+
+  /// No description provided for @heartRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Heart Rate'**
+  String get heartRate;
+
+  /// No description provided for @duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get duration;
 
   /// No description provided for @exerciseNow.
   ///

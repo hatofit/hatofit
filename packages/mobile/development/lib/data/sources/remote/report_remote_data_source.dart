@@ -35,7 +35,7 @@ class ReportRemoteDataSourceImpl implements ReportRemoteDataSource {
   ) async {
     final res = await _client.getRequest(
       APIConstant.get.report,
-      queryParameters: params.toJson(),
+      // queryParameters: params.toJson(),
       converter: (res) {
         List<ReportModel> reports = [];
         for (var element in res['reports']) {

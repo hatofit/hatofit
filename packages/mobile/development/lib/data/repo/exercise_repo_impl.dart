@@ -46,7 +46,10 @@ class ExerciseRepoImpl implements ExerciseRepo {
           final parser = ModelToEntityIsolateParser<List<ExerciseEntity>>(
             exerciseModels,
             (res) {
-              return res.map((e) => e.toEntity()).toList();
+              final List<ExerciseModel> resM = res.cast<ExerciseModel>();
+              final List<ExerciseEntity> resE =
+                  resM.map((e) => e.toEntity()).toList();
+              return resE;
             },
           );
           final res = await parser.parseInBackground();

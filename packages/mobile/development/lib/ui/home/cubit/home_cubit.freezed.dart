@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$HomeState {
-  List<HrBarChartItem>? get hrData => throw _privateConstructorUsedError;
+  List<HrBarChartItem> get hrData => throw _privateConstructorUsedError;
   double get calories => throw _privateConstructorUsedError;
   double get bmi => throw _privateConstructorUsedError;
   UserEntity? get user => throw _privateConstructorUsedError;
@@ -34,7 +34,7 @@ abstract class $HomeStateCopyWith<$Res> {
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
   $Res call(
-      {List<HrBarChartItem>? hrData,
+      {List<HrBarChartItem> hrData,
       double calories,
       double bmi,
       UserEntity? user,
@@ -57,7 +57,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hrData = freezed,
+    Object? hrData = null,
     Object? calories = null,
     Object? bmi = null,
     Object? user = freezed,
@@ -65,10 +65,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? dateNow = freezed,
   }) {
     return _then(_value.copyWith(
-      hrData: freezed == hrData
+      hrData: null == hrData
           ? _value.hrData
           : hrData // ignore: cast_nullable_to_non_nullable
-              as List<HrBarChartItem>?,
+              as List<HrBarChartItem>,
       calories: null == calories
           ? _value.calories
           : calories // ignore: cast_nullable_to_non_nullable
@@ -114,7 +114,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {List<HrBarChartItem>? hrData,
+      {List<HrBarChartItem> hrData,
       double calories,
       double bmi,
       UserEntity? user,
@@ -136,7 +136,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hrData = freezed,
+    Object? hrData = null,
     Object? calories = null,
     Object? bmi = null,
     Object? user = freezed,
@@ -144,10 +144,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? dateNow = freezed,
   }) {
     return _then(_$HomeStateImpl(
-      hrData: freezed == hrData
+      hrData: null == hrData
           ? _value._hrData
           : hrData // ignore: cast_nullable_to_non_nullable
-              as List<HrBarChartItem>?,
+              as List<HrBarChartItem>,
       calories: null == calories
           ? _value.calories
           : calories // ignore: cast_nullable_to_non_nullable
@@ -176,7 +176,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 
 class _$HomeStateImpl implements _HomeState {
   _$HomeStateImpl(
-      {final List<HrBarChartItem>? hrData,
+      {final List<HrBarChartItem> hrData = const [],
       this.calories = 0,
       this.bmi = 0,
       this.user,
@@ -184,14 +184,13 @@ class _$HomeStateImpl implements _HomeState {
       this.dateNow})
       : _hrData = hrData;
 
-  final List<HrBarChartItem>? _hrData;
+  final List<HrBarChartItem> _hrData;
   @override
-  List<HrBarChartItem>? get hrData {
-    final value = _hrData;
-    if (value == null) return null;
+  @JsonKey()
+  List<HrBarChartItem> get hrData {
     if (_hrData is EqualUnmodifiableListView) return _hrData;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_hrData);
   }
 
   @override
@@ -245,7 +244,7 @@ class _$HomeStateImpl implements _HomeState {
 
 abstract class _HomeState implements HomeState {
   factory _HomeState(
-      {final List<HrBarChartItem>? hrData,
+      {final List<HrBarChartItem> hrData,
       final double calories,
       final double bmi,
       final UserEntity? user,
@@ -253,7 +252,7 @@ abstract class _HomeState implements HomeState {
       final String? dateNow}) = _$HomeStateImpl;
 
   @override
-  List<HrBarChartItem>? get hrData;
+  List<HrBarChartItem> get hrData;
   @override
   double get calories;
   @override

@@ -24,10 +24,13 @@ mixin _$NavigationState {
   set fDevices(List<BleEntity>? value) => throw _privateConstructorUsedError;
   BleEntity? get cDevice => throw _privateConstructorUsedError;
   set cDevice(BleEntity? value) => throw _privateConstructorUsedError;
-  int? get hr => throw _privateConstructorUsedError;
-  set hr(int? value) => throw _privateConstructorUsedError;
+  PolarHrSample? get hrSample => throw _privateConstructorUsedError;
+  set hrSample(PolarHrSample? value) => throw _privateConstructorUsedError;
   BluetoothFailure? get bleFailure => throw _privateConstructorUsedError;
   set bleFailure(BluetoothFailure? value) => throw _privateConstructorUsedError;
+  BluetoothConnectionState? get conState => throw _privateConstructorUsedError;
+  set conState(BluetoothConnectionState? value) =>
+      throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   set isLoading(bool value) => throw _privateConstructorUsedError;
 
@@ -47,8 +50,9 @@ abstract class $NavigationStateCopyWith<$Res> {
       BluetoothAdapterState? state,
       List<BleEntity>? fDevices,
       BleEntity? cDevice,
-      int? hr,
+      PolarHrSample? hrSample,
       BluetoothFailure? bleFailure,
+      BluetoothConnectionState? conState,
       bool isLoading});
 
   $BleEntityCopyWith<$Res>? get cDevice;
@@ -71,8 +75,9 @@ class _$NavigationStateCopyWithImpl<$Res, $Val extends NavigationState>
     Object? state = freezed,
     Object? fDevices = freezed,
     Object? cDevice = freezed,
-    Object? hr = freezed,
+    Object? hrSample = freezed,
     Object? bleFailure = freezed,
+    Object? conState = freezed,
     Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
@@ -92,14 +97,18 @@ class _$NavigationStateCopyWithImpl<$Res, $Val extends NavigationState>
           ? _value.cDevice
           : cDevice // ignore: cast_nullable_to_non_nullable
               as BleEntity?,
-      hr: freezed == hr
-          ? _value.hr
-          : hr // ignore: cast_nullable_to_non_nullable
-              as int?,
+      hrSample: freezed == hrSample
+          ? _value.hrSample
+          : hrSample // ignore: cast_nullable_to_non_nullable
+              as PolarHrSample?,
       bleFailure: freezed == bleFailure
           ? _value.bleFailure
           : bleFailure // ignore: cast_nullable_to_non_nullable
               as BluetoothFailure?,
+      conState: freezed == conState
+          ? _value.conState
+          : conState // ignore: cast_nullable_to_non_nullable
+              as BluetoothConnectionState?,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -133,8 +142,9 @@ abstract class _$$NavigationStateImplCopyWith<$Res>
       BluetoothAdapterState? state,
       List<BleEntity>? fDevices,
       BleEntity? cDevice,
-      int? hr,
+      PolarHrSample? hrSample,
       BluetoothFailure? bleFailure,
+      BluetoothConnectionState? conState,
       bool isLoading});
 
   @override
@@ -156,8 +166,9 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
     Object? state = freezed,
     Object? fDevices = freezed,
     Object? cDevice = freezed,
-    Object? hr = freezed,
+    Object? hrSample = freezed,
     Object? bleFailure = freezed,
+    Object? conState = freezed,
     Object? isLoading = null,
   }) {
     return _then(_$NavigationStateImpl(
@@ -177,14 +188,18 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
           ? _value.cDevice
           : cDevice // ignore: cast_nullable_to_non_nullable
               as BleEntity?,
-      hr: freezed == hr
-          ? _value.hr
-          : hr // ignore: cast_nullable_to_non_nullable
-              as int?,
+      hrSample: freezed == hrSample
+          ? _value.hrSample
+          : hrSample // ignore: cast_nullable_to_non_nullable
+              as PolarHrSample?,
       bleFailure: freezed == bleFailure
           ? _value.bleFailure
           : bleFailure // ignore: cast_nullable_to_non_nullable
               as BluetoothFailure?,
+      conState: freezed == conState
+          ? _value.conState
+          : conState // ignore: cast_nullable_to_non_nullable
+              as BluetoothConnectionState?,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -201,8 +216,9 @@ class _$NavigationStateImpl implements _NavigationState {
       this.state,
       this.fDevices,
       this.cDevice,
-      this.hr,
+      this.hrSample,
       this.bleFailure,
+      this.conState,
       this.isLoading = false});
 
   @override
@@ -214,16 +230,18 @@ class _$NavigationStateImpl implements _NavigationState {
   @override
   BleEntity? cDevice;
   @override
-  int? hr;
+  PolarHrSample? hrSample;
   @override
   BluetoothFailure? bleFailure;
+  @override
+  BluetoothConnectionState? conState;
   @override
   @JsonKey()
   bool isLoading;
 
   @override
   String toString() {
-    return 'NavigationState(isScanning: $isScanning, state: $state, fDevices: $fDevices, cDevice: $cDevice, hr: $hr, bleFailure: $bleFailure, isLoading: $isLoading)';
+    return 'NavigationState(isScanning: $isScanning, state: $state, fDevices: $fDevices, cDevice: $cDevice, hrSample: $hrSample, bleFailure: $bleFailure, conState: $conState, isLoading: $isLoading)';
   }
 
   @JsonKey(ignore: true)
@@ -240,8 +258,9 @@ abstract class _NavigationState implements NavigationState {
       BluetoothAdapterState? state,
       List<BleEntity>? fDevices,
       BleEntity? cDevice,
-      int? hr,
+      PolarHrSample? hrSample,
       BluetoothFailure? bleFailure,
+      BluetoothConnectionState? conState,
       bool isLoading}) = _$NavigationStateImpl;
 
   @override
@@ -257,11 +276,14 @@ abstract class _NavigationState implements NavigationState {
   BleEntity? get cDevice;
   set cDevice(BleEntity? value);
   @override
-  int? get hr;
-  set hr(int? value);
+  PolarHrSample? get hrSample;
+  set hrSample(PolarHrSample? value);
   @override
   BluetoothFailure? get bleFailure;
   set bleFailure(BluetoothFailure? value);
+  @override
+  BluetoothConnectionState? get conState;
+  set conState(BluetoothConnectionState? value);
   @override
   bool get isLoading;
   set isLoading(bool value);

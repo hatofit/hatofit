@@ -3,7 +3,7 @@ part of 'home_cubit.dart';
 @freezed
 class HomeState with _$HomeState {
   factory HomeState({
-    List<HrBarChartItem>? hrData,
+    @Default([]) List<HrBarChartItem> hrData,
     @Default(0) double calories,
     @Default(0) double bmi,
     UserEntity? user,

@@ -45,18 +45,16 @@ class FoundDevices extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<NavigationCubit, NavigationState>(
-      listenWhen: (p, c) =>
-          (c.bleFailure != null && c.bleFailure != p.bleFailure) ||
-          p.cDevice != c.cDevice,
+      listenWhen: (p, c) => p.cDevice != c.cDevice,
       listener: (context, state) {
         if (state.cDevice != null) {
           context.dismiss();
           Strings.of(context)!.successConnectToDevice.toToastSuccess(context);
         } else {
+          context.dismiss();
           Strings.of(context)!.disconnectedFromDevice.toToastSuccess(context);
         }
-        if (state.bleFailure != null) {
-          log.e(state.bleFailure!.message);
+        if (state.bleFailure != null) { 
           context.dismiss();
           Strings.of(context)!.failedConnectToDevice.toToastError(context);
         }
@@ -177,7 +175,7 @@ class FoundDevices extends StatelessWidget {
                               ),
                             ],
                           ),
-                          state.cDevice != state.fDevices![index]
+                          state.cDevice == null
                               ? ElevatedButton(
                                   onPressed: state.cDevice == null &&
                                           state

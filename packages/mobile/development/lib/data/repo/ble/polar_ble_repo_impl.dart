@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -47,6 +48,13 @@ class PolarBLERepoImpl implements PolarBLERepo {
   ) async* {
     await for (final data
         in _client.polarEcgStream(params.deviceId, params.types)) {
+      yield data;
+    }
+  }
+
+  @override
+  Stream<Either<Failure, BluetoothConnectionState>> polarState() async* {
+    await for (final data in _client.polarInterceptor()) {
       yield data;
     }
   }

@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:collection';
 
 import 'package:dartz/dartz.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:hatofit/core/core.dart';
+import 'package:hatofit/utils/helper/logger.dart';
 import 'package:hatofit/utils/services/firebase/firebase.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:polar/polar.dart';
@@ -75,6 +77,7 @@ class PolarClient with FirebaseCrashLogger {
       await polar.connectToDevice(deviceId);
       return const Right(null);
     } catch (error, stackTrace) {
+      log.e("Polar connectToDevice error: $error");
       nonFatalError(error: error, stackTrace: stackTrace);
       return Left(BluetoothFailure(error.toString()));
     }
@@ -87,6 +90,7 @@ class PolarClient with FirebaseCrashLogger {
       await polar.disconnectFromDevice(deviceId);
       return const Right(null);
     } catch (error, stackTrace) {
+      log.e("Polar disconnectFromDevice error: $error");
       nonFatalError(error: error, stackTrace: stackTrace);
       return Left(BluetoothFailure(error.toString()));
     }

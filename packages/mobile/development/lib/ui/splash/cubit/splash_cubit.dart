@@ -27,6 +27,7 @@ class SplashCubit extends Cubit<SplashState> {
   ) : super(const _Initial());
 
   Future<void> init() async {
+    await getLocalUser();
     await requestPermissions();
     await checkAuth();
     checkMood();
@@ -40,6 +41,7 @@ class SplashCubit extends Cubit<SplashState> {
     final res = await _meUseCase.call();
     res.fold(
       (l) {
+        log.e("Check Auth Error: $l");
         if (l is NoInternetFailure) {
           safeEmit(
             const _Offline(),
@@ -72,6 +74,12 @@ class SplashCubit extends Cubit<SplashState> {
     );
   }
 
+  bool _isInitialized = false;
+  UserEntity? _user;
+
+  bool get isInitialized => _isInitialized;
+  UserEntity? get user => _user;
+
   Future<void> checkMood() async {
     final res = await _getMoodUsecase.call();
     res.fold((l) async => await _clearMoodUsecase.call(), (r) {
@@ -84,9 +92,15 @@ class SplashCubit extends Cubit<SplashState> {
     });
   }
 
-  Future<UserEntity?> getLocalUser() async {
-    final res = await _getUserUsecase.call();
-    return res.fold((l) => null, (r) => r);
+  Future<void> getLocalUser() async {
+    final res = await _getUserUsecase.call(GetUserParams(fromLocal: false));
+    return res.fold((l) {
+      _isInitialized = false;
+      _user = null;
+    }, (r) {
+      _isInitialized = true;
+      _user = r;
+    });
   }
 
   Future<void> setOfflineMode(bool value) async {

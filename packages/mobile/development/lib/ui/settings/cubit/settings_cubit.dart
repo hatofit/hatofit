@@ -55,7 +55,7 @@ class SettingsCubit extends Cubit<DataHelper> {
   ) async {
     _updateActiveThemeUsecase.call(theme);
     _updateLanguageUsecase.call(locale);
-    final res = await _getUserUsecase.call();
+    final res = await _getUserUsecase.call(GetUserParams(fromLocal: false));
     res.fold((l) => null, (r) {
       _updateUserUsecase.call(UpdateUserParams(
         forLocal: true,

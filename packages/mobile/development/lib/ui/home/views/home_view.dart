@@ -32,26 +32,7 @@ class _HomeViewState extends State<HomeView> {
                 const ConnectedDevice(),
                 const ExerciseNow(),
                 SizedBox(height: Dimens.height16),
-                ContainerWrapper(
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          IconWrapper(
-                            icon: Icons.show_chart_rounded,
-                            color:
-                                Theme.of(context).extension<AppColors>()!.red!,
-                          ),
-                          SizedBox(width: Dimens.width8),
-                          Text(
-                            Strings.of(context)!.activityTrends,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                const HrBarChart(),
                 SizedBox(height: Dimens.height8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

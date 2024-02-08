@@ -11,7 +11,7 @@ class ConnectedDevice extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationCubit, NavigationState>(
       builder: (context, state) {
-        return state.hr != null
+        return state.hrSample != null
             ? Column(
                 children: [
                   ContainerWrapper(
@@ -74,7 +74,7 @@ class ConnectedDevice extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    state.hr.toString(),
+                                    state.hrSample!.hr.toString(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .headlineMedium!

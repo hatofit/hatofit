@@ -21,6 +21,7 @@ class AuthCubit extends Cubit<AuthState> {
   final VerifyCodeUseCase _verifyCodeUseCase;
   final ResetPasswordUsecase _resetPasswordUsecase;
   final GetUserUsecase _getUserUsecase;
+  final GetBoolFirebaseUsecase _getBoolFirebaseUsecase;
 
   AuthCubit(
     this._loginUsecase,
@@ -31,7 +32,26 @@ class AuthCubit extends Cubit<AuthState> {
     this._registerUsecase,
     this._imageFromGalleryUsecase,
     this._getUserUsecase,
+    this._getBoolFirebaseUsecase,
   ) : super(const _Initial());
+
+  void init() {
+    checkGoogleOauthAvailability();
+  }
+
+  bool isGoogleOauthAvailable = false;
+
+  void checkGoogleOauthAvailability() async {
+    final res = await _getBoolFirebaseUsecase
+        .call(FirebaseConstant.get.isGoogleFitAvailable);
+    res.fold((l) {
+      if (l is ServerFailure) {
+        isGoogleOauthAvailable = false;
+      }
+    }, (r) {
+      isGoogleOauthAvailable = r;
+    });
+  }
 
   bool? isPasswordHide = true;
   bool? isPasswordRepeatHide = true;
@@ -108,7 +128,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   void signUpWithRestAPI(RegisterParams params) async {
     emit(const _Loading());
-    final user = await _getUserUsecase.call();
+    final user = await _getUserUsecase.call(GetUserParams(fromLocal: false));
     user.fold((l) => null, (r) async {
       try {
         final Either<Failure, AuthResponseEntity> res =

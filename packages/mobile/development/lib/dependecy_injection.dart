@@ -3,7 +3,6 @@ import 'package:hatofit/core/core.dart';
 import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
 import 'package:hatofit/ui/ui.dart';
-import 'package:hatofit/utils/utils.dart';
 
 GetIt di = GetIt.instance;
 
@@ -14,7 +13,6 @@ Future<void> mainInjection() async {
   di.registerLazySingleton<ImagePickerClient>(() => ImagePickerClient());
   di.registerLazySingleton<PolarClient>(() => PolarClient());
   di.registerLazySingleton<CommonClient>(() => CommonClient());
-  di.registerSingleton<NativeMethods>(NativeMethodsImpl());
 
   _remoteDataSources();
   _localDataSources();
@@ -31,7 +29,7 @@ Future<void> _initHiveBoxes() async {
 }
 
 Future<void> _initNetwork() async {
-  await NetworkInfo.initNetworkInfo();
+  // await NetworkInfo.initNetworkInfo();
   di.registerSingleton<NetworkInfo>(NetworkInfo());
   di.registerSingleton<DioClient>(DioClient(
     di(),
@@ -169,6 +167,7 @@ void _useCase() {
   di.registerLazySingleton(() => DisconnectPolarBLEUsecase(di()));
   di.registerLazySingleton(() => GetServicesPolarBLEUsecase(di()));
   di.registerLazySingleton(() => StreamHrPolarBLEUsecase(di()));
+  di.registerLazySingleton(() => StatePolarBleUsecase(di()));
 
   /// [Image]
   ///
@@ -204,6 +203,7 @@ void _useCase() {
   /// [Firebase]
   ///
   di.registerLazySingleton(() => GetStringFirebaseUsecase(di()));
+  di.registerLazySingleton(() => GetBoolFirebaseUsecase(di()));
 
   /// [App Config]
   ///
@@ -225,6 +225,7 @@ void _cubit() {
         di(),
       ));
   di.registerFactory(() => AuthCubit(
+        di(),
         di(),
         di(),
         di(),
@@ -256,12 +257,14 @@ void _cubit() {
       ));
   di.registerFactory(() => WorkoutCubit(
         di(),
+        di(),
       ));
   di.registerFactory(() => ActivityCubit(
         di(),
       ));
 
   di.registerFactory(() => NavigationCubit(
+        di(),
         di(),
         di(),
         di(),

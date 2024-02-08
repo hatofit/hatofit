@@ -3,7 +3,9 @@ import 'package:hatofit/core/error/failure.dart';
 import 'package:hatofit/domain/domain.dart';
 
 abstract class UserRepo {
-  Future<Either<Failure, UserEntity>> getUser();
+  Future<Either<Failure, UserEntity>> getUser(
+    GetUserParams params,
+  );
   Future<Either<Failure, UserEntity>> updateUser(
     UpdateUserParams params,
   );

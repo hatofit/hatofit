@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/ui/ui.dart';
+import 'package:hatofit/utils/utils.dart';
 
 class ExerciseNow extends StatelessWidget {
   const ExerciseNow({super.key});
@@ -61,11 +63,19 @@ class ExerciseNow extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed:
-                                  context.watch<NavigationCubit>().state.hr ==
-                                          null
-                                      ? null
-                                      : () {},
+                              onPressed: () {
+                                context
+                                            .read<NavigationCubit>()
+                                            .state
+                                            .hrSample ==
+                                        null
+                                    ? Strings.of(context)!
+                                        .toUseThisFeatureYouNeedToConnectYourDevice
+                                        .toToastError(context,
+                                            textAlign: TextAlign.center)
+                                    : context
+                                        .pushNamed(Routes.freeWorkout.name);
+                              },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [

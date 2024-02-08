@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:hatofit/core/core.dart';
 import 'package:hatofit/ui/navigation/cubit/navigation_cubit.dart';
-import 'package:hatofit/utils/services/native_methods.dart';
+import 'package:hatofit/ui/navigation/widgets/device_discover.dart';
 
 class AppBarView extends StatelessWidget {
   const AppBarView({
@@ -32,14 +31,14 @@ class AppBarView extends StatelessWidget {
                       ? IconButton(
                           icon: Icon(
                             Icons.bluetooth,
-                            color:
-                                state.hr != null ? Colors.blue : Colors.white,
+                            color: state.hrSample != null
+                                ? Colors.blue
+                                : Colors.white,
                           ),
                           onPressed: () {
                             context.read<NavigationCubit>().startScan();
                             showModalBottomSheet(
                               showDragHandle: true,
-                              // isScrollControlled: true,
                               context: context,
                               builder: (context) {
                                 return const DeviceDiscover();
@@ -52,9 +51,7 @@ class AppBarView extends StatelessWidget {
                             Icons.bluetooth_disabled,
                             color: Colors.red,
                           ),
-                          onPressed: () {
-                            context.read<NativeMethods>().turnOnBluetooth();
-                          },
+                          onPressed: () async => FlutterBluePlus.turnOn(),
                         );
                 },
               ),

@@ -48,21 +48,30 @@ class _SplashScreenPageState extends State<SplashView> {
               context.goNamed(Routes.root.name);
             },
             unauthorized: (message) {
+              if (context.read<SplashCubit>().isInitialized) {
+                Strings.of(context)!.sessionExpired.toToastError(context);
+              }
               context.read<SplashCubit>().setOfflineMode(false);
-              context.goNamed(Routes.greeting.name);
+              final user = context.read<SplashCubit>().user;
+              if (user != null &&
+                  user.metricUnits != null &&
+                  user.height != null &&
+                  user.weight != null &&
+                  user.dateOfBirth != null) {
+                context.goNamed(Routes.login.name);
+              } else {
+                context.goNamed(Routes.greeting.name);
+              }
             },
             offline: () {
-              context.read<SplashCubit>().setOfflineMode(true);
               Strings.of(context)!.failedConnectToServer.toToastError(context);
+              context.read<SplashCubit>().setOfflineMode(true);
               Future.delayed(Durations.long3, () {
-                Strings.of(context)!.usingOfflineMode.toToastError(context);
-                context.read<SplashCubit>().getLocalUser().then((value) {
-                  if (value != null) {
-                    context.goNamed(Routes.home.name);
-                  } else {
-                    context.goNamed(Routes.greeting.name);
-                  }
-                });
+                if (context.read<SplashCubit>().user != null) {
+                  context.goNamed(Routes.home.name);
+                } else {
+                  context.goNamed(Routes.greeting.name);
+                }
               });
             },
           );

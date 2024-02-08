@@ -27,11 +27,11 @@ class BottomNavigationView extends StatefulWidget {
     ),
     NavigationDestination(
       icon: Icon(
-        Icons.work,
+        Icons.local_fire_department,
         size: 28,
       ),
       selectedIcon: Icon(
-        Icons.work,
+        Icons.local_fire_department,
         size: 28,
         color: Palette.primary,
       ),

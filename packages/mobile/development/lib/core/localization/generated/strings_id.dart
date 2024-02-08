@@ -29,6 +29,18 @@ class StringsId extends Strings {
   String get disconnect => 'Putuskan';
 
   @override
+  String get noExerciseDataToday => 'Tidak ada data latihan hari ini';
+
+  @override
+  String get sessionExpired => 'Sesi berakhir, silahkan masuk kembali';
+
+  @override
+  String get toUseThisFeatureYouNeedToConnectYourDevice => 'Untuk menggunakan fitur ini, anda perlu menghubungkan perangkat anda';
+
+  @override
+  String get workoutMenuNotAvailable => 'Menu latihan tidak tersedia';
+
+  @override
   String get loading => 'Memuat...';
 
   @override
@@ -227,13 +239,22 @@ class StringsId extends Strings {
   String get makeSureYourDeviceIsTurnedOnAndNearby => 'Pastikan perangkat anda menyala dan berada di dekat anda';
 
   @override
-  String get failedConnectToServer => 'Gagal terhubung ke Server';
-
-  @override
-  String get usingOfflineMode => 'Menggunakan mode luring';
+  String get failedConnectToServer => 'Gagal terhubung ke server. Menggunakan mode luring';
 
   @override
   String get name => 'Nama';
+
+  @override
+  String get freeTraining => 'Latihan bebas';
+
+  @override
+  String get failedToStartWorkout => 'Gagal memulai pelatihan, untuk memulai pelatihan, lengkapi profil anda';
+
+  @override
+  String get heartRate => 'Detak jantung';
+
+  @override
+  String get duration => 'Durasi';
 
   @override
   String get exerciseNow => 'Olahraga sekarang';

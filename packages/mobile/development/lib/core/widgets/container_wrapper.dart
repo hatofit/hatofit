@@ -7,6 +7,7 @@ class ContainerWrapper extends StatelessWidget {
   final Color? color;
   final double? width;
   final double? height;
+  final Border? border;
   const ContainerWrapper({
     super.key,
     required this.child,
@@ -14,15 +15,16 @@ class ContainerWrapper extends StatelessWidget {
     this.color,
     this.width,
     this.height,
+    this.border,
   });
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(paddingSize ?? Dimens.width8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(Dimens.width8),
-        color: color ?? Theme.of(context).cardColor,
-      ),
+          borderRadius: BorderRadius.circular(Dimens.width8),
+          color: color ?? Theme.of(context).cardColor,
+          border: border),
       width: width ?? double.infinity,
       height: height,
       child: child,

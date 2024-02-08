@@ -15,7 +15,10 @@ class UserRepoImpl implements UserRepo {
   );
 
   @override
-  Future<Either<Failure, UserEntity>> getUser() async {
+  Future<Either<Failure, UserEntity>> getUser(GetUserParams params) async {
+    if (params.fromLocal) {
+      return _local.getUser();
+    }
     if (await _info.isHatofitConnected) {
       final res = await _remote.getUser();
       return res.fold(
