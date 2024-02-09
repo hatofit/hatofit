@@ -3,13 +3,19 @@ part of 'navigation_cubit.dart';
 @unfreezed
 class NavigationState with _$NavigationState {
   factory NavigationState({
+    @Default(CubitStatus.initial) CubitStatus status,
     bool? isScanning,
     BluetoothAdapterState? state,
     List<BleEntity>? fDevices,
     BleEntity? cDevice,
-    PolarHrSample? hrSample,
     BluetoothFailure? bleFailure,
     BluetoothConnectionState? conState,
     @Default(false) bool isLoading,
+    PolarHrSample? hrSample,
+    List<PolarEcgSample>? ecgSample,
+    PolarAccSample? accSample,
+    PolarGyroSample? gyroSample,
+    PolarMagnetometerSample? magnetometerSample,
+    PolarPpgSample? ppgSample,
   }) = _NavigationState;
 }

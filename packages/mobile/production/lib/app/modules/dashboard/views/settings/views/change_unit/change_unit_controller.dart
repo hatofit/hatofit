@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hatofit/app/models/user_model.dart';
 import 'package:hatofit/app/services/internet_service.dart';
-import 'package:hatofit/utils/debug_logger.dart';
 
 import '../../../../../../services/preferences_service.dart';
 

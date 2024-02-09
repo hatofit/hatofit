@@ -11,9 +11,12 @@ class ExerciseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: Dimens.height100,
+      height: Dimens.height128,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(Dimens.radius15),
+          bottomRight: Radius.circular(Dimens.radius15),
+        ),
         image: DecorationImage(
           image: CachedNetworkImageProvider(
             exercise!.thumbnail ?? Constants.get.placeholderImage,
@@ -27,8 +30,9 @@ class ExerciseCard extends StatelessWidget {
       ),
       child: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            SizedBox(height: Dimens.height48),
             Text(
               exercise!.name ?? '',
               style: Theme.of(context)
@@ -36,6 +40,7 @@ class ExerciseCard extends StatelessWidget {
                   .headlineSmall
                   ?.copyWith(color: Colors.white, fontWeight: FontWeight.w500),
             ),
+            SizedBox(height: Dimens.height8),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

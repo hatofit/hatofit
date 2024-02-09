@@ -17,11 +17,24 @@ abstract class PolarBLERepo {
   Future<Either<Failure, Set<PolarDataType>>> getPolarServices(
     GetPolarServicesParams params,
   );
+  Stream<Either<Failure, BluetoothConnectionState>> polarState();
   Stream<Either<Failure, PolarStreamingData<PolarHrSample>>> streamHr(
     StreamPolarParams params,
   );
   Stream<Either<Failure, PolarStreamingData<PolarEcgSample>>> streamEcg(
     StreamPolarParams params,
   );
-  Stream<Either<Failure, BluetoothConnectionState>> polarState();
+  Stream<Either<Failure, PolarStreamingData<PolarAccSample>>> streamAcc(
+    StreamPolarParams params,
+  );
+  Stream<Either<Failure, PolarStreamingData<PolarGyroSample>>> streamGyro(
+    StreamPolarParams params,
+  );
+  Stream<Either<Failure, PolarStreamingData<PolarMagnetometerSample>>>
+      streamMagnetometer(
+    StreamPolarParams params,
+  );
+  Stream<Either<Failure, PolarStreamingData<PolarPpgSample>>> streamPpg(
+    StreamPolarParams params,
+  );
 }

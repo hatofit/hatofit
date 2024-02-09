@@ -28,7 +28,7 @@ class IntroCubit extends Cubit<IntroState> {
   }
 
   Future<void> getUser() async {
-    final res = await _getUserUsecase.call(GetUserParams(fromLocal: false));
+    final res = await _getUserUsecase.call(const GetUserParams(fromLocal: false));
     log.i("res: $res");
     res.fold(
         (l) => emit(IntroState(

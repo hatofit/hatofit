@@ -14,7 +14,7 @@ _$CreateSessionParamsImpl _$$CreateSessionParamsImplFromJson(
       startTime: json['startTime'] as int? ?? 0,
       endTime: json['endTime'] as int? ?? 0,
       mood: json['mood'] as String? ?? "",
-      timeline: (json['timeline'] as List<dynamic>?)
+      timelines: (json['timelines'] as List<dynamic>?)
               ?.map((e) =>
                   SessionTimelineParams.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -34,7 +34,7 @@ Map<String, dynamic> _$$CreateSessionParamsImplToJson(
       'startTime': instance.startTime,
       'endTime': instance.endTime,
       'mood': instance.mood,
-      'timeline': instance.timeline.map((e) => e.toJson()).toList(),
+      'timelines': instance.timelines.map((e) => e.toJson()).toList(),
       'data': instance.data.map((e) => e.toJson()).toList(),
     };
 

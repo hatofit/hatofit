@@ -166,8 +166,13 @@ void _useCase() {
   di.registerLazySingleton(() => ConnectPolarBLEUsecase(di()));
   di.registerLazySingleton(() => DisconnectPolarBLEUsecase(di()));
   di.registerLazySingleton(() => GetServicesPolarBLEUsecase(di()));
-  di.registerLazySingleton(() => StreamHrPolarBLEUsecase(di()));
   di.registerLazySingleton(() => StatePolarBleUsecase(di()));
+  di.registerLazySingleton(() => StreamHrPolarBLEUsecase(di()));
+  di.registerLazySingleton(() => StreamEcgPolarBLEUsecase(di()));
+  di.registerLazySingleton(() => StreamAccPolarBLEUsecase(di()));
+  di.registerLazySingleton(() => StreamGyroPolarBLEUsecase(di()));
+  di.registerLazySingleton(() => StreamMagnetometerPolarBLEUsecase(di()));
+  di.registerLazySingleton(() => StreamPpgPolarBLEUsecase(di()));
 
   /// [Image]
   ///
@@ -182,6 +187,7 @@ void _useCase() {
   /// [Session]
   ///
   di.registerLazySingleton(() => GetSessionsUsecase(di()));
+  di.registerLazySingleton(() => CreateSessionUsecase(di()));
   di.registerLazySingleton(() => GetSessionUsecase(di()));
 
   /// [User]
@@ -258,12 +264,18 @@ void _cubit() {
   di.registerFactory(() => WorkoutCubit(
         di(),
         di(),
+        di(),
       ));
   di.registerFactory(() => ActivityCubit(
         di(),
       ));
 
   di.registerFactory(() => NavigationCubit(
+        di(),
+        di(),
+        di(),
+        di(),
+        di(),
         di(),
         di(),
         di(),

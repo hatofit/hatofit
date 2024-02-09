@@ -50,6 +50,15 @@ class StringsEn extends Strings {
   String get appPreferences => 'App Preferences';
 
   @override
+  String get whatMoodAreYouIn => 'What mood are you in?';
+
+  @override
+  String get chooseAnEmojiThatRepresentsThisExercise => 'Choose an emoji that represents this exercise';
+
+  @override
+  String get endTraining => 'End Training';
+
+  @override
   String get userPreferences => 'User Preferences';
 
   @override
@@ -66,6 +75,12 @@ class StringsEn extends Strings {
 
   @override
   String get heightUnit => 'Height Unit';
+
+  @override
+  String get somethingWentWrong => 'Something went wrong';
+
+  @override
+  String get exerciseSuccessfullySaved => 'Exercise successfully saved';
 
   @override
   String get pickYourWeight => 'Pick your weight';
@@ -245,7 +260,13 @@ class StringsEn extends Strings {
   String get name => 'Name';
 
   @override
+  String get endExercise => 'End Exercise';
+
+  @override
   String get freeTraining => 'Free Training';
+
+  @override
+  String get percentage => 'Percentage';
 
   @override
   String get failedToStartWorkout => 'Failed to start training, to start training, complete your profile';
@@ -254,7 +275,13 @@ class StringsEn extends Strings {
   String get heartRate => 'Heart Rate';
 
   @override
+  String get areYouSureYouWantToEndWorkout => 'Are you sure you want to end training?';
+
+  @override
   String get duration => 'Duration';
+
+  @override
+  String get zone => 'Zone';
 
   @override
   String get exerciseNow => 'Exercise Now';
@@ -276,6 +303,12 @@ class StringsEn extends Strings {
 
   @override
   String get obese => 'Obesitas';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
 
   @override
   String get caloriesBurn => 'Calories Burn';

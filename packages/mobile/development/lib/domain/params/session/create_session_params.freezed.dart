@@ -25,7 +25,7 @@ mixin _$CreateSessionParams {
   int get startTime => throw _privateConstructorUsedError;
   int get endTime => throw _privateConstructorUsedError;
   String get mood => throw _privateConstructorUsedError;
-  List<SessionTimelineParams> get timeline =>
+  List<SessionTimelineParams> get timelines =>
       throw _privateConstructorUsedError;
   List<SessionDataItemParams> get data => throw _privateConstructorUsedError;
 
@@ -47,7 +47,7 @@ abstract class $CreateSessionParamsCopyWith<$Res> {
       int startTime,
       int endTime,
       String mood,
-      List<SessionTimelineParams> timeline,
+      List<SessionTimelineParams> timelines,
       List<SessionDataItemParams> data});
 }
 
@@ -69,7 +69,7 @@ class _$CreateSessionParamsCopyWithImpl<$Res, $Val extends CreateSessionParams>
     Object? startTime = null,
     Object? endTime = null,
     Object? mood = null,
-    Object? timeline = null,
+    Object? timelines = null,
     Object? data = null,
   }) {
     return _then(_value.copyWith(
@@ -93,9 +93,9 @@ class _$CreateSessionParamsCopyWithImpl<$Res, $Val extends CreateSessionParams>
           ? _value.mood
           : mood // ignore: cast_nullable_to_non_nullable
               as String,
-      timeline: null == timeline
-          ? _value.timeline
-          : timeline // ignore: cast_nullable_to_non_nullable
+      timelines: null == timelines
+          ? _value.timelines
+          : timelines // ignore: cast_nullable_to_non_nullable
               as List<SessionTimelineParams>,
       data: null == data
           ? _value.data
@@ -119,7 +119,7 @@ abstract class _$$CreateSessionParamsImplCopyWith<$Res>
       int startTime,
       int endTime,
       String mood,
-      List<SessionTimelineParams> timeline,
+      List<SessionTimelineParams> timelines,
       List<SessionDataItemParams> data});
 }
 
@@ -139,7 +139,7 @@ class __$$CreateSessionParamsImplCopyWithImpl<$Res>
     Object? startTime = null,
     Object? endTime = null,
     Object? mood = null,
-    Object? timeline = null,
+    Object? timelines = null,
     Object? data = null,
   }) {
     return _then(_$CreateSessionParamsImpl(
@@ -163,9 +163,9 @@ class __$$CreateSessionParamsImplCopyWithImpl<$Res>
           ? _value.mood
           : mood // ignore: cast_nullable_to_non_nullable
               as String,
-      timeline: null == timeline
-          ? _value._timeline
-          : timeline // ignore: cast_nullable_to_non_nullable
+      timelines: null == timelines
+          ? _value._timelines
+          : timelines // ignore: cast_nullable_to_non_nullable
               as List<SessionTimelineParams>,
       data: null == data
           ? _value._data
@@ -184,9 +184,9 @@ class _$CreateSessionParamsImpl implements _CreateSessionParams {
       this.startTime = 0,
       this.endTime = 0,
       this.mood = "",
-      final List<SessionTimelineParams> timeline = const [],
+      final List<SessionTimelineParams> timelines = const [],
       final List<SessionDataItemParams> data = const []})
-      : _timeline = timeline,
+      : _timelines = timelines,
         _data = data;
 
   factory _$CreateSessionParamsImpl.fromJson(Map<String, dynamic> json) =>
@@ -207,13 +207,13 @@ class _$CreateSessionParamsImpl implements _CreateSessionParams {
   @override
   @JsonKey()
   final String mood;
-  final List<SessionTimelineParams> _timeline;
+  final List<SessionTimelineParams> _timelines;
   @override
   @JsonKey()
-  List<SessionTimelineParams> get timeline {
-    if (_timeline is EqualUnmodifiableListView) return _timeline;
+  List<SessionTimelineParams> get timelines {
+    if (_timelines is EqualUnmodifiableListView) return _timelines;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_timeline);
+    return EqualUnmodifiableListView(_timelines);
   }
 
   final List<SessionDataItemParams> _data;
@@ -227,7 +227,7 @@ class _$CreateSessionParamsImpl implements _CreateSessionParams {
 
   @override
   String toString() {
-    return 'CreateSessionParams(userId: $userId, exerciseId: $exerciseId, startTime: $startTime, endTime: $endTime, mood: $mood, timeline: $timeline, data: $data)';
+    return 'CreateSessionParams(userId: $userId, exerciseId: $exerciseId, startTime: $startTime, endTime: $endTime, mood: $mood, timelines: $timelines, data: $data)';
   }
 
   @override
@@ -242,7 +242,8 @@ class _$CreateSessionParamsImpl implements _CreateSessionParams {
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
             (identical(other.mood, mood) || other.mood == mood) &&
-            const DeepCollectionEquality().equals(other._timeline, _timeline) &&
+            const DeepCollectionEquality()
+                .equals(other._timelines, _timelines) &&
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
@@ -255,7 +256,7 @@ class _$CreateSessionParamsImpl implements _CreateSessionParams {
       startTime,
       endTime,
       mood,
-      const DeepCollectionEquality().hash(_timeline),
+      const DeepCollectionEquality().hash(_timelines),
       const DeepCollectionEquality().hash(_data));
 
   @JsonKey(ignore: true)
@@ -280,7 +281,7 @@ abstract class _CreateSessionParams implements CreateSessionParams {
       final int startTime,
       final int endTime,
       final String mood,
-      final List<SessionTimelineParams> timeline,
+      final List<SessionTimelineParams> timelines,
       final List<SessionDataItemParams> data}) = _$CreateSessionParamsImpl;
 
   factory _CreateSessionParams.fromJson(Map<String, dynamic> json) =
@@ -297,7 +298,7 @@ abstract class _CreateSessionParams implements CreateSessionParams {
   @override
   String get mood;
   @override
-  List<SessionTimelineParams> get timeline;
+  List<SessionTimelineParams> get timelines;
   @override
   List<SessionDataItemParams> get data;
   @override

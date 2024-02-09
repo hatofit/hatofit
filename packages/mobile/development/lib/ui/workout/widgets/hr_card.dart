@@ -30,7 +30,7 @@ class HrCard extends StatelessWidget {
                   hr.toString(),
                   style: Theme.of(context)
                       .textTheme
-                      .headlineLarge!
+                      .headlineMedium!
                       .copyWith(fontWeight: FontWeight.w500),
                 ),
                 SizedBox(width: Dimens.width8),

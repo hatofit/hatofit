@@ -16,7 +16,7 @@ _$SessionModelImpl _$$SessionModelImplFromJson(Map<String, dynamic> json) =>
           : ExerciseModel.fromJson(json['exercise'] as Map<String, dynamic>),
       startTime: json['startTime'] as int?,
       endTime: json['endTime'] as int?,
-      timeline: (json['timeline'] as List<dynamic>?)
+      timelines: (json['timelines'] as List<dynamic>?)
           ?.map((e) => SessionTimelineModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       data: (json['data'] as List<dynamic>?)
@@ -32,7 +32,7 @@ Map<String, dynamic> _$$SessionModelImplToJson(_$SessionModelImpl instance) =>
       'exercise': instance.exercise?.toJson(),
       'startTime': instance.startTime,
       'endTime': instance.endTime,
-      'timeline': instance.timeline?.map((e) => e.toJson()).toList(),
+      'timelines': instance.timelines?.map((e) => e.toJson()).toList(),
       'data': instance.data?.map((e) => e.toJson()).toList(),
     };
 

@@ -52,8 +52,8 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                           : ColorConstants.lightContainer,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    padding: EdgeInsets.all(16),
-                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text('Name: ${snapshot.data!['exercise']['name']}',
                         style: Theme.of(context).textTheme.bodyLarge),
                   ),
@@ -64,8 +64,8 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                           : ColorConstants.lightContainer,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    padding: EdgeInsets.all(16),
-                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                         'Date: ${DateFormat('d MMMM yyyy').format(DateTime.fromMicrosecondsSinceEpoch(data.startTime))}',
                         style: Theme.of(context).textTheme.bodyLarge),
@@ -77,18 +77,18 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                           : ColorConstants.lightContainer,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    padding: EdgeInsets.all(16),
-                    margin: EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.all(16),
+                    margin: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
                         // Corrected here
                         'Duration: ${duration.inHours}:${duration.inMinutes.remainder(60)}:${duration.inSeconds.remainder(60)}',
                         style: Theme.of(context).textTheme.bodyLarge),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   snapshot.data!['mood'] == null
-                      ? SizedBox()
+                      ? const SizedBox()
                       : Container(
                           decoration: BoxDecoration(
                             color: Get.isDarkMode
@@ -96,14 +96,14 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                                 : ColorConstants.lightContainer,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          padding: EdgeInsets.all(16),
-                          margin: EdgeInsets.symmetric(horizontal: 16),
+                          padding: const EdgeInsets.all(16),
+                          margin: const EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
                               // Corrected here
                               'Mood: ${MoodUtils.message(snapshot.data!['mood'])}',
                               style: Theme.of(context).textTheme.bodyLarge),
                         ),
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   if (data.reports.any((element) => element.type == 'hr')) ...{
@@ -120,7 +120,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                           context),
                     )
                   },
-                  SizedBox(
+                  const SizedBox(
                     height: 16,
                   ),
                   if (data.reports.any((element) => element.type == 'acc')) ...{
@@ -167,13 +167,13 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           title == ''
-              ? SizedBox()
+              ? const SizedBox()
               : Text(
                   title,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
           value == ''
-              ? SizedBox()
+              ? const SizedBox()
               : Text(
                   value,
                   style: Theme.of(context).textTheme.displaySmall,
@@ -367,7 +367,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                             ? Colors.grey[900]
                             : Colors.grey[300],
                       ),
-                      child: Text('Avg'),
+                      child: const Text('Avg'),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
@@ -378,7 +378,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                             ? Colors.grey[900]
                             : Colors.grey[300],
                       ),
-                      child: Text('Min'),
+                      child: const Text('Min'),
                     ),
                     Container(
                       padding: const EdgeInsets.all(8),
@@ -389,7 +389,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                             ? Colors.grey[900]
                             : Colors.grey[300],
                       ),
-                      child: Text('Max'),
+                      child: const Text('Max'),
                     ),
                   ],
                 ),
@@ -407,7 +407,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                             ? Colors.grey[900]
                             : Colors.grey[300],
                       ),
-                      child: Text('X'),
+                      child: const Text('X'),
                     ),
                     buildContainer('', avgAccX.toStringAsFixed(0), context),
                     buildContainer('', minAccX.toStringAsFixed(0), context),
@@ -428,7 +428,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                             ? Colors.grey[900]
                             : Colors.grey[300],
                       ),
-                      child: Text('Y'),
+                      child: const Text('Y'),
                     ),
                     buildContainer('', avgAccY.toStringAsFixed(0), context),
                     buildContainer('', minAccY.toStringAsFixed(0), context),
@@ -449,7 +449,7 @@ class _HistoryDetailPageState extends State<HistoryDetailPage> {
                             ? Colors.grey[900]
                             : Colors.grey[300],
                       ),
-                      child: Text('Z'),
+                      child: const Text('Z'),
                     ),
                     buildContainer('', avgAccZ.toStringAsFixed(0), context),
                     buildContainer('', minAccZ.toStringAsFixed(0), context),

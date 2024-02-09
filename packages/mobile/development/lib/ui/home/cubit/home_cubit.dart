@@ -44,7 +44,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getUser() async {
-    final res = await _getUserUsecase.call(GetUserParams(fromLocal: true));
+    final res = await _getUserUsecase.call(const GetUserParams(fromLocal: true));
     res.fold((l) => null, (r) {
       userName = r.firstName ?? "User";
       emit(state.copyWith(user: r));

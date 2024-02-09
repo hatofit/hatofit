@@ -7,6 +7,7 @@ class CaloriesCard extends StatelessWidget {
   const CaloriesCard({super.key, required this.calories, this.unit});
   @override
   Widget build(BuildContext context) {
+    final String val = calories.toStringAsFixed(0);
     return Container(
       padding: EdgeInsets.all(Dimens.width16),
       decoration: BoxDecoration(
@@ -29,11 +30,20 @@ class CaloriesCard extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  calories.toStringAsFixed(0),
-                  style: Theme.of(context)
-                      .textTheme
-                      .headlineLarge!
-                      .copyWith(fontWeight: FontWeight.w500),
+                  val,
+                  style: val.length > 3
+                      ? Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(fontWeight: FontWeight.w500)
+                      : Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .copyWith(fontWeight: FontWeight.w500),
+                  //  Theme.of(context)
+                  //     .textTheme
+                  //     .headlineMedium!
+                  //     .copyWith(fontWeight: FontWeight.w500),
                 ),
                 SizedBox(width: Dimens.width8),
                 Text(

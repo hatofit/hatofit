@@ -53,7 +53,6 @@ class AppTheme {
           borderSide: BorderSide(width: 3, color: Colors.grey.withOpacity(0.5)),
         ),
       ),
-      useMaterial3: true,
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -195,7 +194,6 @@ class AppTheme {
           ),
         ),
       ),
-      useMaterial3: true,
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.transparent,
         elevation: 0,

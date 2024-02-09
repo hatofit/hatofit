@@ -117,6 +117,7 @@ class DioClient with FirebaseCrashLogger {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
+      log.d("Response: ${response.data}");
       if ((response.statusCode ?? 0) < 200 ||
           (response.statusCode ?? 0) > 201) {
         throw DioException(

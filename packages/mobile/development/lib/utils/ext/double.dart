@@ -25,4 +25,20 @@ extension DoubleExtensions on double {
       return Theme.of(context).extension<AppColors>()!.maroon!;
     }
   }
+
+  double hrPercentConvertion() {
+    if (this < 50) {
+      return this / 3;
+    } else if (this < 60) {
+      return this / 2.5;
+    } else if (this < 70) {
+      return this / 2;
+    } else if (this < 80) {
+      return this / 1.5;
+    } else if (this < 90) {
+      return this / 1.25;
+    } else {
+      return this;
+    }
+  }
 }

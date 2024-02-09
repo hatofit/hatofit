@@ -16,6 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$NavigationState {
+  CubitStatus get status => throw _privateConstructorUsedError;
+  set status(CubitStatus value) => throw _privateConstructorUsedError;
   bool? get isScanning => throw _privateConstructorUsedError;
   set isScanning(bool? value) => throw _privateConstructorUsedError;
   BluetoothAdapterState? get state => throw _privateConstructorUsedError;
@@ -24,8 +26,6 @@ mixin _$NavigationState {
   set fDevices(List<BleEntity>? value) => throw _privateConstructorUsedError;
   BleEntity? get cDevice => throw _privateConstructorUsedError;
   set cDevice(BleEntity? value) => throw _privateConstructorUsedError;
-  PolarHrSample? get hrSample => throw _privateConstructorUsedError;
-  set hrSample(PolarHrSample? value) => throw _privateConstructorUsedError;
   BluetoothFailure? get bleFailure => throw _privateConstructorUsedError;
   set bleFailure(BluetoothFailure? value) => throw _privateConstructorUsedError;
   BluetoothConnectionState? get conState => throw _privateConstructorUsedError;
@@ -33,6 +33,21 @@ mixin _$NavigationState {
       throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   set isLoading(bool value) => throw _privateConstructorUsedError;
+  PolarHrSample? get hrSample => throw _privateConstructorUsedError;
+  set hrSample(PolarHrSample? value) => throw _privateConstructorUsedError;
+  List<PolarEcgSample>? get ecgSample => throw _privateConstructorUsedError;
+  set ecgSample(List<PolarEcgSample>? value) =>
+      throw _privateConstructorUsedError;
+  PolarAccSample? get accSample => throw _privateConstructorUsedError;
+  set accSample(PolarAccSample? value) => throw _privateConstructorUsedError;
+  PolarGyroSample? get gyroSample => throw _privateConstructorUsedError;
+  set gyroSample(PolarGyroSample? value) => throw _privateConstructorUsedError;
+  PolarMagnetometerSample? get magnetometerSample =>
+      throw _privateConstructorUsedError;
+  set magnetometerSample(PolarMagnetometerSample? value) =>
+      throw _privateConstructorUsedError;
+  PolarPpgSample? get ppgSample => throw _privateConstructorUsedError;
+  set ppgSample(PolarPpgSample? value) => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NavigationStateCopyWith<NavigationState> get copyWith =>
@@ -46,14 +61,20 @@ abstract class $NavigationStateCopyWith<$Res> {
       _$NavigationStateCopyWithImpl<$Res, NavigationState>;
   @useResult
   $Res call(
-      {bool? isScanning,
+      {CubitStatus status,
+      bool? isScanning,
       BluetoothAdapterState? state,
       List<BleEntity>? fDevices,
       BleEntity? cDevice,
-      PolarHrSample? hrSample,
       BluetoothFailure? bleFailure,
       BluetoothConnectionState? conState,
-      bool isLoading});
+      bool isLoading,
+      PolarHrSample? hrSample,
+      List<PolarEcgSample>? ecgSample,
+      PolarAccSample? accSample,
+      PolarGyroSample? gyroSample,
+      PolarMagnetometerSample? magnetometerSample,
+      PolarPpgSample? ppgSample});
 
   $BleEntityCopyWith<$Res>? get cDevice;
 }
@@ -71,16 +92,26 @@ class _$NavigationStateCopyWithImpl<$Res, $Val extends NavigationState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? status = null,
     Object? isScanning = freezed,
     Object? state = freezed,
     Object? fDevices = freezed,
     Object? cDevice = freezed,
-    Object? hrSample = freezed,
     Object? bleFailure = freezed,
     Object? conState = freezed,
     Object? isLoading = null,
+    Object? hrSample = freezed,
+    Object? ecgSample = freezed,
+    Object? accSample = freezed,
+    Object? gyroSample = freezed,
+    Object? magnetometerSample = freezed,
+    Object? ppgSample = freezed,
   }) {
     return _then(_value.copyWith(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as CubitStatus,
       isScanning: freezed == isScanning
           ? _value.isScanning
           : isScanning // ignore: cast_nullable_to_non_nullable
@@ -97,10 +128,6 @@ class _$NavigationStateCopyWithImpl<$Res, $Val extends NavigationState>
           ? _value.cDevice
           : cDevice // ignore: cast_nullable_to_non_nullable
               as BleEntity?,
-      hrSample: freezed == hrSample
-          ? _value.hrSample
-          : hrSample // ignore: cast_nullable_to_non_nullable
-              as PolarHrSample?,
       bleFailure: freezed == bleFailure
           ? _value.bleFailure
           : bleFailure // ignore: cast_nullable_to_non_nullable
@@ -113,6 +140,30 @@ class _$NavigationStateCopyWithImpl<$Res, $Val extends NavigationState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      hrSample: freezed == hrSample
+          ? _value.hrSample
+          : hrSample // ignore: cast_nullable_to_non_nullable
+              as PolarHrSample?,
+      ecgSample: freezed == ecgSample
+          ? _value.ecgSample
+          : ecgSample // ignore: cast_nullable_to_non_nullable
+              as List<PolarEcgSample>?,
+      accSample: freezed == accSample
+          ? _value.accSample
+          : accSample // ignore: cast_nullable_to_non_nullable
+              as PolarAccSample?,
+      gyroSample: freezed == gyroSample
+          ? _value.gyroSample
+          : gyroSample // ignore: cast_nullable_to_non_nullable
+              as PolarGyroSample?,
+      magnetometerSample: freezed == magnetometerSample
+          ? _value.magnetometerSample
+          : magnetometerSample // ignore: cast_nullable_to_non_nullable
+              as PolarMagnetometerSample?,
+      ppgSample: freezed == ppgSample
+          ? _value.ppgSample
+          : ppgSample // ignore: cast_nullable_to_non_nullable
+              as PolarPpgSample?,
     ) as $Val);
   }
 
@@ -138,14 +189,20 @@ abstract class _$$NavigationStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool? isScanning,
+      {CubitStatus status,
+      bool? isScanning,
       BluetoothAdapterState? state,
       List<BleEntity>? fDevices,
       BleEntity? cDevice,
-      PolarHrSample? hrSample,
       BluetoothFailure? bleFailure,
       BluetoothConnectionState? conState,
-      bool isLoading});
+      bool isLoading,
+      PolarHrSample? hrSample,
+      List<PolarEcgSample>? ecgSample,
+      PolarAccSample? accSample,
+      PolarGyroSample? gyroSample,
+      PolarMagnetometerSample? magnetometerSample,
+      PolarPpgSample? ppgSample});
 
   @override
   $BleEntityCopyWith<$Res>? get cDevice;
@@ -162,16 +219,26 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? status = null,
     Object? isScanning = freezed,
     Object? state = freezed,
     Object? fDevices = freezed,
     Object? cDevice = freezed,
-    Object? hrSample = freezed,
     Object? bleFailure = freezed,
     Object? conState = freezed,
     Object? isLoading = null,
+    Object? hrSample = freezed,
+    Object? ecgSample = freezed,
+    Object? accSample = freezed,
+    Object? gyroSample = freezed,
+    Object? magnetometerSample = freezed,
+    Object? ppgSample = freezed,
   }) {
     return _then(_$NavigationStateImpl(
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as CubitStatus,
       isScanning: freezed == isScanning
           ? _value.isScanning
           : isScanning // ignore: cast_nullable_to_non_nullable
@@ -188,10 +255,6 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
           ? _value.cDevice
           : cDevice // ignore: cast_nullable_to_non_nullable
               as BleEntity?,
-      hrSample: freezed == hrSample
-          ? _value.hrSample
-          : hrSample // ignore: cast_nullable_to_non_nullable
-              as PolarHrSample?,
       bleFailure: freezed == bleFailure
           ? _value.bleFailure
           : bleFailure // ignore: cast_nullable_to_non_nullable
@@ -204,6 +267,30 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      hrSample: freezed == hrSample
+          ? _value.hrSample
+          : hrSample // ignore: cast_nullable_to_non_nullable
+              as PolarHrSample?,
+      ecgSample: freezed == ecgSample
+          ? _value.ecgSample
+          : ecgSample // ignore: cast_nullable_to_non_nullable
+              as List<PolarEcgSample>?,
+      accSample: freezed == accSample
+          ? _value.accSample
+          : accSample // ignore: cast_nullable_to_non_nullable
+              as PolarAccSample?,
+      gyroSample: freezed == gyroSample
+          ? _value.gyroSample
+          : gyroSample // ignore: cast_nullable_to_non_nullable
+              as PolarGyroSample?,
+      magnetometerSample: freezed == magnetometerSample
+          ? _value.magnetometerSample
+          : magnetometerSample // ignore: cast_nullable_to_non_nullable
+              as PolarMagnetometerSample?,
+      ppgSample: freezed == ppgSample
+          ? _value.ppgSample
+          : ppgSample // ignore: cast_nullable_to_non_nullable
+              as PolarPpgSample?,
     ));
   }
 }
@@ -212,15 +299,24 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
 
 class _$NavigationStateImpl implements _NavigationState {
   _$NavigationStateImpl(
-      {this.isScanning,
+      {this.status = CubitStatus.initial,
+      this.isScanning,
       this.state,
       this.fDevices,
       this.cDevice,
-      this.hrSample,
       this.bleFailure,
       this.conState,
-      this.isLoading = false});
+      this.isLoading = false,
+      this.hrSample,
+      this.ecgSample,
+      this.accSample,
+      this.gyroSample,
+      this.magnetometerSample,
+      this.ppgSample});
 
+  @override
+  @JsonKey()
+  CubitStatus status;
   @override
   bool? isScanning;
   @override
@@ -230,18 +326,28 @@ class _$NavigationStateImpl implements _NavigationState {
   @override
   BleEntity? cDevice;
   @override
-  PolarHrSample? hrSample;
-  @override
   BluetoothFailure? bleFailure;
   @override
   BluetoothConnectionState? conState;
   @override
   @JsonKey()
   bool isLoading;
+  @override
+  PolarHrSample? hrSample;
+  @override
+  List<PolarEcgSample>? ecgSample;
+  @override
+  PolarAccSample? accSample;
+  @override
+  PolarGyroSample? gyroSample;
+  @override
+  PolarMagnetometerSample? magnetometerSample;
+  @override
+  PolarPpgSample? ppgSample;
 
   @override
   String toString() {
-    return 'NavigationState(isScanning: $isScanning, state: $state, fDevices: $fDevices, cDevice: $cDevice, hrSample: $hrSample, bleFailure: $bleFailure, conState: $conState, isLoading: $isLoading)';
+    return 'NavigationState(status: $status, isScanning: $isScanning, state: $state, fDevices: $fDevices, cDevice: $cDevice, bleFailure: $bleFailure, conState: $conState, isLoading: $isLoading, hrSample: $hrSample, ecgSample: $ecgSample, accSample: $accSample, gyroSample: $gyroSample, magnetometerSample: $magnetometerSample, ppgSample: $ppgSample)';
   }
 
   @JsonKey(ignore: true)
@@ -254,15 +360,24 @@ class _$NavigationStateImpl implements _NavigationState {
 
 abstract class _NavigationState implements NavigationState {
   factory _NavigationState(
-      {bool? isScanning,
+      {CubitStatus status,
+      bool? isScanning,
       BluetoothAdapterState? state,
       List<BleEntity>? fDevices,
       BleEntity? cDevice,
-      PolarHrSample? hrSample,
       BluetoothFailure? bleFailure,
       BluetoothConnectionState? conState,
-      bool isLoading}) = _$NavigationStateImpl;
+      bool isLoading,
+      PolarHrSample? hrSample,
+      List<PolarEcgSample>? ecgSample,
+      PolarAccSample? accSample,
+      PolarGyroSample? gyroSample,
+      PolarMagnetometerSample? magnetometerSample,
+      PolarPpgSample? ppgSample}) = _$NavigationStateImpl;
 
+  @override
+  CubitStatus get status;
+  set status(CubitStatus value);
   @override
   bool? get isScanning;
   set isScanning(bool? value);
@@ -276,9 +391,6 @@ abstract class _NavigationState implements NavigationState {
   BleEntity? get cDevice;
   set cDevice(BleEntity? value);
   @override
-  PolarHrSample? get hrSample;
-  set hrSample(PolarHrSample? value);
-  @override
   BluetoothFailure? get bleFailure;
   set bleFailure(BluetoothFailure? value);
   @override
@@ -287,6 +399,24 @@ abstract class _NavigationState implements NavigationState {
   @override
   bool get isLoading;
   set isLoading(bool value);
+  @override
+  PolarHrSample? get hrSample;
+  set hrSample(PolarHrSample? value);
+  @override
+  List<PolarEcgSample>? get ecgSample;
+  set ecgSample(List<PolarEcgSample>? value);
+  @override
+  PolarAccSample? get accSample;
+  set accSample(PolarAccSample? value);
+  @override
+  PolarGyroSample? get gyroSample;
+  set gyroSample(PolarGyroSample? value);
+  @override
+  PolarMagnetometerSample? get magnetometerSample;
+  set magnetometerSample(PolarMagnetometerSample? value);
+  @override
+  PolarPpgSample? get ppgSample;
+  set ppgSample(PolarPpgSample? value);
   @override
   @JsonKey(ignore: true)
   _$$NavigationStateImplCopyWith<_$NavigationStateImpl> get copyWith =>

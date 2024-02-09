@@ -33,6 +33,13 @@ class PolarBLERepoImpl implements PolarBLERepo {
       requestPermissions() async => await _client.requestPermissions();
 
   @override
+  Stream<Either<Failure, BluetoothConnectionState>> polarState() async* {
+    await for (final data in _client.polarInterceptor()) {
+      yield data;
+    }
+  }
+
+  @override
   Stream<Either<Failure, PolarStreamingData<PolarHrSample>>> streamHr(
     StreamPolarParams params,
   ) async* {
@@ -53,8 +60,42 @@ class PolarBLERepoImpl implements PolarBLERepo {
   }
 
   @override
-  Stream<Either<Failure, BluetoothConnectionState>> polarState() async* {
-    await for (final data in _client.polarInterceptor()) {
+  Stream<Either<Failure, PolarStreamingData<PolarAccSample>>> streamAcc(
+    StreamPolarParams params,
+  ) async* {
+    await for (final data
+        in _client.polarAccStream(params.deviceId, params.types)) {
+      yield data;
+    }
+  }
+
+  @override
+  Stream<Either<Failure, PolarStreamingData<PolarGyroSample>>> streamGyro(
+    StreamPolarParams params,
+  ) async* {
+    await for (final data
+        in _client.polarGyroStream(params.deviceId, params.types)) {
+      yield data;
+    }
+  }
+
+  @override
+  Stream<Either<Failure, PolarStreamingData<PolarMagnetometerSample>>>
+      streamMagnetometer(
+    StreamPolarParams params,
+  ) async* {
+    await for (final data
+        in _client.polarMagnetometerStream(params.deviceId, params.types)) {
+      yield data;
+    }
+  }
+
+  @override
+  Stream<Either<Failure, PolarStreamingData<PolarPpgSample>>> streamPpg(
+    StreamPolarParams params,
+  ) async* {
+    await for (final data
+        in _client.polarPpgStream(params.deviceId, params.types)) {
       yield data;
     }
   }

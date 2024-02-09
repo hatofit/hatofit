@@ -50,6 +50,15 @@ class StringsId extends Strings {
   String get appPreferences => 'Preferensi Aplikasi';
 
   @override
+  String get whatMoodAreYouIn => 'Mood apa yang sedang anda rasakan?';
+
+  @override
+  String get chooseAnEmojiThatRepresentsThisExercise => 'Pilih emoji yang mewakili latihan ini';
+
+  @override
+  String get endTraining => 'Akhiri latihan';
+
+  @override
   String get userPreferences => 'Preferensi Pengguna';
 
   @override
@@ -66,6 +75,12 @@ class StringsId extends Strings {
 
   @override
   String get heightUnit => 'Satuan tinggi badan';
+
+  @override
+  String get somethingWentWrong => 'Ada yang salah';
+
+  @override
+  String get exerciseSuccessfullySaved => 'Latihan berhasil disimpan';
 
   @override
   String get pickYourWeight => 'Pilih berat badan anda';
@@ -245,7 +260,13 @@ class StringsId extends Strings {
   String get name => 'Nama';
 
   @override
+  String get endExercise => 'Akhiri latihan';
+
+  @override
   String get freeTraining => 'Latihan bebas';
+
+  @override
+  String get percentage => 'Persentase';
 
   @override
   String get failedToStartWorkout => 'Gagal memulai pelatihan, untuk memulai pelatihan, lengkapi profil anda';
@@ -254,7 +275,13 @@ class StringsId extends Strings {
   String get heartRate => 'Detak jantung';
 
   @override
+  String get areYouSureYouWantToEndWorkout => 'Apakah anda yakin ingin mengakhiri latihan ini?';
+
+  @override
   String get duration => 'Durasi';
+
+  @override
+  String get zone => 'Zona';
 
   @override
   String get exerciseNow => 'Olahraga sekarang';
@@ -276,6 +303,12 @@ class StringsId extends Strings {
 
   @override
   String get obese => 'Obesitas';
+
+  @override
+  String get yes => 'Yes';
+
+  @override
+  String get no => 'No';
 
   @override
   String get caloriesBurn => 'Kalori Terbakar';

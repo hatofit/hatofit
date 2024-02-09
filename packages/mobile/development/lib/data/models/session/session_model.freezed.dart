@@ -27,7 +27,7 @@ mixin _$SessionModel {
   ExerciseModel? get exercise => throw _privateConstructorUsedError;
   int? get startTime => throw _privateConstructorUsedError;
   int? get endTime => throw _privateConstructorUsedError;
-  List<SessionTimelineModel>? get timeline =>
+  List<SessionTimelineModel>? get timelines =>
       throw _privateConstructorUsedError;
   List<SessionDataItemModel>? get data => throw _privateConstructorUsedError;
 
@@ -50,7 +50,7 @@ abstract class $SessionModelCopyWith<$Res> {
       ExerciseModel? exercise,
       int? startTime,
       int? endTime,
-      List<SessionTimelineModel>? timeline,
+      List<SessionTimelineModel>? timelines,
       List<SessionDataItemModel>? data});
 
   $ExerciseModelCopyWith<$Res>? get exercise;
@@ -75,7 +75,7 @@ class _$SessionModelCopyWithImpl<$Res, $Val extends SessionModel>
     Object? exercise = freezed,
     Object? startTime = freezed,
     Object? endTime = freezed,
-    Object? timeline = freezed,
+    Object? timelines = freezed,
     Object? data = freezed,
   }) {
     return _then(_value.copyWith(
@@ -103,9 +103,9 @@ class _$SessionModelCopyWithImpl<$Res, $Val extends SessionModel>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as int?,
-      timeline: freezed == timeline
-          ? _value.timeline
-          : timeline // ignore: cast_nullable_to_non_nullable
+      timelines: freezed == timelines
+          ? _value.timelines
+          : timelines // ignore: cast_nullable_to_non_nullable
               as List<SessionTimelineModel>?,
       data: freezed == data
           ? _value.data
@@ -142,7 +142,7 @@ abstract class _$$SessionModelImplCopyWith<$Res>
       ExerciseModel? exercise,
       int? startTime,
       int? endTime,
-      List<SessionTimelineModel>? timeline,
+      List<SessionTimelineModel>? timelines,
       List<SessionDataItemModel>? data});
 
   @override
@@ -166,7 +166,7 @@ class __$$SessionModelImplCopyWithImpl<$Res>
     Object? exercise = freezed,
     Object? startTime = freezed,
     Object? endTime = freezed,
-    Object? timeline = freezed,
+    Object? timelines = freezed,
     Object? data = freezed,
   }) {
     return _then(_$SessionModelImpl(
@@ -194,9 +194,9 @@ class __$$SessionModelImplCopyWithImpl<$Res>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as int?,
-      timeline: freezed == timeline
-          ? _value._timeline
-          : timeline // ignore: cast_nullable_to_non_nullable
+      timelines: freezed == timelines
+          ? _value._timelines
+          : timelines // ignore: cast_nullable_to_non_nullable
               as List<SessionTimelineModel>?,
       data: freezed == data
           ? _value._data
@@ -216,9 +216,9 @@ class _$SessionModelImpl extends _SessionModel {
       this.exercise,
       this.startTime,
       this.endTime,
-      final List<SessionTimelineModel>? timeline,
+      final List<SessionTimelineModel>? timelines,
       final List<SessionDataItemModel>? data})
-      : _timeline = timeline,
+      : _timelines = timelines,
         _data = data,
         super._();
 
@@ -238,12 +238,12 @@ class _$SessionModelImpl extends _SessionModel {
   final int? startTime;
   @override
   final int? endTime;
-  final List<SessionTimelineModel>? _timeline;
+  final List<SessionTimelineModel>? _timelines;
   @override
-  List<SessionTimelineModel>? get timeline {
-    final value = _timeline;
+  List<SessionTimelineModel>? get timelines {
+    final value = _timelines;
     if (value == null) return null;
-    if (_timeline is EqualUnmodifiableListView) return _timeline;
+    if (_timelines is EqualUnmodifiableListView) return _timelines;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -260,7 +260,7 @@ class _$SessionModelImpl extends _SessionModel {
 
   @override
   String toString() {
-    return 'SessionModel(id: $id, userId: $userId, mood: $mood, exercise: $exercise, startTime: $startTime, endTime: $endTime, timeline: $timeline, data: $data)';
+    return 'SessionModel(id: $id, userId: $userId, mood: $mood, exercise: $exercise, startTime: $startTime, endTime: $endTime, timelines: $timelines, data: $data)';
   }
 
   @override
@@ -276,7 +276,8 @@ class _$SessionModelImpl extends _SessionModel {
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
-            const DeepCollectionEquality().equals(other._timeline, _timeline) &&
+            const DeepCollectionEquality()
+                .equals(other._timelines, _timelines) &&
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
@@ -290,7 +291,7 @@ class _$SessionModelImpl extends _SessionModel {
       exercise,
       startTime,
       endTime,
-      const DeepCollectionEquality().hash(_timeline),
+      const DeepCollectionEquality().hash(_timelines),
       const DeepCollectionEquality().hash(_data));
 
   @JsonKey(ignore: true)
@@ -315,7 +316,7 @@ abstract class _SessionModel extends SessionModel {
       final ExerciseModel? exercise,
       final int? startTime,
       final int? endTime,
-      final List<SessionTimelineModel>? timeline,
+      final List<SessionTimelineModel>? timelines,
       final List<SessionDataItemModel>? data}) = _$SessionModelImpl;
   const _SessionModel._() : super._();
 
@@ -336,7 +337,7 @@ abstract class _SessionModel extends SessionModel {
   @override
   int? get endTime;
   @override
-  List<SessionTimelineModel>? get timeline;
+  List<SessionTimelineModel>? get timelines;
   @override
   List<SessionDataItemModel>? get data;
   @override

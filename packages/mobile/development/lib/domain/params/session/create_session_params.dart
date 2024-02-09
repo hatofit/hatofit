@@ -11,7 +11,7 @@ class CreateSessionParams with _$CreateSessionParams {
     @Default(0) int startTime,
     @Default(0) int endTime,
     @Default("") String mood,
-    @Default([]) List<SessionTimelineParams> timeline,
+    @Default([]) List<SessionTimelineParams> timelines,
     @Default([]) List<SessionDataItemParams> data,
   }) = _CreateSessionParams;
 

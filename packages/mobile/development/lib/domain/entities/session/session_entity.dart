@@ -19,7 +19,7 @@ class SessionEntity with _$SessionEntity {
     @HiveField(3) ExerciseEntity? exercise,
     @HiveField(4) int? startTime,
     @HiveField(5) int? endTime,
-    @HiveField(6) List<SessionTimelineEntity>? timeline,
+    @HiveField(6) List<SessionTimelineEntity>? timelines,
     @HiveField(7) List<SessionDataItemEntity>? data,
   }) = _SessionEntity;
 }

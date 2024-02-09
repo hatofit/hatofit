@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/ui/workout/cubit/workout_cubit.dart';
 import 'package:intl/intl.dart';
@@ -22,24 +23,27 @@ class HrChart extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SfCartesianChart(
-            primaryXAxis: DateTimeAxis(
-              dateFormat: DateFormat.Hms(),
-              // hide the gridlines
-              majorGridLines: MajorGridLines(width: 0),
+          SizedBox(
+            height: 200.h,
+            child: SfCartesianChart(
+              primaryXAxis: DateTimeAxis(
+                dateFormat: DateFormat.Hms(),
+                // hide the gridlines
+                majorGridLines: const MajorGridLines(width: 0),
+              ),
+              primaryYAxis: const NumericAxis(
+                minimum: 0,
+                maximum: 200,
+              ),
+              series: <AreaSeries<WSessionChart, DateTime>>[
+                AreaSeries<WSessionChart, DateTime>(
+                  dataSource: session.hrChart,
+                  xValueMapper: (WSessionChart hr, _) => hr.time,
+                  yValueMapper: (WSessionChart hr, _) => hr.hr,
+                  color: Theme.of(context).extension<AppColors>()!.mauve!,
+                )
+              ],
             ),
-            primaryYAxis: NumericAxis(
-              minimum: 0,
-              maximum: 200,
-            ),
-            series: <AreaSeries<WSessionChart, DateTime>>[
-              AreaSeries<WSessionChart, DateTime>(
-                dataSource: session.hrChart,
-                xValueMapper: (WSessionChart hr, _) => hr.time,
-                yValueMapper: (WSessionChart hr, _) => hr.hr,
-                color: Theme.of(context).extension<AppColors>()!.mauve!,
-              )
-            ],
           ),
           Row(
             children: [

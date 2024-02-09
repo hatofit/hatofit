@@ -60,10 +60,10 @@ class FreeWorkoutController extends GetxController {
               borderRadius: BorderRadius.circular(8),
               color: Colors.grey[200],
             ),
-            child: hrZoneType!.image,
+            child: hrZoneType.image,
           ),
-          hrZoneType!.name,
-          backgroundColor: hrZoneType!.color,
+          hrZoneType.name,
+          backgroundColor: hrZoneType.color,
         );
       });
       if (isVibrate.value == false) {

@@ -1,7 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hatofit/dependecy_injection.dart';
+import 'package:hatofit/domain/domain.dart';
 import 'package:hatofit/ui/ui.dart';
 import 'package:hatofit/utils/utils.dart';
 
@@ -164,6 +166,21 @@ class AppRoute {
                   child: const FreeWorkoutView(),
                 ),
               ),
+              GoRoute(
+                  path: Routes.startWorkout.path,
+                  name: Routes.startWorkout.name,
+                  builder: (_, state) {
+                    final extra = state.extra as StartExerciseParams;
+                    return BlocProvider(
+                      create: (_) => di<WorkoutCubit>(),
+                      child: StartWorkoutView(
+                        isFreeWorkout: extra.isFreeWorkout,
+                        exercise: extra.exercise,
+                        user: extra.user,
+                        device: extra.device,
+                      ),
+                    );
+                  }),
             ],
           ),
           StatefulShellBranch(
@@ -177,6 +194,18 @@ class AppRoute {
                   child: const ActivityView(),
                 ),
               ),
+              GoRoute(
+                  path: Routes.activityDetail.path,
+                  name: Routes.activityDetail.name,
+                  builder: (_, state) {
+                    final extra = state.extra as SessionEntity;
+                    return BlocProvider(
+                      create: (_) => di<ActivityCubit>()..init(),
+                      child: ActivityDetailView(
+                        session: extra,
+                      ),
+                    );
+                  }),
             ],
           ),
           StatefulShellBranch(
@@ -197,7 +226,10 @@ class AppRoute {
     ],
     initialLocation: Routes.splashScreen.path,
     routerNeglect: true,
-    // debugLogDiagnostics: kDebugMode,
-    refreshListenable: GoRouterRefreshStream(context.read<AuthCubit>().stream),
+    debugLogDiagnostics: kDebugMode,
+    refreshListenable: GoRouterRefreshStream(
+      context.read<AuthCubit>().stream,
+    ),
+    restorationScopeId: 'hatofitApp',
   );
 }

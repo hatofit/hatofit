@@ -183,6 +183,24 @@ abstract class Strings {
   /// **'App Preferences'**
   String get appPreferences;
 
+  /// No description provided for @whatMoodAreYouIn.
+  ///
+  /// In en, this message translates to:
+  /// **'What mood are you in?'**
+  String get whatMoodAreYouIn;
+
+  /// No description provided for @chooseAnEmojiThatRepresentsThisExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an emoji that represents this exercise'**
+  String get chooseAnEmojiThatRepresentsThisExercise;
+
+  /// No description provided for @endTraining.
+  ///
+  /// In en, this message translates to:
+  /// **'End Training'**
+  String get endTraining;
+
   /// No description provided for @userPreferences.
   ///
   /// In en, this message translates to:
@@ -218,6 +236,18 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Height Unit'**
   String get heightUnit;
+
+  /// No description provided for @somethingWentWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong'**
+  String get somethingWentWrong;
+
+  /// No description provided for @exerciseSuccessfullySaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise successfully saved'**
+  String get exerciseSuccessfullySaved;
 
   /// No description provided for @pickYourWeight.
   ///
@@ -573,11 +603,23 @@ abstract class Strings {
   /// **'Name'**
   String get name;
 
+  /// No description provided for @endExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'End Exercise'**
+  String get endExercise;
+
   /// No description provided for @freeTraining.
   ///
   /// In en, this message translates to:
   /// **'Free Training'**
   String get freeTraining;
+
+  /// No description provided for @percentage.
+  ///
+  /// In en, this message translates to:
+  /// **'Percentage'**
+  String get percentage;
 
   /// No description provided for @failedToStartWorkout.
   ///
@@ -591,11 +633,23 @@ abstract class Strings {
   /// **'Heart Rate'**
   String get heartRate;
 
+  /// No description provided for @areYouSureYouWantToEndWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to end training?'**
+  String get areYouSureYouWantToEndWorkout;
+
   /// No description provided for @duration.
   ///
   /// In en, this message translates to:
   /// **'Duration'**
   String get duration;
+
+  /// No description provided for @zone.
+  ///
+  /// In en, this message translates to:
+  /// **'Zone'**
+  String get zone;
 
   /// No description provided for @exerciseNow.
   ///
@@ -638,6 +692,18 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Obesitas'**
   String get obese;
+
+  /// No description provided for @yes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes'**
+  String get yes;
+
+  /// No description provided for @no.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get no;
 
   /// No description provided for @caloriesBurn.
   ///

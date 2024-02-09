@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/ui/workout/cubit/workout_cubit.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -12,7 +13,7 @@ class HrPercentGauge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: Dimens.height16),
+      padding: EdgeInsets.symmetric(vertical: Dimens.height8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Dimens.width8),
         color: Theme.of(context).cardColor,
@@ -21,50 +22,62 @@ class HrPercentGauge extends StatelessWidget {
           width: 1,
         ),
       ),
-      child: Container(
-        height: Dimens.height128,
-        child: SfRadialGauge(
-          axes: [
-            RadialAxis(
-              startAngle: 270,
-              endAngle: 270,
-              showLabels: false,
-              showTicks: false,
-              pointers: [
-                RangePointer(
-                  value: percent.toDouble(),
-                  color: zoneType.color,
-                  cornerStyle: CornerStyle.bothCurve,
-                  enableAnimation: true,
-                  animationDuration: 1000,
-                ),
-              ],
-              annotations: [
-                GaugeAnnotation(
-                  widget: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '${percent.toInt()} %',
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(
-                                fontWeight: FontWeight.w600,
+      child: SizedBox(
+        height: 149.h,
+        child: Column(
+          children: [
+            Text(
+              Strings.of(context)!.percentage,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(),
+            ),
+            SizedBox(height: Dimens.height8),
+            SizedBox(
+              height: 118.h,
+              child: SfRadialGauge(
+                axes: [
+                  RadialAxis(
+                    startAngle: 270,
+                    endAngle: 270,
+                    showLabels: false,
+                    showTicks: false,
+                    pointers: [
+                      RangePointer(
+                        value: percent.toDouble(),
+                        color: zoneType.color,
+                        cornerStyle: CornerStyle.bothCurve,
+                        enableAnimation: true,
+                        animationDuration: 1000,
+                      ),
+                    ],
+                    annotations: [
+                      GaugeAnnotation(
+                        widget: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '${percent.toInt()} %',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
                               ),
+                              Text(
+                                'of max HR',
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                            ],
+                          ),
                         ),
-                        Text(
-                          'of max HR',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
-                    ),
-                  ),
-                  angle: 90,
-                ),
-              ],
-            )
+                        angle: 90,
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),

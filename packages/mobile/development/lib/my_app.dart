@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
             return BlocBuilder<SettingsCubit, DataHelper>(builder: (_, data) {
               return MaterialApp.router(
                 routerConfig: AppRoute.router,
+                restorationScopeId: 'hatofitApp',
                 localizationsDelegates: const [
                   Strings.delegate,
                   GlobalMaterialLocalizations.delegate,

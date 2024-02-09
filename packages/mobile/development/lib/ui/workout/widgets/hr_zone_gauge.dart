@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/ui/workout/cubit/workout_cubit.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -11,85 +12,111 @@ class HrZoneGauge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(vertical: Dimens.height16),
+      padding: EdgeInsets.symmetric(vertical: Dimens.height8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Dimens.width8),
         color: Theme.of(context).cardColor,
         border: Border.all(
-          color: Theme.of(context).primaryColor.withOpacity(0.5),
-          width: 1,
+          color: zoneType.color.withOpacity(0.5),
         ),
       ),
-      child: Container(
-        height: Dimens.height128,
-        child: SfRadialGauge(
-          axes: <RadialAxis>[
-            RadialAxis(
-                showLabels: false,
-                showAxisLine: falses,
-                showTicks: false,
-                maximum: 99,
-                radiusFactor: 0.8,
-                ranges: <GaugeRange>[
-                  GaugeRange(
-                      startValue: 0,
-                      endValue: 33,
-                      color: const Color(0xFFFE2A25),
-                      sizeUnit: GaugeSizeUnit.factor,
-                      labelStyle:
-                          GaugeTextStyle(fontFamily: 'Times', fontSize: 16),
-                      startWidth: 0.65,
-                      endWidth: 0.65),
-                  GaugeRange(
-                    startValue: 33,
-                    endValue: 66,
-                    color: const Color(0xFFFFBA00),
-                    labelStyle:
-                        GaugeTextStyle(fontFamily: 'Times', fontSize: 16),
-                    startWidth: 0.65,
-                    endWidth: 0.65,
-                    sizeUnit: GaugeSizeUnit.factor,
-                  ),
-                  GaugeRange(
-                    startValue: 66,
-                    endValue: 99,
-                    color: const Color(0xFF00AB47),
-                    labelStyle:
-                        GaugeTextStyle(fontFamily: 'Times', fontSize: 16),
-                    sizeUnit: GaugeSizeUnit.factor,
-                    startWidth: 0.65,
-                    endWidth: 0.65,
-                  ),
-                  GaugeRange(
-                    startValue: 66,
-                    endValue: 99,
-                    color: const Color(0xFF00AB47),
-                    labelStyle:
-                        GaugeTextStyle(fontFamily: 'Times', fontSize: 16),
-                    sizeUnit: GaugeSizeUnit.factor,
-                    startWidth: 0.65,
-                    endWidth: 0.65,
-                  ),
-                  // Added small height range in bottom to show shadow effect.
-                  GaugeRange(
-                    startValue: 0,
-                    endValue: 99,
-                    color: const Color.fromRGBO(155, 155, 155, 0.3),
-                    rangeOffset: 0.5,
-                    sizeUnit: GaugeSizeUnit.factor,
-                    startWidth: 0.15,
-                    endWidth: 0.15,
-                  ),
+      child: SizedBox(
+        height: 149.h,
+        child: Column(
+          children: [
+            Text(
+              Strings.of(context)!.zone,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(),
+            ),
+            SizedBox(
+              height: 104.h,
+              child: SfRadialGauge(
+                axes: <RadialAxis>[
+                  RadialAxis(
+                      showLabels: false,
+                      showAxisLine: false,
+                      showTicks: false,
+                      maximum: 100,
+                      canScaleToFit: true,
+                      ranges: <GaugeRange>[
+                        GaugeRange(
+                            startValue: 0,
+                            endValue: 48,
+                            color: HrZoneType.VERYLIGHT.color,
+                            sizeUnit: GaugeSizeUnit.factor,
+                            labelStyle: const GaugeTextStyle(
+                                fontFamily: 'Times', fontSize: 16),
+                            startWidth: 0.65,
+                            endWidth: 0.65),
+                        GaugeRange(
+                          startValue: 48,
+                          endValue: 60,
+                          color: HrZoneType.LIGHT.color,
+                          labelStyle: const GaugeTextStyle(
+                              fontFamily: 'Times', fontSize: 16),
+                          startWidth: 0.65,
+                          endWidth: 0.65,
+                          sizeUnit: GaugeSizeUnit.factor,
+                        ),
+                        GaugeRange(
+                          startValue: 60,
+                          endValue: 71,
+                          color: HrZoneType.MODERATE.color,
+                          labelStyle: const GaugeTextStyle(
+                              fontFamily: 'Times', fontSize: 16),
+                          sizeUnit: GaugeSizeUnit.factor,
+                          startWidth: 0.65,
+                          endWidth: 0.65,
+                        ),
+                        GaugeRange(
+                          startValue: 71,
+                          endValue: 80,
+                          color: HrZoneType.HARD.color,
+                          labelStyle: const GaugeTextStyle(
+                              fontFamily: 'Times', fontSize: 16),
+                          sizeUnit: GaugeSizeUnit.factor,
+                          startWidth: 0.65,
+                          endWidth: 0.65,
+                        ),
+                        GaugeRange(
+                          startValue: 80,
+                          endValue: 100,
+                          color: HrZoneType.MAXIMUM.color,
+                          labelStyle: const GaugeTextStyle(
+                              fontFamily: 'Times', fontSize: 16),
+                          sizeUnit: GaugeSizeUnit.factor,
+                          startWidth: 0.65,
+                          endWidth: 0.65,
+                        ),
+                        GaugeRange(
+                          startValue: 0,
+                          endValue: 100,
+                          color: const Color.fromRGBO(155, 155, 155, 0.3),
+                          rangeOffset: 0.5,
+                          sizeUnit: GaugeSizeUnit.factor,
+                          startWidth: 0.15,
+                          endWidth: 0.15,
+                        ),
+                      ],
+                      pointers: <GaugePointer>[
+                        NeedlePointer(
+                          value: percent.toDouble(),
+                          needleLength: 0.7,
+                          knobStyle: const KnobStyle(
+                            knobRadius: 12,
+                            sizeUnit: GaugeSizeUnit.logicalPixel,
+                          ),
+                        )
+                      ])
                 ],
-                pointers: const <GaugePointer>[
-                  NeedlePointer(
-                      value: 60,
-                      needleLength: 0.7,
-                      knobStyle: KnobStyle(
-                        knobRadius: 12,
-                        sizeUnit: GaugeSizeUnit.logicalPixel,
-                      ))
-                ])
+              ),
+            ),
+            Text(
+              zoneType.name,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+            ),
           ],
         ),
       ),

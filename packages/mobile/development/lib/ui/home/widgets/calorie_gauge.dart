@@ -27,7 +27,7 @@ class CalorieGauge extends StatelessWidget {
                   ),
                 ],
               ),
-              Container(
+              SizedBox(
                 height: Dimens.height100,
                 child: SfRadialGauge(
                   axes: [

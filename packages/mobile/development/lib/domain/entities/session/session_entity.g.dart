@@ -23,7 +23,7 @@ class SessionEntityAdapter extends TypeAdapter<_$SessionEntityImpl> {
       exercise: fields[3] as ExerciseEntity?,
       startTime: fields[4] as int?,
       endTime: fields[5] as int?,
-      timeline: (fields[6] as List?)?.cast<SessionTimelineEntity>(),
+      timelines: (fields[6] as List?)?.cast<SessionTimelineEntity>(),
       data: (fields[7] as List?)?.cast<SessionDataItemEntity>(),
     );
   }
@@ -45,7 +45,7 @@ class SessionEntityAdapter extends TypeAdapter<_$SessionEntityImpl> {
       ..writeByte(5)
       ..write(obj.endTime)
       ..writeByte(6)
-      ..write(obj.timeline)
+      ..write(obj.timelines)
       ..writeByte(7)
       ..write(obj.data);
   }

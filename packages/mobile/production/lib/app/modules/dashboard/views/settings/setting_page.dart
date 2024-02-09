@@ -179,7 +179,7 @@ class SettingPage extends GetView<SettingController> {
                       SettingListTileWidget(
                         title: 'Device Integration',
                         onTap: () {
-                          Get.to(() => DeviceIntegrationPage());
+                          Get.to(() => const DeviceIntegrationPage());
                         },
                       ),
                     ],

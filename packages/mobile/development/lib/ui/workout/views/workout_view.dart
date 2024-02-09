@@ -29,13 +29,7 @@ class WorkoutView extends StatelessWidget {
                     child: Text(Strings.of(context)!.workoutMenuNotAvailable));
               }
               return Center(child: Text(message.toString()));
-            },
-            start: (fT, eEnt, u) => StartWorkoutView(
-              isFreeWorkout: fT,
-              exercise: eEnt,
-              user: u,
-            ),
-            finish: (fT, eEnt, sEnt) => const FinishWorkoutView(),
+            }, 
             success: (exercises) {
               exercises = exercises.where((e) => e.type!.isNotEmpty).toList();
               return GridView.builder(

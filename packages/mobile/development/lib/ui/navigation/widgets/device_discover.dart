@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/ui/navigation/cubit/navigation_cubit.dart';
 import 'package:hatofit/utils/utils.dart';
@@ -49,12 +50,13 @@ class FoundDevices extends StatelessWidget {
       listener: (context, state) {
         if (state.cDevice != null) {
           context.dismiss();
+          context.pop();
           Strings.of(context)!.successConnectToDevice.toToastSuccess(context);
         } else {
           context.dismiss();
           Strings.of(context)!.disconnectedFromDevice.toToastSuccess(context);
         }
-        if (state.bleFailure != null) { 
+        if (state.bleFailure != null) {
           context.dismiss();
           Strings.of(context)!.failedConnectToDevice.toToastError(context);
         }
@@ -175,7 +177,8 @@ class FoundDevices extends StatelessWidget {
                               ),
                             ],
                           ),
-                          state.cDevice == null
+                          state.fDevices![index].address !=
+                                  state.cDevice?.address
                               ? ElevatedButton(
                                   onPressed: state.cDevice == null &&
                                           state
@@ -200,7 +203,8 @@ class FoundDevices extends StatelessWidget {
                                           ? SizedBox(
                                               height: Dimens.width16,
                                               width: Dimens.width16,
-                                              child: CircularProgressIndicator(
+                                              child:
+                                                  const CircularProgressIndicator(
                                                 color: Colors.white,
                                               ),
                                             )
@@ -224,7 +228,7 @@ class FoundDevices extends StatelessWidget {
                                   ),
                                 )
                               : ElevatedButton(
-                                  onPressed: () async => await context
+                                  onPressed: () => context
                                       .read<NavigationCubit>()
                                       .disconnectDevice(state.fDevices![index]),
                                   child: Row(

@@ -128,7 +128,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   void signUpWithRestAPI(RegisterParams params) async {
     emit(const _Loading());
-    final user = await _getUserUsecase.call(GetUserParams(fromLocal: false));
+    final user = await _getUserUsecase.call(const GetUserParams(fromLocal: false));
     user.fold((l) => null, (r) async {
       try {
         final Either<Failure, AuthResponseEntity> res =

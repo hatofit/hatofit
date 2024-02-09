@@ -14,7 +14,7 @@ class SessionModel with _$SessionModel {
     ExerciseModel? exercise,
     int? startTime,
     int? endTime,
-    List<SessionTimelineModel>? timeline,
+    List<SessionTimelineModel>? timelines,
     List<SessionDataItemModel>? data,
   }) = _SessionModel;
 
@@ -30,7 +30,7 @@ class SessionModel with _$SessionModel {
         exercise: exercise?.toEntity(),
         startTime: startTime,
         endTime: endTime,
-        timeline: timeline?.map((e) => e.toEntity()).toList(),
+        timelines: timelines?.map((e) => e.toEntity()).toList(),
         data: data?.map((e) => e.toEntity()).toList(),
       );
 
@@ -42,7 +42,7 @@ class SessionModel with _$SessionModel {
             ExerciseModel.fromEntity(entity.exercise ?? const ExerciseEntity()),
         startTime: entity.startTime,
         endTime: entity.endTime,
-        timeline: entity.timeline
+        timelines: entity.timelines
             ?.map((e) => SessionTimelineModel.fromEntity(e))
             .toList(),
         data: entity.data

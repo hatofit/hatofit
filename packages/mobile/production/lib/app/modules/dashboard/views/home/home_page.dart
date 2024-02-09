@@ -98,7 +98,7 @@ class HomePage extends GetView<HomeController> {
                                                 .displaySmall,
                                           ),
                                           Text(
-                                            '${device.info.name}',
+                                            device.info.name,
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .bodyMedium,

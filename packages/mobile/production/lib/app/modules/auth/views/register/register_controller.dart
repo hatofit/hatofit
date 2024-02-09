@@ -22,10 +22,6 @@ class RegisterController extends GetxController {
   final pickedImageBase64 = ''.obs;
   final Rx<File> pickedImage = Rx<File>(File(''));
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   @override
   void onClose() {

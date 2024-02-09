@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hatofit/data/models/session/session_model.dart';
 import 'package:hatofit/domain/domain.dart';
+import 'package:hatofit/utils/helper/logger.dart';
 
 part 'report_model.freezed.dart';
 part 'report_model.g.dart';
@@ -31,7 +31,7 @@ class ReportModel with _$ReportModel {
         devices: devices?.map((e) => e.toEntity()).toList(),
         reports: reports?.map((e) => e.toEntity()).toList(),
       );
-  factory ReportModel.fromSession(SessionModel session) {
+  factory ReportModel.fromSession(dynamic session) {
     const knownBrand = [
       'Polar',
       'Magene',
@@ -156,6 +156,36 @@ class ReportModel with _$ReportModel {
               );
             }
           }
+          if (device.type?.contains("ecg")) {
+            final reportIndex = reports.indexWhere(
+              (e) => e.type == "ecg",
+            );
+            if (reportIndex == -1) {
+              reports.add(ReportDataModel(
+                type: "ecg",
+                data: [
+                  ReportDataValueModel(
+                    device: device.identifier,
+                    value: [
+                      [
+                        item.second!,
+                        device.value!.first['voltage'],
+                        item.timeStamp!,
+                      ],
+                    ],
+                  )
+                ],
+              ));
+            } else {
+              reports[reportIndex].data![0].value!.add(
+                [
+                  item.second!,
+                  device.value!.first['voltage'],
+                  item.timeStamp!,
+                ],
+              );
+            }
+          }
         }
       }
     }
@@ -206,6 +236,30 @@ class ReportDataModel with _$ReportDataModel {
         type: type,
         data: data?.map((e) => e.toEntity()).toList(),
       );
+
+  List<EcgChartModel> generateEcgChart() {
+    List<EcgChartModel> chart = [];
+    int count = 0;
+    int second = 0;
+    for (var item in data!) {
+      for (var value in item.value!) {
+        if (second != value[0]) {
+          log.d("Second: $second Count: $count");
+          count = 0;
+          second = value[0];
+        } else {
+          count++;
+        }
+        chart.add(
+          EcgChartModel(
+            timestamp: value[2],
+            voltage: value[1],
+          ),
+        );
+      }
+    }
+    return chart;
+  }
 }
 
 @Freezed(makeCollectionsUnmodifiable: false)
@@ -224,4 +278,14 @@ class ReportDataValueModel with _$ReportDataValueModel {
         device: device,
         value: value,
       );
+}
+
+class EcgChartModel {
+  final int timestamp;
+  final int voltage;
+
+  EcgChartModel({
+    required this.timestamp,
+    required this.voltage,
+  });
 }

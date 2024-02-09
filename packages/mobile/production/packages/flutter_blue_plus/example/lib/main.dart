@@ -154,7 +154,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
             if (FlutterBluePlus.isScanningNow == false) {
               FlutterBluePlus.startScan(timeout: const Duration(seconds: 15), androidUsesFineLocation: false);
             }
-            return Future.delayed(Duration(milliseconds: 500)); // show refresh icon breifly
+            return Future.delayed(const Duration(milliseconds: 500)); // show refresh icon breifly
           },
           child: SingleChildScrollView(
             child: Column(
@@ -176,7 +176,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                                       child: const Text('OPEN'),
                                       onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                                           builder: (context) => DeviceScreen(device: d),
-                                          settings: RouteSettings(name: '/deviceScreen'))),
+                                          settings: const RouteSettings(name: '/deviceScreen'))),
                                     );
                                   }
                                   if (snapshot.data == BluetoothConnectionState.disconnected) {
@@ -187,7 +187,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                                               builder: (context) {
                                                 isConnectingOrDisconnecting[d.remoteId] ??= ValueNotifier(true);
                                                 isConnectingOrDisconnecting[d.remoteId]!.value = true;
-                                                d.connect(timeout: Duration(seconds: 35)).catchError((e) {
+                                                d.connect(timeout: const Duration(seconds: 35)).catchError((e) {
                                                   final snackBar = snackBarFail(prettyException("Connect Error:", e));
                                                   snackBarKeyC.currentState?.removeCurrentSnackBar();
                                                   snackBarKeyC.currentState?.showSnackBar(snackBar);
@@ -197,7 +197,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                                                 });
                                                 return DeviceScreen(device: d);
                                               },
-                                              settings: RouteSettings(name: '/deviceScreen')));
+                                              settings: const RouteSettings(name: '/deviceScreen')));
                                         });
                                   }
                                   return Text(snapshot.data.toString().toUpperCase().split('.')[1]);
@@ -219,7 +219,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                                 builder: (context) {
                                   isConnectingOrDisconnecting[r.device.remoteId] ??= ValueNotifier(true);
                                   isConnectingOrDisconnecting[r.device.remoteId]!.value = true;
-                                  r.device.connect(timeout: Duration(seconds: 35)).catchError((e) {
+                                  r.device.connect(timeout: const Duration(seconds: 35)).catchError((e) {
                                     final snackBar = snackBarFail(prettyException("Connect Error:", e));
                                     snackBarKeyC.currentState?.removeCurrentSnackBar();
                                     snackBarKeyC.currentState?.showSnackBar(snackBar);
@@ -229,7 +229,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                                   });
                                   return DeviceScreen(device: r.device);
                                 },
-                                settings: RouteSettings(name: '/deviceScreen'))),
+                                settings: const RouteSettings(name: '/deviceScreen'))),
                           ),
                         )
                         .toList(),
@@ -245,7 +245,6 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
           builder: (c, snapshot) {
             if (snapshot.data ?? false) {
               return FloatingActionButton(
-                child: const Icon(Icons.stop),
                 onPressed: () async {
                   try {
                     FlutterBluePlus.stopScan();
@@ -256,6 +255,7 @@ class _FindDevicesScreenState extends State<FindDevicesScreen> {
                   }
                 },
                 backgroundColor: Colors.red,
+                child: const Icon(Icons.stop),
               );
             } else {
               return FloatingActionButton(
@@ -420,7 +420,7 @@ class DeviceScreen extends StatelessWidget {
                       isConnectingOrDisconnecting[device.remoteId] ??= ValueNotifier(true);
                       isConnectingOrDisconnecting[device.remoteId]!.value = true;
                       try {
-                        await device.connect(timeout: Duration(seconds: 35));
+                        await device.connect(timeout: const Duration(seconds: 35));
                         final snackBar = snackBarGood("Connect: Success");
                         snackBarKeyC.currentState?.removeCurrentSnackBar();
                         snackBarKeyC.currentState?.showSnackBar(snackBar);
@@ -445,8 +445,8 @@ class DeviceScreen extends StatelessWidget {
                       isConnectingOrDisconnecting[device.remoteId] ??= ValueNotifier(false);
                       if (isConnectingOrDisconnecting[device.remoteId]!.value == true) {
                         // Show spinner when connecting or disconnecting
-                        return Padding(
-                          padding: const EdgeInsets.all(14.0),
+                        return const Padding(
+                          padding: EdgeInsets.all(14.0),
                           child: AspectRatio(
                             aspectRatio: 1.0,
                             child: CircularProgressIndicator(
@@ -521,11 +521,11 @@ class DeviceScreen extends StatelessWidget {
                             ),
                             const IconButton(
                               icon: SizedBox(
+                                width: 18.0,
+                                height: 18.0,
                                 child: CircularProgressIndicator(
                                   valueColor: AlwaysStoppedAnimation(Colors.grey),
                                 ),
-                                width: 18.0,
-                                height: 18.0,
                               ),
                               onPressed: null,
                             )
@@ -574,7 +574,7 @@ class DeviceScreen extends StatelessWidget {
     );
   }
 
-  Stream<int> rssiStream({Duration frequency = const Duration(seconds: 5), int? maxItems = null}) async* {
+  Stream<int> rssiStream({Duration frequency = const Duration(seconds: 5), int? maxItems}) async* {
     var isConnected = true;
     final subscription = device.connectionState.listen((v) {
       isConnected = v == BluetoothConnectionState.connected;

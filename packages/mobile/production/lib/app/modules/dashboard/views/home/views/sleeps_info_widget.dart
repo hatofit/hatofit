@@ -65,7 +65,7 @@ class SleepsInfoWidget extends GetView<HomeController> {
                             minorTicksPerInterval: 4,
                             useRangeColorForAxis: true,
                             animateAxis: true,
-                            axisTrackStyle: LinearAxisTrackStyle(thickness: 1),
+                            axisTrackStyle: const LinearAxisTrackStyle(thickness: 1),
                             ranges: const <LinearGaugeRange>[
                               LinearGaugeRange(
                                   startValue: 0,

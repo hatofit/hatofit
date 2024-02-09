@@ -152,7 +152,7 @@ class PolarClient with FirebaseCrashLogger {
     }
   }
 
-  Stream<Either<Failure, PolarStreamingData>> polarAccStream(
+  Stream<Either<Failure, PolarStreamingData<PolarAccSample>>> polarAccStream(
     String deviceId,
     Set<PolarDataType> types,
   ) async* {
@@ -171,7 +171,7 @@ class PolarClient with FirebaseCrashLogger {
     }
   }
 
-  Stream<Either<Failure, PolarStreamingData>> polarGyroStream(
+  Stream<Either<Failure, PolarStreamingData<PolarGyroSample>>> polarGyroStream(
     String deviceId,
     Set<PolarDataType> types,
   ) async* {
@@ -190,7 +190,8 @@ class PolarClient with FirebaseCrashLogger {
     }
   }
 
-  Stream<Either<Failure, PolarStreamingData>> polarMagnetometerStream(
+  Stream<Either<Failure, PolarStreamingData<PolarMagnetometerSample>>>
+      polarMagnetometerStream(
     String deviceId,
     Set<PolarDataType> types,
   ) async* {
@@ -209,7 +210,7 @@ class PolarClient with FirebaseCrashLogger {
     }
   }
 
-  Stream<Either<Failure, PolarStreamingData>> polarPpgStream(
+  Stream<Either<Failure, PolarStreamingData<PolarPpgSample>>> polarPpgStream(
     String deviceId,
     Set<PolarDataType> types,
   ) async* {

@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
+import 'package:hatofit/utils/utils.dart';
 import 'package:polar/polar.dart';
 
 part 'navigation_cubit.freezed.dart';
@@ -22,10 +22,17 @@ class NavigationCubit extends Cubit<NavigationState> {
   final DisconnectCommonBleUsecase _disconnectCommonBleUsecase;
   final GetServicesPolarBLEUsecase _getPolarServicesUsecase;
   final GetServicesCommonBLEUsecase _getCommonServicesUsecase;
-  final StreamHrPolarBLEUsecase _streamHrPolarBLEUsecase;
   final StreamCommonBLEUsecase _streamCommonBLEUsecase;
   final StopScanBLEUsecase _stopScanBLEUsecase;
   final StatePolarBleUsecase _statePolarBleUsecase;
+
+  final StreamHrPolarBLEUsecase _streamHrPolarBLEUsecase;
+  final StreamEcgPolarBLEUsecase _streamEcgPolarBLEUsecase;
+  final StreamAccPolarBLEUsecase _streamAccPolarBLEUsecase;
+  final StreamGyroPolarBLEUsecase _streamGyroPolarBLEUsecase;
+  final StreamMagnetometerPolarBLEUsecase _streamMagnetometerPolarBLEUsecase;
+  final StreamPpgPolarBLEUsecase _streamPpgPolarBLEUsecase;
+
   NavigationCubit(
     this._scanCommonBLEUsecase,
     this._scanResultsBLEUsecase,
@@ -41,13 +48,23 @@ class NavigationCubit extends Cubit<NavigationState> {
     this._streamCommonBLEUsecase,
     this._stopScanBLEUsecase,
     this._statePolarBleUsecase,
+    this._streamEcgPolarBLEUsecase,
+    this._streamAccPolarBLEUsecase,
+    this._streamGyroPolarBLEUsecase,
+    this._streamMagnetometerPolarBLEUsecase,
+    this._streamPpgPolarBLEUsecase,
   ) : super(NavigationState(bleFailure: null));
 
   StreamSubscription? _bleAdapterStateStream;
   StreamSubscription? _scanResultStream;
   StreamSubscription? _isScanningStream;
-  StreamSubscription? _scanStream;
   StreamSubscription? _hrPolarStream;
+  StreamSubscription? _ecgPolarStream;
+  StreamSubscription? _accPolarStream;
+  StreamSubscription? _gyroPolarStream;
+  StreamSubscription? _magnetometerPolarStream;
+  StreamSubscription? _ppgPolarStream;
+
   StreamSubscription? _hrCommonStream;
   StreamSubscription? _conStateCommonStream;
   StreamSubscription? _polarStateStream;
@@ -69,13 +86,29 @@ class NavigationCubit extends Cubit<NavigationState> {
       _isScanningStream?.cancel();
       _isScanningStream = null;
     }
-    if (_scanStream != null) {
-      _scanStream?.cancel();
-      _scanStream = null;
-    }
     if (_hrPolarStream != null) {
       _hrPolarStream?.cancel();
       _hrPolarStream = null;
+    }
+    if (_ecgPolarStream != null) {
+      _ecgPolarStream?.cancel();
+      _ecgPolarStream = null;
+    }
+    if (_accPolarStream != null) {
+      _accPolarStream?.cancel();
+      _accPolarStream = null;
+    }
+    if (_gyroPolarStream != null) {
+      _gyroPolarStream?.cancel();
+      _gyroPolarStream = null;
+    }
+    if (_magnetometerPolarStream != null) {
+      _magnetometerPolarStream?.cancel();
+      _magnetometerPolarStream = null;
+    }
+    if (_ppgPolarStream != null) {
+      _ppgPolarStream?.cancel();
+      _ppgPolarStream = null;
     }
     if (_hrCommonStream != null) {
       _hrCommonStream?.cancel();
@@ -111,7 +144,9 @@ class NavigationCubit extends Cubit<NavigationState> {
             }
           },
           (device) {
-            // log.i("Scan results [S] $device");
+            // for (final i in device) {
+            //   log.e("Device found: ${i.name}");
+            // }
             emit(state.copyWith(fDevices: device));
           },
         );
@@ -127,12 +162,19 @@ class NavigationCubit extends Cubit<NavigationState> {
     _polarStateStream ??= _statePolarBleUsecase.call().listen((event) {
       event.fold((l) {
         if (l is BluetoothFailure) {
-          emit(state.copyWith(conState: null, bleFailure: l));
+          emit(state.copyWith(
+            conState: null,
+            bleFailure: l,
+            isLoading: false,
+            cDevice: null,
+            hrSample: null,
+          ));
         }
       }, (r) {
         emit(state.copyWith(conState: r));
       });
     });
+    startScan();
   }
 
   Future<void> startScan() async {
@@ -144,6 +186,13 @@ class NavigationCubit extends Cubit<NavigationState> {
   }
 
   Future<void> connectToDevice(BleEntity entity) async {
+    emit(state.copyWith(bleFailure: null, isLoading: true));
+    if (_scanResultStream != null) {
+      await _stopScanBLEUsecase
+          .call(StopScanCommonParams(subscription: _scanResultStream!));
+      _scanResultStream?.cancel();
+      _scanResultStream = null;
+    }
     if (!entity.isConnectable) {
       return;
     } else if (entity.name.contains("Polar")) {
@@ -154,64 +203,81 @@ class NavigationCubit extends Cubit<NavigationState> {
   }
 
   Future<void> connectToPolarDevice(BleEntity entity) async {
-    emit(state.copyWith(bleFailure: null, isLoading: true));
     int attempt = 0;
-    if (_scanStream != null) {
-      _scanStream?.cancel();
-      _scanStream = null;
-    }
     if (_hrPolarStream != null) {
       _hrPolarStream?.cancel();
       _hrPolarStream = null;
     }
-    await _disconnectPolarBleDeviceUsecase.call(DisconnectPolarParams(
-      deviceId: entity.polarId ?? getPolarId(entity.name),
-    ));
-    Future.delayed(const Duration(seconds: 1), () async {
-      if (entity.polarId != null) {
-        final con = await _connectPolarBleUsecase.call(ConnectPolarParams(
-          deviceId: entity.polarId ?? getPolarId(entity.name),
-        ));
+    if (_ecgPolarStream != null) {
+      _ecgPolarStream?.cancel();
+      _ecgPolarStream = null;
+    }
+    if (_accPolarStream != null) {
+      _accPolarStream?.cancel();
+      _accPolarStream = null;
+    }
+    if (_gyroPolarStream != null) {
+      _gyroPolarStream?.cancel();
+      _gyroPolarStream = null;
+    }
+    if (_magnetometerPolarStream != null) {
+      _magnetometerPolarStream?.cancel();
+      _magnetometerPolarStream = null;
+    }
+    if (_ppgPolarStream != null) {
+      _ppgPolarStream?.cancel();
+      _ppgPolarStream = null;
+    }
+    if (entity.device.isConnected) {
+      await _disconnectPolarBleDeviceUsecase.call(DisconnectPolarParams(
+        deviceId: entity.polarId ?? getPolarId(entity.name),
+      ));
+    }
+    if (entity.polarId != null) {
+      final con = await _connectPolarBleUsecase.call(ConnectPolarParams(
+        deviceId: entity.polarId ?? getPolarId(entity.name),
+      ));
 
-        con.fold((l) {
-          if (l is BluetoothFailure) {
-            if (l.message!.contains("BleDisconnected") &&
-                l.message!.contains("polar")) {
+      con.fold((l) {
+        if (l is BluetoothFailure) {
+          if (l.message!.contains("BleDisconnected") &&
+              l.message!.contains("polar")) {
+            Future.delayed(
+                Duration(seconds: 1),
+                () async => await _disconnectPolarBleDeviceUsecase
+                        .call(DisconnectPolarParams(
+                      deviceId: entity.polarId ?? getPolarId(entity.name),
+                    )));
+
+            if (attempt < 3) {
               Future.delayed(
-                  Durations.long1,
-                  () async => await _disconnectPolarBleDeviceUsecase
-                          .call(DisconnectPolarParams(
+                  Duration(seconds: 1),
+                  () async =>
+                      await _connectPolarBleUsecase.call(ConnectPolarParams(
                         deviceId: entity.polarId ?? getPolarId(entity.name),
                       )));
-              attempt++;
-              if (attempt < 3) {
-                Future.delayed(Durations.long4,
-                    () async => await connectToPolarDevice(entity));
-              } else {
-                emit(state.copyWith(
-                    cDevice: null, bleFailure: l, isLoading: false));
-              }
             } else {
-              attempt = 0;
               emit(state.copyWith(
-                  cDevice: null, bleFailure: l, isLoading: false));
+                cDevice: null,
+                bleFailure: l,
+                isLoading: false,
+              ));
             }
+            attempt++;
+          } else {
+            attempt = 0;
+            emit(
+                state.copyWith(cDevice: null, bleFailure: l, isLoading: false));
           }
-        }, (_) async {
-          await discoverTypesPolar(entity);
-        });
-      }
-    });
+        }
+      }, (_) async {
+        await discoverTypesPolar(entity);
+      });
+    }
   }
 
   Future<void> connectToCommonDevice(BleEntity entity) async {
     emit(state.copyWith(bleFailure: null, isLoading: true));
-    if (_scanStream != null) {
-      await _stopScanBLEUsecase
-          .call(StopScanCommonParams(subscription: _scanStream!));
-      await _scanStream?.cancel();
-      _scanStream = null;
-    }
     if (_hrCommonStream != null) {
       await _hrCommonStream?.cancel();
       _hrCommonStream = null;
@@ -227,7 +293,11 @@ class NavigationCubit extends Cubit<NavigationState> {
     ));
     con.fold((l) {
       if (l is BluetoothFailure) {
-        emit(state.copyWith(cDevice: null, bleFailure: l, isLoading: false));
+        emit(state.copyWith(
+          cDevice: null,
+          bleFailure: l,
+          isLoading: false,
+        ));
       }
     }, (_) async {
       emit(state.copyWith(
@@ -245,10 +315,11 @@ class NavigationCubit extends Cubit<NavigationState> {
     res.fold(
       (l) {
         if (l is BluetoothFailure) {
-          emit(state.copyWith(cDevice: null, bleFailure: l, isLoading: false));
+          clearState(f: l);
+          disconnectDevice(entity);
         }
       },
-      (r) async {
+      (r) {
         List<BleEntity>? nDL = [];
         for (final e in state.fDevices!) {
           if (e.polarId == entity.polarId) {
@@ -264,7 +335,12 @@ class NavigationCubit extends Cubit<NavigationState> {
           cDevice: entity,
           fDevices: nDL,
         ));
-        await subscribeHrPolar(entity, r);
+        subscribeHrPolar(entity, r);
+        subscribeEcgPolar(entity, r);
+        subscribeAccPolar(entity, r);
+        subscribeGyroPolar(entity, r);
+        subscribeMagnetometerPolar(entity, r);
+        subscribePpgPolar(entity, r);
       },
     );
   }
@@ -279,16 +355,16 @@ class NavigationCubit extends Cubit<NavigationState> {
           emit(state.copyWith(cDevice: null, bleFailure: l, isLoading: false));
         }
       },
-      (r) async {
+      (r) {
         _conStateCommonStream ??= entity.device.connectionState.listen((event) {
           emit(state.copyWith(conState: event));
         });
-        await subscribeHrCommon(entity, r);
+        subscribeHrCommon(entity, r);
       },
     );
   }
 
-  Future<void> subscribeHrPolar(BleEntity entity, Set<PolarDataType> r) async {
+  void subscribeHrPolar(BleEntity entity, Set<PolarDataType> r) {
     _hrPolarStream ??= _streamHrPolarBLEUsecase
         .call(StreamPolarParams(
       deviceId: entity.polarId ?? getPolarId(entity.name),
@@ -298,17 +374,115 @@ class NavigationCubit extends Cubit<NavigationState> {
       event.fold(
         (l) {
           if (l is BluetoothFailure) {
-            emit(state.copyWith(
-                hrSample: null,
-                isLoading: false,
-                bleFailure: l,
-                cDevice: null,
-                conState: null));
+            clearState(f: l);
+          }
+        },
+        (r) {
+          emit(state.copyWith(hrSample: r.samples.last));
+        },
+      );
+    });
+  }
+
+  void subscribeEcgPolar(BleEntity entity, Set<PolarDataType> r) {
+    _ecgPolarStream ??= _streamEcgPolarBLEUsecase
+        .call(StreamPolarParams(
+      deviceId: entity.polarId ?? getPolarId(entity.name),
+      types: r,
+    ))
+        .listen((event) {
+      event.fold(
+        (l) {
+          if (l is BluetoothFailure) {
+            clearState(f: l);
+          }
+        },
+        (r) {
+          log.d("Ecg length: ${r.samples.length}");
+          emit(state.copyWith(ecgSample: r.samples));
+        },
+      );
+    });
+  }
+
+  void subscribeAccPolar(BleEntity entity, Set<PolarDataType> r) {
+    _accPolarStream ??= _streamAccPolarBLEUsecase
+        .call(StreamPolarParams(
+      deviceId: entity.polarId ?? getPolarId(entity.name),
+      types: r,
+    ))
+        .listen((event) {
+      event.fold(
+        (l) {
+          if (l is BluetoothFailure) {
+            clearState(f: l);
+          }
+        },
+        (r) {
+          emit(state.copyWith(accSample: r.samples.last));
+        },
+      );
+    });
+  }
+
+  void subscribeGyroPolar(BleEntity entity, Set<PolarDataType> r) {
+    _gyroPolarStream ??= _streamGyroPolarBLEUsecase
+        .call(StreamPolarParams(
+      deviceId: entity.polarId ?? getPolarId(entity.name),
+      types: r,
+    ))
+        .listen((event) {
+      event.fold(
+        (l) {
+          if (l is BluetoothFailure) {
+            clearState(f: l);
+          }
+        },
+        (r) {
+          emit(state.copyWith(gyroSample: r.samples.last));
+        },
+      );
+    });
+  }
+
+  void subscribeMagnetometerPolar(BleEntity entity, Set<PolarDataType> r) {
+    _magnetometerPolarStream ??= _streamMagnetometerPolarBLEUsecase
+        .call(StreamPolarParams(
+      deviceId: entity.polarId ?? getPolarId(entity.name),
+      types: r,
+    ))
+        .listen((event) {
+      event.fold(
+        (l) {
+          if (l is BluetoothFailure) {
+            clearState(f: l);
           }
         },
         (r) {
           emit(state.copyWith(
-              hrSample: r.samples.last, cDevice: entity, isLoading: false));
+              magnetometerSample: r.samples.last,
+              cDevice: entity,
+              isLoading: false));
+        },
+      );
+    });
+  }
+
+  void subscribePpgPolar(BleEntity entity, Set<PolarDataType> r) {
+    _ppgPolarStream ??= _streamPpgPolarBLEUsecase
+        .call(StreamPolarParams(
+      deviceId: entity.polarId ?? getPolarId(entity.name),
+      types: r,
+    ))
+        .listen((event) {
+      event.fold(
+        (l) {
+          if (l is BluetoothFailure) {
+            clearState(f: l);
+          }
+        },
+        (r) {
+          emit(state.copyWith(ppgSample: r.samples.last));
         },
       );
     });
@@ -329,7 +503,7 @@ class NavigationCubit extends Cubit<NavigationState> {
       event.fold(
         (l) {
           if (l is BluetoothFailure) {
-            emit(state.copyWith(hrSample: null, isLoading: false));
+            clearState(f: l);
           }
         },
         (r) {
@@ -352,13 +526,36 @@ class NavigationCubit extends Cubit<NavigationState> {
     }
   }
 
-  Future<void> disconnectDevice(BleEntity entity) async {
+  void disconnectDevice(BleEntity entity) {
+    clearState();
+    log.f("Device disconnected: ${state}");
+    log.f("Disconnecting device: ${entity.name}");
     if (entity.name.contains("Polar")) {
       if (_hrPolarStream != null) {
-        await _hrPolarStream?.cancel();
+        _hrPolarStream?.cancel();
       }
       _hrPolarStream = null;
-      await _disconnectPolarBleDeviceUsecase.call(DisconnectPolarParams(
+      if (_ecgPolarStream != null) {
+        _ecgPolarStream?.cancel();
+      }
+      _ecgPolarStream = null;
+      if (_accPolarStream != null) {
+        _accPolarStream?.cancel();
+      }
+      _accPolarStream = null;
+      if (_gyroPolarStream != null) {
+        _gyroPolarStream?.cancel();
+      }
+      _gyroPolarStream = null;
+      if (_magnetometerPolarStream != null) {
+        _magnetometerPolarStream?.cancel();
+      }
+      _magnetometerPolarStream = null;
+      if (_ppgPolarStream != null) {
+        _ppgPolarStream?.cancel();
+      }
+      _ppgPolarStream = null;
+      _disconnectPolarBleDeviceUsecase.call(DisconnectPolarParams(
         deviceId: entity.polarId ?? getPolarId(entity.name),
       ));
     } else {
@@ -366,14 +563,23 @@ class NavigationCubit extends Cubit<NavigationState> {
         entity.device.cancelWhenDisconnected(_hrCommonStream!);
       }
       _hrCommonStream = null;
-      await _disconnectCommonBleUsecase.call(DisconnectCommonParams(
+      _disconnectCommonBleUsecase.call(DisconnectCommonParams(
         device: entity.device,
       ));
     }
-    Future.delayed(Durations.long1, () {
-      emit(state.copyWith(hrSample: null, cDevice: null));
-    });
   }
+
+  void clearState({BluetoothFailure? f}) => emit(state.copyWith(
+        bleFailure: f,
+        isLoading: false,
+        hrSample: null,
+        ecgSample: null,
+        accSample: null,
+        gyroSample: null,
+        magnetometerSample: null,
+        ppgSample: null,
+        cDevice: null,
+      ));
 
   String getPolarId(String commonName) {
     return commonName.split(' ').last;

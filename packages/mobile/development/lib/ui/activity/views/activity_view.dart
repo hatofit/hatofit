@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/ui/ui.dart';
 import 'package:hatofit/utils/utils.dart';
@@ -23,99 +24,111 @@ class ActivityView extends StatelessWidget {
             loading: () => const Center(child: Loading()),
             failure: (message) => Center(child: Text(message)),
             empty: () => Container(),
-            success: (session) => ListView.builder(
-              itemCount: session.length,
-              itemBuilder: (context, index) => Container(
-                // padding: EdgeInsets.all(Dimens.width8),
-                margin: EdgeInsets.symmetric(
-                    vertical: Dimens.width4, horizontal: Dimens.width8),
-                height: Dimens.height100,
-                decoration: BoxDecoration(
-                  // border: Border.all(
-                  //   color: Theme.of(context).dividerColor,
-                  // ),
-                  borderRadius: BorderRadius.circular(8),
-                  color: context.isDarkMode ? Palette.cardDark : Palette.card,
-                ),
-                child: Row(
-                  children: [
-                    Row(
+            success: (session) {
+              return ListView.builder(
+                itemCount: session.length,
+                itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    context.pushNamed(
+                      Routes.activityDetail.name,
+                      extra: session[index],
+                    );
+                  },
+                  child: Container(
+                    margin: EdgeInsets.symmetric(
+                        vertical: Dimens.width4, horizontal: Dimens.width8),
+                    height: Dimens.height100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color:
+                          context.isDarkMode ? Palette.cardDark : Palette.card,
+                    ),
+                    child: Row(
                       children: [
-                        Container(
-                          width: Dimens.width128,
-                          height: Dimens.height100,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: CachedNetworkImageProvider(
-                                session[index].exercise?.thumbnail ??
-                                    Constants.get.placeholderImage,
+                        Row(
+                          children: [
+                            Container(
+                              width: Dimens.width128,
+                              height: Dimens.height100,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: CachedNetworkImageProvider(
+                                    session[index].exercise?.thumbnail ??
+                                        Constants.get.placeholderImage,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        SizedBox(width: Dimens.width16),
-                        Padding(
-                          padding:
-                              EdgeInsets.symmetric(vertical: Dimens.height4),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                session[index].exercise?.name ?? '',
-                                style: Theme.of(context).textTheme.bodyLarge,
-                              ),
-                              Row(
+                            SizedBox(width: Dimens.width16),
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: Dimens.height4),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Icon(
-                                    Icons.calendar_month,
-                                  ),
-                                  SizedBox(width: Dimens.width8),
                                   Text(
-                                    DateFormat('d MMMM yyyy').format(
-                                      DateTime.fromMicrosecondsSinceEpoch(
-                                          session[index].startTime ?? 0),
-                                    ),
+                                    session[index].exercise?.name ?? '',
                                     style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                        Theme.of(context).textTheme.bodyLarge,
                                   ),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.calendar_month,
+                                      ),
+                                      SizedBox(width: Dimens.width8),
+                                      Text(
+                                        DateFormat('d MMMM yyyy').format(
+                                          DateTime.fromMicrosecondsSinceEpoch(
+                                              session[index].startTime ?? 0),
+                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.access_time,
+                                      ),
+                                      SizedBox(width: Dimens.width8),
+                                      Text(
+                                        Duration(
+                                          microseconds:
+                                              session[index].endTime! -
+                                                  session[index].startTime!,
+                                        ).toString().split('.')[0],
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyMedium,
+                                      ),
+                                    ],
+                                  )
                                 ],
                               ),
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.access_time,
-                                  ),
-                                  SizedBox(width: Dimens.width8),
-                                  Text(
-                                    Duration(
-                                      microseconds: session[index].endTime! -
-                                          session[index].startTime!,
-                                    ).toString().split('.')[0],
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
+                        // Text('Name: ${session[index].exercise?.name}',
+                        //     style: Theme.of(context).textTheme.bodyLarge),
+                        // Text(
+                        //     'Date: ${DateFormat('d MMMM yyyy').format(
+                        //       DateTime.fromMicrosecondsSinceEpoch(
+                        //           session[index].startTime ?? 0),
+                        //     )}',
+                        //     style: Theme.of(context).textTheme.bodyLarge),
                       ],
                     ),
-                    // Text('Name: ${session[index].exercise?.name}',
-                    //     style: Theme.of(context).textTheme.bodyLarge),
-                    // Text(
-                    //     'Date: ${DateFormat('d MMMM yyyy').format(
-                    //       DateTime.fromMicrosecondsSinceEpoch(
-                    //           session[index].startTime ?? 0),
-                    //     )}',
-                    //     style: Theme.of(context).textTheme.bodyLarge),
-                  ],
+                  ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ),
       ),

@@ -24,7 +24,9 @@ class SessionRepoImpl implements SessionRepo {
         (failure) async {
           return await _local.saveSession(params);
         },
-        (sessionModel) {
+        (sessionModel) async {
+          await _local.cacheSession(
+              sessionModel.id ?? "", sessionModel.toEntity());
           return Right(sessionModel.toEntity());
         },
       );

@@ -4,6 +4,8 @@ import 'package:hatofit/core/core.dart';
 
 part 'data_helper.freezed.dart';
 
+enum CubitStatus { initial, loading, success, failure }
+
 @unfreezed
 class DataHelper with _$DataHelper {
   factory DataHelper({

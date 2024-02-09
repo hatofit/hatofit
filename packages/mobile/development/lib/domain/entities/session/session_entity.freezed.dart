@@ -29,7 +29,7 @@ mixin _$SessionEntity {
   @HiveField(5)
   int? get endTime => throw _privateConstructorUsedError;
   @HiveField(6)
-  List<SessionTimelineEntity>? get timeline =>
+  List<SessionTimelineEntity>? get timelines =>
       throw _privateConstructorUsedError;
   @HiveField(7)
   List<SessionDataItemEntity>? get data => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $SessionEntityCopyWith<$Res> {
       @HiveField(3) ExerciseEntity? exercise,
       @HiveField(4) int? startTime,
       @HiveField(5) int? endTime,
-      @HiveField(6) List<SessionTimelineEntity>? timeline,
+      @HiveField(6) List<SessionTimelineEntity>? timelines,
       @HiveField(7) List<SessionDataItemEntity>? data});
 
   $ExerciseEntityCopyWith<$Res>? get exercise;
@@ -77,7 +77,7 @@ class _$SessionEntityCopyWithImpl<$Res, $Val extends SessionEntity>
     Object? exercise = freezed,
     Object? startTime = freezed,
     Object? endTime = freezed,
-    Object? timeline = freezed,
+    Object? timelines = freezed,
     Object? data = freezed,
   }) {
     return _then(_value.copyWith(
@@ -105,9 +105,9 @@ class _$SessionEntityCopyWithImpl<$Res, $Val extends SessionEntity>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as int?,
-      timeline: freezed == timeline
-          ? _value.timeline
-          : timeline // ignore: cast_nullable_to_non_nullable
+      timelines: freezed == timelines
+          ? _value.timelines
+          : timelines // ignore: cast_nullable_to_non_nullable
               as List<SessionTimelineEntity>?,
       data: freezed == data
           ? _value.data
@@ -144,7 +144,7 @@ abstract class _$$SessionEntityImplCopyWith<$Res>
       @HiveField(3) ExerciseEntity? exercise,
       @HiveField(4) int? startTime,
       @HiveField(5) int? endTime,
-      @HiveField(6) List<SessionTimelineEntity>? timeline,
+      @HiveField(6) List<SessionTimelineEntity>? timelines,
       @HiveField(7) List<SessionDataItemEntity>? data});
 
   @override
@@ -168,7 +168,7 @@ class __$$SessionEntityImplCopyWithImpl<$Res>
     Object? exercise = freezed,
     Object? startTime = freezed,
     Object? endTime = freezed,
-    Object? timeline = freezed,
+    Object? timelines = freezed,
     Object? data = freezed,
   }) {
     return _then(_$SessionEntityImpl(
@@ -196,9 +196,9 @@ class __$$SessionEntityImplCopyWithImpl<$Res>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as int?,
-      timeline: freezed == timeline
-          ? _value._timeline
-          : timeline // ignore: cast_nullable_to_non_nullable
+      timelines: freezed == timelines
+          ? _value._timelines
+          : timelines // ignore: cast_nullable_to_non_nullable
               as List<SessionTimelineEntity>?,
       data: freezed == data
           ? _value._data
@@ -221,9 +221,9 @@ class _$SessionEntityImpl implements _SessionEntity {
       @HiveField(3) this.exercise,
       @HiveField(4) this.startTime,
       @HiveField(5) this.endTime,
-      @HiveField(6) final List<SessionTimelineEntity>? timeline,
+      @HiveField(6) final List<SessionTimelineEntity>? timelines,
       @HiveField(7) final List<SessionDataItemEntity>? data})
-      : _timeline = timeline,
+      : _timelines = timelines,
         _data = data;
 
   @override
@@ -244,13 +244,13 @@ class _$SessionEntityImpl implements _SessionEntity {
   @override
   @HiveField(5)
   final int? endTime;
-  final List<SessionTimelineEntity>? _timeline;
+  final List<SessionTimelineEntity>? _timelines;
   @override
   @HiveField(6)
-  List<SessionTimelineEntity>? get timeline {
-    final value = _timeline;
+  List<SessionTimelineEntity>? get timelines {
+    final value = _timelines;
     if (value == null) return null;
-    if (_timeline is EqualUnmodifiableListView) return _timeline;
+    if (_timelines is EqualUnmodifiableListView) return _timelines;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -268,7 +268,7 @@ class _$SessionEntityImpl implements _SessionEntity {
 
   @override
   String toString() {
-    return 'SessionEntity(id: $id, userId: $userId, mood: $mood, exercise: $exercise, startTime: $startTime, endTime: $endTime, timeline: $timeline, data: $data)';
+    return 'SessionEntity(id: $id, userId: $userId, mood: $mood, exercise: $exercise, startTime: $startTime, endTime: $endTime, timelines: $timelines, data: $data)';
   }
 
   @override
@@ -284,7 +284,8 @@ class _$SessionEntityImpl implements _SessionEntity {
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
-            const DeepCollectionEquality().equals(other._timeline, _timeline) &&
+            const DeepCollectionEquality()
+                .equals(other._timelines, _timelines) &&
             const DeepCollectionEquality().equals(other._data, _data));
   }
 
@@ -297,7 +298,7 @@ class _$SessionEntityImpl implements _SessionEntity {
       exercise,
       startTime,
       endTime,
-      const DeepCollectionEquality().hash(_timeline),
+      const DeepCollectionEquality().hash(_timelines),
       const DeepCollectionEquality().hash(_data));
 
   @JsonKey(ignore: true)
@@ -315,7 +316,7 @@ abstract class _SessionEntity implements SessionEntity {
           @HiveField(3) final ExerciseEntity? exercise,
           @HiveField(4) final int? startTime,
           @HiveField(5) final int? endTime,
-          @HiveField(6) final List<SessionTimelineEntity>? timeline,
+          @HiveField(6) final List<SessionTimelineEntity>? timelines,
           @HiveField(7) final List<SessionDataItemEntity>? data}) =
       _$SessionEntityImpl;
 
@@ -339,7 +340,7 @@ abstract class _SessionEntity implements SessionEntity {
   int? get endTime;
   @override
   @HiveField(6)
-  List<SessionTimelineEntity>? get timeline;
+  List<SessionTimelineEntity>? get timelines;
   @override
   @HiveField(7)
   List<SessionDataItemEntity>? get data;

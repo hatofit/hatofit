@@ -44,7 +44,7 @@ class ConnectedDevice extends StatelessWidget {
                                             .imageDeviceAssetDecision(),
                                         width: Dimens.width40,
                                       )
-                                    : SizedBox(),
+                                    : const SizedBox(),
                                 SizedBox(width: Dimens.width8),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,

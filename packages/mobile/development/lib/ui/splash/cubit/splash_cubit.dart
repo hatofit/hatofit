@@ -93,7 +93,7 @@ class SplashCubit extends Cubit<SplashState> {
   }
 
   Future<void> getLocalUser() async {
-    final res = await _getUserUsecase.call(GetUserParams(fromLocal: false));
+    final res = await _getUserUsecase.call(const GetUserParams(fromLocal: false));
     return res.fold((l) {
       _isInitialized = false;
       _user = null;

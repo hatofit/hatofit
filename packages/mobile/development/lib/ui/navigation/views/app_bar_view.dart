@@ -36,7 +36,7 @@ class AppBarView extends StatelessWidget {
                                 : Colors.white,
                           ),
                           onPressed: () {
-                            context.read<NavigationCubit>().startScan();
+                            // context.read<NavigationCubit>().startScan();
                             showModalBottomSheet(
                               showDragHandle: true,
                               context: context,
