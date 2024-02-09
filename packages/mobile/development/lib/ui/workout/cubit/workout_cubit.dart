@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:dartz/dartz.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hatofit/core/core.dart';
+import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
 import 'package:hatofit/utils/helper/logger.dart';
 import 'package:polar/polar.dart';
@@ -255,17 +254,17 @@ class WorkoutCubit extends Cubit<WorkoutState> {
           final usrMaxHr = 208 - (0.7 * age);
           final hrPecentage = ((lastHr / usrMaxHr) * 100).round();
           // final hrPecentage = 90;
-          HrZoneType hrZoneType = HrZoneType.MODERATE;
+          HrZoneType hrZoneType = HrZoneType.moderate;
           if (hrPecentage < 50) {
-            hrZoneType = HrZoneType.VERYLIGHT;
+            hrZoneType = HrZoneType.veryLight;
           } else if (hrPecentage < 60) {
-            hrZoneType = HrZoneType.LIGHT;
+            hrZoneType = HrZoneType.light;
           } else if (hrPecentage < 70) {
-            hrZoneType = HrZoneType.MODERATE;
+            hrZoneType = HrZoneType.moderate;
           } else if (hrPecentage < 80) {
-            hrZoneType = HrZoneType.HARD;
+            hrZoneType = HrZoneType.hard;
           } else {
-            hrZoneType = HrZoneType.MAXIMUM;
+            hrZoneType = HrZoneType.max;
           }
           return WorkoutSession(
             avgHr: avgHr,

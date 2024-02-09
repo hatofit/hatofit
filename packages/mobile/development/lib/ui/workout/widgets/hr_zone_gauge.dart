@@ -42,7 +42,7 @@ class HrZoneGauge extends StatelessWidget {
                         GaugeRange(
                             startValue: 0,
                             endValue: 48,
-                            color: HrZoneType.VERYLIGHT.color,
+                            color: HrZoneType.veryLight.color,
                             sizeUnit: GaugeSizeUnit.factor,
                             labelStyle: const GaugeTextStyle(
                                 fontFamily: 'Times', fontSize: 16),
@@ -51,7 +51,7 @@ class HrZoneGauge extends StatelessWidget {
                         GaugeRange(
                           startValue: 48,
                           endValue: 60,
-                          color: HrZoneType.LIGHT.color,
+                          color: HrZoneType.light.color,
                           labelStyle: const GaugeTextStyle(
                               fontFamily: 'Times', fontSize: 16),
                           startWidth: 0.65,
@@ -61,7 +61,7 @@ class HrZoneGauge extends StatelessWidget {
                         GaugeRange(
                           startValue: 60,
                           endValue: 71,
-                          color: HrZoneType.MODERATE.color,
+                          color: HrZoneType.moderate.color,
                           labelStyle: const GaugeTextStyle(
                               fontFamily: 'Times', fontSize: 16),
                           sizeUnit: GaugeSizeUnit.factor,
@@ -71,7 +71,7 @@ class HrZoneGauge extends StatelessWidget {
                         GaugeRange(
                           startValue: 71,
                           endValue: 80,
-                          color: HrZoneType.HARD.color,
+                          color: HrZoneType.hard.color,
                           labelStyle: const GaugeTextStyle(
                               fontFamily: 'Times', fontSize: 16),
                           sizeUnit: GaugeSizeUnit.factor,
@@ -81,7 +81,7 @@ class HrZoneGauge extends StatelessWidget {
                         GaugeRange(
                           startValue: 80,
                           endValue: 100,
-                          color: HrZoneType.MAXIMUM.color,
+                          color: HrZoneType.max.color,
                           labelStyle: const GaugeTextStyle(
                               fontFamily: 'Times', fontSize: 16),
                           sizeUnit: GaugeSizeUnit.factor,

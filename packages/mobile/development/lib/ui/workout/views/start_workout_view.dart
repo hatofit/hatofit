@@ -223,7 +223,7 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
                                       child: HrPercentGauge(
                                         percent: ses.hrPecentage,
                                         zoneType: ses.hrZoneType ??
-                                            HrZoneType.VERYLIGHT,
+                                            HrZoneType.veryLight,
                                       ),
                                     ),
                                     SizedBox(width: Dimens.width8),
@@ -231,7 +231,7 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
                                         child: HrZoneGauge(
                                       percent: ses.hrPecentage,
                                       zoneType: ses.hrZoneType ??
-                                          HrZoneType.VERYLIGHT,
+                                          HrZoneType.veryLight,
                                     )),
                                   ],
                                 ),
