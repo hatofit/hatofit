@@ -79,7 +79,8 @@ const UserSchema = new Schema(
       heightUnits: String,
     },
     resetPasswordCode: String,
-
+    requetDelete: Boolean,
+    deleteDate: Date,
     // others
     linkedCompanyId: String,
   },

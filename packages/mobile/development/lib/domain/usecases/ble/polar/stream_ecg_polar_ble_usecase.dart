@@ -3,8 +3,8 @@ import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 import 'package:polar/polar.dart';
 
-class StreamEcgPolarBLEUsecase extends StreamUseCase<
-    PolarStreamingData<PolarEcgSample>, StreamPolarParams> {
+class StreamEcgPolarBLEUsecase
+    extends SUC<PolarStreamingData<PolarEcgSample>, StreamPolarParams> {
   final PolarBLERepo _repo;
 
   StreamEcgPolarBLEUsecase(this._repo);

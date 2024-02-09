@@ -51,9 +51,6 @@ void _remoteDataSources() {
   di.registerLazySingleton<SessionRemoteDataSource>(
     () => SessionRemoteDataSourceImpl(di()),
   );
-  di.registerLazySingleton<UserRemoteDataSource>(
-    () => UserRemoteDataSourceImpl(di()),
-  );
   di.registerLazySingleton<ReportRemoteDataSource>(
     () => ReportRemoteDataSourceImpl(di()),
   );
@@ -182,29 +179,31 @@ void _useCase() {
 
   /// [Exercise]
   ///
-  di.registerLazySingleton(() => GetExercisesUsecase(di()));
+  di.registerLazySingleton(() => ExerciseByIdUsecase(di()));
+  di.registerLazySingleton(() => ExerciseAllUsecase(di()));
 
   /// [Session]
   ///
-  di.registerLazySingleton(() => GetSessionsUsecase(di()));
+  di.registerLazySingleton(() => SessionAllUsecase(di()));
+  di.registerLazySingleton(() => SessionByIdUsecase(di()));
   di.registerLazySingleton(() => CreateSessionUsecase(di()));
-  di.registerLazySingleton(() => GetSessionUsecase(di()));
 
   /// [User]
   ///
-  di.registerLazySingleton(() => GetUserUsecase(di()));
-  di.registerLazySingleton(() => GetMoodUsecase(di()));
-  di.registerLazySingleton(() => GetTokenUsecase(di()));
-  di.registerLazySingleton(() => UpdateUserUsecase(di()));
+  di.registerLazySingleton(() => ReadUserUsecase(di()));
+  di.registerLazySingleton(() => ReadMoodUsecase(di()));
+  di.registerLazySingleton(() => ReadTokenUsecase(di()));
+  di.registerLazySingleton(() => UpsertUserUsecase(di()));
   di.registerLazySingleton(() => UpdateTokenUsecase(di()));
   di.registerLazySingleton(() => UpdateMoodUsecase(di()));
-  di.registerLazySingleton(() => ClearMoodUsecase(di()));
-  di.registerLazySingleton(() => ClearTokenUsecase(di()));
-  di.registerLazySingleton(() => ClearUserUsecase(di()));
+  di.registerLazySingleton(() => DeleteMoodUsecase(di()));
+  di.registerLazySingleton(() => DeleteMoodUsecase(di()));
+  di.registerLazySingleton(() => DeleteMoodUsecase(di()));
 
   /// [Report]
   ///
-  di.registerLazySingleton(() => GetReportsUsecase(di()));
+  di.registerLazySingleton(() => ReportAllUsecase(di()));
+  di.registerLazySingleton(() => ReportByIdUsecase(di()));
 
   /// [Firebase]
   ///
@@ -213,11 +212,11 @@ void _useCase() {
 
   /// [App Config]
   ///
-  di.registerLazySingleton(() => GetActiveThemeUsecase(di()));
-  di.registerLazySingleton(() => GetLanguageUsecase(di()));
+  di.registerLazySingleton(() => ReadActiveThemeUsecase(di()));
+  di.registerLazySingleton(() => ReadLanguageUsecase(di()));
   di.registerLazySingleton(() => GetOfflineModeUsecase(di()));
   di.registerLazySingleton(() => UpdateActiveThemeUsecase(di()));
-  di.registerLazySingleton(() => UpdateLanguageUsecase(di()));
+  di.registerLazySingleton(() => UpesertLanguageUsecase(di()));
   di.registerLazySingleton(() => UpdateOfflineModeUsecase(di()));
 }
 
@@ -260,6 +259,9 @@ void _cubit() {
         di(),
         di(),
         di(),
+        di(),
+        di(),
+        di(), 
       ));
   di.registerFactory(() => WorkoutCubit(
         di(),

@@ -203,7 +203,6 @@ class WorkoutSession {
               List<PpgSample>,
               BleEntity>;
       List<SessionDataItemParams> hrBased = [];
-      List<SessionDataItemParams> ecgBased = [];
       final identifier = samples.value7.polarId ?? samples.value7.address;
 
       for (var hr in samples.value1) {
@@ -216,7 +215,7 @@ class WorkoutSession {
             identifier: identifier,
             value: [
               {
-                'timeStamp': hr.timeStamp.millisecondsSinceEpoch,
+                'timeStamp': hr.timeStamp.microsecondsSinceEpoch,
                 'hr': hr.hr,
                 'rrsMs': hr.rrsMs,
               },
@@ -230,7 +229,7 @@ class WorkoutSession {
               identifier: identifier,
               value: [
                 {
-                  'timeStamp': ecg.timeStamp.millisecondsSinceEpoch,
+                  'timeStamp': ecg.timeStamp.toIso8601String(),
                   'voltage': ecg.voltage,
                 },
               ],
@@ -245,7 +244,7 @@ class WorkoutSession {
               identifier: identifier,
               value: [
                 {
-                  'timeStamp': acc.timeStamp.millisecondsSinceEpoch,
+                  'timeStamp': acc.timeStamp.microsecondsSinceEpoch,
                   'x': acc.x,
                   'y': acc.y,
                   'z': acc.z,
@@ -261,7 +260,7 @@ class WorkoutSession {
               identifier: identifier,
               value: [
                 {
-                  'timeStamp': gyro.timeStamp.millisecondsSinceEpoch,
+                  'timeStamp': gyro.timeStamp.microsecondsSinceEpoch,
                   'x': gyro.x,
                   'y': gyro.y,
                   'z': gyro.z,
@@ -277,7 +276,7 @@ class WorkoutSession {
               identifier: identifier,
               value: [
                 {
-                  'timeStamp': magnetometer.timeStamp.millisecondsSinceEpoch,
+                  'timeStamp': magnetometer.timeStamp.microsecondsSinceEpoch,
                   'x': magnetometer.x,
                   'y': magnetometer.y,
                   'z': magnetometer.z,
@@ -293,7 +292,7 @@ class WorkoutSession {
               identifier: identifier,
               value: [
                 {
-                  'timeStamp': ppg.timeStamp.millisecondsSinceEpoch,
+                  'timeStamp': ppg.timeStamp.microsecondsSinceEpoch,
                   'channelSamples': ppg.channelSamples,
                 },
               ],
@@ -302,19 +301,18 @@ class WorkoutSession {
         }
         hrBased.add(SessionDataItemParams(
           second: hr.second,
-          timeStamp: hr.timeStamp.millisecondsSinceEpoch,
+          timeStamp: hr.timeStamp.microsecondsSinceEpoch,
           devices: devices,
         ));
       }
-      final combined = hrBased + ecgBased;
-      return combined;
+      return hrBased;
     });
     final res = await parser.parseInBackground();
     return CreateSessionParams(
       userId: user.id ?? '',
       exerciseId: exercise.id ?? '',
-      startTime: hrSamples?.first.timeStamp.millisecondsSinceEpoch ?? 0,
-      endTime: hrSamples?.last.timeStamp.millisecondsSinceEpoch ?? 0,
+      startTime: hrSamples?.first.timeStamp.microsecondsSinceEpoch ?? 0,
+      endTime: hrSamples?.last.timeStamp.microsecondsSinceEpoch ?? 0,
       mood: mood,
       timelines: [],
       data: res,

@@ -4,8 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 
-class DownloadImageUsecase
-    extends WithParamsUseCase<File, DownloadImageParams> {
+class DownloadImageUsecase extends FPUC<File, DownloadImageParams> {
   final ImageRepo _repo;
 
   DownloadImageUsecase(this._repo);

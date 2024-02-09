@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hatofit/domain/domain.dart';
 
 part 'register_params.freezed.dart';
 
@@ -23,7 +24,23 @@ class RegisterParams with _$RegisterParams {
 
   const RegisterParams._();
 
-  FormData toFromData() => FormData.fromMap({
+  factory RegisterParams.fromUser(UserEntity user) => RegisterParams(
+        firstName: user.firstName ?? "",
+        lastName: user.lastName ?? "",
+        gender: user.gender ?? "",
+        email: user.email ?? "",
+        dateOfBirth: user.dateOfBirth.toString(),
+        photo: File(user.photo ?? ""),
+        height: user.height ?? 150,
+        weight: user.weight ?? 125,
+        metricUnits: {
+          "energyUnits": user.metricUnits?.energyUnits ?? "kcal",
+          "heightUnits": user.metricUnits?.heightUnits ?? "cm",
+          "weightUnits": user.metricUnits?.weightUnits ?? "kg",
+        },
+      );
+
+  FormData toFormData() => FormData.fromMap({
         "firstName": firstName,
         "lastName": lastName,
         "gender": gender,

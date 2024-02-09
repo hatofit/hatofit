@@ -5,14 +5,14 @@ import 'package:hatofit/domain/domain.dart';
 import 'package:hatofit/utils/helper/logger.dart';
 
 abstract class SessionRemoteDataSource {
-  Future<Either<Failure, SessionModel>> getSession(
-    GetSessionParams params,
-  );
-  Future<Either<Failure, List<SessionModel>>> getSessions(
-    GetSessionsParams params,
-  );
   Future<Either<Failure, SessionModel>> createSessions(
     CreateSessionParams params,
+  );
+  Future<Either<Failure, SessionModel>> readSessionById(
+    ByIdParams params,
+  );
+  Future<Either<Failure, List<SessionModel>>> readSessionAll(
+    ByLimitParams params,
   );
 }
 
@@ -38,8 +38,8 @@ class SessionRemoteDataSourceImpl implements SessionRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, SessionModel>> getSession(
-    GetSessionParams params,
+  Future<Either<Failure, SessionModel>> readSessionById(
+    ByIdParams params,
   ) async {
     final res = await _client.getRequest(
       "${APIConstant.get.session}/${params.id}",
@@ -51,8 +51,8 @@ class SessionRemoteDataSourceImpl implements SessionRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, List<SessionModel>>> getSessions(
-    GetSessionsParams params,
+  Future<Either<Failure, List<SessionModel>>> readSessionAll(
+    ByLimitParams params,
   ) async {
     final res = await _client.getRequest(
       APIConstant.get.session,

@@ -3,14 +3,14 @@ import 'package:hatofit/core/core.dart';
 import 'package:hatofit/utils/utils.dart';
 
 abstract class AppConfigLocalDataSource {
-  Either<Failure, bool> getOfflineMode();
-  Future<Either<Failure, bool>> setOfflineMode(bool value);
+  Either<Failure, bool> readOfflineMode();
+  Future<Either<Failure, bool>> upsertOfflineMode(bool value);
 
-  Either<Failure, ActiveTheme> getActiveTheme();
-  Future<Either<Failure, ActiveTheme>> setActiveTheme(ActiveTheme theme);
+  Either<Failure, ActiveTheme> readActiveTheme();
+  Future<Either<Failure, ActiveTheme>> upsertActiveTheme(ActiveTheme theme);
 
-  Either<Failure, String> getLanguage();
-  Future<Either<Failure, String>> setLanguage(String language);
+  Either<Failure, String> readLanguage();
+  Future<Either<Failure, String>> upsertLanguage(String language);
 }
 
 class AppConfigLocalDataSourceImpl
@@ -21,7 +21,7 @@ class AppConfigLocalDataSourceImpl
   AppConfigLocalDataSourceImpl(this._client);
 
   @override
-  Either<Failure, bool> getOfflineMode() {
+  Either<Failure, bool> readOfflineMode() {
     try {
       final bool? offlineMode =
           _client.appConfigBox.get(AppConfigKeys.offlineMode.name);
@@ -36,10 +36,12 @@ class AppConfigLocalDataSourceImpl
   }
 
   @override
-  Future<Either<Failure, bool>> setOfflineMode(bool value) async {
+  Future<Either<Failure, bool>> upsertOfflineMode(
+    bool value,
+  ) async {
     try {
       await _client.appConfigBox.put(AppConfigKeys.offlineMode.name, value);
-      return getOfflineMode();
+      return readOfflineMode();
     } catch (e, s) {
       nonFatalError(error: e, stackTrace: s);
       return Left(CacheFailure(e.toString()));
@@ -47,7 +49,7 @@ class AppConfigLocalDataSourceImpl
   }
 
   @override
-  Either<Failure, ActiveTheme> getActiveTheme() {
+  Either<Failure, ActiveTheme> readActiveTheme() {
     try {
       final ActiveTheme? theme =
           _client.appConfigBox.get(AppConfigKeys.activeTheme.name);
@@ -62,7 +64,20 @@ class AppConfigLocalDataSourceImpl
   }
 
   @override
-  Either<Failure, String> getLanguage() {
+  Future<Either<Failure, ActiveTheme>> upsertActiveTheme(
+    ActiveTheme theme,
+  ) async {
+    try {
+      await _client.appConfigBox.put(AppConfigKeys.activeTheme.name, theme);
+      return readActiveTheme();
+    } catch (e, s) {
+      nonFatalError(error: e, stackTrace: s);
+      return Left(CacheFailure(e.toString()));
+    }
+  }
+
+  @override
+  Either<Failure, String> readLanguage() {
     try {
       final String? language =
           _client.appConfigBox.get(AppConfigKeys.language.name);
@@ -77,21 +92,12 @@ class AppConfigLocalDataSourceImpl
   }
 
   @override
-  Future<Either<Failure, ActiveTheme>> setActiveTheme(ActiveTheme theme) async {
-    try {
-      await _client.appConfigBox.put(AppConfigKeys.activeTheme.name, theme);
-      return getActiveTheme();
-    } catch (e, s) {
-      nonFatalError(error: e, stackTrace: s);
-      return Left(CacheFailure(e.toString()));
-    }
-  }
-
-  @override
-  Future<Either<Failure, String>> setLanguage(String language) async {
+  Future<Either<Failure, String>> upsertLanguage(
+    String language,
+  ) async {
     try {
       await _client.appConfigBox.put(AppConfigKeys.language.name, language);
-      return getLanguage();
+      return readLanguage();
     } catch (e, s) {
       nonFatalError(error: e, stackTrace: s);
       return Left(CacheFailure(e.toString()));

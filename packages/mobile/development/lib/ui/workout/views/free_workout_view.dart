@@ -64,7 +64,7 @@ class FreeWorkoutView extends StatelessWidget {
                     extra: StartExerciseParams(
                         isFreeWorkout: true,
                         exercise: exercises[index],
-                        user: wCubit.user ?? UserEntity(),
+                        user: wCubit.user ?? const UserEntity(),
                         device: nCubit.state.cDevice));
               }
             },

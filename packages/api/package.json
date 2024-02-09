@@ -27,12 +27,14 @@
     "express-route-grouping": "^1.1.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.6.8",
+    "node-cron": "^3.0.3",
     "nodemailer": "^6.9.8",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/express-form-data": "^2.0.5",
     "@types/morgan": "^1.9.9",
+    "@types/node-cron": "^3.0.11",
     "dotenv": "^16.4.1",
     "morgan": "^1.10.0",
     "typescript": "^5.3.3"

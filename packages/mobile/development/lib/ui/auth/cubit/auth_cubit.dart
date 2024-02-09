@@ -20,7 +20,7 @@ class AuthCubit extends Cubit<AuthState> {
   final ImageFromGalleryUsecase _imageFromGalleryUsecase;
   final VerifyCodeUseCase _verifyCodeUseCase;
   final ResetPasswordUsecase _resetPasswordUsecase;
-  final GetUserUsecase _getUserUsecase;
+  final ReadUserUsecase _readUserUsecase;
   final GetBoolFirebaseUsecase _getBoolFirebaseUsecase;
 
   AuthCubit(
@@ -31,7 +31,7 @@ class AuthCubit extends Cubit<AuthState> {
     this._imageFromCameraUsecase,
     this._registerUsecase,
     this._imageFromGalleryUsecase,
-    this._getUserUsecase,
+    this._readUserUsecase,
     this._getBoolFirebaseUsecase,
   ) : super(const _Initial());
 
@@ -128,7 +128,8 @@ class AuthCubit extends Cubit<AuthState> {
 
   void signUpWithRestAPI(RegisterParams params) async {
     emit(const _Loading());
-    final user = await _getUserUsecase.call(const GetUserParams(fromLocal: false));
+    final user =
+        await _readUserUsecase.call(const ByLimitParams(showFromLocal: false));
     user.fold((l) => null, (r) async {
       try {
         final Either<Failure, AuthResponseEntity> res =

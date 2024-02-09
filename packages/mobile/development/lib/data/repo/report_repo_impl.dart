@@ -15,35 +15,38 @@ class ReportRepoImpl implements ReportRepo {
   );
 
   @override
-  Future<Either<Failure, ReportEntity>> getReport(
-    GetReportParams params,
+  Future<Either<Failure, ReportEntity>> readReportById(
+    ByIdParams params,
   ) async {
     if (await _info.isHatofitConnected) {
-      final res = await _remote.getReport(params);
+      final res = await _remote.readReportById(params);
       return res.fold(
         (failure) async {
-          return await _local.getReport(params);
+          return await _local.readReportById(params);
         },
-        (reportModel) {
+        (reportModel) async {
           final entity = reportModel.toEntity();
-          _local.cacheReport(entity.id ?? "", entity);
+          await _local.cacheReport(entity);
           return Right(entity);
         },
       );
     } else {
-      return await _local.getReport(params);
+      return await _local.readReportById(params);
     }
   }
 
   @override
-  Future<Either<Failure, List<ReportEntity>>> getReports(
-    GetReportsParams params,
+  Future<Either<Failure, List<ReportEntity>>> readReportAll(
+    ByLimitParams params,
   ) async {
+    if (params.showFromLocal ?? false) {
+      return await _local.readReportAll();
+    }
     if (await _info.isHatofitConnected) {
-      final res = await _remote.getReports(params);
+      final res = await _remote.readReportAll(params);
       return res.fold(
         (failure) async {
-          return await _local.getReports();
+          return await _local.readReportAll();
         },
         (reportModels) async {
           final parser = ModelToEntityIsolateParser<List<ReportEntity>>(
@@ -53,14 +56,14 @@ class ReportRepoImpl implements ReportRepo {
             },
           );
           final res = await parser.parseInBackground();
-          for (var element in res) {
-            await _local.cacheReport(element.id ?? "", element);
+          for (var e in res) {
+            await _local.cacheReport(e);
           }
           return Right(res);
         },
       );
     } else {
-      return await _local.getReports();
+      return await _local.readReportAll();
     }
   }
 }

@@ -6,41 +6,62 @@ import 'package:hatofit/utils/helper/logger.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class ActivityDetailView extends StatelessWidget {
+class ActivityDetailView extends StatefulWidget {
   final SessionEntity session;
   const ActivityDetailView({super.key, required this.session});
 
   @override
-  Widget build(BuildContext context) {
-    final r = ReportModel.fromSession(session);
+  State<ActivityDetailView> createState() => _ActivityDetailViewState();
+}
+
+class _ActivityDetailViewState extends State<ActivityDetailView> {
+  late ZoomPanBehavior _zoomPanBehavior;
+  List<EcgChartModel> ecgChart = [];
+  @override
+  void initState() {
+    _parseEcg();
+    _zoomPanBehavior = ZoomPanBehavior(
+      // Enables pinch zooming
+      enablePinching: true,
+      enableDoubleTapZooming: true,
+      enablePanning: true,
+    );
+    super.initState();
+  }
+
+  void _parseEcg() async {
+    final r = ReportModel.fromSession(widget.session);
     final ecg = r.reports?.firstWhere(
-      (element) =>
-          element.type!.contains("ecg") || element.type!.contains("ECG"),
+      (element) => element.type!.contains("ecg"),
     );
     log.f("ECG: $ecg");
-    final ecgChart = ecg?.generateEcgChart();
+    final ecgChart = await ecg?.generateEcgChart();
+    setState(() {
+      this.ecgChart = ecgChart ?? [];
+    });
     log.f("ECG: ${ecgChart!.last.voltage}");
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Parent(
       appBar: AppBar(
-        title: Text(session.exercise?.name ?? ''),
+        title: Text(widget.session.exercise?.name ?? ''),
         titleTextStyle: Theme.of(context).textTheme.titleLarge,
       ),
       child: Column(
         children: [
-          ContainerWrapper(child: Text(session.exercise?.name ?? '')),
+          ContainerWrapper(child: Text(widget.session.exercise?.name ?? '')),
           SfCartesianChart(
+            zoomPanBehavior: _zoomPanBehavior,
             primaryXAxis: DateTimeAxis(
-              // date format that show hour, minute, second, millisecond, and microsecond
-              // dateFormat: DateFormat("HH:mm:ss:SSS:u"),
-              // majorGridLines: MajorGridLines(width: 0),
               dateFormat: DateFormat.ms(),
               interval: 1,
             ),
             series: <LineSeries<EcgChartModel, DateTime>>[
               LineSeries<EcgChartModel, DateTime>(
                 dataSource: ecgChart,
-                xValueMapper: (EcgChartModel data, _) =>
-                    DateTime.fromMicrosecondsSinceEpoch(data.timestamp),
+                xValueMapper: (EcgChartModel data, _) => data.timeStamp,
                 yValueMapper: (EcgChartModel data, _) => data.voltage,
               ),
             ],

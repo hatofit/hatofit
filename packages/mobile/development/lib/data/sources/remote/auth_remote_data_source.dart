@@ -4,15 +4,25 @@ import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<Either<Failure, AuthResponseModel>> login(LoginParams params);
-  Future<Either<Failure, AuthResponseModel>> register(RegisterParams params);
+  Future<Either<Failure, AuthResponseModel>> login(
+    LoginParams params,
+  );
+  Future<Either<Failure, AuthResponseModel>> register(
+    RegisterParams params,
+  );
+  Future<Either<Failure, UserModel?>> update(
+    RegisterParams params,
+  );
   Future<Either<Failure, AuthResponseModel>> me();
   Future<Either<Failure, BaseResponseModel>> forgotPassword(
-      ForgotPasswordParams params);
+    ForgotPasswordParams params,
+  );
   Future<Either<Failure, AuthResponseModel>> resetPassword(
-      ResetPasswordParams params);
+    ResetPasswordParams params,
+  );
   Future<Either<Failure, BaseResponseModel>> verifyCode(
-      ResetPasswordParams params);
+    ResetPasswordParams params,
+  );
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -21,7 +31,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   AuthRemoteDataSourceImpl(this._client);
 
   @override
-  Future<Either<Failure, AuthResponseModel>> login(LoginParams params) async {
+  Future<Either<Failure, AuthResponseModel>> login(
+    LoginParams params,
+  ) async {
     final res = await _client.postRequest(
       APIConstant.get.authLogin,
       data: params.toJson(),
@@ -34,12 +46,32 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Either<Failure, AuthResponseModel>> register(
-      RegisterParams params) async {
+    RegisterParams params,
+  ) async {
     final res = await _client.postRequest(
       APIConstant.get.authRegister,
-      formData: params.toFromData(),
+      formData: params.toFormData(),
       converter: (res) =>
           AuthResponseModel.fromJson(res as Map<String, dynamic>),
+    );
+
+    return res;
+  }
+
+  @override
+  Future<Either<Failure, UserModel?>> update(
+    RegisterParams params,
+  ) async {
+    final res = await _client.postRequest(
+      APIConstant.get.authUpdate,
+      formData: params.toFormData(),
+      converter: (res) {
+        if (res['success']) {
+          return UserModel.fromJson(res['user'] as Map<String, dynamic>);
+        } else {
+          return null;
+        }
+      },
     );
 
     return res;
@@ -58,7 +90,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Either<Failure, BaseResponseModel>> forgotPassword(
-      ForgotPasswordParams params) {
+    ForgotPasswordParams params,
+  ) {
     final res = _client.getRequest(
       "${APIConstant.get.forgotPassword}/${params.email}",
       converter: (res) =>
@@ -70,7 +103,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Either<Failure, AuthResponseModel>> resetPassword(
-      ResetPasswordParams params) {
+    ResetPasswordParams params,
+  ) {
     final res = _client.putRequest(
       APIConstant.get.resetPassword,
       data: params.toJson(),
@@ -83,7 +117,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<Either<Failure, BaseResponseModel>> verifyCode(
-      ResetPasswordParams params) {
+    ResetPasswordParams params,
+  ) {
     final res = _client.postRequest(
       APIConstant.get.verifyCode,
       data: params.toJson(),

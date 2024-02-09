@@ -4,17 +4,17 @@ import 'package:hatofit/domain/domain.dart';
 import 'package:hatofit/utils/utils.dart';
 
 abstract class UserLocalDataSource {
-  Either<Failure, UserEntity> getUser();
-  Future<Either<Failure, UserEntity>> saveUser(UserEntity user);
-  Future<Either<Failure, void>> clearUser();
+  Either<Failure, UserEntity> readUser();
+  Future<Either<Failure, UserEntity>> upsertUser(UserEntity user);
+  Future<Either<Failure, void>> deleteUser();
 
-  Either<Failure, String> getToken();
-  Future<Either<Failure, String>> saveToken(String token);
-  Future<Either<Failure, void>> clearToken();
+  Either<Failure, String> readToken();
+  Future<Either<Failure, String>> upsertToken(String token);
+  Future<Either<Failure, void>> deleteToken();
 
-  Either<Failure, String> getTodayMood();
-  Future<Either<Failure, String>> saveTodayMood(String mood);
-  Future<Either<Failure, void>> clearTodayMood();
+  Either<Failure, String> readTodayMood();
+  Future<Either<Failure, String>> upsertTodayMood(String mood);
+  Future<Either<Failure, void>> deleteTodayMood();
 }
 
 class UserLocalDataSourceImpl
@@ -25,7 +25,7 @@ class UserLocalDataSourceImpl
   const UserLocalDataSourceImpl(this._client);
 
   @override
-  Either<Failure, UserEntity> getUser() {
+  Either<Failure, UserEntity> readUser() {
     try {
       final UserEntity? res = _client.userBox.get(UserBoxKeys.user.name);
       if (res == null) return const Left(CacheFailure("User not found"));
@@ -37,10 +37,10 @@ class UserLocalDataSourceImpl
   }
 
   @override
-  Future<Either<Failure, UserEntity>> saveUser(UserEntity user) async {
+  Future<Either<Failure, UserEntity>> upsertUser(UserEntity user) async {
     try {
       await _client.userBox.put(UserBoxKeys.user.name, user);
-      return getUser();
+      return readUser();
     } catch (error, stackTrace) {
       nonFatalError(error: error, stackTrace: stackTrace);
       return Left(CacheFailure(error.toString()));
@@ -48,7 +48,7 @@ class UserLocalDataSourceImpl
   }
 
   @override
-  Future<Either<Failure, void>> clearUser() async {
+  Future<Either<Failure, void>> deleteUser() async {
     try {
       await _client.userBox.delete(UserBoxKeys.user.name);
       return const Right(null);
@@ -59,7 +59,7 @@ class UserLocalDataSourceImpl
   }
 
   @override
-  Either<Failure, String> getToken() {
+  Either<Failure, String> readToken() {
     try {
       final String? res = _client.userBox.get(UserBoxKeys.token.name);
       if (res == null) return const Left(CacheFailure("Token not found"));
@@ -71,10 +71,10 @@ class UserLocalDataSourceImpl
   }
 
   @override
-  Future<Either<Failure, String>> saveToken(String token) async {
+  Future<Either<Failure, String>> upsertToken(String token) async {
     try {
       await _client.userBox.put(UserBoxKeys.token.name, token);
-      return getToken();
+      return readToken();
     } catch (error, stackTrace) {
       nonFatalError(error: error, stackTrace: stackTrace);
       return Left(CacheFailure(error.toString()));
@@ -82,7 +82,7 @@ class UserLocalDataSourceImpl
   }
 
   @override
-  Future<Either<Failure, void>> clearToken() async {
+  Future<Either<Failure, void>> deleteToken() async {
     try {
       await _client.userBox.delete(UserBoxKeys.token.name);
       return const Right(null);
@@ -93,7 +93,7 @@ class UserLocalDataSourceImpl
   }
 
   @override
-  Either<Failure, String> getTodayMood() {
+  Either<Failure, String> readTodayMood() {
     try {
       final String? res = _client.userBox.get(UserBoxKeys.todayMood.name);
       if (res == null) return const Left(CacheFailure("Mood not found"));
@@ -105,10 +105,10 @@ class UserLocalDataSourceImpl
   }
 
   @override
-  Future<Either<Failure, String>> saveTodayMood(String mood) async {
+  Future<Either<Failure, String>> upsertTodayMood(String mood) async {
     try {
       await _client.userBox.put(UserBoxKeys.todayMood.name, mood);
-      return getTodayMood();
+      return readTodayMood();
     } catch (error, stackTrace) {
       nonFatalError(error: error, stackTrace: stackTrace);
       return Left(CacheFailure(error.toString()));
@@ -116,7 +116,7 @@ class UserLocalDataSourceImpl
   }
 
   @override
-  Future<Either<Failure, void>> clearTodayMood() async {
+  Future<Either<Failure, void>> deleteTodayMood() async {
     try {
       await _client.userBox.delete(UserBoxKeys.todayMood.name);
       return const Right(null);

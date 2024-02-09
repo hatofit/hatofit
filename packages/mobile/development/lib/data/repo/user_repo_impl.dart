@@ -4,7 +4,7 @@ import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
 
 class UserRepoImpl implements UserRepo {
-  final UserRemoteDataSource _remote;
+  final AuthRemoteDataSource _remote;
   final UserLocalDataSource _local;
   final NetworkInfo _info;
 
@@ -15,70 +15,82 @@ class UserRepoImpl implements UserRepo {
   );
 
   @override
-  Future<Either<Failure, UserEntity>> getUser(GetUserParams params) async {
-    if (params.fromLocal) {
-      return _local.getUser();
+  Future<Either<Failure, UserEntity>> readUser(ByLimitParams params) async {
+    if (params.showFromLocal ?? false) {
+      return _local.readUser();
     }
     if (await _info.isHatofitConnected) {
-      final res = await _remote.getUser();
+      final res = await _remote.me();
       return res.fold(
         (failure) {
-          return _local.getUser();
+          return _local.readUser();
         },
-        (userModel) {
-          _local.saveUser(userModel.toEntity());
-          return Right(userModel.toEntity());
+        (auth) async {
+          final entity = auth.toEntity();
+          if (entity.user != null) {
+            await _local.upsertUser(entity.user!);
+            return Right(entity.user!);
+          } else {
+            return _local.readUser();
+          }
         },
       );
     } else {
-      return _local.getUser();
+      return _local.readUser();
     }
   }
 
   @override
-  Future<Either<Failure, UserEntity>> updateUser(
-    UpdateUserParams params,
+  Future<Either<Failure, UserEntity>> upsertUser(
+    RegisterParams params,
   ) async {
-    if (await _info.isHatofitConnected && !params.forLocal) {
-      // TODO: Implement updateUser
-      throw UnimplementedError();
+    if (await _info.isHatofitConnected) {
+      final res = await _remote.update(params);
+      return res.fold(
+        (failure) => Left(failure),
+        (res) async {
+          final entity = res?.toEntity();
+          await _local.upsertUser(entity ?? const UserEntity());
+          return Right(entity ?? const UserEntity());
+        },
+      );
     } else {
-      return _local.saveUser(params.user!);
+      return Left(NoInternetFailure());
     }
   }
 
   @override
-  Future<Either<Failure, void>> clearUser() async {
-    return _local.clearUser();
+  Future<Either<Failure, void>> deleteUser() async {
+    return _local.deleteUser();
   }
 
   @override
-  Either<Failure, String> getTodayMood() {
-    return _local.getTodayMood();
+  Either<Failure, String> readToken() {
+    return _local.readToken();
   }
 
   @override
-  Either<Failure, String> getToken() {
-    return _local.getToken();
+  Future<Either<Failure, String>> upsertToken(String token) async {
+    return _local.upsertToken(token);
   }
 
   @override
-  Future<Either<Failure, void>> clearMood() async {
-    return _local.clearTodayMood();
+  Future<Either<Failure, void>> deleteToken() async {
+    return _local.deleteToken();
   }
 
   @override
-  Future<Either<Failure, String>> saveTodayMood(String mood) async {
-    return _local.saveTodayMood(mood);
+  Either<Failure, String> readTodayMood() {
+    return _local.readTodayMood();
   }
 
   @override
-  Future<Either<Failure, String>> saveToken(String token) async {
-    return _local.saveToken(token);
+  Future<Either<Failure, String>> upsertTodayMood(String mood) async {
+    return _local.upsertTodayMood(mood);
   }
 
   @override
-  Future<Either<Failure, void>> clearToken() async {
-    return _local.clearToken();
+  Future<Either<Failure, void>> deleteTodayMood() async {
+    return _local.deleteTodayMood();
   }
 }

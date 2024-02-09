@@ -13,12 +13,12 @@ part 'workout_cubit.freezed.dart';
 part 'workout_state.dart';
 
 class WorkoutCubit extends Cubit<WorkoutState> {
-  final GetExercisesUsecase _getExercisesUsecase;
-  final GetUserUsecase _getUserUsecase;
+  final ExerciseAllUsecase _exercisesAllUsecase;
+  final ReadUserUsecase _readUserUsecase;
   final CreateSessionUsecase _createSessionUsecase;
   WorkoutCubit(
-    this._getExercisesUsecase,
-    this._getUserUsecase,
+    this._exercisesAllUsecase,
+    this._readUserUsecase,
     this._createSessionUsecase,
   ) : super(const _Loading());
 
@@ -30,7 +30,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   UserEntity? user;
   Future<void> getUser() async {
     final res =
-        await _getUserUsecase.call(const GetUserParams(fromLocal: true));
+        await _readUserUsecase.call(const ByLimitParams(showFromLocal: true));
     res.fold(
       (l) {
         user = null;
@@ -41,7 +41,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
 
   Future<void> getExercises() async {
     emit(const _Loading());
-    final res = await _getExercisesUsecase.call(const GetExercisesParams(
+    final res = await _exercisesAllUsecase.call(const ByLimitParams(
       showFromCompany: true,
     ));
     res.fold(

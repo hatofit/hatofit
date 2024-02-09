@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     // );
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => di<SettingsCubit>()..getActiveTheme()),
+        BlocProvider(create: (_) => di<SettingsCubit>()..readActiveTheme()),
         BlocProvider(create: (_) => di<AuthCubit>()..init()),
       ],
       child: OKToast(

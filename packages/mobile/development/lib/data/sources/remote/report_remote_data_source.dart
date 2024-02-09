@@ -4,11 +4,11 @@ import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
 
 abstract class ReportRemoteDataSource {
-  Future<Either<Failure, ReportModel>> getReport(
-    GetReportParams params,
+  Future<Either<Failure, ReportModel>> readReportById(
+    ByIdParams params,
   );
-  Future<Either<Failure, List<ReportModel>>> getReports(
-    GetReportsParams params,
+  Future<Either<Failure, List<ReportModel>>> readReportAll(
+    ByLimitParams params,
   );
 }
 
@@ -18,8 +18,8 @@ class ReportRemoteDataSourceImpl implements ReportRemoteDataSource {
   ReportRemoteDataSourceImpl(this._client);
 
   @override
-  Future<Either<Failure, ReportModel>> getReport(
-    GetReportParams params,
+  Future<Either<Failure, ReportModel>> readReportById(
+    ByIdParams params,
   ) async {
     final res = await _client.getRequest(
       "${APIConstant.get.report}/${params.id}",
@@ -30,12 +30,12 @@ class ReportRemoteDataSourceImpl implements ReportRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, List<ReportModel>>> getReports(
-    GetReportsParams params,
+  Future<Either<Failure, List<ReportModel>>> readReportAll(
+    ByLimitParams params,
   ) async {
     final res = await _client.getRequest(
       APIConstant.get.report,
-      // queryParameters: params.toJson(),
+      queryParameters: params.toJson(),
       converter: (res) {
         List<ReportModel> reports = [];
         for (var element in res['reports']) {

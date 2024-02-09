@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/helper/logger.dart';
 
 part 'report_model.freezed.dart';
 part 'report_model.g.dart';
@@ -237,28 +237,24 @@ class ReportDataModel with _$ReportDataModel {
         data: data?.map((e) => e.toEntity()).toList(),
       );
 
-  List<EcgChartModel> generateEcgChart() {
-    List<EcgChartModel> chart = [];
-    int count = 0;
-    int second = 0;
-    for (var item in data!) {
-      for (var value in item.value!) {
-        if (second != value[0]) {
-          log.d("Second: $second Count: $count");
-          count = 0;
-          second = value[0];
-        } else {
-          count++;
+  Future<List<EcgChartModel>> generateEcgChart() async {
+    final ecgParser = ModelToEntityIsolateParser(data, (res) {
+      final nD = res as List<ReportDataValueModel>;
+      List<EcgChartModel> chart = [];
+      for (var item in nD) {
+        for (var value in item.value!) {
+          chart.add(
+            EcgChartModel(
+              timeStamp: DateTime.parse(value[2]),
+              voltage: value[1],
+            ),
+          );
         }
-        chart.add(
-          EcgChartModel(
-            timestamp: value[2],
-            voltage: value[1],
-          ),
-        );
       }
-    }
-    return chart;
+      return chart;
+    });
+    final res = await ecgParser.parseInBackground();
+    return res;
   }
 }
 
@@ -281,11 +277,11 @@ class ReportDataValueModel with _$ReportDataValueModel {
 }
 
 class EcgChartModel {
-  final int timestamp;
+  final DateTime timeStamp;
   final int voltage;
 
   EcgChartModel({
-    required this.timestamp,
+    required this.timeStamp,
     required this.voltage,
   });
 }

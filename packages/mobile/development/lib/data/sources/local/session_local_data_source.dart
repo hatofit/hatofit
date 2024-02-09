@@ -5,17 +5,16 @@ import 'package:hatofit/data/models/session/session_model.dart';
 import 'package:hatofit/domain/domain.dart';
 
 abstract class SessionLocalDataSource {
-  Future<Either<Failure, SessionEntity>> getSession(
-    GetSessionParams params,
-  );
-  Future<Either<Failure, List<SessionEntity>>> getSessions();
-  Future<Either<Failure, SessionEntity>> cacheSession(
-    String id,
-    SessionEntity entity,
-  );
-  Future<Either<Failure, SessionEntity>> saveSession(
+  Future<Either<Failure, SessionEntity>> createSession(
     CreateSessionParams params,
   );
+  Future<Either<Failure, SessionEntity>> cacheSession(
+    SessionEntity entity,
+  );
+  Future<Either<Failure, SessionEntity>> readSessionById(
+    ByIdParams params,
+  );
+  Future<Either<Failure, List<SessionEntity>>> readSessionAll();
 }
 
 class SessionLocalDataSourceImpl implements SessionLocalDataSource {
@@ -24,64 +23,71 @@ class SessionLocalDataSourceImpl implements SessionLocalDataSource {
   SessionLocalDataSourceImpl(this._box);
 
   @override
-  Future<Either<Failure, SessionEntity>> cacheSession(
-    String id,
-    SessionEntity session,
-  ) async {
-    await _box.sessionBox.put(id, session);
-    final res = _box.sessionBox.get(id);
-    if (res == null) {
-      return const Left(CacheFailure("Failed to cache session"));
-    }
-    return Right(res);
-  }
-
-  @override
-  Future<Either<Failure, SessionEntity>> getSession(
-    GetSessionParams params,
-  ) async {
-    final SessionEntity? res = _box.sessionBox.get(
-      params.id,
-    );
-    if (res == null) {
-      return const Left(CacheFailure("Session not found"));
-    }
-    return Right(res);
-  }
-
-  @override
-  Future<Either<Failure, List<SessionEntity>>> getSessions() async {
-    final keys = _box.sessionBox.keys;
-
-    if (keys.isEmpty) {
-      return const Left(CacheFailure("Sessions not found"));
-    }
-
-    List<SessionEntity> found = [];
-
-    for (var element in keys) {
-      final res = _box.sessionBox.get(element);
-      if (res != null) {
-        found.add(res);
-      }
-    }
-
-    if (found.isEmpty) {
-      return const Left(CacheFailure("Sessions not found"));
-    }
-    return Right(found);
-  }
-
-  @override
-  Future<Either<Failure, SessionEntity>> saveSession(
+  Future<Either<Failure, SessionEntity>> createSession(
     CreateSessionParams params,
   ) async {
     final entity = SessionModel.fromJson(params.toJson()).toEntity();
     final key = await _box.sessionBox.add(entity);
+    
     final res = _box.sessionBox.get(key);
     if (res == null) {
       return const Left(CacheFailure("Session not found"));
     }
+    
     return Right(res);
+  }
+
+  @override
+  Future<Either<Failure, SessionEntity>> cacheSession(
+    SessionEntity session,
+  ) async {
+    final all = _box.sessionBox.toMap();
+    int key = 0;
+  
+    for (var element in all.entries) {
+      if (element.value.id == session.id) {
+        await _box.sessionBox.put(element.key, session);
+      } else {
+        key = await _box.sessionBox.add(session);
+      }
+    }
+  
+    final res = _box.sessionBox.get(key);
+    if (res == null) {
+      return const Left(CacheFailure("Failed to cache session"));
+    }
+  
+    return Right(res);
+  }
+
+  @override
+  Future<Either<Failure, SessionEntity>> readSessionById(
+    ByIdParams params,
+  ) async {
+    final all = _box.sessionBox.values;
+    SessionEntity? found;
+  
+    for (final item in all) {
+      if (item.id == params.id) {
+        found = item;
+      }
+    }
+  
+    if (found == null) {
+      return const Left(CacheFailure("Session not found"));
+    }
+  
+    return Right(found);
+  }
+
+  @override
+  Future<Either<Failure, List<SessionEntity>>> readSessionAll() async {
+    final all = _box.sessionBox.values;
+
+    if (all.isEmpty) {
+      return const Left(CacheFailure("Sessions not found"));
+    }
+
+    return Right(all.toList());
   }
 }

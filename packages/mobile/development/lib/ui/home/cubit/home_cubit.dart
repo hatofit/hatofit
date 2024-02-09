@@ -10,13 +10,13 @@ part 'home_cubit.freezed.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  final GetSessionsUsecase _getSessionsUsecase;
-  final GetUserUsecase _getUserUsecase;
+  final SessionAllUsecase _getSessionsUsecase;
+  final ReadUserUsecase _readUserUsecase;
   final DownloadImageUsecase _downloadImageUsecase;
   final GetStringFirebaseUsecase _getStringFirebaseUsecase;
   HomeCubit(
     this._getSessionsUsecase,
-    this._getUserUsecase,
+    this._readUserUsecase,
     this._downloadImageUsecase,
     this._getStringFirebaseUsecase,
   ) : super(_HomeState());
@@ -44,7 +44,8 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getUser() async {
-    final res = await _getUserUsecase.call(const GetUserParams(fromLocal: true));
+    final res =
+        await _readUserUsecase.call(const ByLimitParams(showFromLocal: true));
     res.fold((l) => null, (r) {
       userName = r.firstName ?? "User";
       emit(state.copyWith(user: r));
@@ -52,7 +53,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getSession() async {
-    final res = await _getSessionsUsecase.call(const GetSessionsParams());
+    final res = await _getSessionsUsecase.call(const ByLimitParams(limit: 5));
     res.fold((l) => log.e("Report: $l"), (r) async {
       List<HrBarChartItem> reports = [];
       final nDate = formatter.format(DateTime.now());

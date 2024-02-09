@@ -4,7 +4,7 @@ import 'package:hatofit/domain/domain.dart';
 import 'package:polar/polar.dart';
 
 class GetServicesPolarBLEUsecase
-    extends WithParamsUseCase<Set<PolarDataType>, GetPolarServicesParams> {
+    extends FPUC<Set<PolarDataType>, GetPolarServicesParams> {
   final PolarBLERepo _repo;
 
   GetServicesPolarBLEUsecase(this._repo);

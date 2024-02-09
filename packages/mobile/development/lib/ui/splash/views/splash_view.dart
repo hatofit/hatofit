@@ -44,14 +44,14 @@ class _SplashScreenPageState extends State<SplashView> {
             initial: () async =>
                 await context.read<SplashCubit>().requestPermissions(),
             authorized: (message) {
-              context.read<SplashCubit>().setOfflineMode(false);
+              context.read<SplashCubit>().upsertOfflineMode(false);
               context.goNamed(Routes.root.name);
             },
             unauthorized: (message) {
               if (context.read<SplashCubit>().isInitialized) {
                 Strings.of(context)!.sessionExpired.toToastError(context);
               }
-              context.read<SplashCubit>().setOfflineMode(false);
+              context.read<SplashCubit>().upsertOfflineMode(false);
               final user = context.read<SplashCubit>().user;
               if (user != null &&
                   user.metricUnits != null &&
@@ -65,7 +65,7 @@ class _SplashScreenPageState extends State<SplashView> {
             },
             offline: () {
               Strings.of(context)!.failedConnectToServer.toToastError(context);
-              context.read<SplashCubit>().setOfflineMode(true);
+              context.read<SplashCubit>().upsertOfflineMode(true);
               Future.delayed(Durations.long3, () {
                 if (context.read<SplashCubit>().user != null) {
                   context.goNamed(Routes.home.name);

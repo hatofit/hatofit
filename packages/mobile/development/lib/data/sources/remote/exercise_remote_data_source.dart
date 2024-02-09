@@ -4,11 +4,11 @@ import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
 
 abstract class ExerciseRemoteDataSource {
-  Future<Either<Failure, ExerciseModel>> getExercise(
-    GetExerciseParams params,
+  Future<Either<Failure, ExerciseModel>> readExerciseById(
+    ByIdParams params,
   );
-  Future<Either<Failure, List<ExerciseModel>>> getExercises(
-    GetExercisesParams params,
+  Future<Either<Failure, List<ExerciseModel>>> readExerciseAll(
+    ByLimitParams params,
   );
 }
 
@@ -18,8 +18,8 @@ class ExerciseRemoteDataSourceImpl implements ExerciseRemoteDataSource {
   ExerciseRemoteDataSourceImpl(this._client);
 
   @override
-  Future<Either<Failure, ExerciseModel>> getExercise(
-    GetExerciseParams params,
+  Future<Either<Failure, ExerciseModel>> readExerciseById(
+    ByIdParams params,
   ) async {
     final res = await _client.getRequest(
       "${APIConstant.get.exercise}/${params.id}",
@@ -30,8 +30,8 @@ class ExerciseRemoteDataSourceImpl implements ExerciseRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, List<ExerciseModel>>> getExercises(
-    GetExercisesParams params,
+  Future<Either<Failure, List<ExerciseModel>>> readExerciseAll(
+    ByLimitParams params,
   ) async {
     final res = await _client.getRequest(
       APIConstant.get.exercise,

@@ -4,7 +4,7 @@ import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 
 class GetServicesCommonBLEUsecase
-    extends WithParamsUseCase<List<BluetoothService>, GetCommonServicesParams> {
+    extends FPUC<List<BluetoothService>, GetCommonServicesParams> {
   final CommonBLERepo _repo;
 
   GetServicesCommonBLEUsecase(this._repo);

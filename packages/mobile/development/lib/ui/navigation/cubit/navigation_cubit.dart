@@ -243,7 +243,7 @@ class NavigationCubit extends Cubit<NavigationState> {
           if (l.message!.contains("BleDisconnected") &&
               l.message!.contains("polar")) {
             Future.delayed(
-                Duration(seconds: 1),
+                const Duration(seconds: 1),
                 () async => await _disconnectPolarBleDeviceUsecase
                         .call(DisconnectPolarParams(
                       deviceId: entity.polarId ?? getPolarId(entity.name),
@@ -251,7 +251,7 @@ class NavigationCubit extends Cubit<NavigationState> {
 
             if (attempt < 3) {
               Future.delayed(
-                  Duration(seconds: 1),
+                  const Duration(seconds: 1),
                   () async =>
                       await _connectPolarBleUsecase.call(ConnectPolarParams(
                         deviceId: entity.polarId ?? getPolarId(entity.name),
@@ -398,7 +398,7 @@ class NavigationCubit extends Cubit<NavigationState> {
           }
         },
         (r) {
-          log.d("Ecg length: ${r.samples.length}");
+          // log.d("Ecg length: ${r.samples.length}");
           emit(state.copyWith(ecgSample: r.samples));
         },
       );
@@ -528,7 +528,7 @@ class NavigationCubit extends Cubit<NavigationState> {
 
   void disconnectDevice(BleEntity entity) {
     clearState();
-    log.f("Device disconnected: ${state}");
+    log.f("Device disconnected: $state");
     log.f("Disconnecting device: ${entity.name}");
     if (entity.name.contains("Polar")) {
       if (_hrPolarStream != null) {

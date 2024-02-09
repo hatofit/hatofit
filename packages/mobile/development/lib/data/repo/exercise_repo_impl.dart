@@ -14,33 +14,33 @@ class ExerciseRepoImpl implements ExerciseRepo {
     this._info,
   );
   @override
-  Future<Either<Failure, ExerciseEntity>> getExercise(
-    GetExerciseParams params,
+  Future<Either<Failure, ExerciseEntity>> readExerciseById(
+    ByIdParams params,
   ) async {
     if (await _info.isHatofitConnected) {
-      final res = await _remote.getExercise(params);
+      final res = await _remote.readExerciseById(params);
       return res.fold(
         (failure) async {
-          return await _local.getExercise(params);
+          return await _local.readExerciseById(params);
         },
         (exerciseModel) {
           return Right(exerciseModel.toEntity());
         },
       );
     } else {
-      return await _local.getExercise(params);
+      return await _local.readExerciseById(params);
     }
   }
 
   @override
-  Future<Either<Failure, List<ExerciseEntity>>> getExercises(
-    GetExercisesParams params,
+  Future<Either<Failure, List<ExerciseEntity>>> readExerciseAll(
+    ByLimitParams params,
   ) async {
     if (await _info.isHatofitConnected) {
-      final res = await _remote.getExercises(params);
+      final res = await _remote.readExerciseAll(params);
       return res.fold(
         (failure) async {
-          return await _local.getExercises();
+          return await _local.readExerciseAll();
         },
         (exerciseModels) async {
           final parser = ModelToEntityIsolateParser<List<ExerciseEntity>>(
@@ -57,7 +57,7 @@ class ExerciseRepoImpl implements ExerciseRepo {
         },
       );
     } else {
-      return await _local.getExercises();
+      return await _local.readExerciseAll();
     }
   }
 }

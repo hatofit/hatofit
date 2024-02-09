@@ -6,7 +6,7 @@ part 'activity_cubit.freezed.dart';
 part 'activity_state.dart';
 
 class ActivityCubit extends Cubit<ActivityState> {
-  final GetSessionsUsecase _getSessionsUsecase;
+  final SessionAllUsecase _getSessionsUsecase;
   ActivityCubit(
     this._getSessionsUsecase,
   ) : super(const _Loading());
@@ -17,7 +17,7 @@ class ActivityCubit extends Cubit<ActivityState> {
 
   Future<void> getSessions() async {
     emit(const _Loading());
-    final res = await _getSessionsUsecase.call(const GetSessionsParams());
+    final res = await _getSessionsUsecase.call(const ByLimitParams());
     res.fold(
       (failure) => emit(_Failure(failure.toString())),
       (session) => emit(_Success(session)),

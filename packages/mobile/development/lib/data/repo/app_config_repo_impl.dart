@@ -9,29 +9,29 @@ class AppConfigRepoImpl implements AppConfigRepo {
   AppConfigRepoImpl(this._local);
 
   @override
-  Either<Failure, bool> getOfflineMode() => _local.getOfflineMode();
+  Either<Failure, bool> readOfflineMode() => _local.readOfflineMode();
 
   @override
-  Either<Failure, ActiveTheme> getActiveTheme() => _local.getActiveTheme();
+  Either<Failure, ActiveTheme> readActiveTheme() => _local.readActiveTheme();
 
   @override
-  Either<Failure, String> getLanguage() => _local.getLanguage();
+  Either<Failure, String> readLanguage() => _local.readLanguage();
 
   @override
-  Future<Either<Failure, bool>> setOfflineMode(
+  Future<Either<Failure, bool>> upsertOfflineMode(
     bool value,
   ) async =>
-      await _local.setOfflineMode(value);
+      await _local.upsertOfflineMode(value);
 
   @override
-  Future<Either<Failure, ActiveTheme>> setActiveTheme(
+  Future<Either<Failure, ActiveTheme>> upsertActiveTheme(
     ActiveTheme theme,
   ) async =>
-      await _local.setActiveTheme(theme);
+      await _local.upsertActiveTheme(theme);
 
   @override
-  Future<Either<Failure, String>> setLanguage(
+  Future<Either<Failure, String>> upsertLanguage(
     String language,
   ) async =>
-      await _local.setLanguage(language);
+      await _local.upsertLanguage(language);
 }

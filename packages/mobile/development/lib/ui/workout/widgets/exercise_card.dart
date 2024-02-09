@@ -46,12 +46,18 @@ class ExerciseCard extends StatelessWidget {
               children: [
                 Text(
                   devices!.name,
-                  style: Theme.of(context).textTheme.labelMedium,
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelMedium
+                      ?.copyWith(color: Colors.white),
                 ),
                 SizedBox(width: Dimens.width8),
                 Text(
                   devices!.address,
-                  style: Theme.of(context).textTheme.labelMedium,
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelMedium
+                      ?.copyWith(color: Colors.white),
                 ),
               ],
             )

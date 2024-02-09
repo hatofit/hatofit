@@ -8,13 +8,13 @@ part 'intro_cubit.freezed.dart';
 part 'intro_state.dart';
 
 class IntroCubit extends Cubit<IntroState> {
-  final GetUserUsecase _getUserUsecase;
-  final UpdateUserUsecase _updateUserUsecase;
+  final ReadUserUsecase _readUserUsecase;
+  final UpsertUserUsecase _upsertUserUsecase;
   final GetOfflineModeUsecase _getOfflineModeUsecase;
-  final GetLanguageUsecase _getLanguageUsecase;
+  final ReadLanguageUsecase _getLanguageUsecase;
   IntroCubit(
-    this._getUserUsecase,
-    this._updateUserUsecase,
+    this._readUserUsecase,
+    this._upsertUserUsecase,
     this._getOfflineModeUsecase,
     this._getLanguageUsecase,
   ) : super(IntroState());
@@ -28,7 +28,8 @@ class IntroCubit extends Cubit<IntroState> {
   }
 
   Future<void> getUser() async {
-    final res = await _getUserUsecase.call(const GetUserParams(fromLocal: false));
+    final res =
+        await _readUserUsecase.call(const ByLimitParams(showFromLocal: false));
     log.i("res: $res");
     res.fold(
         (l) => emit(IntroState(
@@ -136,103 +137,75 @@ class IntroCubit extends Cubit<IntroState> {
   }
 
   Future<void> uEUnit(String val) async {
+    emit(state.copyWith(
+        user: state.user
+            ?.copyWith(metricUnits: UserMetricUnitsEntity(energyUnits: val))));
     final user = state.user;
     if (user != null) {
-      final res = await _updateUserUsecase.call(
-        UpdateUserParams(
-          forLocal: true,
-          user: user.copyWith(
-              metricUnits: user.metricUnits?.copyWith(energyUnits: val)),
-        ),
-      );
-      res.fold((l) => null, (r) => emit(state.copyWith(user: r)));
+      await _upsertUserUsecase.call(RegisterParams.fromUser(user));
     }
   }
 
   Future<void> uHUnit(String val) async {
+    emit(state.copyWith(
+        user: state.user
+            ?.copyWith(metricUnits: UserMetricUnitsEntity(heightUnits: val))));
     final user = state.user;
     if (user != null) {
-      final res = await _updateUserUsecase.call(
-        UpdateUserParams(
-          forLocal: true,
-          user: user.copyWith(
-            metricUnits: user.metricUnits?.copyWith(heightUnits: val),
-          ),
-        ),
-      );
-      res.fold((l) => null, (r) => emit(state.copyWith(user: r)));
+      await _upsertUserUsecase.call(RegisterParams.fromUser(user));
     }
   }
 
   Future<void> uWUnit(String val) async {
+    emit(state.copyWith(
+        user: state.user
+            ?.copyWith(metricUnits: UserMetricUnitsEntity(weightUnits: val))));
     final user = state.user;
     if (user != null) {
-      final res = await _updateUserUsecase.call(
-        UpdateUserParams(
-          forLocal: true,
-          user: user.copyWith(
-            metricUnits: user.metricUnits?.copyWith(weightUnits: val),
-          ),
-        ),
-      );
-      res.fold((l) => null, (r) => emit(state.copyWith(user: r)));
+      await _upsertUserUsecase.call(RegisterParams.fromUser(user));
     }
   }
 
   Future<void> updateGender(String gender) async {
+    emit(state.copyWith(user: state.user?.copyWith(gender: gender)));
     final user = state.user;
     if (user != null) {
-      emit(state.copyWith(user: user.copyWith(gender: gender)));
-      await _updateUserUsecase.call(
-        UpdateUserParams(forLocal: true, user: user.copyWith(gender: gender)),
-      );
+      await _upsertUserUsecase
+          .call(RegisterParams.fromUser(user).copyWith(gender: gender));
     }
   }
 
   Future<void> updateHeight(int height) async {
+    emit(state.copyWith(user: state.user?.copyWith(height: height)));
     final user = state.user;
     if (user != null) {
-      emit(state.copyWith(user: user.copyWith(height: height)));
-      await _updateUserUsecase.call(
-        UpdateUserParams(forLocal: true, user: user.copyWith(height: height)),
-      );
+      await _upsertUserUsecase
+          .call(RegisterParams.fromUser(user).copyWith(height: height));
     }
   }
 
   Future<void> updateWeight(int weight) async {
+    emit(state.copyWith(user: state.user?.copyWith(weight: weight)));
     final user = state.user;
     if (user != null) {
-      emit(state.copyWith(user: user.copyWith(weight: weight)));
-      await _updateUserUsecase.call(
-        UpdateUserParams(forLocal: true, user: user.copyWith(weight: weight)),
-      );
+      await _upsertUserUsecase
+          .call(RegisterParams.fromUser(user).copyWith(weight: weight));
     }
   }
 
   Future<void> updateDateOfBirth(DateTime dateOfBirth) async {
+    emit(state.copyWith(user: state.user?.copyWith(dateOfBirth: dateOfBirth)));
     final user = state.user;
     if (user != null) {
-      emit(state.copyWith(user: user.copyWith(dateOfBirth: dateOfBirth)));
-      await _updateUserUsecase.call(
-        UpdateUserParams(
-            forLocal: true, user: user.copyWith(dateOfBirth: dateOfBirth)),
-      );
+      await _upsertUserUsecase.call(RegisterParams.fromUser(user)
+          .copyWith(dateOfBirth: dateOfBirth.toString()));
     }
   }
 
   Future<void> updateAll() async {
     final user = state.user;
     if (user != null) {
-      await _updateUserUsecase.call(
-        UpdateUserParams(
-          forLocal: true,
-          user: user.copyWith(
-            height: user.height ?? 150,
-            weight: user.weight ?? 125,
-            gender: user.gender ?? "male",
-          ),
-        ),
-      );
+      await _upsertUserUsecase.call(RegisterParams.fromUser(user));
     }
   }
 

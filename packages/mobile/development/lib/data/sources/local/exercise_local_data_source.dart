@@ -3,14 +3,13 @@ import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 
 abstract class ExerciseLocalDataSource {
-  Future<Either<Failure, ExerciseEntity>> getExercise(
-    GetExerciseParams params,
-  );
-  Future<Either<Failure, List<ExerciseEntity>>> getExercises();
   Future<Either<Failure, ExerciseEntity>> cacheExercise(
-    String id,
     ExerciseEntity entity,
   );
+  Future<Either<Failure, ExerciseEntity>> readExerciseById(
+    ByIdParams params,
+  );
+  Future<Either<Failure, List<ExerciseEntity>>> readExerciseAll();
 }
 
 class ExerciseLocalDataSourceImpl implements ExerciseLocalDataSource {
@@ -22,50 +21,55 @@ class ExerciseLocalDataSourceImpl implements ExerciseLocalDataSource {
 
   @override
   Future<Either<Failure, ExerciseEntity>> cacheExercise(
-    String id,
     ExerciseEntity entity,
   ) async {
-    await _box.exerciseBox.put(id, entity);
-    final res = _box.exerciseBox.get(id);
-    if (res == null) {
-      return const Left(CacheFailure("Failed to cache exercise"));
-    }
-    return Right(res);
-  }
+    final all = _box.exerciseBox.toMap();
+    int key = 0;
 
-  @override
-  Future<Either<Failure, ExerciseEntity>> getExercise(
-    GetExerciseParams params,
-  ) async {
-    final ExerciseEntity? res = _box.exerciseBox.get(
-      params.id,
-    );
-    if (res == null) {
-      return const Left(CacheFailure("Exercise not found"));
-    }
-    return Right(res);
-  }
-
-  @override
-  Future<Either<Failure, List<ExerciseEntity>>> getExercises() async {
-    final keys = _box.exerciseBox.keys;
-
-    if (keys.isEmpty) {
-      return const Left(CacheFailure("Exercises not found"));
-    }
-
-    List<ExerciseEntity> found = [];
-
-    for (var element in keys) {
-      final res = _box.exerciseBox.get(element);
-      if (res != null) {
-        found.add(res);
+    for (var element in all.entries) {
+      if (element.value.id == entity.id) {
+        await _box.exerciseBox.put(element.key, entity);
+      } else {
+        key = await _box.exerciseBox.add(entity);
       }
     }
 
-    if (found.isEmpty) {
+    final res = _box.exerciseBox.get(key);
+    if (res == null) {
+      return const Left(CacheFailure("Failed to cache exercise"));
+    }
+
+    return Right(res);
+  }
+
+  @override
+  Future<Either<Failure, ExerciseEntity>> readExerciseById(
+    ByIdParams params,
+  ) async {
+    final all = _box.exerciseBox.toMap();
+    ExerciseEntity? found;
+
+    for (var element in all.entries) {
+      if (element.value.id == params.id) {
+        found = element.value;
+      }
+    }
+
+    if (found == null) {
+      return const Left(CacheFailure("Exercise not found"));
+    }
+
+    return Right(found);
+  }
+
+  @override
+  Future<Either<Failure, List<ExerciseEntity>>> readExerciseAll() async {
+    final all = _box.exerciseBox.values;
+
+    if (all.isEmpty) {
       return const Left(CacheFailure("Exercises not found"));
     }
-    return Right(found);
+
+    return Right(all.toList());
   }
 }

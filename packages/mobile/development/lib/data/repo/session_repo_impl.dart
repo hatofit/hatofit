@@ -22,49 +22,52 @@ class SessionRepoImpl implements SessionRepo {
       final res = await _remote.createSessions(params);
       return res.fold(
         (failure) async {
-          return await _local.saveSession(params);
-        },
-        (sessionModel) async {
-          await _local.cacheSession(
-              sessionModel.id ?? "", sessionModel.toEntity());
-          return Right(sessionModel.toEntity());
-        },
-      );
-    } else {
-      return await _local.saveSession(params);
-    }
-  }
-
-  @override
-  Future<Either<Failure, SessionEntity>> getSession(
-    GetSessionParams params,
-  ) async {
-    if (await _info.isHatofitConnected) {
-      final res = await _remote.getSession(params);
-      return res.fold(
-        (failure) async {
-          return await _local.getSession(params);
+          return await _local.createSession(params);
         },
         (sessionModel) async {
           final entity = sessionModel.toEntity();
-          await _local.cacheSession(entity.id ?? "", entity);
+          await _local.cacheSession(entity);
           return Right(entity);
         },
       );
     } else {
-      return await _local.getSession(params);
+      return await _local.createSession(params);
     }
   }
 
   @override
-  Future<Either<Failure, List<SessionEntity>>> getSessions(
-    GetSessionsParams params,
+  Future<Either<Failure, SessionEntity>> readSessionById(
+    ByIdParams params,
   ) async {
     if (await _info.isHatofitConnected) {
-      final res = await _remote.getSessions(params);
+      final res = await _remote.readSessionById(params);
       return res.fold(
         (failure) async {
-          return await _local.getSessions();
+          return await _local.readSessionById(params);
+        },
+        (sessionModel) async {
+          final entity = sessionModel.toEntity();
+          await _local.cacheSession(entity);
+          return Right(entity);
+        },
+      );
+    } else {
+      return await _local.readSessionById(params);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<SessionEntity>>> readSessionAll(
+    ByLimitParams params,
+  ) async {
+    if (params.showFromLocal ?? false) {
+      return await _local.readSessionAll();
+    }
+    if (await _info.isHatofitConnected) {
+      final res = await _remote.readSessionAll(params);
+      return res.fold(
+        (failure) async {
+          return await _local.readSessionAll();
         },
         (sessionModels) async {
           final parser = ModelToEntityIsolateParser<List<SessionEntity>>(
@@ -78,13 +81,13 @@ class SessionRepoImpl implements SessionRepo {
           );
           final res = await parser.parseInBackground();
           for (var element in res) {
-            await _local.cacheSession(element.id ?? "", element);
+            await _local.cacheSession(element);
           }
           return Right(res);
         },
       );
     } else {
-      return _local.getSessions();
+      return _local.readSessionAll();
     }
   }
 }

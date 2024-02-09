@@ -5,7 +5,8 @@ import formData, { FormDataOptions } from "express-form-data";
 import fs from "fs";
 import mongoose from "mongoose";
 import morgan from "morgan";
-import { MongoConnect } from "./db";
+import cron from "node-cron";
+import { MongoConnect, User } from "./db";
 import { seed } from "./db/seed";
 import { RequestAuth } from "./middlewares/auth";
 import { InitRoutes } from "./routes";
@@ -97,5 +98,29 @@ const args = process.argv.slice(2);
     console.log(`🚀 Server ready at http://localhost:${port}`);
     console.log(`🚀 MongoDB : ${process.env.MONGO_URL}`);
   });
+
+  // cron job for delete user if has deletedAt and  deletedAt is now
+  cron.schedule("0 0 * * *", async () => {
+    console.log("running a task every day");
+    const users = await User.find({
+      deletedAt: { $lt: new Date() },
+      requestDelete: true,
+    });
+    for (const user of users) {
+      if (
+        user._id &&
+        user.requetDelete &&
+        user.deleteDate !== undefined &&
+        user.deleteDate < new Date()
+      ) {
+        if (user.photo && user.photo.length >= 24) {
+          const bucket = await GridStorage();
+          await bucket.delete(new mongoose.Types.ObjectId(user.photo));
+        }
+        await User.deleteOne({ _id: user._id });
+      }
+    }
+  });
+
   seed();
 })();

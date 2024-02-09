@@ -64,4 +64,5 @@ class BoxClient with FirebaseCrashLogger {
   Box<ReportEntity> get reportBox => _reportBox;
 
   Box get appConfigBox => _appConfigBox;
+ 
 }

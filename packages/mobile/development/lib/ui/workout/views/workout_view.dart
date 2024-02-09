@@ -18,6 +18,7 @@ class WorkoutView extends StatelessWidget {
       child: Parent(
         appBar: AppBar(
           title: const Text('Workout'),
+          titleTextStyle: Theme.of(context).textTheme.titleLarge,
         ),
         child: BlocBuilder<WorkoutCubit, WorkoutState>(
           builder: (context, state) => state.when(
@@ -29,7 +30,7 @@ class WorkoutView extends StatelessWidget {
                     child: Text(Strings.of(context)!.workoutMenuNotAvailable));
               }
               return Center(child: Text(message.toString()));
-            }, 
+            },
             success: (exercises) {
               exercises = exercises.where((e) => e.type!.isNotEmpty).toList();
               return GridView.builder(

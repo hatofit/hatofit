@@ -212,7 +212,7 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
                                         child: CaloriesCard(
                                       calories: ses.calories,
                                       unit:
-                                          widget.user?.metricUnits?.energyUnits,
+                                          widget.user.metricUnits?.energyUnits,
                                     )),
                                   ],
                                 ),

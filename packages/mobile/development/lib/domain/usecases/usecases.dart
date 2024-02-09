@@ -1,9 +1,9 @@
-export 'app_config/app_config_usecase.dart';
-export 'auth/auth_usecase.dart';
+export 'app_config/app_config.dart';
+export 'auth/auth.dart';
 export 'ble/ble.dart';
-export 'exercise/exercise_usecase.dart';
-export 'firebase/firebase_usecase.dart';
-export 'image/image_usecase.dart';
-export 'report/report_usecase.dart';
-export 'session/session_usecase.dart';
-export 'user/user_usecase.dart';
+export 'exercise/exercise.dart';
+export 'firebase/firebase.dart';
+export 'image/image.dart';
+export 'report/report.dart';
+export 'session/session.dart';
+export 'user/user.dart';

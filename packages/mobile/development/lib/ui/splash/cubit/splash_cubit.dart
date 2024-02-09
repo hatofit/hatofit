@@ -12,15 +12,15 @@ part 'splash_state.dart';
 class SplashCubit extends Cubit<SplashState> {
   final MeUseCase _meUseCase;
   final ReqBLEPermUsecase _reqBLEPermUsecase;
-  final GetUserUsecase _getUserUsecase;
-  final GetMoodUsecase _getMoodUsecase;
-  final ClearMoodUsecase _clearMoodUsecase;
+  final ReadUserUsecase _readUserUsecase;
+  final ReadMoodUsecase _getMoodUsecase;
+  final DeleteMoodUsecase _clearMoodUsecase;
   final UpdateOfflineModeUsecase _updateOfflineModeUsecase;
 
   SplashCubit(
     this._meUseCase,
     this._reqBLEPermUsecase,
-    this._getUserUsecase,
+    this._readUserUsecase,
     this._getMoodUsecase,
     this._clearMoodUsecase,
     this._updateOfflineModeUsecase,
@@ -93,7 +93,8 @@ class SplashCubit extends Cubit<SplashState> {
   }
 
   Future<void> getLocalUser() async {
-    final res = await _getUserUsecase.call(const GetUserParams(fromLocal: false));
+    final res =
+        await _readUserUsecase.call(const ByLimitParams(showFromLocal: false));
     return res.fold((l) {
       _isInitialized = false;
       _user = null;
@@ -103,7 +104,7 @@ class SplashCubit extends Cubit<SplashState> {
     });
   }
 
-  Future<void> setOfflineMode(bool value) async {
+  Future<void> upsertOfflineMode(bool value) async {
     await _updateOfflineModeUsecase.call(value);
   }
 }

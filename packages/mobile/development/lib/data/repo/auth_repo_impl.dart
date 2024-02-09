@@ -18,11 +18,11 @@ class AuthRepoImpl implements AuthRepo {
       final res = await _remote.login(params);
       return res.fold(
         (failure) => Left(failure),
-        (authResponseModel) {
-          _local.saveToken(authResponseModel.token ?? "");
-          _local.saveUser(
-              authResponseModel.user?.toEntity() ?? const UserEntity());
-          return Right(authResponseModel.toEntity());
+        (authResponseModel) async {
+          final entity = authResponseModel.toEntity();
+          await _local.upsertToken(entity.token ?? "");
+          await _local.upsertUser(entity.user ?? const UserEntity());
+          return Right(entity);
         },
       );
     } else {
@@ -36,11 +36,11 @@ class AuthRepoImpl implements AuthRepo {
       final res = await _remote.me();
       return res.fold(
         (failure) => Left(failure),
-        (authResponseModel) {
-          _local.saveToken(authResponseModel.token ?? "");
-          _local.saveUser(
-              authResponseModel.user?.toEntity() ?? const UserEntity());
-          return Right(authResponseModel.toEntity());
+        (authResponseModel) async {
+          final entity = authResponseModel.toEntity();
+          await _local.upsertToken(entity.token ?? "");
+          await _local.upsertUser(entity.user ?? const UserEntity());
+          return Right(entity);
         },
       );
     } else {
@@ -56,11 +56,11 @@ class AuthRepoImpl implements AuthRepo {
       final res = await _remote.register(params);
       return res.fold(
         (failure) => Left(failure),
-        (authResponseModel) {
-          _local.saveToken(authResponseModel.token ?? "");
-          _local.saveUser(
-              authResponseModel.user?.toEntity() ?? const UserEntity());
-          return Right(authResponseModel.toEntity());
+        (authResponseModel) async {
+          final entity = authResponseModel.toEntity();
+          await _local.upsertToken(entity.token ?? "");
+          await _local.upsertUser(entity.user ?? const UserEntity());
+          return Right(entity);
         },
       );
     } else {

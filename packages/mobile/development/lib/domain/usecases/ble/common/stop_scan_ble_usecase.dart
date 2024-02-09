@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 
-class StopScanBLEUsecase extends WithParamsUseCase<void, StopScanCommonParams> {
+class StopScanBLEUsecase extends FPUC<void, StopScanCommonParams> {
   final CommonBLERepo _repo;
 
   StopScanBLEUsecase(this._repo);

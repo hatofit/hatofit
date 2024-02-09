@@ -3,12 +3,13 @@ class APIConstant {
 
   static APIConstant get = APIConstant._();
 
-  String baseUrl = "https://api.hatofit.com";
-  // String baseUrl = "http://192.168.254.169:3000";
+  // String baseUrl = "https://api.hatofit.com";
+  String baseUrl = "http://192.168.254.169:3000";
 
   String authRegister = "/api/auth/register";
   String authLogin = "/api/auth/login";
   String authMe = "/api/auth/me";
+  String authUpdate = "/api/auth/update";
   String forgotPassword = "/api/auth/forgot-password";
   String resetPassword = "/api/auth/reset-password";
   String verifyCode = "/api/auth/verify-code";
