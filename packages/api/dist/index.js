@@ -19,6 +19,7 @@ const express_form_data_1 = __importDefault(require("express-form-data"));
 const fs_1 = __importDefault(require("fs"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const morgan_1 = __importDefault(require("morgan"));
+const node_cron_1 = __importDefault(require("node-cron"));
 const db_1 = require("./db");
 const seed_1 = require("./db/seed");
 const routes_1 = require("./routes");
@@ -85,5 +86,25 @@ const args = process.argv.slice(2);
         console.log(`🚀 Server ready at http://localhost:${port}`);
         console.log(`🚀 MongoDB : ${process.env.MONGO_URL}`);
     });
+    // cron job for delete user if has deletedAt and  deletedAt is now
+    node_cron_1.default.schedule("0 0 * * *", () => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("running a task every day");
+        const users = yield db_1.User.find({
+            deletedAt: { $lt: new Date() },
+            requestDelete: true,
+        });
+        for (const user of users) {
+            if (user._id &&
+                user.requetDelete &&
+                user.deleteDate !== undefined &&
+                user.deleteDate < new Date()) {
+                if (user.photo && user.photo.length >= 24) {
+                    const bucket = yield (0, storage_1.GridStorage)();
+                    yield bucket.delete(new mongoose_1.default.Types.ObjectId(user.photo));
+                }
+                yield db_1.User.deleteOne({ _id: user._id });
+            }
+        }
+    }));
     (0, seed_1.seed)();
 }))();

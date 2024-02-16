@@ -21,11 +21,10 @@ class HomeCubit extends Cubit<HomeState> {
     this._getStringFirebaseUsecase,
   ) : super(_HomeState());
 
-  String userName = "User";
   Future<void> init() async {
     await getUser();
     await heroImage();
-    await getData();
+    getData();
     await getSession();
   }
 
@@ -45,9 +44,8 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> getUser() async {
     final res =
-        await _readUserUsecase.call(const ByLimitParams(showFromLocal: true));
+        await _readUserUsecase.call(const ByLimitParams(showFromLocal: false));
     res.fold((l) => null, (r) {
-      userName = r.firstName ?? "User";
       emit(state.copyWith(user: r));
     });
   }
@@ -73,7 +71,7 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
-  Future<void> getData() async {
+  void getData() {
     final user = state.user;
     if (user == null) return;
     final bmi = getBmi(user);

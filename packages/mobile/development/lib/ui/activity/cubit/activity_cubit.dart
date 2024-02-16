@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 
 part 'activity_cubit.freezed.dart';
@@ -19,7 +20,7 @@ class ActivityCubit extends Cubit<ActivityState> {
     emit(const _Loading());
     final res = await _getSessionsUsecase.call(const ByLimitParams());
     res.fold(
-      (failure) => emit(_Failure(failure.toString())),
+      (failure) => emit(_Failure(failure)),
       (session) => emit(_Success(session)),
     );
   }

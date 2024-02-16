@@ -20,6 +20,7 @@ class RemoteConfig with FirebaseCrashLogger {
             "https://img.freepik.com/free-photo/sports-tools_53876-138077.jpg",
         FirebaseConstant.get.isGoogleFitAvailable: false,
         FirebaseConstant.get.isGoogleOAuthAvailable: false,
+        FirebaseConstant.get.baseUrl: "https://api.hatofit.com",
       });
       final res = await _remoteConfig.fetchAndActivate();
       return res;

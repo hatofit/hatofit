@@ -5,3 +5,5 @@ export 'int.dart';
 export 'list.dart';
 export 'session_entity_ext.dart';
 export 'string.dart';
+export 'user_entity_ext.dart';
+export 'data_helper.dart';

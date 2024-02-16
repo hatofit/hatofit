@@ -5,6 +5,9 @@ class StringsId extends Strings {
   StringsId([String locale = 'id']) : super(locale);
 
   @override
+  String get logout => 'Keluar';
+
+  @override
   String get connect => 'Hubungkan';
 
   @override
@@ -15,6 +18,12 @@ class StringsId extends Strings {
 
   @override
   String get failedConnectToDevice => 'Gagal terhubung ke perangkat';
+
+  @override
+  String get chooseTheme => 'Pilih tema';
+
+  @override
+  String get deviceIntegration => 'Integrasi perangkat';
 
   @override
   String get successConnectToDevice => 'Berhasil terhubung ke perangkat';
@@ -29,7 +38,46 @@ class StringsId extends Strings {
   String get disconnect => 'Putuskan';
 
   @override
+  String get workout => 'Latihan';
+
+  @override
+  String get activity => 'Aktivitas';
+
+  @override
+  String get setting => 'Pengaturan';
+
+  @override
+  String get themeSystem => 'Tema sistem';
+
+  @override
+  String get themeDark => 'Tema gelap';
+
+  @override
+  String get themeLight => 'Tema terang';
+
+  @override
+  String get updateProfile => 'Perbarui profil';
+
+  @override
+  String get gender => 'Jenis kelamin';
+
+  @override
+  String get bodyHeight => 'Tinggi badan';
+
+  @override
+  String get bodyWeight => 'Berat badan';
+
+  @override
+  String get dateOfBirth => 'Tanggal lahir';
+
+  @override
+  String get yearsOld => 'tahun';
+
+  @override
   String get noExerciseDataToday => 'Tidak ada data latihan hari ini';
+
+  @override
+  String get userUpdated => 'Pengguna diperbarui';
 
   @override
   String get sessionExpired => 'Sesi berakhir, silahkan masuk kembali';
@@ -38,7 +86,10 @@ class StringsId extends Strings {
   String get toUseThisFeatureYouNeedToConnectYourDevice => 'Untuk menggunakan fitur ini, anda perlu menghubungkan perangkat anda';
 
   @override
-  String get workoutMenuNotAvailable => 'Menu latihan tidak tersedia';
+  String get noWorkoutMenuFound => 'Tidak ada menu pelatihan yang ditemukan';
+
+  @override
+  String get noActivityFound => 'Tidak ada aktivitas yang ditemukan';
 
   @override
   String get loading => 'Memuat...';
@@ -144,6 +195,9 @@ class StringsId extends Strings {
 
   @override
   String get changePassword => 'Ganti kata sandi';
+
+  @override
+  String get profile => 'Profil';
 
   @override
   String get enterYourNewPassword => 'Masukkan kata sandi baru anda';

@@ -16,10 +16,8 @@ class FreeWorkoutView extends StatelessWidget {
       builder: (context, state) => state.when(
         loading: () => const Center(child: Loading()),
         failure: (message) {
-          log.e(message.toString());
           if (message is CacheFailure) {
-            return Center(
-                child: Text(Strings.of(context)!.workoutMenuNotAvailable));
+            return Center(child: Text(Strings.of(context)!.noWorkoutMenuFound));
           }
           return Center(child: Text(message.toString()));
         },

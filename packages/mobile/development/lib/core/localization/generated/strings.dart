@@ -93,6 +93,12 @@ abstract class Strings {
     Locale('id')
   ];
 
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
   /// No description provided for @connect.
   ///
   /// In en, this message translates to:
@@ -116,6 +122,18 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Failed connect to device'**
   String get failedConnectToDevice;
+
+  /// No description provided for @chooseTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Theme'**
+  String get chooseTheme;
+
+  /// No description provided for @deviceIntegration.
+  ///
+  /// In en, this message translates to:
+  /// **'Device Integration'**
+  String get deviceIntegration;
 
   /// No description provided for @successConnectToDevice.
   ///
@@ -141,11 +159,89 @@ abstract class Strings {
   /// **'Disconnect'**
   String get disconnect;
 
+  /// No description provided for @workout.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout'**
+  String get workout;
+
+  /// No description provided for @activity.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity'**
+  String get activity;
+
+  /// No description provided for @setting.
+  ///
+  /// In en, this message translates to:
+  /// **'Setting'**
+  String get setting;
+
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme System'**
+  String get themeSystem;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme Dark'**
+  String get themeDark;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme Light'**
+  String get themeLight;
+
+  /// No description provided for @updateProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Profile'**
+  String get updateProfile;
+
+  /// No description provided for @gender.
+  ///
+  /// In en, this message translates to:
+  /// **'Gender'**
+  String get gender;
+
+  /// No description provided for @bodyHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Body Height'**
+  String get bodyHeight;
+
+  /// No description provided for @bodyWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Body Weight'**
+  String get bodyWeight;
+
+  /// No description provided for @dateOfBirth.
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth'**
+  String get dateOfBirth;
+
+  /// No description provided for @yearsOld.
+  ///
+  /// In en, this message translates to:
+  /// **'years old'**
+  String get yearsOld;
+
   /// No description provided for @noExerciseDataToday.
   ///
   /// In en, this message translates to:
   /// **'No exercise data today'**
   String get noExerciseDataToday;
+
+  /// No description provided for @userUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'User updated'**
+  String get userUpdated;
 
   /// No description provided for @sessionExpired.
   ///
@@ -159,11 +255,17 @@ abstract class Strings {
   /// **'To use this feature, you need to connect your device'**
   String get toUseThisFeatureYouNeedToConnectYourDevice;
 
-  /// No description provided for @workoutMenuNotAvailable.
+  /// No description provided for @noWorkoutMenuFound.
   ///
   /// In en, this message translates to:
-  /// **'Workout menu not available'**
-  String get workoutMenuNotAvailable;
+  /// **'No workout menu found'**
+  String get noWorkoutMenuFound;
+
+  /// No description provided for @noActivityFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No activity found'**
+  String get noActivityFound;
 
   /// No description provided for @loading.
   ///
@@ -374,6 +476,12 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Change password'**
   String get changePassword;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
 
   /// No description provided for @enterYourNewPassword.
   ///

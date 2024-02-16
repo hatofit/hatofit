@@ -5,6 +5,9 @@ class StringsEn extends Strings {
   StringsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get logout => 'Logout';
+
+  @override
   String get connect => 'Connect';
 
   @override
@@ -15,6 +18,12 @@ class StringsEn extends Strings {
 
   @override
   String get failedConnectToDevice => 'Failed connect to device';
+
+  @override
+  String get chooseTheme => 'Choose Theme';
+
+  @override
+  String get deviceIntegration => 'Device Integration';
 
   @override
   String get successConnectToDevice => 'Success connect to device';
@@ -29,7 +38,46 @@ class StringsEn extends Strings {
   String get disconnect => 'Disconnect';
 
   @override
+  String get workout => 'Workout';
+
+  @override
+  String get activity => 'Activity';
+
+  @override
+  String get setting => 'Setting';
+
+  @override
+  String get themeSystem => 'Theme System';
+
+  @override
+  String get themeDark => 'Theme Dark';
+
+  @override
+  String get themeLight => 'Theme Light';
+
+  @override
+  String get updateProfile => 'Update Profile';
+
+  @override
+  String get gender => 'Gender';
+
+  @override
+  String get bodyHeight => 'Body Height';
+
+  @override
+  String get bodyWeight => 'Body Weight';
+
+  @override
+  String get dateOfBirth => 'Date of Birth';
+
+  @override
+  String get yearsOld => 'years old';
+
+  @override
   String get noExerciseDataToday => 'No exercise data today';
+
+  @override
+  String get userUpdated => 'User updated';
 
   @override
   String get sessionExpired => 'Session Expired, please sign in again';
@@ -38,7 +86,10 @@ class StringsEn extends Strings {
   String get toUseThisFeatureYouNeedToConnectYourDevice => 'To use this feature, you need to connect your device';
 
   @override
-  String get workoutMenuNotAvailable => 'Workout menu not available';
+  String get noWorkoutMenuFound => 'No workout menu found';
+
+  @override
+  String get noActivityFound => 'No activity found';
 
   @override
   String get loading => 'Loading...';
@@ -144,6 +195,9 @@ class StringsEn extends Strings {
 
   @override
   String get changePassword => 'Change password';
+
+  @override
+  String get profile => 'Profile';
 
   @override
   String get enterYourNewPassword => 'Enter your new password';

@@ -32,6 +32,18 @@ mixin _$DataHelper {
   set id(int? value) => throw _privateConstructorUsedError;
   Color? get color => throw _privateConstructorUsedError;
   set color(Color? value) => throw _privateConstructorUsedError;
+  UserEntity? get user => throw _privateConstructorUsedError;
+  set user(UserEntity? value) => throw _privateConstructorUsedError;
+  DataHelper? get sLang => throw _privateConstructorUsedError;
+  set sLang(DataHelper? value) => throw _privateConstructorUsedError;
+  DataHelper? get sEUnit => throw _privateConstructorUsedError;
+  set sEUnit(DataHelper? value) => throw _privateConstructorUsedError;
+  DataHelper? get sHUnit => throw _privateConstructorUsedError;
+  set sHUnit(DataHelper? value) => throw _privateConstructorUsedError;
+  DataHelper? get sWUnit => throw _privateConstructorUsedError;
+  set sWUnit(DataHelper? value) => throw _privateConstructorUsedError;
+  bool get isGoogleFitAvailable => throw _privateConstructorUsedError;
+  set isGoogleFitAvailable(bool value) => throw _privateConstructorUsedError;
   bool get isSelected => throw _privateConstructorUsedError;
   set isSelected(bool value) => throw _privateConstructorUsedError;
   ActiveTheme get activeTheme => throw _privateConstructorUsedError;
@@ -57,8 +69,20 @@ abstract class $DataHelperCopyWith<$Res> {
       String? type,
       int? id,
       Color? color,
+      UserEntity? user,
+      DataHelper? sLang,
+      DataHelper? sEUnit,
+      DataHelper? sHUnit,
+      DataHelper? sWUnit,
+      bool isGoogleFitAvailable,
       bool isSelected,
       ActiveTheme activeTheme});
+
+  $UserEntityCopyWith<$Res>? get user;
+  $DataHelperCopyWith<$Res>? get sLang;
+  $DataHelperCopyWith<$Res>? get sEUnit;
+  $DataHelperCopyWith<$Res>? get sHUnit;
+  $DataHelperCopyWith<$Res>? get sWUnit;
 }
 
 /// @nodoc
@@ -82,6 +106,12 @@ class _$DataHelperCopyWithImpl<$Res, $Val extends DataHelper>
     Object? type = freezed,
     Object? id = freezed,
     Object? color = freezed,
+    Object? user = freezed,
+    Object? sLang = freezed,
+    Object? sEUnit = freezed,
+    Object? sHUnit = freezed,
+    Object? sWUnit = freezed,
+    Object? isGoogleFitAvailable = null,
     Object? isSelected = null,
     Object? activeTheme = null,
   }) {
@@ -118,6 +148,30 @@ class _$DataHelperCopyWithImpl<$Res, $Val extends DataHelper>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as Color?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserEntity?,
+      sLang: freezed == sLang
+          ? _value.sLang
+          : sLang // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      sEUnit: freezed == sEUnit
+          ? _value.sEUnit
+          : sEUnit // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      sHUnit: freezed == sHUnit
+          ? _value.sHUnit
+          : sHUnit // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      sWUnit: freezed == sWUnit
+          ? _value.sWUnit
+          : sWUnit // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      isGoogleFitAvailable: null == isGoogleFitAvailable
+          ? _value.isGoogleFitAvailable
+          : isGoogleFitAvailable // ignore: cast_nullable_to_non_nullable
+              as bool,
       isSelected: null == isSelected
           ? _value.isSelected
           : isSelected // ignore: cast_nullable_to_non_nullable
@@ -127,6 +181,66 @@ class _$DataHelperCopyWithImpl<$Res, $Val extends DataHelper>
           : activeTheme // ignore: cast_nullable_to_non_nullable
               as ActiveTheme,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $UserEntityCopyWith<$Res>? get user {
+    if (_value.user == null) {
+      return null;
+    }
+
+    return $UserEntityCopyWith<$Res>(_value.user!, (value) {
+      return _then(_value.copyWith(user: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DataHelperCopyWith<$Res>? get sLang {
+    if (_value.sLang == null) {
+      return null;
+    }
+
+    return $DataHelperCopyWith<$Res>(_value.sLang!, (value) {
+      return _then(_value.copyWith(sLang: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DataHelperCopyWith<$Res>? get sEUnit {
+    if (_value.sEUnit == null) {
+      return null;
+    }
+
+    return $DataHelperCopyWith<$Res>(_value.sEUnit!, (value) {
+      return _then(_value.copyWith(sEUnit: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DataHelperCopyWith<$Res>? get sHUnit {
+    if (_value.sHUnit == null) {
+      return null;
+    }
+
+    return $DataHelperCopyWith<$Res>(_value.sHUnit!, (value) {
+      return _then(_value.copyWith(sHUnit: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DataHelperCopyWith<$Res>? get sWUnit {
+    if (_value.sWUnit == null) {
+      return null;
+    }
+
+    return $DataHelperCopyWith<$Res>(_value.sWUnit!, (value) {
+      return _then(_value.copyWith(sWUnit: value) as $Val);
+    });
   }
 }
 
@@ -147,8 +261,25 @@ abstract class _$$DataHelperImplCopyWith<$Res>
       String? type,
       int? id,
       Color? color,
+      UserEntity? user,
+      DataHelper? sLang,
+      DataHelper? sEUnit,
+      DataHelper? sHUnit,
+      DataHelper? sWUnit,
+      bool isGoogleFitAvailable,
       bool isSelected,
       ActiveTheme activeTheme});
+
+  @override
+  $UserEntityCopyWith<$Res>? get user;
+  @override
+  $DataHelperCopyWith<$Res>? get sLang;
+  @override
+  $DataHelperCopyWith<$Res>? get sEUnit;
+  @override
+  $DataHelperCopyWith<$Res>? get sHUnit;
+  @override
+  $DataHelperCopyWith<$Res>? get sWUnit;
 }
 
 /// @nodoc
@@ -170,6 +301,12 @@ class __$$DataHelperImplCopyWithImpl<$Res>
     Object? type = freezed,
     Object? id = freezed,
     Object? color = freezed,
+    Object? user = freezed,
+    Object? sLang = freezed,
+    Object? sEUnit = freezed,
+    Object? sHUnit = freezed,
+    Object? sWUnit = freezed,
+    Object? isGoogleFitAvailable = null,
     Object? isSelected = null,
     Object? activeTheme = null,
   }) {
@@ -206,6 +343,30 @@ class __$$DataHelperImplCopyWithImpl<$Res>
           ? _value.color
           : color // ignore: cast_nullable_to_non_nullable
               as Color?,
+      user: freezed == user
+          ? _value.user
+          : user // ignore: cast_nullable_to_non_nullable
+              as UserEntity?,
+      sLang: freezed == sLang
+          ? _value.sLang
+          : sLang // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      sEUnit: freezed == sEUnit
+          ? _value.sEUnit
+          : sEUnit // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      sHUnit: freezed == sHUnit
+          ? _value.sHUnit
+          : sHUnit // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      sWUnit: freezed == sWUnit
+          ? _value.sWUnit
+          : sWUnit // ignore: cast_nullable_to_non_nullable
+              as DataHelper?,
+      isGoogleFitAvailable: null == isGoogleFitAvailable
+          ? _value.isGoogleFitAvailable
+          : isGoogleFitAvailable // ignore: cast_nullable_to_non_nullable
+              as bool,
       isSelected: null == isSelected
           ? _value.isSelected
           : isSelected // ignore: cast_nullable_to_non_nullable
@@ -230,6 +391,12 @@ class _$DataHelperImpl implements _DataHelper {
       this.type,
       this.id,
       this.color,
+      this.user,
+      this.sLang,
+      this.sEUnit,
+      this.sHUnit,
+      this.sWUnit,
+      this.isGoogleFitAvailable = false,
       this.isSelected = false,
       this.activeTheme = ActiveTheme.light});
 
@@ -250,6 +417,19 @@ class _$DataHelperImpl implements _DataHelper {
   @override
   Color? color;
   @override
+  UserEntity? user;
+  @override
+  DataHelper? sLang;
+  @override
+  DataHelper? sEUnit;
+  @override
+  DataHelper? sHUnit;
+  @override
+  DataHelper? sWUnit;
+  @override
+  @JsonKey()
+  bool isGoogleFitAvailable;
+  @override
   @JsonKey()
   bool isSelected;
   @override
@@ -258,7 +438,7 @@ class _$DataHelperImpl implements _DataHelper {
 
   @override
   String toString() {
-    return 'DataHelper(title: $title, desc: $desc, iconPath: $iconPath, icon: $icon, url: $url, type: $type, id: $id, color: $color, isSelected: $isSelected, activeTheme: $activeTheme)';
+    return 'DataHelper(title: $title, desc: $desc, iconPath: $iconPath, icon: $icon, url: $url, type: $type, id: $id, color: $color, user: $user, sLang: $sLang, sEUnit: $sEUnit, sHUnit: $sHUnit, sWUnit: $sWUnit, isGoogleFitAvailable: $isGoogleFitAvailable, isSelected: $isSelected, activeTheme: $activeTheme)';
   }
 
   @JsonKey(ignore: true)
@@ -278,6 +458,12 @@ abstract class _DataHelper implements DataHelper {
       String? type,
       int? id,
       Color? color,
+      UserEntity? user,
+      DataHelper? sLang,
+      DataHelper? sEUnit,
+      DataHelper? sHUnit,
+      DataHelper? sWUnit,
+      bool isGoogleFitAvailable,
       bool isSelected,
       ActiveTheme activeTheme}) = _$DataHelperImpl;
 
@@ -305,6 +491,24 @@ abstract class _DataHelper implements DataHelper {
   @override
   Color? get color;
   set color(Color? value);
+  @override
+  UserEntity? get user;
+  set user(UserEntity? value);
+  @override
+  DataHelper? get sLang;
+  set sLang(DataHelper? value);
+  @override
+  DataHelper? get sEUnit;
+  set sEUnit(DataHelper? value);
+  @override
+  DataHelper? get sHUnit;
+  set sHUnit(DataHelper? value);
+  @override
+  DataHelper? get sWUnit;
+  set sWUnit(DataHelper? value);
+  @override
+  bool get isGoogleFitAvailable;
+  set isGoogleFitAvailable(bool value);
   @override
   bool get isSelected;
   set isSelected(bool value);

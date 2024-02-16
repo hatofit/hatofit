@@ -45,6 +45,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     ));
     res.fold(
       (l) {
+        log.f(l);
         emit(_Failure(l));
       },
       (r) => emit(_Success(r)),

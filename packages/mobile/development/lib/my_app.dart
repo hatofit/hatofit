@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     // );
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => di<SettingsCubit>()..readActiveTheme()),
+        BlocProvider(create: (_) => di<SettingsCubit>()..init()),
         BlocProvider(create: (_) => di<AuthCubit>()..init()),
       ],
       child: OKToast(
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
             AppRoute.setStream(context);
 
             return BlocBuilder<SettingsCubit, DataHelper>(builder: (_, data) {
+              log.f("MyApp: ${data}");
               return MaterialApp.router(
                 routerConfig: AppRoute.router,
                 restorationScopeId: 'hatofitApp',

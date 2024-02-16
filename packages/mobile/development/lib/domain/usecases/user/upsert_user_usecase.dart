@@ -8,6 +8,6 @@ class UpsertUserUsecase extends FPUC<UserEntity, RegisterParams> {
   UpsertUserUsecase(this._repo);
 
   @override
-  Future<Either<Failure, UserEntity>> call(RegisterParams params) async =>
-      await _repo.upsertUser(params);
+  Future<Either<Failure, UserEntity>> call(RegisterParams params) =>
+      _repo.upsertUser(params);
 }

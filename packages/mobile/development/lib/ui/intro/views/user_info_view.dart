@@ -73,8 +73,20 @@ class _UserInfoViewState extends State<UserInfoView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: listGender
-                      .map((e) => _buildGenderItem(context, e.iconPath ?? "",
-                          e.title ?? "", e.color!, state, e.type ?? ""))
+                      .map(
+                        (e) => e.buildGenderItem(
+                            context: context,
+                            svgAsset: e.iconPath ?? "",
+                            gender: e.title ?? "",
+                            genderColor: e.color!,
+                            selected: state.user?.gender ?? "",
+                            type: e.type ?? "",
+                            onTap: () {
+                              context.read<IntroCubit>().updateGender(
+                                    (e.type ?? "").toLowerCase(),
+                                  );
+                            }),
+                      )
                       .toList(),
                 ),
                 SizedBox(
@@ -212,56 +224,6 @@ class _UserInfoViewState extends State<UserInfoView> {
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildGenderItem(
-    BuildContext context,
-    String svgAsset,
-    String gender,
-    Color genderColor,
-    IntroState state,
-    String type,
-  ) {
-    final isSelected = type.toLowerCase() == state.user?.gender?.toLowerCase();
-    return GestureDetector(
-      onTap: () {
-        context.read<IntroCubit>().updateGender(type.toLowerCase());
-      },
-      child: AnimatedContainer(
-        width: Dimens.width128,
-        height: Dimens.height128,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-        margin: EdgeInsets.symmetric(horizontal: Dimens.width8),
-        padding: EdgeInsets.all(Dimens.radius8),
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 2,
-            color: isSelected ? genderColor : Colors.grey.withOpacity(0.5),
-          ),
-          borderRadius: BorderRadius.all(
-            Radius.circular(Dimens.radius15),
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Image.asset(
-              svgAsset,
-              width: Dimens.width84,
-              height: Dimens.height84,
-            ),
-            Text(
-              gender.capitalizeFirst!,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    letterSpacing: 1.5,
-                    fontWeight: FontWeight.normal,
-                  ),
-            ),
-          ],
         ),
       ),
     );

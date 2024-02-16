@@ -93,6 +93,8 @@ const UserSchema = new mongoose_1.Schema({
         heightUnits: String,
     },
     resetPasswordCode: String,
+    requetDelete: Boolean,
+    deleteDate: Date,
     // others
     linkedCompanyId: String,
 }, {

@@ -19,36 +19,6 @@ class IntroCubit extends Cubit<IntroState> {
     this._getLanguageUsecase,
   ) : super(IntroState());
 
-  Future<void> init() async {
-    await getUser();
-    await getLang();
-    getEnergyUnit();
-    getHeightUnit();
-    getWeightUnit();
-  }
-
-  Future<void> getUser() async {
-    final res =
-        await _readUserUsecase.call(const ByLimitParams(showFromLocal: false));
-    log.i("res: $res");
-    res.fold(
-        (l) => emit(IntroState(
-            user: UserEntity(
-                metricUnits: const UserMetricUnitsEntity(
-                  energyUnits: "kcal",
-                  heightUnits: "cm",
-                  weightUnits: "kg",
-                ),
-                dateOfBirth: DateTime.now(),
-                height: 150,
-                weight: 125,
-                gender: "male"))), (r) {
-      emit(IntroState(
-        user: r,
-      ));
-    });
-  }
-
   final List<DataHelper> listLanguage = [
     DataHelper(
         title: Constants.get.english,
@@ -89,8 +59,36 @@ class IntroCubit extends Cubit<IntroState> {
       type: "lb",
     ),
   ];
+  Future<void> init() async {
+    await fetchUser();
+    await fetchLang();
+    fetchEnergyUnit();
+    fetchHeightUnit();
+    fetchWeightUnit();
+  }
 
-  Future<void> getLang() async {
+  Future<void> fetchUser() async {
+    final res =
+        await _readUserUsecase.call(const ByLimitParams(showFromLocal: false));
+    res.fold(
+        (l) => emit(IntroState(
+            user: UserEntity(
+                metricUnits: const UserMetricUnitsEntity(
+                  energyUnits: "kcal",
+                  heightUnits: "cm",
+                  weightUnits: "kg",
+                ),
+                dateOfBirth: DateTime.now(),
+                height: 150,
+                weight: 125,
+                gender: "male"))), (r) {
+      emit(IntroState(
+        user: r,
+      ));
+    });
+  }
+
+  Future<void> fetchLang() async {
     final res = await _getLanguageUsecase.call();
     res.fold((l) => emit(state.copyWith(sLang: listLanguage[0])), (r) {
       final lang = listLanguage.firstWhere((e) => e.type == r);
@@ -98,11 +96,9 @@ class IntroCubit extends Cubit<IntroState> {
     });
   }
 
-  void getEnergyUnit() {
+  void fetchEnergyUnit() {
     final user = state.user;
     if (user != null) {
-      log.i("user: $user");
-      log.i("List: $listEnergyUnit");
       final sEUnit = listEnergyUnit.firstWhere(
         (e) => e.type == user.metricUnits?.energyUnits,
       );
@@ -112,7 +108,7 @@ class IntroCubit extends Cubit<IntroState> {
     }
   }
 
-  void getHeightUnit() {
+  void fetchHeightUnit() {
     final user = state.user;
     if (user != null) {
       final sHUnit = listHeightUnit.firstWhere(
@@ -124,7 +120,7 @@ class IntroCubit extends Cubit<IntroState> {
     }
   }
 
-  void getWeightUnit() {
+  void fetchWeightUnit() {
     final user = state.user;
     if (user != null) {
       final sWUnit = listWeightUnit.firstWhere(
@@ -142,7 +138,12 @@ class IntroCubit extends Cubit<IntroState> {
             ?.copyWith(metricUnits: UserMetricUnitsEntity(energyUnits: val))));
     final user = state.user;
     if (user != null) {
-      await _upsertUserUsecase.call(RegisterParams.fromUser(user));
+      await _upsertUserUsecase
+          .call(RegisterParams.fromUser(user).copyWith(metricUnits: {
+        "energyUnits": val,
+        "heightUnits": user.metricUnits?.heightUnits ?? "cm",
+        "weightUnits": user.metricUnits?.weightUnits ?? "kg",
+      }));
     }
   }
 
@@ -152,7 +153,12 @@ class IntroCubit extends Cubit<IntroState> {
             ?.copyWith(metricUnits: UserMetricUnitsEntity(heightUnits: val))));
     final user = state.user;
     if (user != null) {
-      await _upsertUserUsecase.call(RegisterParams.fromUser(user));
+      await _upsertUserUsecase
+          .call(RegisterParams.fromUser(user).copyWith(metricUnits: {
+        "energyUnits": user.metricUnits?.energyUnits ?? "kcal",
+        "heightUnits": val,
+        "weightUnits": user.metricUnits?.weightUnits ?? "kg",
+      }));
     }
   }
 
@@ -162,7 +168,12 @@ class IntroCubit extends Cubit<IntroState> {
             ?.copyWith(metricUnits: UserMetricUnitsEntity(weightUnits: val))));
     final user = state.user;
     if (user != null) {
-      await _upsertUserUsecase.call(RegisterParams.fromUser(user));
+      await _upsertUserUsecase
+          .call(RegisterParams.fromUser(user).copyWith(metricUnits: {
+        "energyUnits": user.metricUnits?.energyUnits ?? "kcal",
+        "heightUnits": user.metricUnits?.heightUnits ?? "cm",
+        "weightUnits": val,
+      }));
     }
   }
 

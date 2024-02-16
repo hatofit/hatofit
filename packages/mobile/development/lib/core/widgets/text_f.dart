@@ -4,6 +4,28 @@ import 'package:hatofit/core/core.dart';
 import 'package:hatofit/utils/ext/context.dart';
 
 class TextF extends StatefulWidget {
+  final FocusNode? curFocusNode;
+  final FocusNode? nextFocusNode;
+  final String? hint;
+  final Function(String)? validator;
+  final Function(String)? onChanged;
+  final Function? onTap;
+  final TextInputType? keyboardType;
+  final TextInputAction? textInputAction;
+  final TextEditingController? controller;
+  final bool? obscureText;
+  final int? minLine;
+  final int? maxLine;
+  final Widget? suffixIcon;
+  final TextAlign? textAlign;
+  final bool? enable;
+  final List<TextInputFormatter>? inputFormatter;
+  final bool isHintVisible;
+  final Widget prefixIcon;
+  final String? prefixText;
+  final String? hintText;
+  final Iterable<String>? autofillHints;
+  final String? semantic;
   const TextF({
     super.key,
     this.curFocusNode,
@@ -30,29 +52,6 @@ class TextF extends StatefulWidget {
     this.semantic,
   });
 
-  final FocusNode? curFocusNode;
-  final FocusNode? nextFocusNode;
-  final String? hint;
-  final Function(String)? validator;
-  final Function(String)? onChanged;
-  final Function? onTap;
-  final TextInputType? keyboardType;
-  final TextInputAction? textInputAction;
-  final TextEditingController? controller;
-  final bool? obscureText;
-  final int? minLine;
-  final int? maxLine;
-  final Widget? suffixIcon;
-  final TextAlign? textAlign;
-  final bool? enable;
-  final List<TextInputFormatter>? inputFormatter;
-  final bool isHintVisible;
-  final Widget prefixIcon;
-  final String? prefixText;
-  final String? hintText;
-  final Iterable<String>? autofillHints;
-  final String? semantic;
-
   @override
   _TextFState createState() => _TextFState();
 }
@@ -73,10 +72,6 @@ class _TextFState extends State<TextF> {
             visible: widget.isHintVisible,
             child: Text(
               widget.hint ?? "",
-              // style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              //       color: Theme.of(context).extension<AppColors>()!.background,
-              //       height: 0.1,
-              //     ),
             ),
           ),
           SpacerV(value: Dimens.height4),

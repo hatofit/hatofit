@@ -101,7 +101,10 @@ const ApiAuth = ({ route }) => {
             }
             console.log("USER", user);
             if (user.photo) {
-                const photoPath = req.body.photo.path.split("\\")[1];
+                let photoPath = req.body.photo.path.split("\\")[1];
+                if (!photoPath) {
+                    photoPath = req.body.photo.path.split("/")[1];
+                }
                 const bucket = yield (0, storage_1.GridStorage)();
                 const file = fs_1.default.createReadStream(`./uploads/${photoPath}`).pipe(bucket.openUploadStream(photoPath, {
                     metadata: { contentType: "image/png" },
@@ -134,8 +137,13 @@ const ApiAuth = ({ route }) => {
             const user = req.body;
             console.log("USER", user);
             // save to db
-            const found = yield db_1.User.findOne({
+            const found = yield db_1.User.findOneAndUpdate({
                 email: user.email,
+            }, {
+                $set: {
+                    requetDelete: false,
+                    deleteDate: null,
+                },
             });
             // resposne
             if (!found) {
@@ -420,6 +428,17 @@ const ApiAuth = ({ route }) => {
                     message: "User not found",
                 });
             }
+            if (user.photo) {
+                let photoPath = req.body.photo.path.split("\\")[1];
+                if (!photoPath) {
+                    photoPath = req.body.photo.path.split("/")[1];
+                }
+                const bucket = yield (0, storage_1.GridStorage)();
+                const file = fs_1.default.createReadStream(`./uploads/${photoPath}`).pipe(bucket.openUploadStream(photoPath, {
+                    metadata: { contentType: "image/png" },
+                }));
+                user.photo = file.id;
+            }
             // update
             const updated = yield db_1.User.findOneAndUpdate({
                 _id: (_f = (_e = req.auth) === null || _e === void 0 ? void 0 : _e.user) === null || _f === void 0 ? void 0 : _f._id,
@@ -642,27 +661,45 @@ const ApiAuth = ({ route }) => {
         }
     }));
     route.delete("/delete", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        var _m, _o;
+        var _m;
         console.log("DATA BODY", req.body);
         try {
-            // find user based user session
-            const found = yield db_1.User.findOne({
-                _id: (_o = (_m = req.auth) === null || _m === void 0 ? void 0 : _m.user) === null || _o === void 0 ? void 0 : _o._id,
+            // schedule deletion in 2 weeks from now
+            const user = (_m = req.auth) === null || _m === void 0 ? void 0 : _m.user;
+            const deleteAt = (0, dayjs_1.default)().add(2, "week").toDate();
+            const updated = yield db_1.User.findOneAndUpdate({
+                _id: user._id,
+            }, {
+                $set: {
+                    deleteAt,
+                    requestDelete: true,
+                },
+            }, {
+                new: true,
             });
-            // user deletion
-            yield db_1.User.findOneAndDelete({
-                _id: found === null || found === void 0 ? void 0 : found._id,
-            });
-            // check if user photo is not empty string or length must same as object id length
-            if ((found === null || found === void 0 ? void 0 : found.photo) && (found === null || found === void 0 ? void 0 : found.photo.length) >= 24) {
-                const bucket = yield (0, storage_1.GridStorage)();
-                yield bucket.delete(new mongoose_1.default.Types.ObjectId(found === null || found === void 0 ? void 0 : found.photo));
-            }
             return res.json({
                 success: true,
-                message: "User deleted successfully",
-                user: (0, obj_1.exceptObjectProp)(found === null || found === void 0 ? void 0 : found.toObject(), ["password"]),
+                message: "User will be deleted in 2 weeks",
+                user: (0, obj_1.exceptObjectProp)(updated === null || updated === void 0 ? void 0 : updated.toObject(), ["password"]),
             });
+            // find user based user session
+            // const found = await User.findOne({
+            //   _id: req.auth?.user?._id,
+            // });
+            // // user deletion
+            // await User.findOneAndDelete({
+            //   _id: found?._id,
+            // });
+            // // check if user photo is not empty string or length must same as object id length
+            // if (found?.photo && found?.photo.length >= 24) {
+            //   const bucket = await GridStorage();
+            //   await bucket.delete(new mongoose.Types.ObjectId(found?.photo));
+            // }
+            // return res.json({
+            //   success: true,
+            //   message: "User deleted successfully",
+            //   user: exceptObjectProp(found?.toObject(), ["password"]),
+            // });
         }
         catch (error) {
             // console.error(error)

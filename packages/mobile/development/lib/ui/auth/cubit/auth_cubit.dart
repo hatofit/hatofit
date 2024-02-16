@@ -22,6 +22,7 @@ class AuthCubit extends Cubit<AuthState> {
   final ResetPasswordUsecase _resetPasswordUsecase;
   final ReadUserUsecase _readUserUsecase;
   final GetBoolFirebaseUsecase _getBoolFirebaseUsecase;
+  final UpsertUserUsecase _upsertUserUsecase;
 
   AuthCubit(
     this._loginUsecase,
@@ -33,6 +34,7 @@ class AuthCubit extends Cubit<AuthState> {
     this._imageFromGalleryUsecase,
     this._readUserUsecase,
     this._getBoolFirebaseUsecase,
+    this._upsertUserUsecase,
   ) : super(const _Initial());
 
   void init() {
@@ -132,8 +134,7 @@ class AuthCubit extends Cubit<AuthState> {
         await _readUserUsecase.call(const ByLimitParams(showFromLocal: false));
     user.fold((l) => null, (r) async {
       try {
-        final Either<Failure, AuthResponseEntity> res =
-            await _registerUsecase.call(RegisterParams(
+        final res = await _registerUsecase.call(RegisterParams(
           firstName: params.firstName,
           lastName: params.lastName,
           gender: r.gender ?? "male",
@@ -156,7 +157,49 @@ class AuthCubit extends Cubit<AuthState> {
             emit(_Failure(l.message ?? ""));
           }
         }, (r) {
-          emit(_Success(r.user?.firstName));
+          _readUserUsecase
+              .call(const ByLimitParams(showFromLocal: false))
+              .then((_) => emit(_Success(r.user?.firstName)));
+        });
+      } catch (e, stackTrace) {
+        FirebaseCrashlytics.instance.recordError(e, stackTrace);
+      }
+    });
+  }
+
+  void updateUserRestApi(RegisterParams params) async {
+    emit(const _Loading());
+    final user =
+        await _readUserUsecase.call(const ByLimitParams(showFromLocal: false));
+    user.fold((l) => null, (r) async {
+      try {
+        final res = await _upsertUserUsecase.call(RegisterParams(
+          forLocal: false,
+          firstName: params.firstName,
+          lastName: params.lastName,
+          gender: r.gender ?? "male",
+          email: params.email,
+          password: params.password,
+          confirmPassword: params.confirmPassword,
+          photo: pickedImage,
+          dateOfBirth: r.dateOfBirth.toString(),
+          height: r.height ?? 150,
+          weight: r.weight ?? 125,
+          metricUnits: {
+            "energyUnits": r.metricUnits?.energyUnits ?? "kcal",
+            "heightUnits": r.metricUnits?.heightUnits ?? "cm",
+            "weightUnits": r.metricUnits?.weightUnits ?? "kg",
+          },
+        ));
+
+        res.fold((l) {
+          if (l is ServerFailure) {
+            emit(_Failure(l.message ?? ""));
+          }
+        }, (r) {
+          _readUserUsecase
+              .call(const ByLimitParams(showFromLocal: false))
+              .then((_) => emit(_Success(r.firstName)));
         });
       } catch (e, stackTrace) {
         FirebaseCrashlytics.instance.recordError(e, stackTrace);

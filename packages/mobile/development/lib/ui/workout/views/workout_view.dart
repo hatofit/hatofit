@@ -17,7 +17,7 @@ class WorkoutView extends StatelessWidget {
       },
       child: Parent(
         appBar: AppBar(
-          title: const Text('Workout'),
+          title: Text(Strings.of(context)!.workout),
           titleTextStyle: Theme.of(context).textTheme.titleLarge,
         ),
         child: BlocBuilder<WorkoutCubit, WorkoutState>(
@@ -27,7 +27,7 @@ class WorkoutView extends StatelessWidget {
               log.e(message.toString());
               if (message is CacheFailure) {
                 return Center(
-                    child: Text(Strings.of(context)!.workoutMenuNotAvailable));
+                    child: Text(Strings.of(context)!.noWorkoutMenuFound));
               }
               return Center(child: Text(message.toString()));
             },

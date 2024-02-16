@@ -31,7 +31,7 @@ class IconWrapper extends StatelessWidget {
       ),
       child: Icon(
         icon,
-        size: size ?? 20,
+        size: size ?? Dimens.width20,
         color: color,
       ),
     );

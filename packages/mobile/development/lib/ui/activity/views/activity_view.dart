@@ -16,14 +16,19 @@ class ActivityView extends StatelessWidget {
       onRefresh: () => context.read<ActivityCubit>().getSessions(),
       child: Parent(
         appBar: AppBar(
-          title: const Text('Activity'),
+          title: Text(Strings.of(context)!.activity),
           titleTextStyle: Theme.of(context).textTheme.titleLarge,
         ),
         child: BlocBuilder<ActivityCubit, ActivityState>(
           builder: (context, state) => state.when(
             loading: () => const Center(child: Loading()),
-            failure: (message) => Center(child: Text(message)),
-            empty: () => Container(),
+            failure: (message) {
+              if (message is CacheFailure) {
+                return Center(
+                    child: Text(Strings.of(context)!.noActivityFound));
+              }
+              return Center(child: Text(message.toString()));
+            },
             success: (session) {
               return ListView.builder(
                 itemCount: session.length,

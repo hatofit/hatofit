@@ -15,6 +15,8 @@ class SettingsCubit extends Cubit<DataHelper> {
   final DeleteMoodUsecase _deleteMoodUsecase;
   final DeleteTokenUsecase _deleteTokenUsecase;
   final DeleteUserUsecase _deleteUserUsecase;
+  final GetBoolFirebaseUsecase _getBoolFirebaseUsecase;
+
   SettingsCubit(
     this._readActiveThemeUsecase,
     this._updateActiveThemeUsecase,
@@ -25,33 +27,127 @@ class SettingsCubit extends Cubit<DataHelper> {
     this._deleteMoodUsecase,
     this._deleteTokenUsecase,
     this._deleteUserUsecase,
+    this._getBoolFirebaseUsecase,
   ) : super(DataHelper(type: "en", activeTheme: ActiveTheme.system));
 
-  Future<void> updateTheme(ActiveTheme activeTheme) async {
-    await _updateActiveThemeUsecase.call(activeTheme);
-    final res = await _getLanguageUsecase.call();
-    res.fold((l) => null, (r) {
+  final List<DataHelper> listLanguage = [
+    DataHelper(
+        title: Constants.get.english,
+        type: "en",
+        iconPath: 'assets/images/icons/united-kingdom.png'),
+    DataHelper(
+        title: Constants.get.bahasa,
+        type: "id",
+        iconPath: 'assets/images/icons/indonesia.png'),
+  ];
+  final List<DataHelper> listEnergyUnit = [
+    DataHelper(
+      title: Constants.get.kilocalorie,
+      type: "kcal",
+    ),
+    DataHelper(
+      title: Constants.get.kilojoule,
+      type: "kj",
+    ),
+  ];
+  final List<DataHelper> listHeightUnit = [
+    DataHelper(
+      title: Constants.get.centimeter,
+      type: "cm",
+    ),
+    DataHelper(
+      title: Constants.get.inch,
+      type: "en",
+    ),
+  ];
+  final List<DataHelper> listWeightUnit = [
+    DataHelper(
+      title: Constants.get.kilogram,
+      type: "kg",
+    ),
+    DataHelper(
+      title: Constants.get.pound,
+      type: "lb",
+    ),
+  ];
+
+  void init() async {
+    await fetchUser();
+    await fetchFRC();
+    await fetchLang();
+    await readActiveTheme();
+  }
+
+  Future<void> fetchUser() async {
+    final res =
+        await _readUserUsecase.call(const ByLimitParams(showFromLocal: true));
+    res.fold((l) {}, (r) {
+      safeEmit(state.copyWith(user: r), emit: emit, isClosed: isClosed);
+    });
+  }
+
+  Future<void> fetchFRC() async {
+    final res = await _getBoolFirebaseUsecase
+        .call(FirebaseConstant.get.isGoogleFitAvailable);
+    res.fold((l) {}, (r) {
       safeEmit(
-        DataHelper(
-          activeTheme: activeTheme,
-          type: r,
-        ),
+        state.copyWith(isGoogleFitAvailable: r),
         emit: emit,
         isClosed: isClosed,
       );
     });
   }
 
-  Future<void> updateLanguage(String type) async {
-    await _upesertLanguageUsecase.call(type);
+  Future<void> fetchLang() async {
+    final res = await _getLanguageUsecase.call();
+    res.fold((l) => emit(state.copyWith(sLang: listLanguage[0])), (r) {
+      final lang = listLanguage.firstWhere((e) => e.type == r);
+      emit(state.copyWith(sLang: lang));
+    });
+  }
+
+  String determineUsername(String? name, bool emptyWhenNull) {
+    if (name == null) {
+      return 'User';
+    } else {
+      if (name.isNotEmpty) {
+        return name;
+      } else if (emptyWhenNull) {
+        return "";
+      } else {
+        return "User";
+      }
+    }
+  }
+
+  int getAge(DateTime? dob) {
+    if (dob == null) return 0;
+    final now = DateTime.now();
+    return now.year - dob.year;
+  }
+
+  Future<void> updateTheme(ActiveTheme activeTheme) async {
+    String? lang;
+    _getLanguageUsecase
+        .call()
+        .then((value) => lang = value.getOrElse(() => "en"));
     safeEmit(
-      DataHelper(
-        type: type,
-        activeTheme: await readActiveTheme(),
-      ),
+      state.copyWith(activeTheme: activeTheme, type: lang ?? "en"),
       emit: emit,
       isClosed: isClosed,
     );
+    _updateActiveThemeUsecase.call(activeTheme).then((_) => null);
+  }
+
+  void updateLanguage(String lang) {
+    ActiveTheme? theme;
+    readActiveTheme().then((v) => theme = v);
+    safeEmit(
+      state.copyWith(type: lang, activeTheme: theme ?? ActiveTheme.system),
+      emit: emit,
+      isClosed: isClosed,
+    );
+    _upesertLanguageUsecase.call(lang).then((_) => null);
   }
 
   Future<void> updateAll(
@@ -94,7 +190,7 @@ class SettingsCubit extends Cubit<DataHelper> {
         (element) => element.name == r.name,
       );
       safeEmit(
-        DataHelper(
+        state.copyWith(
           activeTheme: activeTheme,
           type: (await _getLanguageUsecase.call()).getOrElse(() => "en"),
         ),
@@ -109,5 +205,71 @@ class SettingsCubit extends Cubit<DataHelper> {
     await _deleteMoodUsecase.call();
     await _deleteTokenUsecase.call();
     await _deleteUserUsecase.call();
+  }
+
+  Future<void> updateGender(String gender) async {
+    emit(state.copyWith(user: state.user?.copyWith(gender: gender)));
+    final user = state.user;
+    if (user != null) {
+      await _upsertUserUsecase
+          .call(RegisterParams.fromUser(user).copyWith(gender: gender));
+    }
+  }
+
+  Future<void> updateHeight(int height) async {
+    emit(state.copyWith(user: state.user?.copyWith(height: height)));
+    final user = state.user;
+    if (user != null) {
+      await _upsertUserUsecase
+          .call(RegisterParams.fromUser(user).copyWith(height: height));
+    }
+  }
+
+  Future<void> updateWeight(int weight) async {
+    emit(state.copyWith(user: state.user?.copyWith(weight: weight)));
+    final user = state.user;
+    if (user != null) {
+      await _upsertUserUsecase
+          .call(RegisterParams.fromUser(user).copyWith(weight: weight));
+    }
+  }
+
+  Future<void> updateDateOfBirth(DateTime dateOfBirth) async {
+    emit(state.copyWith(user: state.user?.copyWith(dateOfBirth: dateOfBirth)));
+    final user = state.user;
+    if (user != null) {
+      await _upsertUserUsecase.call(RegisterParams.fromUser(user)
+          .copyWith(dateOfBirth: dateOfBirth.toString()));
+    }
+  }
+
+  Future<void> uEUnit(String val) async {
+    emit(state.copyWith(
+        user: state.user
+            ?.copyWith(metricUnits: UserMetricUnitsEntity(energyUnits: val))));
+    final user = state.user;
+    if (user != null) {
+      await _upsertUserUsecase.call(RegisterParams.fromUser(user));
+    }
+  }
+
+  Future<void> uHUnit(String val) async {
+    emit(state.copyWith(
+        user: state.user
+            ?.copyWith(metricUnits: UserMetricUnitsEntity(heightUnits: val))));
+    final user = state.user;
+    if (user != null) {
+      await _upsertUserUsecase.call(RegisterParams.fromUser(user));
+    }
+  }
+
+  Future<void> uWUnit(String val) async {
+    emit(state.copyWith(
+        user: state.user
+            ?.copyWith(metricUnits: UserMetricUnitsEntity(weightUnits: val))));
+    final user = state.user;
+    if (user != null) {
+      await _upsertUserUsecase.call(RegisterParams.fromUser(user));
+    }
   }
 }

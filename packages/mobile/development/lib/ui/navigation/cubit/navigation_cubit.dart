@@ -174,10 +174,10 @@ class NavigationCubit extends Cubit<NavigationState> {
         emit(state.copyWith(conState: r));
       });
     });
-    startScan();
+    _startScan();
   }
 
-  Future<void> startScan() async {
+  Future<void> _startScan() async {
     await _scanCommonBLEUsecase.call(
       StartScanCommonParams(
         serviceIds: [GuidConstant.get.hrS],

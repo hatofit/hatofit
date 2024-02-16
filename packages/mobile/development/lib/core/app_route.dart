@@ -36,7 +36,7 @@ enum Routes {
   // Settings Page
   settings("/settings"),
   settingsProfile("/settings/profile"),
-  settingsDeviceDiscovery("/settings/device-discovery");
+  settingsDeviceIntegration("/settings/device-integration");
 
   const Routes(this.path);
 
@@ -212,13 +212,17 @@ class AppRoute {
             navigatorKey: _settingShellNavKey,
             routes: [
               GoRoute(
-                path: Routes.settings.path,
-                name: Routes.settings.name,
-                builder: (_, __) => BlocProvider(
-                  create: (_) => di<SettingsCubit>(),
-                  child: const SettingsView(),
-                ),
-              ),
+                  path: Routes.settings.path,
+                  name: Routes.settings.name,
+                  builder: (_, __) => const SettingsView()),
+              GoRoute(
+                  path: Routes.settingsProfile.path,
+                  name: Routes.settingsProfile.name,
+                  builder: (_, __) => const ProfileView()),
+              GoRoute(
+                  path: Routes.settingsDeviceIntegration.path,
+                  name: Routes.settingsDeviceIntegration.name,
+                  builder: (_, __) => const DeviceIntegrationView()),
             ],
           )
         ],

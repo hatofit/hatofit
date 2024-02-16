@@ -4,7 +4,7 @@ class APIConstant {
   static APIConstant get = APIConstant._();
 
   // String baseUrl = "https://api.hatofit.com";
-  String baseUrl = "http://192.168.254.169:3000";
+  String baseUrl = "http://192.168.185.169:3000";
 
   String authRegister = "/api/auth/register";
   String authLogin = "/api/auth/login";
@@ -21,4 +21,6 @@ class APIConstant {
 
   String session = "/api/session";
   String sessionShared = "/api/session/shared";
+
+  String image = "/api/image"; 
 }

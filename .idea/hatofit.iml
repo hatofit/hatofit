@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/development/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/development/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/development/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/packages/flutter_blue_plus/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/packages/flutter_blue_plus/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/packages/flutter_blue_plus/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/packages/flutter_blue_plus/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/packages/flutter_blue_plus/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/packages/flutter_blue_plus/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/packages/polar/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/packages/polar/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/packages/polar/build" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/packages/polar/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/packages/polar/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/mobile/production/packages/polar/example/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

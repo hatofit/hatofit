@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
@@ -67,9 +66,10 @@ class _RegisterViewState extends State<RegisterView> {
         title: Text(
           Strings.of(context)!.signUp,
         ),
-        titleTextStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-              fontWeight: FontWeight.w500,
-            ),
+        titleTextStyle: Theme.of(context)
+            .textTheme
+            .titleLarge!
+            .copyWith(fontWeight: FontWeight.w500),
         centerTitle: true,
       ),
       child: BlocListener<AuthCubit, AuthState>(
@@ -99,78 +99,37 @@ class _RegisterViewState extends State<RegisterView> {
                   key: _keyForm,
                   child: Column(
                     children: [
-                      GestureDetector(
-                        onTap: () => pickImage(context),
-                        child: Container(
-                          height: 150,
-                          width: 150,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: 3,
-                              color: context.isDarkMode
-                                  ? Colors.white
-                                  : Colors.black,
-                            ),
-                          ),
-                          child: Stack(
-                            fit: StackFit.expand,
-                            clipBehavior: Clip.none,
-                            children: [
-                              BlocBuilder<AuthCubit, AuthState>(
-                                builder: (context, state) {
-                                  final isImageSet =
-                                      context.watch<AuthCubit>().pickedImage !=
-                                          null;
-                                  if (isImageSet) {
-                                    return CircleAvatar(
-                                      backgroundImage: FileImage(
-                                        context.read<AuthCubit>().pickedImage!,
-                                      ),
-                                    );
-                                  } else {
-                                    return Icon(
-                                      Icons.person,
-                                      size: Dimens.width84,
-                                      color: context.isDarkMode
-                                          ? Colors.white
-                                          : Colors.black,
-                                    );
-                                  }
-                                },
-                              ),
-                              Positioned(
-                                right: -8,
-                                bottom: 0,
-                                child: SizedBox(
-                                  height: 46,
-                                  width: 46,
-                                  child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      foregroundColor:
-                                          Theme.of(context).iconTheme.color,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(50)),
-                                        side: BorderSide(
-                                          color: context.isDarkMode
-                                              ? Colors.white
-                                              : Colors.black,
-                                          width: 2,
-                                        ),
-                                      ),
-                                      backgroundColor: Theme.of(context)
-                                          .scaffoldBackgroundColor,
-                                    ),
-                                    onPressed: () => pickImage(context),
-                                    child: const Icon(
-                                      Icons.photo_camera,
-                                    ),
-                                  ),
+                      AvataPicker(
+                        onTap: () => context.pickImage(
+                          gallery: () {
+                            context.read<AuthCubit>().getImageFromGallery(context);
+                            context.pop();
+                          },
+                          camera: () {
+                            context.read<AuthCubit>().getImageFromCamera(context);
+                            context.pop();
+                          },
+                        ),
+                        firstChild: BlocBuilder<AuthCubit, AuthState>(
+                          builder: (context, state) {
+                            final isImageSet =
+                                context.watch<AuthCubit>().pickedImage != null;
+                            if (isImageSet) {
+                              return CircleAvatar(
+                                backgroundImage: FileImage(
+                                  context.read<AuthCubit>().pickedImage!,
                                 ),
-                              ),
-                            ],
-                          ),
+                              );
+                            } else {
+                              return Icon(
+                                Icons.person,
+                                size: Dimens.width84,
+                                color: context.isDarkMode
+                                    ? Colors.white
+                                    : Colors.black,
+                              );
+                            }
+                          },
                         ),
                       ),
                       SizedBox(height: Dimens.height16),
@@ -204,12 +163,12 @@ class _RegisterViewState extends State<RegisterView> {
                         prefixIcon: const Icon(Icons.person),
                         hintText: "Doe",
                         hint: Strings.of(context)!.lastName,
-                        validator: (String? value) {
-                          if (value!.isEmpty) {
-                            return Strings.of(context)!.lastNameCannotBeEmpty;
-                          }
-                          return null;
-                        },
+                        // validator: (String? value) {
+                        //   if (value!.isEmpty) {
+                        //     return Strings.of(context)!.lastNameCannotBeEmpty;
+                        //   }
+                        //   return null;
+                        // },
                       ),
                       SizedBox(height: Dimens.height16),
                       TextF(
@@ -393,73 +352,6 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
               ),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future pickImage(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (context) => Center(
-        child: Container(
-          height: 142.h,
-          padding: EdgeInsets.all(Dimens.width8),
-          margin: EdgeInsets.symmetric(
-            horizontal: Dimens.width16,
-          ),
-          decoration: BoxDecoration(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            borderRadius: BorderRadius.circular(Dimens.radius8),
-          ),
-          child: Column(
-            children: [
-              Text(
-                Strings.of(context)!.chooseYourProfilePhoto,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
-              ),
-              SizedBox(height: Dimens.height8),
-              Container(
-                decoration: BoxDecoration(
-                  color: context.isDarkMode ? Palette.cardDark : Palette.card,
-                  borderRadius: BorderRadius.circular(Dimens.radius8),
-                ),
-                child: ListTile(
-                  onTap: () {
-                    context.read<AuthCubit>().getImageFromCamera(context);
-                    Future.delayed(const Duration(seconds: 1), () {
-                      context.pop();
-                    });
-                  },
-                  leading: const Icon(Icons.camera),
-                  title: Text(
-                    Strings.of(context)!.captureAPhoto,
-                  ),
-                ),
-              ),
-              SizedBox(height: Dimens.height8),
-              Container(
-                decoration: BoxDecoration(
-                  color: context.isDarkMode ? Palette.cardDark : Palette.card,
-                  borderRadius: BorderRadius.circular(Dimens.radius8),
-                ),
-                child: ListTile(
-                  onTap: () {
-                    context.read<AuthCubit>().getImageFromGallery(context);
-                    Future.delayed(const Duration(seconds: 1), () {
-                      context.pop();
-                    });
-                  },
-                  leading: const Icon(Icons.perm_media),
-                  title: Text(
-                    Strings.of(context)!.selectFromGallery,
-                  ),
-                ),
-              ),
-            ],
           ),
         ),
       ),

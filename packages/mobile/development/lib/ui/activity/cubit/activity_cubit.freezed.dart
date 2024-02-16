@@ -20,24 +20,21 @@ mixin _$ActivityState {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(List<SessionEntity> session) success,
-    required TResult Function(String message) failure,
-    required TResult Function() empty,
+    required TResult Function(Failure message) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(List<SessionEntity> session)? success,
-    TResult? Function(String message)? failure,
-    TResult? Function()? empty,
+    TResult? Function(Failure message)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(List<SessionEntity> session)? success,
-    TResult Function(String message)? failure,
-    TResult Function()? empty,
+    TResult Function(Failure message)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -46,7 +43,6 @@ mixin _$ActivityState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_Empty value) empty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -54,7 +50,6 @@ mixin _$ActivityState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_Empty value)? empty,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -62,7 +57,6 @@ mixin _$ActivityState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_Empty value)? empty,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -126,8 +120,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(List<SessionEntity> session) success,
-    required TResult Function(String message) failure,
-    required TResult Function() empty,
+    required TResult Function(Failure message) failure,
   }) {
     return loading();
   }
@@ -137,8 +130,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(List<SessionEntity> session)? success,
-    TResult? Function(String message)? failure,
-    TResult? Function()? empty,
+    TResult? Function(Failure message)? failure,
   }) {
     return loading?.call();
   }
@@ -148,8 +140,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(List<SessionEntity> session)? success,
-    TResult Function(String message)? failure,
-    TResult Function()? empty,
+    TResult Function(Failure message)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -164,7 +155,6 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_Empty value) empty,
   }) {
     return loading(this);
   }
@@ -175,7 +165,6 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_Empty value)? empty,
   }) {
     return loading?.call(this);
   }
@@ -186,7 +175,6 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_Empty value)? empty,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -272,8 +260,7 @@ class _$SuccessImpl implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(List<SessionEntity> session) success,
-    required TResult Function(String message) failure,
-    required TResult Function() empty,
+    required TResult Function(Failure message) failure,
   }) {
     return success(session);
   }
@@ -283,8 +270,7 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(List<SessionEntity> session)? success,
-    TResult? Function(String message)? failure,
-    TResult? Function()? empty,
+    TResult? Function(Failure message)? failure,
   }) {
     return success?.call(session);
   }
@@ -294,8 +280,7 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(List<SessionEntity> session)? success,
-    TResult Function(String message)? failure,
-    TResult Function()? empty,
+    TResult Function(Failure message)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -310,7 +295,6 @@ class _$SuccessImpl implements _Success {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_Empty value) empty,
   }) {
     return success(this);
   }
@@ -321,7 +305,6 @@ class _$SuccessImpl implements _Success {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_Empty value)? empty,
   }) {
     return success?.call(this);
   }
@@ -332,7 +315,6 @@ class _$SuccessImpl implements _Success {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_Empty value)? empty,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -357,7 +339,7 @@ abstract class _$$FailureImplCopyWith<$Res> {
           _$FailureImpl value, $Res Function(_$FailureImpl) then) =
       __$$FailureImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String message});
+  $Res call({Failure message});
 }
 
 /// @nodoc
@@ -377,7 +359,7 @@ class __$$FailureImplCopyWithImpl<$Res>
       null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
-              as String,
+              as Failure,
     ));
   }
 }
@@ -388,7 +370,7 @@ class _$FailureImpl implements _Failure {
   const _$FailureImpl(this.message);
 
   @override
-  final String message;
+  final Failure message;
 
   @override
   String toString() {
@@ -417,8 +399,7 @@ class _$FailureImpl implements _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(List<SessionEntity> session) success,
-    required TResult Function(String message) failure,
-    required TResult Function() empty,
+    required TResult Function(Failure message) failure,
   }) {
     return failure(message);
   }
@@ -428,8 +409,7 @@ class _$FailureImpl implements _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(List<SessionEntity> session)? success,
-    TResult? Function(String message)? failure,
-    TResult? Function()? empty,
+    TResult? Function(Failure message)? failure,
   }) {
     return failure?.call(message);
   }
@@ -439,8 +419,7 @@ class _$FailureImpl implements _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(List<SessionEntity> session)? success,
-    TResult Function(String message)? failure,
-    TResult Function()? empty,
+    TResult Function(Failure message)? failure,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -455,7 +434,6 @@ class _$FailureImpl implements _Failure {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
     required TResult Function(_Failure value) failure,
-    required TResult Function(_Empty value) empty,
   }) {
     return failure(this);
   }
@@ -466,7 +444,6 @@ class _$FailureImpl implements _Failure {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failure value)? failure,
-    TResult? Function(_Empty value)? empty,
   }) {
     return failure?.call(this);
   }
@@ -477,7 +454,6 @@ class _$FailureImpl implements _Failure {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
     TResult Function(_Failure value)? failure,
-    TResult Function(_Empty value)? empty,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -488,124 +464,10 @@ class _$FailureImpl implements _Failure {
 }
 
 abstract class _Failure implements ActivityState {
-  const factory _Failure(final String message) = _$FailureImpl;
+  const factory _Failure(final Failure message) = _$FailureImpl;
 
-  String get message;
+  Failure get message;
   @JsonKey(ignore: true)
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$EmptyImplCopyWith<$Res> {
-  factory _$$EmptyImplCopyWith(
-          _$EmptyImpl value, $Res Function(_$EmptyImpl) then) =
-      __$$EmptyImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$EmptyImplCopyWithImpl<$Res>
-    extends _$ActivityStateCopyWithImpl<$Res, _$EmptyImpl>
-    implements _$$EmptyImplCopyWith<$Res> {
-  __$$EmptyImplCopyWithImpl(
-      _$EmptyImpl _value, $Res Function(_$EmptyImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$EmptyImpl implements _Empty {
-  const _$EmptyImpl();
-
-  @override
-  String toString() {
-    return 'ActivityState.empty()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$EmptyImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(List<SessionEntity> session) success,
-    required TResult Function(String message) failure,
-    required TResult Function() empty,
-  }) {
-    return empty();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(List<SessionEntity> session)? success,
-    TResult? Function(String message)? failure,
-    TResult? Function()? empty,
-  }) {
-    return empty?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(List<SessionEntity> session)? success,
-    TResult Function(String message)? failure,
-    TResult Function()? empty,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Success value) success,
-    required TResult Function(_Failure value) failure,
-    required TResult Function(_Empty value) empty,
-  }) {
-    return empty(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_Failure value)? failure,
-    TResult? Function(_Empty value)? empty,
-  }) {
-    return empty?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Success value)? success,
-    TResult Function(_Failure value)? failure,
-    TResult Function(_Empty value)? empty,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Empty implements ActivityState {
-  const factory _Empty() = _$EmptyImpl;
 }

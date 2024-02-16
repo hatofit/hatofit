@@ -27,7 +27,7 @@ class SplashCubit extends Cubit<SplashState> {
   ) : super(const _Initial());
 
   Future<void> init() async {
-    await getLocalUser();
+    await fetchUser();
     await requestPermissions();
     await checkAuth();
     checkMood();
@@ -40,14 +40,23 @@ class SplashCubit extends Cubit<SplashState> {
   Future<void> checkAuth() async {
     final res = await _meUseCase.call();
     res.fold(
-      (l) {
+      (l) async {
         log.e("Check Auth Error: $l");
         if (l is NoInternetFailure) {
-          safeEmit(
-            const _Offline(),
-            emit: emit,
-            isClosed: isClosed,
-          );
+          final u = await fetchUser();
+          if (u != null) {
+            safeEmit(
+              const _Authorized("Authorized"),
+              isClosed: isClosed,
+              emit: emit,
+            );
+          } else {
+            safeEmit(
+              const _Offline(),
+              emit: emit,
+              isClosed: isClosed,
+            );
+          }
         } else if (l is ServerFailure) {
           if (l.exception?.type == DioExceptionType.connectionTimeout) {
             safeEmit(
@@ -81,7 +90,7 @@ class SplashCubit extends Cubit<SplashState> {
   UserEntity? get user => _user;
 
   Future<void> checkMood() async {
-    final res = await _getMoodUsecase.call();
+    final res = _getMoodUsecase.call();
     res.fold((l) async => await _clearMoodUsecase.call(), (r) {
       if (r.isNotEmpty) {
         final date = DateFormat('d MMMM yyyy').format(DateTime.now());
@@ -92,15 +101,19 @@ class SplashCubit extends Cubit<SplashState> {
     });
   }
 
-  Future<void> getLocalUser() async {
+  Future<UserEntity?> fetchUser() async {
     final res =
         await _readUserUsecase.call(const ByLimitParams(showFromLocal: false));
     return res.fold((l) {
+      log.d("Error: $l  ");
       _isInitialized = false;
       _user = null;
+      return null;
     }, (r) {
+      log.f("User: $r");
       _isInitialized = true;
       _user = r;
+      return r;
     });
   }
 

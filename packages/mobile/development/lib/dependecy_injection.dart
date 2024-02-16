@@ -197,8 +197,8 @@ void _useCase() {
   di.registerLazySingleton(() => UpdateTokenUsecase(di()));
   di.registerLazySingleton(() => UpdateMoodUsecase(di()));
   di.registerLazySingleton(() => DeleteMoodUsecase(di()));
-  di.registerLazySingleton(() => DeleteMoodUsecase(di()));
-  di.registerLazySingleton(() => DeleteMoodUsecase(di()));
+  di.registerLazySingleton(() => DeleteTokenUsecase(di()));
+  di.registerLazySingleton(() => DeleteUserUsecase(di()));
 
   /// [Report]
   ///
@@ -239,6 +239,7 @@ void _cubit() {
         di(),
         di(),
         di(),
+        di(),
       ));
   di.registerFactory(() => IntroCubit(
         di(),
@@ -261,7 +262,8 @@ void _cubit() {
         di(),
         di(),
         di(),
-        di(), 
+        di(),
+        di(),
       ));
   di.registerFactory(() => WorkoutCubit(
         di(),

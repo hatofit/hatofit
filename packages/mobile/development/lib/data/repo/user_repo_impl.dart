@@ -44,7 +44,9 @@ class UserRepoImpl implements UserRepo {
   Future<Either<Failure, UserEntity>> upsertUser(
     RegisterParams params,
   ) async {
-    if (await _info.isHatofitConnected) {
+    if (params.forLocal) {
+      return await _local.upsertUser(params.toUserEntity());
+    } else if (await _info.isHatofitConnected) {
       final res = await _remote.update(params);
       return res.fold(
         (failure) => Left(failure),
@@ -55,7 +57,7 @@ class UserRepoImpl implements UserRepo {
         },
       );
     } else {
-      return Left(NoInternetFailure());
+      return await _local.upsertUser(params.toUserEntity());
     }
   }
 

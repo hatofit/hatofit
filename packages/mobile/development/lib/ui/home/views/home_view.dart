@@ -13,71 +13,79 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   @override
+  void initState() {
+    context.read<HomeCubit>().init();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final homeCubit = context.watch<HomeCubit>();
-    return RefreshIndicator(
-      onRefresh: () => context.read<HomeCubit>().getData(),
-      child: Parent(
-        appBar: AppBar(
-          title: Text('Hi, ${homeCubit.userName} 👋'),
-          titleTextStyle: Theme.of(context).textTheme.titleLarge,
-          actions: [
-            BlocBuilder<NavigationCubit, NavigationState>(
-              builder: (context, state) {
-                return state.state != BluetoothAdapterState.off
-                    ? IconButton(
-                        icon: Icon(
-                          Icons.bluetooth,
-                          color: state.hrSample != null
-                              ? Colors.blue
-                              : Colors.white,
-                        ),
-                        onPressed: () {
-                          // context.read<NavigationCubit>().startScan();
-                          showModalBottomSheet(
-                            showDragHandle: true,
-                            context: context,
-                            builder: (context) {
-                              return const DeviceDiscover();
-                            },
-                          );
-                        },
-                      )
-                    : IconButton(
-                        icon: const Icon(
-                          Icons.bluetooth_disabled,
-                          color: Colors.red,
-                        ),
-                        onPressed: () async => FlutterBluePlus.turnOn(),
-                      );
-              },
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Dimens.width8),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const ConnectedDevice(),
-                const ExerciseNow(),
-                SizedBox(height: Dimens.height16),
-                const HrBarChart(),
-                SizedBox(height: Dimens.height8),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Expanded(child: CalorieGauge()),
-                    SizedBox(width: Dimens.width8),
-                    const Expanded(child: BMIGauge()),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
+    return BlocBuilder<NavigationCubit, NavigationState>(
+      builder: (context, nState) {
+        return BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, hState) {
+            return Parent(
+              appBar: AppBar(
+                title: Text('Hi, ${hState.user?.firstName ?? "User"} 👋'),
+                titleTextStyle: Theme.of(context).textTheme.titleLarge,
+                actions: [
+                  nState.state != BluetoothAdapterState.off
+                      ? IconButton(
+                          icon: Icon(
+                            Icons.bluetooth,
+                            color: Colors.blue,
+                          ),
+                          onPressed: () {
+                            // context.read<NavigationCubit>().startScan();
+                            showModalBottomSheet(
+                              showDragHandle: true,
+                              context: context,
+                              builder: (context) {
+                                return const DeviceDiscover();
+                              },
+                            );
+                          },
+                        )
+                      : IconButton(
+                          icon: const Icon(
+                            Icons.bluetooth_disabled,
+                            color: Colors.red,
+                          ),
+                          onPressed: () async => FlutterBluePlus.turnOn(),
+                        )
+                ],
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: Dimens.width8),
+                child: RefreshIndicator(
+                  onRefresh: () async => await context.read<HomeCubit>().init(),
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ConnectedDevice(nState: nState),
+                        ExerciseNow(hState: hState),
+                        SizedBox(height: Dimens.height16),
+                        HrBarChart(hState: hState),
+                        SizedBox(height: Dimens.height8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(child: CalorieGauge(hState: hState)),
+                            SizedBox(width: Dimens.width8),
+                            Expanded(child: BMIGauge(hState: hState)),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

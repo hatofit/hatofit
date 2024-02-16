@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RegisterParams {
+  bool get forLocal => throw _privateConstructorUsedError;
   String get firstName => throw _privateConstructorUsedError;
   String get lastName => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
@@ -40,7 +41,8 @@ abstract class $RegisterParamsCopyWith<$Res> {
       _$RegisterParamsCopyWithImpl<$Res, RegisterParams>;
   @useResult
   $Res call(
-      {String firstName,
+      {bool forLocal,
+      String firstName,
       String lastName,
       String gender,
       String email,
@@ -66,6 +68,7 @@ class _$RegisterParamsCopyWithImpl<$Res, $Val extends RegisterParams>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? forLocal = null,
     Object? firstName = null,
     Object? lastName = null,
     Object? gender = null,
@@ -79,6 +82,10 @@ class _$RegisterParamsCopyWithImpl<$Res, $Val extends RegisterParams>
     Object? metricUnits = freezed,
   }) {
     return _then(_value.copyWith(
+      forLocal: null == forLocal
+          ? _value.forLocal
+          : forLocal // ignore: cast_nullable_to_non_nullable
+              as bool,
       firstName: null == firstName
           ? _value.firstName
           : firstName // ignore: cast_nullable_to_non_nullable
@@ -136,7 +143,8 @@ abstract class _$$RegisterParamsImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String firstName,
+      {bool forLocal,
+      String firstName,
       String lastName,
       String gender,
       String email,
@@ -160,6 +168,7 @@ class __$$RegisterParamsImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? forLocal = null,
     Object? firstName = null,
     Object? lastName = null,
     Object? gender = null,
@@ -173,6 +182,10 @@ class __$$RegisterParamsImplCopyWithImpl<$Res>
     Object? metricUnits = freezed,
   }) {
     return _then(_$RegisterParamsImpl(
+      forLocal: null == forLocal
+          ? _value.forLocal
+          : forLocal // ignore: cast_nullable_to_non_nullable
+              as bool,
       firstName: null == firstName
           ? _value.firstName
           : firstName // ignore: cast_nullable_to_non_nullable
@@ -225,7 +238,8 @@ class __$$RegisterParamsImplCopyWithImpl<$Res>
 
 class _$RegisterParamsImpl extends _RegisterParams {
   const _$RegisterParamsImpl(
-      {this.firstName = "",
+      {this.forLocal = true,
+      this.firstName = "",
       this.lastName = "",
       this.gender = "",
       this.email = "",
@@ -239,6 +253,9 @@ class _$RegisterParamsImpl extends _RegisterParams {
       : _metricUnits = metricUnits,
         super._();
 
+  @override
+  @JsonKey()
+  final bool forLocal;
   @override
   @JsonKey()
   final String firstName;
@@ -282,7 +299,7 @@ class _$RegisterParamsImpl extends _RegisterParams {
 
   @override
   String toString() {
-    return 'RegisterParams(firstName: $firstName, lastName: $lastName, gender: $gender, email: $email, password: $password, confirmPassword: $confirmPassword, dateOfBirth: $dateOfBirth, photo: $photo, height: $height, weight: $weight, metricUnits: $metricUnits)';
+    return 'RegisterParams(forLocal: $forLocal, firstName: $firstName, lastName: $lastName, gender: $gender, email: $email, password: $password, confirmPassword: $confirmPassword, dateOfBirth: $dateOfBirth, photo: $photo, height: $height, weight: $weight, metricUnits: $metricUnits)';
   }
 
   @override
@@ -290,6 +307,8 @@ class _$RegisterParamsImpl extends _RegisterParams {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RegisterParamsImpl &&
+            (identical(other.forLocal, forLocal) ||
+                other.forLocal == forLocal) &&
             (identical(other.firstName, firstName) ||
                 other.firstName == firstName) &&
             (identical(other.lastName, lastName) ||
@@ -312,6 +331,7 @@ class _$RegisterParamsImpl extends _RegisterParams {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      forLocal,
       firstName,
       lastName,
       gender,
@@ -334,7 +354,8 @@ class _$RegisterParamsImpl extends _RegisterParams {
 
 abstract class _RegisterParams extends RegisterParams {
   const factory _RegisterParams(
-      {final String firstName,
+      {final bool forLocal,
+      final String firstName,
       final String lastName,
       final String gender,
       final String email,
@@ -347,6 +368,8 @@ abstract class _RegisterParams extends RegisterParams {
       final Map<String, String>? metricUnits}) = _$RegisterParamsImpl;
   const _RegisterParams._() : super._();
 
+  @override
+  bool get forLocal;
   @override
   String get firstName;
   @override

@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:hatofit/core/core.dart';
 
 class DropDown<T> extends StatefulWidget {
+  final T value;
+  final List<DropdownMenuItem<T>> items;
+  final bool hintIsVisible;
+  final String? hint;
+  final ValueChanged<T?>? onChanged;
+  final Widget? prefixIcon;
+
   const DropDown({
     super.key,
     required this.value,
@@ -11,15 +18,9 @@ class DropDown<T> extends StatefulWidget {
     this.hintIsVisible = true,
     this.prefixIcon,
   });
-  final T value;
-  final List<DropdownMenuItem<T>> items;
-  final bool hintIsVisible;
-  final String? hint;
-  final ValueChanged<T?>? onChanged;
-  final Widget? prefixIcon;
 
   @override
-  _DropDownState<T> createState() => _DropDownState();
+  State<DropDown<T>> createState() => _DropDownState();
 }
 
 class _DropDownState<T> extends State<DropDown<T>> {
@@ -63,7 +64,7 @@ class _DropDownState<T> extends State<DropDown<T>> {
                   gapPadding: 0,
                   borderRadius: BorderRadius.circular(Dimens.radius4),
                   borderSide: BorderSide(
-                    color: Theme.of(context).extension<AppColors>()!.card!,
+                    color: Theme.of(context).extension<AppColors>()!.subtitle!,
                   ),
                 ),
                 border: OutlineInputBorder(
@@ -94,7 +95,7 @@ class _DropDownState<T> extends State<DropDown<T>> {
                   gapPadding: 0,
                   borderRadius: BorderRadius.circular(Dimens.radius4),
                   borderSide: BorderSide(
-                    color: Theme.of(context).extension<AppColors>()!.pink!,
+                    color: Theme.of(context).extension<AppColors>()!.blue!,
                   ),
                 ),
               ),

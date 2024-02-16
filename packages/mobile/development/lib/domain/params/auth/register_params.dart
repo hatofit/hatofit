@@ -9,6 +9,7 @@ part 'register_params.freezed.dart';
 @freezed
 class RegisterParams with _$RegisterParams {
   const factory RegisterParams({
+    @Default(true) bool forLocal,
     @Default("") String firstName,
     @Default("") String lastName,
     @Default("") String gender,
@@ -53,4 +54,20 @@ class RegisterParams with _$RegisterParams {
         "weight": weight,
         "metricUnits": metricUnits,
       });
+
+  UserEntity toUserEntity() => UserEntity(
+        firstName: firstName,
+        lastName: lastName,
+        gender: gender,
+        email: email,
+        dateOfBirth: DateTime.parse(dateOfBirth),
+        photo: photo?.path,
+        height: height,
+        weight: weight,
+        metricUnits: UserMetricUnitsEntity(
+          energyUnits: metricUnits?["energyUnits"],
+          heightUnits: metricUnits?["heightUnits"],
+          weightUnits: metricUnits?["weightUnits"],
+        ),
+      );
 }

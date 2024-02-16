@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hatofit/core/core.dart';
-import 'package:hatofit/ui/workout/cubit/workout_cubit.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class HrZoneGauge extends StatelessWidget {

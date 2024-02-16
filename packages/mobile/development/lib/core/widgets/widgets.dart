@@ -1,3 +1,4 @@
+export 'avatar_picker.dart';
 export 'color_loader.dart';
 export 'container_wrapper.dart';
 export 'drop_down.dart';

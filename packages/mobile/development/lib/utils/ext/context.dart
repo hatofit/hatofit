@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hatofit/core/core.dart';
 
 extension ContextExtensions on BuildContext {
@@ -75,5 +76,65 @@ extension ContextExtensions on BuildContext {
     try {
       Navigator.pop(ctx);
     } catch (_) {}
+  }
+
+  Future pickImage({
+    required void Function() camera,
+    required void Function() gallery,
+  }) {
+    return showDialog(
+      context: this,
+      builder: (context) => Center(
+        child: Container(
+          height: 170.h,
+          padding: EdgeInsets.all(Dimens.width8),
+          margin: EdgeInsets.symmetric(
+            horizontal: Dimens.width16,
+          ),
+          decoration: BoxDecoration(
+            color: Theme.of(context).scaffoldBackgroundColor,
+            borderRadius: BorderRadius.circular(Dimens.radius8),
+          ),
+          child: Column(
+            children: [
+              Text(
+                Strings.of(context)!.chooseYourProfilePhoto,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+              ),
+              SizedBox(height: Dimens.height8),
+              Container(
+                decoration: BoxDecoration(
+                  color: context.isDarkMode ? Palette.cardDark : Palette.card,
+                  borderRadius: BorderRadius.circular(Dimens.radius8),
+                ),
+                child: ListTile(
+                  onTap: camera,
+                  leading: const Icon(Icons.camera),
+                  title: Text(
+                    Strings.of(context)!.captureAPhoto,
+                  ),
+                ),
+              ),
+              SizedBox(height: Dimens.height8),
+              Container(
+                decoration: BoxDecoration(
+                  color: context.isDarkMode ? Palette.cardDark : Palette.card,
+                  borderRadius: BorderRadius.circular(Dimens.radius8),
+                ),
+                child: ListTile(
+                  onTap: gallery,
+                  leading: const Icon(Icons.perm_media),
+                  title: Text(
+                    Strings.of(context)!.selectFromGallery,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
