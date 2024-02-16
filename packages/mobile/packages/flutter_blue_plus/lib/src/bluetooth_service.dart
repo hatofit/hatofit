@@ -1,4 +1,4 @@
-// Copyright 2023, Charles Weinberger & Paul DeMarco.
+// Copyright 2017-2023, Charles Weinberger & Paul DeMarco.
 // All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -11,7 +11,7 @@ class BluetoothService {
   final List<BluetoothCharacteristic> characteristics;
   final List<BluetoothService> includedServices;
 
-  // convenience accessor
+  /// convenience accessor
   Guid get uuid => serviceUuid;
 
   BluetoothService.fromProto(BmBluetoothService p)

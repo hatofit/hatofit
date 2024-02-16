@@ -132,9 +132,28 @@ class BluetoothService extends GetxService {
     }
   }
 
+  void scanUniversalDevices() {
+    try {
+      final listener = FlutterBluePlus.onScanResults.listen(
+        (results) {
+          if (results.isNotEmpty) {
+            ScanResult r = results.last; // the most recently found device
+            print(
+                '${r.device.remoteId}: "${r.advertisementData.advName}" found!');
+          }
+        },
+        onError: (e) {
+          print(e);
+        },
+      );
+      FlutterBluePlus.startScan();
+    } catch (e) {}
+  }
+
   void scanPolarDevices() {
     try {
       polar.requestPermissions();
+      scanUniversalDevices();
       polar.searchForDevice().listen(
         (event) {
           String? nameReplace;

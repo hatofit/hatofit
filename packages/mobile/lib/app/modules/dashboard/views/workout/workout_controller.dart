@@ -18,10 +18,10 @@ class WorkoutController extends GetxController {
   }
 
   Future<List<ExerciseModel>> fetchExercises() async {
-    final list = await prov.fetchExercises();
+    final list = await prov.fetchExercises(showFromCompany: true);
     listExercise.value = list!;
-    listExercise.removeWhere((element) => element.type == '');
-
+    // listExercise.removeWhere((element) => element.type == '');
+    print(listExercise);
     update();
     return list;
   }

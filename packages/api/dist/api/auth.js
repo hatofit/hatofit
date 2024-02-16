@@ -15,36 +15,38 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ApiAuth = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const dayjs_1 = __importDefault(require("dayjs"));
+const utc_1 = __importDefault(require("dayjs/plugin/utc"));
+const fs_1 = __importDefault(require("fs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const report_1 = require("../actions/report");
 const db_1 = require("../db");
 const auth_1 = require("../middlewares/auth");
+const storage_1 = require("../storage");
 const user_1 = require("../types/user");
 const obj_1 = require("../utils/obj");
-const utc_1 = __importDefault(require("dayjs/plugin/utc"));
-const report_1 = require("../actions/report");
 dayjs_1.default.extend(utc_1.default);
 // funcs
 const findBmi = (weightUnits, heightUnits, userWeight, userHeight) => {
     let bmi = 0;
     switch (weightUnits) {
-        case 'kg':
+        case "kg":
             switch (heightUnits) {
-                case 'cm':
+                case "cm":
                     bmi = userWeight / ((userHeight / 100) * (userHeight / 100));
                     break;
-                case 'ft':
-                    bmi = userWeight / ((userHeight * 12) * (userHeight * 12)) * 703;
+                case "ft":
+                    bmi = (userWeight / (userHeight * 12 * (userHeight * 12))) * 703;
                     break;
             }
             break;
-        case 'lbs':
+        case "lbs":
             switch (heightUnits) {
-                case 'cm':
-                    bmi = userWeight / ((userHeight / 100) * (userHeight / 100)) * 703;
+                case "cm":
+                    bmi = (userWeight / ((userHeight / 100) * (userHeight / 100))) * 703;
                     break;
-                case 'ft':
-                    bmi = userWeight / ((userHeight * 12) * (userHeight * 12));
+                case "ft":
+                    bmi = userWeight / (userHeight * 12 * (userHeight * 12));
                     break;
             }
             break;
@@ -98,14 +100,29 @@ const ApiAuth = ({ route }) => {
                 });
             }
             console.log("USER", user);
+            if (user.photo) {
+                let photoPath = req.body.photo.path.split("\\")[1];
+                if (!photoPath) {
+                    photoPath = req.body.photo.path.split("/")[1];
+                }
+                const bucket = yield (0, storage_1.GridStorage)();
+                const file = fs_1.default.createReadStream(`./uploads/${photoPath}`).pipe(bucket.openUploadStream(photoPath, {
+                    metadata: { contentType: "image/png" },
+                }));
+                user.photo = file.id;
+            }
             // save to db
             const created = yield db_1.User.create(Object.assign(Object.assign({}, user), { _id: new mongoose_1.default.Types.ObjectId().toHexString() }));
+            const jwtSecret = process.env.JWT_SECRET_KEY || "polar";
+            const token = jsonwebtoken_1.default.sign({ id: created._id }, jwtSecret, {
+                expiresIn: 7776000, // 90 days
+            });
             // resposne
             return res.json({
                 success: true,
                 message: "User created successfully",
-                id: created._id,
                 user: (0, obj_1.exceptObjectProp)(created.toObject(), ["password"]),
+                token,
             });
         }
         catch (error) {
@@ -120,8 +137,13 @@ const ApiAuth = ({ route }) => {
             const user = req.body;
             console.log("USER", user);
             // save to db
-            const found = yield db_1.User.findOne({
+            const found = yield db_1.User.findOneAndUpdate({
                 email: user.email,
+            }, {
+                $set: {
+                    requetDelete: false,
+                    deleteDate: null,
+                },
             });
             // resposne
             if (!found) {
@@ -144,7 +166,7 @@ const ApiAuth = ({ route }) => {
             // generate token
             const jwtSecret = process.env.JWT_SECRET_KEY || "polar";
             const token = jsonwebtoken_1.default.sign({ id: found._id }, jwtSecret, {
-                expiresIn: 86400, // 1 month in seconds
+                expiresIn: 7776000, // 90 days
             });
             return res.json({
                 success: true,
@@ -282,7 +304,7 @@ const ApiAuth = ({ route }) => {
             return res.status(400).json({ error });
         }
     }));
-    route.post("/reset-password", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    route.put("/reset-password", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         console.log("DATA BODY", req.body);
         try {
             // validate input
@@ -341,11 +363,16 @@ const ApiAuth = ({ route }) => {
             }, {
                 new: true,
             });
+            const jwtSecret = process.env.JWT_SECRET_KEY || "polar";
+            const token = jsonwebtoken_1.default.sign({ id: updated === null || updated === void 0 ? void 0 : updated._id }, jwtSecret, {
+                expiresIn: 7776000, // 90 days
+            });
             // resposne
             return res.json({
                 success: true,
                 message: "Password updated",
                 user: (0, obj_1.exceptObjectProp)(updated === null || updated === void 0 ? void 0 : updated.toObject(), ["password"]),
+                token,
             });
         }
         catch (error) {
@@ -400,6 +427,17 @@ const ApiAuth = ({ route }) => {
                     success: false,
                     message: "User not found",
                 });
+            }
+            if (user.photo) {
+                let photoPath = req.body.photo.path.split("\\")[1];
+                if (!photoPath) {
+                    photoPath = req.body.photo.path.split("/")[1];
+                }
+                const bucket = yield (0, storage_1.GridStorage)();
+                const file = fs_1.default.createReadStream(`./uploads/${photoPath}`).pipe(bucket.openUploadStream(photoPath, {
+                    metadata: { contentType: "image/png" },
+                }));
+                user.photo = file.id;
             }
             // update
             const updated = yield db_1.User.findOneAndUpdate({
@@ -465,7 +503,7 @@ const ApiAuth = ({ route }) => {
             // const
             const widgets = [
                 {
-                    name: 'BMI',
+                    name: "BMI",
                     handler: () => {
                         var _a, _b;
                         const userWeight = user === null || user === void 0 ? void 0 : user.weight;
@@ -474,10 +512,10 @@ const ApiAuth = ({ route }) => {
                         const heightUnits = (_b = user === null || user === void 0 ? void 0 : user.metricUnits) === null || _b === void 0 ? void 0 : _b.heightUnits;
                         const bmi = findBmi(weightUnits, heightUnits, userWeight, userHeight);
                         return `${bmi.toFixed(2)}`;
-                    }
+                    },
                 },
                 {
-                    name: 'BMI Status',
+                    name: "BMI Status",
                     handler: () => {
                         var _a, _b;
                         const userWeight = user === null || user === void 0 ? void 0 : user.weight;
@@ -485,27 +523,27 @@ const ApiAuth = ({ route }) => {
                         const weightUnits = (_a = user === null || user === void 0 ? void 0 : user.metricUnits) === null || _a === void 0 ? void 0 : _a.weightUnits;
                         const heightUnits = (_b = user === null || user === void 0 ? void 0 : user.metricUnits) === null || _b === void 0 ? void 0 : _b.heightUnits;
                         const bmi = findBmi(weightUnits, heightUnits, userWeight, userHeight);
-                        let status = '';
+                        let status = "";
                         if (bmi < 18.5) {
-                            status = 'Underweight';
+                            status = "Underweight";
                         }
                         else if (bmi >= 18.5 && bmi <= 24.9) {
-                            status = 'Normal';
+                            status = "Normal";
                         }
                         else if (bmi >= 25 && bmi <= 29.9) {
-                            status = 'Overweight';
+                            status = "Overweight";
                         }
                         else if (bmi >= 30 && bmi <= 34.9) {
-                            status = 'Obesity';
+                            status = "Obesity";
                         }
                         else {
-                            status = 'Unknown';
+                            status = "Unknown";
                         }
                         return `${status}`;
-                    }
+                    },
                 },
                 {
-                    name: 'Calories',
+                    name: "Calories",
                     handler: () => __awaiter(void 0, void 0, void 0, function* () {
                         const findAvgHr = (data) => {
                             // format data is [second, hrvalue]
@@ -522,52 +560,68 @@ const ApiAuth = ({ route }) => {
                             // prepare variables
                             const startTime = dayjs_1.default.utc(report === null || report === void 0 ? void 0 : report.startTime).local();
                             const endTime = dayjs_1.default.utc(report === null || report === void 0 ? void 0 : report.endTime).local();
-                            const diffTime = endTime.diff(startTime, 'second');
-                            const avgHr = findAvgHr(((_c = (_b = (_a = report === null || report === void 0 ? void 0 : report.reports) === null || _a === void 0 ? void 0 : _a.find((report) => (report === null || report === void 0 ? void 0 : report.type) === 'hr')) === null || _b === void 0 ? void 0 : _b.data[0]) === null || _c === void 0 ? void 0 : _c.value) || []);
+                            const diffTime = endTime.diff(startTime, "second");
+                            const avgHr = findAvgHr(((_c = (_b = (_a = report === null || report === void 0 ? void 0 : report.reports) === null || _a === void 0 ? void 0 : _a.find((report) => (report === null || report === void 0 ? void 0 : report.type) === "hr")) === null || _b === void 0 ? void 0 : _b.data[0]) === null || _c === void 0 ? void 0 : _c.value) || []);
                             const secToMin = diffTime / 60;
                             const weightUnits = (_d = user === null || user === void 0 ? void 0 : user.metricUnits) === null || _d === void 0 ? void 0 : _d.weightUnits;
                             const energyUnits = (_e = user === null || user === void 0 ? void 0 : user.metricUnits) === null || _e === void 0 ? void 0 : _e.energyUnits;
                             const userWeight = user === null || user === void 0 ? void 0 : user.weight;
                             const userHeight = user === null || user === void 0 ? void 0 : user.height;
                             const userGender = user === null || user === void 0 ? void 0 : user.gender;
-                            const age = (0, dayjs_1.default)().diff((0, dayjs_1.default)(user === null || user === void 0 ? void 0 : user.dateOfBirth), 'year');
+                            const age = (0, dayjs_1.default)().diff((0, dayjs_1.default)(user === null || user === void 0 ? void 0 : user.dateOfBirth), "year");
                             // calculate calories
                             let calories = 0;
                             switch (userGender) {
-                                case 'male':
-                                    if (weightUnits == 'kg') {
-                                        calories = secToMin *
-                                            (0.6309 * avgHr + 0.1988 * userWeight + 0.2017 * age - 55.0969) /
-                                            4.184;
+                                case "male":
+                                    if (weightUnits == "kg") {
+                                        calories =
+                                            (secToMin *
+                                                (0.6309 * avgHr +
+                                                    0.1988 * userWeight +
+                                                    0.2017 * age -
+                                                    55.0969)) /
+                                                4.184;
                                     }
-                                    else if (weightUnits == 'lbs') {
+                                    else if (weightUnits == "lbs") {
                                         let weightInKg = userWeight * 0.453592;
-                                        calories = secToMin *
-                                            (0.6309 * avgHr + 0.1988 * weightInKg + 0.2017 * age - 55.0969) /
-                                            4.184;
+                                        calories =
+                                            (secToMin *
+                                                (0.6309 * avgHr +
+                                                    0.1988 * weightInKg +
+                                                    0.2017 * age -
+                                                    55.0969)) /
+                                                4.184;
                                     }
                                     break;
-                                case 'female':
-                                    if (weightUnits == 'kg') {
-                                        calories = secToMin *
-                                            (0.4472 * avgHr - 0.1263 * userWeight + 0.074 * age - 20.4022) /
-                                            4.184;
+                                case "female":
+                                    if (weightUnits == "kg") {
+                                        calories =
+                                            (secToMin *
+                                                (0.4472 * avgHr -
+                                                    0.1263 * userWeight +
+                                                    0.074 * age -
+                                                    20.4022)) /
+                                                4.184;
                                     }
-                                    else if (weightUnits == 'lbs') {
+                                    else if (weightUnits == "lbs") {
                                         let weightInKg = userWeight * 0.453592;
-                                        calories = secToMin *
-                                            (0.4472 * avgHr - 0.1263 * weightInKg + 0.074 * age - 20.4022) /
-                                            4.184;
+                                        calories =
+                                            (secToMin *
+                                                (0.4472 * avgHr -
+                                                    0.1263 * weightInKg +
+                                                    0.074 * age -
+                                                    20.4022)) /
+                                                4.184;
                                     }
                                     break;
                                 default:
                                     calories = 0;
                                     break;
                             }
-                            if (energyUnits == 'kcal') {
+                            if (energyUnits == "kcal") {
                                 return calories;
                             }
-                            else if (energyUnits == 'kJ') {
+                            else if (energyUnits == "kJ") {
                                 return calories * 4.184;
                             }
                             return calories;
@@ -582,11 +636,10 @@ const ApiAuth = ({ route }) => {
                             try {
                                 cal += findCal(yield (0, report_1.getReportFromSession)(session));
                             }
-                            catch (error) {
-                            }
+                            catch (error) { }
                         }
                         return `${cal.toFixed(2)} Cal`;
-                    })
+                    }),
                 },
             ];
             const widgets_result = [];
@@ -594,8 +647,7 @@ const ApiAuth = ({ route }) => {
                 try {
                     widgets_result.push(Object.assign(Object.assign({}, r), { value: yield r.handler() }));
                 }
-                catch (error) {
-                }
+                catch (error) { }
             }
             return res.json({
                 success: true,
@@ -606,6 +658,52 @@ const ApiAuth = ({ route }) => {
         catch (error) {
             console.error(error);
             return res.status(500).json({ error });
+        }
+    }));
+    route.delete("/delete", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        var _m;
+        console.log("DATA BODY", req.body);
+        try {
+            // schedule deletion in 2 weeks from now
+            const user = (_m = req.auth) === null || _m === void 0 ? void 0 : _m.user;
+            const deleteAt = (0, dayjs_1.default)().add(2, "week").toDate();
+            const updated = yield db_1.User.findOneAndUpdate({
+                _id: user._id,
+            }, {
+                $set: {
+                    deleteAt,
+                    requestDelete: true,
+                },
+            }, {
+                new: true,
+            });
+            return res.json({
+                success: true,
+                message: "User will be deleted in 2 weeks",
+                user: (0, obj_1.exceptObjectProp)(updated === null || updated === void 0 ? void 0 : updated.toObject(), ["password"]),
+            });
+            // find user based user session
+            // const found = await User.findOne({
+            //   _id: req.auth?.user?._id,
+            // });
+            // // user deletion
+            // await User.findOneAndDelete({
+            //   _id: found?._id,
+            // });
+            // // check if user photo is not empty string or length must same as object id length
+            // if (found?.photo && found?.photo.length >= 24) {
+            //   const bucket = await GridStorage();
+            //   await bucket.delete(new mongoose.Types.ObjectId(found?.photo));
+            // }
+            // return res.json({
+            //   success: true,
+            //   message: "User deleted successfully",
+            //   user: exceptObjectProp(found?.toObject(), ["password"]),
+            // });
+        }
+        catch (error) {
+            // console.error(error)
+            return res.status(400).json({ error });
         }
     }));
 };

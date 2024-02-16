@@ -1,14 +1,19 @@
 import express from "express";
 import mongoose from "mongoose";
-import { Exercise, ReportShare, Session, User } from "../db";
+import { Exercise, Session, User } from "../db";
 import { AuthJwtMiddleware } from "../middlewares/auth";
 import { SessionSchema } from "../types/session";
 
 export const ApiSession = ({ route }: { route: express.Router }) => {
   route.get("/session/", AuthJwtMiddleware, async (req, res) => {
+    // const { page, limit } = req.query;
     const sessions = await Session.find({
       userId: req.auth?.user?._id,
     });
+    // .sort({ createdAt: -1 })
+    // .skip(Number(page || 0) * Number(limit || 10))
+    // .limit(Number(limit || 10));
+
     return res.json({
       success: true,
       message: "Sessions found",
@@ -123,13 +128,12 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
         exercise,
         withoutExercise,
       });
-
       // resposne
       return res.json({
         success: true,
         message: "Session created successfully",
         id: created._id,
-        session,
+        session: created,
       });
     } catch (error) {
       console.log("4");

@@ -40,10 +40,10 @@ const ExerciseSchema = new mongoose_1.Schema({
     duration: Number,
     instructions: [
         {
-            type: String,
+            type: String, // rest, instruction
             name: String,
             description: String,
-            duration: Number,
+            duration: Number, // in seconds
             content: {
                 video: String,
                 image: String,
@@ -63,11 +63,13 @@ exports.CompanySchema = new mongoose_1.Schema({
         description: String,
         address: String,
     },
-    admins: [{
+    admins: [
+        {
             userId: String,
             role: String,
             isCreated: Boolean,
-        }]
+        },
+    ],
 }, {
     typeKey: "$type",
     timestamps: true,
@@ -91,6 +93,8 @@ const UserSchema = new mongoose_1.Schema({
         heightUnits: String,
     },
     resetPasswordCode: String,
+    requetDelete: Boolean,
+    deleteDate: Date,
     // others
     linkedCompanyId: String,
 }, {
@@ -119,6 +123,8 @@ const SessionSchema = new mongoose_1.Schema({
                 {
                     type: String,
                     identifier: String,
+                    brand: String,
+                    model: String,
                     value: mongoose_1.Schema.Types.Mixed,
                 },
             ],

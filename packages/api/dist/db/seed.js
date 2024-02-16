@@ -8,8 +8,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.seed = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const _1 = require(".");
 const exerciseSeed = [
     {
@@ -52,8 +56,41 @@ const exerciseSeed = [
         duration: 0,
         instructions: [],
     },
+    {
+        _id: "Other",
+        name: "Other",
+        description: "",
+        difficulty: "",
+        type: "",
+        thumbnail: "https://assets-global.website-files.com/617b224ba2374548fcc039ba/617b224ba237453ce1c0409b_hpfulq-1234-1024x512.jpg",
+        duration: 0,
+        instructions: [],
+    },
+];
+const companySeed = [
+    {
+        _id: new mongoose_1.default.Types.ObjectId("65b8b28bb68956c7d206a02a").toHexString(),
+        name: "Apollo",
+        meta: {
+            description: "Apollo is a health company that helps people to be healthy",
+            address: "St.Cruzz, Nepal",
+        },
+        admins: [
+            {
+                userId: "admin",
+                role: "admin",
+                isCreated: true,
+            },
+        ],
+    },
 ];
 const seed = () => __awaiter(void 0, void 0, void 0, function* () {
+    // await Exercise.deleteMany({});
+    // await Company.deleteMany({});
+    // await User.deleteMany({});
+    // await Session.deleteMany({});
+    // await ReportShare.deleteMany({});
+    // (await GridStorage()).drop();
     for (var exercise of exerciseSeed) {
         const exist = yield _1.Exercise.findById(exercise._id);
         if (exist) {
@@ -61,6 +98,15 @@ const seed = () => __awaiter(void 0, void 0, void 0, function* () {
         }
         else {
             yield _1.Exercise.create(exercise);
+        }
+    }
+    for (var company of companySeed) {
+        const exist = yield _1.Company.findById(company._id);
+        if (exist) {
+            yield _1.Company.updateOne({ _id: company._id }, company);
+        }
+        else {
+            yield _1.Company.create(company);
         }
     }
 });

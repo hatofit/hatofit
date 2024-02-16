@@ -1,8 +1,12 @@
-// Copyright 2023, Charles Weinberger & Paul DeMarco.
+// Copyright 2017-2023, Charles Weinberger & Paul DeMarco.
 // All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
 #import "FlutterBluePlusPlugin.h"
+
+#define Log(LEVEL, FORMAT, ...) [self log:LEVEL format:@"[FBP-iOS] " FORMAT, ##__VA_ARGS__]
+
+NSString * const CCCD = @"2902";
 
 @interface ServicePair : NSObject
 @property (strong, nonatomic) CBService *primary;
@@ -13,27 +17,23 @@
 @end
 
 @interface CBUUID (CBUUIDAdditionsFlutterBluePlus)
-- (NSString *)fullUUIDString;
+- (NSString *)uuidStr;
 @end
 
 @implementation CBUUID (CBUUIDAdditionsFlutterBluePlus)
-- (NSString *)fullUUIDString
+- (NSString *)uuidStr
 {
-    if (self.UUIDString.length == 4)
-    {
-        return [[NSString stringWithFormat:@"0000%@-0000-1000-8000-00805F9B34FB", self.UUIDString] lowercaseString];
-    }
     return [self.UUIDString lowercaseString];
 }
 @end
 
 typedef NS_ENUM(NSUInteger, LogLevel) {
-    none = 0,
-    error = 1,
-    warning = 2,
-    info = 3,
-    debug = 4,
-    verbose = 5,
+    LNONE = 0,
+    LERROR = 1,
+    LWARNING = 2,
+    LINFO = 3,
+    LDEBUG = 4,
+    LVERBOSE = 5,
 };
 
 @interface FlutterBluePlusPlugin ()
@@ -42,9 +42,16 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
 @property(nonatomic, retain) CBCentralManager *centralManager;
 @property(nonatomic) NSMutableDictionary *knownPeripherals;
 @property(nonatomic) NSMutableDictionary *connectedPeripherals;
-@property(nonatomic) NSMutableArray *servicesThatNeedDiscovered;
-@property(nonatomic) NSMutableArray *characteristicsThatNeedDiscovered;
+@property(nonatomic) NSMutableDictionary *currentlyConnectingPeripherals;
+@property(nonatomic) NSMutableArray *servicesToDiscover;
+@property(nonatomic) NSMutableArray *characteristicsToDiscover;
 @property(nonatomic) NSMutableDictionary *didWriteWithoutResponse;
+@property(nonatomic) NSMutableDictionary *peripheralMtu;
+@property(nonatomic) NSMutableDictionary *writeChrs;
+@property(nonatomic) NSMutableDictionary *writeDescs;
+@property(nonatomic) NSMutableDictionary *scanCounts;
+@property(nonatomic) NSDictionary *scanFilters;
+@property(nonatomic) NSTimer *checkForMtuChangesTimer;
 @property(nonatomic) LogLevel logLevel;
 @end
 
@@ -57,10 +64,15 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     instance.methodChannel = methodChannel;
     instance.knownPeripherals = [NSMutableDictionary new];
     instance.connectedPeripherals = [NSMutableDictionary new];
-    instance.servicesThatNeedDiscovered = [NSMutableArray new];
-    instance.characteristicsThatNeedDiscovered = [NSMutableArray new];
+    instance.currentlyConnectingPeripherals = [NSMutableDictionary new];
+    instance.servicesToDiscover = [NSMutableArray new];
+    instance.characteristicsToDiscover = [NSMutableArray new];
     instance.didWriteWithoutResponse = [NSMutableDictionary new];
-    instance.logLevel = debug;
+    instance.peripheralMtu = [NSMutableDictionary new];
+    instance.writeChrs = [NSMutableDictionary new];
+    instance.writeDescs = [NSMutableDictionary new];
+    instance.scanCounts = [NSMutableDictionary new];
+    instance.logLevel = LDEBUG;
 
     [registrar addMethodCallDelegate:instance channel:methodChannel];
 }
@@ -88,13 +100,12 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
 {
     @try
     {
-        if (_logLevel >= debug) {
-            NSLog(@"[FBP-iOS] handleMethodCall: %@", call.method);
-        }
+        Log(LDEBUG, @"handleMethodCall: %@", call.method);
+
         // initialize adapter
         if (self.centralManager == nil)
         {
-            NSLog(@"[FBP-iOS] initializing CBCentralManager");
+            Log(LDEBUG, @"initializing CBCentralManager");
 
             NSDictionary *options = @{
                 CBCentralManagerOptionShowPowerAlertKey: @(YES)
@@ -102,26 +113,72 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
 
             self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil options:options];
         }
+        // initialize timer
+        if (self.checkForMtuChangesTimer == nil)
+        {
+            Log(LDEBUG, @"initializing checkForMtuChangesTimer");
+
+            self.checkForMtuChangesTimer = [NSTimer scheduledTimerWithTimeInterval:0.025
+                target:self
+                selector:@selector(checkForMtuChangesCallback) 
+                userInfo:@{}
+                repeats:YES];
+        }
         // check that we have an adapter, except for the 
         // functions that don't need it
         if (self.centralManager == nil && 
+            [@"flutterHotRestart" isEqualToString:call.method] == false &&
+            [@"connectedCount" isEqualToString:call.method] == false &&
             [@"setLogLevel" isEqualToString:call.method] == false &&
-            [@"isAvailable" isEqualToString:call.method] == false &&
+            [@"isSupported" isEqualToString:call.method] == false &&
             [@"getAdapterName" isEqualToString:call.method] == false &&
             [@"getAdapterState" isEqualToString:call.method] == false) {
-            NSString* s = @"the device does not have bluetooth";
+            NSString* s = @"the device does not support bluetooth";
             result([FlutterError errorWithCode:@"bluetoothUnavailable" message:s details:NULL]);
             return;
         }
-        
-        if ([@"setLogLevel" isEqualToString:call.method])
+
+        if ([@"flutterHotRestart" isEqualToString:call.method])
         {
-            NSNumber *logLevelIndex = [call arguments];
-            _logLevel = (LogLevel)[logLevelIndex integerValue];
-            result(@(true));
+            // no adapter?
+            if (self.centralManager == nil) {
+                result(@(0)); // no work to do
+                return;
+            }
+
+            if ([self isAdapterOn]) {
+                [self.centralManager stopScan];
+            }
+
+            [self disconnectAllDevices:@"flutterHotRestart"];
+
+            Log(LDEBUG, @"connectedPeripherals: %lu", self.connectedPeripherals.count);
+
+            if (self.connectedPeripherals.count == 0) {
+                [self.knownPeripherals removeAllObjects];
+            }
+            
+            result(@(self.connectedPeripherals.count));
             return;
         }
-        else if ([@"isAvailable" isEqualToString:call.method])
+        else if ([@"connectedCount" isEqualToString:call.method])
+        {
+            Log(LDEBUG, @"connectedPeripherals: %lu", self.connectedPeripherals.count);
+            if (self.connectedPeripherals.count == 0) {
+                Log(LDEBUG, @"Hot Restart: complete");
+                [self.knownPeripherals removeAllObjects];
+            }
+            result(@(self.connectedPeripherals.count));
+            return;
+        }
+        else if ([@"setLogLevel" isEqualToString:call.method])
+        {
+            NSNumber *idx = [call arguments];
+            self.logLevel = (LogLevel)[idx integerValue];
+            result(@YES);
+            return;
+        }
+        else if ([@"isSupported" isEqualToString:call.method])
         {
             result(self.centralManager != nil ? @(YES) : @(NO));
         }
@@ -138,8 +195,8 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
         {
             // get state
             int adapterState = 0; // BmAdapterStateEnum.unknown
-            if (self->_centralManager) {
-                adapterState = [self bmAdapterStateEnum:self->_centralManager.state];    
+            if (self.centralManager) {
+                adapterState = [self bmAdapterStateEnum:self.centralManager.state];    
             }
 
             // See BmBluetoothAdapterState
@@ -164,41 +221,55 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
         else if ([@"startScan" isEqualToString:call.method])
         {
             // See BmScanSettings
-            NSDictionary *args = (NSDictionary*)call.arguments;
-            NSArray   *serviceUuids    = args[@"service_uuids"];
-            NSNumber  *allowDuplicates = args[@"allow_duplicates"];
+            NSDictionary *args = (NSDictionary*) call.arguments;
+            NSArray   *withServices    = args[@"with_services"];
+            NSNumber  *continuousUpdates = args[@"continuous_updates"];
 
-            // UUID Service filter
-            NSArray *uuids = [NSArray array];
-            for (int i = 0; i < [serviceUuids count]; i++) {
-                NSString *u = serviceUuids[i];
-                uuids = [uuids arrayByAddingObject:[CBUUID UUIDWithString:u]];
+            // check adapter state
+            if ([self isAdapterOn] == false) {
+                NSString* as = [self cbManagerStateString:self.centralManager.state];
+                NSString* s = [NSString stringWithFormat:@"bluetooth must be turned on. (%@)", as];
+                result([FlutterError errorWithCode:@"startScan" message:s details:NULL]);
+                return;
             }
 
-            // Allow duplicates?
+            // remember this for later
+            self.scanFilters = args;
+
+            // allowDuplicates?
             NSMutableDictionary<NSString *, id> *scanOpts = [NSMutableDictionary new];
-            if ([allowDuplicates boolValue]) {
+            if ([continuousUpdates boolValue]) {
                 [scanOpts setObject:[NSNumber numberWithBool:YES] forKey:CBCentralManagerScanOptionAllowDuplicatesKey];
             }
 
-            // Start scanning
-            [self->_centralManager scanForPeripheralsWithServices:uuids options:scanOpts];
+            // services filter
+            NSArray *services = [NSArray array];
+            for (int i = 0; i < [withServices count]; i++) {
+                NSString *uuid = withServices[i];
+                services = [services arrayByAddingObject:[CBUUID UUIDWithString:uuid]];
+            }
 
-            result(@(true));
+            // clear counts
+            [self.scanCounts removeAllObjects];
+
+            // start scanning
+            [self.centralManager scanForPeripheralsWithServices:services options:scanOpts];
+
+            result(@YES);
         }
         else if ([@"stopScan" isEqualToString:call.method])
         {
-            [self->_centralManager stopScan];
-            result(@(true));
+            [self.centralManager stopScan];
+            result(@YES);
         }
-        else if ([@"getConnectedSystemDevices" isEqualToString:call.method])
+        else if ([@"getSystemDevices" isEqualToString:call.method])
         {
             // Cannot pass blank UUID list for security reasons.
             // Assume all devices have the Generic Access service 0x1800
             CBUUID* gasUuid = [CBUUID UUIDWithString:@"1800"];
 
-            // this returns devices connected by any app
-            NSArray *periphs = [self->_centralManager retrieveConnectedPeripheralsWithServices:@[gasUuid]];
+            // this returns devices connected by *any* app
+            NSArray *periphs = [self.centralManager retrieveConnectedPeripheralsWithServices:@[gasUuid]];
 
             // Devices
             NSMutableArray *deviceProtos = [NSMutableArray new];
@@ -206,7 +277,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                 [deviceProtos addObject:[self bmBluetoothDevice:p]];
             }
 
-            // See BmConnectedDevicesResponse
+            // See BmDevicesList
             NSDictionary* response = @{
                 @"devices": deviceProtos,
             };
@@ -217,23 +288,42 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
         {
             // See BmConnectRequest
             NSDictionary* args = (NSDictionary*)call.arguments;
-            NSString  *remoteId = args[@"remote_id"];
-            bool autoConnect    = args[@"auto_connect"] != 0;
+            NSString  *remoteId       = args[@"remote_id"];
+            NSNumber  *autoConnect    = args[@"auto_connect"];
+
+            // check adapter state
+            if ([self isAdapterOn] == false) {
+                NSString* as = [self cbManagerStateString:self.centralManager.state];
+                NSString* s = [NSString stringWithFormat:@"bluetooth must be turned on. (%@)", as];
+                result([FlutterError errorWithCode:@"connect" message:s details:NULL]);
+                return;
+            }
+
+            // already connecting?
+            if ([self.currentlyConnectingPeripherals objectForKey:remoteId] != nil) {
+                Log(LDEBUG, @"already connecting");
+                result(@YES); // still work to do
+                return;
+            }
 
             // already connected?
-            CBPeripheral *peripheral = [self getConnectedPeripheral:remoteId];
-            if (peripheral != nil) {
-                if (_logLevel >= debug) {
-                    NSLog(@"[FBP-iOS] already connected");
-                }
-                result(@(1)); // no work to do
+            if ([self getConnectedPeripheral:remoteId] != nil) {
+                Log(LDEBUG, @"already connected");
+                result(@NO); // no work to do
+                return;
+            }
+
+            // parse
+            NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:remoteId];
+            if (uuid == nil)
+            {
+                result([FlutterError errorWithCode:@"connect" message:@"invalid remoteId" details:remoteId]);
                 return;
             }
 
             // check the devices iOS knowns about
-            NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:remoteId];
-            NSArray<CBPeripheral *> *peripherals = [_centralManager retrievePeripheralsWithIdentifiers:@[uuid]];
-            for (CBPeripheral *p in peripherals)
+            CBPeripheral *peripheral = nil;
+            for (CBPeripheral *p in [self.centralManager retrievePeripheralsWithIdentifiers:@[uuid]])
             {
                 if ([[p.identifier UUIDString] isEqualToString:remoteId])
                 {
@@ -258,13 +348,16 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
             NSMutableDictionary *options = [[NSMutableDictionary alloc] init];
             if (@available(iOS 17, *)) {
                 // note: use CBConnectPeripheralOptionEnableAutoReconnect constant
-                // when iOS 17 is more widely available
-                [options setObject:@(autoConnect) forKey:@"kCBConnectOptionEnableAutoReconnect"];
+                // when all developers can be excpected to be on iOS 17+
+                [options setObject:autoConnect forKey:@"kCBConnectOptionEnableAutoReconnect"];
             } 
 
-            [_centralManager connectPeripheral:peripheral options:options];
+            [self.centralManager connectPeripheral:peripheral options:options];
+
+            // add to currently connecting peripherals
+            [self.currentlyConnectingPeripherals setObject:peripheral forKey:remoteId];
             
-            result(@(0));
+            result(@YES);
         }
         else if ([@"disconnect" isEqualToString:call.method])
         {
@@ -272,24 +365,34 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
             NSString *remoteId = [call arguments];
 
             // already disconnected?
-            CBPeripheral *peripheral = [self getConnectedPeripheral:remoteId];
+            CBPeripheral *peripheral = nil;
+            if (peripheral == nil ) {
+                peripheral = [self.currentlyConnectingPeripherals objectForKey:remoteId];
+                if (peripheral != nil) {
+                    Log(LDEBUG, @"disconnect: cancelling connection in progress");
+                    [self.currentlyConnectingPeripherals removeObjectForKey:remoteId];
+                }   
+            }
             if (peripheral == nil) {
-                if (_logLevel >= debug) {
-                    NSLog(@"[FBP-iOS] already disconnected");
-                }
-                result(@(1)); // no work to do
+                peripheral = [self getConnectedPeripheral:remoteId];
+            }
+            if (peripheral == nil) {
+                Log(LDEBUG, @"already disconnected");
+                result(@NO); // no work to do
                 return;
             }
 
-            [_centralManager cancelPeripheralConnection:peripheral];
+            // disconnect
+            [self.centralManager cancelPeripheralConnection:peripheral];
             
-            result(@(0));
+            result(@YES);
         }
         else if ([@"discoverServices" isEqualToString:call.method])
         {
             // remoteId is passed raw, not in a NSDictionary
             NSString *remoteId = [call arguments];
 
+            // Find peripheral
             CBPeripheral *peripheral = [self getConnectedPeripheral:remoteId];
             if (peripheral == nil) {
                 NSString* s = @"device is disconnected";
@@ -298,13 +401,13 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
             }
 
             // Clear helper arrays
-            [_servicesThatNeedDiscovered removeAllObjects];
-            [_characteristicsThatNeedDiscovered removeAllObjects];
+            [self.servicesToDiscover removeAllObjects];
+            [self.characteristicsToDiscover removeAllObjects];
 
             // start discovery
             [peripheral discoverServices:nil];
 
-            result(@(true));
+            result(@YES);
         }
         else if ([@"readCharacteristic" isEqualToString:call.method])
         {
@@ -345,7 +448,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
             // Trigger a read
             [peripheral readValueForCharacteristic:characteristic];
 
-            result(@(true));
+            result(@YES);
         }
         else if ([@"writeCharacteristic" isEqualToString:call.method])
         {
@@ -356,6 +459,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
             NSString  *serviceUuid          = args[@"service_uuid"];
             NSString  *secondaryServiceUuid = args[@"secondary_service_uuid"];
             NSNumber  *writeTypeNumber      = args[@"write_type"];
+            NSNumber  *allowLongWrite       = args[@"allow_long_write"];
             NSString  *value                = args[@"value"];
             
             // Find peripheral
@@ -372,12 +476,15 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                     ? CBCharacteristicWriteWithResponse
                     : CBCharacteristicWriteWithoutResponse);
 
-            // check mtu
-            int mtu = [self getMtu:peripheral];
+            // check maximum payload
+            int maxLen = [self getMaxPayload:peripheral forType:writeType allowLongWrite:[allowLongWrite boolValue]];
             int dataLen = (int) [self convertHexToData:value].length;
-            if ((mtu-3) < dataLen) {
-                NSString* f = @"data is longer than MTU allows. dataLen: %d > maxDataLen: %d";
-                NSString* s = [NSString stringWithFormat:f, dataLen, (mtu-3)];
+            if (dataLen > maxLen) {
+                NSString* t = [writeTypeNumber intValue] == 0 ? @"withResponse" : @"withoutResponse";
+                NSString* a = [allowLongWrite boolValue] ? @", allowLongWrite" : @", noLongWrite";
+                NSString* b = [writeTypeNumber intValue] == 0 ? a : @"";
+                NSString* f = @"data longer than allowed. dataLen: %d > max: %d (%@%@)";
+                NSString* s = [NSString stringWithFormat:f, dataLen, maxLen, t, b];
                 result([FlutterError errorWithCode:@"writeCharacteristic" message:s details:NULL]);
                 return;
             }
@@ -416,6 +523,10 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                     return;
                 }
             }
+
+            // remember the data we are writing
+            NSString *key = [NSString stringWithFormat:@"%@:%@:%@", remoteId, serviceUuid, characteristicUuid];
+            [self.writeChrs setObject:value forKey:key];
                   
             // Write to characteristic
             [peripheral writeValue:[self convertHexToData:value] forCharacteristic:characteristic type:writeType];
@@ -425,7 +536,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                 [self.didWriteWithoutResponse setObject:args forKey:remoteId];
             }
 
-            result(@(YES));
+            result(@YES);
         }
         else if ([@"readDescriptor" isEqualToString:call.method])
         {
@@ -466,7 +577,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
 
             [peripheral readValueForDescriptor:descriptor];
 
-            result(@(true));
+            result(@YES);
         }
         else if ([@"writeDescriptor" isEqualToString:call.method])
         {
@@ -516,14 +627,18 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                 return;
             }
 
+            // remember the data we are writing
+            NSString *key = [NSString stringWithFormat:@"%@:%@:%@:%@", remoteId, serviceUuid, characteristicUuid, descriptorUuid];
+            [self.writeDescs setObject:value forKey:key];
+
             // Write descriptor
             [peripheral writeValue:[self convertHexToData:value] forDescriptor:descriptor];
 
-            result(@(true));
+            result(@YES);
         }
-        else if ([@"setNotification" isEqualToString:call.method])
+        else if ([@"setNotifyValue" isEqualToString:call.method])
         {
-            // See BmSetNotificationRequest
+            // See BmSetNotifyValueRequest
             NSDictionary *args = (NSDictionary*)call.arguments;
             NSString   *remoteId              = args[@"remote_id"];
             NSString   *serviceUuid           = args[@"service_uuid"];
@@ -535,7 +650,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
             CBPeripheral *peripheral = [self getConnectedPeripheral:remoteId];
             if (peripheral == nil) {
                 NSString* s = @"device is disconnected";
-                result([FlutterError errorWithCode:@"setNotification" message:s details:remoteId]);
+                result([FlutterError errorWithCode:@"setNotifyValue" message:s details:remoteId]);
                 return;
             }
 
@@ -547,7 +662,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                                                        secondaryServiceId:secondaryServiceUuid
                                                                     error:&error];
             if (characteristic == nil) {
-                result([FlutterError errorWithCode:@"setNotification" message:error.localizedDescription details:NULL]);
+                result([FlutterError errorWithCode:@"setNotifyValue" message:error.localizedDescription details:NULL]);
                 return;
             }
 
@@ -556,14 +671,20 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
             bool canIndicate = (characteristic.properties & CBCharacteristicPropertyIndicate) != 0;
             if(!canIndicate && !canNotify) {
                 NSString* s = @"neither NOTIFY nor INDICATE properties are supported by this BLE characteristic";
-                result([FlutterError errorWithCode:@"setNotification" message:s details:NULL]);
+                result([FlutterError errorWithCode:@"setNotifyValue" message:s details:NULL]);
                 return;
+            }
+
+            // Check that CCCD is found, this is necessary for subscribing
+            CBDescriptor *descriptor = [self locateDescriptor:CCCD characteristic:characteristic error:nil];
+            if (descriptor == nil) {
+                Log(LWARNING, @"Warning: CCCD descriptor for characteristic not found: %@", characteristicUuid);
             }
 
             // Set notification value
             [peripheral setNotifyValue:[enable boolValue] forCharacteristic:characteristic];
             
-            result(@(true));
+            result(@YES);
         }
         else if ([@"requestMtu" isEqualToString:call.method])
         {
@@ -586,42 +707,48 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
 
             [peripheral readRSSI];
 
-            result(@(true));
+            result(@YES);
         }
         else if([@"requestConnectionPriority" isEqualToString:call.method])
         {
             result([FlutterError errorWithCode:@"requestConnectionPriority" 
-                                    message:@"iOS does not support connection priority requests"
+                                    message:@"android only"
+                                    details:NULL]);
+        }
+        else if([@"getPhySupport" isEqualToString:call.method])
+        {
+            result([FlutterError errorWithCode:@"getPhySupport" 
+                                    message:@"android only"
                                     details:NULL]);
         }
         else if([@"setPreferredPhy" isEqualToString:call.method])
         {
             result([FlutterError errorWithCode:@"setPreferredPhy" 
-                                    message:@"iOS does not support set preferred phy requests"
+                                    message:@"android only"
                                     details:NULL]);
         }
         else if([@"getBondedDevices" isEqualToString:call.method])
         {
             result([FlutterError errorWithCode:@"getBondedDevices" 
-                                    message:@"iOS does not support getting bonded devices"
+                                    message:@"android only"
                                     details:NULL]);
         }
         else if([@"createBond" isEqualToString:call.method])
         {
             result([FlutterError errorWithCode:@"setPreferredPhy" 
-                                    message:@"iOS does not support creating bonds"
+                                    message:@"android only"
                                     details:NULL]);
         }
         else if([@"removeBond" isEqualToString:call.method])
         {
             result([FlutterError errorWithCode:@"removeBond" 
-                                    message:@"plugin does not support removeBond function on iOS"
+                                    message:@"android only"
                                     details:NULL]);
         }
         else if([@"clearGattCache" isEqualToString:call.method])
         {
             result([FlutterError errorWithCode:@"clearGattCache" 
-                                    message:@"plugin does not support clearing gatt cache"
+                                    message:@"android only"
                                     details:NULL]);
         }
         else
@@ -661,32 +788,39 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                         secondaryServiceId:(NSString *)secondaryServiceId
                                      error:(NSError **)error
 {
+    // primary
     CBService *primaryService = [self getServiceFromArray:serviceId array:[peripheral services]];
     if (primaryService == nil || [primaryService isPrimary] == false)
     {
-        NSDictionary* d = @{NSLocalizedDescriptionKey : @"service could not be located on the device"};
+        NSString* s = [NSString stringWithFormat:@"service not found '%@'", serviceId];
+        NSDictionary* d = @{NSLocalizedDescriptionKey : s};
         *error = [NSError errorWithDomain:@"flutterBluePlus" code:1000 userInfo:d];
         return nil;
     }
 
+    // secondary
     CBService *secondaryService;
     if (secondaryServiceId && (NSNull*) secondaryServiceId != [NSNull null] && secondaryServiceId.length)
     {
         secondaryService = [self getServiceFromArray:secondaryServiceId array:[primaryService includedServices]];
         if (error && !secondaryService) {
-            NSString* s = [NSString stringWithFormat:@"secondary service '%@' could not be located on the device", secondaryServiceId];
+            NSString* s = [NSString stringWithFormat:@"secondaryService not found '%@'", secondaryServiceId];
             NSDictionary* d = @{NSLocalizedDescriptionKey : s};
             *error = [NSError errorWithDomain:@"flutterBluePlus" code:1001 userInfo:d];
             return nil;
         }
     }
 
+    // which service?
     CBService *service = (secondaryService != nil) ? secondaryService : primaryService;
 
+    // characteristic
     CBCharacteristic *characteristic = [self getCharacteristicFromArray:characteristicId array:[service characteristics]];
     if (characteristic == nil)
     {
-        NSDictionary* d = @{NSLocalizedDescriptionKey : @"characteristic could not be located on the device"};
+        NSString* format = @"characteristic not found in service (chr: '%@', svc: '%@')";
+        NSString* s = [NSString stringWithFormat:format, characteristicId, serviceId];
+        NSDictionary* d = @{NSLocalizedDescriptionKey : s};
         *error = [NSError errorWithDomain:@"flutterBluePlus" code:1002 userInfo:d];
         return nil;
     }
@@ -697,20 +831,22 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
 - (CBDescriptor *)locateDescriptor:(NSString *)descriptorId characteristic:(CBCharacteristic *)characteristic error:(NSError**)error
 {
     CBDescriptor *descriptor = [self getDescriptorFromArray:descriptorId array:[characteristic descriptors]];
-    if (descriptor == nil)
+    if (descriptor == nil && error != nil)
     {
-        NSDictionary* d = @{NSLocalizedDescriptionKey : @"descriptor could not be located on the device"};
+        NSString* format = @"descriptor not found in characteristic (desc: '%@', chr: '%@')";
+        NSString* s = [NSString stringWithFormat:format, descriptorId, [characteristic.UUID uuidStr]];
+        NSDictionary* d = @{NSLocalizedDescriptionKey : s};
         *error = [NSError errorWithDomain:@"flutterBluePlus" code:1002 userInfo:d];
         return nil;
     }
     return descriptor;
 }
 
-- (CBService *)getServiceFromArray:(NSString *)uuidString array:(NSArray<CBService *> *)array
+- (CBService *)getServiceFromArray:(NSString *)uuid array:(NSArray<CBService *> *)array
 {
     for (CBService *s in array)
     {
-        if ([[s UUID] isEqual:[CBUUID UUIDWithString:uuidString]])
+        if ([s.UUID isEqual:[CBUUID UUIDWithString:uuid]])
         {
             return s;
         }
@@ -718,11 +854,11 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     return nil;
 }
 
-- (CBCharacteristic *)getCharacteristicFromArray:(NSString *)uuidString array:(NSArray<CBCharacteristic *> *)array
+- (CBCharacteristic *)getCharacteristicFromArray:(NSString *)uuid array:(NSArray<CBCharacteristic *> *)array
 {
     for (CBCharacteristic *c in array)
     {
-        if ([[c UUID] isEqual:[CBUUID UUIDWithString:uuidString]])
+        if ([c.UUID isEqual:[CBUUID UUIDWithString:uuid]])
         {
             return c;
         }
@@ -730,11 +866,11 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     return nil;
 }
 
-- (CBDescriptor *)getDescriptorFromArray:(NSString *)uuidString array:(NSArray<CBDescriptor *> *)array
+- (CBDescriptor *)getDescriptorFromArray:(NSString *)uuid array:(NSArray<CBDescriptor *> *)array
 {
     for (CBDescriptor *d in array)
     {
-        if ([[d UUID] isEqual:[CBUUID UUIDWithString:uuidString]])
+        if ([d.UUID isEqual:[CBUUID UUIDWithString:uuid]])
         {
             return d;
         }
@@ -742,6 +878,104 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     return nil;
 }
 
+- (void)disconnectAllDevices:(NSString*)func
+{
+    Log(LDEBUG, @"disconnectAllDevices(%@)", func);
+
+    // request disconnections
+    for (NSString *key in self.connectedPeripherals)
+    {
+        CBPeripheral *peripheral = [self.connectedPeripherals objectForKey:key];
+
+        Log(LDEBUG, @"calling disconnect: %@", key);
+
+        if ([func isEqualToString:@"adapterTurnOff"]) {
+            // inexplicably, iOS does not call 'didDisconnectPeripheral' when
+            // the adapter is turned off, so we must send these responses manually
+            
+            // Note: when the adapter is turned off, it is an 'api misuse'
+            // to call cancelPeripheralConnection. It is implied.
+
+            // See BmConnectionStateResponse
+            NSDictionary *result = @{
+                @"remote_id":                [[peripheral identifier] UUIDString],
+                @"connection_state":         @([self bmConnectionStateEnum:CBPeripheralStateDisconnected]),
+                @"disconnect_reason_code":   @(1573878), // just a random value, could be anything.
+                @"disconnect_reason_string": @"Bluetooth turned off",
+            };
+
+            // Send connection state
+            [self.methodChannel invokeMethod:@"OnConnectionStateChanged" arguments:result];
+        } 
+        
+        if ([func isEqualToString:@"flutterHotRestart"] && [self isAdapterOn]) {
+            // request disconnection
+            [self.centralManager cancelPeripheralConnection:peripheral];
+        }
+    }
+
+    // normally connectedPeripherals will be updated by 'didDisconnectPeripheral',
+    // but iOS does not call 'didDisconnectPeripheral' when the
+    // adapter is turned off, so we must clear it ourself
+    if ([func isEqualToString:@"adapterTurnOff"]) {
+        [self.connectedPeripherals removeAllObjects];
+        [self.currentlyConnectingPeripherals removeAllObjects];
+    }
+
+    // note: we do *not* clear self.knownPeripherals
+    // Otherwise the peripheral would not have any strong references 
+    // and would be garbage collected, making the didDisconnectPeripheral
+    // callback not called
+
+    [self.servicesToDiscover removeAllObjects];
+    [self.characteristicsToDiscover removeAllObjects];
+    [self.didWriteWithoutResponse removeAllObjects];
+    [self.peripheralMtu removeAllObjects];
+    [self.writeChrs removeAllObjects];
+    [self.writeDescs removeAllObjects];
+}
+
+////////////////////////////////////
+// ███    ███ ████████ ██    ██ 
+// ████  ████    ██    ██    ██ 
+// ██ ████ ██    ██    ██    ██ 
+// ██  ██  ██    ██    ██    ██ 
+// ██      ██    ██     ██████  
+
+// in iOS, mtu is negotatiated once automatically sometime after the
+// the connection process, but there is no platform callback for it.
+- (void)checkForMtuChangesCallback
+{
+    for (NSString *key in self.connectedPeripherals) {
+
+        CBPeripheral *peripheral = [self.connectedPeripherals objectForKey:key];
+
+        int curMtu = (int) [self getMtu:peripheral];
+
+        NSNumber* prevMtu = (NSNumber*) [self.peripheralMtu objectForKey:peripheral];
+
+        // mtu changed?
+        if (prevMtu == nil || [prevMtu intValue] != curMtu) {
+
+            // remember new mtu value
+            [self.peripheralMtu setObject:@(curMtu) forKey:peripheral];
+
+            NSString* remoteId = [[peripheral identifier] UUIDString];
+
+            // See BmMtuChangedResponse
+            NSDictionary* mtuChanged = @{
+                @"remote_id" :      remoteId,
+                @"mtu":             @(curMtu),
+                @"success":         @(1),
+                @"error_string":    @"success",
+                @"error_code":      @(0),
+            };
+
+            // send mtu value
+            [self.methodChannel invokeMethod:@"OnMtuChanged" arguments:mtuChanged];
+        }
+    }
+}
 
 /////////////////////////////////////////////////////////////////////////////////////
 //  ██████  ██████    ██████  ███████  ███    ██  ████████  ██████    █████  ██      
@@ -764,26 +998,21 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
 
 - (void)centralManagerDidUpdateState:(nonnull CBCentralManager *)central
 {
-    if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] centralManagerDidUpdateState %@", [self cbManagerStateString:self->_centralManager.state]);
-    }
+    Log(LDEBUG, @"centralManagerDidUpdateState %@", [self cbManagerStateString:self.centralManager.state]);
 
     // was the adapter turned off?
-    if (self->_centralManager.state != CBManagerStatePoweredOn) {
-        for (NSString *key in self.connectedPeripherals) {
-            NSLog(@"[FBP-iOS] disconnected from device %@", key);
-        }
-        [self.connectedPeripherals removeAllObjects];
+    if (self.centralManager.state != CBManagerStatePoweredOn) {
+        [self disconnectAllDevices:@"adapterTurnOff"];
     }
 
-    int adapterState = [self bmAdapterStateEnum:self->_centralManager.state];
+    int adapterState = [self bmAdapterStateEnum:self.centralManager.state];
 
     // See BmBluetoothAdapterState
     NSDictionary* response = @{
         @"adapter_state" : @(adapterState),
     };
 
-    [_methodChannel invokeMethod:@"OnAdapterStateChanged" arguments:response];
+    [self.methodChannel invokeMethod:@"OnAdapterStateChanged" arguments:response];
 }
 
 - (void)centralManager:(CBCentralManager *)central
@@ -791,51 +1020,75 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
         advertisementData:(NSDictionary<NSString *, id> *)advertisementData
                      RSSI:(NSNumber *)RSSI
 {
-    if (_logLevel >= verbose) {
-        NSLog(@"[FBP-iOS] centralManager didDiscoverPeripheral");
-    }
-    
-    [self.knownPeripherals setObject:peripheral forKey:[[peripheral identifier] UUIDString]];
+    Log(LVERBOSE, @"centralManager didDiscoverPeripheral");
 
-    // See BmScanResult
-    NSDictionary *result = [self bmScanResult:peripheral advertisementData:advertisementData RSSI:RSSI];
+    NSString* remoteId = [[peripheral identifier] UUIDString];
+    
+    // add to known peripherals
+    [self.knownPeripherals setObject:peripheral forKey:remoteId];
+
+    // advertising data
+    NSString *advName = advertisementData[CBAdvertisementDataLocalNameKey];
+    NSData *advMsd = advertisementData[CBAdvertisementDataManufacturerDataKey];
+    NSDictionary* advSd = advertisementData[CBAdvertisementDataServiceDataKey];
+
+    // filter remoteIds
+    if (![self filterRemoteIds:self.scanFilters[@"with_remote_ids"] target:remoteId]) {
+        return;
+    }
+
+    // filter names
+    if (![self filterNames:self.scanFilters[@"with_names"] target:advName]) {
+        return;
+    }
+
+    // filter keywords
+    if (![self filterKeywords:self.scanFilters[@"with_keywords"] target:advName]) {
+        return;
+    }
+
+    // filter msd
+    if (![self filterMsd:self.scanFilters[@"with_msd"] msd:advMsd]) {
+        return;
+    }
+
+    // filter service data
+    if (![self filterServiceData:self.scanFilters[@"with_service_data"] sd:advSd]) {
+        return;
+    }
+
+    // filter divisor
+    if ([self.scanFilters[@"continuous_updates"] integerValue] != 0) {
+        NSInteger count = [self scanCountIncrement:remoteId];
+        NSInteger divisor = [self.scanFilters[@"continuous_divisor"] integerValue];
+        if ((count % divisor) != 0) {
+            return;
+        }
+    }
 
     // See BmScanResponse
     NSDictionary *response = @{
-        @"result": result,
+        @"advertisements": @[[self bmScanAdvertisement:remoteId advertisementData:advertisementData RSSI:RSSI]],
     };
 
-    [_methodChannel invokeMethod:@"OnScanResponse" arguments:response];
+    [self.methodChannel invokeMethod:@"OnScanResponse" arguments:response];
 }
 
 - (void)centralManager:(CBCentralManager *)central
   didConnectPeripheral:(CBPeripheral *)peripheral
 {
-    if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] didConnectPeripheral");
-    }
+    Log(LDEBUG, @"didConnectPeripheral");
 
     NSString* remoteId = [[peripheral identifier] UUIDString];
 
     // remember the connected peripherals of *this app*
     [self.connectedPeripherals setObject:peripheral forKey:remoteId];
 
+    // remove from currently connecting peripherals
+    [self.currentlyConnectingPeripherals removeObjectForKey:remoteId];
+
     // Register self as delegate for peripheral
     peripheral.delegate = self;
-
-    // in iOS, mtu is negotatiated once automatically 
-    // as part of the connection process
-    // See BmMtuChangedResponse
-    NSDictionary* mtuChanged = @{
-        @"remote_id" :      remoteId,
-        @"mtu":             @([self getMtu:peripheral]),
-        @"success":         @(1),
-        @"error_string":    [NSNull null],
-        @"error_code":      [NSNull null],
-    };
-
-    // send mtu value
-    [_methodChannel invokeMethod:@"OnMtuChanged" arguments:mtuChanged];
 
     // See BmConnectionStateResponse
     NSDictionary *result = @{
@@ -846,7 +1099,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     };
 
     // Send connection state
-    [_methodChannel invokeMethod:@"OnConnectionStateChanged" arguments:result];
+    [self.methodChannel invokeMethod:@"OnConnectionStateChanged" arguments:result];
 }
 
 - (void)centralManager:(CBCentralManager *)central
@@ -854,16 +1107,22 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                       error:(NSError *)error
 {
     if (error) {
-        // error contains the reason for the unexpected disconnection
-        NSLog(@"[FBP-iOS] didDisconnectPeripheral: [Error] %@", [error localizedDescription]);
-    } else if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] didDisconnectPeripheral");
+        Log(LERROR, @"didDisconnectPeripheral:");
+        Log(LERROR, @"  error: %@", [error localizedDescription]);
+    } else {
+        Log(LDEBUG, @"didDisconnectPeripheral:");
     }
 
     NSString* remoteId = [[peripheral identifier] UUIDString];
 
     // remember the connected peripherals of *this app*
     [self.connectedPeripherals removeObjectForKey:remoteId];
+
+    // remove from currently connecting peripherals
+    [self.currentlyConnectingPeripherals removeObjectForKey:remoteId];
+
+    // clear negotiated mtu
+    [self.peripheralMtu removeObjectForKey:peripheral];
 
     // Unregister self as delegate for peripheral, not working #42
     peripheral.delegate = nil;
@@ -872,12 +1131,12 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     NSDictionary *result = @{
         @"remote_id":                remoteId,
         @"connection_state":         @([self bmConnectionStateEnum:peripheral.state]),
-        @"disconnect_reason_code":   error ? @(error.code) : [NSNull null],
-        @"disconnect_reason_string": error ? [error localizedDescription] : [NSNull null],
+        @"disconnect_reason_code":   error ? @(error.code) : @(23789258),
+        @"disconnect_reason_string": error ? [error localizedDescription] : @("connection canceled"),
     };
 
     // Send connection state
-    [_methodChannel invokeMethod:@"OnConnectionStateChanged" arguments:result];
+    [self.methodChannel invokeMethod:@"OnConnectionStateChanged" arguments:result];
 }
 
 - (void)centralManager:(CBCentralManager *)central
@@ -885,11 +1144,16 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                          error:(NSError *)error
 {
     if (error) {
-        // error contains the reason for the connection failure
-        NSLog(@"[FBP-iOS] didFailToConnectPeripheral: [Error] %@", [error localizedDescription]);
-    } else if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] didFailToConnectPeripheral");
+        Log(LERROR, @"didFailToConnectPeripheral:");
+        Log(LERROR, @"  error: %@", [error localizedDescription]);
+    } else {
+        Log(LDEBUG, @"didFailToConnectPeripheral:");
     }
+
+    NSString* remoteId = [[peripheral identifier] UUIDString];
+
+    // remove from currently connecting peripherals
+    [self.currentlyConnectingPeripherals removeObjectForKey:remoteId];
 
     // See BmConnectionStateResponse
     NSDictionary *result = @{
@@ -900,7 +1164,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     };
 
     // Send connection state
-    [_methodChannel invokeMethod:@"OnConnectionStateChanged" arguments:result];
+    [self.methodChannel invokeMethod:@"OnConnectionStateChanged" arguments:result];
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -920,17 +1184,18 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     didDiscoverServices:(NSError *)error
 {
     if (error) {
-        NSLog(@"[FBP-iOS] didDiscoverServices: [Error] %@", [error localizedDescription]);
-    } else if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] didDiscoverServices");
+        Log(LERROR, @"didDiscoverServices:");
+        Log(LERROR, @"  error: %@", [error localizedDescription]);
+    } else {
+        Log(LDEBUG, @"didDiscoverServices:");
     }
 
     // discover characteristics and secondary services
-    [_servicesThatNeedDiscovered addObjectsFromArray:peripheral.services];
+    [self.servicesToDiscover addObjectsFromArray:peripheral.services];
     for (CBService *s in [peripheral services]) {
-        NSLog(@"[FBP-iOS] Found service: %@", [s.UUID UUIDString]);
+        Log(LDEBUG, @"  svc: %@", [s.UUID uuidStr]);
         [peripheral discoverCharacteristics:nil forService:s];
-        // Secondary services in the future (#8)
+        // todo: included services
         // [peripheral discoverIncludedServices:nil forService:s];
     }
 }
@@ -940,16 +1205,20 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                                    error:(NSError *)error
 {
     if (error) {
-        NSLog(@"[FBP-iOS] didDiscoverCharacteristicsForService: [Error] %@", [error localizedDescription]);
-    } else if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] didDiscoverCharacteristicsForService");
+        Log(LERROR, @"didDiscoverCharacteristicsForService:");
+        Log(LERROR, @"  svc: %@", [service.UUID uuidStr]);
+        Log(LERROR, @"  error: %@", [error localizedDescription]);
+    } else {
+        Log(LDEBUG, @"didDiscoverCharacteristicsForService:");
+        Log(LDEBUG, @"  svc: %@", [service.UUID uuidStr]);
     }
 
     // Loop through and discover descriptors for characteristics
-    [_servicesThatNeedDiscovered removeObject:service];
-    [_characteristicsThatNeedDiscovered addObjectsFromArray:service.characteristics];
+    [self.servicesToDiscover removeObject:service];
+    [self.characteristicsToDiscover addObjectsFromArray:service.characteristics];
     for (CBCharacteristic *c in [service characteristics])
     {
+        Log(LDEBUG, @"    chr: %@", [c.UUID uuidStr]);
         [peripheral discoverDescriptorsForCharacteristic:c];
     }
 }
@@ -959,19 +1228,28 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                                       error:(NSError *)error
 {
     if (error) {
-        NSLog(@"[FBP-iOS] didDiscoverDescriptorsForCharacteristic: [Error] %@", [error localizedDescription]);
-    } else if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] didDiscoverDescriptorsForCharacteristic");
+        Log(LERROR, @"didDiscoverDescriptorsForCharacteristic:");
+        Log(LERROR, @"  chr: %@", [characteristic.UUID uuidStr]);
+        Log(LERROR, @"  error: %@", [error localizedDescription]);
+    } else {
+        Log(LDEBUG, @"didDiscoverDescriptorsForCharacteristic:");
+        Log(LDEBUG, @"  chr: %@", [characteristic.UUID uuidStr]);
     }
 
-    [_characteristicsThatNeedDiscovered removeObject:characteristic];
-    if (_servicesThatNeedDiscovered.count > 0 || _characteristicsThatNeedDiscovered.count > 0)
+    // print descriptors
+    for (CBDescriptor *d in [characteristic descriptors])
     {
-        // Still discovering
-        return;
+        Log(LDEBUG, @"    desc: %@", [d.UUID uuidStr]);
     }
 
-    // Services
+    // have we finished discovering?
+    [self.characteristicsToDiscover removeObject:characteristic];
+    if (self.servicesToDiscover.count > 0 || self.characteristicsToDiscover.count > 0)
+    {
+        return; // Still discovering
+    }
+
+    // Add BmBluetoothServices to array
     NSMutableArray *services = [NSMutableArray new];
     for (CBService *s in [peripheral services])
     {
@@ -983,12 +1261,12 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
         @"remote_id":       [peripheral.identifier UUIDString],
         @"services":        services,
         @"success":         error == nil ? @(1) : @(0),
-        @"error_string":    error ? [error localizedDescription] : [NSNull null],
-        @"error_code":      error ? @(error.code) : [NSNull null],
+        @"error_string":    error ? [error localizedDescription] : @"success",
+        @"error_code":      error ? @(error.code) : @(0),
     };
 
     // Send updated tree
-    [_methodChannel invokeMethod:@"OnDiscoverServicesResult" arguments:response];
+    [self.methodChannel invokeMethod:@"OnDiscoveredServices" arguments:response];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral
@@ -996,9 +1274,12 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                                     error:(NSError *)error
 {
     if (error) {
-        NSLog(@"[FBP-iOS] didDiscoverIncludedServicesForService: [Error] %@", [error localizedDescription]);
-    } else if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] didDiscoverIncludedServicesForService");
+        Log(LERROR, @"didDiscoverIncludedServicesForService:");
+        Log(LERROR, @"  svc: %@", [service.UUID uuidStr]);
+        Log(LERROR, @"  error: %@", [error localizedDescription]);
+    } else {
+        Log(LDEBUG, @"didDiscoverIncludedServicesForService:");
+        Log(LDEBUG, @"  svc: %@", [service.UUID uuidStr]);
     }
 
     // Loop through and discover characteristics for secondary services
@@ -1012,55 +1293,73 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
                               error:(NSError *)error
 {
-    // this callback is called for notifications as well as manual reads
+    // this function is called on notifications as well as manual reads
     if (error) {
-        NSLog(@"[FBP-iOS] didUpdateValueForCharacteristic: [Error] %@", [error localizedDescription]);
-    } else if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] didUpdateValueForCharacteristic %@", [peripheral.identifier UUIDString]);
+        Log(LERROR, @"didUpdateValueForCharacteristic:");
+        Log(LERROR, @"  chr: %@", [characteristic.UUID uuidStr]);
+        Log(LERROR, @"  error: %@", [error localizedDescription]);
+    } else {
+        Log(LDEBUG, @"didUpdateValueForCharacteristic:");
+        Log(LDEBUG, @"  chr: %@", [characteristic.UUID uuidStr]);
     }
 
     ServicePair *pair = [self getServicePair:peripheral characteristic:characteristic];
 
-    // See BmOnCharacteristicReceived
+    // See BmCharacteristicData
     NSDictionary* result = @{
         @"remote_id":               [peripheral.identifier UUIDString],
-        @"service_uuid":            [pair.primary.UUID fullUUIDString],
-        @"secondary_service_uuid":  pair.secondary ? [pair.secondary.UUID fullUUIDString] : [NSNull null],
-        @"characteristic_uuid":     [characteristic.UUID fullUUIDString],
+        @"service_uuid":            [pair.primary.UUID uuidStr],
+        @"secondary_service_uuid":  pair.secondary ? [pair.secondary.UUID uuidStr] : [NSNull null],
+        @"characteristic_uuid":     [characteristic.UUID uuidStr],
         @"value":                   [self convertDataToHex:characteristic.value],
         @"success":                 error == nil ? @(1) : @(0),
-        @"error_string":            error ? [error localizedDescription] : [NSNull null],
-        @"error_code":              error ? @(error.code) : [NSNull null],
+        @"error_string":            error ? [error localizedDescription] : @"success",
+        @"error_code":              error ? @(error.code) : @(0),
     };
 
-    [_methodChannel invokeMethod:@"OnCharacteristicReceived" arguments:result];
+    [self.methodChannel invokeMethod:@"OnCharacteristicReceived" arguments:result];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral
     didWriteValueForCharacteristic:(CBCharacteristic *)characteristic
                              error:(NSError *)error
 {
-    // this callback is called after write() is explicitly called
+    // Note: this callback is only called for writeWithResponse
     if (error) {
-        NSLog(@"[FBP-iOS] didWriteValueForCharacteristic: [Error] %@", [error localizedDescription]);
-    } else if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] didWriteValueForCharacteristic");
+        Log(LERROR, @"didWriteValueForCharacteristic:");
+        Log(LERROR, @"  chr: %@", [characteristic.UUID uuidStr]);
+        Log(LERROR, @"  error: %@", [error localizedDescription]);
+    } else {
+        Log(LDEBUG, @"didWriteValueForCharacteristic:");
+        Log(LDEBUG, @"  chr: %@", [characteristic.UUID uuidStr]);
     }
 
     ServicePair *pair = [self getServicePair:peripheral characteristic:characteristic];
 
-    // See BmOnCharacteristicWritten
+    // for convenience
+    NSString *remoteId = [peripheral.identifier UUIDString];
+    NSString *serviceUuid = [pair.primary.UUID uuidStr];
+    NSString *secondaryServiceUuid = pair.secondary ? [pair.secondary.UUID uuidStr] : nil;
+    NSString *characteristicUuid = [characteristic.UUID uuidStr];
+
+    // what data did we write?
+    NSString *key = [NSString stringWithFormat:@"%@:%@:%@", remoteId, serviceUuid, characteristicUuid];
+    NSString *value = self.writeChrs[key] ? self.writeChrs[key] : @"";
+    [self.writeChrs removeObjectForKey:key];
+
+    // See BmCharacteristicData
     NSDictionary* result = @{
-        @"remote_id":               [peripheral.identifier UUIDString],
-        @"service_uuid":            [pair.primary.UUID fullUUIDString],
-        @"secondary_service_uuid":  pair.secondary ? [pair.secondary.UUID fullUUIDString] : [NSNull null],
-        @"characteristic_uuid":     [characteristic.UUID fullUUIDString],
+        @"remote_id":               remoteId,
+        @"service_uuid":            serviceUuid,
+        @"secondary_service_uuid":  pair.secondary ? secondaryServiceUuid : [NSNull null],
+        @"characteristic_uuid":     characteristicUuid,
+        @"value":                   value,
         @"success":                 @(error == nil),
-        @"error_string":            error ? [error localizedDescription] : [NSNull null],
-        @"error_code":              error ? @(error.code) : [NSNull null],
+        @"error_string":            error ? [error localizedDescription] : @"success",
+        @"error_code":              error ? @(error.code) : @(0),
     };
 
-    [_methodChannel invokeMethod:@"OnCharacteristicWritten" arguments:result];
+    [self.methodChannel invokeMethod:@"OnCharacteristicWritten" arguments:result];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral
@@ -1068,9 +1367,12 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                                           error:(NSError *)error
 {
     if (error) {
-        NSLog(@"[FBP-iOS] didUpdateNotificationStateForCharacteristic: [Error] %@", [error localizedDescription]);
-    } else if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] didUpdateNotificationStateForCharacteristic");
+        Log(LERROR, @"didUpdateNotificationStateForCharacteristic:");
+        Log(LERROR, @"  chr: %@", [characteristic.UUID uuidStr]);
+        Log(LERROR, @"  error: %@", [error localizedDescription]);
+    } else {
+        Log(LDEBUG, @"didUpdateNotificationStateForCharacteristic:");
+        Log(LDEBUG, @"  chr: %@", [characteristic.UUID uuidStr]);
     }
 
     ServicePair *pair = [self getServicePair:peripheral characteristic:characteristic];
@@ -1088,21 +1390,20 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
         if (characteristic.isNotifying && supportsNotify) {value = 1;} // '1' comes from the CCCD BLE spec
     }
     
-    // See BmOnDescriptorResponse
+    // See BmDescriptorData
     NSDictionary* result = @{
-        @"type":                   @(1), // type: write
         @"remote_id":              [peripheral.identifier UUIDString],
-        @"service_uuid":           [pair.primary.UUID fullUUIDString],
-        @"secondary_service_uuid": pair.secondary ? [pair.secondary.UUID fullUUIDString] : [NSNull null],
-        @"characteristic_uuid":    [characteristic.UUID fullUUIDString],
-        @"descriptor_uuid":        @"00002902-0000-1000-8000-00805f9b34fb", // uuid of CCCD
+        @"service_uuid":           [pair.primary.UUID uuidStr],
+        @"secondary_service_uuid": pair.secondary ? [pair.secondary.UUID uuidStr] : [NSNull null],
+        @"characteristic_uuid":    [characteristic.UUID uuidStr],
+        @"descriptor_uuid":        CCCD,
         @"value":                  [self convertDataToHex:[NSData dataWithBytes:&value length:sizeof(value)]],
         @"success":                @(error == nil),
-        @"error_string":           error ? [error localizedDescription] : [NSNull null],
-        @"error_code":             error ? @(error.code) : [NSNull null],
+        @"error_string":           error ? [error localizedDescription] : @"success",
+        @"error_code":             error ? @(error.code) : @(0),
     };
 
-    [_methodChannel invokeMethod:@"OnDescriptorResponse" arguments:result];
+    [self.methodChannel invokeMethod:@"OnDescriptorWritten" arguments:result];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral
@@ -1110,30 +1411,34 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                           error:(NSError *)error
 {
     if (error) {
-        NSLog(@"[FBP-iOS] didUpdateValueForDescriptor: [Error] %@", [error localizedDescription]);
-    } else if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] didUpdateValueForDescriptor");
+        Log(LERROR, @"didUpdateValueForDescriptor:");
+        Log(LERROR, @"  chr: %@", [descriptor.characteristic.UUID uuidStr]);
+        Log(LERROR, @"  desc: %@", [descriptor.UUID uuidStr]);
+        Log(LERROR, @"  error: %@", [error localizedDescription]);
+    } else {
+        Log(LDEBUG, @"didUpdateValueForDescriptor:");
+        Log(LDEBUG, @"  chr: %@", [descriptor.characteristic.UUID uuidStr]);
+        Log(LDEBUG, @"  desc: %@", [descriptor.UUID uuidStr]);
     }
 
     ServicePair *pair = [self getServicePair:peripheral characteristic:descriptor.characteristic];
 
     NSData* data = [self descriptorToData:descriptor];
     
-    // See BmOnDescriptorResponse
+    // See BmDescriptorData
     NSDictionary* result = @{
-        @"type":                   @(0), // type: read
         @"remote_id":              [peripheral.identifier UUIDString],
-        @"service_uuid":           [pair.primary.UUID fullUUIDString],
-        @"secondary_service_uuid": pair.secondary ? [pair.secondary.UUID fullUUIDString] : [NSNull null],
-        @"characteristic_uuid":    [descriptor.characteristic.UUID fullUUIDString],
-        @"descriptor_uuid":        [descriptor.UUID fullUUIDString],
+        @"service_uuid":           [pair.primary.UUID uuidStr],
+        @"secondary_service_uuid": pair.secondary ? [pair.secondary.UUID uuidStr] : [NSNull null],
+        @"characteristic_uuid":    [descriptor.characteristic.UUID uuidStr],
+        @"descriptor_uuid":        [descriptor.UUID uuidStr],
         @"value":                  [self convertDataToHex:data],
         @"success":                @(error == nil),
-        @"error_string":           error ? [error localizedDescription] : [NSNull null],
-        @"error_code":             error ? @(error.code) : [NSNull null],
+        @"error_string":           error ? [error localizedDescription] : @"success",
+        @"error_code":             error ? @(error.code) : @(0),
     };
 
-    [_methodChannel invokeMethod:@"OnDescriptorResponse" arguments:result];
+    [self.methodChannel invokeMethod:@"OnDescriptorRead" arguments:result];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral
@@ -1141,39 +1446,77 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                          error:(NSError *)error
 {
     if (error) {
-        NSLog(@"[FBP-iOS] didWriteValueForDescriptor: [Error] %@", [error localizedDescription]);
-    } else if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] didWriteValueForDescriptor");
+        Log(LERROR, @"didWriteValueForDescriptor:");
+        Log(LERROR, @"  chr: %@", [descriptor.characteristic.UUID uuidStr]);
+        Log(LERROR, @"  desc: %@", [descriptor.UUID uuidStr]);
+        Log(LERROR, @"  error: %@", [error localizedDescription]);
+    } else {
+        Log(LDEBUG, @"didWriteValueForDescriptor:");
+        Log(LDEBUG, @"  chr: %@", [descriptor.characteristic.UUID uuidStr]);
+        Log(LDEBUG, @"  desc: %@", [descriptor.UUID uuidStr]);
     }
 
     ServicePair *pair = [self getServicePair:peripheral characteristic:descriptor.characteristic];
 
-    NSData* data = [self descriptorToData:descriptor];
+    // for convenience
+    NSString *remoteId = [peripheral.identifier UUIDString];
+    NSString *serviceUuid = [pair.primary.UUID uuidStr];
+    NSString *secondaryServiceUuid = pair.secondary ? [pair.secondary.UUID uuidStr] : nil;
+    NSString *characteristicUuid = [descriptor.characteristic.UUID uuidStr];
+    NSString *descriptorUuid = [descriptor.UUID uuidStr];
+
+    // what data did we write?
+    NSString *key = [NSString stringWithFormat:@"%@:%@:%@:%@", remoteId, serviceUuid, characteristicUuid, descriptorUuid];
+    NSString *value = self.writeChrs[key] ? self.writeChrs[key] : @"";
+    [self.writeDescs removeObjectForKey:key];
     
-    // See BmOnDescriptorResponse
+    // See BmDescriptorData
     NSDictionary* result = @{
-        @"type":                   @(1), // type: write
-        @"remote_id":              [peripheral.identifier UUIDString],
-        @"service_uuid":           [pair.primary.UUID fullUUIDString],
-        @"secondary_service_uuid": pair.secondary ? [pair.secondary.UUID fullUUIDString] : [NSNull null],
-        @"characteristic_uuid":    [descriptor.characteristic.UUID fullUUIDString],
-        @"descriptor_uuid":        [descriptor.UUID fullUUIDString],
-        @"value":                  [self convertDataToHex:data],
+        @"remote_id":              remoteId,
+        @"service_uuid":           serviceUuid,
+        @"secondary_service_uuid": pair.secondary ? secondaryServiceUuid : [NSNull null],
+        @"characteristic_uuid":    characteristicUuid,
+        @"descriptor_uuid":        descriptorUuid,
+        @"value":                  value,
         @"success":                @(error == nil),
-        @"error_string":           error ? [error localizedDescription] : [NSNull null],
-        @"error_code":             error ? @(error.code) : [NSNull null],
+        @"error_string":           error ? [error localizedDescription] : @"success",
+        @"error_code":             error ? @(error.code) : @(0),
     };
 
-    [_methodChannel invokeMethod:@"OnDescriptorResponse" arguments:result];
+    [self.methodChannel invokeMethod:@"OnDescriptorWritten" arguments:result];
+}
+
+- (void)peripheralDidUpdateName:(CBPeripheral *)peripheral
+{
+    Log(LDEBUG, @"didUpdateName: %@", [peripheral name]);
+
+    // See BmNameChanged
+    NSDictionary* result = @{
+        @"remote_id": [[peripheral identifier] UUIDString],
+        @"name":      [peripheral name] ? [peripheral name] : [NSNull null],
+    };
+
+    [self.methodChannel invokeMethod:@"OnNameChanged" arguments:result];
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral 
+    didModifyServices:(NSArray<CBService *> *)invalidatedServices
+{
+    Log(LDEBUG, @"didModifyServices");
+
+    NSDictionary* result = [self bmBluetoothDevice:peripheral];
+
+    [self.methodChannel invokeMethod:@"OnServicesReset" arguments:result];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral
     didReadRSSI:(NSNumber *)rssi error:(NSError *)error
 {
     if (error) {
-        NSLog(@"[FBP-iOS] didReadRSSI: [Error] %@", [error localizedDescription]);
-    } else if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] didReadRSSI");
+        Log(LERROR, @"didReadRSSI:");
+        Log(LERROR, @"  error: %@", [error localizedDescription]);
+    } else {
+        Log(LDEBUG, @"didReadRSSI: %@", rssi);
     }
 
     // See BmReadRssiResult
@@ -1181,18 +1524,16 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
         @"remote_id":       [peripheral.identifier UUIDString],
         @"rssi":            rssi,
         @"success":         @(error == nil),
-        @"error_string":    error ? [error localizedDescription] : [NSNull null],
-        @"error_code":      error ? @(error.code) : [NSNull null],
+        @"error_string":    error ? [error localizedDescription] : @"success",
+        @"error_code":      error ? @(error.code) : @(0),
     };
 
-    [_methodChannel invokeMethod:@"OnReadRssiResult" arguments:result];
+    [self.methodChannel invokeMethod:@"OnReadRssi" arguments:result];
 }
 
 - (void)peripheralIsReadyToSendWriteWithoutResponse:(CBPeripheral *)peripheral
 {
-    if (_logLevel >= debug) {
-        NSLog(@"[FBP-iOS] peripheralIsReadyToSendWriteWithoutResponse");
-    }
+    Log(LVERBOSE, @"peripheralIsReadyToSendWriteWithoutResponse");
 
     // peripheralIsReadyToSendWriteWithoutResponse is used to signal
     // when a 'writeWithoutResponse' request has completed. 
@@ -1201,7 +1542,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     
     NSDictionary *request = [self.didWriteWithoutResponse objectForKey:[[peripheral identifier] UUIDString]];
     if (request == nil) {
-        NSLog(@"[FBP-iOS] didWriteWithoutResponse is null");
+        Log(LERROR, @"didWriteWithoutResponse is null");
         return;
     }
     
@@ -1218,24 +1559,25 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                                                secondaryServiceId:secondaryServiceUuid
                                                             error:&error];
     if (characteristic == nil) {
-        NSLog(@"Error: peripheralIsReadyToSendWriteWithoutResponse: %@", [error localizedDescription]);
+        Log(LERROR, @"Error: peripheralIsReadyToSendWriteWithoutResponse: %@", [error localizedDescription]);
         return;
     }
 
     ServicePair *pair = [self getServicePair:peripheral characteristic:characteristic];
 
-    // See BmOnCharacteristicWritten
+    // See BmCharacteristicData
     NSDictionary* result = @{
         @"remote_id":               [peripheral.identifier UUIDString],
-        @"service_uuid":            [pair.primary.UUID fullUUIDString],
-        @"secondary_service_uuid":  pair.secondary ? [pair.secondary.UUID fullUUIDString] : [NSNull null],
-        @"characteristic_uuid":     [characteristic.UUID fullUUIDString],
+        @"service_uuid":            [pair.primary.UUID uuidStr],
+        @"secondary_service_uuid":  pair.secondary ? [pair.secondary.UUID uuidStr] : [NSNull null],
+        @"characteristic_uuid":     [characteristic.UUID uuidStr],
+        @"value":                   [self convertDataToHex:characteristic.value],
         @"success":                 @(error == nil),
-        @"error_string":            error ? [error localizedDescription] : [NSNull null],
-        @"error_code":              error ? @(error.code) : [NSNull null],
+        @"error_string":            error ? [error localizedDescription] : @"success",
+        @"error_code":              error ? @(error.code) : @(0),
     };
 
-    [_methodChannel invokeMethod:@"OnCharacteristicWritten" arguments:result];
+    [self.methodChannel invokeMethod:@"OnCharacteristicWritten" arguments:result];
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -1266,11 +1608,11 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     return 0;
 }
 
-- (NSDictionary *)bmScanResult:(CBPeripheral *)peripheral
+- (NSDictionary *)bmScanAdvertisement:(NSString*)remoteId
              advertisementData:(NSDictionary<NSString *, id> *)advertisementData
                           RSSI:(NSNumber *)RSSI
 {
-    NSString     *localName      = advertisementData[CBAdvertisementDataLocalNameKey];
+    NSString     *advName        = advertisementData[CBAdvertisementDataLocalNameKey];
     NSNumber     *connectable    = advertisementData[CBAdvertisementDataIsConnectable];
     NSNumber     *txPower        = advertisementData[CBAdvertisementDataTxPowerLevelKey];
     NSData       *manufData      = advertisementData[CBAdvertisementDataManufacturerDataKey];
@@ -1299,7 +1641,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     if (serviceUuids != nil) {
         NSMutableArray *mutable = [[NSMutableArray alloc] init];
         for (CBUUID *uuid in serviceUuids) {
-            [mutable addObject:uuid.UUIDString];
+            [mutable addObject:[uuid uuidStr]];
         }
         serviceUuidsB = [mutable copy];
     }
@@ -1311,35 +1653,38 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
         NSMutableDictionary *mutable = [[NSMutableDictionary alloc] init];
         for (CBUUID *uuid in serviceData) {
             NSString* hex = [self convertDataToHex:serviceData[uuid]];
-            [mutable setObject:hex forKey:uuid.UUIDString];
+            [mutable setObject:hex forKey:[uuid uuidStr]];
         }
         serviceDataB = [mutable copy];
     }
 
-    // See BmAdvertisementData
-    NSDictionary* advData = @{
-        @"local_name":         localName     ? localName     : [NSNull null],
-        @"connectable":        connectable   ? connectable   : @(0),
-        @"tx_power_level":     txPower       ? txPower       : [NSNull null],
-        @"manufacturer_data":  manufDataB    ? manufDataB    : [NSNull null],
-        @"service_uuids":      serviceUuidsB ? serviceUuidsB : [NSNull null],
-        @"service_data":       serviceDataB  ? serviceDataB  : [NSNull null],
-    };
-  
-    // See BmScanResult
-    return @{
-        @"device":             [self bmBluetoothDevice:peripheral],
-        @"advertisement_data": advData,
-        @"rssi":               RSSI ? RSSI : [NSNull null],
-    };
+    // platform name
+    NSString* platformName = nil;
+    if ([self.knownPeripherals objectForKey:remoteId] != nil) {
+        CBPeripheral* peripheral = [self.knownPeripherals objectForKey:remoteId];
+        platformName = peripheral.name;
+    }
+
+    // See BmScanAdvertisement
+    // perf: only add keys if they exist
+    NSMutableDictionary *map = [NSMutableDictionary dictionary];
+    if (remoteId)              {map[@"remote_id"] = remoteId;}
+    if (platformName)          {map[@"platform_name"] = platformName;}
+    if (advName)               {map[@"adv_name"] = advName;}
+    if (connectable.boolValue) {map[@"connectable"] = connectable;}
+    if (txPower)               {map[@"tx_power_level"] = txPower;}
+    if (manufDataB)            {map[@"manufacturer_data"] = manufDataB;}
+    if (serviceUuidsB)         {map[@"service_uuids"] = serviceUuidsB;}
+    if (serviceDataB)          {map[@"service_data"] = serviceDataB;}
+    if (RSSI)                  {map[@"rssi"] = RSSI;}
+    return map;
 }
 
 - (NSDictionary *)bmBluetoothDevice:(CBPeripheral *)peripheral
 {
     return @{
-        @"remote_id":   [[peripheral identifier] UUIDString],
-        @"local_name":  [peripheral name] ? [peripheral name] : [NSNull null],
-        @"type":        @(2), // hardcode to BLE. Does iOS differentiate?
+        @"remote_id":       [[peripheral identifier] UUIDString],
+        @"platform_name":   [peripheral name] ? [peripheral name] : [NSNull null],
     };
 }
 
@@ -1376,7 +1721,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     // See BmBluetoothService
     return @{
         @"remote_id":           [peripheral.identifier UUIDString],
-        @"service_uuid":        [service.UUID fullUUIDString],
+        @"service_uuid":        [service.UUID uuidStr],
         @"characteristics":     characteristicProtos,
         @"is_primary":          @([service isPrimary]),
         @"included_services":   includedServicesProtos,
@@ -1387,26 +1732,19 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
                             characteristic:(CBCharacteristic *)characteristic
 {
     // descriptors
-    NSMutableArray *descriptorProtos = [NSMutableArray new];
+    NSMutableArray *descriptors = [NSMutableArray new];
     for (CBDescriptor *d in [characteristic descriptors])
     {
-        NSData* data = nil;
-        if (d.value) {
-            int value = [d.value intValue];
-            data = [NSData dataWithBytes:&value length:sizeof(value)];
-        }
-    
         // See: BmBluetoothDescriptor
         NSDictionary* desc = @{
             @"remote_id":              [peripheral.identifier UUIDString],
-            @"service_uuid":           [d.characteristic.service.UUID fullUUIDString],
+            @"service_uuid":           [d.characteristic.service.UUID uuidStr],
             @"secondary_service_uuid": [NSNull null],
-            @"characteristic_uuid":    [d.characteristic.UUID fullUUIDString],
-            @"descriptor_uuid":        [d.UUID fullUUIDString],
-            @"value":                  [self convertDataToHex:data],
+            @"characteristic_uuid":    [d.characteristic.UUID uuidStr],
+            @"descriptor_uuid":        [d.UUID uuidStr],
         };
 
-        [descriptorProtos addObject:desc];
+        [descriptors addObject:desc];
     }
 
     ServicePair *pair = [self getServicePair:peripheral characteristic:characteristic];
@@ -1430,12 +1768,11 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     // See BmBluetoothCharacteristic
     return @{
         @"remote_id":              [peripheral.identifier UUIDString],
-        @"service_uuid":           [pair.primary.UUID fullUUIDString],
-        @"secondary_service_uuid": pair.secondary ? [pair.secondary.UUID fullUUIDString] : [NSNull null],
-        @"characteristic_uuid":    [characteristic.UUID fullUUIDString],
-        @"descriptors":            descriptorProtos,
+        @"service_uuid":           [pair.primary.UUID uuidStr],
+        @"secondary_service_uuid": pair.secondary ? [pair.secondary.UUID uuidStr] : [NSNull null],
+        @"characteristic_uuid":    [characteristic.UUID uuidStr],
+        @"descriptors":            descriptors,
         @"properties":             propsMap,
-        @"value":                  [self convertDataToHex:characteristic.value],
     };
 }
 
@@ -1445,6 +1782,158 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
 // ██    ██    ██     ██  ██       ███████ 
 // ██    ██    ██     ██  ██            ██ 
 //  ██████     ██     ██  ███████  ███████ 
+
+- (bool)isAdapterOn
+{
+    return self.centralManager.state == CBManagerStatePoweredOn;
+}
+
+- (NSInteger)scanCountIncrement:(NSString *)remoteId {
+    if (!self.scanCounts[remoteId]) {self.scanCounts[remoteId] = @(0);}
+    NSInteger count = [self.scanCounts[remoteId] integerValue];
+    self.scanCounts[remoteId] = @(count + 1);
+    return count;
+}
+
+- (BOOL)filterKeywords:(NSArray<NSString *> *)keywords
+                target:(NSString *)target
+{
+    if (keywords.count == 0) {
+        return YES;
+    }
+    if (target == nil) {
+        return NO;
+    }
+    for (NSString *k in keywords) {
+        if ([target rangeOfString:k].location != NSNotFound) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)filterNames:(NSArray<NSString *> *)names
+                target:(NSString *)target
+{
+    if (names.count == 0) {
+        return YES;
+    }
+    if (target == nil) {
+        return NO;
+    }
+    for (NSString *n in names) {
+        if ([target isEqualToString:n]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)filterRemoteIds:(NSArray<NSString *> *)remoteIds
+                target:(NSString *)target
+{
+    if (remoteIds.count == 0) {
+        return YES;
+    }
+    if (target == nil) {
+        return NO;
+    }
+    for (NSString *r in remoteIds) {
+        if ([[target lowercaseString] isEqualToString:[r lowercaseString]]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)filterServiceData:(NSArray<NSDictionary*>*)filters
+                       sd:(NSDictionary *)sd
+{
+    if (filters.count == 0) {
+        return YES;
+    }
+    if (sd == nil || sd.count == 0) {
+        return NO;
+    }
+    for (NSDictionary *f in filters) {
+        NSString *service                   = f[@"service"];
+        NSData *data = [self convertHexToData:f[@"data"]];
+        NSData *mask = [self convertHexToData:f[@"mask"]];
+
+        // mask
+        if (mask.length == 0 && data.length > 0) {
+            uint8_t *bytes = malloc(data.length);
+            memset(bytes, 1, data.length); 
+            mask = [NSData dataWithBytesNoCopy:bytes length:data.length freeWhenDone:YES];
+        }
+
+        // found a match?
+        for (CBUUID *uuid in sd) {
+            NSString* a = [uuid uuidStr];
+            NSString* b = [service lowercaseString];
+            if([a isEqualToString:b] && [self findData:data inData:sd[uuid] usingMask:mask]) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
+- (BOOL)filterMsd:(NSArray<NSDictionary*>*)filters
+              msd:(NSData *)msd
+{
+    if (filters.count == 0) {
+        return YES;
+    }
+    if (msd == nil || msd.length == 0) {
+        return NO;
+    }
+    for (NSDictionary *f in filters) {
+        NSNumber *manufacturerId            = f[@"manufacturer_id"];
+        NSData *data = [self convertHexToData:f[@"data"]];
+        NSData *mask = [self convertHexToData:f[@"mask"]];
+
+        // first 2 bytes are manufacturer id
+        unsigned short mId = 0;
+        [msd getBytes:&mId length:2];
+
+        // mask
+        if (mask.length == 0 && data.length > 0) {
+            uint8_t *bytes = malloc(data.length);
+            memset(bytes, 1, data.length); 
+            mask = [NSData dataWithBytesNoCopy:bytes length:data.length freeWhenDone:YES];
+        }
+
+        // trim off first 2 bytes
+        NSData* trim = [msd subdataWithRange:NSMakeRange(2, msd.length - 2)];
+
+        // manufacturer id & data
+        if(mId == [manufacturerId integerValue] && [self findData:data inData:trim usingMask:mask]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)findData:(NSData *)find inData:(NSData *)data usingMask:(NSData *)mask {
+    // Ensure find & mask are same length
+    if ([find length] != [mask length]) {
+        return NO;
+    }
+    
+    const uint8_t *bFind = [find bytes];
+    const uint8_t *bData = [data bytes];
+    const uint8_t *bMask = [mask bytes];
+    
+    for (NSUInteger i = 0; i < [find length]; i++) {
+        // Perform bitwise AND with mask and then compare
+        if ((bFind[i] & bMask[i]) != (bData[i] & bMask[i])) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
 
 - (NSString *)convertDataToHex:(NSData *)data 
 {
@@ -1498,20 +1987,43 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
 - (void)log:(LogLevel)level
      format:(NSString *)format, ...
 {
-    if (level <= _logLevel)
+    if (level <= self.logLevel)
     {
         va_list args;
         va_start(args, format);
-        //    NSString* formattedMessage = [[NSString alloc] initWithFormat:format arguments:args];
-        NSLog(format, args);
+        NSString* msg = [[NSString alloc] initWithFormat:format arguments:args];
+        NSLog(@"%@", msg);
         va_end(args);
     }
 }
 
+- (int)getMaxPayload:(CBPeripheral *)peripheral forType:(CBCharacteristicWriteType)writeType allowLongWrite:(bool)allowLongWrite
+{
+    // if allowLongWrite is disabled, we can only write up to MTU-3
+    if (allowLongWrite == false) {
+        writeType = CBCharacteristicWriteWithoutResponse;
+    }
+
+    // For withoutResponse, or allowLongWrite == false
+    //   iOS returns MTU-3. In theory, MTU can be as high as 65535 (16-bit).
+    //   I've seen iOS return 524 for this value. But typically it is lower.
+    //   The MTU negotiated by the OS depends on iOS version.
+    //
+    // For withResponse, 
+    //   iOS typically returns a constant value of 512, regardless of MTU. 
+    //   This is because iOS will autosplit large writes
+    int maxForType = (int) [peripheral maximumWriteValueLengthForType:writeType];
+
+    // In order to operate the same on both iOS & Android, we enforce a 
+    // maximum of 512, which is the same as android. This is also the
+    // maxAttrLen of a characteristic in the BLE specification.
+    return MIN(maxForType, 512);
+}
+
 - (int)getMtu:(CBPeripheral *)peripheral
 {
-    int maxPayload = (int) [peripheral maximumWriteValueLengthForType:CBCharacteristicWriteWithoutResponse];
-    return maxPayload+3; // +3 is part of the BLE spec
+    int maxPayload = [self getMaxPayload:peripheral forType:CBCharacteristicWriteWithoutResponse allowLongWrite:false];
+    return maxPayload + 3; // ATT overhead
 }
 
 - (ServicePair *)getServicePair:(CBPeripheral *)peripheral
@@ -1533,7 +2045,7 @@ typedef NS_ENUM(NSUInteger, LogLevel) {
     {
         for (CBService *secondary in [primary includedServices])
         {
-            if ([[secondary.UUID UUIDString] isEqualToString:[service.UUID UUIDString]])
+            if ([secondary.UUID isEqual:service.UUID])
             {
                 result.primary = primary;
                 result.secondary = secondary;

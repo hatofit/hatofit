@@ -37,24 +37,28 @@ const ExerciseSchema = new Schema(
 );
 export const Exercise = mongoose.model("Exercise", ExerciseSchema);
 
-export const CompanySchema = new Schema({
-  _id: String,
-  name: String,
-  meta: {
-    description: String,
-    address: String,
+export const CompanySchema = new Schema(
+  {
+    _id: String,
+    name: String,
+    meta: {
+      description: String,
+      address: String,
+    },
+    admins: [
+      {
+        userId: String,
+        role: String,
+        isCreated: Boolean,
+      },
+    ],
   },
-  admins: [{
-    userId: String,
-    role: String,
-    isCreated: Boolean,
-  }]
-}, {
-  typeKey: "$type",
-  timestamps: true,
-})
+  {
+    typeKey: "$type",
+    timestamps: true,
+  }
+);
 export const Company = mongoose.model("Company", CompanySchema);
-
 
 const UserSchema = new Schema(
   {
@@ -75,7 +79,8 @@ const UserSchema = new Schema(
       heightUnits: String,
     },
     resetPasswordCode: String,
-
+    requetDelete: Boolean,
+    deleteDate: Date,
     // others
     linkedCompanyId: String,
   },
@@ -108,6 +113,8 @@ const SessionSchema = new Schema(
           {
             type: String,
             identifier: String,
+            brand: String,
+            model: String,
             value: Schema.Types.Mixed,
           },
         ],

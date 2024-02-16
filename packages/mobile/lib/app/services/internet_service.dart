@@ -60,11 +60,12 @@ class InternetService extends GetConnect {
     }
   }
 
-  Future<List<ExerciseModel>?> fetchExercises() async {
-    final response = await get(
-      _base + _exercise,
-    );
+  Future<List<ExerciseModel>?> fetchExercises({required bool showFromCompany}) async {
     try {
+      final response = await get(
+        "$_base$_exercise?showFromCompany=$showFromCompany",
+      );
+      print(response.body);
       if (response.statusCode == 200) {
         final List<dynamic> jsonResponse = response.body['exercises'];
         StorageService().saveToJSON('exercise/exercise', jsonResponse);
