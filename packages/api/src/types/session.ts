@@ -3,6 +3,8 @@ import { z } from "zod";
 export const SessionDataItemDeviceSchema = z.object({
   type: z.string(),
   identifier: z.string(),
+  brand: z.string(),
+  model: z.string(),
   value: z.any(),
 });
 

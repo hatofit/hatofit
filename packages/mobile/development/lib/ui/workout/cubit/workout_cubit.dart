@@ -5,12 +5,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
+import 'package:hatofit/utils/services/services.dart';
 import 'package:polar/polar.dart';
 
 part 'workout_cubit.freezed.dart';
 part 'workout_state.dart';
 
-class WorkoutCubit extends Cubit<WorkoutState> {
+class WorkoutCubit extends Cubit<WorkoutState> with VibratorMixin {
   final ExerciseAllUsecase _exercisesAllUsecase;
   final ReadUserUsecase _readUserUsecase;
   final CreateSessionUsecase _createSessionUsecase;
@@ -65,6 +66,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
         hrPecentage: 0,
       );
       isParserDone = true;
+      vibrateTwice();
       return false;
     } else {
       return true;
@@ -126,6 +128,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     hrPecentage: 0,
   );
   bool isParserDone = true;
+  bool isAlreadyVibrating = false;
 
   Future<void> receiveStreamData({
     PolarHrSample? hr,
@@ -155,7 +158,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
 
       if (isParserDone == true) {
         isParserDone = false;
-        final parser = ModelToEntityIsolateParser(ses, (res) {
+        final parser = IParser(ses, (res) {
           final WorkoutSession s = res as WorkoutSession;
           final hr = s.hrSamples;
           final hrLength = hr?.length ?? 0;
@@ -245,8 +248,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
               calories = calories * 4.184;
             }
           }
-          final usrMaxHr = 208 - (0.7 * age);
-          final hrPecentage = ((lastHr / usrMaxHr) * 100).round();
+          final hrPecentage = ((lastHr / (208 - (0.7 * age))) * 100).round();
           // final hrPecentage = 90;
           HrZoneType hrZoneType = HrZoneType.moderate;
           if (hrPecentage < 50) {
@@ -284,6 +286,10 @@ class WorkoutCubit extends Cubit<WorkoutState> {
             hrZoneType: res.hrZoneType,
           );
           isParserDone = true;
+          if (res.hrZoneType == HrZoneType.max && !isAlreadyVibrating) {
+            isAlreadyVibrating = true;
+            vibrateTwice();
+          }
         }
       }
     }

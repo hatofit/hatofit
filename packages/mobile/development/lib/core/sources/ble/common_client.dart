@@ -105,7 +105,7 @@ class CommonClient with FirebaseCrashLogger {
     }
   }
 
-  Future<Either<Failure, List<int>>?> readCharacteristic(
+  Future<Either<Failure, List<int>>> readCharacteristic(
     BluetoothCharacteristic characteristic, {
     int timeout = 15,
   }) async {

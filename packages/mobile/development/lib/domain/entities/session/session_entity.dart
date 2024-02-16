@@ -22,6 +22,7 @@ class SessionEntity with _$SessionEntity {
     @HiveField(6) List<SessionTimelineEntity>? timelines,
     @HiveField(7) List<SessionDataItemEntity>? data,
   }) = _SessionEntity;
+
 }
 
 @freezed
@@ -59,6 +60,8 @@ class SessionDataItemDeviceEntity with _$SessionDataItemDeviceEntity {
     @HiveField(0) String? type,
     @HiveField(1) String? identifier,
     @HiveField(2) List<Map<String, dynamic>>? value,
+    @HiveField(3) String? brand,
+    @HiveField(4) String? model,
   }) = _SessionDataItemDeviceEntity;
 }
 
@@ -75,4 +78,4 @@ void regisSession() {
   if (!Hive.isAdapterRegistered(BoxTypeId.sessionDataItemDeviceEntityIndex)) {
     Hive.registerAdapter(SessionDataItemDeviceEntityAdapter());
   }
-} 
+}

@@ -99,6 +99,12 @@ abstract class Strings {
   /// **'Activity'**
   String get activity;
 
+  /// No description provided for @activityDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Activity Details'**
+  String get activityDetails;
+
   /// No description provided for @activityTrends.
   ///
   /// In en, this message translates to:
@@ -128,12 +134,6 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'April'**
   String get april;
-
-  /// No description provided for @identifier.
-  ///
-  /// In en, this message translates to:
-  /// **'Identifier'**
-  String get identifier;
 
   /// No description provided for @areYouSureYouWantToEndWorkout.
   ///
@@ -165,29 +165,29 @@ abstract class Strings {
   /// **'Body Weight'**
   String get bodyWeight;
 
-  /// No description provided for @date.
-  ///
-  /// In en, this message translates to:
-  /// **'Date'**
-  String get date;
-
-  /// No description provided for @activityDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Activity Details'**
-  String get activityDetails;
-
-  /// No description provided for @device.
-  ///
-  /// In en, this message translates to:
-  /// **'Device'**
-  String get device;
-
   /// No description provided for @brand.
   ///
   /// In en, this message translates to:
   /// **'Brand'**
   String get brand;
+
+  /// No description provided for @ofMaxHeartRate.
+  ///
+  /// In en, this message translates to:
+  /// **'of Max Heart Rate'**
+  String get ofMaxHeartRate;
+
+  /// No description provided for @now.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get now;
+
+  /// No description provided for @fiveMinutesPassedWithZeroHeartRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Five minutes passed with zero heart rate'**
+  String get fiveMinutesPassedWithZeroHeartRate;
 
   /// No description provided for @caloriesBurn.
   ///
@@ -255,6 +255,12 @@ abstract class Strings {
   /// **'Current Heart Rate'**
   String get currentHeartRate;
 
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
   /// No description provided for @dateOfBirth.
   ///
   /// In en, this message translates to:
@@ -266,6 +272,12 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'December'**
   String get december;
+
+  /// No description provided for @device.
+  ///
+  /// In en, this message translates to:
+  /// **'Device'**
+  String get device;
 
   /// No description provided for @deviceIntegration.
   ///
@@ -375,6 +387,12 @@ abstract class Strings {
   /// **'Exercise Name'**
   String get exerciseName;
 
+  /// No description provided for @avgHR.
+  ///
+  /// In en, this message translates to:
+  /// **'Average Heart Rate'**
+  String get avgHR;
+
   /// No description provided for @exerciseNow.
   ///
   /// In en, this message translates to:
@@ -476,6 +494,12 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Height Unit'**
   String get heightUnit;
+
+  /// No description provided for @identifier.
+  ///
+  /// In en, this message translates to:
+  /// **'Identifier'**
+  String get identifier;
 
   /// No description provided for @january.
   ///
@@ -842,6 +866,12 @@ abstract class Strings {
   /// In en, this message translates to:
   /// **'Kurus'**
   String get underweight;
+
+  /// No description provided for @maxHeartRateReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum heart rate reached, please take a break'**
+  String get maxHeartRateReached;
 
   /// No description provided for @unknown.
   ///

@@ -113,7 +113,11 @@ class SettingsCubit extends Cubit<DataHelper> {
       return 'User';
     } else {
       if (name.isNotEmpty) {
-        return name;
+        if (name.length > 8) {
+          return "${name.substring(0, 8)}...";
+        } else {
+          return name;
+        }
       } else if (emptyWhenNull) {
         return "";
       } else {

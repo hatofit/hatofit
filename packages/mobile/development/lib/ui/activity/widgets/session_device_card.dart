@@ -54,6 +54,7 @@ class SessionDeviceCard extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+                                      Text(str.brand),
                                       Text(str.name),
                                       Text(str.identifier),
                                     ],
@@ -63,8 +64,10 @@ class SessionDeviceCard extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(": ${(e.name ?? '')}"),
-                                      Text(": ${(e.identifier ?? '')}"),
+                                      Text(
+                                          ": ${(e.brand ?? 'Unknown').limitBrandName()}"),
+                                      Text(": ${(e.name ?? 'Unknown')}"),
+                                      Text(": ${(e.identifier ?? 'Unknown')}"),
                                     ],
                                   ),
                                 ],

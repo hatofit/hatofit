@@ -31,7 +31,7 @@ class LogoutCard extends StatelessWidget {
                   Strings.of(context)!.logout,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                Spacer(),
+                const Spacer(),
                 Icon(
                   Icons.arrow_forward_ios,
                   color: Theme.of(context).extension<AppColors>()!.subtitle!,

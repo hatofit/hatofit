@@ -117,4 +117,15 @@ extension StringExt on String {
         return str.unknown;
     }
   }
+
+  bool isPolar() {
+    return contains("Polar");
+  }
+
+  String limitBrandName() {
+    if (length > 11) {
+      return "${substring(0, 11)}...";
+    }
+    return this;
+  }
 }

@@ -5,6 +5,8 @@ const zod_1 = require("zod");
 exports.SessionDataItemDeviceSchema = zod_1.z.object({
     type: zod_1.z.string(),
     identifier: zod_1.z.string(),
+    brand: zod_1.z.string(),
+    model: zod_1.z.string(),
     value: zod_1.z.any(),
 });
 exports.SessionDataItemSchema = zod_1.z.object({

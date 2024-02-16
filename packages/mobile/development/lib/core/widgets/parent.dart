@@ -6,8 +6,6 @@ class Parent extends StatefulWidget {
   final bool avoidBottomInset;
   final Widget? floatingButton;
   final Widget? bottomNavigation;
-  final Widget? drawer;
-  final Widget? endDrawer;
   final Color? backgroundColor;
   final Key? scaffoldKey;
   final bool extendBodyBehindAppBar;
@@ -20,14 +18,12 @@ class Parent extends StatefulWidget {
     this.floatingButton,
     this.backgroundColor,
     this.bottomNavigation,
-    this.drawer,
     this.scaffoldKey,
-    this.endDrawer,
     this.extendBodyBehindAppBar = false,
   });
 
   @override
-  _ParentState createState() => _ParentState();
+  State<Parent> createState() => _ParentState();
 }
 
 class _ParentState extends State<Parent> {
@@ -42,8 +38,6 @@ class _ParentState extends State<Parent> {
         extendBodyBehindAppBar: widget.extendBodyBehindAppBar,
         appBar: widget.appBar,
         body: widget.child,
-        drawer: widget.drawer,
-        endDrawer: widget.endDrawer,
         floatingActionButton: widget.floatingButton,
         bottomNavigationBar: widget.bottomNavigation,
       ),

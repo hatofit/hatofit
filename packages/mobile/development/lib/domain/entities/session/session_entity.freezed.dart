@@ -697,6 +697,10 @@ mixin _$SessionDataItemDeviceEntity {
   String? get identifier => throw _privateConstructorUsedError;
   @HiveField(2)
   List<Map<String, dynamic>>? get value => throw _privateConstructorUsedError;
+  @HiveField(3)
+  String? get brand => throw _privateConstructorUsedError;
+  @HiveField(4)
+  String? get model => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SessionDataItemDeviceEntityCopyWith<SessionDataItemDeviceEntity>
@@ -714,7 +718,9 @@ abstract class $SessionDataItemDeviceEntityCopyWith<$Res> {
   $Res call(
       {@HiveField(0) String? type,
       @HiveField(1) String? identifier,
-      @HiveField(2) List<Map<String, dynamic>>? value});
+      @HiveField(2) List<Map<String, dynamic>>? value,
+      @HiveField(3) String? brand,
+      @HiveField(4) String? model});
 }
 
 /// @nodoc
@@ -734,6 +740,8 @@ class _$SessionDataItemDeviceEntityCopyWithImpl<$Res,
     Object? type = freezed,
     Object? identifier = freezed,
     Object? value = freezed,
+    Object? brand = freezed,
+    Object? model = freezed,
   }) {
     return _then(_value.copyWith(
       type: freezed == type
@@ -748,6 +756,14 @@ class _$SessionDataItemDeviceEntityCopyWithImpl<$Res,
           ? _value.value
           : value // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>?,
+      brand: freezed == brand
+          ? _value.brand
+          : brand // ignore: cast_nullable_to_non_nullable
+              as String?,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -764,7 +780,9 @@ abstract class _$$SessionDataItemDeviceEntityImplCopyWith<$Res>
   $Res call(
       {@HiveField(0) String? type,
       @HiveField(1) String? identifier,
-      @HiveField(2) List<Map<String, dynamic>>? value});
+      @HiveField(2) List<Map<String, dynamic>>? value,
+      @HiveField(3) String? brand,
+      @HiveField(4) String? model});
 }
 
 /// @nodoc
@@ -783,6 +801,8 @@ class __$$SessionDataItemDeviceEntityImplCopyWithImpl<$Res>
     Object? type = freezed,
     Object? identifier = freezed,
     Object? value = freezed,
+    Object? brand = freezed,
+    Object? model = freezed,
   }) {
     return _then(_$SessionDataItemDeviceEntityImpl(
       type: freezed == type
@@ -797,6 +817,14 @@ class __$$SessionDataItemDeviceEntityImplCopyWithImpl<$Res>
           ? _value._value
           : value // ignore: cast_nullable_to_non_nullable
               as List<Map<String, dynamic>>?,
+      brand: freezed == brand
+          ? _value.brand
+          : brand // ignore: cast_nullable_to_non_nullable
+              as String?,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -811,7 +839,9 @@ class _$SessionDataItemDeviceEntityImpl
   const _$SessionDataItemDeviceEntityImpl(
       {@HiveField(0) this.type,
       @HiveField(1) this.identifier,
-      @HiveField(2) final List<Map<String, dynamic>>? value})
+      @HiveField(2) final List<Map<String, dynamic>>? value,
+      @HiveField(3) this.brand,
+      @HiveField(4) this.model})
       : _value = value;
 
   @override
@@ -832,8 +862,15 @@ class _$SessionDataItemDeviceEntityImpl
   }
 
   @override
+  @HiveField(3)
+  final String? brand;
+  @override
+  @HiveField(4)
+  final String? model;
+
+  @override
   String toString() {
-    return 'SessionDataItemDeviceEntity(type: $type, identifier: $identifier, value: $value)';
+    return 'SessionDataItemDeviceEntity(type: $type, identifier: $identifier, value: $value, brand: $brand, model: $model)';
   }
 
   @override
@@ -844,12 +881,14 @@ class _$SessionDataItemDeviceEntityImpl
             (identical(other.type, type) || other.type == type) &&
             (identical(other.identifier, identifier) ||
                 other.identifier == identifier) &&
-            const DeepCollectionEquality().equals(other._value, _value));
+            const DeepCollectionEquality().equals(other._value, _value) &&
+            (identical(other.brand, brand) || other.brand == brand) &&
+            (identical(other.model, model) || other.model == model));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, type, identifier,
-      const DeepCollectionEquality().hash(_value));
+      const DeepCollectionEquality().hash(_value), brand, model);
 
   @JsonKey(ignore: true)
   @override
@@ -862,10 +901,11 @@ class _$SessionDataItemDeviceEntityImpl
 abstract class _SessionDataItemDeviceEntity
     implements SessionDataItemDeviceEntity {
   const factory _SessionDataItemDeviceEntity(
-          {@HiveField(0) final String? type,
-          @HiveField(1) final String? identifier,
-          @HiveField(2) final List<Map<String, dynamic>>? value}) =
-      _$SessionDataItemDeviceEntityImpl;
+      {@HiveField(0) final String? type,
+      @HiveField(1) final String? identifier,
+      @HiveField(2) final List<Map<String, dynamic>>? value,
+      @HiveField(3) final String? brand,
+      @HiveField(4) final String? model}) = _$SessionDataItemDeviceEntityImpl;
 
   @override
   @HiveField(0)
@@ -876,6 +916,12 @@ abstract class _SessionDataItemDeviceEntity
   @override
   @HiveField(2)
   List<Map<String, dynamic>>? get value;
+  @override
+  @HiveField(3)
+  String? get brand;
+  @override
+  @HiveField(4)
+  String? get model;
   @override
   @JsonKey(ignore: true)
   _$$SessionDataItemDeviceEntityImplCopyWith<_$SessionDataItemDeviceEntityImpl>

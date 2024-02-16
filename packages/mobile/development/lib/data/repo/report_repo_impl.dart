@@ -49,7 +49,7 @@ class ReportRepoImpl implements ReportRepo {
           return await _local.readReportAll();
         },
         (reportModels) async {
-          final parser = ModelToEntityIsolateParser<List<ReportEntity>>(
+          final parser = IParser<List<ReportEntity>>(
             reportModels,
             (res) {
               return res.map((e) => e.toEntity()).toList();

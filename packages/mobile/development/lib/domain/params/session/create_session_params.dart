@@ -47,6 +47,8 @@ class SessionDataItemDeviceParams with _$SessionDataItemDeviceParams {
   const factory SessionDataItemDeviceParams({
     @Default("") String type,
     @Default("") String identifier,
+    @Default("") String brand,
+    @Default("") String model,
     @Default([]) List<Map<String, dynamic>> value,
   }) = _SessionDataItemDeviceParams;
 

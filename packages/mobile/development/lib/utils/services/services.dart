@@ -1,2 +1,2 @@
 export 'firebase/firebase.dart';
-export 'hive/hive.dart';
+export 'vibration/vibration.dart';

@@ -70,7 +70,7 @@ class SessionRepoImpl implements SessionRepo {
           return await _local.readSessionAll();
         },
         (sessionModels) async {
-          final parser = ModelToEntityIsolateParser<List<SessionEntity>>(
+          final parser = IParser<List<SessionEntity>>(
             sessionModels,
             (res) {
               final List<SessionModel> resM = res.cast<SessionModel>();

@@ -32,4 +32,9 @@ extension IntExtesion on int {
         return '';
     }
   }
+
+  int hrPercent(int age) {
+    final maxHr = 208 - (0.7 * age);
+    return ((this / maxHr) * 100).round();
+  }
 }

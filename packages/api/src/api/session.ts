@@ -6,13 +6,13 @@ import { SessionSchema } from "../types/session";
 
 export const ApiSession = ({ route }: { route: express.Router }) => {
   route.get("/session/", AuthJwtMiddleware, async (req, res) => {
-    const { page, limit } = req.query;
+    // const { page, limit } = req.query;
     const sessions = await Session.find({
       userId: req.auth?.user?._id,
-    })
-      .sort({ createdAt: -1 })
-      .skip(Number(page || 0) * Number(limit || 10))
-      .limit(Number(limit || 10));
+    });
+    // .sort({ createdAt: -1 })
+    // .skip(Number(page || 0) * Number(limit || 10))
+    // .limit(Number(limit || 10));
 
     return res.json({
       success: true,
@@ -128,7 +128,6 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
         exercise,
         withoutExercise,
       });
-      console.log("SESSION CREATED", created);
       // resposne
       return res.json({
         success: true,

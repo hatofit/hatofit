@@ -8,6 +8,9 @@ class StringsEn extends Strings {
   String get activity => 'Activity';
 
   @override
+  String get activityDetails => 'Activity Details';
+
+  @override
   String get activityTrends => 'Activity Trends';
 
   @override
@@ -21,9 +24,6 @@ class StringsEn extends Strings {
 
   @override
   String get april => 'April';
-
-  @override
-  String get identifier => 'Identifier';
 
   @override
   String get areYouSureYouWantToEndWorkout => 'Are you sure you want to end training?';
@@ -41,16 +41,16 @@ class StringsEn extends Strings {
   String get bodyWeight => 'Body Weight';
 
   @override
-  String get date => 'Date';
-
-  @override
-  String get activityDetails => 'Activity Details';
-
-  @override
-  String get device => 'Device';
-
-  @override
   String get brand => 'Brand';
+
+  @override
+  String get ofMaxHeartRate => 'of Max Heart Rate';
+
+  @override
+  String get now => 'Now';
+
+  @override
+  String get fiveMinutesPassedWithZeroHeartRate => 'Five minutes passed with zero heart rate';
 
   @override
   String get caloriesBurn => 'Calories Burn';
@@ -86,10 +86,16 @@ class StringsEn extends Strings {
   String get currentHeartRate => 'Current Heart Rate';
 
   @override
+  String get date => 'Date';
+
+  @override
   String get dateOfBirth => 'Date of Birth';
 
   @override
   String get december => 'December';
+
+  @override
+  String get device => 'Device';
 
   @override
   String get deviceIntegration => 'Device Integration';
@@ -146,6 +152,9 @@ class StringsEn extends Strings {
   String get exerciseName => 'Exercise Name';
 
   @override
+  String get avgHR => 'Average Heart Rate';
+
+  @override
   String get exerciseNow => 'Exercise Now';
 
   @override
@@ -195,6 +204,9 @@ class StringsEn extends Strings {
 
   @override
   String get heightUnit => 'Height Unit';
+
+  @override
+  String get identifier => 'Identifier';
 
   @override
   String get january => 'January';
@@ -378,6 +390,9 @@ class StringsEn extends Strings {
 
   @override
   String get underweight => 'Kurus';
+
+  @override
+  String get maxHeartRateReached => 'Maximum heart rate reached, please take a break';
 
   @override
   String get unknown => 'Unknown';

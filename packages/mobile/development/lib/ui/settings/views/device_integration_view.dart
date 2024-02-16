@@ -12,7 +12,7 @@ class DeviceIntegrationView extends StatelessWidget {
         title: Text(Strings.of(context)!.deviceIntegration),
         titleTextStyle: Theme.of(context).textTheme.titleLarge,
       ),
-      child: DeviceDiscover(),
+      child: const DeviceDiscover(),
     );
   }
 }

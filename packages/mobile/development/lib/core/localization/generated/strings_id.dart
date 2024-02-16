@@ -8,6 +8,9 @@ class StringsId extends Strings {
   String get activity => 'Aktivitas';
 
   @override
+  String get activityDetails => 'Detail aktivitas';
+
+  @override
   String get activityTrends => 'Tren aktivitas';
 
   @override
@@ -21,9 +24,6 @@ class StringsId extends Strings {
 
   @override
   String get april => 'April';
-
-  @override
-  String get identifier => 'Identifier';
 
   @override
   String get areYouSureYouWantToEndWorkout => 'Apakah anda yakin ingin mengakhiri latihan ini?';
@@ -41,16 +41,16 @@ class StringsId extends Strings {
   String get bodyWeight => 'Berat badan';
 
   @override
-  String get date => 'Tanggal';
-
-  @override
-  String get activityDetails => 'Detail aktivitas';
-
-  @override
-  String get device => 'Perangkat';
-
-  @override
   String get brand => 'Merk';
+
+  @override
+  String get ofMaxHeartRate => 'dari detak jantung maksimal';
+
+  @override
+  String get now => 'Sekarang';
+
+  @override
+  String get fiveMinutesPassedWithZeroHeartRate => 'Lima menit berlalu tanpa detak jantung';
 
   @override
   String get caloriesBurn => 'Kalori Terbakar';
@@ -86,10 +86,16 @@ class StringsId extends Strings {
   String get currentHeartRate => 'Detak jantung saat ini';
 
   @override
+  String get date => 'Tanggal';
+
+  @override
   String get dateOfBirth => 'Tanggal lahir';
 
   @override
   String get december => 'Desember';
+
+  @override
+  String get device => 'Perangkat';
 
   @override
   String get deviceIntegration => 'Integrasi perangkat';
@@ -146,6 +152,9 @@ class StringsId extends Strings {
   String get exerciseName => 'Nama latihan';
 
   @override
+  String get avgHR => 'Rata-rata Denyut Jantung';
+
+  @override
   String get exerciseNow => 'Olahraga sekarang';
 
   @override
@@ -195,6 +204,9 @@ class StringsId extends Strings {
 
   @override
   String get heightUnit => 'Satuan tinggi badan';
+
+  @override
+  String get identifier => 'Identifier';
 
   @override
   String get january => 'Januari';
@@ -378,6 +390,9 @@ class StringsId extends Strings {
 
   @override
   String get underweight => 'Kurus';
+
+  @override
+  String get maxHeartRateReached => 'Detak jantung maksimal tercapai, istirahat sejenak';
 
   @override
   String get unknown => 'Tidak diketahui';

@@ -74,6 +74,8 @@ _$SessionDataItemDeviceModelImpl _$$SessionDataItemDeviceModelImplFromJson(
     _$SessionDataItemDeviceModelImpl(
       type: json['type'] as String?,
       identifier: json['identifier'] as String?,
+      brand: json['brand'] as String?,
+      model: json['model'] as String?,
       value: (json['value'] as List<dynamic>?)
           ?.map((e) => e as Map<String, dynamic>)
           .toList(),
@@ -84,5 +86,7 @@ Map<String, dynamic> _$$SessionDataItemDeviceModelImplToJson(
     <String, dynamic>{
       'type': instance.type,
       'identifier': instance.identifier,
+      'brand': instance.brand,
+      'model': instance.model,
       'value': instance.value,
     };

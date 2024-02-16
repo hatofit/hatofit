@@ -21,13 +21,13 @@ class HomeCubit extends Cubit<HomeState> {
   ) : super(_HomeState());
 
   Future<void> init() async {
-    await getUser();
-    await heroImage();
-    getData();
-    await getSession();
+    await _getUser();
+    await _heroImage();
+    _getData();
+    await _getSession();
   }
 
-  Future<void> heroImage() async {
+  Future<void> _heroImage() async {
     final getUrl =
         await _getStringFirebaseUsecase.call(FirebaseConstant.get.homeHeroKey);
 
@@ -41,7 +41,7 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  Future<void> getUser() async {
+  Future<void> _getUser() async {
     final res =
         await _readUserUsecase.call(const ByLimitParams(showFromLocal: false));
     res.fold((l) => null, (r) {
@@ -49,31 +49,35 @@ class HomeCubit extends Cubit<HomeState> {
     });
   }
 
-  Future<void> getSession() async {
+  Future<void> _getSession() async {
     final res = await _getSessionsUsecase.call(const ByLimitParams(limit: 5));
     res.fold((l) => null, (r) async {
       List<HrBarChartItem> reports = [];
+      int calories = 0;
       final nDate = formatter.format(DateTime.now());
       for (final i in r) {
         final sTime = DateTime.fromMicrosecondsSinceEpoch(i.startTime!);
         final sDate = formatter.format(sTime);
         if (sDate == nDate) {
-          final report = await i.generateHrData();
+          final report = await i.generateHrData(state.user);
           if (report != null) {
-            reports.add(report);
+            reports.add(report.value1); ;
+            calories += report.value2;
           }
         }
       }
+
       emit(state.copyWith(
-        hrData: reports,
+        hrData: reports.take(5).toList(),
+        calories: calories.toDouble(),
       ));
     });
   }
 
-  void getData() {
+  void _getData() {
     final user = state.user;
     if (user == null) return;
-    final bmi = getBmi(user);
+    final bmi = _getBmi(user);
     emit(state.copyWith(
       bmi: bmi,
       dateNow: formatter.format(DateTime.now()),
@@ -82,9 +86,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   final formatter = DateFormat('d MMMM yyyy');
 
-  double getBmi(UserEntity user) {
-    log.f("USER: $user");
-
+  double _getBmi(UserEntity user) {
     final height = user.height ?? 0;
     final weight = user.weight ?? 0;
     final metricUnits = user.metricUnits;

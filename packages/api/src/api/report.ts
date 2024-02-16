@@ -305,15 +305,13 @@ export const ApiReport = ({ route }: { route: express.Router }) => {
           message: "Invalid userId",
         });
       }
-      const { page, limit } = req.query;
-      console.log("PAGE", page);
-      console.log("LIMIT", limit);
+      // const { page, limit } = req.query;
       const sessions = await Session.find({
         userId: userId,
-      })
-        .sort({ createdAt: -1 })
-        .skip(Number(page || 0) * Number(limit || 10))
-        .limit(Number(limit || 10));
+      });
+      // .sort({ createdAt: -1 })
+      // .skip(Number(page || 0) * Number(limit || 10))
+      // .limit(Number(limit || 10));
 
       const reports = await Promise.all(
         sessions.map(async (session) => {

@@ -157,17 +157,23 @@ class SessionDataItemDeviceEntityAdapter
       value: (fields[2] as List?)
           ?.map((dynamic e) => (e as Map).cast<String, dynamic>())
           ?.toList(),
+      brand: fields[3] as String?,
+      model: fields[4] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, _$SessionDataItemDeviceEntityImpl obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.type)
       ..writeByte(1)
       ..write(obj.identifier)
+      ..writeByte(3)
+      ..write(obj.brand)
+      ..writeByte(4)
+      ..write(obj.model)
       ..writeByte(2)
       ..write(obj.value);
   }

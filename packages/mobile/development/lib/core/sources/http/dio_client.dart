@@ -6,7 +6,7 @@ import 'package:hatofit/core/core.dart';
 import 'package:hatofit/utils/utils.dart';
 import 'package:path_provider/path_provider.dart';
 
-typedef ResponseConverter<T> = T Function(dynamic response);
+typedef JSONIConv<T> = T Function(dynamic response);
 
 class DioClient with FirebaseCrashLogger {
   String? _auth;
@@ -55,7 +55,7 @@ class DioClient with FirebaseCrashLogger {
   Future<Either<Failure, T>> getRequest<T>(
     String url, {
     Map<String, dynamic>? queryParameters,
-    required ResponseConverter<T> converter,
+    required JSONIConv<T> converter,
     ProgressCallback? onReceiveProgress,
   }) async {
     try {
@@ -71,8 +71,7 @@ class DioClient with FirebaseCrashLogger {
           response: response,
         );
       }
-
-      final isolateParse = JSONIsolateParser<T>(
+      final isolateParse = JSONIParser<T>(
         response.data as Map<String, dynamic>,
         converter,
       );
@@ -105,7 +104,7 @@ class DioClient with FirebaseCrashLogger {
     String url, {
     Map<String, dynamic>? data,
     FormData? formData,
-    ResponseConverter<T>? converter,
+    JSONIConv<T>? converter,
     Function(int, int)? onSendProgress,
     Function(int, int)? onReceiveProgress,
   }) async {
@@ -126,7 +125,7 @@ class DioClient with FirebaseCrashLogger {
       if (converter == null) {
         return Right(response.data as T);
       } else {
-        final isolateParse = JSONIsolateParser<T>(
+        final isolateParse = JSONIParser<T>(
           response.data as Map<String, dynamic>,
           converter,
         );
@@ -151,7 +150,7 @@ class DioClient with FirebaseCrashLogger {
     String url, {
     Map<String, dynamic>? data,
     FormData? formData,
-    ResponseConverter<T>? converter,
+    JSONIConv<T>? converter,
     Function(int, int)? onSendProgress,
     Function(int, int)? onReceiveProgress,
   }) async {
@@ -173,7 +172,7 @@ class DioClient with FirebaseCrashLogger {
       if (converter == null) {
         return Right(response.data as T);
       } else {
-        final isolateParse = JSONIsolateParser<T>(
+        final isolateParse = JSONIParser<T>(
           response.data as Map<String, dynamic>,
           converter,
         );
@@ -197,7 +196,7 @@ class DioClient with FirebaseCrashLogger {
   Future<Either<Failure, T>> deleteRequest<T>(
     String url, {
     Map<String, dynamic>? data,
-    ResponseConverter<T>? converter,
+    JSONIConv<T>? converter,
   }) async {
     try {
       final response = await dio.delete(
@@ -214,7 +213,7 @@ class DioClient with FirebaseCrashLogger {
       if (converter == null) {
         return Right(response.data as T);
       } else {
-        final isolateParse = JSONIsolateParser<T>(
+        final isolateParse = JSONIParser<T>(
           response.data as Map<String, dynamic>,
           converter,
         );

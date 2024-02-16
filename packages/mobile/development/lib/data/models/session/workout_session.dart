@@ -91,7 +91,7 @@ class WorkoutSession {
       ppgSamples ?? [],
       ble,
     );
-    final parser = ModelToEntityIsolateParser(dataSamples, (data) {
+    final parser = IParser(dataSamples, (data) {
       Tuple7<List<HrSample>, List<EcgSample>, List<AccSample>, List<GyroSample>,
               List<MagnetometerSample>, List<PpgSample>, BleEntity> samples =
           data as Tuple7<
@@ -104,6 +104,8 @@ class WorkoutSession {
               BleEntity>;
       List<SessionDataItemParams> hrBased = [];
       final identifier = samples.value7.polarId ?? samples.value7.address;
+      final brand = samples.value7.brand ?? "Unknown";
+      final model = samples.value7.name;
       for (var hr in samples.value1) {
         final List<SessionDataItemDeviceParams> devices = [];
         devices.add(
@@ -112,6 +114,8 @@ class WorkoutSession {
                 ? 'PolarDataType.hr'
                 : "CommonDataType.hr",
             identifier: identifier,
+            brand: brand,
+            model: model,
             value: [
               {
                 'timeStamp': hr.timeStamp.microsecondsSinceEpoch,
@@ -128,6 +132,8 @@ class WorkoutSession {
             devices.add(SessionDataItemDeviceParams(
               type: 'PolarDataType.ecg',
               identifier: identifier,
+              brand: brand,
+              model: model,
               value: [
                 {
                   'timeStamp': ecg.timeStamp.microsecondsSinceEpoch,
@@ -143,6 +149,8 @@ class WorkoutSession {
             devices.add(SessionDataItemDeviceParams(
               type: 'PolarDataType.acc',
               identifier: identifier,
+              brand: brand,
+              model: model,
               value: [
                 {
                   'timeStamp': acc.timeStamp.microsecondsSinceEpoch,
@@ -159,6 +167,8 @@ class WorkoutSession {
             devices.add(SessionDataItemDeviceParams(
               type: 'PolarDataType.gyro',
               identifier: identifier,
+              brand: brand,
+              model: model,
               value: [
                 {
                   'timeStamp': gyro.timeStamp.microsecondsSinceEpoch,
@@ -175,6 +185,8 @@ class WorkoutSession {
             devices.add(SessionDataItemDeviceParams(
               type: 'PolarDataType.magnetometer',
               identifier: identifier,
+              brand: brand,
+              model: model,
               value: [
                 {
                   'timeStamp': magnetometer.timeStamp.microsecondsSinceEpoch,
@@ -191,6 +203,8 @@ class WorkoutSession {
             devices.add(SessionDataItemDeviceParams(
               type: 'PolarDataType.ppg',
               identifier: identifier,
+              brand: brand,
+              model: model,
               value: [
                 {
                   'timeStamp': ppg.timeStamp.microsecondsSinceEpoch,

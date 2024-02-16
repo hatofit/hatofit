@@ -26,7 +26,8 @@ class _SettingsViewState extends State<SettingsView> {
         titleTextStyle: Theme.of(context).textTheme.titleLarge,
       ),
       child: BlocBuilder<SettingsCubit, DataHelper>(
-        builder: (context, state) { 
+        buildWhen: (p, c) => p.user != c.user,
+        builder: (context, state) {
           return Column(
             children: [
               UserCard(user: state.user),

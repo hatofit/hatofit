@@ -123,6 +123,8 @@ const SessionSchema = new mongoose_1.Schema({
                 {
                     type: String,
                     identifier: String,
+                    brand: String,
+                    model: String,
                     value: mongoose_1.Schema.Types.Mixed,
                 },
             ],

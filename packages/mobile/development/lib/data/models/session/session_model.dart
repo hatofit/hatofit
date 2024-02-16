@@ -109,6 +109,8 @@ class SessionDataItemDeviceModel with _$SessionDataItemDeviceModel {
   const factory SessionDataItemDeviceModel({
     String? type,
     String? identifier,
+    String? brand,
+    String? model,
     List<Map<String, dynamic>>? value,
   }) = _SessionDataItemDeviceModel;
 
@@ -120,6 +122,8 @@ class SessionDataItemDeviceModel with _$SessionDataItemDeviceModel {
   SessionDataItemDeviceEntity toEntity() => SessionDataItemDeviceEntity(
         type: type,
         identifier: identifier,
+        brand: brand,
+        model: model,
         value: value,
       );
 
@@ -128,6 +132,8 @@ class SessionDataItemDeviceModel with _$SessionDataItemDeviceModel {
       SessionDataItemDeviceModel(
         type: entity.type,
         identifier: entity.identifier,
+        brand: entity.brand,
+        model: entity.model,
         value: entity.value,
       );
 }

@@ -671,6 +671,8 @@ SessionDataItemDeviceParams _$SessionDataItemDeviceParamsFromJson(
 mixin _$SessionDataItemDeviceParams {
   String get type => throw _privateConstructorUsedError;
   String get identifier => throw _privateConstructorUsedError;
+  String get brand => throw _privateConstructorUsedError;
+  String get model => throw _privateConstructorUsedError;
   List<Map<String, dynamic>> get value => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -687,7 +689,12 @@ abstract class $SessionDataItemDeviceParamsCopyWith<$Res> {
       _$SessionDataItemDeviceParamsCopyWithImpl<$Res,
           SessionDataItemDeviceParams>;
   @useResult
-  $Res call({String type, String identifier, List<Map<String, dynamic>> value});
+  $Res call(
+      {String type,
+      String identifier,
+      String brand,
+      String model,
+      List<Map<String, dynamic>> value});
 }
 
 /// @nodoc
@@ -706,6 +713,8 @@ class _$SessionDataItemDeviceParamsCopyWithImpl<$Res,
   $Res call({
     Object? type = null,
     Object? identifier = null,
+    Object? brand = null,
+    Object? model = null,
     Object? value = null,
   }) {
     return _then(_value.copyWith(
@@ -716,6 +725,14 @@ class _$SessionDataItemDeviceParamsCopyWithImpl<$Res,
       identifier: null == identifier
           ? _value.identifier
           : identifier // ignore: cast_nullable_to_non_nullable
+              as String,
+      brand: null == brand
+          ? _value.brand
+          : brand // ignore: cast_nullable_to_non_nullable
+              as String,
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String,
       value: null == value
           ? _value.value
@@ -734,7 +751,12 @@ abstract class _$$SessionDataItemDeviceParamsImplCopyWith<$Res>
       __$$SessionDataItemDeviceParamsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String type, String identifier, List<Map<String, dynamic>> value});
+  $Res call(
+      {String type,
+      String identifier,
+      String brand,
+      String model,
+      List<Map<String, dynamic>> value});
 }
 
 /// @nodoc
@@ -752,6 +774,8 @@ class __$$SessionDataItemDeviceParamsImplCopyWithImpl<$Res>
   $Res call({
     Object? type = null,
     Object? identifier = null,
+    Object? brand = null,
+    Object? model = null,
     Object? value = null,
   }) {
     return _then(_$SessionDataItemDeviceParamsImpl(
@@ -762,6 +786,14 @@ class __$$SessionDataItemDeviceParamsImplCopyWithImpl<$Res>
       identifier: null == identifier
           ? _value.identifier
           : identifier // ignore: cast_nullable_to_non_nullable
+              as String,
+      brand: null == brand
+          ? _value.brand
+          : brand // ignore: cast_nullable_to_non_nullable
+              as String,
+      model: null == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String,
       value: null == value
           ? _value._value
@@ -778,6 +810,8 @@ class _$SessionDataItemDeviceParamsImpl
   const _$SessionDataItemDeviceParamsImpl(
       {this.type = "",
       this.identifier = "",
+      this.brand = "",
+      this.model = "",
       final List<Map<String, dynamic>> value = const []})
       : _value = value;
 
@@ -791,6 +825,12 @@ class _$SessionDataItemDeviceParamsImpl
   @override
   @JsonKey()
   final String identifier;
+  @override
+  @JsonKey()
+  final String brand;
+  @override
+  @JsonKey()
+  final String model;
   final List<Map<String, dynamic>> _value;
   @override
   @JsonKey()
@@ -802,7 +842,7 @@ class _$SessionDataItemDeviceParamsImpl
 
   @override
   String toString() {
-    return 'SessionDataItemDeviceParams(type: $type, identifier: $identifier, value: $value)';
+    return 'SessionDataItemDeviceParams(type: $type, identifier: $identifier, brand: $brand, model: $model, value: $value)';
   }
 
   @override
@@ -813,12 +853,14 @@ class _$SessionDataItemDeviceParamsImpl
             (identical(other.type, type) || other.type == type) &&
             (identical(other.identifier, identifier) ||
                 other.identifier == identifier) &&
+            (identical(other.brand, brand) || other.brand == brand) &&
+            (identical(other.model, model) || other.model == model) &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, type, identifier,
+  int get hashCode => Object.hash(runtimeType, type, identifier, brand, model,
       const DeepCollectionEquality().hash(_value));
 
   @JsonKey(ignore: true)
@@ -841,6 +883,8 @@ abstract class _SessionDataItemDeviceParams
   const factory _SessionDataItemDeviceParams(
           {final String type,
           final String identifier,
+          final String brand,
+          final String model,
           final List<Map<String, dynamic>> value}) =
       _$SessionDataItemDeviceParamsImpl;
 
@@ -851,6 +895,10 @@ abstract class _SessionDataItemDeviceParams
   String get type;
   @override
   String get identifier;
+  @override
+  String get brand;
+  @override
+  String get model;
   @override
   List<Map<String, dynamic>> get value;
   @override

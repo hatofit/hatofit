@@ -314,6 +314,7 @@ ReportDeviceModel _$ReportDeviceModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ReportDeviceModel {
   String? get name => throw _privateConstructorUsedError;
+  String? get brand => throw _privateConstructorUsedError;
   String? get identifier => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -328,7 +329,7 @@ abstract class $ReportDeviceModelCopyWith<$Res> {
           ReportDeviceModel value, $Res Function(ReportDeviceModel) then) =
       _$ReportDeviceModelCopyWithImpl<$Res, ReportDeviceModel>;
   @useResult
-  $Res call({String? name, String? identifier});
+  $Res call({String? name, String? brand, String? identifier});
 }
 
 /// @nodoc
@@ -345,12 +346,17 @@ class _$ReportDeviceModelCopyWithImpl<$Res, $Val extends ReportDeviceModel>
   @override
   $Res call({
     Object? name = freezed,
+    Object? brand = freezed,
     Object? identifier = freezed,
   }) {
     return _then(_value.copyWith(
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      brand: freezed == brand
+          ? _value.brand
+          : brand // ignore: cast_nullable_to_non_nullable
               as String?,
       identifier: freezed == identifier
           ? _value.identifier
@@ -368,7 +374,7 @@ abstract class _$$ReportDeviceModelImplCopyWith<$Res>
       __$$ReportDeviceModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name, String? identifier});
+  $Res call({String? name, String? brand, String? identifier});
 }
 
 /// @nodoc
@@ -383,12 +389,17 @@ class __$$ReportDeviceModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = freezed,
+    Object? brand = freezed,
     Object? identifier = freezed,
   }) {
     return _then(_$ReportDeviceModelImpl(
       name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      brand: freezed == brand
+          ? _value.brand
+          : brand // ignore: cast_nullable_to_non_nullable
               as String?,
       identifier: freezed == identifier
           ? _value.identifier
@@ -401,7 +412,8 @@ class __$$ReportDeviceModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ReportDeviceModelImpl extends _ReportDeviceModel {
-  const _$ReportDeviceModelImpl({this.name, this.identifier}) : super._();
+  const _$ReportDeviceModelImpl({this.name, this.brand, this.identifier})
+      : super._();
 
   factory _$ReportDeviceModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ReportDeviceModelImplFromJson(json);
@@ -409,11 +421,13 @@ class _$ReportDeviceModelImpl extends _ReportDeviceModel {
   @override
   final String? name;
   @override
+  final String? brand;
+  @override
   final String? identifier;
 
   @override
   String toString() {
-    return 'ReportDeviceModel(name: $name, identifier: $identifier)';
+    return 'ReportDeviceModel(name: $name, brand: $brand, identifier: $identifier)';
   }
 
   @override
@@ -422,13 +436,14 @@ class _$ReportDeviceModelImpl extends _ReportDeviceModel {
         (other.runtimeType == runtimeType &&
             other is _$ReportDeviceModelImpl &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.brand, brand) || other.brand == brand) &&
             (identical(other.identifier, identifier) ||
                 other.identifier == identifier));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, identifier);
+  int get hashCode => Object.hash(runtimeType, name, brand, identifier);
 
   @JsonKey(ignore: true)
   @override
@@ -447,7 +462,9 @@ class _$ReportDeviceModelImpl extends _ReportDeviceModel {
 
 abstract class _ReportDeviceModel extends ReportDeviceModel {
   const factory _ReportDeviceModel(
-      {final String? name, final String? identifier}) = _$ReportDeviceModelImpl;
+      {final String? name,
+      final String? brand,
+      final String? identifier}) = _$ReportDeviceModelImpl;
   const _ReportDeviceModel._() : super._();
 
   factory _ReportDeviceModel.fromJson(Map<String, dynamic> json) =
@@ -455,6 +472,8 @@ abstract class _ReportDeviceModel extends ReportDeviceModel {
 
   @override
   String? get name;
+  @override
+  String? get brand;
   @override
   String? get identifier;
   @override

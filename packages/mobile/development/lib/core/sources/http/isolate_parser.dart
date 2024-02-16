@@ -2,35 +2,35 @@ import 'dart:isolate';
 
 import 'package:hatofit/core/core.dart';
 
-class JSONIsolateParser<T> {
+class JSONIParser<T> {
   final Map<String, dynamic> json;
 
-  ResponseConverter<T> converter;
+  JSONIConv<T> converter;
 
-  JSONIsolateParser(this.json, this.converter);
+  JSONIParser(this.json, this.converter);
 
   Future<T> parseInBackground() async {
     final port = ReceivePort();
-    await Isolate.spawn(_parseListOfJson, port.sendPort);
+    await Isolate.spawn(_parseJson, port.sendPort);
 
     final result = await port.first;
     return result as T;
   }
 
-  Future<void> _parseListOfJson(SendPort sendPort) async {
+  Future<void> _parseJson(SendPort sendPort) async {
     final result = converter(json);
     Isolate.exit(sendPort, result);
   }
 }
 
-typedef ModelToEntityConverter<T> = T Function(dynamic response);
+typedef IConv<T> = T Function(dynamic response);
 
-class ModelToEntityIsolateParser<T> {
+class IParser<T> {
   final dynamic model;
 
-  ModelToEntityConverter<T> converter;
+  IConv<T> converter;
 
-  ModelToEntityIsolateParser(this.model, this.converter);
+  IParser(this.model, this.converter);
 
   Future<T> parseInBackground() async {
     final port = ReceivePort();

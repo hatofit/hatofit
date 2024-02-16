@@ -158,6 +158,7 @@ void _useCase() {
   di.registerLazySingleton(() => ScanResultsBLEUsecase(di()));
   di.registerLazySingleton(() => StopScanBLEUsecase(di()));
   di.registerLazySingleton(() => StreamCommonBLEUsecase(di()));
+  di.registerLazySingleton(() => ReadCommonBLEUsecase(di()));
 
   /// [Bluetooth - Polar]
   di.registerLazySingleton(() => ConnectPolarBLEUsecase(di()));
@@ -276,8 +277,12 @@ void _cubit() {
   di.registerFactory(() => ActivityCubit(
         di(),
       ));
+  regNavCubit();
+}
 
+void regNavCubit() {
   di.registerFactory(() => NavigationCubit(
+        di(),
         di(),
         di(),
         di(),

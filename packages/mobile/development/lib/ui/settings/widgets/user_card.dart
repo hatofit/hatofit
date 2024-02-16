@@ -45,7 +45,7 @@ class UserCard extends StatelessWidget {
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             Icon(
               Icons.arrow_forward_ios,
               color: Theme.of(context).extension<AppColors>()!.subtitle!,

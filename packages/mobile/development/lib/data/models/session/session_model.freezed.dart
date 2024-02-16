@@ -706,6 +706,8 @@ SessionDataItemDeviceModel _$SessionDataItemDeviceModelFromJson(
 mixin _$SessionDataItemDeviceModel {
   String? get type => throw _privateConstructorUsedError;
   String? get identifier => throw _privateConstructorUsedError;
+  String? get brand => throw _privateConstructorUsedError;
+  String? get model => throw _privateConstructorUsedError;
   List<Map<String, dynamic>>? get value => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -722,7 +724,11 @@ abstract class $SessionDataItemDeviceModelCopyWith<$Res> {
           SessionDataItemDeviceModel>;
   @useResult
   $Res call(
-      {String? type, String? identifier, List<Map<String, dynamic>>? value});
+      {String? type,
+      String? identifier,
+      String? brand,
+      String? model,
+      List<Map<String, dynamic>>? value});
 }
 
 /// @nodoc
@@ -741,6 +747,8 @@ class _$SessionDataItemDeviceModelCopyWithImpl<$Res,
   $Res call({
     Object? type = freezed,
     Object? identifier = freezed,
+    Object? brand = freezed,
+    Object? model = freezed,
     Object? value = freezed,
   }) {
     return _then(_value.copyWith(
@@ -751,6 +759,14 @@ class _$SessionDataItemDeviceModelCopyWithImpl<$Res,
       identifier: freezed == identifier
           ? _value.identifier
           : identifier // ignore: cast_nullable_to_non_nullable
+              as String?,
+      brand: freezed == brand
+          ? _value.brand
+          : brand // ignore: cast_nullable_to_non_nullable
+              as String?,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String?,
       value: freezed == value
           ? _value.value
@@ -770,7 +786,11 @@ abstract class _$$SessionDataItemDeviceModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? type, String? identifier, List<Map<String, dynamic>>? value});
+      {String? type,
+      String? identifier,
+      String? brand,
+      String? model,
+      List<Map<String, dynamic>>? value});
 }
 
 /// @nodoc
@@ -788,6 +808,8 @@ class __$$SessionDataItemDeviceModelImplCopyWithImpl<$Res>
   $Res call({
     Object? type = freezed,
     Object? identifier = freezed,
+    Object? brand = freezed,
+    Object? model = freezed,
     Object? value = freezed,
   }) {
     return _then(_$SessionDataItemDeviceModelImpl(
@@ -798,6 +820,14 @@ class __$$SessionDataItemDeviceModelImplCopyWithImpl<$Res>
       identifier: freezed == identifier
           ? _value.identifier
           : identifier // ignore: cast_nullable_to_non_nullable
+              as String?,
+      brand: freezed == brand
+          ? _value.brand
+          : brand // ignore: cast_nullable_to_non_nullable
+              as String?,
+      model: freezed == model
+          ? _value.model
+          : model // ignore: cast_nullable_to_non_nullable
               as String?,
       value: freezed == value
           ? _value._value
@@ -811,7 +841,11 @@ class __$$SessionDataItemDeviceModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$SessionDataItemDeviceModelImpl extends _SessionDataItemDeviceModel {
   const _$SessionDataItemDeviceModelImpl(
-      {this.type, this.identifier, final List<Map<String, dynamic>>? value})
+      {this.type,
+      this.identifier,
+      this.brand,
+      this.model,
+      final List<Map<String, dynamic>>? value})
       : _value = value,
         super._();
 
@@ -823,6 +857,10 @@ class _$SessionDataItemDeviceModelImpl extends _SessionDataItemDeviceModel {
   final String? type;
   @override
   final String? identifier;
+  @override
+  final String? brand;
+  @override
+  final String? model;
   final List<Map<String, dynamic>>? _value;
   @override
   List<Map<String, dynamic>>? get value {
@@ -835,7 +873,7 @@ class _$SessionDataItemDeviceModelImpl extends _SessionDataItemDeviceModel {
 
   @override
   String toString() {
-    return 'SessionDataItemDeviceModel(type: $type, identifier: $identifier, value: $value)';
+    return 'SessionDataItemDeviceModel(type: $type, identifier: $identifier, brand: $brand, model: $model, value: $value)';
   }
 
   @override
@@ -846,12 +884,14 @@ class _$SessionDataItemDeviceModelImpl extends _SessionDataItemDeviceModel {
             (identical(other.type, type) || other.type == type) &&
             (identical(other.identifier, identifier) ||
                 other.identifier == identifier) &&
+            (identical(other.brand, brand) || other.brand == brand) &&
+            (identical(other.model, model) || other.model == model) &&
             const DeepCollectionEquality().equals(other._value, _value));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, type, identifier,
+  int get hashCode => Object.hash(runtimeType, type, identifier, brand, model,
       const DeepCollectionEquality().hash(_value));
 
   @JsonKey(ignore: true)
@@ -873,6 +913,8 @@ abstract class _SessionDataItemDeviceModel extends SessionDataItemDeviceModel {
   const factory _SessionDataItemDeviceModel(
           {final String? type,
           final String? identifier,
+          final String? brand,
+          final String? model,
           final List<Map<String, dynamic>>? value}) =
       _$SessionDataItemDeviceModelImpl;
   const _SessionDataItemDeviceModel._() : super._();
@@ -884,6 +926,10 @@ abstract class _SessionDataItemDeviceModel extends SessionDataItemDeviceModel {
   String? get type;
   @override
   String? get identifier;
+  @override
+  String? get brand;
+  @override
+  String? get model;
   @override
   List<Map<String, dynamic>>? get value;
   @override

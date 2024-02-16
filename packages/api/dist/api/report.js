@@ -276,15 +276,13 @@ const ApiReport = ({ route }) => {
                     message: "Invalid userId",
                 });
             }
-            const { page, limit } = req.query;
-            console.log("PAGE", page);
-            console.log("LIMIT", limit);
+            // const { page, limit } = req.query;
             const sessions = yield db_1.Session.find({
                 userId: userId,
-            })
-                .sort({ createdAt: -1 })
-                .skip(Number(page || 0) * Number(limit || 10))
-                .limit(Number(limit || 10));
+            });
+            // .sort({ createdAt: -1 })
+            // .skip(Number(page || 0) * Number(limit || 10))
+            // .limit(Number(limit || 10));
             const reports = yield Promise.all(sessions.map((session) => __awaiter(void 0, void 0, void 0, function* () {
                 const report = yield (0, report_1.getReportFromSession)(session);
                 return {

@@ -43,7 +43,7 @@ class ExerciseRepoImpl implements ExerciseRepo {
           return await _local.readExerciseAll();
         },
         (exerciseModels) async {
-          final parser = ModelToEntityIsolateParser<List<ExerciseEntity>>(
+          final parser = IParser<List<ExerciseEntity>>(
             exerciseModels,
             (res) {
               final List<ExerciseModel> resM = res.cast<ExerciseModel>();
@@ -53,6 +53,9 @@ class ExerciseRepoImpl implements ExerciseRepo {
             },
           );
           final res = await parser.parseInBackground();
+          for (final e in res) {
+            await _local.cacheExercise(e);
+          }
           return Right(res);
         },
       );

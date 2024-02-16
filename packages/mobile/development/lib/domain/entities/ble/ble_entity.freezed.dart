@@ -17,15 +17,30 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$BleEntity {
   String get name => throw _privateConstructorUsedError;
+  set name(String value) => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
+  set address(String value) => throw _privateConstructorUsedError;
   int get rssi => throw _privateConstructorUsedError;
+  set rssi(int value) => throw _privateConstructorUsedError;
   bool get isConnectable => throw _privateConstructorUsedError;
+  set isConnectable(bool value) => throw _privateConstructorUsedError;
   DateTime get timeStamp => throw _privateConstructorUsedError;
+  set timeStamp(DateTime value) => throw _privateConstructorUsedError;
   BluetoothDevice get device => throw _privateConstructorUsedError;
+  set device(BluetoothDevice value) => throw _privateConstructorUsedError;
+  String? get brand => throw _privateConstructorUsedError;
+  set brand(String? value) => throw _privateConstructorUsedError;
+  int? get battery => throw _privateConstructorUsedError;
+  set battery(int? value) => throw _privateConstructorUsedError;
   List<BluetoothService>? get commonservices =>
       throw _privateConstructorUsedError;
+  set commonservices(List<BluetoothService>? value) =>
+      throw _privateConstructorUsedError;
   String? get polarId => throw _privateConstructorUsedError;
+  set polarId(String? value) => throw _privateConstructorUsedError;
   Set<PolarDataType>? get polarServices => throw _privateConstructorUsedError;
+  set polarServices(Set<PolarDataType>? value) =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BleEntityCopyWith<BleEntity> get copyWith =>
@@ -44,6 +59,8 @@ abstract class $BleEntityCopyWith<$Res> {
       bool isConnectable,
       DateTime timeStamp,
       BluetoothDevice device,
+      String? brand,
+      int? battery,
       List<BluetoothService>? commonservices,
       String? polarId,
       Set<PolarDataType>? polarServices});
@@ -68,6 +85,8 @@ class _$BleEntityCopyWithImpl<$Res, $Val extends BleEntity>
     Object? isConnectable = null,
     Object? timeStamp = null,
     Object? device = null,
+    Object? brand = freezed,
+    Object? battery = freezed,
     Object? commonservices = freezed,
     Object? polarId = freezed,
     Object? polarServices = freezed,
@@ -97,6 +116,14 @@ class _$BleEntityCopyWithImpl<$Res, $Val extends BleEntity>
           ? _value.device
           : device // ignore: cast_nullable_to_non_nullable
               as BluetoothDevice,
+      brand: freezed == brand
+          ? _value.brand
+          : brand // ignore: cast_nullable_to_non_nullable
+              as String?,
+      battery: freezed == battery
+          ? _value.battery
+          : battery // ignore: cast_nullable_to_non_nullable
+              as int?,
       commonservices: freezed == commonservices
           ? _value.commonservices
           : commonservices // ignore: cast_nullable_to_non_nullable
@@ -128,6 +155,8 @@ abstract class _$$BleEntityImplCopyWith<$Res>
       bool isConnectable,
       DateTime timeStamp,
       BluetoothDevice device,
+      String? brand,
+      int? battery,
       List<BluetoothService>? commonservices,
       String? polarId,
       Set<PolarDataType>? polarServices});
@@ -150,6 +179,8 @@ class __$$BleEntityImplCopyWithImpl<$Res>
     Object? isConnectable = null,
     Object? timeStamp = null,
     Object? device = null,
+    Object? brand = freezed,
+    Object? battery = freezed,
     Object? commonservices = freezed,
     Object? polarId = freezed,
     Object? polarServices = freezed,
@@ -179,8 +210,16 @@ class __$$BleEntityImplCopyWithImpl<$Res>
           ? _value.device
           : device // ignore: cast_nullable_to_non_nullable
               as BluetoothDevice,
+      brand: freezed == brand
+          ? _value.brand
+          : brand // ignore: cast_nullable_to_non_nullable
+              as String?,
+      battery: freezed == battery
+          ? _value.battery
+          : battery // ignore: cast_nullable_to_non_nullable
+              as int?,
       commonservices: freezed == commonservices
-          ? _value._commonservices
+          ? _value.commonservices
           : commonservices // ignore: cast_nullable_to_non_nullable
               as List<BluetoothService>?,
       polarId: freezed == polarId
@@ -188,7 +227,7 @@ class __$$BleEntityImplCopyWithImpl<$Res>
           : polarId // ignore: cast_nullable_to_non_nullable
               as String?,
       polarServices: freezed == polarServices
-          ? _value._polarServices
+          ? _value.polarServices
           : polarServices // ignore: cast_nullable_to_non_nullable
               as Set<PolarDataType>?,
     ));
@@ -198,90 +237,46 @@ class __$$BleEntityImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$BleEntityImpl implements _BleEntity {
-  const _$BleEntityImpl(
+  _$BleEntityImpl(
       {required this.name,
       required this.address,
       required this.rssi,
       required this.isConnectable,
       required this.timeStamp,
       required this.device,
-      final List<BluetoothService>? commonservices,
+      this.brand,
+      this.battery,
+      this.commonservices,
       this.polarId,
-      final Set<PolarDataType>? polarServices})
-      : _commonservices = commonservices,
-        _polarServices = polarServices;
+      this.polarServices});
 
   @override
-  final String name;
+  String name;
   @override
-  final String address;
+  String address;
   @override
-  final int rssi;
+  int rssi;
   @override
-  final bool isConnectable;
+  bool isConnectable;
   @override
-  final DateTime timeStamp;
+  DateTime timeStamp;
   @override
-  final BluetoothDevice device;
-  final List<BluetoothService>? _commonservices;
+  BluetoothDevice device;
   @override
-  List<BluetoothService>? get commonservices {
-    final value = _commonservices;
-    if (value == null) return null;
-    if (_commonservices is EqualUnmodifiableListView) return _commonservices;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
-  }
-
+  String? brand;
   @override
-  final String? polarId;
-  final Set<PolarDataType>? _polarServices;
+  int? battery;
   @override
-  Set<PolarDataType>? get polarServices {
-    final value = _polarServices;
-    if (value == null) return null;
-    if (_polarServices is EqualUnmodifiableSetView) return _polarServices;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(value);
-  }
+  List<BluetoothService>? commonservices;
+  @override
+  String? polarId;
+  @override
+  Set<PolarDataType>? polarServices;
 
   @override
   String toString() {
-    return 'BleEntity(name: $name, address: $address, rssi: $rssi, isConnectable: $isConnectable, timeStamp: $timeStamp, device: $device, commonservices: $commonservices, polarId: $polarId, polarServices: $polarServices)';
+    return 'BleEntity(name: $name, address: $address, rssi: $rssi, isConnectable: $isConnectable, timeStamp: $timeStamp, device: $device, brand: $brand, battery: $battery, commonservices: $commonservices, polarId: $polarId, polarServices: $polarServices)';
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$BleEntityImpl &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.address, address) || other.address == address) &&
-            (identical(other.rssi, rssi) || other.rssi == rssi) &&
-            (identical(other.isConnectable, isConnectable) ||
-                other.isConnectable == isConnectable) &&
-            (identical(other.timeStamp, timeStamp) ||
-                other.timeStamp == timeStamp) &&
-            (identical(other.device, device) || other.device == device) &&
-            const DeepCollectionEquality()
-                .equals(other._commonservices, _commonservices) &&
-            (identical(other.polarId, polarId) || other.polarId == polarId) &&
-            const DeepCollectionEquality()
-                .equals(other._polarServices, _polarServices));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      name,
-      address,
-      rssi,
-      isConnectable,
-      timeStamp,
-      device,
-      const DeepCollectionEquality().hash(_commonservices),
-      polarId,
-      const DeepCollectionEquality().hash(_polarServices));
 
   @JsonKey(ignore: true)
   @override
@@ -291,35 +286,52 @@ class _$BleEntityImpl implements _BleEntity {
 }
 
 abstract class _BleEntity implements BleEntity {
-  const factory _BleEntity(
-      {required final String name,
-      required final String address,
-      required final int rssi,
-      required final bool isConnectable,
-      required final DateTime timeStamp,
-      required final BluetoothDevice device,
-      final List<BluetoothService>? commonservices,
-      final String? polarId,
-      final Set<PolarDataType>? polarServices}) = _$BleEntityImpl;
+  factory _BleEntity(
+      {required String name,
+      required String address,
+      required int rssi,
+      required bool isConnectable,
+      required DateTime timeStamp,
+      required BluetoothDevice device,
+      String? brand,
+      int? battery,
+      List<BluetoothService>? commonservices,
+      String? polarId,
+      Set<PolarDataType>? polarServices}) = _$BleEntityImpl;
 
   @override
   String get name;
+  set name(String value);
   @override
   String get address;
+  set address(String value);
   @override
   int get rssi;
+  set rssi(int value);
   @override
   bool get isConnectable;
+  set isConnectable(bool value);
   @override
   DateTime get timeStamp;
+  set timeStamp(DateTime value);
   @override
   BluetoothDevice get device;
+  set device(BluetoothDevice value);
+  @override
+  String? get brand;
+  set brand(String? value);
+  @override
+  int? get battery;
+  set battery(int? value);
   @override
   List<BluetoothService>? get commonservices;
+  set commonservices(List<BluetoothService>? value);
   @override
   String? get polarId;
+  set polarId(String? value);
   @override
   Set<PolarDataType>? get polarServices;
+  set polarServices(Set<PolarDataType>? value);
   @override
   @JsonKey(ignore: true)
   _$$BleEntityImplCopyWith<_$BleEntityImpl> get copyWith =>

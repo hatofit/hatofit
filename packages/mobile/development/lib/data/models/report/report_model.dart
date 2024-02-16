@@ -31,7 +31,7 @@ class ReportModel with _$ReportModel {
         devices: devices?.map((e) => e.toEntity()).toList(),
         reports: reports?.map((e) => e.toEntity()).toList(),
       );
-  factory ReportModel.fromSession(dynamic session) {
+  factory ReportModel.fromSession(SessionEntity session) {
     const knownBrand = [
       'Polar',
       'Common',
@@ -52,8 +52,7 @@ class ReportModel with _$ReportModel {
           continue;
         }
         if (device.type!.contains(knownBrand[0]) ||
-            device.type!.contains(knownBrand[1]) ||
-            device.type!.contains(knownBrand[2])) {
+            device.type!.contains(knownBrand[1])) {
           //  check if device is already in list
           final index = devices.indexWhere(
             (e) => e.identifier == device.identifier,
@@ -61,11 +60,16 @@ class ReportModel with _$ReportModel {
           if (index == -1) {
             devices.add(
               ReportDeviceModel(
-                name: device.type!.contains(knownBrand[0])
-                    ? knownBrand[0]
-                    : knownBrand[1],
+                name: device.model,
                 identifier: device.identifier,
+                brand: device.brand,
               ),
+            );
+          } else {
+            devices[index] = devices[index].copyWith(
+              name: device.model,
+              identifier: device.identifier,
+              brand: device.brand,
             );
           }
           if (device.type!.contains("hr")) {
@@ -207,6 +211,7 @@ class ReportModel with _$ReportModel {
 class ReportDeviceModel with _$ReportDeviceModel {
   const factory ReportDeviceModel({
     String? name,
+    String? brand,
     String? identifier,
   }) = _ReportDeviceModel;
 
@@ -239,7 +244,7 @@ class ReportDataModel with _$ReportDataModel {
       );
 
   Future<List<HrChartModel>> generateHrChart() async {
-    final hrParser = ModelToEntityIsolateParser(data, (response) {
+    final hrParser = IParser(data, (response) {
       final nD = response as List<ReportDataValueModel>;
       List<HrChartModel> chart = [];
       for (var item in nD) {
@@ -258,7 +263,7 @@ class ReportDataModel with _$ReportDataModel {
   }
 
   // Future<List<EcgChartModel>> generateEcgChart() async {
-  //   final ecgParser = ModelToEntityIsolateParser(data, (res) {
+  //   final ecgParser = IParser(data, (res) {
   //     final nD = res as List<ReportDataValueModel>;
   //     List<EcgChartModel> chart = [];
   //     for (var item in nD) {

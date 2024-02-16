@@ -122,7 +122,7 @@ class _ProfileViewState extends State<ProfileView> {
               },
               label: Row(
                 children: [
-                  Icon(Icons.save, color: Colors.white),
+                  const Icon(Icons.save, color: Colors.white),
                   SizedBox(width: Dimens.width8),
                   Text(
                     Strings.of(context)!.updateProfile,
@@ -202,7 +202,7 @@ class _ProfileViewState extends State<ProfileView> {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                            image: FileImage((authState as ImagePicked).image!),
+                            image: FileImage((authState).image!),
                             fit: BoxFit.cover,
                           ),
                         ))

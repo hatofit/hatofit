@@ -20,6 +20,7 @@ class ActivityView extends StatelessWidget {
           titleTextStyle: Theme.of(context).textTheme.titleLarge,
         ),
         child: BlocBuilder<ActivityCubit, ActivityState>(
+          buildWhen: (p, c) => p != c,
           builder: (context, state) => state.when(
             loading: () => const Center(child: Loading()),
             failure: (message) {

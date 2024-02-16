@@ -34,13 +34,14 @@ class CalorieGauge extends StatelessWidget {
                   endAngle: 270,
                   showLabels: false,
                   showTicks: false,
+                  maximum: hState.user?.metricUnits?.energyUnits == "kcal"
+                      ? 5000
+                      : 20000,
                   pointers: [
                     RangePointer(
                       value: hState.calories,
-                      width: Dimens.width16,
                       color: Theme.of(context).extension<AppColors>()!.mauve!,
                       cornerStyle: CornerStyle.bothCurve,
-                      sizeUnit: GaugeSizeUnit.factor,
                       enableAnimation: true,
                       animationDuration: 1000,
                     ),

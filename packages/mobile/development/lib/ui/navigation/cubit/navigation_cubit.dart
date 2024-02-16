@@ -11,7 +11,7 @@ import 'package:polar/polar.dart';
 part 'navigation_cubit.freezed.dart';
 part 'navigation_state.dart';
 
-class NavigationCubit extends Cubit<NavigationState> {
+class NavigationCubit extends Cubit<NavigationState> with VibratorMixin {
   final ScanCommonBLEUsecase _scanCommonBLEUsecase;
   final ScanResultsBLEUsecase _scanResultsBLEUsecase;
   final AdapterStateBLEUsecase _adapterStateBLEUsecase;
@@ -25,6 +25,7 @@ class NavigationCubit extends Cubit<NavigationState> {
   final StreamCommonBLEUsecase _streamCommonBLEUsecase;
   final StopScanBLEUsecase _stopScanBLEUsecase;
   final StatePolarBleUsecase _statePolarBleUsecase;
+  final ReadCommonBLEUsecase _readCommonBLEUsecase;
 
   final StreamHrPolarBLEUsecase _streamHrPolarBLEUsecase;
   final StreamEcgPolarBLEUsecase _streamEcgPolarBLEUsecase;
@@ -53,6 +54,7 @@ class NavigationCubit extends Cubit<NavigationState> {
     this._streamGyroPolarBLEUsecase,
     this._streamMagnetometerPolarBLEUsecase,
     this._streamPpgPolarBLEUsecase,
+    this._readCommonBLEUsecase,
   ) : super(NavigationState(bleFailure: null));
 
   StreamSubscription? _bleAdapterStateStream;
@@ -175,6 +177,7 @@ class NavigationCubit extends Cubit<NavigationState> {
   }
 
   Future<void> startScan() async {
+    emit(state.copyWith(fDevices: []));
     await _scanCommonBLEUsecase.call(
       StartScanCommonParams(
         serviceIds: [GuidConstant.get.hrS],
@@ -185,12 +188,6 @@ class NavigationCubit extends Cubit<NavigationState> {
 
   Future<void> connectToDevice(BleEntity entity) async {
     emit(state.copyWith(bleFailure: null, isLoading: true));
-    if (_scanResultStream != null) {
-      await _stopScanBLEUsecase
-          .call(StopScanCommonParams(subscription: _scanResultStream!));
-      _scanResultStream?.cancel();
-      _scanResultStream = null;
-    }
     if (!entity.isConnectable) {
       return;
     } else if (entity.name.contains("Polar")) {
@@ -296,6 +293,9 @@ class NavigationCubit extends Cubit<NavigationState> {
           bleFailure: l,
           isLoading: false,
         ));
+        _disconnectCommonBleUsecase.call(DisconnectCommonParams(
+          device: entity.device,
+        ));
       }
     }, (_) async {
       emit(state.copyWith(
@@ -319,26 +319,28 @@ class NavigationCubit extends Cubit<NavigationState> {
       },
       (r) {
         List<BleEntity>? nDL = [];
+        BleEntity nD = entity;
         for (final e in state.fDevices!) {
           if (e.polarId == entity.polarId) {
-            final nD = e.copyWith(
-              polarServices: r,
-            );
+            nD = e.copyWith(
+                polarServices: r, brand: nD.name.isPolar() ? "Polar" : null);
             nDL.add(nD);
           } else {
             nDL.add(e);
           }
         }
         emit(state.copyWith(
-          cDevice: entity,
+          cDevice: nD,
           fDevices: nDL,
         ));
-        subscribeHrPolar(entity, r);
-        subscribeEcgPolar(entity, r);
-        subscribeAccPolar(entity, r);
-        subscribeGyroPolar(entity, r);
-        subscribeMagnetometerPolar(entity, r);
-        subscribePpgPolar(entity, r);
+        subscribeHrPolar(nD, r);
+        subscribeEcgPolar(nD, r);
+        subscribeAccPolar(nD, r);
+        subscribeGyroPolar(nD, r);
+        subscribeMagnetometerPolar(nD, r);
+        subscribePpgPolar(nD, r);
+
+        vibrateOnce();
       },
     );
   }
@@ -357,7 +359,39 @@ class NavigationCubit extends Cubit<NavigationState> {
         _conStateCommonStream ??= entity.device.connectionState.listen((event) {
           emit(state.copyWith(conState: event));
         });
-        subscribeHrCommon(entity, r);
+        List<BleEntity>? nDL = [];
+        BleEntity nD = entity;
+        for (final e in state.fDevices!) {
+          if (e.address == entity.address) {
+            nD = e.copyWith(commonservices: r);
+            nDL.add(nD);
+          } else {
+            nDL.add(e);
+          }
+        }
+        emit(state.copyWith(
+          cDevice: nD,
+          fDevices: nDL,
+        ));
+        final manu = r.any((e) => e.uuid == GuidConstant.get.diS);
+        if (manu) {
+          final diSc = r.firstWhere((e) => e.uuid == GuidConstant.get.diS);
+          final manuC = diSc.characteristics
+              .firstWhere((e) => e.characteristicUuid == GuidConstant.get.mnsC);
+          _readCommonBLEUsecase
+              .call(ReadCommonParams(
+            characteristic: manuC,
+          ))
+              .then((res) {
+            res.fold((l) {}, (r) {
+              emit(state.copyWith(
+                  cDevice: nD.copyWith(brand: r.toASCIIString())));
+            });
+          });
+        }
+
+        subscribeHrCommon(nD, r);
+        vibrateOnce();
       },
     );
   }
@@ -457,10 +491,7 @@ class NavigationCubit extends Cubit<NavigationState> {
           }
         },
         (r) {
-          emit(state.copyWith(
-              magnetometerSample: r.samples.last,
-              cDevice: entity,
-              isLoading: false));
+          emit(state.copyWith(magnetometerSample: r.samples.last));
         },
       );
     });
@@ -511,9 +542,7 @@ class NavigationCubit extends Cubit<NavigationState> {
                     hr: r[1],
                     rrsMs: [],
                     contactStatus: false,
-                    contactStatusSupported: false),
-                cDevice: entity,
-                isLoading: false));
+                    contactStatusSupported: false)));
           }
         },
       );
@@ -557,8 +586,13 @@ class NavigationCubit extends Cubit<NavigationState> {
     } else {
       if (_hrCommonStream != null) {
         entity.device.cancelWhenDisconnected(_hrCommonStream!);
+        _hrCommonStream?.cancel();
+        _hrCommonStream = null;
       }
-      _hrCommonStream = null;
+      if (_conStateCommonStream != null) {
+        _conStateCommonStream?.cancel();
+        _conStateCommonStream = null;
+      }
       _disconnectCommonBleUsecase.call(DisconnectCommonParams(
         device: entity.device,
       ));

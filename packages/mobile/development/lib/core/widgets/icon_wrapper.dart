@@ -5,6 +5,8 @@ class IconWrapper extends StatelessWidget {
   final IconData icon;
   final Color color;
   final double? size;
+  final double? width;
+  final double? height;
   final BorderRadius? borderRadius;
   final double? borderWidth;
 
@@ -15,13 +17,15 @@ class IconWrapper extends StatelessWidget {
     this.size,
     this.borderRadius,
     this.borderWidth,
+    this.width,
+    this.height,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: size ?? Dimens.width32,
-      height: size ?? Dimens.width32,
+      width: width ?? Dimens.width32,
+      height: height ?? Dimens.width32,
       decoration: BoxDecoration(
         borderRadius: borderRadius ?? BorderRadius.circular(Dimens.radius8),
         border: Border.all(

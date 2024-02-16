@@ -13,6 +13,7 @@ class FreeWorkoutView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WorkoutCubit, WorkoutState>(
+      buildWhen: (p, c) => p != c,
       builder: (context, state) => state.when(
         loading: () => const Center(child: Loading()),
         failure: (message) {

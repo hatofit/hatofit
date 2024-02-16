@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/helper/logger.dart';
 
 part 'activity_cubit.freezed.dart';
 part 'activity_state.dart';
@@ -20,10 +19,12 @@ class ActivityCubit extends Cubit<ActivityState> {
   Future<void> getSessions() async {
     emit(const _Loading());
     final res = await _getSessionsUsecase.call(const ByLimitParams());
-    log.f('getSessions $res');
     res.fold(
       (failure) => emit(_Failure(failure)),
-      (session) => emit(_Success(session)),
+      (session) {
+        emit(_Success(session));
+        // log.f("LAST SESSION: ${session.last}");
+      },
     );
   }
 }

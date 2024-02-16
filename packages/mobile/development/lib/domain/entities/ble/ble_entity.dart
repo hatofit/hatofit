@@ -4,15 +4,17 @@ import 'package:polar/polar.dart';
 
 part 'ble_entity.freezed.dart';
 
-@freezed
+@unfreezed
 class BleEntity with _$BleEntity {
-  const factory BleEntity({
+  factory BleEntity({
     required String name,
     required String address,
     required int rssi,
     required bool isConnectable,
     required DateTime timeStamp,
     required BluetoothDevice device,
+    String? brand,
+    int? battery,
     List<BluetoothService>? commonservices,
     String? polarId,
     Set<PolarDataType>? polarServices,

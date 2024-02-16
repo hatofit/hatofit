@@ -22,7 +22,7 @@ abstract class CommonBLERepo {
   Future<Either<Failure, List<BluetoothService>>> discoverServices(
     GetCommonServicesParams params,
   );
-  Future<Either<Failure, List<int>>?> readCharacteristic(
+  Future<Either<Failure, List<int>>> readCharacteristic(
     ReadCommonParams params,
   );
   Stream<Either<Failure, List<int>>> subscribeToCharacteristic(

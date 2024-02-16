@@ -52,7 +52,7 @@ class CommonBLERepoImpl implements CommonBLERepo {
   }
 
   @override
-  Future<Either<Failure, List<int>>?> readCharacteristic(
+  Future<Either<Failure, List<int>>> readCharacteristic(
     ReadCommonParams params,
   ) async =>
       await _client.readCharacteristic(

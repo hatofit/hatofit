@@ -32,17 +32,18 @@ class HrBarChart extends StatelessWidget {
                   children: [
                     SizedBox(height: Dimens.height8),
                     Container(
-                      padding: EdgeInsets.all(Dimens.width16),
+                      // padding: EdgeInsets.all(Dimens.width4),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(Dimens.radius15),
                         color: Theme.of(context).hintColor.withOpacity(0.2),
                       ),
                       child: SfCartesianChart(
+                        title: ChartTitle(text: Strings.of(context)!.avgHR),
                         series: [
                           ColumnSeries<HrBarChartItem, String>(
                             dataSource: hState.hrData,
                             xValueMapper: (HrBarChartItem hr, _) =>
-                                DateFormat('HH:mm').format(hr.date),
+                                DateFormat.Hm().format(hr.date),
                             yValueMapper: (HrBarChartItem hr, _) => hr.avgHr,
                             color: Theme.of(context).primaryColor,
                             width: 0.3,
@@ -52,15 +53,11 @@ class HrBarChart extends StatelessWidget {
                           ),
                         ],
                         primaryYAxis: const NumericAxis(
-                          isVisible: false,
-                        ),
+                            // isVisible: false,
+                            ),
                         borderWidth: 0,
                         primaryXAxis: const CategoryAxis(
                           isVisible: true,
-                          labelStyle: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
                         ),
                       ),
                     ),

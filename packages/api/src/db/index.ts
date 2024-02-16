@@ -113,6 +113,8 @@ const SessionSchema = new Schema(
           {
             type: String,
             identifier: String,
+            brand: String,
+            model: String,
             value: Schema.Types.Mixed,
           },
         ],

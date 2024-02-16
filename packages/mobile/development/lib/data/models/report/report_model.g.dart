@@ -36,6 +36,7 @@ _$ReportDeviceModelImpl _$$ReportDeviceModelImplFromJson(
         Map<String, dynamic> json) =>
     _$ReportDeviceModelImpl(
       name: json['name'] as String?,
+      brand: json['brand'] as String?,
       identifier: json['identifier'] as String?,
     );
 
@@ -43,6 +44,7 @@ Map<String, dynamic> _$$ReportDeviceModelImplToJson(
         _$ReportDeviceModelImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
+      'brand': instance.brand,
       'identifier': instance.identifier,
     };
 

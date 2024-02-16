@@ -26,7 +26,7 @@ class _ActivityDetailViewState extends State<ActivityDetailView> {
 
   final formatter = DateFormat('HH:mm:ss');
   @override
-  void initState() {
+  void initState() { 
     final report = ReportModel.fromSession(widget.session);
     setState(() {
       this.report = report;
@@ -60,6 +60,7 @@ class _ActivityDetailViewState extends State<ActivityDetailView> {
       );
       final hrChart = await hr?.generateHrChart();
       final mt = await widget.session.generateMeta();
+      if (!mounted  ) return;
       setState(() {
         this.hrChart = hrChart ?? [];
         metaHr = mt;
@@ -73,7 +74,6 @@ class _ActivityDetailViewState extends State<ActivityDetailView> {
     final sesInfo = Theme.of(context).textTheme.bodyLarge!.copyWith(
           color: Colors.white,
         );
-    log.e("Device: ${report?.devices}");
     return Parent(
       appBar: AppBar(
         title: Text(widget.session.exercise?.name ?? ''),

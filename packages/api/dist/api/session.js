@@ -20,13 +20,13 @@ const session_1 = require("../types/session");
 const ApiSession = ({ route }) => {
     route.get("/session/", auth_1.AuthJwtMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         var _a, _b;
-        const { page, limit } = req.query;
+        // const { page, limit } = req.query;
         const sessions = yield db_1.Session.find({
             userId: (_b = (_a = req.auth) === null || _a === void 0 ? void 0 : _a.user) === null || _b === void 0 ? void 0 : _b._id,
-        })
-            .sort({ createdAt: -1 })
-            .skip(Number(page || 0) * Number(limit || 10))
-            .limit(Number(limit || 10));
+        });
+        // .sort({ createdAt: -1 })
+        // .skip(Number(page || 0) * Number(limit || 10))
+        // .limit(Number(limit || 10));
         return res.json({
             success: true,
             message: "Sessions found",
@@ -132,7 +132,6 @@ const ApiSession = ({ route }) => {
             // save to db
             const created = yield db_1.Session.create(Object.assign(Object.assign({}, session), { _id: new mongoose_1.default.Types.ObjectId().toHexString(), userId: user._id, exercise,
                 withoutExercise }));
-            console.log("SESSION CREATED", created);
             // resposne
             return res.json({
                 success: true,

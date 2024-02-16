@@ -29,6 +29,7 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
   int second = 0;
   BleEntity? device;
   Timer? timer;
+  int hrTimeout = 0;
   @override
   void initState() {
     timer ??= Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -165,6 +166,19 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
         child: BlocConsumer<NavigationCubit, NavigationState>(
             listenWhen: (p, c) => p.hrSample != c.hrSample,
             listener: (context, state) {
+              if (state.hrSample?.hr == 0) {
+                hrTimeout++;
+                if (hrTimeout > 500) {
+                  Strings.of(context)!
+                      .fiveMinutesPassedWithZeroHeartRate
+                      .toToastError(context);
+                  Future.delayed(const Duration(seconds: 1), () {
+                    _finishWorkout(context);
+                  });
+                }
+              } else {
+                hrTimeout = 0;
+              }
               device = state.cDevice;
               context.read<WorkoutCubit>().receiveStreamData(
                     hr: state.hrSample,
@@ -178,9 +192,15 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
                     timeStamp: DateTime.now(),
                   );
             },
+            buildWhen: (p, c) => p.hrSample != c.hrSample,
             builder: (context, state) {
-              final ses = context.read<WorkoutCubit>().ses;
-
+              final wCub = context.read<WorkoutCubit>();
+              final ses = wCub.ses;
+              if (ses.hrZoneType == HrZoneType.max && wCub.isAlreadyVibrating) {
+                Strings.of(context)!
+                    .maxHeartRateReached
+                    .toToastError(context, textAlign: TextAlign.center);
+              }
               return state.hrSample != null
                   ? SingleChildScrollView(
                       child: Column(children: [

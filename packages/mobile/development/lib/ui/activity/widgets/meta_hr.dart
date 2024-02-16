@@ -59,7 +59,7 @@ class _MetaHrWidgetState extends State<MetaHrWidget> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text("avg."),
+                            const Text("avg."),
                             Text('${widget.metaHr!.avg} bpm'),
                           ],
                         ),
@@ -72,7 +72,7 @@ class _MetaHrWidgetState extends State<MetaHrWidget> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text("min."),
+                            const Text("min."),
                             Text('${widget.metaHr!.min} bpm'),
                           ],
                         ),
@@ -85,7 +85,7 @@ class _MetaHrWidgetState extends State<MetaHrWidget> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text("max."),
+                            const Text("max."),
                             Text('${widget.metaHr!.max} bpm'),
                           ],
                         ),
