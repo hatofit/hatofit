@@ -144,9 +144,6 @@ class NavigationCubit extends Cubit<NavigationState> {
             }
           },
           (device) {
-            // for (final i in device) {
-            //   log.e("Device found: ${i.name}");
-            // }
             emit(state.copyWith(fDevices: device));
           },
         );
@@ -174,13 +171,14 @@ class NavigationCubit extends Cubit<NavigationState> {
         emit(state.copyWith(conState: r));
       });
     });
-    _startScan();
+    startScan();
   }
 
-  Future<void> _startScan() async {
+  Future<void> startScan() async {
     await _scanCommonBLEUsecase.call(
       StartScanCommonParams(
         serviceIds: [GuidConstant.get.hrS],
+        timeout: const Duration(minutes: 3),
       ),
     );
   }
@@ -398,7 +396,7 @@ class NavigationCubit extends Cubit<NavigationState> {
           }
         },
         (r) {
-          // log.d("Ecg length: ${r.samples.length}");
+          // log.d("Ecg : ${r.toJson()}");
           emit(state.copyWith(ecgSample: r.samples));
         },
       );
@@ -528,8 +526,6 @@ class NavigationCubit extends Cubit<NavigationState> {
 
   void disconnectDevice(BleEntity entity) {
     clearState();
-    log.f("Device disconnected: $state");
-    log.f("Disconnecting device: ${entity.name}");
     if (entity.name.contains("Polar")) {
       if (_hrPolarStream != null) {
         _hrPolarStream?.cancel();

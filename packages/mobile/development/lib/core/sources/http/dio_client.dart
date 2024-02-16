@@ -80,7 +80,6 @@ class DioClient with FirebaseCrashLogger {
 
       return Right(result);
     } on DioException catch (e, stackTrace) {
-      log.e("Error: $e");
       nonFatalError(error: e, stackTrace: stackTrace);
 
       if (e.response?.statusCode == 404) {
@@ -117,7 +116,6 @@ class DioClient with FirebaseCrashLogger {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      log.d("Response: ${response.data}");
       if ((response.statusCode ?? 0) < 200 ||
           (response.statusCode ?? 0) > 201) {
         throw DioException(

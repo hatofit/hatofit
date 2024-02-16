@@ -99,4 +99,22 @@ extension StringExt on String {
       return 'assets/images/other-device.png';
     }
   }
+
+  String trMood(BuildContext ctx) {
+    final str = Strings.of(ctx)!;
+    switch (this) {
+      case 'happy':
+        return str.happy;
+      case 'good':
+        return str.good;
+      case 'neutral':
+        return str.neutral;
+      case 'sad':
+        return str.sad;
+      case 'awful':
+        return str.awful;
+      default:
+        return str.unknown;
+    }
+  }
 }

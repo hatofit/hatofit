@@ -5,7 +5,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/helper/logger.dart';
 import 'package:polar/polar.dart';
 
 part 'workout_cubit.freezed.dart';
@@ -45,7 +44,6 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     ));
     res.fold(
       (l) {
-        log.f(l);
         emit(_Failure(l));
       },
       (r) => emit(_Success(r)),
@@ -86,20 +84,14 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     required String mood,
     ExerciseEntity? exercise,
   }) async {
-    log.f("Finish workout");
     if (user != null && exercise != null) {
       final params = await session.createParams(user, exercise, mood, ble);
-      log.f(params);
       final res = await _createSessionUsecase.call(params);
       return res.fold(
         (l) {
-          log.i("WorkoutSession failed to create");
-          log.i(l);
           return false;
         },
         (r) {
-          log.i("WorkoutSession created");
-          log.i(r);
           ses = WorkoutSession(
             calories: 0,
             avgHr: 0,
@@ -134,6 +126,7 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     hrPecentage: 0,
   );
   bool isParserDone = true;
+
   Future<void> receiveStreamData({
     PolarHrSample? hr,
     UserEntity? user,

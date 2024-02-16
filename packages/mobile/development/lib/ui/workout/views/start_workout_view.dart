@@ -91,7 +91,6 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
             ),
             content: EmojiPicker(
               onEmojiSelected: (p0) {
-                log.d("Mood: $p0");
                 mood = p0;
                 final navigator = Navigator.of(context, rootNavigator: true);
                 navigator.pop();
@@ -125,7 +124,7 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
           }
         });
       } catch (e) {
-        log.f("_showEmojiPicker error: $e");
+        Strings.of(ctx)!.somethingWentWrong.toToastError(ctx);
       }
     });
   }
@@ -189,11 +188,6 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
                           exercise: widget.exercise,
                           devices: state.cDevice,
                         ),
-                        SizedBox(height: Dimens.height8),
-                        Text("Second : $second"),
-                        Text("HR : ${ses.hrSamples?.length}"),
-                        Text("Ecg : ${ses.ecgSamples?.length}"),
-                        Text("Acc : ${ses.accSamples?.length}"),
                         SizedBox(height: Dimens.height8),
                         Padding(
                             padding: EdgeInsets.symmetric(

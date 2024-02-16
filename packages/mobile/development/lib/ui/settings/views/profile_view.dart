@@ -117,7 +117,6 @@ class _ProfileViewState extends State<ProfileView> {
                         password: _conPassword.text,
                         firstName: _conFirstName.text,
                         lastName: _conLastName.text,
-                        dateOfBirth: _conDateOfBirth.text,
                       ));
                 }
               },
@@ -270,9 +269,11 @@ class _ProfileViewState extends State<ProfileView> {
             ).then((value) => {
                   if (value != null)
                     {
-                      _conDateOfBirth.text =
-                          '${value.day} ${value.month.toStringMonth(context)} ${value.year}',
-                      context.read<IntroCubit>().updateDateOfBirth(value),
+                      setState(() {
+                        _conDateOfBirth.text =
+                            '${value.day} ${value.month.toStringMonth(context)} ${value.year}';
+                      }),
+                      context.read<SettingsCubit>().updateDateOfBirth(value),
                     }
                 }),
             child: TextF(

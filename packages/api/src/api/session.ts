@@ -128,13 +128,13 @@ export const ApiSession = ({ route }: { route: express.Router }) => {
         exercise,
         withoutExercise,
       });
-
+      console.log("SESSION CREATED", created);
       // resposne
       return res.json({
         success: true,
         message: "Session created successfully",
         id: created._id,
-        session,
+        session: created,
       });
     } catch (error) {
       console.log("4");

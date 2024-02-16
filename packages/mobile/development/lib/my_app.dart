@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
             AppRoute.setStream(context);
 
             return BlocBuilder<SettingsCubit, DataHelper>(builder: (_, data) {
-              log.f("MyApp: ${data}");
               return MaterialApp.router(
                 routerConfig: AppRoute.router,
                 restorationScopeId: 'hatofitApp',

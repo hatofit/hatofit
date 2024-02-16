@@ -14,7 +14,7 @@ class MoodController extends GetxController {
       'date': DateFormat('d MMMM yyyy').format(DateTime.now()),
     };
     selectedMood.value = mood;
-   }
+  }
 
   @override
   void onInit() {
@@ -44,10 +44,10 @@ class MoodPickerWidget extends GetView<MoodController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             buildMoodItem('😄', 'happy'),
-            buildMoodItem('😊', 'good'),
+            buildMoodItem('😃', 'good'),
             buildMoodItem('😐', 'neutral'),
             buildMoodItem('😔', 'sad'),
-            buildMoodItem('😢', 'awful'),
+            buildMoodItem('😞', 'awful'),
           ],
         ),
       ),

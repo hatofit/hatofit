@@ -132,12 +132,13 @@ const ApiSession = ({ route }) => {
             // save to db
             const created = yield db_1.Session.create(Object.assign(Object.assign({}, session), { _id: new mongoose_1.default.Types.ObjectId().toHexString(), userId: user._id, exercise,
                 withoutExercise }));
+            console.log("SESSION CREATED", created);
             // resposne
             return res.json({
                 success: true,
                 message: "Session created successfully",
                 id: created._id,
-                session,
+                session: created,
             });
         }
         catch (error) {

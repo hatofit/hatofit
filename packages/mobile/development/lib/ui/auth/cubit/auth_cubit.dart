@@ -131,7 +131,7 @@ class AuthCubit extends Cubit<AuthState> {
   void signUpWithRestAPI(RegisterParams params) async {
     emit(const _Loading());
     final user =
-        await _readUserUsecase.call(const ByLimitParams(showFromLocal: false));
+        await _readUserUsecase.call(const ByLimitParams(showFromLocal: true));
     user.fold((l) => null, (r) async {
       try {
         final res = await _registerUsecase.call(RegisterParams(
@@ -170,7 +170,7 @@ class AuthCubit extends Cubit<AuthState> {
   void updateUserRestApi(RegisterParams params) async {
     emit(const _Loading());
     final user =
-        await _readUserUsecase.call(const ByLimitParams(showFromLocal: false));
+        await _readUserUsecase.call(const ByLimitParams(showFromLocal: true));
     user.fold((l) => null, (r) async {
       try {
         final res = await _upsertUserUsecase.call(RegisterParams(

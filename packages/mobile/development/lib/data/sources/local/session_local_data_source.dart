@@ -3,6 +3,7 @@ import 'package:hatofit/core/error/failure.dart';
 import 'package:hatofit/core/sources/local/box_client.dart';
 import 'package:hatofit/data/models/session/session_model.dart';
 import 'package:hatofit/domain/domain.dart';
+import 'package:hatofit/utils/utils.dart';
 
 abstract class SessionLocalDataSource {
   Future<Either<Failure, SessionEntity>> createSession(
@@ -15,9 +16,13 @@ abstract class SessionLocalDataSource {
     ByIdParams params,
   );
   Future<Either<Failure, List<SessionEntity>>> readSessionAll();
+
+  Future<Either<Failure, int>> deleteAll();
 }
 
-class SessionLocalDataSourceImpl implements SessionLocalDataSource {
+class SessionLocalDataSourceImpl
+    with FirebaseCrashLogger
+    implements SessionLocalDataSource {
   final BoxClient _box;
 
   SessionLocalDataSourceImpl(this._box);
@@ -26,68 +31,106 @@ class SessionLocalDataSourceImpl implements SessionLocalDataSource {
   Future<Either<Failure, SessionEntity>> createSession(
     CreateSessionParams params,
   ) async {
-    final entity = SessionModel.fromJson(params.toJson()).toEntity();
-    final key = await _box.sessionBox.add(entity);
-    
-    final res = _box.sessionBox.get(key);
-    if (res == null) {
-      return const Left(CacheFailure("Session not found"));
+    try {
+      final entity = SessionModel.fromJson(params.toJson()).toEntity();
+      final key = await _box.sessionBox.add(entity);
+
+      final res = _box.sessionBox.get(key);
+      if (res == null) {
+        return const Left(CacheFailure("Session not found"));
+      }
+
+      return Right(res);
+    } catch (e, s) {
+      nonFatalError(error: e, stackTrace: s);
+      return Left(CacheFailure(e.toString()));
     }
-    
-    return Right(res);
   }
 
   @override
   Future<Either<Failure, SessionEntity>> cacheSession(
     SessionEntity session,
   ) async {
-    final all = _box.sessionBox.toMap();
-    int key = 0;
-  
-    for (var element in all.entries) {
-      if (element.value.id == session.id) {
-        await _box.sessionBox.put(element.key, session);
-      } else {
+    try {
+      final all = _box.sessionBox.toMap();
+      int key = 0;
+
+      if (all.isEmpty) {
         key = await _box.sessionBox.add(session);
+      } else {
+        for (var element in all.entries) {
+          if (element.value.id == session.id) {
+            await _box.sessionBox.put(element.key, session);
+            key = element.key;
+            break;
+          } else {
+            key = await _box.sessionBox.add(session);
+            break;
+          }
+        }
       }
+      final res = _box.sessionBox.get(key);
+      if (res == null) {
+        return const Left(CacheFailure("Failed to cache session"));
+      }
+
+      return Right(res);
+    } catch (e, s) {
+      nonFatalError(error: e, stackTrace: s);
+      return Left(CacheFailure(e.toString()));
     }
-  
-    final res = _box.sessionBox.get(key);
-    if (res == null) {
-      return const Left(CacheFailure("Failed to cache session"));
-    }
-  
-    return Right(res);
   }
 
   @override
   Future<Either<Failure, SessionEntity>> readSessionById(
     ByIdParams params,
   ) async {
-    final all = _box.sessionBox.values;
-    SessionEntity? found;
-  
-    for (final item in all) {
-      if (item.id == params.id) {
-        found = item;
+    try {
+      final all = _box.sessionBox.values;
+      SessionEntity? found;
+
+      for (final item in all) {
+        if (item.id == params.id) {
+          found = item;
+          break;
+        }
       }
+
+      if (found == null) {
+        return const Left(CacheFailure("Session not found"));
+      }
+
+      return Right(found);
+    } catch (e, s) {
+      nonFatalError(error: e, stackTrace: s);
+      return Left(CacheFailure(e.toString()));
     }
-  
-    if (found == null) {
-      return const Left(CacheFailure("Session not found"));
-    }
-  
-    return Right(found);
   }
 
   @override
   Future<Either<Failure, List<SessionEntity>>> readSessionAll() async {
-    final all = _box.sessionBox.values;
+    try {
+      final all = _box.sessionBox.values;
+      if (all.isEmpty) {
+        return const Left(CacheFailure("Sessions not found"));
+      }
 
-    if (all.isEmpty) {
-      return const Left(CacheFailure("Sessions not found"));
+      return Right(all.toList());
+    } catch (e, s) {
+      nonFatalError(error: e, stackTrace: s);
+      return Left(CacheFailure(e.toString()));
     }
+  }
 
-    return Right(all.toList());
+  @override
+  // delete all
+  Future<Either<Failure, int>> deleteAll() async {
+    try {
+      final res = await _box.sessionBox.clear();
+      return Right(res);
+    } catch (e, s) {
+      nonFatalError(error: e, stackTrace: s);
+      return Left(CacheFailure(e.toString()));
+    }
   }
 }

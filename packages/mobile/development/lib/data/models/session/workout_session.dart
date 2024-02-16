@@ -104,7 +104,6 @@ class WorkoutSession {
               BleEntity>;
       List<SessionDataItemParams> hrBased = [];
       final identifier = samples.value7.polarId ?? samples.value7.address;
-
       for (var hr in samples.value1) {
         final List<SessionDataItemDeviceParams> devices = [];
         devices.add(
@@ -124,12 +123,14 @@ class WorkoutSession {
         );
         for (var ecg in samples.value2) {
           if (hr.second == ecg.second) {
+            // final time = ecg.timeStamp.toString();
+            // log.f("Ecg Timestamp : ${time}");
             devices.add(SessionDataItemDeviceParams(
               type: 'PolarDataType.ecg',
               identifier: identifier,
               value: [
                 {
-                  'timeStamp': ecg.timeStamp.toIso8601String(),
+                  'timeStamp': ecg.timeStamp.microsecondsSinceEpoch,
                   'voltage': ecg.voltage,
                 },
               ],

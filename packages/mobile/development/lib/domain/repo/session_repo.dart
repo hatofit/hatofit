@@ -12,4 +12,5 @@ abstract class SessionRepo {
   Future<Either<Failure, List<SessionEntity>>> readSessionAll(
     ByLimitParams params,
   );
+  Future<Either<Failure, int>> deleteAll();
 }

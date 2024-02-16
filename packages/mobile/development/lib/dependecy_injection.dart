@@ -187,6 +187,7 @@ void _useCase() {
   di.registerLazySingleton(() => SessionAllUsecase(di()));
   di.registerLazySingleton(() => SessionByIdUsecase(di()));
   di.registerLazySingleton(() => CreateSessionUsecase(di()));
+  di.registerLazySingleton(() => SessionDeleteAllUsecase(di()));
 
   /// [User]
   ///
@@ -228,6 +229,7 @@ void _cubit() {
         di(),
         di(),
         di(),
+        di(),
       ));
   di.registerFactory(() => AuthCubit(
         di(),
@@ -254,6 +256,7 @@ void _cubit() {
         di(),
       ));
   di.registerFactory(() => SettingsCubit(
+        di(),
         di(),
         di(),
         di(),

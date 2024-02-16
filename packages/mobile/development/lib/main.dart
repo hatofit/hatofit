@@ -9,8 +9,7 @@ import 'package:hatofit/my_app.dart';
 import 'package:hatofit/utils/utils.dart';
 
 void main() {
-  runZonedGuarded(() async {
-    log.i("Starting app...");
+  runZonedGuarded(() async { 
     WidgetsFlutterBinding.ensureInitialized();
     await FirebaseServices.init();
     await mainInjection();

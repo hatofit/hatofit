@@ -16,6 +16,7 @@ class SettingsCubit extends Cubit<DataHelper> {
   final DeleteTokenUsecase _deleteTokenUsecase;
   final DeleteUserUsecase _deleteUserUsecase;
   final GetBoolFirebaseUsecase _getBoolFirebaseUsecase;
+  final SessionDeleteAllUsecase _sessionDeleteAllUsecase;
 
   SettingsCubit(
     this._readActiveThemeUsecase,
@@ -28,6 +29,7 @@ class SettingsCubit extends Cubit<DataHelper> {
     this._deleteTokenUsecase,
     this._deleteUserUsecase,
     this._getBoolFirebaseUsecase,
+    this._sessionDeleteAllUsecase,
   ) : super(DataHelper(type: "en", activeTheme: ActiveTheme.system));
 
   final List<DataHelper> listLanguage = [
@@ -57,7 +59,7 @@ class SettingsCubit extends Cubit<DataHelper> {
     ),
     DataHelper(
       title: Constants.get.inch,
-      type: "en",
+      type: "in",
     ),
   ];
   final List<DataHelper> listWeightUnit = [
@@ -205,6 +207,7 @@ class SettingsCubit extends Cubit<DataHelper> {
     await _deleteMoodUsecase.call();
     await _deleteTokenUsecase.call();
     await _deleteUserUsecase.call();
+    await _sessionDeleteAllUsecase.call();
   }
 
   Future<void> updateGender(String gender) async {
@@ -244,9 +247,10 @@ class SettingsCubit extends Cubit<DataHelper> {
   }
 
   Future<void> uEUnit(String val) async {
+    final u = state.user;
     emit(state.copyWith(
-        user: state.user
-            ?.copyWith(metricUnits: UserMetricUnitsEntity(energyUnits: val))));
+        user: u?.copyWith(
+            metricUnits: u.metricUnits?.copyWith(energyUnits: val))));
     final user = state.user;
     if (user != null) {
       await _upsertUserUsecase.call(RegisterParams.fromUser(user));
@@ -254,9 +258,10 @@ class SettingsCubit extends Cubit<DataHelper> {
   }
 
   Future<void> uHUnit(String val) async {
+    final u = state.user;
     emit(state.copyWith(
-        user: state.user
-            ?.copyWith(metricUnits: UserMetricUnitsEntity(heightUnits: val))));
+        user: u?.copyWith(
+            metricUnits: u.metricUnits?.copyWith(heightUnits: val))));
     final user = state.user;
     if (user != null) {
       await _upsertUserUsecase.call(RegisterParams.fromUser(user));
@@ -264,9 +269,10 @@ class SettingsCubit extends Cubit<DataHelper> {
   }
 
   Future<void> uWUnit(String val) async {
+    final u = state.user;
     emit(state.copyWith(
-        user: state.user
-            ?.copyWith(metricUnits: UserMetricUnitsEntity(weightUnits: val))));
+        user: u?.copyWith(
+            metricUnits: u.metricUnits?.copyWith(weightUnits: val))));
     final user = state.user;
     if (user != null) {
       await _upsertUserUsecase.call(RegisterParams.fromUser(user));

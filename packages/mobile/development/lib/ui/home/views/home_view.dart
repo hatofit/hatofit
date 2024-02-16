@@ -36,7 +36,7 @@ class _HomeViewState extends State<HomeView> {
                             color: Colors.blue,
                           ),
                           onPressed: () {
-                            // context.read<NavigationCubit>().startScan();
+                            context.read<NavigationCubit>().startScan();
                             showModalBottomSheet(
                               showDragHandle: true,
                               context: context,

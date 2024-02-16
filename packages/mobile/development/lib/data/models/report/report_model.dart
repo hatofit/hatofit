@@ -34,7 +34,7 @@ class ReportModel with _$ReportModel {
   factory ReportModel.fromSession(dynamic session) {
     const knownBrand = [
       'Polar',
-      'Magene',
+      'Common',
     ];
 
     List<ReportDeviceModel> devices = [];
@@ -52,7 +52,8 @@ class ReportModel with _$ReportModel {
           continue;
         }
         if (device.type!.contains(knownBrand[0]) ||
-            device.type!.contains(knownBrand[1])) {
+            device.type!.contains(knownBrand[1]) ||
+            device.type!.contains(knownBrand[2])) {
           //  check if device is already in list
           final index = devices.indexWhere(
             (e) => e.identifier == device.identifier,
@@ -67,7 +68,7 @@ class ReportModel with _$ReportModel {
               ),
             );
           }
-          if (device.type! == "PolarDataType.hr") {
+          if (device.type!.contains("hr")) {
             final reportIndex = reports.indexWhere(
               (e) => e.type == "hr",
             );
@@ -78,7 +79,7 @@ class ReportModel with _$ReportModel {
                   ReportDataValueModel(
                     device: device.identifier,
                     value: [
-                      [item.second!, device.value!.first['hr']],
+                      [item.timeStamp!, device.value!.first['hr']],
                     ],
                   )
                 ],
@@ -86,106 +87,106 @@ class ReportModel with _$ReportModel {
             } else {
               reports[reportIndex].data![0].value!.add(
                 [
-                  item.second!,
+                  item.timeStamp!,
                   device.value!.first['hr'],
                 ],
               );
             }
           }
-          if (device.type! == "PolarDataType.acc") {
-            final reportIndex = reports.indexWhere(
-              (e) => e.type == "acc",
-            );
-            if (reportIndex == -1) {
-              reports.add(ReportDataModel(
-                type: "acc",
-                data: [
-                  ReportDataValueModel(
-                    device: device.identifier,
-                    value: [
-                      [
-                        item.second!,
-                        device.value!.first['x'],
-                        device.value!.first['y'],
-                        device.value!.first['z']
-                      ],
-                    ],
-                  )
-                ],
-              ));
-            } else {
-              reports[reportIndex].data![0].value!.add(
-                [
-                  item.second!,
-                  device.value!.first['x'],
-                  device.value!.first['y'],
-                  device.value!.first['z'],
-                ],
-              );
-            }
-          }
-          if (device.type! == "PolarDataType.gyro") {
-            final reportIndex = reports.indexWhere(
-              (e) => e.type == "gyro",
-            );
-            if (reportIndex == -1) {
-              reports.add(ReportDataModel(
-                type: "gyro",
-                data: [
-                  ReportDataValueModel(
-                    device: device.identifier,
-                    value: [
-                      [
-                        item.second!,
-                        device.value!.first['x'],
-                        device.value!.first['y'],
-                        device.value!.first['z']
-                      ],
-                    ],
-                  )
-                ],
-              ));
-            } else {
-              reports[reportIndex].data![0].value!.add(
-                [
-                  item.second!,
-                  device.value!.first['x'],
-                  device.value!.first['y'],
-                  device.value!.first['z'],
-                ],
-              );
-            }
-          }
-          if (device.type?.contains("ecg")) {
-            final reportIndex = reports.indexWhere(
-              (e) => e.type == "ecg",
-            );
-            if (reportIndex == -1) {
-              reports.add(ReportDataModel(
-                type: "ecg",
-                data: [
-                  ReportDataValueModel(
-                    device: device.identifier,
-                    value: [
-                      [
-                        item.second!,
-                        device.value!.first['voltage'],
-                        item.timeStamp!,
-                      ],
-                    ],
-                  )
-                ],
-              ));
-            } else {
-              reports[reportIndex].data![0].value!.add(
-                [
-                  item.second!,
-                  device.value!.first['voltage'],
-                  item.timeStamp!,
-                ],
-              );
-            }
-          }
+          // if (device.type! == "PolarDataType.acc") {
+          //   final reportIndex = reports.indexWhere(
+          //     (e) => e.type == "acc",
+          //   );
+          //   if (reportIndex == -1) {
+          //     reports.add(ReportDataModel(
+          //       type: "acc",
+          //       data: [
+          //         ReportDataValueModel(
+          //           device: device.identifier,
+          //           value: [
+          //             [
+          //               item.second!,
+          //               device.value!.first['x'],
+          //               device.value!.first['y'],
+          //               device.value!.first['z']
+          //             ],
+          //           ],
+          //         )
+          //       ],
+          //     ));
+          //   } else {
+          //     reports[reportIndex].data![0].value!.add(
+          //       [
+          //         item.second!,
+          //         device.value!.first['x'],
+          //         device.value!.first['y'],
+          //         device.value!.first['z'],
+          //       ],
+          //     );
+          //   }
+          // }
+          // if (device.type! == "PolarDataType.gyro") {
+          //   final reportIndex = reports.indexWhere(
+          //     (e) => e.type == "gyro",
+          //   );
+          //   if (reportIndex == -1) {
+          //     reports.add(ReportDataModel(
+          //       type: "gyro",
+          //       data: [
+          //         ReportDataValueModel(
+          //           device: device.identifier,
+          //           value: [
+          //             [
+          //               item.second!,
+          //               device.value!.first['x'],
+          //               device.value!.first['y'],
+          //               device.value!.first['z']
+          //             ],
+          //           ],
+          //         )
+          //       ],
+          //     ));
+          //   } else {
+          //     reports[reportIndex].data![0].value!.add(
+          //       [
+          //         item.second!,
+          //         device.value!.first['x'],
+          //         device.value!.first['y'],
+          //         device.value!.first['z'],
+          //       ],
+          //     );
+          //   }
+          // }
+          // if (device.type?.contains("ecg")) {
+          //   final reportIndex = reports.indexWhere(
+          //     (e) => e.type == "ecg",
+          //   );
+          //   if (reportIndex == -1) {
+          //     reports.add(ReportDataModel(
+          //       type: "ecg",
+          //       data: [
+          //         ReportDataValueModel(
+          //           device: device.identifier,
+          //           value: [
+          //             [
+          //               item.second!,
+          //               device.value!.first['voltage'],
+          //               device.value!.first['timeStamp'],
+          //             ],
+          //           ],
+          //         )
+          //       ],
+          //     ));
+          //   } else {
+          //     reports[reportIndex].data![0].value!.add(
+          //       [
+          //         item.second!,
+          //         device.value!.first['voltage'],
+          //         device.value!.first['timeStamp'],
+          //       ],
+          //     );
+          //   }
+          // }
         }
       }
     }
@@ -237,25 +238,43 @@ class ReportDataModel with _$ReportDataModel {
         data: data?.map((e) => e.toEntity()).toList(),
       );
 
-  Future<List<EcgChartModel>> generateEcgChart() async {
-    final ecgParser = ModelToEntityIsolateParser(data, (res) {
-      final nD = res as List<ReportDataValueModel>;
-      List<EcgChartModel> chart = [];
+  Future<List<HrChartModel>> generateHrChart() async {
+    final hrParser = ModelToEntityIsolateParser(data, (response) {
+      final nD = response as List<ReportDataValueModel>;
+      List<HrChartModel> chart = [];
       for (var item in nD) {
         for (var value in item.value!) {
           chart.add(
-            EcgChartModel(
-              timeStamp: DateTime.parse(value[2]),
-              voltage: value[1],
+            HrChartModel(
+              timeStamp: DateTime.fromMicrosecondsSinceEpoch(value[0]),
+              hr: value[1],
             ),
           );
         }
       }
       return chart;
     });
-    final res = await ecgParser.parseInBackground();
-    return res;
+    return await hrParser.parseInBackground();
   }
+
+  // Future<List<EcgChartModel>> generateEcgChart() async {
+  //   final ecgParser = ModelToEntityIsolateParser(data, (res) {
+  //     final nD = res as List<ReportDataValueModel>;
+  //     List<EcgChartModel> chart = [];
+  //     for (var item in nD) {
+  //       for (var value in item.value!) {
+  //         chart.add(
+  //           EcgChartModel(
+  //             timeStamp: DateTime.fromMicrosecondsSinceEpoch(value[2]),
+  //             voltage: value[1],
+  //           ),
+  //         );
+  //       }
+  //     }
+  //     return chart;
+  //   });
+  //   return await ecgParser.parseInBackground();
+  // }
 }
 
 @Freezed(makeCollectionsUnmodifiable: false)
@@ -274,6 +293,16 @@ class ReportDataValueModel with _$ReportDataValueModel {
         device: device,
         value: value,
       );
+}
+
+class HrChartModel {
+  final DateTime timeStamp;
+  final int hr;
+
+  HrChartModel({
+    required this.timeStamp,
+    required this.hr,
+  });
 }
 
 class EcgChartModel {

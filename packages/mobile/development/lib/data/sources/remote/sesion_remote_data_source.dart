@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/helper/logger.dart';
 
 abstract class SessionRemoteDataSource {
   Future<Either<Failure, SessionModel>> createSessions(
@@ -31,9 +30,6 @@ class SessionRemoteDataSourceImpl implements SessionRemoteDataSource {
       converter: (res) =>
           SessionModel.fromJson(res['session'] as Map<String, dynamic>),
     );
-    res.fold((l) {
-      log.i("failed c session $l");
-    }, (r) => log.i("Success create session: $r"));
     return res;
   }
 

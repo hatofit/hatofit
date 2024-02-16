@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/data/data.dart';
 import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/helper/logger.dart';
 
 class AuthRepoImpl implements AuthRepo {
   final AuthRemoteDataSource _remote;
@@ -41,7 +40,6 @@ class AuthRepoImpl implements AuthRepo {
           final entity = authResponseModel.toEntity();
           await _local.upsertToken(entity.token ?? "");
           await _local.upsertUser(entity.user ?? const UserEntity());
-          log.d(authResponseModel.toJson());
           return Right(entity);
         },
       );

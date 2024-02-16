@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:hatofit/core/core.dart';
-import 'package:hatofit/utils/helper/logger.dart';
 import 'package:hatofit/utils/services/firebase/firebase.dart';
 
 class CommonClient with FirebaseCrashLogger {
@@ -28,7 +27,6 @@ class CommonClient with FirebaseCrashLogger {
         timeout: timeout,
       ));
     } catch (e, s) {
-      log.e("Error in scanResults $e, $s");
       nonFatalError(error: e, stackTrace: s);
       return Left(BluetoothFailure(e.toString()));
     }

@@ -87,7 +87,12 @@ class SessionRepoImpl implements SessionRepo {
         },
       );
     } else {
-      return _local.readSessionAll();
+      return await _local.readSessionAll();
     }
+  }
+
+  @override
+  Future<Either<Failure, int>> deleteAll() async {
+    return await _local.deleteAll();
   }
 }

@@ -13,6 +13,7 @@ class SplashCubit extends Cubit<SplashState> {
   final MeUseCase _meUseCase;
   final ReqBLEPermUsecase _reqBLEPermUsecase;
   final ReadUserUsecase _readUserUsecase;
+  final ReadTokenUsecase _readTokenUsecase;
   final ReadMoodUsecase _getMoodUsecase;
   final DeleteMoodUsecase _clearMoodUsecase;
   final UpdateOfflineModeUsecase _updateOfflineModeUsecase;
@@ -21,6 +22,7 @@ class SplashCubit extends Cubit<SplashState> {
     this._meUseCase,
     this._reqBLEPermUsecase,
     this._readUserUsecase,
+    this._readTokenUsecase,
     this._getMoodUsecase,
     this._clearMoodUsecase,
     this._updateOfflineModeUsecase,
@@ -38,10 +40,18 @@ class SplashCubit extends Cubit<SplashState> {
   }
 
   Future<void> checkAuth() async {
+    final token = _readTokenUsecase.call();
+    token.fold((l) {
+      safeEmit(
+        const _Unauthorized("Unauthorized"),
+        emit: emit,
+        isClosed: isClosed,
+      );
+      return null;
+    }, (r) => null);
     final res = await _meUseCase.call();
     res.fold(
       (l) async {
-        log.e("Check Auth Error: $l");
         if (l is NoInternetFailure) {
           final u = await fetchUser();
           if (u != null) {
@@ -105,12 +115,10 @@ class SplashCubit extends Cubit<SplashState> {
     final res =
         await _readUserUsecase.call(const ByLimitParams(showFromLocal: false));
     return res.fold((l) {
-      log.d("Error: $l  ");
       _isInitialized = false;
       _user = null;
       return null;
     }, (r) {
-      log.f("User: $r");
       _isInitialized = true;
       _user = r;
       return r;

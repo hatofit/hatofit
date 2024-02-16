@@ -23,8 +23,7 @@ class WorkoutView extends StatelessWidget {
         child: BlocBuilder<WorkoutCubit, WorkoutState>(
           builder: (context, state) => state.when(
             loading: () => const Center(child: Loading()),
-            failure: (message) {
-              log.e(message.toString());
+            failure: (message) { 
               if (message is CacheFailure) {
                 return Center(
                     child: Text(Strings.of(context)!.noWorkoutMenuFound));

@@ -46,7 +46,7 @@ class IntroCubit extends Cubit<IntroState> {
     ),
     DataHelper(
       title: Constants.get.inch,
-      type: "en",
+      type: "in",
     ),
   ];
   final List<DataHelper> listWeightUnit = [

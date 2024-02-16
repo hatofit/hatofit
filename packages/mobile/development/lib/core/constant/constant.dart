@@ -30,4 +30,5 @@ class Constants {
 
   String placeholderImage =
       "https://untirta.ac.id/wp-content/uploads/2023/08/placeholder-44.png";
+ 
 }

@@ -2,8 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
-import 'package:hatofit/utils/ext/ext.dart';
-import 'package:hatofit/utils/helper/logger.dart';
+import 'package:hatofit/utils/utils.dart';
 import 'package:intl/intl.dart';
 
 part 'home_cubit.freezed.dart';
@@ -52,7 +51,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> getSession() async {
     final res = await _getSessionsUsecase.call(const ByLimitParams(limit: 5));
-    res.fold((l) => log.e("Report: $l"), (r) async {
+    res.fold((l) => null, (r) async {
       List<HrBarChartItem> reports = [];
       final nDate = formatter.format(DateTime.now());
       for (final i in r) {
@@ -84,36 +83,39 @@ class HomeCubit extends Cubit<HomeState> {
   final formatter = DateFormat('d MMMM yyyy');
 
   double getBmi(UserEntity user) {
+    log.f("USER: $user");
+
     final height = user.height ?? 0;
     final weight = user.weight ?? 0;
     final metricUnits = user.metricUnits;
+
     if (metricUnits == null) return 0;
 
-    double? bmi;
-    switch (metricUnits.weightUnits) {
-      case 'kg':
-        switch (metricUnits.heightUnits) {
-          case 'cm':
-            bmi = weight / ((height / 100) * (height / 100));
-            break;
-          case 'ft':
-            bmi = weight / ((height * 12) * (height * 12)) * 703;
-            break;
-        }
-        break;
+    double bmi = 0;
+    double hInM;
 
-      case 'lbs':
-        switch (metricUnits.heightUnits) {
-          case 'cm':
-            bmi = weight / ((height / 100) * (height / 100)) * 703;
-            break;
-          case 'ft':
-            bmi = weight / ((height * 12) * (height * 12));
-            break;
-        }
+    switch (metricUnits.heightUnits) {
+      case 'cm':
+        hInM = height / 100;
         break;
+      case 'in':
+        hInM = height * 0.0254;
+        break;
+      default:
+        return 0;
     }
 
-    return double.parse(bmi!.toStringAsFixed(1));
+    switch (metricUnits.weightUnits) {
+      case 'kg':
+        bmi = weight / (hInM * hInM);
+        break;
+      case 'lb':
+        bmi = weight / (hInM * hInM) * 703;
+        break;
+      default:
+        return 0;
+    }
+
+    return double.parse(bmi.toStringAsFixed(1));
   }
 }
