@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/utils/utils.dart';
@@ -127,5 +130,10 @@ extension StringExt on String {
       return "${substring(0, 11)}...";
     }
     return this;
+  }
+
+  // base64 to image
+  Uint8List toImage() {
+    return base64Decode(this);
   }
 }

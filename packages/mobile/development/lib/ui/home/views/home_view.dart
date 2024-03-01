@@ -57,6 +57,7 @@ class _HomeViewState extends State<HomeView> {
               appBar: AppBar(
                 title: Text('Hi, ${hState.user?.firstName ?? "User"} 👋'),
                 titleTextStyle: Theme.of(context).textTheme.titleLarge,
+                automaticallyImplyLeading: false,
                 actions: [
                   nState.state != BluetoothAdapterState.off
                       ? IconButton(
@@ -68,7 +69,6 @@ class _HomeViewState extends State<HomeView> {
                             if (!di.isRegistered<NavigationCubit>()) {
                               regNavCubit();
                             }
-                            ;
                             context.read<NavigationCubit>().startScan();
                             showModalBottomSheet(
                               showDragHandle: true,

@@ -6,7 +6,7 @@ class NavigationState with _$NavigationState {
     @Default(CubitStatus.initial) CubitStatus status,
     bool? isScanning,
     BluetoothAdapterState? state,
-    List<BleEntity>? fDevices,
+    @Default([]) List<BleEntity> fDevices,
     BleEntity? cDevice,
     BluetoothFailure? bleFailure,
     BluetoothConnectionState? conState,

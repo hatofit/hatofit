@@ -22,8 +22,8 @@ mixin _$NavigationState {
   set isScanning(bool? value) => throw _privateConstructorUsedError;
   BluetoothAdapterState? get state => throw _privateConstructorUsedError;
   set state(BluetoothAdapterState? value) => throw _privateConstructorUsedError;
-  List<BleEntity>? get fDevices => throw _privateConstructorUsedError;
-  set fDevices(List<BleEntity>? value) => throw _privateConstructorUsedError;
+  List<BleEntity> get fDevices => throw _privateConstructorUsedError;
+  set fDevices(List<BleEntity> value) => throw _privateConstructorUsedError;
   BleEntity? get cDevice => throw _privateConstructorUsedError;
   set cDevice(BleEntity? value) => throw _privateConstructorUsedError;
   BluetoothFailure? get bleFailure => throw _privateConstructorUsedError;
@@ -64,7 +64,7 @@ abstract class $NavigationStateCopyWith<$Res> {
       {CubitStatus status,
       bool? isScanning,
       BluetoothAdapterState? state,
-      List<BleEntity>? fDevices,
+      List<BleEntity> fDevices,
       BleEntity? cDevice,
       BluetoothFailure? bleFailure,
       BluetoothConnectionState? conState,
@@ -95,7 +95,7 @@ class _$NavigationStateCopyWithImpl<$Res, $Val extends NavigationState>
     Object? status = null,
     Object? isScanning = freezed,
     Object? state = freezed,
-    Object? fDevices = freezed,
+    Object? fDevices = null,
     Object? cDevice = freezed,
     Object? bleFailure = freezed,
     Object? conState = freezed,
@@ -120,10 +120,10 @@ class _$NavigationStateCopyWithImpl<$Res, $Val extends NavigationState>
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
               as BluetoothAdapterState?,
-      fDevices: freezed == fDevices
+      fDevices: null == fDevices
           ? _value.fDevices
           : fDevices // ignore: cast_nullable_to_non_nullable
-              as List<BleEntity>?,
+              as List<BleEntity>,
       cDevice: freezed == cDevice
           ? _value.cDevice
           : cDevice // ignore: cast_nullable_to_non_nullable
@@ -192,7 +192,7 @@ abstract class _$$NavigationStateImplCopyWith<$Res>
       {CubitStatus status,
       bool? isScanning,
       BluetoothAdapterState? state,
-      List<BleEntity>? fDevices,
+      List<BleEntity> fDevices,
       BleEntity? cDevice,
       BluetoothFailure? bleFailure,
       BluetoothConnectionState? conState,
@@ -222,7 +222,7 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
     Object? status = null,
     Object? isScanning = freezed,
     Object? state = freezed,
-    Object? fDevices = freezed,
+    Object? fDevices = null,
     Object? cDevice = freezed,
     Object? bleFailure = freezed,
     Object? conState = freezed,
@@ -247,10 +247,10 @@ class __$$NavigationStateImplCopyWithImpl<$Res>
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
               as BluetoothAdapterState?,
-      fDevices: freezed == fDevices
+      fDevices: null == fDevices
           ? _value.fDevices
           : fDevices // ignore: cast_nullable_to_non_nullable
-              as List<BleEntity>?,
+              as List<BleEntity>,
       cDevice: freezed == cDevice
           ? _value.cDevice
           : cDevice // ignore: cast_nullable_to_non_nullable
@@ -302,7 +302,7 @@ class _$NavigationStateImpl implements _NavigationState {
       {this.status = CubitStatus.initial,
       this.isScanning,
       this.state,
-      this.fDevices,
+      this.fDevices = const [],
       this.cDevice,
       this.bleFailure,
       this.conState,
@@ -322,7 +322,8 @@ class _$NavigationStateImpl implements _NavigationState {
   @override
   BluetoothAdapterState? state;
   @override
-  List<BleEntity>? fDevices;
+  @JsonKey()
+  List<BleEntity> fDevices;
   @override
   BleEntity? cDevice;
   @override
@@ -363,7 +364,7 @@ abstract class _NavigationState implements NavigationState {
       {CubitStatus status,
       bool? isScanning,
       BluetoothAdapterState? state,
-      List<BleEntity>? fDevices,
+      List<BleEntity> fDevices,
       BleEntity? cDevice,
       BluetoothFailure? bleFailure,
       BluetoothConnectionState? conState,
@@ -385,8 +386,8 @@ abstract class _NavigationState implements NavigationState {
   BluetoothAdapterState? get state;
   set state(BluetoothAdapterState? value);
   @override
-  List<BleEntity>? get fDevices;
-  set fDevices(List<BleEntity>? value);
+  List<BleEntity> get fDevices;
+  set fDevices(List<BleEntity> value);
   @override
   BleEntity? get cDevice;
   set cDevice(BleEntity? value);

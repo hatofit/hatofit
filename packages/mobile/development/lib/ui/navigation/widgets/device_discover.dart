@@ -40,7 +40,7 @@ class FoundDevices extends StatelessWidget {
     int index,
     NavigationState state,
   ) {
-    context.read<NavigationCubit>().connectToDevice(state.fDevices![index]);
+    context.read<NavigationCubit>().connectToDevice(state.fDevices[index]);
   }
 
   @override
@@ -63,7 +63,7 @@ class FoundDevices extends StatelessWidget {
       },
       builder: (context, state) {
         return ListView.builder(
-          itemCount: state.fDevices!.length,
+          itemCount: state.fDevices.length,
           itemBuilder: (context, index) {
             return Container(
               decoration: BoxDecoration(
@@ -93,7 +93,7 @@ class FoundDevices extends StatelessWidget {
                       borderRadius: BorderRadius.circular(Dimens.height16),
                     ),
                     child: Image.asset(
-                      state.fDevices![index].name.imageDeviceAssetDecision(),
+                      state.fDevices[index].name.imageDeviceAssetDecision(),
                     ),
                   ),
                   Expanded(
@@ -110,7 +110,7 @@ class FoundDevices extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(state.fDevices![index].name,
+                                  Text(state.fDevices[index].name,
                                       style: Theme.of(context)
                                           .textTheme
                                           .labelLarge),
@@ -121,12 +121,12 @@ class FoundDevices extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "ID : ${state.fDevices![index].address}",
+                                    "ID : ${state.fDevices[index].address}",
                                     style:
                                         Theme.of(context).textTheme.bodySmall,
                                   ),
                                   Text(
-                                    "RSSI : ${state.fDevices![index].rssi}",
+                                    "RSSI : ${state.fDevices[index].rssi}",
                                     style:
                                         Theme.of(context).textTheme.bodySmall,
                                   ),
@@ -137,7 +137,7 @@ class FoundDevices extends StatelessWidget {
                                     horizontal: Dimens.width4,
                                     vertical: Dimens.height2),
                                 decoration: BoxDecoration(
-                                    color: state.fDevices![index].isConnectable
+                                    color: state.fDevices[index].isConnectable
                                         ? Theme.of(context)
                                             .extension<AppColors>()!
                                             .green!
@@ -155,7 +155,7 @@ class FoundDevices extends StatelessWidget {
                                     Icon(
                                       Icons.bluetooth,
                                       color:
-                                          state.fDevices![index].isConnectable
+                                          state.fDevices[index].isConnectable
                                               ? Theme.of(context)
                                                   .extension<AppColors>()!
                                                   .green
@@ -165,7 +165,7 @@ class FoundDevices extends StatelessWidget {
                                       size: Dimens.width12,
                                     ),
                                     Text(
-                                        state.fDevices![index].isConnectable
+                                        state.fDevices[index].isConnectable
                                             ? Strings.of(context)!.connectable
                                             : Strings.of(context)!
                                                 .unconnectable,
@@ -177,12 +177,12 @@ class FoundDevices extends StatelessWidget {
                               ),
                             ],
                           ),
-                          state.fDevices![index].address !=
+                          state.fDevices[index].address !=
                                   state.cDevice?.address
                               ? ElevatedButton(
                                   onPressed: state.cDevice == null &&
                                           state
-                                              .fDevices![index].isConnectable &&
+                                              .fDevices[index].isConnectable &&
                                           !state.isLoading
                                       ? () => onConnectPressed(
                                           context, index, state)
@@ -230,7 +230,7 @@ class FoundDevices extends StatelessWidget {
                               : ElevatedButton(
                                   onPressed: () => context
                                       .read<NavigationCubit>()
-                                      .disconnectDevice(state.fDevices![index]),
+                                      .disconnectDevice(state.fDevices[index]),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [

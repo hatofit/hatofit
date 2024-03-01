@@ -2,7 +2,6 @@ import 'package:dartz/dartz.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
 import 'package:hatofit/ui/home/cubit/home_cubit.dart';
-import 'package:hatofit/utils/helper/logger.dart';
 
 extension SessExt on SessionEntity {
   Future<Tuple2<HrBarChartItem, int>?> generateHrData(UserEntity? user) async {

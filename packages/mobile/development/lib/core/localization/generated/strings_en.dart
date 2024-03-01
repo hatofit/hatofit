@@ -68,6 +68,9 @@ class StringsEn extends Strings {
   String get chooseLanguage => 'Choose language';
 
   @override
+  String get deviceDisconnected => 'Device disconnected';
+
+  @override
   String get chooseTheme => 'Choose Theme';
 
   @override

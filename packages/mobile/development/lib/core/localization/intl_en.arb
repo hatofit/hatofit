@@ -21,6 +21,7 @@
   "changePassword": "Change password",
   "chooseAnEmojiThatRepresentsThisExercise": "Choose an emoji that represents this exercise",
   "chooseLanguage": "Choose language",
+  "deviceDisconnected": "Device disconnected",
   "chooseTheme": "Choose Theme",
   "chooseYourProfilePhoto": "Choose your profile photo",
   "confirmPassword": "Confirm Password",
@@ -136,7 +137,6 @@
   "userUpdated": "User updated",
   "verification": "Verification",
   "weightUnit": "Weight Unit",
-  
   "whatMoodAreYouIn": "What mood are you in?",
   "workout": "Workout",
   "yearsOld": "years old",

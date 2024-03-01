@@ -27,7 +27,7 @@ class _SettingsViewState extends State<SettingsView> {
       ),
       child: BlocBuilder<SettingsCubit, DataHelper>(
         buildWhen: (p, c) => p.user != c.user,
-        builder: (context, state) {
+        builder: (context, state) { 
           return Column(
             children: [
               UserCard(user: state.user),

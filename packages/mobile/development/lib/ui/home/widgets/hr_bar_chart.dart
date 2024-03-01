@@ -47,7 +47,6 @@ class HrBarChart extends StatelessWidget {
                             yValueMapper: (HrBarChartItem hr, _) => hr.avgHr,
                             color: Theme.of(context).primaryColor,
                             width: 0.3,
-                            isTrackVisible: true,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(66)),
                           ),

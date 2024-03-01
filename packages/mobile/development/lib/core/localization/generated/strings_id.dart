@@ -68,6 +68,9 @@ class StringsId extends Strings {
   String get chooseLanguage => 'Pilih bahasa';
 
   @override
+  String get deviceDisconnected => 'Perangkat terputus';
+
+  @override
   String get chooseTheme => 'Pilih tema';
 
   @override

@@ -219,6 +219,12 @@ abstract class Strings {
   /// **'Choose language'**
   String get chooseLanguage;
 
+  /// No description provided for @deviceDisconnected.
+  ///
+  /// In en, this message translates to:
+  /// **'Device disconnected'**
+  String get deviceDisconnected;
+
   /// No description provided for @chooseTheme.
   ///
   /// In en, this message translates to:

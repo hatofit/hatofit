@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hatofit/core/core.dart';
 import 'package:hatofit/domain/domain.dart';
@@ -30,14 +31,26 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
   BleEntity? device;
   Timer? timer;
   int hrTimeout = 0;
+  DateTime? startTime;
+  DateTime now = DateTime.now();
+  Duration duration = Duration.zero;
   @override
   void initState() {
+    startTime = DateTime.now();
     timer ??= Timer.periodic(const Duration(seconds: 1), (timer) {
+      now = DateTime.now();
       setState(() {
         second++;
+        duration = now.difference(startTime!);
       });
     });
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    context.read<WorkoutCubit>().isStarted = true;
+    super.didChangeDependencies();
   }
 
   @override
@@ -103,21 +116,21 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
       try {
         final nCub = ctx.read<NavigationCubit>();
         final wCub = ctx.read<WorkoutCubit>();
-        ctx
-            .read<WorkoutCubit>()
+        wCub.isStarted = false;
+        wCub
             .endWorkout(
-              isFreeWorkout: widget.isFreeWorkout,
-              session: wCub.ses,
-              user: widget.user,
-              ble: widget.device ?? nCub.state.cDevice!,
-              mood: mood,
-              exercise: widget.exercise,
-            )
+          isFreeWorkout: widget.isFreeWorkout,
+          session: wCub.ses,
+          user: widget.user,
+          ble: widget.device ?? nCub.state.cDevice!,
+          mood: mood,
+          exercise: widget.exercise,
+        )
             .then((value) {
           final navigator = Navigator.of(context, rootNavigator: true);
           navigator.pop();
           if (value) {
-            ctx.pushReplacementNamed(Routes.home.name);
+            ctx.replaceNamed(Routes.home.name);
           } else {
             Strings.of(ctx)!
                 .somethingWentWrong
@@ -166,6 +179,12 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
         child: BlocConsumer<NavigationCubit, NavigationState>(
             listenWhen: (p, c) => p.hrSample != c.hrSample,
             listener: (context, state) {
+              if (state.conState == BluetoothConnectionState.disconnected) {
+                Strings.of(context)!.deviceDisconnected.toToastError(context);
+                Future.delayed(const Duration(seconds: 1), () {
+                  _finishWorkout(context);
+                });
+              }
               if (state.hrSample?.hr == 0) {
                 hrTimeout++;
                 if (hrTimeout > 500) {
@@ -180,17 +199,22 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
                 hrTimeout = 0;
               }
               device = state.cDevice;
-              context.read<WorkoutCubit>().receiveStreamData(
-                    hr: state.hrSample,
-                    user: widget.user,
-                    ecg: state.ecgSample,
-                    acc: state.accSample,
-                    gyro: state.gyroSample,
-                    magnetometer: state.magnetometerSample,
-                    ppg: state.ppgSample,
-                    second: second,
-                    timeStamp: DateTime.now(),
-                  );
+              final wCub = context.read<WorkoutCubit>();
+              if (wCub.isStarted == true) {
+                wCub.receiveStreamData(
+                  hr: state.hrSample,
+                  user: widget.user,
+                  ecg: state.ecgSample,
+                  acc: state.accSample,
+                  gyro: state.gyroSample,
+                  magnetometer: state.magnetometerSample,
+                  ppg: state.ppgSample,
+                  second: second,
+                  timeStamp: now,
+                  duration: duration,
+                  year: startTime?.year ?? 0,
+                );
+              }
             },
             buildWhen: (p, c) => p.hrSample != c.hrSample,
             builder: (context, state) {
@@ -203,19 +227,20 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
               }
               return state.hrSample != null
                   ? SingleChildScrollView(
-                      child: Column(children: [
-                        ExerciseCard(
-                          exercise: widget.exercise,
-                          devices: state.cDevice,
-                        ),
-                        SizedBox(height: Dimens.height8),
-                        Padding(
+                      child: Column(
+                        children: [
+                          ExerciseCard(
+                            exercise: widget.exercise,
+                            devices: state.cDevice,
+                          ),
+                          SizedBox(height: Dimens.height8),
+                          Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: Dimens.width16,
                                 vertical: Dimens.height8),
                             child: Column(
                               children: [
-                                DurationBox(duration: ses.duration),
+                                DurationBox(duration: duration),
                                 SizedBox(height: Dimens.height8),
                                 Row(
                                   children: [
@@ -251,10 +276,12 @@ class _StartWorkoutViewState extends State<StartWorkoutView> {
                                 ),
                                 SizedBox(height: Dimens.height8),
                                 HrChart(session: ses),
-                                SizedBox(height: Dimens.height8),
+                                SizedBox(height: Dimens.height64),
                               ],
-                            )),
-                      ]),
+                            ),
+                          ),
+                        ],
+                      ),
                     )
                   : Container();
             }),

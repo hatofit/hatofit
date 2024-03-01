@@ -109,7 +109,6 @@ class _MetaHrWidgetState extends State<MetaHrWidget> {
                         series: <LineSeries<HrChartModel, DateTime>>[
                           LineSeries<HrChartModel, DateTime>(
                             color: thm.primaryColor,
-                            width: Dimens.height4,
                             dataSource: widget.hrChart,
                             xValueMapper: (HrChartModel data, _) =>
                                 data.timeStamp,

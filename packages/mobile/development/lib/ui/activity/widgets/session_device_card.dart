@@ -66,7 +66,8 @@ class SessionDeviceCard extends StatelessWidget {
                                     children: [
                                       Text(
                                           ": ${(e.brand ?? 'Unknown').limitBrandName()}"),
-                                      Text(": ${(e.name ?? 'Unknown')}"),
+                                      Text(
+                                          ": ${(e.name ?? 'Unknown').limitBrandName()}"),
                                       Text(": ${(e.identifier ?? 'Unknown')}"),
                                     ],
                                   ),

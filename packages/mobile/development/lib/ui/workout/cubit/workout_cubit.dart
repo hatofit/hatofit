@@ -51,31 +51,28 @@ class WorkoutCubit extends Cubit<WorkoutState> with VibratorMixin {
     );
   }
 
+  bool isStarted = false;
   bool startWorkout(bool isFreeWorkout, ExerciseEntity? exercise) {
+    ses = WorkoutSession(
+      calories: 0,
+      avgHr: 0,
+      hrSamples: [],
+      accSamples: [],
+      ecgSamples: [],
+      gyroSamples: [],
+      magnetometerSamples: [],
+      ppgSamples: [],
+      hrChart: [],
+      hrPecentage: 0,
+    );
+    isParserDone = true;
+    isStarted = true;
+    vibrateTwice();
     if (user == null) {
-      ses = WorkoutSession(
-        calories: 0,
-        avgHr: 0,
-        hrSamples: [],
-        accSamples: [],
-        ecgSamples: [],
-        gyroSamples: [],
-        magnetometerSamples: [],
-        ppgSamples: [],
-        hrChart: [],
-        hrPecentage: 0,
-      );
-      isParserDone = true;
-      vibrateTwice();
       return false;
     } else {
       return true;
     }
-  }
-
-  Future<bool> finishWorkout() async {
-    await close();
-    return isClosed;
   }
 
   Future<bool> endWorkout({
@@ -86,6 +83,7 @@ class WorkoutCubit extends Cubit<WorkoutState> with VibratorMixin {
     required String mood,
     ExerciseEntity? exercise,
   }) async {
+    isStarted = false;
     if (user != null && exercise != null) {
       final params = await session.createParams(user, exercise, mood, ble);
       final res = await _createSessionUsecase.call(params);
@@ -138,8 +136,10 @@ class WorkoutCubit extends Cubit<WorkoutState> with VibratorMixin {
     PolarGyroSample? gyro,
     PolarMagnetometerSample? magnetometer,
     PolarPpgSample? ppg,
+    required Duration duration,
     required int second,
     required DateTime timeStamp,
+    required int year,
   }) async {
     if (user != null) {
       ses.user = user;
@@ -165,11 +165,8 @@ class WorkoutCubit extends Cubit<WorkoutState> with VibratorMixin {
           double avgHr = 0;
           int maxHr = 0;
           int minHr = 220;
-          int lastHr = 0;
           double calories = s.calories;
-          DateTime hookTime1 = DateTime.now();
-          DateTime hookTime2 = DateTime.now();
-          List<WSessionChart> hrChart = [];
+          // List<WSessionChart> hrChart = [];
           for (var i = 0; i < (hrLength); i++) {
             avgHr += hr![i].hr;
             if (hr[i].hr > maxHr) {
@@ -178,20 +175,12 @@ class WorkoutCubit extends Cubit<WorkoutState> with VibratorMixin {
             if (hr[i].hr < minHr) {
               minHr = hr[i].hr;
             }
-            if (i == 0) {
-              hookTime1 = hr[i].timeStamp;
-            }
-            if (i == hrLength - 1) {
-              hookTime2 = hr[i].timeStamp;
-              lastHr = hr[i].hr;
-            }
-            if (i > hrLength - 30) {
-              hrChart.add(WSessionChart(hr[i].timeStamp, hr[i].hr));
-            }
+            // if (i > hrLength - 30) {
+            //   hrChart.add(WSessionChart(hr[i].timeStamp, hr[i].hr));
+            // }
           }
-          final duration = hookTime2.difference(hookTime1);
           avgHr = avgHr / hrLength;
-          final age = hookTime1.year - s.user!.dateOfBirth!.year;
+          final age = year - s.user!.dateOfBirth!.year;
           if (duration.inSeconds % 30 == 0) {
             final weight = s.user!.weight ?? 125;
             final gender = s.user!.gender ?? "male";
@@ -248,7 +237,7 @@ class WorkoutCubit extends Cubit<WorkoutState> with VibratorMixin {
               calories = calories * 4.184;
             }
           }
-          final hrPecentage = ((lastHr / (208 - (0.7 * age))) * 100).round();
+          final hrPecentage = ((avgHr / (208 - (0.7 * age))) * 100).round();
           // final hrPecentage = 90;
           HrZoneType hrZoneType = HrZoneType.moderate;
           if (hrPecentage < 50) {
@@ -267,29 +256,36 @@ class WorkoutCubit extends Cubit<WorkoutState> with VibratorMixin {
             maxHr: maxHr,
             minHr: minHr,
             calories: calories,
-            duration: duration,
-            hrChart: hrChart,
+            // hrChart: hrChart,
             hrPecentage: hrPecentage,
             hrZoneType: hrZoneType,
           );
         });
         final res = await parser.parseInBackground();
-        if (res.duration != null) {
-          ses = ses.copyWith(
-            avgHr: res.avgHr,
-            maxHr: res.maxHr,
-            minHr: res.minHr,
-            calories: res.calories,
-            duration: res.duration,
-            hrChart: res.hrChart,
-            hrPecentage: res.hrPecentage,
-            hrZoneType: res.hrZoneType,
-          );
-          isParserDone = true;
-          if (res.hrZoneType == HrZoneType.max && !isAlreadyVibrating) {
-            isAlreadyVibrating = true;
-            vibrateTwice();
+        ses = ses.copyWith(
+          avgHr: res.avgHr,
+          maxHr: res.maxHr,
+          minHr: res.minHr,
+          calories: res.calories,
+          // hrChart: res.hrChart,
+          hrPecentage: res.hrPecentage,
+          hrZoneType: res.hrZoneType,
+        );
+        if (ses.hrChart == null) {
+          ses.hrChart = [];
+          ses.hrChart?.add(WSessionChart(timeStamp, hr.hr));
+        } else {
+          if (ses.hrChart!.length < 30) {
+            ses.hrChart?.add(WSessionChart(timeStamp, hr.hr));
+          } else {
+            ses.hrChart?.removeAt(0);
+            ses.hrChart?.add(WSessionChart(timeStamp, hr.hr));
           }
+        }
+        isParserDone = true;
+        if (res.hrZoneType == HrZoneType.max && !isAlreadyVibrating) {
+          isAlreadyVibrating = true;
+          vibrateTwice();
         }
       }
     }

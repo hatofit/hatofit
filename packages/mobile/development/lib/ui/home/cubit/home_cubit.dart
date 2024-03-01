@@ -61,16 +61,15 @@ class HomeCubit extends Cubit<HomeState> {
         if (sDate == nDate) {
           final report = await i.generateHrData(state.user);
           if (report != null) {
-            reports.add(report.value1); ;
+            reports.add(report.value1);
             calories += report.value2;
+            emit(state.copyWith(
+              hrData: reports.take(5).toList(),
+              calories: calories.toDouble(),
+            ));
           }
         }
       }
-
-      emit(state.copyWith(
-        hrData: reports.take(5).toList(),
-        calories: calories.toDouble(),
-      ));
     });
   }
 

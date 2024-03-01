@@ -23,7 +23,7 @@ class NavigationCubit extends Cubit<NavigationState> with VibratorMixin {
   final GetServicesPolarBLEUsecase _getPolarServicesUsecase;
   final GetServicesCommonBLEUsecase _getCommonServicesUsecase;
   final StreamCommonBLEUsecase _streamCommonBLEUsecase;
-  final StopScanBLEUsecase _stopScanBLEUsecase;
+  // final StopScanBLEUsecase _stopScanBLEUsecase;
   final StatePolarBleUsecase _statePolarBleUsecase;
   final ReadCommonBLEUsecase _readCommonBLEUsecase;
 
@@ -47,7 +47,7 @@ class NavigationCubit extends Cubit<NavigationState> with VibratorMixin {
     this._getCommonServicesUsecase,
     this._streamHrPolarBLEUsecase,
     this._streamCommonBLEUsecase,
-    this._stopScanBLEUsecase,
+    // this._stopScanBLEUsecase,
     this._statePolarBleUsecase,
     this._streamEcgPolarBLEUsecase,
     this._streamAccPolarBLEUsecase,
@@ -146,7 +146,7 @@ class NavigationCubit extends Cubit<NavigationState> with VibratorMixin {
             }
           },
           (device) {
-            emit(state.copyWith(fDevices: device));
+            if (device.isNotEmpty) emit(state.copyWith(fDevices: device));
           },
         );
       },
@@ -177,7 +177,6 @@ class NavigationCubit extends Cubit<NavigationState> with VibratorMixin {
   }
 
   Future<void> startScan() async {
-    emit(state.copyWith(fDevices: []));
     await _scanCommonBLEUsecase.call(
       StartScanCommonParams(
         serviceIds: [GuidConstant.get.hrS],
@@ -320,7 +319,7 @@ class NavigationCubit extends Cubit<NavigationState> with VibratorMixin {
       (r) {
         List<BleEntity>? nDL = [];
         BleEntity nD = entity;
-        for (final e in state.fDevices!) {
+        for (final e in state.fDevices) {
           if (e.polarId == entity.polarId) {
             nD = e.copyWith(
                 polarServices: r, brand: nD.name.isPolar() ? "Polar" : null);
@@ -331,7 +330,7 @@ class NavigationCubit extends Cubit<NavigationState> with VibratorMixin {
         }
         emit(state.copyWith(
           cDevice: nD,
-          fDevices: nDL,
+          fDevices: nDL.isNotEmpty ? nDL : state.fDevices,
         ));
         subscribeHrPolar(nD, r);
         subscribeEcgPolar(nD, r);
@@ -361,7 +360,7 @@ class NavigationCubit extends Cubit<NavigationState> with VibratorMixin {
         });
         List<BleEntity>? nDL = [];
         BleEntity nD = entity;
-        for (final e in state.fDevices!) {
+        for (final e in state.fDevices) {
           if (e.address == entity.address) {
             nD = e.copyWith(commonservices: r);
             nDL.add(nD);
@@ -371,7 +370,7 @@ class NavigationCubit extends Cubit<NavigationState> with VibratorMixin {
         }
         emit(state.copyWith(
           cDevice: nD,
-          fDevices: nDL,
+          fDevices: nDL.isNotEmpty ? nDL : state.fDevices,
         ));
         final manu = r.any((e) => e.uuid == GuidConstant.get.diS);
         if (manu) {
@@ -397,6 +396,7 @@ class NavigationCubit extends Cubit<NavigationState> with VibratorMixin {
   }
 
   void subscribeHrPolar(BleEntity entity, Set<PolarDataType> r) {
+    emit(state.copyWith(isLoading: false));
     _hrPolarStream ??= _streamHrPolarBLEUsecase
         .call(StreamPolarParams(
       deviceId: entity.polarId ?? getPolarId(entity.name),
@@ -521,6 +521,7 @@ class NavigationCubit extends Cubit<NavigationState> with VibratorMixin {
     BleEntity entity,
     List<BluetoothService> services,
   ) async {
+    emit(state.copyWith(isLoading: false));
     final hrSc = services.firstWhere((e) => e.uuid == GuidConstant.get.hrS);
     final hrmCr = hrSc.characteristics
         .firstWhere((e) => e.characteristicUuid == GuidConstant.get.hrmC);

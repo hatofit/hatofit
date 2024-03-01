@@ -146,6 +146,7 @@ class _TextFState extends State<TextF> {
                     color: Theme.of(context).extension<AppColors>()!.red!,
                   ),
                 ),
+                
                 focusedBorder: OutlineInputBorder(
                   gapPadding: 0,
                   borderRadius: BorderRadius.circular(Dimens.radius4),
@@ -155,6 +156,7 @@ class _TextFState extends State<TextF> {
                         : Colors.grey[300]!,
                   ),
                 ),
+                
               ),
               validator: widget.validator as String? Function(String?)?,
               onChanged: widget.onChanged,

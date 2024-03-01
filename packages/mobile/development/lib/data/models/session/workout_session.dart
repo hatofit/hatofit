@@ -13,8 +13,7 @@ class WorkoutSession {
   final int? maxHr;
   final int? minHr;
   final double calories;
-  final Duration? duration;
-  List<WSessionChart> hrChart;
+  List<WSessionChart>? hrChart;
   UserEntity? user;
   HrZoneType? hrZoneType;
   final int hrPecentage;
@@ -26,12 +25,11 @@ class WorkoutSession {
     this.gyroSamples,
     this.magnetometerSamples,
     this.ppgSamples,
-    required this.hrChart,
+    this.hrChart ,
     required this.avgHr,
     this.maxHr,
     this.minHr,
     required this.calories,
-    this.duration,
     this.user,
     this.hrZoneType,
     required this.hrPecentage,
@@ -48,7 +46,6 @@ class WorkoutSession {
     int? maxHr,
     int? minHr,
     double? calories,
-    Duration? duration,
     List<WSessionChart>? hrChart,
     UserEntity? user,
     HrZoneType? hrZoneType,
@@ -65,7 +62,6 @@ class WorkoutSession {
       maxHr: maxHr ?? this.maxHr,
       minHr: minHr ?? this.minHr,
       calories: calories ?? this.calories,
-      duration: duration ?? this.duration,
       hrChart: hrChart ?? this.hrChart,
       user: user ?? this.user,
       hrZoneType: hrZoneType ?? this.hrZoneType,
