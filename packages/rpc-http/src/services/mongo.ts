@@ -12,7 +12,6 @@ export const MongoConnect = (url: string, opts?: mongoose.ConnectOptions) =>
 // SERVICE Mongo
 export class MongoService extends BaseService {
   name = 'Mongo'
-  sequelize!: Sequelize
   
   async setup() {
     const config = getConfigService().getAll()
@@ -25,6 +24,7 @@ export class MongoService extends BaseService {
         password: config.MONGO_PASSWORD,
       },
       dbName: config.MONGO_DB_NAME || "",
+      authSource: "admin",
     })
   }
 
