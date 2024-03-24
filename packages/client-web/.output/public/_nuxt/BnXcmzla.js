@@ -1,1 +1,0 @@
-import{h as o,o as s,c as r,v as a,d as n,t as c}from"./h3RA-D6g.js";const i={class:"text-xl font-semibold mb-4"},p=o({__name:"Title",props:{text:{type:String,required:!0}},setup(e){return(t,l)=>(s(),r("div",i,[a(t.$slots,"default",{},()=>[n(c(e.text),1)])]))}});export{p as _};
