@@ -14,11 +14,11 @@ import context from '@/foundation/context'
 const service = new ServiceManager(
   context,
   [
-    ConfigService,
-    PostgresService,
-    MongoService,
-    MailService,
-    HttpService,
+    ConfigService,      // manage config
+    PostgresService,    // connecting postgres
+    MongoService,       // connecting mongodb
+    MailService,        // send mail
+    HttpService,        // handle http server
   ]
 )
 await service.setup()
