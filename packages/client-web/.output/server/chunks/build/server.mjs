@@ -970,7 +970,7 @@ const cfg0 = defineAppConfig({
 });
 const inlineConfig = {
   "nuxt": {
-    "buildId": "e57c7250-c1f2-4b4b-9016-665f4e24e5b8"
+    "buildId": "2b9e6d68-36cd-457b-b7aa-4f11483dcb4e"
   },
   "ui": {
     "primary": "green",
@@ -1138,7 +1138,7 @@ const _routes = [
     meta: __nuxt_page_meta$l || {},
     alias: (__nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.alias) || [],
     redirect: __nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.redirect,
-    component: () => import('./register-B1aDb5cQ.mjs').then((m) => m.default || m)
+    component: () => import('./register-kNn6VJLk.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.name) ?? "auth-register___en",
@@ -1146,7 +1146,7 @@ const _routes = [
     meta: __nuxt_page_meta$l || {},
     alias: (__nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.alias) || [],
     redirect: __nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.redirect,
-    component: () => import('./register-B1aDb5cQ.mjs').then((m) => m.default || m)
+    component: () => import('./register-kNn6VJLk.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.name) ?? "auth-register___id",
@@ -1154,7 +1154,7 @@ const _routes = [
     meta: __nuxt_page_meta$l || {},
     alias: (__nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.alias) || [],
     redirect: __nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.redirect,
-    component: () => import('./register-B1aDb5cQ.mjs').then((m) => m.default || m)
+    component: () => import('./register-kNn6VJLk.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$k == null ? void 0 : __nuxt_page_meta$k.name) ?? "dashboard.bak-company___en___default",
@@ -1210,7 +1210,7 @@ const _routes = [
     meta: __nuxt_page_meta$i || {},
     alias: (__nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.alias) || [],
     redirect: __nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.redirect,
-    component: () => import('./index-BvJ4cneX.mjs').then((m) => m.default || m)
+    component: () => import('./index-DE7PQDDX.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.name) ?? "dashboard.bak-user-company___en",
@@ -1218,7 +1218,7 @@ const _routes = [
     meta: __nuxt_page_meta$i || {},
     alias: (__nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.alias) || [],
     redirect: __nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.redirect,
-    component: () => import('./index-BvJ4cneX.mjs').then((m) => m.default || m)
+    component: () => import('./index-DE7PQDDX.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.name) ?? "dashboard.bak-user-company___id",
@@ -1226,7 +1226,7 @@ const _routes = [
     meta: __nuxt_page_meta$i || {},
     alias: (__nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.alias) || [],
     redirect: __nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.redirect,
-    component: () => import('./index-BvJ4cneX.mjs').then((m) => m.default || m)
+    component: () => import('./index-DE7PQDDX.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$h == null ? void 0 : __nuxt_page_meta$h.name) ?? "dashboard.bak-user___en___default",
@@ -1258,7 +1258,7 @@ const _routes = [
     meta: __nuxt_page_meta$g || {},
     alias: (__nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.alias) || [],
     redirect: __nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.redirect,
-    component: () => import('./profile-DO7uQ5FH.mjs').then((m) => m.default || m)
+    component: () => import('./profile-CDKvrWrR.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.name) ?? "dashboard.bak-user-profile___en",
@@ -1266,7 +1266,7 @@ const _routes = [
     meta: __nuxt_page_meta$g || {},
     alias: (__nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.alias) || [],
     redirect: __nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.redirect,
-    component: () => import('./profile-DO7uQ5FH.mjs').then((m) => m.default || m)
+    component: () => import('./profile-CDKvrWrR.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.name) ?? "dashboard.bak-user-profile___id",
@@ -1274,7 +1274,7 @@ const _routes = [
     meta: __nuxt_page_meta$g || {},
     alias: (__nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.alias) || [],
     redirect: __nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.redirect,
-    component: () => import('./profile-DO7uQ5FH.mjs').then((m) => m.default || m)
+    component: () => import('./profile-CDKvrWrR.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$f == null ? void 0 : __nuxt_page_meta$f.name) ?? "dashboard.bak-user-session-id___en___default",
@@ -1330,7 +1330,7 @@ const _routes = [
     meta: __nuxt_page_meta$d || {},
     alias: (__nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.alias) || [],
     redirect: __nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.redirect,
-    component: () => import('./index-BWGnk69w.mjs').then((m) => m.default || m)
+    component: () => import('./index-BtOCcTkU.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.name) ?? "dashboard-company-companyId___en",
@@ -1338,7 +1338,7 @@ const _routes = [
     meta: __nuxt_page_meta$d || {},
     alias: (__nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.alias) || [],
     redirect: __nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.redirect,
-    component: () => import('./index-BWGnk69w.mjs').then((m) => m.default || m)
+    component: () => import('./index-BtOCcTkU.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.name) ?? "dashboard-company-companyId___id",
@@ -1346,7 +1346,7 @@ const _routes = [
     meta: __nuxt_page_meta$d || {},
     alias: (__nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.alias) || [],
     redirect: __nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.redirect,
-    component: () => import('./index-BWGnk69w.mjs').then((m) => m.default || m)
+    component: () => import('./index-BtOCcTkU.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.name) ?? "dashboard-company-companyId-manage-exercise___en___default",
@@ -1354,7 +1354,7 @@ const _routes = [
     meta: __nuxt_page_meta$c || {},
     alias: (__nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.alias) || [],
     redirect: __nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.redirect,
-    component: () => import('./exercise-0STTUmsG.mjs').then((m) => m.default || m)
+    component: () => import('./exercise-FiKZuZj8.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.name) ?? "dashboard-company-companyId-manage-exercise___en",
@@ -1362,7 +1362,7 @@ const _routes = [
     meta: __nuxt_page_meta$c || {},
     alias: (__nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.alias) || [],
     redirect: __nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.redirect,
-    component: () => import('./exercise-0STTUmsG.mjs').then((m) => m.default || m)
+    component: () => import('./exercise-FiKZuZj8.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.name) ?? "dashboard-company-companyId-manage-exercise___id",
@@ -1370,7 +1370,7 @@ const _routes = [
     meta: __nuxt_page_meta$c || {},
     alias: (__nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.alias) || [],
     redirect: __nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.redirect,
-    component: () => import('./exercise-0STTUmsG.mjs').then((m) => m.default || m)
+    component: () => import('./exercise-FiKZuZj8.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$b == null ? void 0 : __nuxt_page_meta$b.name) ?? "dashboard-company-companyId-manage___en___default",
@@ -1402,7 +1402,7 @@ const _routes = [
     meta: __nuxt_page_meta$a || {},
     alias: (__nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.alias) || [],
     redirect: __nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.redirect,
-    component: () => import('./member-9LtD8HP4.mjs').then((m) => m.default || m)
+    component: () => import('./member-DiwxwkM3.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.name) ?? "dashboard-company-companyId-manage-member___en",
@@ -1410,7 +1410,7 @@ const _routes = [
     meta: __nuxt_page_meta$a || {},
     alias: (__nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.alias) || [],
     redirect: __nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.redirect,
-    component: () => import('./member-9LtD8HP4.mjs').then((m) => m.default || m)
+    component: () => import('./member-DiwxwkM3.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.name) ?? "dashboard-company-companyId-manage-member___id",
@@ -1418,7 +1418,7 @@ const _routes = [
     meta: __nuxt_page_meta$a || {},
     alias: (__nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.alias) || [],
     redirect: __nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.redirect,
-    component: () => import('./member-9LtD8HP4.mjs').then((m) => m.default || m)
+    component: () => import('./member-DiwxwkM3.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.name) ?? "dashboard-company-companyId-manage-program___en___default",
@@ -1426,7 +1426,7 @@ const _routes = [
     meta: __nuxt_page_meta$9 || {},
     alias: (__nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.alias) || [],
     redirect: __nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.redirect,
-    component: () => import('./program-DpbEDG3e.mjs').then((m) => m.default || m)
+    component: () => import('./program-DcFRnkSj.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.name) ?? "dashboard-company-companyId-manage-program___en",
@@ -1434,7 +1434,7 @@ const _routes = [
     meta: __nuxt_page_meta$9 || {},
     alias: (__nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.alias) || [],
     redirect: __nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.redirect,
-    component: () => import('./program-DpbEDG3e.mjs').then((m) => m.default || m)
+    component: () => import('./program-DcFRnkSj.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.name) ?? "dashboard-company-companyId-manage-program___id",
@@ -1442,7 +1442,7 @@ const _routes = [
     meta: __nuxt_page_meta$9 || {},
     alias: (__nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.alias) || [],
     redirect: __nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.redirect,
-    component: () => import('./program-DpbEDG3e.mjs').then((m) => m.default || m)
+    component: () => import('./program-DcFRnkSj.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$8 == null ? void 0 : __nuxt_page_meta$8.name) ?? "dashboard-company-companyId-manage-setting___en___default",
@@ -1474,7 +1474,7 @@ const _routes = [
     meta: __nuxt_page_meta$7 || {},
     alias: (__nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.alias) || [],
     redirect: __nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.redirect,
-    component: () => import('./index-Cfgu4YT3.mjs').then((m) => m.default || m)
+    component: () => import('./index-THFPFyNJ.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.name) ?? "dashboard-company___en",
@@ -1482,7 +1482,7 @@ const _routes = [
     meta: __nuxt_page_meta$7 || {},
     alias: (__nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.alias) || [],
     redirect: __nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.redirect,
-    component: () => import('./index-Cfgu4YT3.mjs').then((m) => m.default || m)
+    component: () => import('./index-THFPFyNJ.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.name) ?? "dashboard-company___id",
@@ -1490,7 +1490,7 @@ const _routes = [
     meta: __nuxt_page_meta$7 || {},
     alias: (__nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.alias) || [],
     redirect: __nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.redirect,
-    component: () => import('./index-Cfgu4YT3.mjs').then((m) => m.default || m)
+    component: () => import('./index-THFPFyNJ.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$6 == null ? void 0 : __nuxt_page_meta$6.name) ?? "dashboard___en___default",
@@ -1522,7 +1522,7 @@ const _routes = [
     meta: __nuxt_page_meta$5 || {},
     alias: (__nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.alias) || [],
     redirect: __nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.redirect,
-    component: () => import('./profile-DIOZBfbO.mjs').then((m) => m.default || m)
+    component: () => import('./profile-DjBqVi7l.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.name) ?? "dashboard-profile___en",
@@ -1530,7 +1530,7 @@ const _routes = [
     meta: __nuxt_page_meta$5 || {},
     alias: (__nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.alias) || [],
     redirect: __nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.redirect,
-    component: () => import('./profile-DIOZBfbO.mjs').then((m) => m.default || m)
+    component: () => import('./profile-DjBqVi7l.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.name) ?? "dashboard-profile___id",
@@ -1538,7 +1538,7 @@ const _routes = [
     meta: __nuxt_page_meta$5 || {},
     alias: (__nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.alias) || [],
     redirect: __nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.redirect,
-    component: () => import('./profile-DIOZBfbO.mjs').then((m) => m.default || m)
+    component: () => import('./profile-DjBqVi7l.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.name) ?? "dashboard-session-id___en___default",
@@ -8851,9 +8851,9 @@ const __nuxt_component_1$3 = defineComponent({
 });
 const layouts = {
   auth: () => import('./auth-BWiCidQZ.mjs').then((m) => m.default || m),
-  "dashboard-company-manage": () => import('./dashboard-company-manage-suan1bd6.mjs').then((m) => m.default || m),
-  dashboard: () => import('./dashboard-B_N5PQCj.mjs').then((m) => m.default || m),
-  page: () => import('./page-Cii304RJ.mjs').then((m) => m.default || m)
+  "dashboard-company-manage": () => import('./dashboard-company-manage-bdTf6ymX.mjs').then((m) => m.default || m),
+  dashboard: () => import('./dashboard-0pW9QLxU.mjs').then((m) => m.default || m),
+  page: () => import('./page-BNypF6xs.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent({
   name: "LayoutLoader",

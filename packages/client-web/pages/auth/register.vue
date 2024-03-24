@@ -52,9 +52,7 @@ async function onSubmitRegister (event: FormSubmitEvent<Schema>) {
       {
         method: 'POST',
         body: Api.Auth.Register.parseData({
-          ...state,
-          weight: `${state.weight}`,
-          height: `${state.height}`,
+          ...state
         })
       }
     )

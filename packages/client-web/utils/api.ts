@@ -131,9 +131,9 @@ export namespace Api {
           "firstName": string
           "lastName": string
           "dateOfBirth": string
-          "weight": string
-          "height": string
           "gender": string
+          "weight": number
+          "height": number
           "metricUnits": {
             "energyUnits": string
             "weightUnits": string
