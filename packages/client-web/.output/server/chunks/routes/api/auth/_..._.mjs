@@ -179,7 +179,7 @@ const _____ = NuxtAuthHandler({
         password: { label: "password", type: "password" }
       },
       async authorize(credentials, { query }) {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g, _h;
         const url = Api.Auth.Login.url();
         console.log("credentials url", url);
         try {
@@ -206,12 +206,16 @@ const _____ = NuxtAuthHandler({
             throw new Error(response.data.message);
           }
         } catch (error) {
-          console.error(error);
           if (error instanceof AxiosError) {
             if (((_f = error.response) == null ? void 0 : _f.data.message) == "User not found") {
               throw new Error("Wrong email or password");
+            } else if (((_g = error.response) == null ? void 0 : _g.data.message) == "Invalid email or password") {
+              throw new Error("Wrong email or password");
+            } else {
+              console.error((_h = error.response) == null ? void 0 : _h.data, error);
             }
           } else if (error instanceof Error) {
+            console.error(error);
             throw error;
           }
           throw new Error("An error occurred");

@@ -69,12 +69,16 @@ export default NuxtAuthHandler({
             throw new Error(response.data.message)
           }
         } catch (error) {
-          console.error(error)
           if (error instanceof AxiosError) {
             if (error.response?.data.message == 'User not found') {
               throw new Error('Wrong email or password')
+            } else if (error.response?.data.message == 'Invalid email or password') {
+              throw new Error('Wrong email or password')
+            } else {
+              console.error(error.response?.data, error)
             }
           } else if (error instanceof Error) {
+            console.error(error)
             throw error
           }
           

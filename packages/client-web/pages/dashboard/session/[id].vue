@@ -39,7 +39,9 @@ const { data, pending } = useFetchWithAuth<Api.Report.Get.response>(Api.Report.G
             </div>
             <div class="flex gap-1 items-center">
               <Icon name="fluent:clock-20-regular" class="text-lg mb-0.5 text-green-500" />
-              <div class="text-xs">{{ $dayjs(data?.report.startTime).format('HH:mm') }}</div>
+              <div class="text-xs">
+                {{ $dayjs(data?.report.startTime).format('HH:mm:ss') }} - {{ $dayjs(data?.report.endTime).format('HH:mm:ss') }}
+              </div>
             </div>
           </div>
         </UCard>

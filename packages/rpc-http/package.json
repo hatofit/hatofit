@@ -2,6 +2,10 @@
   "name": "@hatofit/rpc-http",
   "module": "src/index.ts",
   "type": "module",
+  "scripts": {
+    "dev": "PORT=3001 bun run --watch src/index.ts",
+    "start": "bun run src/index.ts"
+  },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/bun": "latest",

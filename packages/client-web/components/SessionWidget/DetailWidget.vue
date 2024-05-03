@@ -408,6 +408,45 @@ onMounted(() => {
   })
   setTimeout(run, 1000)
 })
+
+
+const downloadData = (type: 'hr' | 'ecg', format: 'csv') => {
+  if (type === 'hr') {
+    const data = generated.value.find(item => item.type === 'hr')
+    if (data) {
+      const rest = data.labels.map((label, i) => [label, data.datasets[0].data[i]])
+      console.log(rest)
+      const csv = [
+        ['Time', 'Heart Rate'],
+        ...rest,
+      ].map(item => item.join(',')).join('\n')
+      const blob = new Blob([csv], { type: 'text/csv' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `heart_rate_${$dayjs().format('YYYYMMDD_HHmmss')}.csv`
+      a.click()
+      URL.revokeObjectURL(url)
+    }
+  } else if (type === 'ecg') {
+    const data = generated.value.find(item => item.type === 'ecg')
+    if (data) {
+      const rest = data.labels.map((label, i) => [label, data.datasets[0].data[i]])
+      console.log(rest)
+      const csv = [
+        ['Time', 'Electrocardiogram'],
+        ...rest,
+      ].map(item => item.join(',')).join('\n')
+      const blob = new Blob([csv], { type: 'text/csv' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `electrocardiogram_${$dayjs().format('YYYYMMDD_HHmmss')}.csv`
+      a.click()
+      URL.revokeObjectURL(url)
+    }
+  }
+}
 </script>
 
 <template>
@@ -416,9 +455,22 @@ onMounted(() => {
       <!-- {{ JSON.stringify({ labels: item.labels, datasets: item.datasets }) }} -->
       <UCard v-if="item.type == 'hr'">
         <template #header>
-          <div class="flex items-end gap-2">
-            <h2 class="text-xl font-semibold">Heart Rate</h2>
-            <span class="text-xs mb-0.5 text-gray-500">(bpm)</span>
+          <div class="flex justify-between">
+            <div class="flex items-end gap-2">
+              <h2 class="text-xl font-semibold">Heart Rate</h2>
+              <span class="text-xs mb-0.5 text-gray-500">(bpm)</span>
+            </div>
+            <div>
+              <UDropdown
+                :items="[
+                  [
+                    { label: 'Download CSV', icon: 'i-heroicons-arrow-down-tray', click: () => downloadData('hr', 'csv') },
+                  ],
+                ]"
+              >
+                <UButton icon="i-heroicons-bars-3-bottom-right" variant="soft" />
+              </UDropdown>
+            </div>
           </div>
         </template>
         <Line

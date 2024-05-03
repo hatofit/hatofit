@@ -29,6 +29,18 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare requestDeleteCode?: string
   declare requestDeleteDate?: Date
 }
+export class Company extends Model<InferAttributes<Company>, InferCreationAttributes<Company>> {
+  declare id: CreationOptional<number>
+  declare name: string
+  declare description: string
+  declare address: string
+}
+export class CompanyUser extends Model<InferAttributes<CompanyUser>, InferCreationAttributes<CompanyUser>> {
+  declare id: CreationOptional<number>
+  declare companyId: number
+  declare userId: number
+  declare role: 'member' | 'manager' | 'admin'
+}
 
 // SERVICE Postgres
 export class PostgresService extends BaseService {
@@ -141,5 +153,57 @@ export class PostgresService extends BaseService {
       timestamps: true,
       sequelize: this.sequelize,
     })
+    Company.init({
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }
+    }, {
+      timestamps: true,
+      sequelize: this.sequelize,
+    })
+    CompanyUser.init({
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      companyId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false
+      }
+    }, {
+      timestamps: true,
+      sequelize: this.sequelize,
+    })
+
+    // Relations
+    CompanyUser.belongsTo(User, { foreignKey: 'userId' })
+    CompanyUser.belongsTo(Company, { foreignKey: 'companyId' })
+    User.hasMany(CompanyUser, { foreignKey: 'userId' })
+    Company.hasMany(CompanyUser, { foreignKey: 'companyId' })
+
+    // hehe
   }
 }
