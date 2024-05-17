@@ -970,7 +970,7 @@ const cfg0 = defineAppConfig({
 });
 const inlineConfig = {
   "nuxt": {
-    "buildId": "864c03a4-608b-460e-81cd-3ba59495ed24"
+    "buildId": "56a724af-1cfe-4f98-9ad7-e65b9e8c61cc"
   },
   "ui": {
     "primary": "green",
@@ -1546,7 +1546,7 @@ const _routes = [
     meta: __nuxt_page_meta$4 || {},
     alias: (__nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.alias) || [],
     redirect: __nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.redirect,
-    component: () => import('./_id_-CsnNB4QM.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DWUevpId.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.name) ?? "dashboard-session-id___en",
@@ -1554,7 +1554,7 @@ const _routes = [
     meta: __nuxt_page_meta$4 || {},
     alias: (__nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.alias) || [],
     redirect: __nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.redirect,
-    component: () => import('./_id_-CsnNB4QM.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DWUevpId.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.name) ?? "dashboard-session-id___id",
@@ -1562,7 +1562,7 @@ const _routes = [
     meta: __nuxt_page_meta$4 || {},
     alias: (__nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.alias) || [],
     redirect: __nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.redirect,
-    component: () => import('./_id_-CsnNB4QM.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DWUevpId.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$3 == null ? void 0 : __nuxt_page_meta$3.name) ?? "dashboard-sessions___en___default",
