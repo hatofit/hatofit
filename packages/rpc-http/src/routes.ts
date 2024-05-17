@@ -203,14 +203,17 @@ export default function (app: Express, ctx: Context) {
     auth.post('/login', async (req, res) => {
       try {
         const { email, password } = req.body
+        console.log('login', email, password)
         if (!email || !password) return res.status(400).json({ success: false, message: "Invalid email or password" })
 
         // find user
         const user = await User.findOne({ where: { email } })
+        console.log('user', user?.email, user?.firstName)
         if (!user) return res.status(400).json({ success: false, message: "Invalid email or password" })
 
         // compare password
         const match = await bcrypt.compare(password, user.password)
+        console.log('match', match)
         if (!match) return res.status(400).json({ success: false, message: "Invalid email or password" })
 
         // generate token
