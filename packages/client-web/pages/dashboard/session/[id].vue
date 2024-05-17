@@ -71,7 +71,7 @@ const { data, pending } = useFetchWithAuth<Api.Report.Get.response>(Api.Report.G
       </PageSection>
       <PageSection>
         <PageTitle text="Detail" />
-        <Suspense>
+        <Suspense v-if="data">
           <LazySessionWidgetDetailWidget :data="data" />
           <template #fallback>
             Loading...
