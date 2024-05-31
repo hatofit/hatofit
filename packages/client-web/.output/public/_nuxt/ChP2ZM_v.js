@@ -1,1 +1,0 @@
-import{u as e}from"./BIwsdVk5.js";import{h as o,o as a,c as n,v as r}from"./BD7xl8KE.js";const u=o({__name:"auth",setup(l){return e({title:"Hatofit - Be Fit and Healthy",description:"Hatofit is a platform that helps you to be fit and healthy, help you to track and monitoring your health."}),(t,s)=>(a(),n("div",null,[r(t.$slots,"default")]))}});export{u as default};

@@ -1,0 +1,1 @@
+import{E as s,q as u,N as n}from"./BqiWrrJw.js";import{u as p}from"./t2h670SZ.js";import{A as e}from"./CxOUCrNJ.js";const i=async()=>{var m;const t=s(),a=u(()=>Number(t.params.companyId||"0"));a.value||n("/dashboard/company");const{data:o}=await p(e.Company.Company.url(a.value));return{companyId:a,company:(m=o==null?void 0:o.value)==null?void 0:m.company}};export{i as u};
