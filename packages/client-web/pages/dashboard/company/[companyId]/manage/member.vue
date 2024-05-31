@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import  { Api } from '~/utils/api';
+
 definePageMeta({
   layout: 'dashboard-company-manage',
   middleware: ['auth'],
@@ -6,7 +8,7 @@ definePageMeta({
 
 const columns = [
   {
-    key: 'no',
+    key: 'id',
     label: '#',
   },
   {
@@ -14,11 +16,11 @@ const columns = [
     label: 'Name'
   },
   {
-    key: 'email',
+    key: 'User.email',
     label: 'Email'
   },
   {
-    key: 'since',
+    key: 'createdAt',
     label: 'Since'
   },
   {
@@ -26,17 +28,20 @@ const columns = [
   }
 ]
 
-const members = [{
-  no: 1,
-  name: 'Hannah',
-  email: 'hannah@gmail.com',
-  since: '2021-10-01'
-}, {
-  no: 2,
-  name: 'John',
-  email: 'john@gmail.com',
-  since: '2021-10-01'
-}]
+const { companyId } = await useCompanyLayout()
+const { data } = useFetchWithAuth<Api.Company.Members.response>(Api.Company.Members.url(companyId.value))
+// const members = ref()
+// const members = [{
+//   no: 1,
+//   name: 'Hannah',
+//   email: 'hannah@gmail.com',
+//   since: '2021-10-01'
+// }, {
+//   no: 2,
+//   name: 'John',
+//   email: 'john@gmail.com',
+//   since: '2021-10-01'
+// }]
 
 const items = (row: any) => [
   [{
@@ -60,7 +65,15 @@ const items = (row: any) => [
 </script>
 
 <template>
-  <UTable :columns="columns" :rows="members">
+  <UTable :columns="columns" :rows="data?.members">
+    <template #name-data="{ row }">
+      <div class="flex items-center">
+        <UAvatar :name="row.name" />
+        <div class="ml-2">
+          <div class="font-semibold">{{ row.User.firstName }} {{ row.User.lastName }}</div>
+        </div>
+      </div>
+    </template>
     <template #actions-data="{ row }">
       <UDropdown :items="items(row)">
         <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />

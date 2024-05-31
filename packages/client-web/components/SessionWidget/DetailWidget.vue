@@ -48,6 +48,7 @@ class ReportParser {
 
   parse(...args: any[]) {
     return {
+      stats: [] as { label: string, value: number }[],
       type: this.type,
       labels: [] as string[],
       datasets: [
@@ -70,7 +71,6 @@ class ReportParserHR extends ReportParser {
       value: [number, number][]
     }[]
   ) {
-
     // merge per second
     const seconds: number[] = []
     for (const item of data) {
@@ -146,9 +146,35 @@ class ReportParserHR extends ReportParser {
       }
     }
 
+    
+    // count max min avg from merged data
+    const stats: {
+      label: string
+      value: number
+    }[] = [
+      {
+        label: 'Min',
+        value: 0,
+      },
+      {
+        label: 'Avg',
+        value: 0,
+      },
+      {
+        label: 'Max',
+        value: 0,
+      },
+    ]
+    {
+      const values = Object.values(virtual_device_data.data)
+      stats[0].value = Math.round(Math.min(...values))
+      stats[1].value = Math.round(values.reduce((a, b) => a + b, 0) / values.length)
+      stats[2].value = Math.round(Math.max(...values))
+    }
 
     return {
       type: this.type,
+      stats,
       labels,
       datasets: devices_datas.map(item => ({
         ...item,
@@ -243,9 +269,35 @@ class ReportParserECG extends ReportParser {
       }
     }
 
+    // count max min avg from merged data
+    const stats: {
+      label: string
+      value: number
+    }[] = [
+      {
+        label: 'Min',
+        value: 0,
+      },
+      {
+        label: 'Avg',
+        value: 0,
+      },
+      {
+        label: 'Max',
+        value: 0,
+      },
+    ]
+    {
+      const values = Object.values(virtual_device_data.data)
+      stats[0].value = Math.round(Math.min(...values))
+      stats[1].value = Math.round(values.reduce((a, b) => a + b, 0) / values.length)
+      stats[2].value = Math.round(Math.max(...values))
+    }
+
     return {
       type: this.type,
       labels,
+      stats,
       datasets: devices_datas.map(item => ({
         ...item,
         data: Object.values(item.data),
@@ -396,8 +448,6 @@ const generateChartData = () => {
     }
   }
 
-  console.log(parsed)
-
   return parsed
 }
 
@@ -409,13 +459,18 @@ onMounted(() => {
   setTimeout(run, 1000)
 })
 
-
-const downloadData = (type: 'hr' | 'ecg', format: 'csv') => {
+const downloadData = (type: 'hr' | 'ecg', device: 'Merged'|string = 'Merged',format: 'csv' = 'csv') => {
   if (type === 'hr') {
     const data = generated.value.find(item => item.type === 'hr')
     if (data) {
-      const rest = data.labels.map((label, i) => [label, data.datasets[0].data[i]])
-      console.log(rest)
+      const flabel = data.datasets.find(item => item.label === device)
+      if (!flabel) throw new Error('Device not found')
+      
+      const rest = data.labels.map((label, i) => [label, flabel.data[i]])
+
+      // return console.log('aa', type, device, rest)
+      // const rest = data.labels.map((label, i) => [label, data.datasets[0].data[i]])
+
       const csv = [
         ['Time', 'Heart Rate'],
         ...rest,
@@ -424,7 +479,7 @@ const downloadData = (type: 'hr' | 'ecg', format: 'csv') => {
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `heart_rate_${$dayjs().format('YYYYMMDD_HHmmss')}.csv`
+      a.download = `heart_rate_${device}_${$dayjs().format('YYYYMMDD_HHmmss')}.csv`
       a.click()
       URL.revokeObjectURL(url)
     }
@@ -464,7 +519,12 @@ const downloadData = (type: 'hr' | 'ecg', format: 'csv') => {
               <UDropdown
                 :items="[
                   [
-                    { label: 'Download CSV', icon: 'i-heroicons-arrow-down-tray', click: () => downloadData('hr', 'csv') },
+                    // { label: 'Merged data', icon: 'i-heroicons-arrow-down-tray', click: () => downloadData('hr', 'Merged', 'csv') },
+                    ...(generated.find(item => item.type === 'hr')?.datasets || []).map(item => item.label).map(label => ({
+                      label: `csv ${label}`,
+                      icon: 'i-heroicons-arrow-down-tray',
+                      click: () => downloadData('hr', label, 'csv'),
+                    })),
                   ],
                 ]"
               >
@@ -473,6 +533,14 @@ const downloadData = (type: 'hr' | 'ecg', format: 'csv') => {
             </div>
           </div>
         </template>
+        <div class="flex justify-around mb-6">
+          <div v-for="(stat, j) in item.stats" class="text-center">
+            <div class="mb-2">{{ stat.label }}</div>
+            <div class="text-5xl">
+              {{ stat.value }}
+            </div>
+          </div>
+        </div>
         <Line
           :options="{
             ...chartOptions,

@@ -1,3 +1,14 @@
+<script lang="ts" setup>
+import type { Api } from '~/utils/api';
+
+defineProps({
+  company: {
+    type: Object as PropType<Api.DataModel.Company.Company['company']>,
+    required: true,
+  },
+})
+</script>
+
 <template>
   <div class="h-[200px] rounded-xl flex flex-col justify-end bg-gray-200 dark:bg-gray-800 relative overflow-hidden">
     <NuxtImg
@@ -16,8 +27,8 @@
     />
     <!-- gradient bottom black to up transpareant -->
     <div class="z-10 bg-gradient-to-t from-black to-transparent p-4">
-      <div class="text-2xl font-bold">Company Name</div>
-      <div>company address</div>
+      <div class="text-2xl font-bold">{{ company.name }}</div>
+      <div>{{ company.description }}</div>
     </div>
     <slot />
   </div>

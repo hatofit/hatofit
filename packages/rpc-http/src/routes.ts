@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 import dayjsutc from 'dayjs/plugin/utc'
 dayjs.extend(dayjsutc)
 
-import { User } from '@/services/postgres'
+import { Company, CompanyUser, User } from '@/services/postgres'
 import { AuthRegisterSchema, UserSchema }  from '@/schemas/user'
 import { validateWithZod } from '@/utils/zod'
 import { getConfigService } from './services/config'
@@ -17,6 +17,8 @@ import mongoose from 'mongoose'
 import { SessionSchema } from './schemas/session'
 import { ExerciseSchema } from './schemas/exercise'
 import { getMailService } from './services/mail'
+import type { where } from 'sequelize'
+import { CreateCompanySchema } from './schemas/company'
 
 
 // middlewares
@@ -209,7 +211,7 @@ export default function (app: Express, ctx: Context) {
         // find user
         const user = await User.findOne({ where: { email } })
         console.log('user', user?.email, user?.firstName)
-        if (!user) return res.status(400).json({ success: false, message: "Invalid email or password" })
+        if (!user) return res.status(400).json({ success: false, message: "User not found" })
 
         // compare password
         const match = await bcrypt.compare(password, user.password)
@@ -440,6 +442,160 @@ export default function (app: Express, ctx: Context) {
           user: exceptObjectProp(updated.toJSON(), ["password"]),
         });
       } catch (error) {
+        return res.status(400).json({ error });
+      }
+    })
+    auth.post("/forgot-password/:email", async (req, res) => {
+      try {
+        const email = req.params.email || "" as string;
+  
+        const nodemailer = require("nodemailer");
+        const transporter = nodemailer.createTransport({
+          service: "gmail",
+          host: "smtp.gmail.com",
+          port: 587,
+          secure: false,
+          auth: {
+            user: process.env.MAIL_USERNAME,
+            pass: process.env.MAIL_PASSWORD,
+          },
+        });
+        const found = await User.findOne({
+          where: { email: email },
+        });
+  
+        if (!found) {
+          return res.status(404).json({
+            success: false,
+            message: "User not found",
+          });
+        }
+  
+        //  generate 6 digit code for reset password
+        let code = Math.floor(100000 + Math.random() * 900000);
+  
+        // save to db
+        const updated = await found.update({
+          resetPasswordCode: `${code}`,
+        });
+        // const updated = await User.update(
+        //   // {
+        //   //   email: email,
+        //   // },
+        //   // {
+        //   //   $set: {
+        //   //     resetPasswordCode: code,
+        //   //   },
+        //   // },
+        //   // {
+        //   //   new: true,
+        //   // }
+        // );
+  
+        const mailOptions = {
+          from: "HatoFit | No Reply <" + process.env.MAIL_USERNAME + ">",
+          to: email,
+          subject: "Forgot Password",
+          text: "Forgot Password ",
+          html:
+            "<p> Forgot Password </p>" +
+            "<p> Your otp for forgot password code is " +
+            code +
+            "</p>",
+        };
+  
+        transporter.sendMail(mailOptions, function (error: any, info: any) {
+          if (error) {
+            console.log(error);
+            return res.status(400).json({ error });
+          } else {
+            console.log("Email sent: " + info.response);
+            return res.json({
+              success: true,
+              message: "Email sent",
+            });
+          }
+        });
+        // delete code after 5 minutes
+        setTimeout(async () => {
+          await found.update({
+            resetPasswordCode: "",
+          });
+          // User.findOneAndUpdate(
+          //   {
+          //     email: email,
+          //   },
+          //   {
+          //     $set: {
+          //       resetPasswordCode: "",
+          //     },
+          //   },
+          //   {
+          //     new: true,
+          //   }
+          // );
+        }, 300000);
+      } catch (error) {
+        // console.error(error)
+        return res.status(400).json({ error });
+      }
+    });
+    auth.post("/forgot-password-verify", async (req, res) => {
+      try {
+        const { email, code } = req.body;
+        const found = await User.findOne({
+          where: { email: email, resetPasswordCode: code },
+        });
+        if (!found) {
+          return res.status(404).json({
+            success: false,
+            message: "User not found",
+          });
+        }
+        return res.json({
+          success: true,
+          message: "Code is correct",
+        });
+      } catch (error) {
+        // console.error(error)
+        return res.status(400).json({ error });
+      }
+    })
+    auth.post("/forgot-password-reset", async (req, res) => {
+      try {
+        const { email, code, password } = req.body;
+        const found = await User.findOne({
+          where: { email: email, resetPasswordCode: code },
+        });
+        if (!found) {
+          return res.status(404).json({
+            success: false,
+            message: "User not found",
+          });
+        }
+        // hash password
+        const rawPlainPassword: string = (password || "") as string;
+        // password
+        const saltRounds = parseInt(config.HASH_PASSWORD_SALT || "10");
+        const hasingPasssword = await new Promise<string>((res) => {
+          bcrypt.hash(
+            rawPlainPassword,
+            saltRounds,
+            function (err: any, hash: any) {
+              return res(hash as string)
+            }
+          )
+        })
+        const updated = await found.update({
+          password: hasingPasssword,
+          resetPasswordCode: "",
+        });
+        return res.json({
+          success: true,
+          message: "Password reset successfully",
+        });
+      } catch (error) {
+        // console.error(error)
         return res.status(400).json({ error });
       }
     })
@@ -723,5 +879,199 @@ export default function (app: Express, ctx: Context) {
       }
     })
     app.use('/report', report)
+  }
+
+  // company
+  {
+    const company = express.Router()
+    company.get("/", AuthJwtMiddleware, async (req, res) => {
+      const users = await CompanyUser.findAll({
+        where: { userId: req.auth?.user?.id },
+      })
+
+      const compIds = users
+        .map((item) => item.companyId)
+        // remove duplicate
+        .filter((value, index, self) => self.indexOf(value) === index);
+      
+      const companies = await Company.findAll({
+        // where in
+        where: { id: compIds },
+      })        
+      
+      return res.json({
+        success: true,
+        message: "Companies found",
+        companies,
+      })
+    })
+    company.get("/:id", async (req, res) => {
+      const { id } = req.params
+      const company = await Company.findOne({ where: { id } })
+      if (!company) {
+        return res.status(404).json({
+          success: false,
+          message: "Company not found",
+        });
+      }
+      return res.json({
+        success: true,
+        message: "Company found",
+        company,
+      })
+    })
+    company.get("/:id/member", AuthJwtMiddleware, async (req, res) => {
+      const { id } = req.params
+      const company = await Company.findOne({ where: { id } })
+      if (!company) {
+        return res.status(404).json({
+          success: false,
+          message: "Company not found",
+        });
+      }
+      const users = await CompanyUser.findAll({
+        where: { companyId: id },
+        include: [
+          {
+            model: User,
+            attributes: [
+              '_id',
+              'firstName',
+              'lastName',
+              'email',
+              'createdAt',
+            ]
+          }
+        ]
+      })
+      return res.json({
+        success: true,
+        message: "Company members found",
+        members: users.map((item) => item),
+      })
+    })
+    company.post("/", AuthJwtMiddleware, async (req, res) => {
+      try {
+        // validate
+        const { ok, data, errors } = validateWithZod(CreateCompanySchema, req.body)
+        if (!ok || !data) return res.status(400).json({ success: false, errors })
+
+        // create
+        const created = await Company.create({
+          name: data.name,
+          address: data.address,
+          description: data.description,
+        })
+
+        // create company user
+        await CompanyUser.create({
+          companyId: created.id,
+          userId: req.auth?.user?.id,
+          role: 'admin',
+        })
+
+        return res.json({
+          success: true,
+          message: "Company created successfully",
+        })
+      } catch (error) {
+        console.log(error)
+        return res.status(500).json({ success: false, message: "Internal server error" })
+      }
+    })
+    company.put("/:id", AuthJwtMiddleware, async (req, res) => {
+      const { id } = req.params
+      const company = await Company.findOne({ where: { id } })
+      if (!company) {
+        return res.status(404).json({
+          success: false,
+          message: "Company not found",
+        });
+      }
+      const { name, address, description } = req.body
+      const updated = await company.update({
+        name,
+        address,
+        description,
+      })
+      return res.json({
+        success: true,
+        message: "Company updated successfully",
+        company: updated,
+      })
+    })
+
+    company.post("/join", AuthJwtMiddleware, async (req, res) => {
+      let { code } = req.body as any
+
+      const company = await Company.findOne({ where: { _id: code } })
+      if (!company) {
+        return res.status(404).json({
+          success: false,
+          message: "Company not found",
+        });
+      }
+      const found = await CompanyUser.findOne({
+        where: { companyId: company.id, userId: req.auth?.user?.id }
+      })
+      if (found) {
+        return res.status(400).json({
+          success: false,
+          message: "User already joined",
+        });
+      }
+
+      // create company user
+      await CompanyUser.create({
+        companyId: company.id,
+        userId: req.auth?.user?.id,
+        role: 'member',
+      })
+
+      return res.json({
+        success: true,
+        message: "User joined company successfully",
+      })
+    })
+    company.delete("/leave", AuthJwtMiddleware, async (req, res) => {
+      let { code } = req.body as any
+      // code = Number(code)
+
+      const company = await Company.findOne({ where: { _id: code } })
+      if (!company) {
+        return res.status(404).json({
+          success: false,
+          message: "Company not found",
+        });
+      }
+      const found = await CompanyUser.findOne({
+        where: { companyId: company.id, userId: req.auth?.user?.id }
+      })
+      if (!found) {
+        return res.status(400).json({
+          success: false,
+          message: "User not joined",
+        });
+      }
+
+      // check if user is admin
+      if (found.role === 'admin') {
+        return res.status(400).json({
+          success: false,
+          message: "Admin cannot leave company",
+        });
+      }
+
+      // delete
+      await found.destroy()
+
+      return res.json({
+        success: true,
+        message: "User left company successfully",
+      })
+    })
+
+
+    app.use('/company', company)
   }
 }

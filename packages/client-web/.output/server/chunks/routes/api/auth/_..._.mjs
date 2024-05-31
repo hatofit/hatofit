@@ -137,6 +137,17 @@ var Api;
     ((Delete2) => {
       Delete2.url = () => getApiUrl("/auth/delete");
     })(Auth2.Delete || (Auth2.Delete = {}));
+    ((ForgotPasswordSendOTP2) => {
+      ForgotPasswordSendOTP2.url = (email) => getApiUrl("/auth/forgot-password/" + email);
+    })(Auth2.ForgotPasswordSendOTP || (Auth2.ForgotPasswordSendOTP = {}));
+    ((ForgotPasswordVerifyOTP2) => {
+      ForgotPasswordVerifyOTP2.url = () => getApiUrl("/auth/forgot-password-verify");
+      ForgotPasswordVerifyOTP2.parseData = (data) => ({ ...data });
+    })(Auth2.ForgotPasswordVerifyOTP || (Auth2.ForgotPasswordVerifyOTP = {}));
+    ((ForgotPasswordReset2) => {
+      ForgotPasswordReset2.url = () => getApiUrl("/auth/forgot-password-reset");
+      ForgotPasswordReset2.parseData = (data) => ({ ...data });
+    })(Auth2.ForgotPasswordReset || (Auth2.ForgotPasswordReset = {}));
   })(Api2.Auth || (Api2.Auth = {}));
   ((Session2) => {
     ((All2) => {
@@ -154,6 +165,31 @@ var Api;
       RequestDelete2.parseData = (data) => ({ ...data });
     })(User2.RequestDelete || (User2.RequestDelete = {}));
   })(Api2.User || (Api2.User = {}));
+  ((_Company) => {
+    ((Company3) => {
+      Company3.url = (id) => getApiUrl("/company/" + id);
+    })(_Company.Company || (_Company.Company = {}));
+    ((Join2) => {
+      Join2.url = () => getApiUrl("/company/join");
+    })(_Company.Join || (_Company.Join = {}));
+    ((Leave2) => {
+      Leave2.url = () => getApiUrl("/company/leave");
+    })(_Company.Leave || (_Company.Leave = {}));
+    ((Companies2) => {
+      Companies2.url = () => getApiUrl("/company");
+    })(_Company.Companies || (_Company.Companies = {}));
+    ((CreateCompany2) => {
+      CreateCompany2.url = () => getApiUrl("/company");
+      CreateCompany2.parseData = (data) => ({ ...data });
+    })(_Company.CreateCompany || (_Company.CreateCompany = {}));
+    ((UpdateCompany2) => {
+      UpdateCompany2.url = (id) => getApiUrl("/company/" + id);
+      UpdateCompany2.parseData = (data) => ({ ...data });
+    })(_Company.UpdateCompany || (_Company.UpdateCompany = {}));
+    ((Members2) => {
+      Members2.url = (companyId) => getApiUrl(`/company/${companyId}/member`);
+    })(_Company.Members || (_Company.Members = {}));
+  })(Api2.Company || (Api2.Company = {}));
 })(Api || (Api = {}));
 
 const _____ = NuxtAuthHandler({
@@ -179,7 +215,7 @@ const _____ = NuxtAuthHandler({
         password: { label: "password", type: "password" }
       },
       async authorize(credentials, { query }) {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _i;
         const url = Api.Auth.Login.url();
         console.log("credentials url", url);
         try {
@@ -192,6 +228,7 @@ const _____ = NuxtAuthHandler({
             method: "POST",
             data
           });
+          console.log("credentials response", response.data);
           if (response.status === 200) {
             return {
               ...response.data.user,
@@ -199,7 +236,7 @@ const _____ = NuxtAuthHandler({
               token: (_e = response.data) == null ? void 0 : _e.token
             };
           } else if (response.data.message == "User not found") {
-            throw new Error("Wrong email or password");
+            throw new Error("User not found");
           } else {
             if (!response.data.message)
               throw new Error("An error occurred");
@@ -207,12 +244,13 @@ const _____ = NuxtAuthHandler({
           }
         } catch (error) {
           if (error instanceof AxiosError) {
-            if (((_f = error.response) == null ? void 0 : _f.data.message) == "User not found") {
-              throw new Error("Wrong email or password");
-            } else if (((_g = error.response) == null ? void 0 : _g.data.message) == "Invalid email or password") {
+            console.log("credentials response", (_f = error.response) == null ? void 0 : _f.data);
+            if (((_g = error.response) == null ? void 0 : _g.data.message) == "User not found") {
+              throw new Error("User not found");
+            } else if (((_h = error.response) == null ? void 0 : _h.data.message) == "Invalid email or password") {
               throw new Error("Wrong email or password");
             } else {
-              console.error((_h = error.response) == null ? void 0 : _h.data, error);
+              console.error((_i = error.response) == null ? void 0 : _i.data, error);
             }
           } else if (error instanceof Error) {
             console.error(error);

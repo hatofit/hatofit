@@ -1,5 +1,6 @@
 import { hasInjectionContext, inject, version, ref, watchEffect, watch, getCurrentInstance, toRef, isRef, defineComponent, provide, createElementBlock, defineAsyncComponent, h, onUnmounted, readonly, computed, unref, shallowReactive, Suspense, nextTick, Transition, useSSRContext, useAttrs, toValue, resolveComponent, Fragment, mergeProps, withAsyncContext, createVNode, resolveDynamicComponent, withCtx, renderSlot, openBlock, createBlock, createCommentVNode, toDisplayString as toDisplayString$1, createApp, effectScope, reactive, shallowRef, onErrorCaptured, onServerPrefetch, isReadonly, Text, createSlots, renderList, markRaw, isShallow, isReactive, toRaw } from 'vue';
-import { c as useRuntimeConfig$1, $ as $fetch$1, j as createError$1, y as defuFn, z as klona, d as defu, A as sanitizeStatusCode, B as createDefu, C as isEqual$1, D as createHooks, a as appendHeader, F as getRequestHeaders, b as sendRedirect, G as getHeader, H as toRouteMatcher, I as createRouter$1, J as parse$1, K as getRequestHeader, L as destr, s as setCookie, M as getCookie, N as deleteCookie } from '../runtime.mjs';
+import { $ as $fetch$1, j as createError$1, y as defuFn, z as klona, d as defu, A as sanitizeStatusCode, B as createDefu, C as isEqual$1, D as createHooks, a as appendHeader, F as getRequestHeaders, b as sendRedirect, G as getHeader, H as toRouteMatcher, I as createRouter$1, J as parse$1, K as getRequestHeader, L as destr, s as setCookie, M as getCookie, N as deleteCookie } from '../runtime.mjs';
+import { b as baseURL } from '../routes/renderer.mjs';
 import { getActiveHead } from 'unhead';
 import { defineHeadPlugin, composableNames, unpackMeta } from '@unhead/shared';
 import { useRoute as useRoute$1, RouterView, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
@@ -8,7 +9,7 @@ import dayjs from 'dayjs';
 import updateLocale from 'dayjs/plugin/updateLocale.js';
 import relativeTime from 'dayjs/plugin/relativeTime.js';
 import utc from 'dayjs/plugin/utc.js';
-import { createSharedComposable } from '@vueuse/core';
+import { createSharedComposable, useTimestamp } from '@vueuse/core';
 import { extendTailwindMerge, twMerge, twJoin } from 'tailwind-merge';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderVNode, ssrRenderSlot, ssrInterpolate, ssrRenderClass, ssrRenderList, ssrRenderStyle, ssrRenderSuspense, ssrRenderTeleport } from 'vue/server-renderer';
 import { Icon as Icon$1 } from '@iconify/vue/dist/offline';
@@ -20,6 +21,9 @@ import 'path';
 import 'node:fs';
 import 'node:url';
 import 'ipx';
+import 'vue-bundle-renderer/runtime';
+import 'devalue';
+import '@unhead/ssr';
 
 function createContext$1(opts = {}) {
   let currentInstance;
@@ -118,243 +122,6 @@ const getContext = (key, opts = {}) => defaultNamespace.get(key, opts);
 const asyncHandlersKey$1 = "__unctx_async_handlers__";
 const asyncHandlers$1 = _globalThis[asyncHandlersKey$1] || (_globalThis[asyncHandlersKey$1] = /* @__PURE__ */ new Set());
 
-const HASH_RE = /#/g;
-const AMPERSAND_RE = /&/g;
-const SLASH_RE = /\//g;
-const EQUAL_RE = /=/g;
-const IM_RE = /\?/g;
-const PLUS_RE = /\+/g;
-const ENC_CARET_RE = /%5e/gi;
-const ENC_BACKTICK_RE = /%60/gi;
-const ENC_PIPE_RE = /%7c/gi;
-const ENC_SPACE_RE = /%20/gi;
-const ENC_ENC_SLASH_RE = /%252f/gi;
-function encode(text) {
-  return encodeURI("" + text).replace(ENC_PIPE_RE, "|");
-}
-function encodeQueryValue(input2) {
-  return encode(typeof input2 === "string" ? input2 : JSON.stringify(input2)).replace(PLUS_RE, "%2B").replace(ENC_SPACE_RE, "+").replace(HASH_RE, "%23").replace(AMPERSAND_RE, "%26").replace(ENC_BACKTICK_RE, "`").replace(ENC_CARET_RE, "^").replace(SLASH_RE, "%2F");
-}
-function encodeQueryKey(text) {
-  return encodeQueryValue(text).replace(EQUAL_RE, "%3D");
-}
-function encodePath(text) {
-  return encode(text).replace(HASH_RE, "%23").replace(IM_RE, "%3F").replace(ENC_ENC_SLASH_RE, "%2F").replace(AMPERSAND_RE, "%26").replace(PLUS_RE, "%2B");
-}
-function encodeParam(text) {
-  return encodePath(text).replace(SLASH_RE, "%2F");
-}
-function decode(text = "") {
-  try {
-    return decodeURIComponent("" + text);
-  } catch {
-    return "" + text;
-  }
-}
-function decodeQueryKey(text) {
-  return decode(text.replace(PLUS_RE, " "));
-}
-function decodeQueryValue(text) {
-  return decode(text.replace(PLUS_RE, " "));
-}
-function parseQuery(parametersString = "") {
-  const object = {};
-  if (parametersString[0] === "?") {
-    parametersString = parametersString.slice(1);
-  }
-  for (const parameter of parametersString.split("&")) {
-    const s = parameter.match(/([^=]+)=?(.*)/) || [];
-    if (s.length < 2) {
-      continue;
-    }
-    const key = decodeQueryKey(s[1]);
-    if (key === "__proto__" || key === "constructor") {
-      continue;
-    }
-    const value = decodeQueryValue(s[2] || "");
-    if (object[key] === void 0) {
-      object[key] = value;
-    } else if (Array.isArray(object[key])) {
-      object[key].push(value);
-    } else {
-      object[key] = [object[key], value];
-    }
-  }
-  return object;
-}
-function encodeQueryItem(key, value) {
-  if (typeof value === "number" || typeof value === "boolean") {
-    value = String(value);
-  }
-  if (!value) {
-    return encodeQueryKey(key);
-  }
-  if (Array.isArray(value)) {
-    return value.map((_value) => `${encodeQueryKey(key)}=${encodeQueryValue(_value)}`).join("&");
-  }
-  return `${encodeQueryKey(key)}=${encodeQueryValue(value)}`;
-}
-function stringifyQuery(query) {
-  return Object.keys(query).filter((k) => query[k] !== void 0).map((k) => encodeQueryItem(k, query[k])).filter(Boolean).join("&");
-}
-const PROTOCOL_STRICT_REGEX = /^[\s\w\0+.-]{2,}:([/\\]{1,2})/;
-const PROTOCOL_REGEX = /^[\s\w\0+.-]{2,}:([/\\]{2})?/;
-const PROTOCOL_RELATIVE_REGEX = /^([/\\]\s*){2,}[^/\\]/;
-const PROTOCOL_SCRIPT_RE = /^[\s\0]*(blob|data|javascript|vbscript):$/i;
-const TRAILING_SLASH_RE = /\/$|\/\?|\/#/;
-const JOIN_LEADING_SLASH_RE = /^\.?\//;
-function hasProtocol(inputString, opts = {}) {
-  if (typeof opts === "boolean") {
-    opts = { acceptRelative: opts };
-  }
-  if (opts.strict) {
-    return PROTOCOL_STRICT_REGEX.test(inputString);
-  }
-  return PROTOCOL_REGEX.test(inputString) || (opts.acceptRelative ? PROTOCOL_RELATIVE_REGEX.test(inputString) : false);
-}
-function isScriptProtocol(protocol) {
-  return !!protocol && PROTOCOL_SCRIPT_RE.test(protocol);
-}
-function hasTrailingSlash(input2 = "", respectQueryAndFragment) {
-  if (!respectQueryAndFragment) {
-    return input2.endsWith("/");
-  }
-  return TRAILING_SLASH_RE.test(input2);
-}
-function withoutTrailingSlash(input2 = "", respectQueryAndFragment) {
-  if (!respectQueryAndFragment) {
-    return (hasTrailingSlash(input2) ? input2.slice(0, -1) : input2) || "/";
-  }
-  if (!hasTrailingSlash(input2, true)) {
-    return input2 || "/";
-  }
-  let path = input2;
-  let fragment = "";
-  const fragmentIndex = input2.indexOf("#");
-  if (fragmentIndex >= 0) {
-    path = input2.slice(0, fragmentIndex);
-    fragment = input2.slice(fragmentIndex);
-  }
-  const [s0, ...s] = path.split("?");
-  const cleanPath = s0.endsWith("/") ? s0.slice(0, -1) : s0;
-  return (cleanPath || "/") + (s.length > 0 ? `?${s.join("?")}` : "") + fragment;
-}
-function withTrailingSlash(input2 = "", respectQueryAndFragment) {
-  if (!respectQueryAndFragment) {
-    return input2.endsWith("/") ? input2 : input2 + "/";
-  }
-  if (hasTrailingSlash(input2, true)) {
-    return input2 || "/";
-  }
-  let path = input2;
-  let fragment = "";
-  const fragmentIndex = input2.indexOf("#");
-  if (fragmentIndex >= 0) {
-    path = input2.slice(0, fragmentIndex);
-    fragment = input2.slice(fragmentIndex);
-    if (!path) {
-      return fragment;
-    }
-  }
-  const [s0, ...s] = path.split("?");
-  return s0 + "/" + (s.length > 0 ? `?${s.join("?")}` : "") + fragment;
-}
-function hasLeadingSlash(input2 = "") {
-  return input2.startsWith("/");
-}
-function withLeadingSlash(input2 = "") {
-  return hasLeadingSlash(input2) ? input2 : "/" + input2;
-}
-function withQuery(input2, query) {
-  const parsed = parseURL(input2);
-  const mergedQuery = { ...parseQuery(parsed.search), ...query };
-  parsed.search = stringifyQuery(mergedQuery);
-  return stringifyParsedURL(parsed);
-}
-function isNonEmptyURL(url) {
-  return url && url !== "/";
-}
-function joinURL(base, ...input2) {
-  let url = base || "";
-  for (const segment of input2.filter((url2) => isNonEmptyURL(url2))) {
-    if (url) {
-      const _segment = segment.replace(JOIN_LEADING_SLASH_RE, "");
-      url = withTrailingSlash(url) + _segment;
-    } else {
-      url = segment;
-    }
-  }
-  return url;
-}
-function isEqual(a, b, options = {}) {
-  if (!options.trailingSlash) {
-    a = withTrailingSlash(a);
-    b = withTrailingSlash(b);
-  }
-  if (!options.leadingSlash) {
-    a = withLeadingSlash(a);
-    b = withLeadingSlash(b);
-  }
-  if (!options.encoding) {
-    a = decode(a);
-    b = decode(b);
-  }
-  return a === b;
-}
-const protocolRelative = Symbol.for("ufo:protocolRelative");
-function parseURL(input2 = "", defaultProto) {
-  const _specialProtoMatch = input2.match(
-    /^[\s\0]*(blob:|data:|javascript:|vbscript:)(.*)/i
-  );
-  if (_specialProtoMatch) {
-    const [, _proto, _pathname = ""] = _specialProtoMatch;
-    return {
-      protocol: _proto.toLowerCase(),
-      pathname: _pathname,
-      href: _proto + _pathname,
-      auth: "",
-      host: "",
-      search: "",
-      hash: ""
-    };
-  }
-  if (!hasProtocol(input2, { acceptRelative: true })) {
-    return defaultProto ? parseURL(defaultProto + input2) : parsePath(input2);
-  }
-  const [, protocol = "", auth2, hostAndPath = ""] = input2.replace(/\\/g, "/").match(/^[\s\0]*([\w+.-]{2,}:)?\/\/([^/@]+@)?(.*)/) || [];
-  const [, host = "", path = ""] = hostAndPath.match(/([^#/?]*)(.*)?/) || [];
-  const { pathname, search, hash } = parsePath(
-    path.replace(/\/(?=[A-Za-z]:)/, "")
-  );
-  return {
-    protocol: protocol.toLowerCase(),
-    auth: auth2 ? auth2.slice(0, Math.max(0, auth2.length - 1)) : "",
-    host,
-    pathname,
-    search,
-    hash,
-    [protocolRelative]: !protocol
-  };
-}
-function parsePath(input2 = "") {
-  const [pathname = "", search = "", hash = ""] = (input2.match(/([^#?]*)(\?[^#]*)?(#.*)?/) || []).splice(1);
-  return {
-    pathname,
-    search,
-    hash
-  };
-}
-function stringifyParsedURL(parsed) {
-  const pathname = parsed.pathname || "";
-  const search = parsed.search ? (parsed.search.startsWith("?") ? "" : "?") + parsed.search : "";
-  const hash = parsed.hash || "";
-  const auth2 = parsed.auth ? parsed.auth + "@" : "";
-  const host = parsed.host || "";
-  const proto = parsed.protocol || parsed[protocolRelative] ? (parsed.protocol || "") + "//" : "";
-  return proto + auth2 + host + pathname + search + hash;
-}
-const appConfig$1 = useRuntimeConfig$1().app;
-const baseURL = () => appConfig$1.baseURL;
 if (!globalThis.$fetch) {
   globalThis.$fetch = $fetch$1.create({
     baseURL: baseURL()
@@ -372,7 +139,7 @@ function createNuxtApp(options) {
     globalName: "nuxt",
     versions: {
       get nuxt() {
-        return "3.11.1";
+        return "3.11.2";
       },
       get vue() {
         return nuxtApp.vueApp.version;
@@ -561,6 +328,244 @@ function defineGetter$1(obj, key, val) {
 function defineAppConfig(config2) {
   return config2;
 }
+const HASH_RE = /#/g;
+const AMPERSAND_RE = /&/g;
+const SLASH_RE = /\//g;
+const EQUAL_RE = /=/g;
+const IM_RE = /\?/g;
+const PLUS_RE = /\+/g;
+const ENC_CARET_RE = /%5e/gi;
+const ENC_BACKTICK_RE = /%60/gi;
+const ENC_PIPE_RE = /%7c/gi;
+const ENC_SPACE_RE = /%20/gi;
+const ENC_ENC_SLASH_RE = /%252f/gi;
+function encode(text) {
+  return encodeURI("" + text).replace(ENC_PIPE_RE, "|");
+}
+function encodeQueryValue(input2) {
+  return encode(typeof input2 === "string" ? input2 : JSON.stringify(input2)).replace(PLUS_RE, "%2B").replace(ENC_SPACE_RE, "+").replace(HASH_RE, "%23").replace(AMPERSAND_RE, "%26").replace(ENC_BACKTICK_RE, "`").replace(ENC_CARET_RE, "^").replace(SLASH_RE, "%2F");
+}
+function encodeQueryKey(text) {
+  return encodeQueryValue(text).replace(EQUAL_RE, "%3D");
+}
+function encodePath(text) {
+  return encode(text).replace(HASH_RE, "%23").replace(IM_RE, "%3F").replace(ENC_ENC_SLASH_RE, "%2F").replace(AMPERSAND_RE, "%26").replace(PLUS_RE, "%2B");
+}
+function encodeParam(text) {
+  return encodePath(text).replace(SLASH_RE, "%2F");
+}
+function decode(text = "") {
+  try {
+    return decodeURIComponent("" + text);
+  } catch {
+    return "" + text;
+  }
+}
+function decodeQueryKey(text) {
+  return decode(text.replace(PLUS_RE, " "));
+}
+function decodeQueryValue(text) {
+  return decode(text.replace(PLUS_RE, " "));
+}
+function parseQuery(parametersString = "") {
+  const object = {};
+  if (parametersString[0] === "?") {
+    parametersString = parametersString.slice(1);
+  }
+  for (const parameter of parametersString.split("&")) {
+    const s = parameter.match(/([^=]+)=?(.*)/) || [];
+    if (s.length < 2) {
+      continue;
+    }
+    const key = decodeQueryKey(s[1]);
+    if (key === "__proto__" || key === "constructor") {
+      continue;
+    }
+    const value = decodeQueryValue(s[2] || "");
+    if (object[key] === void 0) {
+      object[key] = value;
+    } else if (Array.isArray(object[key])) {
+      object[key].push(value);
+    } else {
+      object[key] = [object[key], value];
+    }
+  }
+  return object;
+}
+function encodeQueryItem(key, value) {
+  if (typeof value === "number" || typeof value === "boolean") {
+    value = String(value);
+  }
+  if (!value) {
+    return encodeQueryKey(key);
+  }
+  if (Array.isArray(value)) {
+    return value.map((_value) => `${encodeQueryKey(key)}=${encodeQueryValue(_value)}`).join("&");
+  }
+  return `${encodeQueryKey(key)}=${encodeQueryValue(value)}`;
+}
+function stringifyQuery(query) {
+  return Object.keys(query).filter((k) => query[k] !== void 0).map((k) => encodeQueryItem(k, query[k])).filter(Boolean).join("&");
+}
+const PROTOCOL_STRICT_REGEX = /^[\s\w\0+.-]{2,}:([/\\]{1,2})/;
+const PROTOCOL_REGEX = /^[\s\w\0+.-]{2,}:([/\\]{2})?/;
+const PROTOCOL_RELATIVE_REGEX = /^([/\\]\s*){2,}[^/\\]/;
+const PROTOCOL_SCRIPT_RE = /^[\s\0]*(blob|data|javascript|vbscript):$/i;
+const TRAILING_SLASH_RE = /\/$|\/\?|\/#/;
+const JOIN_LEADING_SLASH_RE = /^\.?\//;
+function hasProtocol(inputString, opts = {}) {
+  if (typeof opts === "boolean") {
+    opts = { acceptRelative: opts };
+  }
+  if (opts.strict) {
+    return PROTOCOL_STRICT_REGEX.test(inputString);
+  }
+  return PROTOCOL_REGEX.test(inputString) || (opts.acceptRelative ? PROTOCOL_RELATIVE_REGEX.test(inputString) : false);
+}
+function isScriptProtocol(protocol) {
+  return !!protocol && PROTOCOL_SCRIPT_RE.test(protocol);
+}
+function hasTrailingSlash(input2 = "", respectQueryAndFragment) {
+  if (!respectQueryAndFragment) {
+    return input2.endsWith("/");
+  }
+  return TRAILING_SLASH_RE.test(input2);
+}
+function withoutTrailingSlash(input2 = "", respectQueryAndFragment) {
+  if (!respectQueryAndFragment) {
+    return (hasTrailingSlash(input2) ? input2.slice(0, -1) : input2) || "/";
+  }
+  if (!hasTrailingSlash(input2, true)) {
+    return input2 || "/";
+  }
+  let path = input2;
+  let fragment = "";
+  const fragmentIndex = input2.indexOf("#");
+  if (fragmentIndex >= 0) {
+    path = input2.slice(0, fragmentIndex);
+    fragment = input2.slice(fragmentIndex);
+  }
+  const [s0, ...s] = path.split("?");
+  const cleanPath = s0.endsWith("/") ? s0.slice(0, -1) : s0;
+  return (cleanPath || "/") + (s.length > 0 ? `?${s.join("?")}` : "") + fragment;
+}
+function withTrailingSlash(input2 = "", respectQueryAndFragment) {
+  if (!respectQueryAndFragment) {
+    return input2.endsWith("/") ? input2 : input2 + "/";
+  }
+  if (hasTrailingSlash(input2, true)) {
+    return input2 || "/";
+  }
+  let path = input2;
+  let fragment = "";
+  const fragmentIndex = input2.indexOf("#");
+  if (fragmentIndex >= 0) {
+    path = input2.slice(0, fragmentIndex);
+    fragment = input2.slice(fragmentIndex);
+    if (!path) {
+      return fragment;
+    }
+  }
+  const [s0, ...s] = path.split("?");
+  return s0 + "/" + (s.length > 0 ? `?${s.join("?")}` : "") + fragment;
+}
+function hasLeadingSlash(input2 = "") {
+  return input2.startsWith("/");
+}
+function withLeadingSlash(input2 = "") {
+  return hasLeadingSlash(input2) ? input2 : "/" + input2;
+}
+function withQuery(input2, query) {
+  const parsed = parseURL(input2);
+  const mergedQuery = { ...parseQuery(parsed.search), ...query };
+  parsed.search = stringifyQuery(mergedQuery);
+  return stringifyParsedURL(parsed);
+}
+function isNonEmptyURL(url) {
+  return url && url !== "/";
+}
+function joinURL(base, ...input2) {
+  let url = base || "";
+  for (const segment of input2.filter((url2) => isNonEmptyURL(url2))) {
+    if (url) {
+      const _segment = segment.replace(JOIN_LEADING_SLASH_RE, "");
+      url = withTrailingSlash(url) + _segment;
+    } else {
+      url = segment;
+    }
+  }
+  return url;
+}
+function isSamePath(p1, p2) {
+  return decode(withoutTrailingSlash(p1)) === decode(withoutTrailingSlash(p2));
+}
+function isEqual(a, b, options = {}) {
+  if (!options.trailingSlash) {
+    a = withTrailingSlash(a);
+    b = withTrailingSlash(b);
+  }
+  if (!options.leadingSlash) {
+    a = withLeadingSlash(a);
+    b = withLeadingSlash(b);
+  }
+  if (!options.encoding) {
+    a = decode(a);
+    b = decode(b);
+  }
+  return a === b;
+}
+const protocolRelative = Symbol.for("ufo:protocolRelative");
+function parseURL(input2 = "", defaultProto) {
+  const _specialProtoMatch = input2.match(
+    /^[\s\0]*(blob:|data:|javascript:|vbscript:)(.*)/i
+  );
+  if (_specialProtoMatch) {
+    const [, _proto, _pathname = ""] = _specialProtoMatch;
+    return {
+      protocol: _proto.toLowerCase(),
+      pathname: _pathname,
+      href: _proto + _pathname,
+      auth: "",
+      host: "",
+      search: "",
+      hash: ""
+    };
+  }
+  if (!hasProtocol(input2, { acceptRelative: true })) {
+    return defaultProto ? parseURL(defaultProto + input2) : parsePath(input2);
+  }
+  const [, protocol = "", auth2, hostAndPath = ""] = input2.replace(/\\/g, "/").match(/^[\s\0]*([\w+.-]{2,}:)?\/\/([^/@]+@)?(.*)/) || [];
+  const [, host = "", path = ""] = hostAndPath.match(/([^#/?]*)(.*)?/) || [];
+  const { pathname, search, hash } = parsePath(
+    path.replace(/\/(?=[A-Za-z]:)/, "")
+  );
+  return {
+    protocol: protocol.toLowerCase(),
+    auth: auth2 ? auth2.slice(0, Math.max(0, auth2.length - 1)) : "",
+    host,
+    pathname,
+    search,
+    hash,
+    [protocolRelative]: !protocol
+  };
+}
+function parsePath(input2 = "") {
+  const [pathname = "", search = "", hash = ""] = (input2.match(/([^#?]*)(\?[^#]*)?(#.*)?/) || []).splice(1);
+  return {
+    pathname,
+    search,
+    hash
+  };
+}
+function stringifyParsedURL(parsed) {
+  const pathname = parsed.pathname || "";
+  const search = parsed.search ? (parsed.search.startsWith("?") ? "" : "?") + parsed.search : "";
+  const hash = parsed.hash || "";
+  const auth2 = parsed.auth ? parsed.auth + "@" : "";
+  const host = parsed.host || "";
+  const proto = parsed.protocol || parsed[protocolRelative] ? (parsed.protocol || "") + "//" : "";
+  return proto + auth2 + host + pathname + search + hash;
+}
 const LayoutMetaSymbol = Symbol("layout-meta");
 const PageRouteSymbol = Symbol("route");
 const useRouter = () => {
@@ -597,7 +602,7 @@ const isProcessingMiddleware = () => {
       return true;
     }
   } catch {
-    return true;
+    return false;
   }
   return false;
 };
@@ -606,9 +611,6 @@ const navigateTo = (to, options) => {
     to = "/";
   }
   const toPath = typeof to === "string" ? to : withQuery(to.path || "/", to.query || {}) + (to.hash || "");
-  if (options == null ? void 0 : options.open) {
-    return Promise.resolve();
-  }
   const isExternal = (options == null ? void 0 : options.external) || hasProtocol(toPath, { acceptRelative: true });
   if (isExternal) {
     if (!(options == null ? void 0 : options.external)) {
@@ -663,16 +665,6 @@ const navigateTo = (to, options) => {
     return Promise.resolve();
   }
   return (options == null ? void 0 : options.replace) ? router.replace(to) : router.push(to);
-};
-const abortNavigation = (err) => {
-  if (!err) {
-    return false;
-  }
-  err = createError(err);
-  if (err.fatal) {
-    (/* @__PURE__ */ useNuxtApp()).runWithContext(() => showError(err));
-  }
-  throw err;
 };
 const NUXT_ERROR_SIGNATURE = "__nuxt_error";
 const useError = () => toRef((/* @__PURE__ */ useNuxtApp()).payload, "error");
@@ -970,7 +962,7 @@ const cfg0 = defineAppConfig({
 });
 const inlineConfig = {
   "nuxt": {
-    "buildId": "56a724af-1cfe-4f98-9ad7-e65b9e8c61cc"
+    "buildId": "87e8a792-5154-4ed7-ba77-63dbd2a56e15"
   },
   "ui": {
     "primary": "green",
@@ -1114,7 +1106,7 @@ const _routes = [
     meta: __nuxt_page_meta$m || {},
     alias: (__nuxt_page_meta$m == null ? void 0 : __nuxt_page_meta$m.alias) || [],
     redirect: __nuxt_page_meta$m == null ? void 0 : __nuxt_page_meta$m.redirect,
-    component: () => import('./login-D_cPAgTV.mjs').then((m) => m.default || m)
+    component: () => import('./login-Cf7mAgkc.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$m == null ? void 0 : __nuxt_page_meta$m.name) ?? "auth-login___en",
@@ -1122,7 +1114,7 @@ const _routes = [
     meta: __nuxt_page_meta$m || {},
     alias: (__nuxt_page_meta$m == null ? void 0 : __nuxt_page_meta$m.alias) || [],
     redirect: __nuxt_page_meta$m == null ? void 0 : __nuxt_page_meta$m.redirect,
-    component: () => import('./login-D_cPAgTV.mjs').then((m) => m.default || m)
+    component: () => import('./login-Cf7mAgkc.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$m == null ? void 0 : __nuxt_page_meta$m.name) ?? "auth-login___id",
@@ -1130,7 +1122,7 @@ const _routes = [
     meta: __nuxt_page_meta$m || {},
     alias: (__nuxt_page_meta$m == null ? void 0 : __nuxt_page_meta$m.alias) || [],
     redirect: __nuxt_page_meta$m == null ? void 0 : __nuxt_page_meta$m.redirect,
-    component: () => import('./login-D_cPAgTV.mjs').then((m) => m.default || m)
+    component: () => import('./login-Cf7mAgkc.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.name) ?? "auth-register___en___default",
@@ -1138,7 +1130,7 @@ const _routes = [
     meta: __nuxt_page_meta$l || {},
     alias: (__nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.alias) || [],
     redirect: __nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.redirect,
-    component: () => import('./register-kNn6VJLk.mjs').then((m) => m.default || m)
+    component: () => import('./register-B3157RXb.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.name) ?? "auth-register___en",
@@ -1146,7 +1138,7 @@ const _routes = [
     meta: __nuxt_page_meta$l || {},
     alias: (__nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.alias) || [],
     redirect: __nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.redirect,
-    component: () => import('./register-kNn6VJLk.mjs').then((m) => m.default || m)
+    component: () => import('./register-B3157RXb.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.name) ?? "auth-register___id",
@@ -1154,7 +1146,7 @@ const _routes = [
     meta: __nuxt_page_meta$l || {},
     alias: (__nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.alias) || [],
     redirect: __nuxt_page_meta$l == null ? void 0 : __nuxt_page_meta$l.redirect,
-    component: () => import('./register-kNn6VJLk.mjs').then((m) => m.default || m)
+    component: () => import('./register-B3157RXb.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$k == null ? void 0 : __nuxt_page_meta$k.name) ?? "dashboard.bak-company___en___default",
@@ -1162,7 +1154,7 @@ const _routes = [
     meta: __nuxt_page_meta$k || {},
     alias: (__nuxt_page_meta$k == null ? void 0 : __nuxt_page_meta$k.alias) || [],
     redirect: __nuxt_page_meta$k == null ? void 0 : __nuxt_page_meta$k.redirect,
-    component: () => import('./index-CF_0CJCO.mjs').then((m) => m.default || m)
+    component: () => import('./index-CGCVplr5.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$k == null ? void 0 : __nuxt_page_meta$k.name) ?? "dashboard.bak-company___en",
@@ -1170,7 +1162,7 @@ const _routes = [
     meta: __nuxt_page_meta$k || {},
     alias: (__nuxt_page_meta$k == null ? void 0 : __nuxt_page_meta$k.alias) || [],
     redirect: __nuxt_page_meta$k == null ? void 0 : __nuxt_page_meta$k.redirect,
-    component: () => import('./index-CF_0CJCO.mjs').then((m) => m.default || m)
+    component: () => import('./index-CGCVplr5.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$k == null ? void 0 : __nuxt_page_meta$k.name) ?? "dashboard.bak-company___id",
@@ -1178,7 +1170,7 @@ const _routes = [
     meta: __nuxt_page_meta$k || {},
     alias: (__nuxt_page_meta$k == null ? void 0 : __nuxt_page_meta$k.alias) || [],
     redirect: __nuxt_page_meta$k == null ? void 0 : __nuxt_page_meta$k.redirect,
-    component: () => import('./index-CF_0CJCO.mjs').then((m) => m.default || m)
+    component: () => import('./index-CGCVplr5.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak___en___default",
@@ -1186,7 +1178,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./index-8zcpOMR8.mjs').then((m) => m.default || m)
+    component: () => import('./index-DdEVC2pd.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak___en",
@@ -1194,7 +1186,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./index-8zcpOMR8.mjs').then((m) => m.default || m)
+    component: () => import('./index-DdEVC2pd.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak___id",
@@ -1202,7 +1194,7 @@ const _routes = [
     meta: {},
     alias: [],
     redirect: void 0 ,
-    component: () => import('./index-8zcpOMR8.mjs').then((m) => m.default || m)
+    component: () => import('./index-DdEVC2pd.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.name) ?? "dashboard.bak-user-company___en___default",
@@ -1210,7 +1202,7 @@ const _routes = [
     meta: __nuxt_page_meta$i || {},
     alias: (__nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.alias) || [],
     redirect: __nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.redirect,
-    component: () => import('./index-B4aHTkpy.mjs').then((m) => m.default || m)
+    component: () => import('./index-BITJ4exQ.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.name) ?? "dashboard.bak-user-company___en",
@@ -1218,7 +1210,7 @@ const _routes = [
     meta: __nuxt_page_meta$i || {},
     alias: (__nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.alias) || [],
     redirect: __nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.redirect,
-    component: () => import('./index-B4aHTkpy.mjs').then((m) => m.default || m)
+    component: () => import('./index-BITJ4exQ.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.name) ?? "dashboard.bak-user-company___id",
@@ -1226,7 +1218,7 @@ const _routes = [
     meta: __nuxt_page_meta$i || {},
     alias: (__nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.alias) || [],
     redirect: __nuxt_page_meta$i == null ? void 0 : __nuxt_page_meta$i.redirect,
-    component: () => import('./index-B4aHTkpy.mjs').then((m) => m.default || m)
+    component: () => import('./index-BITJ4exQ.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$h == null ? void 0 : __nuxt_page_meta$h.name) ?? "dashboard.bak-user___en___default",
@@ -1234,7 +1226,7 @@ const _routes = [
     meta: __nuxt_page_meta$h || {},
     alias: (__nuxt_page_meta$h == null ? void 0 : __nuxt_page_meta$h.alias) || [],
     redirect: __nuxt_page_meta$h == null ? void 0 : __nuxt_page_meta$h.redirect,
-    component: () => import('./index-DBVP2q3g.mjs').then((m) => m.default || m)
+    component: () => import('./index-BWHg68dN.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$h == null ? void 0 : __nuxt_page_meta$h.name) ?? "dashboard.bak-user___en",
@@ -1242,7 +1234,7 @@ const _routes = [
     meta: __nuxt_page_meta$h || {},
     alias: (__nuxt_page_meta$h == null ? void 0 : __nuxt_page_meta$h.alias) || [],
     redirect: __nuxt_page_meta$h == null ? void 0 : __nuxt_page_meta$h.redirect,
-    component: () => import('./index-DBVP2q3g.mjs').then((m) => m.default || m)
+    component: () => import('./index-BWHg68dN.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$h == null ? void 0 : __nuxt_page_meta$h.name) ?? "dashboard.bak-user___id",
@@ -1250,7 +1242,7 @@ const _routes = [
     meta: __nuxt_page_meta$h || {},
     alias: (__nuxt_page_meta$h == null ? void 0 : __nuxt_page_meta$h.alias) || [],
     redirect: __nuxt_page_meta$h == null ? void 0 : __nuxt_page_meta$h.redirect,
-    component: () => import('./index-DBVP2q3g.mjs').then((m) => m.default || m)
+    component: () => import('./index-BWHg68dN.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.name) ?? "dashboard.bak-user-profile___en___default",
@@ -1258,7 +1250,7 @@ const _routes = [
     meta: __nuxt_page_meta$g || {},
     alias: (__nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.alias) || [],
     redirect: __nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.redirect,
-    component: () => import('./profile-5OCEB3Sx.mjs').then((m) => m.default || m)
+    component: () => import('./profile-D1cPhIbQ.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.name) ?? "dashboard.bak-user-profile___en",
@@ -1266,7 +1258,7 @@ const _routes = [
     meta: __nuxt_page_meta$g || {},
     alias: (__nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.alias) || [],
     redirect: __nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.redirect,
-    component: () => import('./profile-5OCEB3Sx.mjs').then((m) => m.default || m)
+    component: () => import('./profile-D1cPhIbQ.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.name) ?? "dashboard.bak-user-profile___id",
@@ -1274,7 +1266,7 @@ const _routes = [
     meta: __nuxt_page_meta$g || {},
     alias: (__nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.alias) || [],
     redirect: __nuxt_page_meta$g == null ? void 0 : __nuxt_page_meta$g.redirect,
-    component: () => import('./profile-5OCEB3Sx.mjs').then((m) => m.default || m)
+    component: () => import('./profile-D1cPhIbQ.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$f == null ? void 0 : __nuxt_page_meta$f.name) ?? "dashboard.bak-user-session-id___en___default",
@@ -1282,7 +1274,7 @@ const _routes = [
     meta: __nuxt_page_meta$f || {},
     alias: (__nuxt_page_meta$f == null ? void 0 : __nuxt_page_meta$f.alias) || [],
     redirect: __nuxt_page_meta$f == null ? void 0 : __nuxt_page_meta$f.redirect,
-    component: () => import('./_id_-9yCT0xzR.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CPmk45q1.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$f == null ? void 0 : __nuxt_page_meta$f.name) ?? "dashboard.bak-user-session-id___en",
@@ -1290,7 +1282,7 @@ const _routes = [
     meta: __nuxt_page_meta$f || {},
     alias: (__nuxt_page_meta$f == null ? void 0 : __nuxt_page_meta$f.alias) || [],
     redirect: __nuxt_page_meta$f == null ? void 0 : __nuxt_page_meta$f.redirect,
-    component: () => import('./_id_-9yCT0xzR.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CPmk45q1.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$f == null ? void 0 : __nuxt_page_meta$f.name) ?? "dashboard.bak-user-session-id___id",
@@ -1298,7 +1290,7 @@ const _routes = [
     meta: __nuxt_page_meta$f || {},
     alias: (__nuxt_page_meta$f == null ? void 0 : __nuxt_page_meta$f.alias) || [],
     redirect: __nuxt_page_meta$f == null ? void 0 : __nuxt_page_meta$f.redirect,
-    component: () => import('./_id_-9yCT0xzR.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-CPmk45q1.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$e == null ? void 0 : __nuxt_page_meta$e.name) ?? "dashboard.bak-user-sessions___en___default",
@@ -1306,7 +1298,7 @@ const _routes = [
     meta: __nuxt_page_meta$e || {},
     alias: (__nuxt_page_meta$e == null ? void 0 : __nuxt_page_meta$e.alias) || [],
     redirect: __nuxt_page_meta$e == null ? void 0 : __nuxt_page_meta$e.redirect,
-    component: () => import('./sessions-BVyV_pcy.mjs').then((m) => m.default || m)
+    component: () => import('./sessions-DBStewC2.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$e == null ? void 0 : __nuxt_page_meta$e.name) ?? "dashboard.bak-user-sessions___en",
@@ -1314,7 +1306,7 @@ const _routes = [
     meta: __nuxt_page_meta$e || {},
     alias: (__nuxt_page_meta$e == null ? void 0 : __nuxt_page_meta$e.alias) || [],
     redirect: __nuxt_page_meta$e == null ? void 0 : __nuxt_page_meta$e.redirect,
-    component: () => import('./sessions-BVyV_pcy.mjs').then((m) => m.default || m)
+    component: () => import('./sessions-DBStewC2.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$e == null ? void 0 : __nuxt_page_meta$e.name) ?? "dashboard.bak-user-sessions___id",
@@ -1322,7 +1314,7 @@ const _routes = [
     meta: __nuxt_page_meta$e || {},
     alias: (__nuxt_page_meta$e == null ? void 0 : __nuxt_page_meta$e.alias) || [],
     redirect: __nuxt_page_meta$e == null ? void 0 : __nuxt_page_meta$e.redirect,
-    component: () => import('./sessions-BVyV_pcy.mjs').then((m) => m.default || m)
+    component: () => import('./sessions-DBStewC2.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.name) ?? "dashboard-company-companyId___en___default",
@@ -1330,7 +1322,7 @@ const _routes = [
     meta: __nuxt_page_meta$d || {},
     alias: (__nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.alias) || [],
     redirect: __nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.redirect,
-    component: () => import('./index-CkrNCpAU.mjs').then((m) => m.default || m)
+    component: () => import('./index-CM7MFN9N.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.name) ?? "dashboard-company-companyId___en",
@@ -1338,7 +1330,7 @@ const _routes = [
     meta: __nuxt_page_meta$d || {},
     alias: (__nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.alias) || [],
     redirect: __nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.redirect,
-    component: () => import('./index-CkrNCpAU.mjs').then((m) => m.default || m)
+    component: () => import('./index-CM7MFN9N.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.name) ?? "dashboard-company-companyId___id",
@@ -1346,7 +1338,7 @@ const _routes = [
     meta: __nuxt_page_meta$d || {},
     alias: (__nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.alias) || [],
     redirect: __nuxt_page_meta$d == null ? void 0 : __nuxt_page_meta$d.redirect,
-    component: () => import('./index-CkrNCpAU.mjs').then((m) => m.default || m)
+    component: () => import('./index-CM7MFN9N.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.name) ?? "dashboard-company-companyId-manage-exercise___en___default",
@@ -1354,7 +1346,7 @@ const _routes = [
     meta: __nuxt_page_meta$c || {},
     alias: (__nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.alias) || [],
     redirect: __nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.redirect,
-    component: () => import('./exercise-DH9hw_Ao.mjs').then((m) => m.default || m)
+    component: () => import('./exercise-B2_x1Uk7.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.name) ?? "dashboard-company-companyId-manage-exercise___en",
@@ -1362,7 +1354,7 @@ const _routes = [
     meta: __nuxt_page_meta$c || {},
     alias: (__nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.alias) || [],
     redirect: __nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.redirect,
-    component: () => import('./exercise-DH9hw_Ao.mjs').then((m) => m.default || m)
+    component: () => import('./exercise-B2_x1Uk7.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.name) ?? "dashboard-company-companyId-manage-exercise___id",
@@ -1370,7 +1362,7 @@ const _routes = [
     meta: __nuxt_page_meta$c || {},
     alias: (__nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.alias) || [],
     redirect: __nuxt_page_meta$c == null ? void 0 : __nuxt_page_meta$c.redirect,
-    component: () => import('./exercise-DH9hw_Ao.mjs').then((m) => m.default || m)
+    component: () => import('./exercise-B2_x1Uk7.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$b == null ? void 0 : __nuxt_page_meta$b.name) ?? "dashboard-company-companyId-manage___en___default",
@@ -1378,7 +1370,7 @@ const _routes = [
     meta: __nuxt_page_meta$b || {},
     alias: (__nuxt_page_meta$b == null ? void 0 : __nuxt_page_meta$b.alias) || [],
     redirect: __nuxt_page_meta$b == null ? void 0 : __nuxt_page_meta$b.redirect,
-    component: () => import('./index-Bw1pChM4.mjs').then((m) => m.default || m)
+    component: () => import('./index-CS71QLCG.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$b == null ? void 0 : __nuxt_page_meta$b.name) ?? "dashboard-company-companyId-manage___en",
@@ -1386,7 +1378,7 @@ const _routes = [
     meta: __nuxt_page_meta$b || {},
     alias: (__nuxt_page_meta$b == null ? void 0 : __nuxt_page_meta$b.alias) || [],
     redirect: __nuxt_page_meta$b == null ? void 0 : __nuxt_page_meta$b.redirect,
-    component: () => import('./index-Bw1pChM4.mjs').then((m) => m.default || m)
+    component: () => import('./index-CS71QLCG.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$b == null ? void 0 : __nuxt_page_meta$b.name) ?? "dashboard-company-companyId-manage___id",
@@ -1394,7 +1386,7 @@ const _routes = [
     meta: __nuxt_page_meta$b || {},
     alias: (__nuxt_page_meta$b == null ? void 0 : __nuxt_page_meta$b.alias) || [],
     redirect: __nuxt_page_meta$b == null ? void 0 : __nuxt_page_meta$b.redirect,
-    component: () => import('./index-Bw1pChM4.mjs').then((m) => m.default || m)
+    component: () => import('./index-CS71QLCG.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.name) ?? "dashboard-company-companyId-manage-member___en___default",
@@ -1402,7 +1394,7 @@ const _routes = [
     meta: __nuxt_page_meta$a || {},
     alias: (__nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.alias) || [],
     redirect: __nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.redirect,
-    component: () => import('./member-BtRBFNp8.mjs').then((m) => m.default || m)
+    component: () => import('./member-Dei4ueTU.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.name) ?? "dashboard-company-companyId-manage-member___en",
@@ -1410,7 +1402,7 @@ const _routes = [
     meta: __nuxt_page_meta$a || {},
     alias: (__nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.alias) || [],
     redirect: __nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.redirect,
-    component: () => import('./member-BtRBFNp8.mjs').then((m) => m.default || m)
+    component: () => import('./member-Dei4ueTU.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.name) ?? "dashboard-company-companyId-manage-member___id",
@@ -1418,7 +1410,7 @@ const _routes = [
     meta: __nuxt_page_meta$a || {},
     alias: (__nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.alias) || [],
     redirect: __nuxt_page_meta$a == null ? void 0 : __nuxt_page_meta$a.redirect,
-    component: () => import('./member-BtRBFNp8.mjs').then((m) => m.default || m)
+    component: () => import('./member-Dei4ueTU.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.name) ?? "dashboard-company-companyId-manage-program___en___default",
@@ -1426,7 +1418,7 @@ const _routes = [
     meta: __nuxt_page_meta$9 || {},
     alias: (__nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.alias) || [],
     redirect: __nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.redirect,
-    component: () => import('./program-MV4WEw-Z.mjs').then((m) => m.default || m)
+    component: () => import('./program-D1hFdUtW.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.name) ?? "dashboard-company-companyId-manage-program___en",
@@ -1434,7 +1426,7 @@ const _routes = [
     meta: __nuxt_page_meta$9 || {},
     alias: (__nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.alias) || [],
     redirect: __nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.redirect,
-    component: () => import('./program-MV4WEw-Z.mjs').then((m) => m.default || m)
+    component: () => import('./program-D1hFdUtW.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.name) ?? "dashboard-company-companyId-manage-program___id",
@@ -1442,7 +1434,7 @@ const _routes = [
     meta: __nuxt_page_meta$9 || {},
     alias: (__nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.alias) || [],
     redirect: __nuxt_page_meta$9 == null ? void 0 : __nuxt_page_meta$9.redirect,
-    component: () => import('./program-MV4WEw-Z.mjs').then((m) => m.default || m)
+    component: () => import('./program-D1hFdUtW.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$8 == null ? void 0 : __nuxt_page_meta$8.name) ?? "dashboard-company-companyId-manage-setting___en___default",
@@ -1450,7 +1442,7 @@ const _routes = [
     meta: __nuxt_page_meta$8 || {},
     alias: (__nuxt_page_meta$8 == null ? void 0 : __nuxt_page_meta$8.alias) || [],
     redirect: __nuxt_page_meta$8 == null ? void 0 : __nuxt_page_meta$8.redirect,
-    component: () => import('./setting-BUXFuIRo.mjs').then((m) => m.default || m)
+    component: () => import('./setting-C_HXKKWs.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$8 == null ? void 0 : __nuxt_page_meta$8.name) ?? "dashboard-company-companyId-manage-setting___en",
@@ -1458,7 +1450,7 @@ const _routes = [
     meta: __nuxt_page_meta$8 || {},
     alias: (__nuxt_page_meta$8 == null ? void 0 : __nuxt_page_meta$8.alias) || [],
     redirect: __nuxt_page_meta$8 == null ? void 0 : __nuxt_page_meta$8.redirect,
-    component: () => import('./setting-BUXFuIRo.mjs').then((m) => m.default || m)
+    component: () => import('./setting-C_HXKKWs.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$8 == null ? void 0 : __nuxt_page_meta$8.name) ?? "dashboard-company-companyId-manage-setting___id",
@@ -1466,7 +1458,7 @@ const _routes = [
     meta: __nuxt_page_meta$8 || {},
     alias: (__nuxt_page_meta$8 == null ? void 0 : __nuxt_page_meta$8.alias) || [],
     redirect: __nuxt_page_meta$8 == null ? void 0 : __nuxt_page_meta$8.redirect,
-    component: () => import('./setting-BUXFuIRo.mjs').then((m) => m.default || m)
+    component: () => import('./setting-C_HXKKWs.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.name) ?? "dashboard-company___en___default",
@@ -1474,7 +1466,7 @@ const _routes = [
     meta: __nuxt_page_meta$7 || {},
     alias: (__nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.alias) || [],
     redirect: __nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.redirect,
-    component: () => import('./index-CPeyxEP7.mjs').then((m) => m.default || m)
+    component: () => import('./index-UHjogdf5.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.name) ?? "dashboard-company___en",
@@ -1482,7 +1474,7 @@ const _routes = [
     meta: __nuxt_page_meta$7 || {},
     alias: (__nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.alias) || [],
     redirect: __nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.redirect,
-    component: () => import('./index-CPeyxEP7.mjs').then((m) => m.default || m)
+    component: () => import('./index-UHjogdf5.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.name) ?? "dashboard-company___id",
@@ -1490,7 +1482,7 @@ const _routes = [
     meta: __nuxt_page_meta$7 || {},
     alias: (__nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.alias) || [],
     redirect: __nuxt_page_meta$7 == null ? void 0 : __nuxt_page_meta$7.redirect,
-    component: () => import('./index-CPeyxEP7.mjs').then((m) => m.default || m)
+    component: () => import('./index-UHjogdf5.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$6 == null ? void 0 : __nuxt_page_meta$6.name) ?? "dashboard___en___default",
@@ -1498,7 +1490,7 @@ const _routes = [
     meta: __nuxt_page_meta$6 || {},
     alias: (__nuxt_page_meta$6 == null ? void 0 : __nuxt_page_meta$6.alias) || [],
     redirect: __nuxt_page_meta$6 == null ? void 0 : __nuxt_page_meta$6.redirect,
-    component: () => import('./index-CZdtl3yh.mjs').then((m) => m.default || m)
+    component: () => import('./index-lWsq1lqb.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$6 == null ? void 0 : __nuxt_page_meta$6.name) ?? "dashboard___en",
@@ -1506,7 +1498,7 @@ const _routes = [
     meta: __nuxt_page_meta$6 || {},
     alias: (__nuxt_page_meta$6 == null ? void 0 : __nuxt_page_meta$6.alias) || [],
     redirect: __nuxt_page_meta$6 == null ? void 0 : __nuxt_page_meta$6.redirect,
-    component: () => import('./index-CZdtl3yh.mjs').then((m) => m.default || m)
+    component: () => import('./index-lWsq1lqb.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$6 == null ? void 0 : __nuxt_page_meta$6.name) ?? "dashboard___id",
@@ -1514,7 +1506,7 @@ const _routes = [
     meta: __nuxt_page_meta$6 || {},
     alias: (__nuxt_page_meta$6 == null ? void 0 : __nuxt_page_meta$6.alias) || [],
     redirect: __nuxt_page_meta$6 == null ? void 0 : __nuxt_page_meta$6.redirect,
-    component: () => import('./index-CZdtl3yh.mjs').then((m) => m.default || m)
+    component: () => import('./index-lWsq1lqb.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.name) ?? "dashboard-profile___en___default",
@@ -1522,7 +1514,7 @@ const _routes = [
     meta: __nuxt_page_meta$5 || {},
     alias: (__nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.alias) || [],
     redirect: __nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.redirect,
-    component: () => import('./profile-DJSeFkYF.mjs').then((m) => m.default || m)
+    component: () => import('./profile-vL5ovnV1.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.name) ?? "dashboard-profile___en",
@@ -1530,7 +1522,7 @@ const _routes = [
     meta: __nuxt_page_meta$5 || {},
     alias: (__nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.alias) || [],
     redirect: __nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.redirect,
-    component: () => import('./profile-DJSeFkYF.mjs').then((m) => m.default || m)
+    component: () => import('./profile-vL5ovnV1.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.name) ?? "dashboard-profile___id",
@@ -1538,7 +1530,7 @@ const _routes = [
     meta: __nuxt_page_meta$5 || {},
     alias: (__nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.alias) || [],
     redirect: __nuxt_page_meta$5 == null ? void 0 : __nuxt_page_meta$5.redirect,
-    component: () => import('./profile-DJSeFkYF.mjs').then((m) => m.default || m)
+    component: () => import('./profile-vL5ovnV1.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.name) ?? "dashboard-session-id___en___default",
@@ -1546,7 +1538,7 @@ const _routes = [
     meta: __nuxt_page_meta$4 || {},
     alias: (__nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.alias) || [],
     redirect: __nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.redirect,
-    component: () => import('./_id_-DWUevpId.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DCAPM8EU.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.name) ?? "dashboard-session-id___en",
@@ -1554,7 +1546,7 @@ const _routes = [
     meta: __nuxt_page_meta$4 || {},
     alias: (__nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.alias) || [],
     redirect: __nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.redirect,
-    component: () => import('./_id_-DWUevpId.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DCAPM8EU.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.name) ?? "dashboard-session-id___id",
@@ -1562,7 +1554,7 @@ const _routes = [
     meta: __nuxt_page_meta$4 || {},
     alias: (__nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.alias) || [],
     redirect: __nuxt_page_meta$4 == null ? void 0 : __nuxt_page_meta$4.redirect,
-    component: () => import('./_id_-DWUevpId.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-DCAPM8EU.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$3 == null ? void 0 : __nuxt_page_meta$3.name) ?? "dashboard-sessions___en___default",
@@ -1570,7 +1562,7 @@ const _routes = [
     meta: __nuxt_page_meta$3 || {},
     alias: (__nuxt_page_meta$3 == null ? void 0 : __nuxt_page_meta$3.alias) || [],
     redirect: __nuxt_page_meta$3 == null ? void 0 : __nuxt_page_meta$3.redirect,
-    component: () => import('./sessions-DmoXw5b9.mjs').then((m) => m.default || m)
+    component: () => import('./sessions-DXPUMDZA.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$3 == null ? void 0 : __nuxt_page_meta$3.name) ?? "dashboard-sessions___en",
@@ -1578,7 +1570,7 @@ const _routes = [
     meta: __nuxt_page_meta$3 || {},
     alias: (__nuxt_page_meta$3 == null ? void 0 : __nuxt_page_meta$3.alias) || [],
     redirect: __nuxt_page_meta$3 == null ? void 0 : __nuxt_page_meta$3.redirect,
-    component: () => import('./sessions-DmoXw5b9.mjs').then((m) => m.default || m)
+    component: () => import('./sessions-DXPUMDZA.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$3 == null ? void 0 : __nuxt_page_meta$3.name) ?? "dashboard-sessions___id",
@@ -1586,7 +1578,7 @@ const _routes = [
     meta: __nuxt_page_meta$3 || {},
     alias: (__nuxt_page_meta$3 == null ? void 0 : __nuxt_page_meta$3.alias) || [],
     redirect: __nuxt_page_meta$3 == null ? void 0 : __nuxt_page_meta$3.redirect,
-    component: () => import('./sessions-DmoXw5b9.mjs').then((m) => m.default || m)
+    component: () => import('./sessions-DXPUMDZA.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$2 == null ? void 0 : __nuxt_page_meta$2.name) ?? "index___en___default",
@@ -1594,7 +1586,7 @@ const _routes = [
     meta: __nuxt_page_meta$2 || {},
     alias: (__nuxt_page_meta$2 == null ? void 0 : __nuxt_page_meta$2.alias) || [],
     redirect: __nuxt_page_meta$2 == null ? void 0 : __nuxt_page_meta$2.redirect,
-    component: () => import('./index-WbJGmabf.mjs').then((m) => m.default || m)
+    component: () => import('./index-D2lXVkz_.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$2 == null ? void 0 : __nuxt_page_meta$2.name) ?? "index___en",
@@ -1602,7 +1594,7 @@ const _routes = [
     meta: __nuxt_page_meta$2 || {},
     alias: (__nuxt_page_meta$2 == null ? void 0 : __nuxt_page_meta$2.alias) || [],
     redirect: __nuxt_page_meta$2 == null ? void 0 : __nuxt_page_meta$2.redirect,
-    component: () => import('./index-WbJGmabf.mjs').then((m) => m.default || m)
+    component: () => import('./index-D2lXVkz_.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$2 == null ? void 0 : __nuxt_page_meta$2.name) ?? "index___id",
@@ -1610,7 +1602,7 @@ const _routes = [
     meta: __nuxt_page_meta$2 || {},
     alias: (__nuxt_page_meta$2 == null ? void 0 : __nuxt_page_meta$2.alias) || [],
     redirect: __nuxt_page_meta$2 == null ? void 0 : __nuxt_page_meta$2.redirect,
-    component: () => import('./index-WbJGmabf.mjs').then((m) => m.default || m)
+    component: () => import('./index-D2lXVkz_.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$1 == null ? void 0 : __nuxt_page_meta$1.name) ?? "privacy-policies___en___default",
@@ -1618,7 +1610,7 @@ const _routes = [
     meta: __nuxt_page_meta$1 || {},
     alias: (__nuxt_page_meta$1 == null ? void 0 : __nuxt_page_meta$1.alias) || [],
     redirect: __nuxt_page_meta$1 == null ? void 0 : __nuxt_page_meta$1.redirect,
-    component: () => import('./index-BwXIzKcO.mjs').then((m) => m.default || m)
+    component: () => import('./index-BlbZaXWD.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$1 == null ? void 0 : __nuxt_page_meta$1.name) ?? "privacy-policies___en",
@@ -1626,7 +1618,7 @@ const _routes = [
     meta: __nuxt_page_meta$1 || {},
     alias: (__nuxt_page_meta$1 == null ? void 0 : __nuxt_page_meta$1.alias) || [],
     redirect: __nuxt_page_meta$1 == null ? void 0 : __nuxt_page_meta$1.redirect,
-    component: () => import('./index-BwXIzKcO.mjs').then((m) => m.default || m)
+    component: () => import('./index-BlbZaXWD.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta$1 == null ? void 0 : __nuxt_page_meta$1.name) ?? "privacy-policies___id",
@@ -1634,7 +1626,7 @@ const _routes = [
     meta: __nuxt_page_meta$1 || {},
     alias: (__nuxt_page_meta$1 == null ? void 0 : __nuxt_page_meta$1.alias) || [],
     redirect: __nuxt_page_meta$1 == null ? void 0 : __nuxt_page_meta$1.redirect,
-    component: () => import('./index-BwXIzKcO.mjs').then((m) => m.default || m)
+    component: () => import('./index-BlbZaXWD.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta == null ? void 0 : __nuxt_page_meta.name) ?? "user-request-delete___en___default",
@@ -1642,7 +1634,7 @@ const _routes = [
     meta: __nuxt_page_meta || {},
     alias: (__nuxt_page_meta == null ? void 0 : __nuxt_page_meta.alias) || [],
     redirect: __nuxt_page_meta == null ? void 0 : __nuxt_page_meta.redirect,
-    component: () => import('./request-delete-9VdS-QdM.mjs').then((m) => m.default || m)
+    component: () => import('./request-delete-BXBt4fuj.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta == null ? void 0 : __nuxt_page_meta.name) ?? "user-request-delete___en",
@@ -1650,7 +1642,7 @@ const _routes = [
     meta: __nuxt_page_meta || {},
     alias: (__nuxt_page_meta == null ? void 0 : __nuxt_page_meta.alias) || [],
     redirect: __nuxt_page_meta == null ? void 0 : __nuxt_page_meta.redirect,
-    component: () => import('./request-delete-9VdS-QdM.mjs').then((m) => m.default || m)
+    component: () => import('./request-delete-BXBt4fuj.mjs').then((m) => m.default || m)
   },
   {
     name: (__nuxt_page_meta == null ? void 0 : __nuxt_page_meta.name) ?? "user-request-delete___id",
@@ -1658,7 +1650,7 @@ const _routes = [
     meta: __nuxt_page_meta || {},
     alias: (__nuxt_page_meta == null ? void 0 : __nuxt_page_meta.alias) || [],
     redirect: __nuxt_page_meta == null ? void 0 : __nuxt_page_meta.redirect,
-    component: () => import('./request-delete-9VdS-QdM.mjs').then((m) => m.default || m)
+    component: () => import('./request-delete-BXBt4fuj.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -1785,7 +1777,6 @@ const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
     const history = ((_a = routerOptions.history) == null ? void 0 : _a.call(routerOptions, routerBase)) ?? createMemoryHistory(routerBase);
     const routes = ((_b = routerOptions.routes) == null ? void 0 : _b.call(routerOptions, _routes)) ?? _routes;
     let startPosition;
-    const initialURL = nuxtApp.ssrContext.url;
     const router = createRouter({
       ...routerOptions,
       scrollBehavior: (to, from, savedPosition) => {
@@ -1815,7 +1806,8 @@ const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
     Object.defineProperty(nuxtApp.vueApp.config.globalProperties, "previousRoute", {
       get: () => previousRoute.value
     });
-    const _route = shallowRef(router.resolve(initialURL));
+    const initialURL = nuxtApp.ssrContext.url;
+    const _route = shallowRef(router.currentRoute.value);
     const syncCurrentRoute = () => {
       _route.value = router.currentRoute.value;
     };
@@ -1837,7 +1829,6 @@ const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
       global: [],
       named: {}
     };
-    useError();
     try {
       if (true) {
         ;
@@ -1850,6 +1841,8 @@ const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
     } catch (error2) {
       [__temp, __restore] = executeAsync(() => nuxtApp.runWithContext(() => showError(error2))), await __temp, __restore();
     }
+    const resolvedInitialRoute = router.currentRoute.value;
+    syncCurrentRoute();
     if ((_c = nuxtApp.ssrContext) == null ? void 0 : _c.islandContext) {
       return { provide: { router } };
     }
@@ -1914,6 +1907,7 @@ const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
       delete nuxtApp._processingMiddleware;
       await nuxtApp.callHook("page:loading:end");
     });
+    useError();
     router.afterEach(async (to, _from, failure) => {
       delete nuxtApp._processingMiddleware;
       if (failure) {
@@ -1931,18 +1925,17 @@ const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
             path: to.fullPath
           }
         })));
-      } else if (to.redirectedFrom && to.fullPath !== initialURL) {
+      } else if (to.fullPath !== initialURL && (to.redirectedFrom || !isSamePath(to.fullPath, initialURL))) {
         await nuxtApp.runWithContext(() => navigateTo(to.fullPath || "/"));
       }
     });
     nuxtApp.hooks.hookOnce("app:created", async () => {
       try {
-        const to = router.resolve(initialURL);
-        if ("name" in to) {
-          to.name = void 0;
+        if ("name" in resolvedInitialRoute) {
+          resolvedInitialRoute.name = void 0;
         }
         await router.replace({
-          ...to,
+          ...resolvedInitialRoute,
           force: true
         });
         router.options.scrollBehavior = routerOptions.scrollBehavior;
@@ -2372,8 +2365,8 @@ const revive_payload_server_9AQxboNLgl = /* @__PURE__ */ defineNuxtPlugin({
 });
 const LazyIcon = defineAsyncComponent(() => Promise.resolve().then(function() {
   return Icon;
-}).then((r) => r.default));
-const LazyIconCSS = defineAsyncComponent(() => import('./IconCSS-DAd4-Fq0.mjs').then((r) => r.default));
+}).then((r) => r["default"] || r.default || r));
+const LazyIconCSS = defineAsyncComponent(() => import('./IconCSS-DYNOfaPG.mjs').then((r) => r["default"] || r.default || r));
 const lazyGlobalComponents = [
   ["Icon", LazyIcon],
   ["IconCSS", LazyIconCSS]
@@ -2388,7 +2381,7 @@ const components_plugin_KR1HBZs4kY = /* @__PURE__ */ defineNuxtPlugin({
   }
 });
 /*!
-  * shared v9.10.2
+  * shared v9.13.1
   * (c) 2024 kazuya kawaguchi
   * Released under the MIT License.
   */
@@ -2461,7 +2454,7 @@ function deepCopy(src, des) {
   }
 }
 /*!
-  * message-compiler v9.10.2
+  * message-compiler v9.13.1
   * (c) 2024 kazuya kawaguchi
   * Released under the MIT License.
   */
@@ -2470,10 +2463,19 @@ function createPosition(line, column, offset) {
 }
 function createLocation(start, end, source) {
   const loc = { start, end };
-  if (source != null) {
-    loc.source = source;
-  }
   return loc;
+}
+const CompileWarnCodes = {
+  USE_MODULO_SYNTAX: 1,
+  __EXTEND_POINT__: 2
+};
+function createCompileWarn(code2, loc, ...args) {
+  const msg = code2;
+  const message = { message: String(msg), code: code2 };
+  if (loc) {
+    message.location = loc;
+  }
+  return message;
 }
 const CompileErrorCodes = {
   // tokenizer error codes
@@ -2759,7 +2761,7 @@ function createTokenizer(source, options = {}) {
         scnr.peek();
         return fn();
       } else {
-        return isIdentifierStart(ch);
+        return isTextStart(scnr, false);
       }
     };
     const ret = fn();
@@ -2818,32 +2820,44 @@ function createTokenizer(source, options = {}) {
     }
     return null;
   }
+  function isIdentifier(ch) {
+    const cc = ch.charCodeAt(0);
+    return cc >= 97 && cc <= 122 || // a-z
+    cc >= 65 && cc <= 90 || // A-Z
+    cc >= 48 && cc <= 57 || // 0-9
+    cc === 95 || // _
+    cc === 36;
+  }
   function takeIdentifierChar(scnr) {
-    const closure = (ch) => {
-      const cc = ch.charCodeAt(0);
-      return cc >= 97 && cc <= 122 || // a-z
-      cc >= 65 && cc <= 90 || // A-Z
-      cc >= 48 && cc <= 57 || // 0-9
-      cc === 95 || // _
-      cc === 36;
-    };
-    return takeChar(scnr, closure);
+    return takeChar(scnr, isIdentifier);
+  }
+  function isNamedIdentifier(ch) {
+    const cc = ch.charCodeAt(0);
+    return cc >= 97 && cc <= 122 || // a-z
+    cc >= 65 && cc <= 90 || // A-Z
+    cc >= 48 && cc <= 57 || // 0-9
+    cc === 95 || // _
+    cc === 36 || // $
+    cc === 45;
+  }
+  function takeNamedIdentifierChar(scnr) {
+    return takeChar(scnr, isNamedIdentifier);
+  }
+  function isDigit(ch) {
+    const cc = ch.charCodeAt(0);
+    return cc >= 48 && cc <= 57;
   }
   function takeDigit(scnr) {
-    const closure = (ch) => {
-      const cc = ch.charCodeAt(0);
-      return cc >= 48 && cc <= 57;
-    };
-    return takeChar(scnr, closure);
+    return takeChar(scnr, isDigit);
+  }
+  function isHexDigit(ch) {
+    const cc = ch.charCodeAt(0);
+    return cc >= 48 && cc <= 57 || // 0-9
+    cc >= 65 && cc <= 70 || // A-F
+    cc >= 97 && cc <= 102;
   }
   function takeHexDigit(scnr) {
-    const closure = (ch) => {
-      const cc = ch.charCodeAt(0);
-      return cc >= 48 && cc <= 57 || // 0-9
-      cc >= 65 && cc <= 70 || // A-F
-      cc >= 97 && cc <= 102;
-    };
-    return takeChar(scnr, closure);
+    return takeChar(scnr, isHexDigit);
   }
   function getDigits(scnr) {
     let ch = "";
@@ -2896,7 +2910,7 @@ function createTokenizer(source, options = {}) {
     skipSpaces(scnr);
     let ch = "";
     let name = "";
-    while (ch = takeIdentifierChar(scnr)) {
+    while (ch = takeNamedIdentifierChar(scnr)) {
       name += ch;
     }
     if (scnr.currentChar() === EOF) {
@@ -2918,13 +2932,15 @@ function createTokenizer(source, options = {}) {
     }
     return value;
   }
+  function isLiteral2(ch) {
+    return ch !== LITERAL_DELIMITER && ch !== CHAR_LF;
+  }
   function readLiteral(scnr) {
     skipSpaces(scnr);
     eat(scnr, `'`);
     let ch = "";
     let literal = "";
-    const fn = (x) => x !== LITERAL_DELIMITER && x !== CHAR_LF;
-    while (ch = takeChar(scnr, fn)) {
+    while (ch = takeChar(scnr, isLiteral2)) {
       if (ch === "\\") {
         literal += readEscapeSequence(scnr);
       } else {
@@ -2972,12 +2988,14 @@ function createTokenizer(source, options = {}) {
     }
     return `\\${unicode}${sequence}`;
   }
+  function isInvalidIdentifier(ch) {
+    return ch !== "{" && ch !== "}" && ch !== CHAR_SP && ch !== CHAR_LF;
+  }
   function readInvalidIdentifier(scnr) {
     skipSpaces(scnr);
     let ch = "";
     let identifiers = "";
-    const closure = (ch2) => ch2 !== "{" && ch2 !== "}" && ch2 !== CHAR_SP && ch2 !== CHAR_LF;
-    while (ch = takeChar(scnr, closure)) {
+    while (ch = takeChar(scnr, isInvalidIdentifier)) {
       identifiers += ch;
     }
     return identifiers;
@@ -2991,7 +3009,7 @@ function createTokenizer(source, options = {}) {
     return name;
   }
   function readLinkedRefer(scnr) {
-    const fn = (detect = false, buf) => {
+    const fn = (buf) => {
       const ch = scnr.currentChar();
       if (ch === "{" || ch === "%" || ch === "@" || ch === "|" || ch === "(" || ch === ")" || !ch) {
         return buf;
@@ -3000,14 +3018,14 @@ function createTokenizer(source, options = {}) {
       } else if (ch === CHAR_LF || ch === DOT) {
         buf += ch;
         scnr.next();
-        return fn(detect, buf);
+        return fn(buf);
       } else {
         buf += ch;
         scnr.next();
-        return fn(true, buf);
+        return fn(buf);
       }
     };
-    return fn(false, "");
+    return fn("");
   }
   function readPlural(scnr) {
     skipSpaces(scnr);
@@ -3260,7 +3278,7 @@ function fromEscapeSequence(match, codePoint4, codePoint6) {
 }
 function createParser(options = {}) {
   const location = options.location !== false;
-  const { onError } = options;
+  const { onError, onWarn } = options;
   function emitError(tokenzer, code2, start, offset, ...args) {
     const end = tokenzer.currentPosition();
     end.offset += offset;
@@ -3274,6 +3292,15 @@ function createParser(options = {}) {
       onError(err);
     }
   }
+  function emitWarn(tokenzer, code2, start, offset, ...args) {
+    const end = tokenzer.currentPosition();
+    end.offset += offset;
+    end.column += offset;
+    if (onWarn) {
+      const loc = location ? createLocation(start, end) : null;
+      onWarn(createCompileWarn(code2, loc, args));
+    }
+  }
   function startNode(type, offset, loc) {
     const node = { type };
     if (location) {
@@ -3284,9 +3311,6 @@ function createParser(options = {}) {
     return node;
   }
   function endNode(node, offset, pos, type) {
-    if (type) {
-      node.type = type;
-    }
     if (location) {
       node.end = offset;
       if (node.loc) {
@@ -3310,11 +3334,14 @@ function createParser(options = {}) {
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition());
     return node;
   }
-  function parseNamed(tokenizer, key) {
+  function parseNamed(tokenizer, key, modulo) {
     const context = tokenizer.context();
     const { lastOffset: offset, lastStartLoc: loc } = context;
     const node = startNode(4, offset, loc);
     node.key = key;
+    if (modulo === true) {
+      node.modulo = true;
+    }
     tokenizer.nextToken();
     endNode(node, tokenizer.currentOffset(), tokenizer.currentPosition());
     return node;
@@ -3425,6 +3452,7 @@ function createParser(options = {}) {
     const node = startNode(2, startOffset, startLoc);
     node.items = [];
     let nextToken = null;
+    let modulo = null;
     do {
       const token = nextToken || tokenizer.nextToken();
       nextToken = null;
@@ -3441,11 +3469,18 @@ function createParser(options = {}) {
           }
           node.items.push(parseList(tokenizer, token.value || ""));
           break;
+        case 4:
+          modulo = true;
+          break;
         case 5:
           if (token.value == null) {
             emitError(tokenizer, CompileErrorCodes.UNEXPECTED_LEXICAL_ANALYSIS, context.lastStartLoc, 0, getTokenCaption(token));
           }
-          node.items.push(parseNamed(tokenizer, token.value || ""));
+          node.items.push(parseNamed(tokenizer, token.value || "", !!modulo));
+          if (modulo) {
+            emitWarn(tokenizer, CompileWarnCodes.USE_MODULO_SYNTAX, context.lastStartLoc, 0, getTokenCaption(token));
+            modulo = null;
+          }
           break;
         case 7:
           if (token.value == null) {
@@ -4458,35 +4493,45 @@ function createMessageContext(options = {}) {
   };
   return ctx;
 }
+const code$1$1 = CompileWarnCodes.__EXTEND_POINT__;
+const inc$1$1 = incrementer(code$1$1);
 const CoreWarnCodes = {
-  NOT_FOUND_KEY: 1,
-  FALLBACK_TO_TRANSLATE: 2,
-  CANNOT_FORMAT_NUMBER: 3,
-  FALLBACK_TO_NUMBER_FORMAT: 4,
-  CANNOT_FORMAT_DATE: 5,
-  FALLBACK_TO_DATE_FORMAT: 6,
-  EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER: 7,
-  __EXTEND_POINT__: 8
+  NOT_FOUND_KEY: code$1$1,
+  // 2
+  FALLBACK_TO_TRANSLATE: inc$1$1(),
+  // 3
+  CANNOT_FORMAT_NUMBER: inc$1$1(),
+  // 4
+  FALLBACK_TO_NUMBER_FORMAT: inc$1$1(),
+  // 5
+  CANNOT_FORMAT_DATE: inc$1$1(),
+  // 6
+  FALLBACK_TO_DATE_FORMAT: inc$1$1(),
+  // 7
+  EXPERIMENTAL_CUSTOM_MESSAGE_COMPILER: inc$1$1(),
+  // 8
+  __EXTEND_POINT__: inc$1$1()
+  // 9
 };
 const code$2 = CompileErrorCodes.__EXTEND_POINT__;
 const inc$2 = incrementer(code$2);
 const CoreErrorCodes = {
   INVALID_ARGUMENT: code$2,
-  // 18
+  // 17
   INVALID_DATE_ARGUMENT: inc$2(),
-  // 19
+  // 18
   INVALID_ISO_DATE_ARGUMENT: inc$2(),
-  // 20
+  // 19
   NOT_SUPPORT_NON_STRING_MESSAGE: inc$2(),
-  // 21
+  // 20
   NOT_SUPPORT_LOCALE_PROMISE_VALUE: inc$2(),
-  // 22
+  // 21
   NOT_SUPPORT_LOCALE_ASYNC_FUNCTION: inc$2(),
-  // 23
+  // 22
   NOT_SUPPORT_LOCALE_TYPE: inc$2(),
-  // 24
+  // 23
   __EXTEND_POINT__: inc$2()
-  // 25
+  // 24
 };
 function createCoreError(code2) {
   return createCompileError(code2, null, void 0);
@@ -4579,7 +4624,7 @@ function appendItemToChain(chain, target, blocks) {
   }
   return follow;
 }
-const VERSION$1 = "9.10.2";
+const VERSION$1 = "9.13.1";
 const NOT_REOSLVED = -1;
 const DEFAULT_LOCALE = "en-US";
 const MISSING_RESOLVE_VALUE = "";
@@ -4691,6 +4736,23 @@ function updateFallbackLocale(ctx, locale, fallback) {
   const context = ctx;
   context.__localeChainCache = /* @__PURE__ */ new Map();
   ctx.localeFallbacker(ctx, fallback, locale);
+}
+function isAlmostSameLocale(locale, compareLocale) {
+  if (locale === compareLocale)
+    return false;
+  return locale.split("-")[0] === compareLocale.split("-")[0];
+}
+function isImplicitFallback(targetLocale, locales) {
+  const index = locales.indexOf(targetLocale);
+  if (index === -1) {
+    return false;
+  }
+  for (let i = index + 1; i < locales.length; i++) {
+    if (isAlmostSameLocale(targetLocale, locales[i])) {
+      return true;
+    }
+  }
+  return false;
 }
 function format(ast) {
   const msg = (ctx) => formatParts(ctx, ast);
@@ -4865,16 +4927,18 @@ function resolveMessageFormat(context, key, locale, fallbackLocale, fallbackWarn
     if (isString(format2) || isMessageAST(format2) || isMessageFunction(format2)) {
       break;
     }
-    const missingRet = handleMissing(
-      context,
-      // eslint-disable-line @typescript-eslint/no-explicit-any
-      key,
-      targetLocale,
-      missingWarn,
-      type
-    );
-    if (missingRet !== key) {
-      format2 = missingRet;
+    if (!isImplicitFallback(targetLocale, locales)) {
+      const missingRet = handleMissing(
+        context,
+        // eslint-disable-line @typescript-eslint/no-explicit-any
+        key,
+        targetLocale,
+        missingWarn,
+        type
+      );
+      if (missingRet !== key) {
+        format2 = missingRet;
+      }
     }
   }
   return [format2, targetLocale, message];
@@ -5211,11 +5275,11 @@ function clearNumberFormat(ctx, locale, format2) {
   }
 }
 /*!
-  * vue-i18n v9.10.2
+  * vue-i18n v9.13.1
   * (c) 2024 kazuya kawaguchi
   * Released under the MIT License.
   */
-const VERSION = "9.10.2";
+const VERSION = "9.13.1";
 const code$1 = CoreWarnCodes.__EXTEND_POINT__;
 const inc$1 = incrementer(code$1);
 ({
@@ -5245,45 +5309,45 @@ const inc = incrementer(code);
 const I18nErrorCodes = {
   // composer module errors
   UNEXPECTED_RETURN_TYPE: code,
-  // 26
+  // 24
   // legacy module errors
   INVALID_ARGUMENT: inc(),
-  // 27
+  // 25
   // i18n module errors
   MUST_BE_CALL_SETUP_TOP: inc(),
-  // 28
+  // 26
   NOT_INSTALLED: inc(),
-  // 29
+  // 27
   NOT_AVAILABLE_IN_LEGACY_MODE: inc(),
-  // 30
+  // 28
   // directive module errors
   REQUIRED_VALUE: inc(),
-  // 31
+  // 29
   INVALID_VALUE: inc(),
-  // 32
+  // 30
   // vue-devtools errors
   CANNOT_SETUP_VUE_DEVTOOLS_PLUGIN: inc(),
-  // 33
+  // 31
   NOT_INSTALLED_WITH_PROVIDE: inc(),
-  // 34
+  // 32
   // unexpected error
   UNEXPECTED_ERROR: inc(),
-  // 35
+  // 33
   // not compatible legacy vue-i18n constructor
   NOT_COMPATIBLE_LEGACY_VUE_I18N: inc(),
-  // 36
+  // 34
   // bridge support vue 2.x only
   BRIDGE_SUPPORT_VUE_2_ONLY: inc(),
-  // 37
+  // 35
   // need to define `i18n` option in `allowComposition: true` and `useScope: 'local' at `useI18n``
   MUST_DEFINE_I18N_OPTION_IN_ALLOW_COMPOSITION: inc(),
-  // 38
+  // 36
   // Not available Compostion API in Legacy API mode. Please make sure that the legacy API mode is working properly
   NOT_AVAILABLE_COMPOSITION_IN_LEGACY: inc(),
-  // 39
+  // 37
   // for enhancement
   __EXTEND_POINT__: inc()
-  // 40
+  // 38
 };
 function createI18nError(code2, ...args) {
   return createCompileError(code2, null, void 0);
@@ -5955,7 +6019,7 @@ const NumberFormatImpl = /* @__PURE__ */ defineComponent({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setup(props, context) {
     const i18n = props.i18n || useI18n({
-      useScope: "parent",
+      useScope: props.scope,
       __useComponent: true
     });
     return renderFormatter(props, context, NUMBER_FORMAT_OPTIONS_KEYS, (...args) => (
@@ -5981,7 +6045,7 @@ const DatetimeFormatImpl = /* @__PURE__ */ defineComponent({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setup(props, context) {
     const i18n = props.i18n || useI18n({
-      useScope: "parent",
+      useScope: props.scope,
       __useComponent: true
     });
     return renderFormatter(props, context, DATETIME_FORMAT_OPTIONS_KEYS, (...args) => (
@@ -6742,8 +6806,9 @@ function localeHead(common, {
   return metaObject;
 }
 function getBaseUrl() {
-  const i18n = getComposer((/* @__PURE__ */ useNuxtApp()).$i18n);
-  return unref(i18n.baseUrl);
+  const nuxtApp = /* @__PURE__ */ useNuxtApp();
+  const i18n = getComposer(nuxtApp.$i18n);
+  return joinURL(unref(i18n.baseUrl), nuxtApp.$config.app.baseURL);
 }
 function getHreflangLinks(common, locales, idAttribute) {
   const baseUrl = getBaseUrl();
@@ -6790,7 +6855,11 @@ function getHreflangLinks(common, locales, idAttribute) {
 }
 function getCanonicalUrl(common, baseUrl, seoAttributes) {
   const route = common.router.currentRoute.value;
-  const currentRoute = localeRoute(common, { ...route, name: getRouteBaseName(common, route) });
+  const currentRoute = localeRoute(common, {
+    ...route,
+    path: void 0,
+    name: getRouteBaseName(common, route)
+  });
   if (!currentRoute)
     return "";
   let href = toAbsoluteUrl(currentRoute.path, baseUrl);
@@ -6846,7 +6915,7 @@ function hypenToUnderscore(str) {
 function toAbsoluteUrl(urlOrPath, baseUrl) {
   if (urlOrPath.match(/^https?:\/\//))
     return urlOrPath;
-  return baseUrl + urlOrPath;
+  return joinURL(baseUrl, urlOrPath);
 }
 function setCookieLocale(i18n, locale) {
   return callVueI18nInterfaces(i18n, "setLocaleCookie", locale);
@@ -6872,27 +6941,37 @@ async function loadAndSetLocale(newLocale, i18n, runtimeI18n, initial = false) {
   const { differentDomains, skipSettingLocaleOnNavigate, lazy } = runtimeI18n;
   const opts = runtimeDetectBrowserLanguage(runtimeI18n);
   const nuxtApp = /* @__PURE__ */ useNuxtApp();
-  let ret = false;
   const oldLocale = getLocale(i18n);
+  const localeCodes2 = getLocaleCodes(i18n);
+  function syncCookie(locale = oldLocale) {
+    if (opts === false || !opts.useCookie)
+      return;
+    if (skipSettingLocaleOnNavigate)
+      return;
+    setCookieLocale(i18n, locale);
+  }
   if (!newLocale) {
-    return [ret, oldLocale];
+    syncCookie();
+    return false;
   }
   if (!initial && differentDomains) {
-    return [ret, oldLocale];
+    syncCookie();
+    return false;
   }
   if (oldLocale === newLocale) {
-    return [ret, oldLocale];
+    syncCookie();
+    return false;
   }
   const localeOverride = await onBeforeLanguageSwitch(i18n, oldLocale, newLocale, initial, nuxtApp);
-  const localeCodes2 = getLocaleCodes(i18n);
-  if (localeOverride && localeCodes2 && localeCodes2.includes(localeOverride)) {
-    if (localeOverride === oldLocale) {
-      return [ret, oldLocale];
+  if (localeOverride && localeCodes2.includes(localeOverride)) {
+    if (oldLocale === localeOverride) {
+      syncCookie();
+      return false;
     }
     newLocale = localeOverride;
   }
-  const i18nFallbackLocales = getVueI18nPropertyValue(i18n, "fallbackLocale");
   if (lazy) {
+    const i18nFallbackLocales = getVueI18nPropertyValue(i18n, "fallbackLocale");
     const setter = (locale, message) => mergeLocaleMessage(i18n, locale, message);
     if (i18nFallbackLocales) {
       const fallbackLocales = makeFallbackLocaleCodes(i18nFallbackLocales, [newLocale]);
@@ -6901,15 +6980,12 @@ async function loadAndSetLocale(newLocale, i18n, runtimeI18n, initial = false) {
     await loadLocale(newLocale, localeLoaders, setter);
   }
   if (skipSettingLocaleOnNavigate) {
-    return [ret, oldLocale];
+    return false;
   }
-  if (opts !== false && opts.useCookie) {
-    setCookieLocale(i18n, newLocale);
-  }
+  syncCookie(newLocale);
   setLocale(i18n, newLocale);
   await onLanguageSwitched(i18n, oldLocale, newLocale);
-  ret = true;
-  return [ret, oldLocale];
+  return true;
 }
 function detectLocale(route, routeLocaleGetter, vueI18nOptionsLocale, initialLocaleLoader, detectLocaleContext, runtimeI18n) {
   const { strategy, defaultLocale, differentDomains } = runtimeI18n;
@@ -6931,7 +7007,7 @@ function detectLocale(route, routeLocaleGetter, vueI18nOptionsLocale, initialLoc
   let finalLocale = browserLocale;
   if (!finalLocale) {
     if (differentDomains) {
-      finalLocale = getLocaleDomain(normalizedLocales);
+      finalLocale = getLocaleDomain(normalizedLocales, strategy, route);
     } else if (strategy !== "no_prefix") {
       finalLocale = routeLocaleGetter(route);
     } else {
@@ -6941,7 +7017,7 @@ function detectLocale(route, routeLocaleGetter, vueI18nOptionsLocale, initialLoc
     }
   }
   if (!finalLocale && _detectBrowserLanguage && _detectBrowserLanguage.useCookie) {
-    finalLocale = localeCookie.value || "";
+    finalLocale = localeCookie || "";
   }
   if (!finalLocale) {
     finalLocale = defaultLocale || "";
@@ -7009,7 +7085,7 @@ async function navigate(args, { status = 302, enableNavigate = false } = {}) {
 }
 function injectNuxtHelpers(nuxt, i18n) {
   defineGetter(nuxt, "$i18n", getI18nTarget(i18n));
-  defineGetter(nuxt, "$getRouteBaseName", getRouteBaseName);
+  defineGetter(nuxt, "$getRouteBaseName", wrapComposable(getRouteBaseName));
   defineGetter(nuxt, "$localePath", wrapComposable(localePath));
   defineGetter(nuxt, "$localeRoute", wrapComposable(localeRoute));
   defineGetter(nuxt, "$switchLocalePath", wrapComposable(switchLocalePath));
@@ -7102,7 +7178,7 @@ function getI18nCookie() {
   }
   return useCookie(cookieKey, cookieOptions);
 }
-function getLocaleCookie(cookieRef, detect) {
+function getLocaleCookie(cookieRef, detect, defaultLocale) {
   if (detect === false || !detect.useCookie) {
     return;
   }
@@ -7113,6 +7189,12 @@ function getLocaleCookie(cookieRef, detect) {
   if (localeCodes.includes(localeCode)) {
     return localeCode;
   }
+  if (defaultLocale) {
+    cookieRef.value = defaultLocale;
+    return defaultLocale;
+  }
+  cookieRef.value = void 0;
+  return;
 }
 function setLocaleCookie(cookieRef, locale, detect) {
   if (detect === false || !detect.useCookie) {
@@ -7149,7 +7231,7 @@ function detectBrowserLanguage(route, vueI18nOptionsLocale, detectLocaleContext,
   let cookieLocale;
   let matchedLocale;
   if (useCookie2) {
-    matchedLocale = cookieLocale = localeCookie.value;
+    matchedLocale = cookieLocale = localeCookie;
     localeFrom = "cookie";
   }
   if (!matchedLocale) {
@@ -7202,10 +7284,11 @@ function getHost() {
   }
   return host;
 }
-function getLocaleDomain(locales) {
+function getLocaleDomain(locales, strategy, route) {
   let host = getHost() || "";
   if (host) {
-    const matchingLocale = locales.find((locale) => {
+    let matchingLocale;
+    const matchingLocales = locales.filter((locale) => {
       if (locale && locale.domain) {
         let domain = locale.domain;
         if (hasProtocol(locale.domain)) {
@@ -7215,6 +7298,31 @@ function getLocaleDomain(locales) {
       }
       return false;
     });
+    if (matchingLocales.length === 1) {
+      matchingLocale = matchingLocales[0];
+    } else if (matchingLocales.length > 1) {
+      if (strategy === "no_prefix") {
+        console.warn(
+          formatMessage(
+            "Multiple matching domains found! This is not supported for no_prefix strategy in combination with differentDomains!"
+          )
+        );
+        matchingLocale = matchingLocales[0];
+      } else {
+        if (route) {
+          const routePath = isObject(route) ? route.path : isString(route) ? route : "";
+          if (routePath && routePath !== "") {
+            const matches = routePath.match(getLocalesRegex(matchingLocales.map((l) => l.code)));
+            if (matches && matches.length > 1) {
+              matchingLocale = matchingLocales.find((l) => l.code === matches[1]);
+            }
+          }
+        }
+        if (!matchingLocale) {
+          matchingLocale = matchingLocales.find((l) => l.domainDefault);
+        }
+      }
+    }
     if (matchingLocale) {
       return matchingLocale.code;
     } else {
@@ -7312,7 +7420,7 @@ function extendI18n(i18n, {
       const common = initCommonComposableOptions(i18n);
       vue.mixin({
         methods: {
-          getRouteBaseName,
+          getRouteBaseName: wrapComposable(getRouteBaseName, common),
           resolveRoute: wrapComposable(resolveRoute, common),
           localePath: wrapComposable(localePath, common),
           localeRoute: wrapComposable(localeRoute, common),
@@ -7440,7 +7548,7 @@ const i18n_dOTnCc6TUQ = /* @__PURE__ */ defineNuxtPlugin({
         ssg: "normal",
         callType: "setup",
         firstAccess: true,
-        localeCookie
+        localeCookie: getLocaleCookie(localeCookie, _detectBrowserLanguage, runtimeI18n.defaultLocale)
       },
       runtimeI18n
     );
@@ -7468,7 +7576,7 @@ const i18n_dOTnCc6TUQ = /* @__PURE__ */ defineNuxtPlugin({
           );
           composer.setLocale = async (locale) => {
             const localeSetup = isInitialLocaleSetup(locale);
-            const [modified] = await loadAndSetLocale(locale, i18n, runtimeI18n, localeSetup);
+            const modified = await loadAndSetLocale(locale, i18n, runtimeI18n, localeSetup);
             if (modified && localeSetup) {
               notInitialSetup = false;
             }
@@ -7499,7 +7607,7 @@ const i18n_dOTnCc6TUQ = /* @__PURE__ */ defineNuxtPlugin({
           composer.differentDomains = runtimeI18n.differentDomains;
           composer.defaultLocale = runtimeI18n.defaultLocale;
           composer.getBrowserLocale = () => getBrowserLocale();
-          composer.getLocaleCookie = () => getLocaleCookie(localeCookie, _detectBrowserLanguage);
+          composer.getLocaleCookie = () => getLocaleCookie(localeCookie, _detectBrowserLanguage, runtimeI18n.defaultLocale);
           composer.setLocaleCookie = (locale) => setLocaleCookie(localeCookie, locale, _detectBrowserLanguage);
           composer.onBeforeLanguageSwitch = (oldLocale, newLocale, initialSetup, context) => nuxt.callHook("i18n:beforeLocaleSwitch", { oldLocale, newLocale, initialSetup, context });
           composer.onLanguageSwitched = (oldLocale, newLocale) => nuxt.callHook("i18n:localeSwitched", { oldLocale, newLocale });
@@ -7716,12 +7824,12 @@ const i18n_dOTnCc6TUQ = /* @__PURE__ */ defineNuxtPlugin({
             ssg: "normal",
             callType: "routing",
             firstAccess: routeChangeCount === 0,
-            localeCookie
+            localeCookie: getLocaleCookie(localeCookie, _detectBrowserLanguage, runtimeI18n.defaultLocale)
           },
           runtimeI18n
         );
         const localeSetup = isInitialLocaleSetup(locale);
-        const [modified] = ([__temp2, __restore2] = executeAsync(() => loadAndSetLocale(locale, i18n, runtimeI18n, localeSetup)), __temp2 = await __temp2, __restore2(), __temp2);
+        const modified = ([__temp2, __restore2] = executeAsync(() => loadAndSetLocale(locale, i18n, runtimeI18n, localeSetup)), __temp2 = await __temp2, __restore2(), __temp2);
         if (modified && localeSetup) {
           notInitialSetup = false;
         }
@@ -7792,7 +7900,6 @@ const navigateToAuthPages = (href) => {
     if (nuxtApp.ssrContext && nuxtApp.ssrContext.event) {
       return nuxtApp.callHook("app:redirected").then(() => {
         sendRedirect(nuxtApp.ssrContext.event, href, 302);
-        abortNavigation();
       });
     }
   }
@@ -8142,10 +8249,16 @@ function _useSlideover() {
     };
     isOpen.value = true;
   }
-  function close() {
+  async function close() {
     if (!slideoverState)
       return;
     isOpen.value = false;
+  }
+  function reset() {
+    slideoverState.value = {
+      component: "div",
+      props: {}
+    };
   }
   function patch(props) {
     if (!slideoverState)
@@ -8161,6 +8274,7 @@ function _useSlideover() {
   return {
     open,
     close,
+    reset,
     patch,
     isOpen
   };
@@ -8178,20 +8292,29 @@ function _useModal() {
   const modalState = inject(modalInjectionKey);
   const isOpen = ref(false);
   function open(component, props) {
+    if (!modalState) {
+      throw new Error("useModal() is called without provider");
+    }
     modalState.value = {
       component,
       props: props ?? {}
     };
     isOpen.value = true;
   }
-  function close() {
+  async function close() {
+    if (!modalState)
+      return;
     isOpen.value = false;
+  }
+  function reset() {
     modalState.value = {
       component: "div",
       props: {}
     };
   }
   function patch(props) {
+    if (!modalState)
+      return;
     modalState.value = {
       ...modalState.value,
       props: {
@@ -8201,10 +8324,11 @@ function _useModal() {
     };
   }
   return {
-    isOpen,
     open,
     close,
-    patch
+    reset,
+    patch,
+    isOpen
   };
 }
 createSharedComposable(_useModal);
@@ -8403,6 +8527,25 @@ function hexToRgb(hex) {
   });
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   return result ? `${parseInt(result[1], 16)} ${parseInt(result[2], 16)} ${parseInt(result[3], 16)}` : null;
+}
+function getSlotsChildren(slots) {
+  var _a;
+  let children = (_a = slots.default) == null ? void 0 : _a.call(slots);
+  if (children == null ? void 0 : children.length) {
+    children = children.flatMap((c) => {
+      var _a2, _b;
+      if (typeof c.type === "symbol") {
+        if (typeof c.children === "string") {
+          return;
+        }
+        return c.children;
+      } else if (c.type.name === "ContentSlot") {
+        return (_b = (_a2 = c.ctx.slots).default) == null ? void 0 : _b.call(_a2);
+      }
+      return c;
+    }).filter(Boolean);
+  }
+  return children || [];
 }
 function looseToNumber(val) {
   const n = parseFloat(val);
@@ -8850,10 +8993,10 @@ const __nuxt_component_1$3 = defineComponent({
   }
 });
 const layouts = {
-  auth: () => import('./auth-BWiCidQZ.mjs').then((m) => m.default || m),
-  "dashboard-company-manage": () => import('./dashboard-company-manage-D9Aaw8Su.mjs').then((m) => m.default || m),
-  dashboard: () => import('./dashboard-nfw_0mla.mjs').then((m) => m.default || m),
-  page: () => import('./page-CRoM_7T0.mjs').then((m) => m.default || m)
+  auth: () => import('./auth-D_PFVmwt.mjs').then((m) => m.default || m),
+  "dashboard-company-manage": () => import('./dashboard-company-manage-CmmXqYIJ.mjs').then((m) => m.default || m),
+  dashboard: () => import('./dashboard-DDnJnwlT.mjs').then((m) => m.default || m),
+  page: () => import('./page-B3XFvTBq.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent({
   name: "LayoutLoader",
@@ -9095,7 +9238,7 @@ function hasChildrenRoutes(fork, newRoute, Component) {
   });
   return index < newRoute.matched.length - 1;
 }
-const iconCollections = ["fluent-emoji-high-contrast", "material-symbols-light", "cryptocurrency-color", "icon-park-outline", "icon-park-twotone", "fluent-emoji-flat", "emojione-monotone", "streamline-emojis", "heroicons-outline", "simple-line-icons", "material-symbols", "flat-color-icons", "icon-park-solid", "pepicons-pencil", "heroicons-solid", "pepicons-print", "cryptocurrency", "pixelarticons", "system-uicons", "bitcoin-icons", "devicon-plain", "entypo-social", "grommet-icons", "vscode-icons", "pepicons-pop", "svg-spinners", "fluent-emoji", "simple-icons", "circle-flags", "medical-icon", "icomoon-free", "majesticons", "radix-icons", "humbleicons", "fa6-regular", "emojione-v1", "skill-icons", "academicons", "healthicons", "fluent-mdl2", "teenyicons", "ant-design", "gravity-ui", "akar-icons", "lets-icons", "streamline", "fa6-brands", "file-icons", "game-icons", "foundation", "fa-regular", "mono-icons", "iconamoon", "zondicons", "mdi-light", "eos-icons", "gridicons", "icon-park", "heroicons", "fa6-solid", "meteocons", "arcticons", "dashicons", "fa-brands", "websymbol", "fontelico", "mingcute", "flowbite", "bytesize", "guidance", "openmoji", "emojione", "nonicons", "brandico", "flagpack", "fa-solid", "fontisto", "si-glyph", "pepicons", "iconoir", "tdesign", "clarity", "octicon", "codicon", "pajamas", "formkit", "line-md", "twemoji", "noto-v1", "fxemoji", "devicon", "raphael", "flat-ui", "topcoat", "feather", "tabler", "carbon", "lucide", "memory", "mynaui", "circum", "fluent", "nimbus", "entypo", "icons8", "subway", "vaadin", "solar", "basil", "typcn", "charm", "prime", "quill", "logos", "covid", "maki", "gala", "mage", "ooui", "noto", "unjs", "flag", "iwwa", "zmdi", "bpmn", "mdi", "ion", "uil", "bxs", "cil", "uiw", "uim", "uit", "uis", "jam", "oui", "bxl", "cib", "cbi", "cif", "gis", "map", "geo", "fad", "eva", "wpf", "whh", "ic", "ph", "ri", "bi", "bx", "gg", "ci", "ep", "fe", "mi", "f7", "ei", "wi", "la", "fa", "oi", "et", "el", "ls", "vs", "il", "ps"];
+const iconCollections = ["fluent-emoji-high-contrast", "material-symbols-light", "cryptocurrency-color", "icon-park-outline", "icon-park-twotone", "fluent-emoji-flat", "emojione-monotone", "streamline-emojis", "heroicons-outline", "simple-line-icons", "material-symbols", "flat-color-icons", "icon-park-solid", "pepicons-pencil", "heroicons-solid", "pepicons-print", "cryptocurrency", "pixelarticons", "system-uicons", "bitcoin-icons", "devicon-plain", "entypo-social", "token-branded", "grommet-icons", "vscode-icons", "pepicons-pop", "svg-spinners", "fluent-emoji", "simple-icons", "circle-flags", "medical-icon", "icomoon-free", "majesticons", "radix-icons", "humbleicons", "fa6-regular", "emojione-v1", "skill-icons", "academicons", "healthicons", "fluent-mdl2", "teenyicons", "ant-design", "gravity-ui", "akar-icons", "lets-icons", "streamline", "fa6-brands", "file-icons", "game-icons", "foundation", "fa-regular", "mono-icons", "hugeicons", "iconamoon", "zondicons", "mdi-light", "eos-icons", "gridicons", "icon-park", "heroicons", "fa6-solid", "meteocons", "arcticons", "dashicons", "fa-brands", "websymbol", "fontelico", "mingcute", "flowbite", "marketeq", "bytesize", "guidance", "openmoji", "emojione", "nonicons", "brandico", "flagpack", "fa-solid", "fontisto", "si-glyph", "pepicons", "iconoir", "tdesign", "clarity", "octicon", "codicon", "pajamas", "formkit", "line-md", "twemoji", "noto-v1", "fxemoji", "devicon", "raphael", "flat-ui", "topcoat", "feather", "tabler", "carbon", "lucide", "memory", "mynaui", "circum", "fluent", "nimbus", "entypo", "icons8", "subway", "vaadin", "solar", "basil", "typcn", "charm", "prime", "quill", "logos", "token", "covid", "maki", "gala", "mage", "ooui", "noto", "unjs", "flag", "iwwa", "zmdi", "bpmn", "mdi", "ion", "uil", "bxs", "cil", "uiw", "uim", "uit", "uis", "jam", "oui", "bxl", "cib", "cbi", "cif", "gis", "map", "geo", "fad", "eva", "wpf", "whh", "ic", "ph", "ri", "bi", "bx", "gg", "ci", "ep", "fe", "mi", "f7", "ei", "wi", "la", "fa", "oi", "et", "el", "ls", "vs", "il", "ps"];
 function resolveIconName(name = "") {
   let prefix;
   let provider = "";
@@ -9477,15 +9620,7 @@ const input = {
   rounded: "rounded-md",
   placeholder: "placeholder-gray-400 dark:placeholder-gray-500",
   file: {
-    base: "file:cursor-pointer file:rounded-l-md file:absolute file:left-0 file:inset-y-0 file:font-medium file:m-0 file:border-0 file:ring-1 file:ring-gray-300 dark:file:ring-gray-700 file:text-gray-900 dark:file:text-white file:bg-gray-50 hover:file:bg-gray-100 dark:file:bg-gray-800 dark:hover:file:bg-gray-700/50",
-    padding: {
-      "2xs": "ps-[85px]",
-      xs: "ps-[87px]",
-      sm: "ps-[96px]",
-      md: "ps-[98px]",
-      lg: "ps-[100px]",
-      xl: "ps-[109px]"
-    }
+    base: "file:mr-1.5 file:font-medium file:text-gray-500 dark:file:text-gray-400 file:bg-transparent file:border-0 file:p-0 file:outline-none"
   },
   size: {
     "2xs": "text-xs",
@@ -9762,6 +9897,10 @@ const _sfc_main$7 = defineComponent({
   },
   inheritAttrs: false,
   props: {
+    as: {
+      type: [String, Object],
+      default: "img"
+    },
     src: {
       type: [String, Boolean],
       default: null
@@ -9884,11 +10023,11 @@ function _sfc_ssrRender$4(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
   const _component_UIcon = __nuxt_component_1$1;
   _push(`<span${ssrRenderAttrs(mergeProps({ class: _ctx.wrapperClass }, _attrs))}>`);
   if (_ctx.url && !_ctx.error) {
-    _push(`<img${ssrRenderAttrs(mergeProps({
+    ssrRenderVNode(_push, createVNode(resolveDynamicComponent(_ctx.as), mergeProps({
       class: _ctx.imgClass,
       alt: _ctx.alt,
       src: _ctx.url
-    }, _ctx.attrs))}>`);
+    }, _ctx.attrs, { onError: _ctx.onError }), null), _parent);
   } else if (_ctx.text) {
     _push(`<span class="${ssrRenderClass(_ctx.ui.text)}">${ssrInterpolate(_ctx.text)}</span>`);
   } else if (_ctx.icon) {
@@ -10326,6 +10465,55 @@ _sfc_main$5.setup = (props, ctx) => {
   return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
 };
 const __nuxt_component_2 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["ssrRender", _sfc_ssrRender$2]]);
+function useTimer(cb, interval, options) {
+  let timer = null;
+  const { pause: tPause, resume: tResume, timestamp } = useTimestamp({ ...{}, controls: true });
+  const startTime = ref(null);
+  const remaining = computed(() => {
+    if (!startTime.value) {
+      return 0;
+    }
+    return interval - (timestamp.value - startTime.value);
+  });
+  function set(...args) {
+    timer = setTimeout(() => {
+      timer = null;
+      startTime.value = null;
+      cb(...args);
+    }, remaining.value);
+  }
+  function clear() {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+  }
+  function start() {
+    startTime.value = Date.now();
+    set();
+  }
+  function stop() {
+    clear();
+    tPause();
+  }
+  function pause() {
+    clear();
+    tPause();
+  }
+  function resume() {
+    set();
+    tResume();
+    startTime.value = (startTime.value || 0) + (Date.now() - timestamp.value);
+  }
+  start();
+  return {
+    start,
+    stop,
+    pause,
+    resume,
+    remaining
+  };
+}
 const config$1 = mergeConfig(appConfig.ui.strategy, appConfig.ui.notification, notification);
 const _sfc_main$4 = defineComponent({
   components: {
@@ -10390,6 +10578,7 @@ const _sfc_main$4 = defineComponent({
   emits: ["close"],
   setup(props, { emit }) {
     const { ui, attrs } = useUI("notification", toRef(props, "ui"), config$1);
+    let timer = null;
     const remaining = ref(props.timeout);
     const wrapperClass = computed(() => {
       var _a;
@@ -10419,22 +10608,52 @@ const _sfc_main$4 = defineComponent({
       );
     });
     function onMouseover() {
+      if (timer) {
+        timer.pause();
+      }
     }
     function onMouseleave() {
+      if (timer) {
+        timer.resume();
+      }
     }
     function onClose() {
+      if (timer) {
+        timer.stop();
+      }
       if (props.callback) {
         props.callback();
       }
       emit("close");
     }
     function onAction(action) {
+      if (timer) {
+        timer.stop();
+      }
       if (action.click) {
         action.click();
       }
       emit("close");
     }
+    function initTimer() {
+      if (timer) {
+        timer.stop();
+      }
+      if (!props.timeout) {
+        return;
+      }
+      timer = useTimer(() => {
+        onClose();
+      }, props.timeout);
+      watchEffect(() => {
+        remaining.value = timer.remaining.value;
+      });
+    }
+    watch(() => props.timeout, initTimer);
     onUnmounted(() => {
+      if (timer) {
+        timer.stop();
+      }
     });
     return {
       // eslint-disable-next-line vue/no-dupe-keys
@@ -10497,7 +10716,10 @@ function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
   if ((_ctx.description || _ctx.$slots.description) && _ctx.actions.length) {
     _push(`<div class="${ssrRenderClass(_ctx.ui.actions)}"><!--[-->`);
     ssrRenderList(_ctx.actions, (action, index) => {
-      _push(ssrRenderComponent(_component_UButton, mergeProps({ key: index }, { ..._ctx.ui.default.actionButton || {}, ...action }, {
+      _push(ssrRenderComponent(_component_UButton, mergeProps({
+        key: index,
+        ref_for: true
+      }, { ..._ctx.ui.default.actionButton || {}, ...action }, {
         onClick: ($event) => _ctx.onAction(action)
       }), null, _parent));
     });
@@ -10511,7 +10733,10 @@ function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs, $props, $setup, $data, $
     if (!_ctx.description && !_ctx.$slots.description && _ctx.actions.length) {
       _push(`<!--[-->`);
       ssrRenderList(_ctx.actions, (action, index) => {
-        _push(ssrRenderComponent(_component_UButton, mergeProps({ key: index }, { ..._ctx.ui.default.actionButton || {}, ...action }, {
+        _push(ssrRenderComponent(_component_UButton, mergeProps({
+          key: index,
+          ref_for: true
+        }, { ..._ctx.ui.default.actionButton || {}, ...action }, {
           onClick: ($event) => _ctx.onAction(action)
         }), null, _parent));
       });
@@ -10559,9 +10784,21 @@ function useToast() {
   function remove(id) {
     notifications2.value = notifications2.value.filter((n) => n.id !== id);
   }
+  function update(id, notification2) {
+    const index = notifications2.value.findIndex((n) => n.id === id);
+    if (index !== -1) {
+      const previous = notifications2.value[index];
+      notifications2.value.splice(index, 1, { ...previous, ...notification2 });
+    }
+  }
+  function clear() {
+    notifications2.value = [];
+  }
   return {
     add,
-    remove
+    remove,
+    update,
+    clear
   };
 }
 const config = mergeConfig(appConfig.ui.strategy, appConfig.ui.notifications, notifications);
@@ -10612,7 +10849,7 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
       _push2(`<div class="${ssrRenderClass(_ctx.ui.container)}"><!--[-->`);
       ssrRenderList(_ctx.notifications, (notification2) => {
         _push2(`<div>`);
-        _push2(ssrRenderComponent(_component_UNotification, mergeProps(notification2, {
+        _push2(ssrRenderComponent(_component_UNotification, mergeProps({ ref_for: true }, notification2, {
           class: notification2.click && "cursor-pointer",
           onClick: ($event) => notification2.click && notification2.click(notification2),
           onClose: ($event) => _ctx.toast.remove(notification2.id)
@@ -10622,10 +10859,10 @@ function _sfc_ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $op
               name,
               fn: withCtx((slotData, _push3, _parent2, _scopeId) => {
                 if (_push3) {
-                  ssrRenderSlot(_ctx.$slots, name, slotData, null, _push3, _parent2, _scopeId);
+                  ssrRenderSlot(_ctx.$slots, name, mergeProps({ ref_for: true }, slotData), null, _push3, _parent2, _scopeId);
                 } else {
                   return [
-                    renderSlot(_ctx.$slots, name, slotData)
+                    renderSlot(_ctx.$slots, name, mergeProps({ ref_for: true }, slotData))
                   ];
                 }
               })
@@ -10740,8 +10977,8 @@ const _sfc_main$1 = {
     const statusMessage = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-4_eZhSgA.mjs').then((r) => r.default || r));
-    const _Error = defineAsyncComponent(() => import('./error-500-CV5okMqd.mjs').then((r) => r.default || r));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-C9HlTO9e.mjs').then((r) => r.default || r));
+    const _Error = defineAsyncComponent(() => import('./error-500-BB9VinGR.mjs').then((r) => r.default || r));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ statusCode: unref(statusCode), statusMessage: unref(statusMessage), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
@@ -10754,7 +10991,6 @@ _sfc_main$1.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../node_modules/nuxt/dist/app/components/nuxt-error-page.vue");
   return _sfc_setup$1 ? _sfc_setup$1(props, ctx) : void 0;
 };
-const ErrorComponent = _sfc_main$1;
 const _sfc_main = {
   __name: "nuxt-root",
   __ssrInlineRender: true,
@@ -10780,7 +11016,7 @@ const _sfc_main = {
       ssrRenderSuspense(_push, {
         default: () => {
           if (unref(error)) {
-            _push(ssrRenderComponent(unref(ErrorComponent), { error: unref(error) }, null, _parent));
+            _push(ssrRenderComponent(unref(_sfc_main$1), { error: unref(error) }, null, _parent));
           } else if (unref(islandContext)) {
             _push(ssrRenderComponent(unref(IslandRenderer), { context: unref(islandContext) }, null, _parent));
           } else if (unref(SingleRenderer)) {
@@ -10800,11 +11036,10 @@ _sfc_main.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../node_modules/nuxt/dist/app/components/nuxt-root.vue");
   return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
 };
-const RootComponent = _sfc_main;
 let entry;
 {
   entry = async function createNuxtAppServer(ssrContext) {
-    const vueApp = createApp(RootComponent);
+    const vueApp = createApp(_sfc_main);
     const nuxt = createNuxtApp({ vueApp, ssrContext });
     try {
       await applyPlugins(nuxt, plugins);
@@ -10821,5 +11056,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { hasProtocol as A, withLeadingSlash as B, joinURL as C, parseURL as D, encodeParam as E, encodePath as F, useRuntimeConfig as G, input as H, useState as I, __nuxt_component_8 as J, arrow as K, getNuxtLinkProps as L, selectMenu as M, Link as N, useAppConfig as O, resolveIconName as P, __nuxt_component_0$1 as Q, getULinkProps as R, useSwitchLocalePath as S, _export_sfc as _, __nuxt_component_0$2 as a, appConfig as b, __nuxt_component_1$1 as c, __nuxt_component_1 as d, entry$1 as default, __nuxt_component_2 as e, useUI as f, useSeoMeta as g, useAuth as h, useRoute as i, useInjectButtonGroup as j, get as k, useToast as l, mergeConfig as m, navigateTo as n, __nuxt_component_1$2 as o, looseToNumber as p, useLoadingIndicator as q, asyncDataDefaults as r, select as s, textarea as t, useHead as u, useNuxtApp as v, createError as w, fetchDefaults as x, useRequestFetch as y, useRequestEvent as z };
+export { encodeParam as A, encodePath as B, useRuntimeConfig as C, useNuxtApp as D, input as E, useState as F, __nuxt_component_8 as G, arrow as H, getNuxtLinkProps as I, selectMenu as J, asyncDataDefaults as K, createError as L, fetchDefaults as M, useRequestFetch as N, Link as O, useAppConfig as P, resolveIconName as Q, __nuxt_component_0$1 as R, getULinkProps as S, useSwitchLocalePath as T, _export_sfc as _, __nuxt_component_0$2 as a, appConfig as b, __nuxt_component_1$1 as c, __nuxt_component_1 as d, entry$1 as default, __nuxt_component_2 as e, useUI as f, useSeoMeta as g, useAuth as h, useRoute as i, useInjectButtonGroup as j, get as k, useToast as l, mergeConfig as m, navigateTo as n, __nuxt_component_1$2 as o, looseToNumber as p, useLoadingIndicator as q, getSlotsChildren as r, select as s, textarea as t, useHead as u, useRequestEvent as v, hasProtocol as w, withLeadingSlash as x, joinURL as y, parseURL as z };
 //# sourceMappingURL=server.mjs.map

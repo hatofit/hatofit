@@ -1,6 +1,13 @@
 <script lang="ts" setup>
-const route = useRoute()
-const prefix = computed(() => `/dashboard/company/${route.params.companyId}/manage`)
+import { Api } from '~/utils/api';
+
+const $route = useRoute()
+const companyId = computed(() => Number($route.params.companyId as string || '0'))
+if (!companyId.value)  navigateTo('/dashboard/company')
+
+const { data, pending } = await useFetchWithAuth<Api.Company.Company.response>(Api.Company.Company.url(companyId.value))
+
+const prefix = computed(() => `/dashboard/company/${$route.params.companyId}/manage`)
 const links = computed(() => [
   [
     {
@@ -37,9 +44,9 @@ const links = computed(() => [
 </script>
 
 <template>
-  <BaseLayoutDashboard :links="links">
+  <BaseLayoutDashboard v-if="data" :links="links">
     <template #dashboard-header>
-      <DashboardCompanyBannerCard class="mb-8">
+      <DashboardCompanyBannerCard :company="data?.company"class="mb-8">
         <div class="absolute z-10 top-0 left-0 m-4">
           <UButton icon="i-heroicons-arrow-left" label="Back" variant="solid" :to="`/dashboard/company/${$route.params.companyId}`" />
         </div>

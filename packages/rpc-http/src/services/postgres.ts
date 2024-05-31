@@ -31,6 +31,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
 }
 export class Company extends Model<InferAttributes<Company>, InferCreationAttributes<Company>> {
   declare id: CreationOptional<number>
+  declare _id: CreationOptional<string>
   declare name: string
   declare description: string
   declare address: string
@@ -158,6 +159,12 @@ export class PostgresService extends BaseService {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
+      },
+      _id: {
+        type: UUID,
+        defaultValue: UUIDV4,
+        allowNull: false,
+        primaryKey: true
       },
       name: {
         type: DataTypes.STRING,

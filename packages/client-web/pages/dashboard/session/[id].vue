@@ -1,5 +1,21 @@
 <script lang="ts" setup>
+import { Bar, Line, Doughnut } from 'vue-chartjs'
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  
+  LineElement,
+  PointElement,
+} from 'chart.js'
 import { Api } from '~/utils/api';
+
+ChartJS.register(ArcElement, Tooltip, Legend)
 
 const $dayjs = useDayjs()
 definePageMeta({
@@ -77,6 +93,68 @@ const { data, pending } = useFetchWithAuth<Api.Report.Get.response>(Api.Report.G
             Loading...
           </template>
         </Suspense>
+      </PageSection>
+      <PageSection>
+        <PageTitle text="Stats" />
+        <div class="flex flex-col gap-4">
+          <UCard>
+            <template #header>
+              <div class="flex justify-between">
+                <div class="flex items-end gap-2">
+                  <h2 class="text-xl font-semibold">Training Intensity</h2>
+                </div>
+              </div>
+            </template>
+            <UMeterGroup :min="0" :max="100" size="md" indicator icon="i-heroicons-minus">
+              <UMeter :value="20" color="gray" label="Maximum 90-100%" />
+              <UMeter :value="10" color="red" label="Anaerobic 80-89%" />
+              <UMeter :value="5" color="yellow" label="Aerobic 70-79%" />
+              <UMeter :value="80" color="green" label="Endurance 60-69%" />
+              <UMeter :value="15" color="green" label="Recovery 50-59%" />
+              <!-- Total: 86 -->
+            </UMeterGroup>
+          </UCard>
+          <UCard>
+            <template #header>
+              <div class="flex justify-between">
+                <div class="flex items-end gap-2">
+                  <h2 class="text-xl font-semibold">Energy Expenditure</h2>
+                </div>
+              </div>
+            </template>
+            <div class="flex justify-around mb-6">
+              <div
+                v-for="(stat, j) in [
+                  { label: 'Active', value: '558cal' },
+                  { label: 'Afterburn', value: '100cal' },
+                ]"
+                class="text-center"
+              >
+                <div class="mb-2">{{ stat.label }}</div>
+                <div class="text-3xl">
+                  {{ stat.value }}
+                </div>
+              </div>
+            </div>
+            <div>
+              <Doughnut
+                :data="{
+                  labels: ['Afterburn', 'Active'],
+                  datasets: [
+                    {
+                      backgroundColor: ['#41B883', '#E46651'],
+                      data: [75, 25]
+                    }
+                  ]
+                }"
+                :options="{
+                  responsive: true,
+                  maintainAspectRatio: false
+                }"
+              />
+            </div>
+          </UCard>
+        </div>
       </PageSection>
       <PageSection>
         <PageTitle text="Devices" />

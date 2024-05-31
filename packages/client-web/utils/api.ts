@@ -1,3 +1,5 @@
+import { type FetchResponse } from 'ofetch'
+
 export const getApiUrl = (path: string = '') => {
   const $config = useRuntimeConfig()
   let baseUrl = $config.public.api.baseUrl || ''
@@ -106,6 +108,32 @@ export namespace Api {
         }
       }
     }
+    export namespace Company {
+      export interface Company {
+        company: {
+          id: string
+          _id: string
+          name: string
+          description: string
+          address: string
+        }
+      }
+      export interface Companies {
+        companies: Api.DataModel.Company.Company['company'][]
+      }
+      export interface Member {
+        member: {
+          _id: string
+          email: string
+          firstName: string
+          lastName: string
+          createdAt: string
+        }
+      }
+      export interface Members {
+        members: Api.DataModel.Company.Member['member'][]
+      }
+    }
   }
 
 
@@ -148,6 +176,34 @@ export namespace Api {
       export const url = () => getApiUrl('/auth/delete')
       export type response = Api.DataModel.BaseResponse & Api.DataModel.Auth.Delete
     }
+
+    export namespace ForgotPasswordSendOTP {
+      export const url = (email: string) => getApiUrl('/auth/forgot-password/' + email)
+      export type response = Api.DataModel.BaseResponse
+    }
+
+    export namespace ForgotPasswordVerifyOTP {
+      export const url = () => getApiUrl('/auth/forgot-password-verify')
+      export type response = Api.DataModel.BaseResponse
+      export const parseData = (
+        data: {
+          "email": string
+          "code": string
+        }
+      ) => ({ ...data })
+    }
+
+    export namespace ForgotPasswordReset {
+      export const url = () => getApiUrl('/auth/forgot-password-reset')
+      export type response = Api.DataModel.BaseResponse
+      export const parseData = (
+        data: {
+          "email": string
+          "code": string
+          "password": string
+        }
+      ) => ({ ...data })
+    }
   }
   export namespace Session {
     export namespace All {
@@ -173,4 +229,74 @@ export namespace Api {
       ) => ({ ...data })
     }
   }
+  export namespace Company {
+    export namespace Company {
+      export const url = (id: number) => getApiUrl('/company/' + id)
+      export type response = Api.DataModel.BaseResponse & Api.DataModel.Company.Company
+    }
+    export namespace Join {
+      export const url = () => getApiUrl('/company/join')
+      export type response = Api.DataModel.BaseResponse
+    }
+    export namespace Leave {
+      export const url = () => getApiUrl('/company/leave')
+      export type response = Api.DataModel.BaseResponse
+    }
+    export namespace Companies {
+      export const url = () => getApiUrl('/company')
+      export type response = Api.DataModel.BaseResponse & Api.DataModel.Company.Companies
+    }
+    export namespace CreateCompany {
+      export const url = () => getApiUrl('/company')
+      export type response = Api.DataModel.BaseResponse
+      export const parseData = (
+        data: {
+          "name": string
+          "description": string
+          "address": string
+        }
+      ) => ({ ...data })
+    }
+    export namespace UpdateCompany {
+      export const url = (id: number) => getApiUrl('/company/' + id)
+      export type response = Api.DataModel.BaseResponse
+      export const parseData = (
+        data: {
+          "name": string
+          "description": string
+          "address": string
+        }
+      ) => ({ ...data })
+    }
+    export namespace Members {
+      export const url = (companyId: number) => getApiUrl(`/company/${companyId}/member`)
+      export type response = Api.DataModel.BaseResponse & Api.DataModel.Company.Members
+    }
+  }
+}
+
+export const parseErrorFromResponse = (response: FetchResponse<any>): [boolean, string] => {
+  const data = response._data
+  
+  let isError: boolean = false
+  let message: string = 'Unknown error'
+
+  if (data && data.success === false) {
+    isError = true
+    message = data.message || 'Unknown error'
+  }
+  
+  return [isError, message] 
+}
+
+export const parseErrorFromResponseWithToast = (response: FetchResponse<any>): [boolean, string] => {
+  const $toast = useToast()
+  const [isError, message] = parseErrorFromResponse(response)
+  if (isError) {
+    $toast.add({
+      title: 'Error',
+      description: message,
+    })
+  }
+  return [isError, message]
 }

@@ -55,6 +55,8 @@ export default NuxtAuthHandler({
             method: 'POST',
             data
           })
+
+          console.log('credentials response', response.data)
           
           if (response.status === 200) {
             return {
@@ -63,15 +65,16 @@ export default NuxtAuthHandler({
               token: response.data?.token,
             }
           } else if (response.data.message == 'User not found') {
-            throw new Error('Wrong email or password')
+            throw new Error('User not found')
           } else {
             if (!response.data.message) throw new Error('An error occurred')
             throw new Error(response.data.message)
           }
         } catch (error) {
           if (error instanceof AxiosError) {
+            console.log('credentials response', error.response?.data)
             if (error.response?.data.message == 'User not found') {
-              throw new Error('Wrong email or password')
+              throw new Error('User not found')
             } else if (error.response?.data.message == 'Invalid email or password') {
               throw new Error('Wrong email or password')
             } else {

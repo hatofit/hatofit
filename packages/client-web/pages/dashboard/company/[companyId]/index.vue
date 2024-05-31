@@ -1,13 +1,21 @@
 <script lang="ts" setup>
+import { Api } from '~/utils/api';
+
 definePageMeta({
   layout: 'dashboard',
   middleware: ['auth'],
 })
+
+const $route = useRoute()
+const companyId = computed(() => Number($route.params.companyId as string || '0'))
+if (!companyId.value)  navigateTo('/dashboard/company')
+
+const { data, pending } = await useFetchWithAuth<Api.Company.Company.response>(Api.Company.Company.url(companyId.value))
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
-    <DashboardCompanyBannerCard>
+  <div v-if="data" class="flex flex-col gap-4">
+    <DashboardCompanyBannerCard :company="data?.company">
       <div class="absolute z-10 top-0 right-0 m-4">
         <UDropdown
           :items="[

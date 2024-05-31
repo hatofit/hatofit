@@ -1,19 +1,11 @@
 import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'vue-bundle-renderer/runtime';
-import { e as eventHandler, l as setResponseHeader, m as send, n as getResponseStatus, o as setResponseStatus, q as useNitroApp, t as setResponseHeaders, v as joinURL, c as useRuntimeConfig, i as getQuery, j as createError, w as getRouteRules, x as getResponseStatusText } from '../runtime.mjs';
+import { e as eventHandler, l as setResponseHeader, m as send, n as getResponseStatus, o as setResponseStatus, q as useNitroApp, t as setResponseHeaders, v as joinRelativeURL, c as useRuntimeConfig, i as getQuery, j as createError, w as getRouteRules, x as getResponseStatusText } from '../runtime.mjs';
 import { stringify, uneval } from 'devalue';
 import { renderToString } from 'vue/server-renderer';
 import { renderSSRHead } from '@unhead/ssr';
 import { version, unref } from 'vue';
 import { createServerHead as createServerHead$1 } from 'unhead';
 import { defineHeadPlugin } from '@unhead/shared';
-import 'node:http';
-import 'node:https';
-import 'fs';
-import 'path';
-import 'requrl';
-import 'node:fs';
-import 'node:url';
-import 'ipx';
 
 function defineRenderHandler(handler) {
   return eventHandler(async (event) => {
@@ -45,16 +37,19 @@ function defineRenderHandler(handler) {
   });
 }
 
+function baseURL() {
+  return useRuntimeConfig().app.baseURL;
+}
 function buildAssetsDir() {
   return useRuntimeConfig().app.buildAssetsDir;
 }
 function buildAssetsURL(...path) {
-  return joinURL(publicAssetsURL(), buildAssetsDir(), ...path);
+  return joinRelativeURL(publicAssetsURL(), buildAssetsDir(), ...path);
 }
 function publicAssetsURL(...path) {
   const app = useRuntimeConfig().app;
   const publicBase = app.cdnURL || app.baseURL;
-  return path.length ? joinURL(publicBase, ...path) : publicBase;
+  return path.length ? joinRelativeURL(publicBase, ...path) : publicBase;
 }
 
 const Vue3 = version.startsWith("3");
@@ -409,5 +404,10 @@ function splitPayload(ssrContext) {
   };
 }
 
-export { renderer as default };
+const renderer$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: renderer
+});
+
+export { baseURL as b, renderer$1 as r };
 //# sourceMappingURL=renderer.mjs.map

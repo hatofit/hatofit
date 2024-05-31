@@ -16,8 +16,8 @@ const $toast = useToast()
 
 // schema
 const schema = z.object({
-  firstName: z.string().min(4, 'Must be at least 1 characters'),
-  lastName: z.string().min(4, 'Must be at least 1 characters'),
+  firstName: z.string().min(4, 'Must be at least 4 characters'),
+  lastName: z.string().min(4, 'Must be at least 4 characters'),
   email: z.string().email('Invalid email address'),
   password: z.string().min(8, 'Must be at least 8 characters'),
   confirmPassword: z.string().min(8, 'Must be at least 8 characters'),
@@ -62,6 +62,16 @@ async function onSubmitRegister (event: FormSubmitEvent<Schema>) {
     })
     navigateTo('/auth/login')
   } catch (error) {
+    if (error instanceof FetchError && error.response) {
+      const [isError, message] = parseErrorFromResponse(error.response)
+      if (isError) {
+        $toast.add({
+          title: 'Error',
+          description: message,
+        })
+        return
+      }
+    }
     $toast.add({
       title: 'Error',
       description: `Failed to register, cause: ${error}`,
@@ -132,7 +142,7 @@ async function onSubmitRegister (event: FormSubmitEvent<Schema>) {
               </div>
               <div class="flex justify-center">
                 <p class="text-gray-600 dark:text-gray-300">
-                  <NuxtLink to="/auth/register" class="text-primary-500">login</NuxtLink>
+                  <NuxtLink to="/auth/login" class="text-primary-500">login</NuxtLink>
                   if you already have an account.
                 </p>
               </div>
