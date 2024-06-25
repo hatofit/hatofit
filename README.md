@@ -1,4 +1,4 @@
-# POLAR
+# Hatofit
 
 ## Mobile (packages/mobile)
 ### Dev
@@ -8,6 +8,8 @@
   
 ### Todo
 - [X] Design
+- [X] BLE Communication
+- [X] Realtime HR calculation
 
 ## Api (packages/api)
 ### Dev
@@ -15,7 +17,7 @@
 - ```pnpm i``` (using pnpm)
 - ```pnpm dev``` (using pnpm start dev)
 ### Todo
-- [ ] Auth
+- [x] Auth
   - [x] Login
     url: `/api/auth/login`  
     method: `POST`  
