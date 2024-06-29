@@ -14,62 +14,71 @@ export interface DeviceRule {
   }[];
 }
 
+const RULE_POLAR_DEVICE = {
+  name: "Polar",
+  check: (type: string) => type.includes("Polar"),
+  report: [
+    {
+      type: "hr",
+      evaluate: (item: z.input<typeof SessionDataItemDeviceSchema>) => {
+        if (item.type === "PolarDataType.hr" || item.type === "CommonDataType.hr") {
+          const vals = (item.value || []) as { hr: number }[];
+          const val = vals[0]?.hr || false;
+          return val ? [val] : false;
+        }
+      },
+    },
+    {
+      type: "acc",
+      evaluate: (item: z.input<typeof SessionDataItemDeviceSchema>) => {
+        if (item.type === "PolarDataType.acc" || item.type === "CommonDataType.acc") {
+          const vals = (item.value || []) as {
+            x: number;
+            y: number;
+            z: number;
+          }[];
+          const val = vals[0] ? [vals[0].x, vals[0].y, vals[0].z] : false;
+          return val;
+        }
+      },
+    },
+    {
+      type: "gyro",
+      evaluate: (item: z.input<typeof SessionDataItemDeviceSchema>) => {
+        if (item.type === "PolarDataType.gyro" || item.type === "CommonDataType.gyro") {
+          const vals = (item.value || []) as {
+            x: number;
+            y: number;
+            z: number;
+          }[];
+          const val = vals[0] ? [vals[0].x, vals[0].y, vals[0].z] : false;
+          return val;
+        }
+      },
+    },
+    {
+      type: "ecg",
+      evaluate: (item: z.input<typeof SessionDataItemDeviceSchema>) => {
+        if (item.type === "PolarDataType.ecg" || item.type === "CommonDataType.ecg") {
+          const vals = (item.value || []) as { voltage: number }[];
+          const val = vals[0]?.voltage || false;
+          return val ? [val] : false;
+        }
+      },
+    },
+  ],
+}
+
+const RULE_COMMON_DEVICE = {
+  ...RULE_POLAR_DEVICE,
+  check: (type: string) => type.includes("Common"),
+}
+
 export const DevicesRules = [
   // for polar
-  {
-    name: "Polar",
-    check: (type: string) => type.includes("Polar"),
-    report: [
-      {
-        type: "hr",
-        evaluate: (item: z.input<typeof SessionDataItemDeviceSchema>) => {
-          if (item.type === "PolarDataType.hr") {
-            const vals = (item.value || []) as { hr: number }[];
-            const val = vals[0]?.hr || false;
-            return val ? [val] : false;
-          }
-        },
-      },
-      {
-        type: "acc",
-        evaluate: (item: z.input<typeof SessionDataItemDeviceSchema>) => {
-          if (item.type === "PolarDataType.acc") {
-            const vals = (item.value || []) as {
-              x: number;
-              y: number;
-              z: number;
-            }[];
-            const val = vals[0] ? [vals[0].x, vals[0].y, vals[0].z] : false;
-            return val;
-          }
-        },
-      },
-      {
-        type: "gyro",
-        evaluate: (item: z.input<typeof SessionDataItemDeviceSchema>) => {
-          if (item.type === "PolarDataType.gyro") {
-            const vals = (item.value || []) as {
-              x: number;
-              y: number;
-              z: number;
-            }[];
-            const val = vals[0] ? [vals[0].x, vals[0].y, vals[0].z] : false;
-            return val;
-          }
-        },
-      },
-      {
-        type: "ecg",
-        evaluate: (item: z.input<typeof SessionDataItemDeviceSchema>) => {
-          if (item.type === "PolarDataType.ecg") {
-            const vals = (item.value || []) as { voltage: number }[];
-            const val = vals[0]?.voltage || false;
-            return val ? [val] : false;
-          }
-        },
-      },
-    ],
-  },
+  RULE_POLAR_DEVICE,
+  // for common
+  RULE_COMMON_DEVICE,
 ];
 
 export const getDeviceNameFromDataDeviceType = (
