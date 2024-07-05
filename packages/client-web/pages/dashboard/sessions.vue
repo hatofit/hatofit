@@ -41,23 +41,30 @@ const otherDaySessions = computed(() => {
         >
           <div>
             <div class="font-semibold mb-1">
-              {{ item.exercise?.name || 'General' }}
+              <!-- <span v-if="item['company']" class="font-semibold">[COMPANY]&nbsp;</span> -->
+              <span>{{ item.exercise?.name || 'General' }}</span>
             </div>
             <div class="text-sm flex gap-2 divide-x divide-gray-500/50">
               <div>{{ $dayjs(item.createdAt).format('dddd, DD MMMM YYYY') }}</div>
               <div class="pl-2">{{ $dayjs(item.createdAt).format('h:mm A') }}</div>
             </div>
           </div>
-          <div class="text-xs flex items-center">
-            <div class="flex items-center gap-1">
-              <Icon name="i-material-symbols-timer-outline-rounded" class="text-lg text-green-500" />
-              <span>
-                {{ getTimeInMorS(item.startTime, item.endTime) }}
-              </span>
-            </div>
-            <div>
-              <Icon name="lets-icons:calories-light" class="text-2xl text-orange-500" />
-              <span>1Cal</span>
+          <div class="flex flex-col items-end justify-center">
+            <span v-if="item['company']" class="text-xs text-red-300">Company: {{ item['company']['name'] }}</span>
+            <div class="text-xs flex items-center gap-2">
+              <div class="flex items-center gap-1">
+                <Icon name="i-material-symbols-timer-outline-rounded" class="text-lg text-green-500" />
+                <span>
+                  {{ getTimeInMorS(item.startTime, item.endTime) }}
+                </span>
+              </div>
+              <div>
+                <Icon name="lets-icons:calories-light" class="text-2xl text-orange-500" />
+                <span class="pt-1">1Cal</span>
+              </div>
+              <div v-if="item['mood']">
+                {{ item['mood'] }}
+              </div>
             </div>
           </div>
         </NuxtLink>
@@ -81,16 +88,19 @@ const otherDaySessions = computed(() => {
               <div class="pl-2">{{ $dayjs(item.createdAt).format('h:mm A') }}</div>
             </div>
           </div>
-          <div class="text-xs flex items-center">
-            <div class="flex items-center gap-1">
-              <Icon name="i-material-symbols-timer-outline-rounded" class="text-lg text-green-500" />
-              <span>
-                {{ getTimeInMorS(item.startTime, item.endTime) }}
-              </span>
-            </div>
-            <div>
-              <Icon name="lets-icons:calories-light" class="text-2xl text-orange-500" />
-              <span>1Cal</span>
+          <div class="flex flex-col items-end">
+            <span v-if="item['company']" class="text-xs text-red-300">Company: {{ item['company']['name'] }}</span>
+            <div class="text-xs flex items-center">
+              <div class="flex items-center gap-1">
+                <Icon name="i-material-symbols-timer-outline-rounded" class="text-lg text-green-500" />
+                <span>
+                  {{ getTimeInMorS(item.startTime, item.endTime) }}
+                </span>
+              </div>
+              <div>
+                <Icon name="lets-icons:calories-light" class="text-2xl text-orange-500" />
+                <span>1Cal</span>
+              </div>
             </div>
           </div>
         </NuxtLink>

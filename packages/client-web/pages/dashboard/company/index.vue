@@ -71,7 +71,7 @@ const CompanyCreateModal = (() => {
 const CompanyJoinModal = (() => {
   const isOpen = ref(false)
   const schema = z.object({
-    code: z.string().min(4, 'Must be at least 4 characters'),
+    code: z.string().min(1, 'Must be at least 4 characters'),
   })
   const state = reactive({
     code: '',
@@ -126,6 +126,7 @@ const CompanyJoinModal = (() => {
           :items="[
             [
               { label: 'Create Company', icon: 'i-heroicons-plus', click: () => createModelIsOpen = true },
+              { label: 'Join Company', icon: 'i-heroicons-user-add', click: () => CompanyJoinModal.isOpen.value = true }
             ]
           ]"
           :popper="{ placement: 'bottom-end' }"

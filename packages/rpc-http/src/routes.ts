@@ -11,14 +11,14 @@ import { AuthRegisterSchema, UserSchema }  from '@/schemas/user'
 import { validateWithZod } from '@/utils/zod'
 import { getConfigService } from './services/config'
 import { exceptObjectProp } from './utils/obj'
-import { Exercise, Session } from './services/mongo'
+import { CompanyExercise, Exercise, Session } from './services/mongo'
 import { getReportFromSession } from './utils/report'
 import mongoose from 'mongoose'
 import { SessionSchema } from './schemas/session'
 import { ExerciseSchema } from './schemas/exercise'
 import { getMailService } from './services/mail'
-import type { where } from 'sequelize'
-import { CreateCompanySchema } from './schemas/company'
+import { Op, type where } from 'sequelize'
+import { CreateCompanySchema, CreateExerciseSchema } from './schemas/company'
 
 
 // middlewares
@@ -38,7 +38,8 @@ declare global {
     }
   }
 }
-export const AuthJwtMiddleware = async (req: any, res: any, next: any) => {
+export const parseAuthFromRequest = async (req: any): Promise<[boolean, { user: User, token: string }|undefined, string|undefined, string|undefined]> => {
+
   let token: string | undefined = undefined
   if (req.headers['authorization'] as string) {
     token = (req.headers['authorization'] as string).split(' ')[1]
@@ -46,26 +47,28 @@ export const AuthJwtMiddleware = async (req: any, res: any, next: any) => {
     token = req.query.token as string
   }
 
-  if (!token) {
-    return res.status(401).json({
-      success: false,
-      message: 'Unauthorized',
-      errorCode: 'auth.unauthorized'
-    })
-  }
+  if (!token) return [false, undefined, 'Unauthorized', 'auth.unauthorized']
+  // if (!token) {
+  //   return res.status(401).json({
+  //     success: false,
+  //     message: 'Unauthorized',
+  //     errorCode: 'auth.unauthorized'
+  //   })
+  // }
 
   try {
     const config = getConfigService().getAll()
     const jwtSecret = config.JWT_SECRET_KEY || 'polar'
     const decoded = jwt.verify(token, jwtSecret) as any
     const found = await User.findOne({ where: { _id: decoded.id } })
-    if (!found) {
-      return res.status(404).json({
-        success: false,
-        message: 'User not found',
-        errorCode: 'auth.user_not_found'
-      })
-    }
+    if (!found) return [false, undefined, 'User not found', 'auth.user_not_found']
+    // if (!found) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: 'User not found',
+    //     errorCode: 'auth.user_not_found'
+    //   })
+    // }
 
     req.auth = {
       // user: exceptObjectProp(found.toJSON(), ['password']),
@@ -73,15 +76,73 @@ export const AuthJwtMiddleware = async (req: any, res: any, next: any) => {
       token,
     } as RequestAuth
 
-    next()
+    return [true, req.auth, undefined, undefined]
 
   } catch (error) {
+    return [false, undefined, 'Invalid token', 'auth.unauthorized.invalid_token']
+    // return res.status(400).json({
+    //   success: false,
+    //   message: 'Invalid token',
+    //   errorCode: 'auth.unauthorized.invalid_token'
+    // })
+  }
+}
+export const AuthJwtMiddleware = async (req: any, res: any, next: any) => {
+  // let token: string | undefined = undefined
+  // if (req.headers['authorization'] as string) {
+  //   token = (req.headers['authorization'] as string).split(' ')[1]
+  // } else if (req.query.token) {
+  //   token = req.query.token as string
+  // }
+
+  // if (!token) {
+  //   return res.status(401).json({
+  //     success: false,
+  //     message: 'Unauthorized',
+  //     errorCode: 'auth.unauthorized'
+  //   })
+  // }
+
+  // try {
+  //   const config = getConfigService().getAll()
+  //   const jwtSecret = config.JWT_SECRET_KEY || 'polar'
+  //   const decoded = jwt.verify(token, jwtSecret) as any
+  //   const found = await User.findOne({ where: { _id: decoded.id } })
+  //   if (!found) {
+  //     return res.status(404).json({
+  //       success: false,
+  //       message: 'User not found',
+  //       errorCode: 'auth.user_not_found'
+  //     })
+  //   }
+
+  //   req.auth = {
+  //     // user: exceptObjectProp(found.toJSON(), ['password']),
+  //     user: found,
+  //     token,
+  //   } as RequestAuth
+
+  //   next()
+
+  // } catch (error) {
+  //   return res.status(400).json({
+  //     success: false,
+  //     message: 'Invalid token',
+  //     errorCode: 'auth.unauthorized.invalid_token'
+  //   })
+  // }
+
+  const [success, parsed, error_msg, err_code] = await parseAuthFromRequest(req)
+  if (!success) {
     return res.status(400).json({
       success: false,
-      message: 'Invalid token',
-      errorCode: 'auth.unauthorized.invalid_token'
+      message: error_msg,
+      errorCode: err_code
     })
-  }
+  } else {
+    req.auth = parsed
+    next()
+  }  
 }
 
 // funcs
@@ -126,6 +187,93 @@ const geneateUniqueStrCode256 = () => {
   }
   return result
 }
+
+const findAvgHr = (data: any) => {
+  // format data is [second, hrvalue]
+  let sum = 0;
+  let count = 0;
+  for (const item of data || []) {
+    sum += item[1];
+    count += 1;
+  }
+  return Math.round(sum / count);
+};
+
+const findCal = (user: User, report: any) => {
+  // prepare variables
+  const startTime = dayjs.utc(report?.startTime).local();
+  const endTime = dayjs.utc(report?.endTime).local();
+  const diffTime = endTime.diff(startTime, "second");
+  const avgHr = findAvgHr(
+    report?.reports?.find((report: any) => report?.type === "hr")
+      ?.data[0]?.value || []
+  );
+  const secToMin = diffTime / 60;
+
+  const weightUnits = user?.metricUnits?.weightUnits;
+  const energyUnits = user?.metricUnits?.energyUnits;
+  const userWeight = user?.weight;
+  const userHeight = user?.height;
+  const userGender = user?.gender;
+  const age = dayjs().diff(dayjs(user?.dateOfBirth), "year");
+
+  // calculate calories
+  let calories = 0;
+  switch (userGender) {
+    case "male":
+      if (weightUnits == "kg") {
+        calories =
+          (secToMin *
+            (0.6309 * avgHr +
+              0.1988 * userWeight +
+              0.2017 * age -
+              55.0969)) /
+          4.184;
+      } else if (weightUnits == "lbs") {
+        let weightInKg = userWeight * 0.453592;
+        calories =
+          (secToMin *
+            (0.6309 * avgHr +
+              0.1988 * weightInKg +
+              0.2017 * age -
+              55.0969)) /
+          4.184;
+      }
+      break;
+
+    case "female":
+      if (weightUnits == "kg") {
+        calories =
+          (secToMin *
+            (0.4472 * avgHr -
+              0.1263 * userWeight +
+              0.074 * age -
+              20.4022)) /
+          4.184;
+      } else if (weightUnits == "lbs") {
+        let weightInKg = userWeight * 0.453592;
+        calories =
+          (secToMin *
+            (0.4472 * avgHr -
+              0.1263 * weightInKg +
+              0.074 * age -
+              20.4022)) /
+          4.184;
+      }
+      break;
+
+    default:
+      calories = 0;
+      break;
+  }
+  if (energyUnits == "kcal") {
+    return calories;
+  } else if (energyUnits == "kJ") {
+    return calories * 4.184;
+  }
+
+  return calories;
+};
 // routes
 export default function (app: Express, ctx: Context) {
   const config = getConfigService(ctx).getAll()
@@ -300,103 +448,20 @@ export default function (app: Express, ctx: Context) {
           {
             name: "Calories",
             handler: async () => {
-              const findAvgHr = (data: any) => {
-                // format data is [second, hrvalue]
-                let sum = 0;
-                let count = 0;
-                for (const item of data || []) {
-                  sum += item[1];
-                  count += 1;
-                }
-                return Math.round(sum / count);
-              };
-
-              const findCal = (report: any) => {
-                // prepare variables
-                const startTime = dayjs.utc(report?.startTime).local();
-                const endTime = dayjs.utc(report?.endTime).local();
-                const diffTime = endTime.diff(startTime, "second");
-                const avgHr = findAvgHr(
-                  report?.reports?.find((report: any) => report?.type === "hr")
-                    ?.data[0]?.value || []
-                );
-                const secToMin = diffTime / 60;
-
-                const weightUnits = user?.metricUnits?.weightUnits;
-                const energyUnits = user?.metricUnits?.energyUnits;
-                const userWeight = user?.weight;
-                const userHeight = user?.height;
-                const userGender = user?.gender;
-                const age = dayjs().diff(dayjs(user?.dateOfBirth), "year");
-
-                // calculate calories
-                let calories = 0;
-                switch (userGender) {
-                  case "male":
-                    if (weightUnits == "kg") {
-                      calories =
-                        (secToMin *
-                          (0.6309 * avgHr +
-                            0.1988 * userWeight +
-                            0.2017 * age -
-                            55.0969)) /
-                        4.184;
-                    } else if (weightUnits == "lbs") {
-                      let weightInKg = userWeight * 0.453592;
-                      calories =
-                        (secToMin *
-                          (0.6309 * avgHr +
-                            0.1988 * weightInKg +
-                            0.2017 * age -
-                            55.0969)) /
-                        4.184;
-                    }
-                    break;
-
-                  case "female":
-                    if (weightUnits == "kg") {
-                      calories =
-                        (secToMin *
-                          (0.4472 * avgHr -
-                            0.1263 * userWeight +
-                            0.074 * age -
-                            20.4022)) /
-                        4.184;
-                    } else if (weightUnits == "lbs") {
-                      let weightInKg = userWeight * 0.453592;
-                      calories =
-                        (secToMin *
-                          (0.4472 * avgHr -
-                            0.1263 * weightInKg +
-                            0.074 * age -
-                            20.4022)) /
-                        4.184;
-                    }
-                    break;
-
-                  default:
-                    calories = 0;
-                    break;
-                }
-                if (energyUnits == "kcal") {
-                  return calories;
-                } else if (energyUnits == "kJ") {
-                  return calories * 4.184;
-                }
-
-                return calories;
-              };
-
               // get all session
               const sessions = await Session.find({
                 userId: user._id,
+                createdAt: {
+                  $gte: dayjs().startOf("day").toDate(),
+                  $lte: dayjs().endOf("day").toDate(),
+                },
               });
 
               //
               let cal = 0;
               for (const session of sessions) {
                 try {
-                  cal += findCal(await getReportFromSession(session));
+                  cal += findCal(user, await getReportFromSession(session));
                 } catch (error) {}
               }
 
@@ -765,13 +830,28 @@ export default function (app: Express, ctx: Context) {
   {
     const session = express.Router()
     session.get("/", AuthJwtMiddleware, async (req, res) => {
-      const sessions = await Session.find({
+      const sessions = (await Session.find({
         userId: req.auth?.user?._id,
-      });
+      })).map((item) => exceptObjectProp(item.toObject(), ["data"]));
+
+      const companiesIds: string[] = sessions.map((item) => item.companyId).filter((value, index, self) => self.indexOf(value) === index).filter((item) => item) as string[]
+      const companies = await Company.findAll({
+        where: { _id: companiesIds },
+      })
+
+      for (const session of sessions) {
+        if (session.companyId) {
+          const company = companies.find((item) => item._id === session.companyId)
+          if (company) {
+            session['company'] = company
+          }
+        }
+      }
 
       return res.json({
         success: true,
         message: "Sessions found",
+        // sessions: exceptObjectProp(sessions, ["data"]),
         sessions,
       })
     })
@@ -785,33 +865,79 @@ export default function (app: Express, ctx: Context) {
             message: "Invalid userId",
           });
         }
+
         // validate exercise
         const withoutExercise = req.body?.withoutExercise ?? false;
         const exerciseId = req.body?.exerciseId;
+        const companyExerciseId = req.body?.companyExerciseId;
+
         if (withoutExercise !== true) {
           if (
-            !exerciseId ||
-            typeof exerciseId !== "string" ||
-            exerciseId.length === 0
+            exerciseId || companyExerciseId
           ) {
+            if (exerciseId) {
+              if (typeof exerciseId !== "string" || exerciseId.length === 0) {
+                return res.json({
+                  success: false,
+                  message: "Invalid exerciseId",
+                });
+              }
+            } else if (companyExerciseId) {
+              if (typeof companyExerciseId !== "string" || companyExerciseId.length === 0) {
+                return res.json({
+                  success: false,
+                  message: "Invalid companyExerciseId",
+                });
+              }
+            } else {
+              return res.json({
+                success: false,
+                message: "need exerciseId or companyExerciseId",
+              });
+            }
+          } else {
             return res.json({
               success: false,
-              message: "Invalid exerciseId",
+              message: "need exerciseId or companyExerciseId",
             });
           }
         }
+
         // validate input
         const session = SessionSchema.parse(req.body);
 
         // get
         // get exercise
         let exercise;
+        let company;
         if (withoutExercise !== true) {
-          exercise = await Exercise.findById(exerciseId);
-          if (!exercise) {
+          if (exerciseId) {
+            exercise = await Exercise.findById(exerciseId);
+            if (!exercise) {
+              return res.json({
+                success: false,
+                message: "Exercise not found",
+              });
+            }
+          } else if (companyExerciseId) {
+            exercise = await CompanyExercise.findById(companyExerciseId);
+            if (!exercise) {
+              return res.json({
+                success: false,
+                message: "Company Exercise not found",
+              });
+            }
+            company = await Company.findOne({ where: { _id: exercise.companyId as string } });
+            if (!company) {
+              return res.json({
+                success: false,
+                message: "Company not found",
+              });
+            }
+          } else {
             return res.json({
               success: false,
-              message: "Exercise not found",
+              message: "Invalid exerciseId or companyExerciseId",
             });
           }
         }
@@ -832,6 +958,7 @@ export default function (app: Express, ctx: Context) {
           userId: user._id,
           exercise,
           withoutExercise,
+          ...(company ? { companyId: company._id } : {})
         });
         // response
         return res.json({
@@ -882,6 +1009,13 @@ export default function (app: Express, ctx: Context) {
   }
 
   // company
+  const getIsAdmin = async (userId: number, company: Company) => {
+    const found = await CompanyUser.findOne({
+      where: { companyId: company.id, userId },
+    })
+    if (!found) return false
+    return found.role === 'admin'
+  }
   {
     const company = express.Router()
     company.get("/", AuthJwtMiddleware, async (req, res) => {
@@ -907,17 +1041,28 @@ export default function (app: Express, ctx: Context) {
     })
     company.get("/:id", async (req, res) => {
       const { id } = req.params
-      const company = await Company.findOne({ where: { id } })
+
+      const company = await Company
+        .findOne({
+          where: {
+            id,
+          }
+        })
+
       if (!company) {
         return res.status(404).json({
           success: false,
           message: "Company not found",
         });
       }
+      
+      const [success, auth] = await parseAuthFromRequest(req)
+      const isAdmin: boolean|undefined = (auth && auth?.user?.id) ? await getIsAdmin(auth.user.id, company) : undefined
+
       return res.json({
         success: true,
         message: "Company found",
-        company,
+        company: { ...company.toJSON(), isAdmin },
       })
     })
     company.get("/:id/member", AuthJwtMiddleware, async (req, res) => {
@@ -1069,6 +1214,58 @@ export default function (app: Express, ctx: Context) {
         success: true,
         message: "User left company successfully",
       })
+    })
+
+    company.get("/:id/exercise", AuthJwtMiddleware, async (req, res) => {
+      const { id } = req.params
+      const company = await Company.findOne({ where: { id } })
+      if (!company) {
+        return res.status(404).json({
+          success: false,
+          message: "Company not found",
+        });
+      }
+      const exercises = await CompanyExercise.find({
+        where: { companyId: company._id },
+      })
+      return res.json({
+        success: true,
+        message: "Company exercises found",
+        exercises,
+      })
+    })
+    company.post("/:id/exercise", AuthJwtMiddleware, async (req, res) => {
+      // validate
+      const { ok, data, errors } = validateWithZod(CreateExerciseSchema, req.body)
+      if (!ok || !data) return res.status(400).json({ success: false, errors })
+
+      try {
+        // company id
+        const company = await Company.findOne({ where: { id: req.params.id } })
+        if (!company) {
+          return res.status(404).json({
+            success: false,
+            message: "Company not found",
+          });
+        }
+
+        // create
+        const created = await CompanyExercise.create({
+          ...data,
+          companyId: company._id,
+          _id: new mongoose.Types.ObjectId().toHexString(),
+        })
+
+        return res.status(201).json({
+          success: true,
+          message: "Exercise created successfully",
+          id: created._id,
+          exercise: created,
+        })
+      } catch (error) {
+        console.log(error)
+        return res.status(500).json({ success: false, message: "Internal server error" })
+      }
     })
 
 

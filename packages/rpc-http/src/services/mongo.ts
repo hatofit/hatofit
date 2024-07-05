@@ -65,10 +65,43 @@ const ExerciseSchema = new Schema(
 export const Exercise = mongoose.model("Exercise", ExerciseSchema)
 
 
+const CompanyExerciseSchema = new Schema(
+  {
+    _id: String,
+    companyId: String,
+    name: String,
+    description: String,
+    difficulty: String,
+    type: String,
+    thumbnail: String,
+    duration: Number,
+    instructions: [
+      {
+        type: String, // rest, instruction
+        name: String,
+        description: String,
+        duration: Number, // in seconds
+        content: {
+          video: String,
+          image: String,
+          lottie: String,
+        },
+      },
+    ],
+  },
+  {
+    typeKey: "$type",
+    timestamps: true,
+  }
+)
+export const CompanyExercise = mongoose.model("CompanyExercise", CompanyExerciseSchema)
+
+
 const SessionSchema = new Schema(
   {
     _id: String,
     userId: String,
+    companyId: String,
     mood: String,
     exercise: ExerciseSchema,
     startTime: Number,
@@ -94,7 +127,6 @@ const SessionSchema = new Schema(
         ],
       },
     ],
-
     withoutExercise: Boolean,
   },
   {

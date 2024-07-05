@@ -63,9 +63,8 @@ class ReportParser {
   }
 }
 class ReportParserHR extends ReportParser {
-  type: string = 'hr'
-
-  parse(
+  override type: string = 'hr'
+  override parse(
     data: {
       device: string
       value: [number, number][]
@@ -186,9 +185,8 @@ class ReportParserHR extends ReportParser {
   }
 }
 class ReportParserECG extends ReportParser {
-  type: string = 'ecg'
-
-  parse(
+  override type: string = 'ecg'
+  override parse(
     data: {
       device: string
       value: [number, number][]

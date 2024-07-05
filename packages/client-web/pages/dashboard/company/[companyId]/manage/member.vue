@@ -20,6 +20,10 @@ const columns = [
     label: 'Email'
   },
   {
+    key: 'role',
+    label: 'Role'
+  },
+  {
     key: 'createdAt',
     label: 'Since'
   },
@@ -73,6 +77,9 @@ const items = (row: any) => [
           <div class="font-semibold">{{ row.User.firstName }} {{ row.User.lastName }}</div>
         </div>
       </div>
+    </template>
+    <template #createdAt-data="{ row }">
+      {{ $dayjs(row.createdAt).format('dddd, DD MMMM YYYY') }}
     </template>
     <template #actions-data="{ row }">
       <UDropdown :items="items(row)">

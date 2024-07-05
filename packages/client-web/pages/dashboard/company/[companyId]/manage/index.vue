@@ -14,7 +14,7 @@ const invitationLink = computed(() => {
   res = res.split('/').slice(0, -4).join('/')
 
   // add /invite/:id
-  res += '/invite/' + company?._id
+  res += '/invite/' + company?.id
 
   return res
 })

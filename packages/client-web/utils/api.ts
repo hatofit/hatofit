@@ -116,6 +116,7 @@ export namespace Api {
           name: string
           description: string
           address: string
+          isAdmin?: boolean
         }
       }
       export interface Companies {
@@ -132,6 +133,30 @@ export namespace Api {
       }
       export interface Members {
         members: Api.DataModel.Company.Member['member'][]
+      }
+      export interface Exercise {
+        exercise: {
+          _id: string
+          name: string
+          description: string
+          thumbnail: string
+          type: string
+          difficulty: string
+          duration: number
+          instructions: {
+            type: string
+            duration: number
+            name: string
+            content: {
+              lottie: string
+              video: string
+              image: string
+            }
+          }[]
+        }
+      }
+      export interface Exercises {
+        exercises: Api.DataModel.Company.Exercise['exercise'][]
       }
     }
   }
@@ -231,7 +256,7 @@ export namespace Api {
   }
   export namespace Company {
     export namespace Company {
-      export const url = (id: number) => getApiUrl('/company/' + id)
+      export const url = (id: string|number) => getApiUrl('/company/' + id)
       export type response = Api.DataModel.BaseResponse & Api.DataModel.Company.Company
     }
     export namespace Join {
@@ -271,6 +296,14 @@ export namespace Api {
     export namespace Members {
       export const url = (companyId: number) => getApiUrl(`/company/${companyId}/member`)
       export type response = Api.DataModel.BaseResponse & Api.DataModel.Company.Members
+    }
+    export namespace Exercises {
+      export const url = (companyId: number) => getApiUrl(`/company/${companyId}/exercise`)
+      export type response = Api.DataModel.BaseResponse & Api.DataModel.Company.Exercises
+    }
+    export namespace CreateExercises {
+      export const url = (companyId: number) => getApiUrl(`/company/${companyId}/exercise`)
+      export type response = Api.DataModel.BaseResponse
     }
   }
 }

@@ -143,22 +143,24 @@ const forgotPasswordReset = async () => {
                 title="Error"
                 :description="errorMessage"
               />
-              <UFormGroup label="Email" required>
-                <UInput :color="error ? 'primary' : 'gray'" v-model="input.email" type="email" placeholder="you@example.com" icon="i-heroicons-envelope" />
-              </UFormGroup>
-              <UFormGroup label="Password" required>
-                <UInput :color="error ? 'primary' : 'gray'" v-model="input.password" type="password" placeholder="your secret password" icon="i-heroicons-lock-closed" />
-                <UButton variant="link" class="text-xs float-right" label="Forgot Password?" @click="mode = 'forgot'" />
-              </UFormGroup>
-              <div class="flex justify-end">
-                <UButton variant="solid" class="w-full flex justify-center" size="lg" @click="login">Login</UButton>
-              </div>
-              <div class="flex justify-center">
-                <p class="text-gray-600 dark:text-gray-300">
-                  <NuxtLink to="/auth/register" class="text-primary-500">register</NuxtLink>
-                  if you don't have an account.
-                </p>
-              </div>
+              <Form @submit.prevent="login" class="flex flex-col gap-4">
+                <UFormGroup label="Email" required>
+                  <UInput :color="error ? 'primary' : 'gray'" v-model="input.email" type="email" placeholder="you@example.com" icon="i-heroicons-envelope" />
+                </UFormGroup>
+                <UFormGroup label="Password" required>
+                  <UInput :color="error ? 'primary' : 'gray'" v-model="input.password" type="password" placeholder="your secret password" icon="i-heroicons-lock-closed" />
+                  <UButton variant="link" class="text-xs float-right" label="Forgot Password?" @click="mode = 'forgot'" />
+                </UFormGroup>
+                <div class="flex justify-end">
+                  <UButton type="submit" variant="solid" class="w-full flex justify-center" size="lg" @click="login">Login</UButton>
+                </div>
+                <div class="flex justify-center">
+                  <p class="text-gray-600 dark:text-gray-300">
+                    <NuxtLink to="/auth/register" class="text-primary-500">register</NuxtLink>
+                    if you don't have an account.
+                  </p>
+                </div>
+              </Form>
             </div>
             <div v-else-if="mode === 'forgot'" class="flex flex-col gap-4">
               <UFormGroup label="Email" required>
