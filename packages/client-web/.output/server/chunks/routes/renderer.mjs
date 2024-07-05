@@ -1,10 +1,10 @@
-import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'vue-bundle-renderer/runtime';
+import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { getRequestDependencies, getPreloadLinks, getPrefetchLinks, createRenderer } from 'vue-bundle-renderer/runtime';
 import { e as eventHandler, l as setResponseHeader, m as send, n as getResponseStatus, o as setResponseStatus, q as useNitroApp, t as setResponseHeaders, v as joinRelativeURL, c as useRuntimeConfig, i as getQuery, j as createError, w as getRouteRules, x as getResponseStatusText } from '../runtime.mjs';
 import { stringify, uneval } from 'devalue';
 import { renderToString } from 'vue/server-renderer';
-import { renderSSRHead } from '@unhead/ssr';
+import { propsToString, renderSSRHead } from '@unhead/ssr';
+import { createServerHead as createServerHead$1, CapoPlugin } from 'unhead';
 import { version, unref } from 'vue';
-import { createServerHead as createServerHead$1 } from 'unhead';
 import { defineHeadPlugin } from '@unhead/shared';
 
 function defineRenderHandler(handler) {
@@ -106,17 +106,19 @@ function createServerHead(options = {}) {
   return head;
 }
 
-const unheadPlugins = [];
+const unheadPlugins = true ? [CapoPlugin({ track: true })] : [];
+
+const renderSSRHeadOptions = {};
 
 const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"}],"link":[],"style":[],"script":[],"noscript":[]};
 
-const appRootId = "__nuxt";
-
 const appRootTag = "div";
+
+const appRootAttrs = {"id":"__nuxt"};
 
 const appTeleportTag = "div";
 
-const appTeleportId = "teleports";
+const appTeleportAttrs = {"id":"teleports"};
 
 const componentIslands = false;
 
@@ -184,16 +186,17 @@ const getSPARenderer = lazyCachedFunction(async () => {
     renderToString
   };
 });
-const APP_TELEPORT_OPEN_TAG = `<${appTeleportTag} id="${appTeleportId}">` ;
-const APP_TELEPORT_CLOSE_TAG = `</${appTeleportTag}>` ;
-const APP_ROOT_OPEN_TAG = `<${appRootTag}${` id="${appRootId}"` }>`;
+const HAS_APP_TELEPORTS = !!(appTeleportAttrs.id);
+const APP_TELEPORT_OPEN_TAG = HAS_APP_TELEPORTS ? `<${appTeleportTag}${propsToString(appTeleportAttrs)}>` : "";
+const APP_TELEPORT_CLOSE_TAG = HAS_APP_TELEPORTS ? `</${appTeleportTag}>` : "";
+const APP_ROOT_OPEN_TAG = `<${appRootTag}${propsToString(appRootAttrs)}>`;
 const APP_ROOT_CLOSE_TAG = `</${appRootTag}>`;
 const PAYLOAD_URL_RE = /\/_payload.json(\?.*)?$/ ;
 const renderer = defineRenderHandler(async (event) => {
   const nitroApp = useNitroApp();
   const ssrError = event.path.startsWith("/__nuxt_error") ? getQuery(event) : null;
   if (ssrError && ssrError.statusCode) {
-    ssrError.statusCode = parseInt(ssrError.statusCode);
+    ssrError.statusCode = Number.parseInt(ssrError.statusCode);
   }
   if (ssrError && !("__unenv__" in event.node.req)) {
     throw createError({
@@ -299,20 +302,23 @@ const renderer = defineRenderHandler(async (event) => {
         type: resource.module ? "module" : null,
         src: renderer.rendererContext.buildAssetsURL(resource.file),
         defer: resource.module ? null : true,
+        // if we are rendering script tag payloads that import an async payload
+        // we need to ensure this resolves before executing the Nuxt entry
+        tagPosition: "head",
         crossorigin: ""
       }))
     }, headEntryOptions);
   }
-  const { headTags, bodyTags, bodyTagsOpen, htmlAttrs, bodyAttrs } = await renderSSRHead(head);
+  const { headTags, bodyTags, bodyTagsOpen, htmlAttrs, bodyAttrs } = await renderSSRHead(head, renderSSRHeadOptions);
   const htmlContext = {
     island: isRenderingIsland,
     htmlAttrs: htmlAttrs ? [htmlAttrs] : [],
-    head: normalizeChunks([headTags, ssrContext.styles]),
+    head: normalizeChunks([headTags]),
     bodyAttrs: bodyAttrs ? [bodyAttrs] : [],
     bodyPrepend: normalizeChunks([bodyTagsOpen, ssrContext.teleports?.body]),
     body: [
       _rendered.html,
-      APP_TELEPORT_OPEN_TAG + (joinTags([ssrContext.teleports?.[`#${appTeleportId}`]]) ) + APP_TELEPORT_CLOSE_TAG
+      APP_TELEPORT_OPEN_TAG + (HAS_APP_TELEPORTS ? joinTags([ssrContext.teleports?.[`#${appTeleportAttrs.id}`]]) : "") + APP_TELEPORT_CLOSE_TAG
     ],
     bodyAppend: [bodyTags]
   };
@@ -381,9 +387,9 @@ function renderPayloadResponse(ssrContext) {
 function renderPayloadJsonScript(opts) {
   const contents = opts.data ? stringify(opts.data, opts.ssrContext._payloadReducers) : "";
   const payload = {
-    type: "application/json",
-    id: opts.id,
-    innerHTML: contents,
+    "type": "application/json",
+    "id": opts.id,
+    "innerHTML": contents,
     "data-ssr": !(opts.ssrContext.noSSR)
   };
   if (opts.src) {

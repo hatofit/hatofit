@@ -189,6 +189,12 @@ var Api;
     ((Members2) => {
       Members2.url = (companyId) => getApiUrl(`/company/${companyId}/member`);
     })(_Company.Members || (_Company.Members = {}));
+    ((Exercises2) => {
+      Exercises2.url = (companyId) => getApiUrl(`/company/${companyId}/exercise`);
+    })(_Company.Exercises || (_Company.Exercises = {}));
+    ((CreateExercises2) => {
+      CreateExercises2.url = (companyId) => getApiUrl(`/company/${companyId}/exercise`);
+    })(_Company.CreateExercises || (_Company.CreateExercises = {}));
   })(Api2.Company || (Api2.Company = {}));
 })(Api || (Api = {}));
 

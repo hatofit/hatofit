@@ -1,0 +1,1 @@
+import{C as s}from"./C4oi7rqb.js";import{g as h}from"./Cy9l6Tiu.js";const n=(r,a={})=>{var t,e;const o=s();return $fetch(r,{baseURL:h(),headers:{Authorization:`Bearer ${((e=(t=o.data.value)==null?void 0:t.user)==null?void 0:e.token)||""}`},...a})};export{n as $};
