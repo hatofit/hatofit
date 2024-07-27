@@ -1,5 +1,5 @@
 import { _ as _sfc_main$1 } from './Title-THJIYvs6.mjs';
-import { a as __nuxt_component_0$3, k as __nuxt_component_2$1 } from './server.mjs';
+import { a as __nuxt_component_0$3, k as __nuxt_component_2 } from './server.mjs';
 import { defineComponent, mergeProps, withCtx, createVNode, toDisplayString, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent, ssrRenderList, ssrInterpolate } from 'vue/server-renderer';
 import '../runtime.mjs';
@@ -34,7 +34,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_PageTitle = _sfc_main$1;
       const _component_NuxtLink = __nuxt_component_0$3;
-      const _component_Icon = __nuxt_component_2$1;
+      const _component_Icon = __nuxt_component_2;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex flex-col gap-8" }, _attrs))}><div class="w-full">`);
       _push(ssrRenderComponent(_component_PageTitle, { text: "Today" }, null, _parent));
       _push(`<div class="flex flex-col gap-2"><!--[-->`);

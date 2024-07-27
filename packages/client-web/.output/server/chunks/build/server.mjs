@@ -962,18 +962,22 @@ async function getRouteRules(url) {
     return defu({}, ..._routeRulesMatcher.matchAll(url).reverse());
   }
 }
-const __nuxt_page_meta$m = {
+const __nuxt_page_meta$n = {
   layout: "auth",
   auth: {
     unauthenticatedOnly: true,
     navigateAuthenticatedTo: "/dashboard"
   }
 };
-const __nuxt_page_meta$l = {
+const __nuxt_page_meta$m = {
   layout: "auth"
 };
-const __nuxt_page_meta$k = {
+const __nuxt_page_meta$l = {
   layout: "dashboard-company",
+  middleware: ["auth"]
+};
+const __nuxt_page_meta$k = {
+  layout: "dashboard",
   middleware: ["auth"]
 };
 const __nuxt_page_meta$j = {
@@ -985,11 +989,11 @@ const __nuxt_page_meta$i = {
   middleware: ["auth"]
 };
 const __nuxt_page_meta$h = {
-  layout: "dashboard",
+  // layout: 'dashboard',
   middleware: ["auth"]
 };
 const __nuxt_page_meta$g = {
-  // layout: 'dashboard',
+  layout: "dashboard",
   middleware: ["auth"]
 };
 const __nuxt_page_meta$f = {
@@ -997,7 +1001,7 @@ const __nuxt_page_meta$f = {
   middleware: ["auth"]
 };
 const __nuxt_page_meta$e = {
-  layout: "dashboard",
+  layout: "dashboard-company-manage",
   middleware: ["auth"]
 };
 const __nuxt_page_meta$d = {
@@ -1056,55 +1060,55 @@ const _routes = [
   {
     name: "auth-login___en___default",
     path: "/auth/login",
-    meta: __nuxt_page_meta$m || {},
-    component: () => import('./login-Bpg9pend.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$n || {},
+    component: () => import('./login-BNLabo1H.mjs').then((m) => m.default || m)
   },
   {
     name: "auth-login___en",
     path: "/en/auth/login",
-    meta: __nuxt_page_meta$m || {},
-    component: () => import('./login-Bpg9pend.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$n || {},
+    component: () => import('./login-BNLabo1H.mjs').then((m) => m.default || m)
   },
   {
     name: "auth-login___id",
     path: "/id/auth/login",
-    meta: __nuxt_page_meta$m || {},
-    component: () => import('./login-Bpg9pend.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$n || {},
+    component: () => import('./login-BNLabo1H.mjs').then((m) => m.default || m)
   },
   {
     name: "auth-register___en___default",
     path: "/auth/register",
-    meta: __nuxt_page_meta$l || {},
-    component: () => import('./register-DsP2e29n.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$m || {},
+    component: () => import('./register-Bn6yUGa2.mjs').then((m) => m.default || m)
   },
   {
     name: "auth-register___en",
     path: "/en/auth/register",
-    meta: __nuxt_page_meta$l || {},
-    component: () => import('./register-DsP2e29n.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$m || {},
+    component: () => import('./register-Bn6yUGa2.mjs').then((m) => m.default || m)
   },
   {
     name: "auth-register___id",
     path: "/id/auth/register",
-    meta: __nuxt_page_meta$l || {},
-    component: () => import('./register-DsP2e29n.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$m || {},
+    component: () => import('./register-Bn6yUGa2.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-company___en___default",
     path: "/dashboard.bak/company",
-    meta: __nuxt_page_meta$k || {},
+    meta: __nuxt_page_meta$l || {},
     component: () => import('./index-DX_RoLNB.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-company___en",
     path: "/en/dashboard.bak/company",
-    meta: __nuxt_page_meta$k || {},
+    meta: __nuxt_page_meta$l || {},
     component: () => import('./index-DX_RoLNB.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-company___id",
     path: "/id/dashboard.bak/company",
-    meta: __nuxt_page_meta$k || {},
+    meta: __nuxt_page_meta$l || {},
     component: () => import('./index-DX_RoLNB.mjs').then((m) => m.default || m)
   },
   {
@@ -1125,362 +1129,380 @@ const _routes = [
   {
     name: "dashboard.bak-user-company___en___default",
     path: "/dashboard.bak/user/company",
-    meta: __nuxt_page_meta$j || {},
-    component: () => import('./index-boG3IfUu.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$k || {},
+    component: () => import('./index-DR4uN8rV.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user-company___en",
     path: "/en/dashboard.bak/user/company",
-    meta: __nuxt_page_meta$j || {},
-    component: () => import('./index-boG3IfUu.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$k || {},
+    component: () => import('./index-DR4uN8rV.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user-company___id",
     path: "/id/dashboard.bak/user/company",
-    meta: __nuxt_page_meta$j || {},
-    component: () => import('./index-boG3IfUu.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$k || {},
+    component: () => import('./index-DR4uN8rV.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user___en___default",
     path: "/dashboard.bak/user",
-    meta: __nuxt_page_meta$i || {},
+    meta: __nuxt_page_meta$j || {},
     component: () => import('./index-DVfsPt_U.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user___en",
     path: "/en/dashboard.bak/user",
-    meta: __nuxt_page_meta$i || {},
+    meta: __nuxt_page_meta$j || {},
     component: () => import('./index-DVfsPt_U.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user___id",
     path: "/id/dashboard.bak/user",
-    meta: __nuxt_page_meta$i || {},
+    meta: __nuxt_page_meta$j || {},
     component: () => import('./index-DVfsPt_U.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user-profile___en___default",
     path: "/dashboard.bak/user/profile",
-    meta: __nuxt_page_meta$h || {},
-    component: () => import('./profile-DmYR4zfs.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$i || {},
+    component: () => import('./profile-Cr_urewM.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user-profile___en",
     path: "/en/dashboard.bak/user/profile",
-    meta: __nuxt_page_meta$h || {},
-    component: () => import('./profile-DmYR4zfs.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$i || {},
+    component: () => import('./profile-Cr_urewM.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user-profile___id",
     path: "/id/dashboard.bak/user/profile",
-    meta: __nuxt_page_meta$h || {},
-    component: () => import('./profile-DmYR4zfs.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$i || {},
+    component: () => import('./profile-Cr_urewM.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user-session-id___en___default",
     path: "/dashboard.bak/user/session/:id()",
-    meta: __nuxt_page_meta$g || {},
-    component: () => import('./_id_-DX1QrP0b.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$h || {},
+    component: () => import('./_id_-hgW3o3q7.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user-session-id___en",
     path: "/en/dashboard.bak/user/session/:id()",
-    meta: __nuxt_page_meta$g || {},
-    component: () => import('./_id_-DX1QrP0b.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$h || {},
+    component: () => import('./_id_-hgW3o3q7.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user-session-id___id",
     path: "/id/dashboard.bak/user/session/:id()",
-    meta: __nuxt_page_meta$g || {},
-    component: () => import('./_id_-DX1QrP0b.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$h || {},
+    component: () => import('./_id_-hgW3o3q7.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user-sessions___en___default",
     path: "/dashboard.bak/user/sessions",
-    meta: __nuxt_page_meta$f || {},
+    meta: __nuxt_page_meta$g || {},
     component: () => import('./sessions-Bj8L1seA.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user-sessions___en",
     path: "/en/dashboard.bak/user/sessions",
-    meta: __nuxt_page_meta$f || {},
+    meta: __nuxt_page_meta$g || {},
     component: () => import('./sessions-Bj8L1seA.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard.bak-user-sessions___id",
     path: "/id/dashboard.bak/user/sessions",
-    meta: __nuxt_page_meta$f || {},
+    meta: __nuxt_page_meta$g || {},
     component: () => import('./sessions-Bj8L1seA.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId___en___default",
     path: "/dashboard/company/:companyId()",
-    meta: __nuxt_page_meta$e || {},
-    component: () => import('./index-D6UtpmK9.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$f || {},
+    component: () => import('./index-CW8vYU3w.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId___en",
     path: "/en/dashboard/company/:companyId()",
-    meta: __nuxt_page_meta$e || {},
-    component: () => import('./index-D6UtpmK9.mjs').then((m) => m.default || m)
+    meta: __nuxt_page_meta$f || {},
+    component: () => import('./index-CW8vYU3w.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId___id",
     path: "/id/dashboard/company/:companyId()",
+    meta: __nuxt_page_meta$f || {},
+    component: () => import('./index-CW8vYU3w.mjs').then((m) => m.default || m)
+  },
+  {
+    name: "dashboard-company-companyId-manage-exercise-exerciseId___en___default",
+    path: "/dashboard/company/:companyId()/manage/exercise/:exerciseId()",
     meta: __nuxt_page_meta$e || {},
-    component: () => import('./index-D6UtpmK9.mjs').then((m) => m.default || m)
+    component: () => import('./index-C-0RP7v0.mjs').then((m) => m.default || m)
+  },
+  {
+    name: "dashboard-company-companyId-manage-exercise-exerciseId___en",
+    path: "/en/dashboard/company/:companyId()/manage/exercise/:exerciseId()",
+    meta: __nuxt_page_meta$e || {},
+    component: () => import('./index-C-0RP7v0.mjs').then((m) => m.default || m)
+  },
+  {
+    name: "dashboard-company-companyId-manage-exercise-exerciseId___id",
+    path: "/id/dashboard/company/:companyId()/manage/exercise/:exerciseId()",
+    meta: __nuxt_page_meta$e || {},
+    component: () => import('./index-C-0RP7v0.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage-exercise___en___default",
     path: "/dashboard/company/:companyId()/manage/exercise",
     meta: __nuxt_page_meta$d || {},
-    component: () => import('./exercise-k_HiBx8Y.mjs').then((m) => m.default || m)
+    component: () => import('./index-x--kS5Au.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage-exercise___en",
     path: "/en/dashboard/company/:companyId()/manage/exercise",
     meta: __nuxt_page_meta$d || {},
-    component: () => import('./exercise-k_HiBx8Y.mjs').then((m) => m.default || m)
+    component: () => import('./index-x--kS5Au.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage-exercise___id",
     path: "/id/dashboard/company/:companyId()/manage/exercise",
     meta: __nuxt_page_meta$d || {},
-    component: () => import('./exercise-k_HiBx8Y.mjs').then((m) => m.default || m)
+    component: () => import('./index-x--kS5Au.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage___en___default",
     path: "/dashboard/company/:companyId()/manage",
     meta: __nuxt_page_meta$c || {},
-    component: () => import('./index-j3NdBZXD.mjs').then((m) => m.default || m)
+    component: () => import('./index-B1u_E-81.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage___en",
     path: "/en/dashboard/company/:companyId()/manage",
     meta: __nuxt_page_meta$c || {},
-    component: () => import('./index-j3NdBZXD.mjs').then((m) => m.default || m)
+    component: () => import('./index-B1u_E-81.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage___id",
     path: "/id/dashboard/company/:companyId()/manage",
     meta: __nuxt_page_meta$c || {},
-    component: () => import('./index-j3NdBZXD.mjs').then((m) => m.default || m)
+    component: () => import('./index-B1u_E-81.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage-member___en___default",
     path: "/dashboard/company/:companyId()/manage/member",
     meta: __nuxt_page_meta$b || {},
-    component: () => import('./member-C5Tz7CBt.mjs').then((m) => m.default || m)
+    component: () => import('./member-DCsZ1Jmt.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage-member___en",
     path: "/en/dashboard/company/:companyId()/manage/member",
     meta: __nuxt_page_meta$b || {},
-    component: () => import('./member-C5Tz7CBt.mjs').then((m) => m.default || m)
+    component: () => import('./member-DCsZ1Jmt.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage-member___id",
     path: "/id/dashboard/company/:companyId()/manage/member",
     meta: __nuxt_page_meta$b || {},
-    component: () => import('./member-C5Tz7CBt.mjs').then((m) => m.default || m)
+    component: () => import('./member-DCsZ1Jmt.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage-program___en___default",
     path: "/dashboard/company/:companyId()/manage/program",
     meta: __nuxt_page_meta$a || {},
-    component: () => import('./program-BmFlk_iw.mjs').then((m) => m.default || m)
+    component: () => import('./program-CgdLFFgC.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage-program___en",
     path: "/en/dashboard/company/:companyId()/manage/program",
     meta: __nuxt_page_meta$a || {},
-    component: () => import('./program-BmFlk_iw.mjs').then((m) => m.default || m)
+    component: () => import('./program-CgdLFFgC.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage-program___id",
     path: "/id/dashboard/company/:companyId()/manage/program",
     meta: __nuxt_page_meta$a || {},
-    component: () => import('./program-BmFlk_iw.mjs').then((m) => m.default || m)
+    component: () => import('./program-CgdLFFgC.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage-setting___en___default",
     path: "/dashboard/company/:companyId()/manage/setting",
     meta: __nuxt_page_meta$9 || {},
-    component: () => import('./setting-BtdgPD-s.mjs').then((m) => m.default || m)
+    component: () => import('./setting-C-FZR3D0.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage-setting___en",
     path: "/en/dashboard/company/:companyId()/manage/setting",
     meta: __nuxt_page_meta$9 || {},
-    component: () => import('./setting-BtdgPD-s.mjs').then((m) => m.default || m)
+    component: () => import('./setting-C-FZR3D0.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company-companyId-manage-setting___id",
     path: "/id/dashboard/company/:companyId()/manage/setting",
     meta: __nuxt_page_meta$9 || {},
-    component: () => import('./setting-BtdgPD-s.mjs').then((m) => m.default || m)
+    component: () => import('./setting-C-FZR3D0.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company___en___default",
     path: "/dashboard/company",
     meta: __nuxt_page_meta$8 || {},
-    component: () => import('./index-lK3uC3qK.mjs').then((m) => m.default || m)
+    component: () => import('./index-CK5owxuy.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company___en",
     path: "/en/dashboard/company",
     meta: __nuxt_page_meta$8 || {},
-    component: () => import('./index-lK3uC3qK.mjs').then((m) => m.default || m)
+    component: () => import('./index-CK5owxuy.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-company___id",
     path: "/id/dashboard/company",
     meta: __nuxt_page_meta$8 || {},
-    component: () => import('./index-lK3uC3qK.mjs').then((m) => m.default || m)
+    component: () => import('./index-CK5owxuy.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard___en___default",
     path: "/dashboard",
     meta: __nuxt_page_meta$7 || {},
-    component: () => import('./index-W6JhATmG.mjs').then((m) => m.default || m)
+    component: () => import('./index-CHm8nwMU.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard___en",
     path: "/en/dashboard",
     meta: __nuxt_page_meta$7 || {},
-    component: () => import('./index-W6JhATmG.mjs').then((m) => m.default || m)
+    component: () => import('./index-CHm8nwMU.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard___id",
     path: "/id/dashboard",
     meta: __nuxt_page_meta$7 || {},
-    component: () => import('./index-W6JhATmG.mjs').then((m) => m.default || m)
+    component: () => import('./index-CHm8nwMU.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-profile___en___default",
     path: "/dashboard/profile",
     meta: __nuxt_page_meta$6 || {},
-    component: () => import('./profile-D_lLKrbf.mjs').then((m) => m.default || m)
+    component: () => import('./profile-Dd-5hYFM.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-profile___en",
     path: "/en/dashboard/profile",
     meta: __nuxt_page_meta$6 || {},
-    component: () => import('./profile-D_lLKrbf.mjs').then((m) => m.default || m)
+    component: () => import('./profile-Dd-5hYFM.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-profile___id",
     path: "/id/dashboard/profile",
     meta: __nuxt_page_meta$6 || {},
-    component: () => import('./profile-D_lLKrbf.mjs').then((m) => m.default || m)
+    component: () => import('./profile-Dd-5hYFM.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-session-id___en___default",
     path: "/dashboard/session/:id()",
     meta: __nuxt_page_meta$5 || {},
-    component: () => import('./_id_-B0b6UKwL.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-EIrm2N5Q.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-session-id___en",
     path: "/en/dashboard/session/:id()",
     meta: __nuxt_page_meta$5 || {},
-    component: () => import('./_id_-B0b6UKwL.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-EIrm2N5Q.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-session-id___id",
     path: "/id/dashboard/session/:id()",
     meta: __nuxt_page_meta$5 || {},
-    component: () => import('./_id_-B0b6UKwL.mjs').then((m) => m.default || m)
+    component: () => import('./_id_-EIrm2N5Q.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-sessions___en___default",
     path: "/dashboard/sessions",
     meta: __nuxt_page_meta$4 || {},
-    component: () => import('./sessions-DvincOYA.mjs').then((m) => m.default || m)
+    component: () => import('./sessions-BLB6Jo4e.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-sessions___en",
     path: "/en/dashboard/sessions",
     meta: __nuxt_page_meta$4 || {},
-    component: () => import('./sessions-DvincOYA.mjs').then((m) => m.default || m)
+    component: () => import('./sessions-BLB6Jo4e.mjs').then((m) => m.default || m)
   },
   {
     name: "dashboard-sessions___id",
     path: "/id/dashboard/sessions",
     meta: __nuxt_page_meta$4 || {},
-    component: () => import('./sessions-DvincOYA.mjs').then((m) => m.default || m)
+    component: () => import('./sessions-BLB6Jo4e.mjs').then((m) => m.default || m)
   },
   {
     name: "index___en___default",
     path: "/",
     meta: __nuxt_page_meta$3 || {},
-    component: () => import('./index-B3KXXqkE.mjs').then((m) => m.default || m)
+    component: () => import('./index-CxjFpK0A.mjs').then((m) => m.default || m)
   },
   {
     name: "index___en",
     path: "/en",
     meta: __nuxt_page_meta$3 || {},
-    component: () => import('./index-B3KXXqkE.mjs').then((m) => m.default || m)
+    component: () => import('./index-CxjFpK0A.mjs').then((m) => m.default || m)
   },
   {
     name: "index___id",
     path: "/id",
     meta: __nuxt_page_meta$3 || {},
-    component: () => import('./index-B3KXXqkE.mjs').then((m) => m.default || m)
+    component: () => import('./index-CxjFpK0A.mjs').then((m) => m.default || m)
   },
   {
     name: "invite-uuid___en___default",
     path: "/invite/:uuid()",
     meta: __nuxt_page_meta$2 || {},
-    component: () => import('./_uuid_-5mifV_RR.mjs').then((m) => m.default || m)
+    component: () => import('./_uuid_-C0p179_e.mjs').then((m) => m.default || m)
   },
   {
     name: "invite-uuid___en",
     path: "/en/invite/:uuid()",
     meta: __nuxt_page_meta$2 || {},
-    component: () => import('./_uuid_-5mifV_RR.mjs').then((m) => m.default || m)
+    component: () => import('./_uuid_-C0p179_e.mjs').then((m) => m.default || m)
   },
   {
     name: "invite-uuid___id",
     path: "/id/invite/:uuid()",
     meta: __nuxt_page_meta$2 || {},
-    component: () => import('./_uuid_-5mifV_RR.mjs').then((m) => m.default || m)
+    component: () => import('./_uuid_-C0p179_e.mjs').then((m) => m.default || m)
   },
   {
     name: "privacy-policies___en___default",
     path: "/privacy-policies",
     meta: __nuxt_page_meta$1 || {},
-    component: () => import('./index-Cc2i8v6e.mjs').then((m) => m.default || m)
+    component: () => import('./index-NHeYsHK7.mjs').then((m) => m.default || m)
   },
   {
     name: "privacy-policies___en",
     path: "/en/privacy-policies",
     meta: __nuxt_page_meta$1 || {},
-    component: () => import('./index-Cc2i8v6e.mjs').then((m) => m.default || m)
+    component: () => import('./index-NHeYsHK7.mjs').then((m) => m.default || m)
   },
   {
     name: "privacy-policies___id",
     path: "/id/privacy-policies",
     meta: __nuxt_page_meta$1 || {},
-    component: () => import('./index-Cc2i8v6e.mjs').then((m) => m.default || m)
+    component: () => import('./index-NHeYsHK7.mjs').then((m) => m.default || m)
   },
   {
     name: "user-request-delete___en___default",
     path: "/user/request-delete",
     meta: __nuxt_page_meta || {},
-    component: () => import('./request-delete-CCJuK10x.mjs').then((m) => m.default || m)
+    component: () => import('./request-delete-BGDIEjWI.mjs').then((m) => m.default || m)
   },
   {
     name: "user-request-delete___en",
     path: "/en/user/request-delete",
     meta: __nuxt_page_meta || {},
-    component: () => import('./request-delete-CCJuK10x.mjs').then((m) => m.default || m)
+    component: () => import('./request-delete-BGDIEjWI.mjs').then((m) => m.default || m)
   },
   {
     name: "user-request-delete___id",
     path: "/id/user/request-delete",
     meta: __nuxt_page_meta || {},
-    component: () => import('./request-delete-CCJuK10x.mjs').then((m) => m.default || m)
+    component: () => import('./request-delete-BGDIEjWI.mjs').then((m) => m.default || m)
   }
 ];
 const _wrapIf = (component, props, slots) => {
@@ -8908,9 +8930,9 @@ const __nuxt_component_1$1 = defineComponent({
 });
 const layouts = {
   auth: () => import('./auth-hTfiaSY_.mjs').then((m) => m.default || m),
-  "dashboard-company-manage": () => import('./dashboard-company-manage-C0H3a5tV.mjs').then((m) => m.default || m),
-  dashboard: () => import('./dashboard-DI2HAzyT.mjs').then((m) => m.default || m),
-  page: () => import('./page-zaQkt9mM.mjs').then((m) => m.default || m)
+  "dashboard-company-manage": () => import('./dashboard-company-manage-B3Y-DEep.mjs').then((m) => m.default || m),
+  dashboard: () => import('./dashboard-D6wqYrbV.mjs').then((m) => m.default || m),
+  page: () => import('./page-7LQTdT3L.mjs').then((m) => m.default || m)
 };
 const LayoutLoader = defineComponent({
   name: "LayoutLoader",
@@ -8924,7 +8946,7 @@ const LayoutLoader = defineComponent({
     return () => h(LayoutComponent, props.layoutProps, context.slots);
   }
 });
-const __nuxt_component_2$2 = defineComponent({
+const __nuxt_component_2$1 = defineComponent({
   name: "NuxtLayout",
   inheritAttrs: false,
   props: {
@@ -9042,7 +9064,7 @@ const RouteProvider = defineComponent({
     };
   }
 });
-const __nuxt_component_3 = defineComponent({
+const __nuxt_component_3$1 = defineComponent({
   name: "NuxtPage",
   inheritAttrs: false,
   props: {
@@ -9313,10 +9335,10 @@ _sfc_main$9.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../node_modules/nuxt-icon/dist/runtime/Icon.vue");
   return _sfc_setup$9 ? _sfc_setup$9(props, ctx) : void 0;
 };
-const __nuxt_component_2$1 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["__scopeId", "data-v-f0820886"]]);
+const __nuxt_component_2 = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["__scopeId", "data-v-f0820886"]]);
 const Icon = /* @__PURE__ */ Object.freeze({
   __proto__: null,
-  default: __nuxt_component_2$1
+  default: __nuxt_component_2
 });
 const _sfc_main$8 = defineComponent({
   props: {
@@ -9342,7 +9364,7 @@ const _sfc_main$8 = defineComponent({
   }
 });
 function _sfc_ssrRender$5(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
-  const _component_Icon = __nuxt_component_2$1;
+  const _component_Icon = __nuxt_component_2;
   if (_ctx.dynamic) {
     _push(ssrRenderComponent(_component_Icon, mergeProps({ name: _ctx.name }, _attrs), null, _parent));
   } else {
@@ -10374,7 +10396,7 @@ _sfc_main$5.setup = (props, ctx) => {
   (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("../../node_modules/@nuxt/ui/dist/runtime/components/elements/Button.vue");
   return _sfc_setup$5 ? _sfc_setup$5(props, ctx) : void 0;
 };
-const __nuxt_component_2 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["ssrRender", _sfc_ssrRender$2]]);
+const __nuxt_component_3 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["ssrRender", _sfc_ssrRender$2]]);
 function useTimer(cb, interval, options) {
   let timer = null;
   const { pause: tPause, resume: tResume, timestamp } = useTimestamp({ ...{}, controls: true });
@@ -10429,7 +10451,7 @@ const _sfc_main$4 = defineComponent({
   components: {
     UIcon: __nuxt_component_0$2,
     UAvatar: __nuxt_component_1,
-    UButton: __nuxt_component_2
+    UButton: __nuxt_component_3
   },
   inheritAttrs: false,
   props: {
@@ -10580,7 +10602,7 @@ const _sfc_main$4 = defineComponent({
 function _sfc_ssrRender$1(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
   const _component_UIcon = __nuxt_component_0$2;
   const _component_UAvatar = __nuxt_component_1;
-  const _component_UButton = __nuxt_component_2;
+  const _component_UButton = __nuxt_component_3;
   _push(`<template><div${ssrRenderAttrs(mergeProps({
     class: _ctx.wrapperClass,
     role: "status"
@@ -10810,8 +10832,8 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_Html = Html;
       const _component_NuxtLoadingIndicator = __nuxt_component_1$1;
-      const _component_NuxtLayout = __nuxt_component_2$2;
-      const _component_NuxtPage = __nuxt_component_3;
+      const _component_NuxtLayout = __nuxt_component_2$1;
+      const _component_NuxtPage = __nuxt_component_3$1;
       const _component_UNotifications = __nuxt_component_4;
       _push(ssrRenderComponent(_component_Html, mergeProps({ lang: "en" }, _attrs), {
         default: withCtx((_, _push2, _parent2, _scopeId) => {
@@ -10965,5 +10987,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { encodePath as A, useNuxtApp as B, useRuntimeConfig as C, input as D, useState as E, __nuxt_component_8 as F, arrow as G, getNuxtLinkProps as H, selectMenu as I, asyncDataDefaults as J, createError as K, fetchDefaults as L, useRequestFetch as M, Link as N, useAppConfig as O, resolveIconName as P, __nuxt_component_0$1 as Q, getULinkProps as R, useSwitchLocalePath as S, getSlotsChildren as T, _export_sfc as _, __nuxt_component_0$3 as a, appConfig as b, __nuxt_component_0$2 as c, __nuxt_component_1 as d, entry$1 as default, __nuxt_component_2 as e, useUI as f, useSeoMeta as g, useAuth as h, useRoute as i, useToast as j, __nuxt_component_2$1 as k, useInjectButtonGroup as l, mergeConfig as m, navigateTo as n, get as o, looseToNumber as p, useLoadingIndicator as q, useRequestEvent as r, select as s, textarea as t, useHead as u, hasProtocol as v, withLeadingSlash as w, joinURL as x, parseURL as y, encodeParam as z };
+export { encodePath as A, useNuxtApp as B, useRuntimeConfig as C, input as D, useState as E, __nuxt_component_8 as F, arrow as G, getNuxtLinkProps as H, selectMenu as I, asyncDataDefaults as J, createError as K, fetchDefaults as L, useRequestFetch as M, Link as N, useAppConfig as O, resolveIconName as P, __nuxt_component_0$1 as Q, getULinkProps as R, useSwitchLocalePath as S, getSlotsChildren as T, _export_sfc as _, __nuxt_component_0$3 as a, appConfig as b, __nuxt_component_0$2 as c, __nuxt_component_1 as d, entry$1 as default, __nuxt_component_3 as e, useUI as f, useSeoMeta as g, useAuth as h, useRoute as i, useToast as j, __nuxt_component_2 as k, useInjectButtonGroup as l, mergeConfig as m, navigateTo as n, get as o, looseToNumber as p, useLoadingIndicator as q, useRequestEvent as r, select as s, textarea as t, useHead as u, hasProtocol as v, withLeadingSlash as w, joinURL as x, parseURL as y, encodeParam as z };
 //# sourceMappingURL=server.mjs.map

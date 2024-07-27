@@ -192,9 +192,24 @@ var Api;
     ((Exercises2) => {
       Exercises2.url = (companyId) => getApiUrl(`/company/${companyId}/exercise`);
     })(_Company.Exercises || (_Company.Exercises = {}));
+    ((Exercise2) => {
+      Exercise2.url = (companyId, exerciseId) => getApiUrl(`/company/${companyId}/exercise/${exerciseId}`);
+    })(_Company.Exercise || (_Company.Exercise = {}));
     ((CreateExercises2) => {
       CreateExercises2.url = (companyId) => getApiUrl(`/company/${companyId}/exercise`);
     })(_Company.CreateExercises || (_Company.CreateExercises = {}));
+    ((UpdateExercises2) => {
+      UpdateExercises2.url = (companyId, exerciseId) => getApiUrl(`/company/${companyId}/exercise/${exerciseId}`);
+    })(_Company.UpdateExercises || (_Company.UpdateExercises = {}));
+    ((AdminPromote2) => {
+      AdminPromote2.url = (companyId, userId) => getApiUrl(`/company/${companyId}/member/${userId}/promote`);
+    })(_Company.AdminPromote || (_Company.AdminPromote = {}));
+    ((AdminDemote2) => {
+      AdminDemote2.url = (companyId, userId) => getApiUrl(`/company/${companyId}/member/${userId}/demote`);
+    })(_Company.AdminDemote || (_Company.AdminDemote = {}));
+    ((MemberKick2) => {
+      MemberKick2.url = (companyId, userId) => getApiUrl(`/company/${companyId}/member/${userId}/kick`);
+    })(_Company.MemberKick || (_Company.MemberKick = {}));
   })(Api2.Company || (Api2.Company = {}));
 })(Api || (Api = {}));
 

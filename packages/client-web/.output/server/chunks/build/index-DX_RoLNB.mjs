@@ -1,6 +1,6 @@
 import { _ as _sfc_main$1 } from './Title-THJIYvs6.mjs';
 import { _ as __nuxt_component_0 } from './Card-L1vIobqU.mjs';
-import { k as __nuxt_component_2$1 } from './server.mjs';
+import { k as __nuxt_component_2 } from './server.mjs';
 import { defineComponent, mergeProps, withCtx, createVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderComponent } from 'vue/server-renderer';
 import 'tailwind-merge';
@@ -35,7 +35,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     return (_ctx, _push, _parent, _attrs) => {
       const _component_PageTitle = _sfc_main$1;
       const _component_UCard = __nuxt_component_0;
-      const _component_Icon = __nuxt_component_2$1;
+      const _component_Icon = __nuxt_component_2;
       _push(`<div${ssrRenderAttrs(mergeProps({ class: "flex-1" }, _attrs))}>`);
       _push(ssrRenderComponent(_component_PageTitle, { text: "Your Result Today" }, null, _parent));
       _push(`<div class="w-full grid grid-cols-3 gap-4">`);
