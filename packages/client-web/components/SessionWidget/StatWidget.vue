@@ -12,6 +12,14 @@ const props = defineProps({
 const $dayjs = useDayjs()
 const $auth = useAuth()
 
+const currentUserAge = computed(() => {
+  try {
+    return Math.abs(Number($dayjs($auth.data.value?.user['dateOfBirth']).diff($dayjs(), 'year')))
+  } catch (error) {
+    return 0
+  }
+})
+
 type IntensitySummary = {
   name: string;
   seconds: number;
@@ -85,7 +93,7 @@ const intensitySummary = computed(() => {
   if (!hrdata) return
   const parser = new ReportParserHR()
   const parsed = parser.parse(hrdata.data)
-  return getIntensity(parsed, 30)
+  return getIntensity(parsed, currentUserAge.value)
 })
 
 const displayTimeSeconds = (seconds: number) => {
@@ -121,6 +129,40 @@ const getColor = (i: number) => {
   }
   return 'gray'
 }
+
+const recommendationMaxHr = computed(() => {
+  const lists = [
+    {
+      label: 'Tanaka',
+      value: 208 - (0.7 * currentUserAge.value),
+      func: `208 - (0.7 * ${currentUserAge.value})`,
+      // if age < 30, priority: (0.7 * age) + 208
+      priority: currentUserAge.value < 30 ? 10 : 2,
+    },
+    {
+      label: 'Fox',
+      value: 220 - currentUserAge.value,
+      func: `220 - ${currentUserAge.value}`,
+      priority: currentUserAge.value > 30 ? 10 : 2,
+    },
+    {
+      label: 'Gellish',
+      value: 207 - (0.7 * currentUserAge.value),
+      func: `207 - (0.7 * ${currentUserAge.value})`,
+      priority: 1,
+    },
+    {
+      label: 'Nes',
+      value: 211 - (0.64 * currentUserAge.value),
+      func: `211 - (0.64 * ${currentUserAge.value})`,
+      priority: 1,
+    },
+  ]
+
+  return lists
+})
+
+const isShowAllFormulaMaxHrRecommendation = ref(false)
 </script>
 
 <template>
@@ -135,14 +177,42 @@ const getColor = (i: number) => {
       </template>
       <div class="flex justify-around mb-6">
         <div v-for="(stat, j) in [
-          ['Age', Math.abs(Number($dayjs($auth.data.value?.user['dateOfBirth']).diff($dayjs(), 'year')))],
-          ['Recomendation Max HR', 208 - (0.7 * 30)],
+          ['Age', currentUserAge],
+          ['Recomendation Max HR', recommendationMaxHr[0].value, recommendationMaxHr[0].label],
         ]" class="text-center">
           <div class="mb-2">{{ stat[0] }}</div>
           <div class="text-5xl">
             {{ stat[1] }}
           </div>
+          <div v-if="stat[2]" class="text-sm text-gray-500">
+            <UTooltip :text="`Formula: ${recommendationMaxHr[0].func}`" class="">
+              <div>{{ stat[2] }}</div>
+              <div class="absolute right-[-15px] top-[-5px]">
+                <Icon name="i-heroicons-information-circle" class="w-3 h-3" />
+              </div>
+            </UTooltip>
+          </div>
         </div>
+      </div>
+      <div v-if="isShowAllFormulaMaxHrRecommendation" class="border-t border-gray-500/50 py-6 mt-6">
+        <div class="flex items-center justify-center mb-3">Another Recommendation Max HR</div>
+        <div class="grid grid-cols-4 gap-2">
+          <div v-for="(rec, i) in recommendationMaxHr" :key="i" class="border border-gray-500/50 p-2 rounded">
+            <div>{{ rec.label }}</div>
+            <div>{{ rec.value }}</div>
+            <div class="text-sm text-gray-500">
+              <UTooltip :text="`Formula: ${rec.func}`" class="">
+                <div>{{ rec.func }}</div>
+                <div class="absolute right-[-15px] top-[-5px]">
+                  <Icon name="i-heroicons-information-circle" class="w-3 h-3" />
+                </div>
+              </UTooltip>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div v-if="!isShowAllFormulaMaxHrRecommendation" class="flex justify-center items-center">
+        <UButton label="Show all heart rate formular" variant="ghost" color="blue" trailing-icon="i-heroicons-chevron-down" class="animate-bounce" @click="isShowAllFormulaMaxHrRecommendation = true" />
       </div>
     </UCard>
     <UCard>

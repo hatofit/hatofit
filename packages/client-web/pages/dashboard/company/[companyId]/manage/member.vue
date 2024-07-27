@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import  { Api } from '~/utils/api';
+import { FetchError } from 'ofetch'
 
 definePageMeta({
   layout: 'dashboard-company-manage',
@@ -32,8 +33,10 @@ const columns = [
   }
 ]
 
+const $toast = useToast()
+const $auth = useAuth()
 const { companyId } = await useCompanyLayout()
-const { data } = useFetchWithAuth<Api.Company.Members.response>(Api.Company.Members.url(companyId.value))
+const { data, refresh } = useFetchWithAuth<Api.Company.Members.response>(Api.Company.Members.url(companyId.value))
 // const members = ref()
 // const members = [{
 //   no: 1,
@@ -47,24 +50,81 @@ const { data } = useFetchWithAuth<Api.Company.Members.response>(Api.Company.Memb
 //   since: '2021-10-01'
 // }]
 
+const adminDemote = async (id: string) => {
+  console.log('Demote', id)
+  try {
+    const res = await $fetchWithAuth<Api.Company.AdminDemote.response>(Api.Company.AdminDemote.url(companyId.value, id), {
+      method: 'PUT',
+    })
+    refresh()
+    $toast.add({ title: 'Success demote admin' })
+  } catch (e) {
+    console.error(e)
+    if (e instanceof FetchError && e.response) parseErrorFromResponseWithToast(e.response)
+  }
+}
+const adminPromote = async (id: string) => {
+  console.log('Promote', id)
+  try {
+    const res = await $fetchWithAuth<Api.Company.AdminPromote.response>(Api.Company.AdminPromote.url(companyId.value, id), {
+      method: 'PUT',
+    })
+    refresh()
+    $toast.add({ title: 'Success promote admin' })
+  } catch (e) {
+    console.error(e)
+    if (e instanceof FetchError && e.response) parseErrorFromResponseWithToast(e.response)
+  }
+}
+const memberKick = async (id: string) => {
+  console.log('Kick', id)
+  try {
+    const res = await $fetchWithAuth<Api.Company.MemberKick.response>(Api.Company.MemberKick.url(companyId.value, id), {
+      method: 'DELETE',
+    })
+    refresh()
+    $toast.add({ title: 'Success kick member' })
+  } catch (e) {
+    console.error(e)
+    if (e instanceof FetchError && e.response) parseErrorFromResponseWithToast(e.response)
+  }
+}
+
 const items = (row: any) => [
-  [{
-    label: 'Edit',
-    icon: 'i-heroicons-pencil-square-20-solid',
-    click: () => console.log('Edit', row.id)
-  }, {
-    label: 'Duplicate',
-    icon: 'i-heroicons-document-duplicate-20-solid'
-  }], [{
-    label: 'Archive',
-    icon: 'i-heroicons-archive-box-20-solid'
-  }, {
-    label: 'Move',
-    icon: 'i-heroicons-arrow-right-circle-20-solid'
-  }], [{
-    label: 'Delete',
-    icon: 'i-heroicons-trash-20-solid'
-  }]
+  // [{
+  //   label: 'Edit',
+  //   icon: 'i-heroicons-pencil-square-20-solid',
+  //   click: () => console.log('Edit', row.id)
+  // }, {
+  //   label: 'Duplicate',
+  //   icon: 'i-heroicons-document-duplicate-20-solid'
+  // }], [{
+  //   label: 'Archive',
+  //   icon: 'i-heroicons-archive-box-20-solid'
+  // }, {
+  //   label: 'Move',
+  //   icon: 'i-heroicons-arrow-right-circle-20-solid'
+  // }],
+  [
+    ...(
+      row.role == 'admin' ? ([{
+        label: `Demote to Member`,
+        icon: 'i-heroicons-arrow-down-circle-20-solid',
+        click: () => adminDemote(row.User._id)
+      }]) : [
+        {
+          label: `Promote to Admin`,
+          icon: 'i-heroicons-arrow-up-circle-20-solid',
+          click: () => adminPromote(row.User._id)
+        }
+      ]
+    ),
+    ...((row.role != 'admin' && `${row.User.firstName} ${row.User.lastName}` != $auth.data.value?.user?.name) ? ([{
+      label: `Kick Member`,
+      icon: 'i-heroicons-trash-20-solid',
+      click: () => memberKick(row.User._id)
+    }]) : []),
+  ],
 ]
 </script>
 

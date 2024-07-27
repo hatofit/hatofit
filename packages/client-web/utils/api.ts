@@ -82,6 +82,12 @@ export namespace Api {
             _id: string,
             name: string,
           }
+
+          user?: {
+            firstName: string
+            lastName: string
+            email: string
+          }
         }[]
       }
     }
@@ -157,6 +163,10 @@ export namespace Api {
       }
       export interface Exercises {
         exercises: Api.DataModel.Company.Exercise['exercise'][]
+      }
+      export interface Exercise {
+        exercise: Api.DataModel.Company.Exercise['exercise']
+        sessions: Api.DataModel.Session.All['sessions']
       }
     }
   }
@@ -301,8 +311,28 @@ export namespace Api {
       export const url = (companyId: number) => getApiUrl(`/company/${companyId}/exercise`)
       export type response = Api.DataModel.BaseResponse & Api.DataModel.Company.Exercises
     }
+    export namespace Exercise {
+      export const url = (companyId: number, exerciseId: string) => getApiUrl(`/company/${companyId}/exercise/${exerciseId}`)
+      export type response = Api.DataModel.BaseResponse & Api.DataModel.Company.Exercise
+    }
     export namespace CreateExercises {
       export const url = (companyId: number) => getApiUrl(`/company/${companyId}/exercise`)
+      export type response = Api.DataModel.BaseResponse
+    }
+    export namespace UpdateExercises {
+      export const url = (companyId: number, exerciseId: string) => getApiUrl(`/company/${companyId}/exercise/${exerciseId}`)
+      export type response = Api.DataModel.BaseResponse
+    }
+    export namespace AdminPromote {
+      export const url = (companyId: number, userId: string) => getApiUrl(`/company/${companyId}/member/${userId}/promote`)
+      export type response = Api.DataModel.BaseResponse
+    }
+    export namespace AdminDemote {
+      export const url = (companyId: number, userId: string) => getApiUrl(`/company/${companyId}/member/${userId}/demote`)
+      export type response = Api.DataModel.BaseResponse
+    }
+    export namespace MemberKick {
+      export const url = (companyId: number, userId: string) => getApiUrl(`/company/${companyId}/member/${userId}/kick`)
       export type response = Api.DataModel.BaseResponse
     }
   }

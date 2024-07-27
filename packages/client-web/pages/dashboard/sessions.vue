@@ -11,11 +11,15 @@ const { data, pending } = useFetchWithAuth<Api.Session.All.response>(Api.Session
 const $dayjs = useDayjs()
 
 const sessions = computed(() => {
-  return (data.value?.sessions || [])
+  try {
+    return (data.value?.sessions || [])
     // sort by createdAt desc
     .sort((a, b) => {
       return $dayjs(b.createdAt).diff($dayjs(a.createdAt))
     })
+  } catch (error) {
+    return []
+  }
 })
 const todaySessions = computed(() => {
   return sessions.value.filter((item) => {
@@ -73,7 +77,7 @@ const otherDaySessions = computed(() => {
     </div>
     <div>
       <PageTitle text="Another Day" />
-      <div class="flex flex-col gap-2">
+      <div v-if="otherDaySessions && otherDaySessions.length > 0" class="flex flex-col gap-2">
         <NuxtLink
           v-for="(item, i) in otherDaySessions" :key="i"
           :to="`/dashboard/session/${item._id}`"

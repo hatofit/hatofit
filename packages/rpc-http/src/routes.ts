@@ -1087,7 +1087,8 @@ export default function (app: Express, ctx: Context) {
               'createdAt',
             ]
           }
-        ]
+        ],
+        order: [['role', 'ASC']]
       })
       return res.json({
         success: true,
@@ -1146,6 +1147,7 @@ export default function (app: Express, ctx: Context) {
       })
     })
 
+    // user auth
     company.post("/join", AuthJwtMiddleware, async (req, res) => {
       let { code } = req.body as any
 
@@ -1216,6 +1218,7 @@ export default function (app: Express, ctx: Context) {
       })
     })
 
+    // manage - exercises
     company.get("/:id/exercise", AuthJwtMiddleware, async (req, res) => {
       const { id } = req.params
       const company = await Company.findOne({ where: { id } })
@@ -1228,6 +1231,7 @@ export default function (app: Express, ctx: Context) {
       const exercises = await CompanyExercise.find({
         where: { companyId: company._id },
       })
+
       return res.json({
         success: true,
         message: "Company exercises found",
@@ -1266,6 +1270,248 @@ export default function (app: Express, ctx: Context) {
         console.log(error)
         return res.status(500).json({ success: false, message: "Internal server error" })
       }
+    })
+    company.put("/:id/exercise/:exerciseId", AuthJwtMiddleware, async (req, res) => {
+      const { ok, data, errors } = validateWithZod(CreateExerciseSchema, req.body)
+      if (!ok || !data) return res.status(400).json({ success: false, errors })
+
+      try {
+        const { id, exerciseId } = req.params
+        const company = await Company.findOne({ where: { id } })
+        if (!company) {
+          return res.status(404).json({
+            success: false,
+            message: "Company not found",
+          });
+        }
+        const exercise = await CompanyExercise.findOne({
+          where: { companyId: company._id, _id: exerciseId },
+        })
+        if (!exercise) {
+          return res.status(404).json({
+            success: false,
+            message: "Exercise not found",
+          });
+        }
+
+        const updated = await CompanyExercise.updateOne({
+          companyId: company._id,
+          _id: exerciseId,
+        }, {
+          ...data,
+        })
+        return res.json({
+          success: true,
+          message: "Exercise updated successfully",
+          exercise: updated,
+        })
+      } catch (error) {
+        console.log(error)
+        return res.status(500).json({ success: false, message: "Internal server error" })
+      }
+    })
+    company.get("/:id/exercise/:exerciseId", AuthJwtMiddleware, async (req, res) => {
+      const { id, exerciseId } = req.params
+      const company = await Company.findOne({ where: { id } })
+      if (!company) {
+        return res.status(404).json({
+          success: false,
+          message: "Company not found",
+        });
+      }
+      const exercise = await CompanyExercise.findOne({
+        where: { companyId: company._id, _id: exerciseId },
+      })
+      if (!exercise) {
+        return res.status(404).json({
+          success: false,
+          message: "Exercise not found",
+        });
+      }
+
+
+      const sessions = (await Session.find({
+        companyId: company._id,
+      })).map((item) => exceptObjectProp(item.toObject(), ["data"]));
+
+      // get all user ids, and dont duplicate
+      const userIds = sessions
+        .map((item) => item.userId)
+        .filter((value, index, self) => self.indexOf(value) === index).filter((item) => item) as string[]
+
+      const users = await User.findAll({
+        where: { _id: userIds },
+      })
+
+      const sessionsWithUser = sessions.map((item) => {
+        const user = users.find((user) => user._id === item.userId)
+        return {
+          ...item,
+          user: {
+            _id: user?._id,
+            firstName: user?.firstName,
+            lastName: user?.lastName,
+            email: user?.email,
+          }
+        }
+      })
+
+      return res.json({
+        success: true,
+        message: "Company exercises found",
+        exercise,
+        sessions: sessionsWithUser,
+        userIds,
+      })
+    })
+
+    // manage - members
+    company.put("/:id/member/:userId/promote", AuthJwtMiddleware, async (req, res) => {
+      const { id, userId } = req.params
+
+      try {
+        const company = await Company.findOne({ where: { id } })
+        if (!company) {
+          return res.status(404).json({
+            success: false,
+            message: "Company not found",
+          });
+        }
+        const user = await User.findOne({ where: { _id: userId } })
+        if (!user) {
+          return res.status(404).json({
+            success: false,
+            message: "User not found",
+          });
+        }
+
+        console.log('promote', id, userId)
+        const found = await CompanyUser.findOne({
+          where: { companyId: company.id, userId: user.id }
+        })
+        if (!found) {
+          return res.status(400).json({
+            success: false,
+            message: "User not joined",
+          });
+        }
+
+        // check if user is admin
+        if (found.role === 'admin') {
+          return res.status(400).json({
+            success: false,
+            message: "User already admin",
+          });
+        }
+
+        // promote
+        await found.update({
+          role: 'admin',
+        })
+
+        return res.json({
+          success: true,
+          message: "User promoted successfully",
+        })
+      } catch (error) {
+        console.log(error)
+        return res.status(500).json({ success: false, message: "Internal server error" })
+      }
+    })
+    company.put("/:id/member/:userId/demote", AuthJwtMiddleware, async (req, res) => {
+      const { id, userId } = req.params
+
+      try {
+        const company = await Company.findOne({ where: { id } })
+        if (!company) {
+          return res.status(404).json({
+            success: false,
+            message: "Company not found",
+          });
+        }
+        const user = await User.findOne({ where: { _id: userId } })
+        if (!user) {
+          return res.status(404).json({
+            success: false,
+            message: "User not found",
+          });
+        }
+
+        const found = await CompanyUser.findOne({
+          where: { companyId: company.id, userId: user.id }
+        })
+        if (!found) {
+          return res.status(400).json({
+            success: false,
+            message: "User not joined",
+          });
+        }
+
+        // check if user is admin
+        if (found.role !== 'admin') {
+          return res.status(400).json({
+            success: false,
+            message: "User not admin",
+          });
+        }
+
+        // demote
+        await found.update({
+          role: 'member',
+        })
+
+        return res.json({
+          success: true,
+          message: "User demoted successfully",
+        })
+      } catch (error) {
+        console.log(error)
+        return res.status(500).json({ success: false, message: "Internal server error" })
+      }
+    })
+    company.delete("/:id/member/:userId", AuthJwtMiddleware, async (req, res) => {
+      const { id, userId } = req.params
+
+      const company = await Company.findOne({ where: { id } })
+      if (!company) {
+        return res.status(404).json({
+          success: false,
+          message: "Company not found",
+        });
+      }
+      const user = await User.findOne({ where: { _id: userId } })
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+
+      const found = await CompanyUser.findOne({
+        where: { companyId: company.id, userId: user._id }
+      })
+      if (!found) {
+        return res.status(400).json({
+          success: false,
+          message: "User not joined",
+        });
+      }
+
+      // check if user is admin
+      if (found.role === 'admin') {
+        return res.status(400).json({
+          success: false,
+          message: "Admin cannot leave company",
+        });
+      }
+
+      // delete
+      await found.destroy()
+
+      return res.json({
+        success: true,
+        message: "User left company successfully",
+      })
     })
 
 

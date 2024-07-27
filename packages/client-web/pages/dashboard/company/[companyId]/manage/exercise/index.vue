@@ -11,7 +11,7 @@ definePageMeta({
 
 const $toast = useToast()
 const { companyId } = await useCompanyLayout()
-const { data } = useFetchWithAuth<Api.Company.Exercises.response>(Api.Company.Exercises.url(companyId.value))
+const { data, refresh } = useFetchWithAuth<Api.Company.Exercises.response>(Api.Company.Exercises.url(companyId.value))
 
 const columns = [
   {
@@ -50,31 +50,13 @@ const columns = [
 // }]
 const exercises = computed(() => (data.value?.exercises || []).map((exercise, i) => ({
   no: i + 1,
+  id: exercise._id,
   name: exercise.name,
   duration: exercise.duration + ' seconds',
   type: exercise.type,
   difficulty: exercise.difficulty,
+  raw: exercise as Api.Company.Exercises.response['exercises'][0],
 })))
-
-const items = (row: any) => [
-  [{
-    label: 'Edit',
-    icon: 'i-heroicons-pencil-square-20-solid',
-    click: () => console.log('Edit', row.id)
-  }, {
-    label: 'Duplicate',
-    icon: 'i-heroicons-document-duplicate-20-solid'
-  }], [{
-    label: 'Archive',
-    icon: 'i-heroicons-archive-box-20-solid'
-  }, {
-    label: 'Move',
-    icon: 'i-heroicons-arrow-right-circle-20-solid'
-  }], [{
-    label: 'Delete',
-    icon: 'i-heroicons-trash-20-solid'
-  }]
-]
 
 const CreateEditExerciseModal = (() => {
   const vals = {
@@ -122,6 +104,7 @@ const CreateEditExerciseModal = (() => {
         }
       ],
     }),
+    editId: ref<string | null>(null),
   }
 
   return {
@@ -144,21 +127,83 @@ const CreateEditExerciseModal = (() => {
           console.error(error)
         }
       } else {
-        console.log('Edit Exercise')
+        console.log('Edit Exercise', vals.editId.value)
+
+        if (!vals.editId.value) return
+
+        try {
+          const http = await $fetchWithAuth<Api.Company.UpdateExercises.response>(Api.Company.UpdateExercises.url(companyId.value, vals.editId.value), {
+            method: 'PUT',
+            body: JSON.stringify(vals.inputs.value),
+          })
+          console.log(http)
+          $toast.add({ title: 'Exercise updated' })
+          vals.isOpen.value = false
+        } catch (error) {
+          if (error instanceof FetchError && error.response) parseErrorFromResponseWithToast(error.response)
+          console.error(error)
+        }
+        refresh()
       }
     }
   }
 })()
+
+
+const items = (row: any) => [
+  [
+    {
+      label: 'Sessions',
+      icon: 'i-material-symbols-light-exercise-outline',
+      to: `/dashboard/company/${companyId.value}/manage/exercise/${row.id}`
+    },
+    // {
+    //   label: 'Duplicate',
+    //   icon: 'i-heroicons-document-duplicate-20-solid'
+    // },
+    {
+      label: 'Edit',
+      icon: 'i-heroicons-pencil-square-20-solid',
+      click: () => {
+        const data = row?.raw as Api.Company.Exercises.response['exercises'][0]
+        CreateEditExerciseModal.isOpen.value = true
+        CreateEditExerciseModal.mode.value = 'edit'
+        CreateEditExerciseModal.inputs.value = {
+          name: data.name,
+          description: data.description,
+          thumbnail: data.thumbnail,
+          type: data.type,
+          difficulty: data.difficulty,
+          duration: data.duration,
+          instructions: data.instructions,
+        }
+        CreateEditExerciseModal.editId.value = data._id
+      }
+    },
+  ],
+  // [{
+  //   label: 'Archive',
+  //   icon: 'i-heroicons-archive-box-20-solid'
+  // }, {
+  //   label: 'Move',
+  //   icon: 'i-heroicons-arrow-right-circle-20-solid'
+  // }],
+  [{
+    label: 'Delete',
+    icon: 'i-heroicons-trash-20-solid'
+  }]
+]
 </script>
 
 <template>
   <div>
-    <div>
-      <div class="mb-6">
-        <div class="flex justify-end gap-2">
-          <UButton @click="CreateEditExerciseModal.isOpen.value = true">Create Exercise</UButton>
-        </div>
+    <div class="mb-6">
+      <div class="flex justify-between">
+        <h2 class="text-3xl">Exercises</h2>
+        <UButton @click="CreateEditExerciseModal.isOpen.value = true">Create Exercise</UButton>
       </div>
+    </div>
+    <div>
       <UTable :columns="columns" :rows="exercises">
         <template #actions-data="{ row }">
           <UDropdown :items="items(row)">

@@ -14,7 +14,7 @@ const $toast = useToast()
 // createModel
 const createModelIsOpen = ref(false)
 
-const { data, pending } = useFetchWithAuth<Api.Company.Companies.response>(Api.Company.Companies.url())
+const { data, refresh } = useFetchWithAuth<Api.Company.Companies.response>(Api.Company.Companies.url())
 watch(data, (value) => {
   console.log('watch', value)
 })
@@ -56,6 +56,8 @@ const CompanyCreateModal = (() => {
         title: 'Success',
         description: 'Company created successfully',
       })
+      createModelIsOpen.value = false
+      refresh()
     } catch (error) {
       if (error instanceof FetchError && error.response) parseErrorFromResponseWithToast(error.response)
     }
@@ -90,6 +92,8 @@ const CompanyJoinModal = (() => {
         title: 'Success',
         description: 'Company joined successfully',
       })
+      isOpen.value = false
+      refresh()
     } catch (error) {
       if (error instanceof FetchError && error.response) parseErrorFromResponseWithToast(error.response)
       console.error(error)
