@@ -278,6 +278,13 @@ const findCal = (user: User, report: any) => {
 export default function (app: Express, ctx: Context) {
   const config = getConfigService(ctx).getAll()
 
+  app.get('/', (req, res) => {
+    return res.json({
+      success: true,
+      message: '🚀'
+    })
+  })
+
   // auth
   {
     const auth = express.Router()
