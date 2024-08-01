@@ -815,7 +815,10 @@ export default function (app: Express, ctx: Context) {
           success: true,
           message: "Exercise created successfully",
           id: created._id,
-          exercise,
+          exercise: {
+            ...exercise,
+            uuid: created._id,
+          },
         })
       } catch (error) {
         console.log(error)
@@ -827,7 +830,10 @@ export default function (app: Express, ctx: Context) {
       return res.json({
         success: true,
         message: "Exercise found",
-        exercises,
+        exercises: exercises.map((item) => ({
+          ...item.toObject(),
+          uuid: item._id,
+        })),
       })
     })
     app.use('/exercise', exercise)
@@ -859,7 +865,10 @@ export default function (app: Express, ctx: Context) {
         success: true,
         message: "Sessions found",
         // sessions: exceptObjectProp(sessions, ["data"]),
-        sessions,
+        sessions: sessions.map((item) => ({
+          ...item,
+          uuid: item._id,
+        })),
       })
     })
     session.post('/', AuthJwtMiddleware, async (req, res) => {
@@ -972,7 +981,10 @@ export default function (app: Express, ctx: Context) {
           success: true,
           message: "Session created successfully",
           id: created._id,
-          session: created,
+          session: {
+            ...created,
+            uuid: created._id,
+          },
         });
       } catch (error) {
         console.log(error)
