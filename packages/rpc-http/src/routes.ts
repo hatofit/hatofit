@@ -1,35 +1,34 @@
-import express, { type Express } from 'express'
-import type { Context } from '@/foundation/context'
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import dayjs from 'dayjs'
-import dayjsutc from 'dayjs/plugin/utc'
-dayjs.extend(dayjsutc)
+import type { Context } from "@/foundation/context";
+import bcrypt from "bcrypt";
+import dayjs from "dayjs";
+import dayjsutc from "dayjs/plugin/utc";
+import express, { type Express } from "express";
+import jwt from "jsonwebtoken";
+dayjs.extend(dayjsutc);
 
-import { Company, CompanyUser, User } from '@/services/postgres'
-import { AuthRegisterSchema, UserSchema }  from '@/schemas/user'
-import { validateWithZod } from '@/utils/zod'
-import { getConfigService } from './services/config'
-import { exceptObjectProp } from './utils/obj'
-import { CompanyExercise, Exercise, Session } from './services/mongo'
-import { getReportFromSession } from './utils/report'
-import mongoose from 'mongoose'
-import { SessionSchema } from './schemas/session'
-import { ExerciseSchema } from './schemas/exercise'
-import { getMailService } from './services/mail'
-import { Op, type where } from 'sequelize'
-import { CreateCompanySchema, CreateExerciseSchema } from './schemas/company'
-
+import { AuthRegisterFormDataSchema, AuthRegisterSchema } from "@/schemas/user";
+import { Company, CompanyUser, User } from "@/services/postgres";
+import { validateWithZod } from "@/utils/zod";
+import mongoose from "mongoose";
+import { CreateCompanySchema, CreateExerciseSchema } from "./schemas/company";
+import { ExerciseSchema } from "./schemas/exercise";
+import { SessionSchema } from "./schemas/session";
+import { getConfigService } from "./services/config";
+import { getMailService } from "./services/mail";
+import { getMinioService } from "./services/minio";
+import { CompanyExercise, Exercise, Session } from "./services/mongo";
+import { exceptObjectProp } from "./utils/obj";
+import { getReportFromSession } from "./utils/report";
 
 // middlewares
-// export type RequestAuth = 
+// export type RequestAuth =
 export interface RequestAuth {
-//   user: {
-//     _id: string
-//     email: string
-//   }
-  user: User
-  token: string
+  //   user: {
+  //     _id: string
+  //     email: string
+  //   }
+  user: User;
+  token: string;
 }
 declare global {
   namespace Express {
@@ -38,16 +37,24 @@ declare global {
     }
   }
 }
-export const parseAuthFromRequest = async (req: any): Promise<[boolean, { user: User, token: string }|undefined, string|undefined, string|undefined]> => {
-
-  let token: string | undefined = undefined
-  if (req.headers['authorization'] as string) {
-    token = (req.headers['authorization'] as string).split(' ')[1]
+export const parseAuthFromRequest = async (
+  req: any
+): Promise<
+  [
+    boolean,
+    { user: User; token: string } | undefined,
+    string | undefined,
+    string | undefined
+  ]
+> => {
+  let token: string | undefined = undefined;
+  if (req.headers["authorization"] as string) {
+    token = (req.headers["authorization"] as string).split(" ")[1];
   } else if (req.query.token) {
-    token = req.query.token as string
+    token = req.query.token as string;
   }
 
-  if (!token) return [false, undefined, 'Unauthorized', 'auth.unauthorized']
+  if (!token) return [false, undefined, "Unauthorized", "auth.unauthorized"];
   // if (!token) {
   //   return res.status(401).json({
   //     success: false,
@@ -57,11 +64,12 @@ export const parseAuthFromRequest = async (req: any): Promise<[boolean, { user: 
   // }
 
   try {
-    const config = getConfigService().getAll()
-    const jwtSecret = config.JWT_SECRET_KEY || 'polar'
-    const decoded = jwt.verify(token, jwtSecret) as any
-    const found = await User.findOne({ where: { _id: decoded.id } })
-    if (!found) return [false, undefined, 'User not found', 'auth.user_not_found']
+    const config = getConfigService().getAll();
+    const jwtSecret = config.JWT_SECRET_KEY || "polar";
+    const decoded = jwt.verify(token, jwtSecret) as any;
+    const found = await User.findOne({ where: { _id: decoded.id } });
+    if (!found)
+      return [false, undefined, "User not found", "auth.user_not_found"];
     // if (!found) {
     //   return res.status(404).json({
     //     success: false,
@@ -74,19 +82,23 @@ export const parseAuthFromRequest = async (req: any): Promise<[boolean, { user: 
       // user: exceptObjectProp(found.toJSON(), ['password']),
       user: found,
       token,
-    } as RequestAuth
+    } as RequestAuth;
 
-    return [true, req.auth, undefined, undefined]
-
+    return [true, req.auth, undefined, undefined];
   } catch (error) {
-    return [false, undefined, 'Invalid token', 'auth.unauthorized.invalid_token']
+    return [
+      false,
+      undefined,
+      "Invalid token",
+      "auth.unauthorized.invalid_token",
+    ];
     // return res.status(400).json({
     //   success: false,
     //   message: 'Invalid token',
     //   errorCode: 'auth.unauthorized.invalid_token'
     // })
   }
-}
+};
 export const AuthJwtMiddleware = async (req: any, res: any, next: any) => {
   // let token: string | undefined = undefined
   // if (req.headers['authorization'] as string) {
@@ -132,18 +144,20 @@ export const AuthJwtMiddleware = async (req: any, res: any, next: any) => {
   //   })
   // }
 
-  const [success, parsed, error_msg, err_code] = await parseAuthFromRequest(req)
+  const [success, parsed, error_msg, err_code] = await parseAuthFromRequest(
+    req
+  );
   if (!success) {
     return res.status(400).json({
       success: false,
       message: error_msg,
-      errorCode: err_code
-    })
+      errorCode: err_code,
+    });
   } else {
-    req.auth = parsed
-    next()
-  }  
-}
+    req.auth = parsed;
+    next();
+  }
+};
 
 // funcs
 const findBmi = (
@@ -177,16 +191,17 @@ const findBmi = (
       break;
   }
   return bmi;
-}
+};
 const geneateUniqueStrCode256 = () => {
-  const lengthChar = 256
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-  let result = ''
+  const lengthChar = 256;
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
   for (let i = 0; i < lengthChar; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length))
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
   }
-  return result
-}
+  return result;
+};
 
 const findAvgHr = (data: any) => {
   // format data is [second, hrvalue]
@@ -205,8 +220,8 @@ const findCal = (user: User, report: any) => {
   const endTime = dayjs.utc(report?.endTime).local();
   const diffTime = endTime.diff(startTime, "second");
   const avgHr = findAvgHr(
-    report?.reports?.find((report: any) => report?.type === "hr")
-      ?.data[0]?.value || []
+    report?.reports?.find((report: any) => report?.type === "hr")?.data[0]
+      ?.value || []
   );
   const secToMin = diffTime / 60;
 
@@ -224,19 +239,13 @@ const findCal = (user: User, report: any) => {
       if (weightUnits == "kg") {
         calories =
           (secToMin *
-            (0.6309 * avgHr +
-              0.1988 * userWeight +
-              0.2017 * age -
-              55.0969)) /
+            (0.6309 * avgHr + 0.1988 * userWeight + 0.2017 * age - 55.0969)) /
           4.184;
       } else if (weightUnits == "lbs") {
         let weightInKg = userWeight * 0.453592;
         calories =
           (secToMin *
-            (0.6309 * avgHr +
-              0.1988 * weightInKg +
-              0.2017 * age -
-              55.0969)) /
+            (0.6309 * avgHr + 0.1988 * weightInKg + 0.2017 * age - 55.0969)) /
           4.184;
       }
       break;
@@ -245,19 +254,13 @@ const findCal = (user: User, report: any) => {
       if (weightUnits == "kg") {
         calories =
           (secToMin *
-            (0.4472 * avgHr -
-              0.1263 * userWeight +
-              0.074 * age -
-              20.4022)) /
+            (0.4472 * avgHr - 0.1263 * userWeight + 0.074 * age - 20.4022)) /
           4.184;
       } else if (weightUnits == "lbs") {
         let weightInKg = userWeight * 0.453592;
         calories =
           (secToMin *
-            (0.4472 * avgHr -
-              0.1263 * weightInKg +
-              0.074 * age -
-              20.4022)) /
+            (0.4472 * avgHr - 0.1263 * weightInKg + 0.074 * age - 20.4022)) /
           4.184;
       }
       break;
@@ -276,36 +279,46 @@ const findCal = (user: User, report: any) => {
 };
 // routes
 export default function (app: Express, ctx: Context) {
-  const config = getConfigService(ctx).getAll()
+  const config = getConfigService(ctx).getAll();
 
-  app.get('/', (req, res) => {
+  app.get("/", (req, res) => {
     return res.json({
       success: true,
-      message: '🚀'
-    })
-  })
+      message: "🚀",
+    });
+  });
 
   // auth
   {
-    const auth = express.Router()
-    auth.post('/register', async (req, res) => {
+    const auth = express.Router();
+    auth.post("/register", async (req, res) => {
       try {
-
         // reformat data
-        if (req.body.dateOfBirth) req.body.dateOfBirth = dayjs(req.body.dateOfBirth).toDate()
+        if (req.body.dateOfBirth)
+          req.body.dateOfBirth = dayjs(req.body.dateOfBirth).toDate();
+
+        // check content type
+        const isJSON =
+          req.headers["content-type"]?.includes("application/json");
 
         // validate
-        const { errors, data } = validateWithZod(AuthRegisterSchema, req.body)
-        if (errors) return res.status(400).json({ success: false, errors })
-        if (data.password != data.confirmPassword) return res.status(400).json({ success: false, errors: ['passwords do not match'] })
-        
+        const { errors, data } = validateWithZod(
+          isJSON ? AuthRegisterSchema : AuthRegisterFormDataSchema,
+          req.body
+        );
+        if (errors) return res.status(400).json({ success: false, errors });
+        if (data.password != data.confirmPassword)
+          return res
+            .status(400)
+            .json({ success: false, errors: ["passwords do not match"] });
+
         // check in db
-        const userInDb = await User.findOne({ where: { email: data.email } })
+        const userInDb = await User.findOne({ where: { email: data.email } });
         if (userInDb) {
           return res.status(400).json({
             success: false,
             message: "Email already exists",
-          })
+          });
         }
 
         // hash password
@@ -317,10 +330,27 @@ export default function (app: Express, ctx: Context) {
             rawPlainPassword,
             saltRounds,
             function (err: any, hash: any) {
-              return res(hash as string)
+              return res(hash as string);
             }
-          )
-        })
+          );
+        });
+        const photo = (data as any).photo;
+        if (photo && typeof photo === "object") {
+          const ext = photo.path.split(".").pop();
+          const minioService = getMinioService(ctx);
+          await minioService.uploadFile(
+            "avatars",
+            `${data.email}.${ext}`,
+            photo.path,
+            `image/${ext}`
+          );
+          const imageUrl = await minioService.getPresignedUrl(
+            "avatars",
+            `${data.email}.${ext}`
+          );
+          console.log("imageUrl", imageUrl);
+          (data as any).photo = imageUrl.split("?")[0];
+        }
 
         // insert
         const created = await User.create({
@@ -333,16 +363,17 @@ export default function (app: Express, ctx: Context) {
           height: data.height,
           weight: data.weight,
           metricUnits: {
-            energyUnits: data.metricUnits?.energyUnits || 'kj',
-            weightUnits: data.metricUnits?.weightUnits || 'kg',
-            heightUnits: data.metricUnits?.heightUnits || 'cm',
+            energyUnits: data.metricUnits?.energyUnits || "kj",
+            weightUnits: data.metricUnits?.weightUnits || "kg",
+            heightUnits: data.metricUnits?.heightUnits || "cm",
           },
-        })
-        const jwtSecret = config.JWT_SECRET_KEY || "polar"
+          photo: (data as any).photo,
+        });
+        const jwtSecret = config.JWT_SECRET_KEY || "polar";
         const token = jwt.sign({ id: created._id }, jwtSecret, {
           expiresIn: 7776000, // 90 days
-        })
-        
+        });
+
         // return
         return res.json({
           success: true,
@@ -352,32 +383,43 @@ export default function (app: Express, ctx: Context) {
         });
       } catch (error) {
         console.error(error);
-        return res.status(500).json({ success: false, message: "Internal server error" });
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
 
-      return res.json({ success: false })
-    })
-    auth.post('/login', async (req, res) => {
+      return res.json({ success: false });
+    });
+    auth.post("/login", async (req, res) => {
       try {
-        const { email, password } = req.body
-        console.log('login', email, password)
-        if (!email || !password) return res.status(400).json({ success: false, message: "Invalid email or password" })
+        const { email, password } = req.body;
+        console.log("login", email, password);
+        if (!email || !password)
+          return res
+            .status(400)
+            .json({ success: false, message: "Invalid email or password" });
 
         // find user
-        const user = await User.findOne({ where: { email } })
-        console.log('user', user?.email, user?.firstName)
-        if (!user) return res.status(400).json({ success: false, message: "User not found" })
+        const user = await User.findOne({ where: { email } });
+        console.log("user", user?.email, user?.firstName);
+        if (!user)
+          return res
+            .status(400)
+            .json({ success: false, message: "User not found" });
 
         // compare password
-        const match = await bcrypt.compare(password, user.password)
-        console.log('match', match)
-        if (!match) return res.status(400).json({ success: false, message: "Invalid email or password" })
+        const match = await bcrypt.compare(password, user.password);
+        console.log("match", match);
+        if (!match)
+          return res
+            .status(400)
+            .json({ success: false, message: "Invalid email or password" });
 
         // generate token
-        const jwtSecret = config.JWT_SECRET_KEY || "polar"
+        const jwtSecret = config.JWT_SECRET_KEY || "polar";
         const token = jwt.sign({ id: user._id }, jwtSecret, {
           expiresIn: 7776000, // 90 days
-        })
+        });
 
         // return
         return res.json({
@@ -387,19 +429,21 @@ export default function (app: Express, ctx: Context) {
           token,
         });
       } catch (error) {
-        console.error(error)
-        return res.status(500).json({ success: false, message: "Internal server error" });
+        console.error(error);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
 
-      return res.json({ success: false })
-    })
-    auth.get('/me', AuthJwtMiddleware, (req, res) => {
+      return res.json({ success: false });
+    });
+    auth.get("/me", AuthJwtMiddleware, (req, res) => {
       return res.json({
         success: true,
         message: "User found",
         auth: req.auth,
-      })
-    })
+      });
+    });
     auth.get("/dashboard", AuthJwtMiddleware, async (req, res) => {
       try {
         const user = req.auth?.user as any;
@@ -493,20 +537,22 @@ export default function (app: Express, ctx: Context) {
           widgets: widgets_result,
         });
       } catch (error) {
-        console.log(error)
-        return res.status(500).json({ success: false, message: "Internal server error" })
+        console.log(error);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
-    })
+    });
     auth.delete("/delete", AuthJwtMiddleware, async (req, res) => {
       try {
         // schedule deletion in 2 weeks from now
         const user = req.auth?.user;
         const deleteAt = dayjs().add(2, "week").toDate();
-        
+
         const updated = await user.update({
           deleteDate: deleteAt,
           requestDelete: true,
-        })
+        });
 
         return res.json({
           success: true,
@@ -516,11 +562,11 @@ export default function (app: Express, ctx: Context) {
       } catch (error) {
         return res.status(400).json({ error });
       }
-    })
+    });
     auth.post("/forgot-password/:email", async (req, res) => {
       try {
-        const email = req.params.email || "" as string;
-  
+        const email = req.params.email || ("" as string);
+
         const nodemailer = require("nodemailer");
         const transporter = nodemailer.createTransport({
           service: "gmail",
@@ -535,17 +581,17 @@ export default function (app: Express, ctx: Context) {
         const found = await User.findOne({
           where: { email: email },
         });
-  
+
         if (!found) {
           return res.status(404).json({
             success: false,
             message: "User not found",
           });
         }
-  
+
         //  generate 6 digit code for reset password
         let code = Math.floor(100000 + Math.random() * 900000);
-  
+
         // save to db
         const updated = await found.update({
           resetPasswordCode: `${code}`,
@@ -563,7 +609,7 @@ export default function (app: Express, ctx: Context) {
         //   //   new: true,
         //   // }
         // );
-  
+
         const mailOptions = {
           from: "HatoFit | No Reply <" + process.env.MAIL_USERNAME + ">",
           to: email,
@@ -575,7 +621,7 @@ export default function (app: Express, ctx: Context) {
             code +
             "</p>",
         };
-  
+
         transporter.sendMail(mailOptions, function (error: any, info: any) {
           if (error) {
             console.log(error);
@@ -632,7 +678,7 @@ export default function (app: Express, ctx: Context) {
         // console.error(error)
         return res.status(400).json({ error });
       }
-    })
+    });
     auth.post("/forgot-password-reset", async (req, res) => {
       try {
         const { email, code, password } = req.body;
@@ -654,10 +700,10 @@ export default function (app: Express, ctx: Context) {
             rawPlainPassword,
             saltRounds,
             function (err: any, hash: any) {
-              return res(hash as string)
+              return res(hash as string);
             }
-          )
-        })
+          );
+        });
         const updated = await found.update({
           password: hasingPasssword,
           resetPasswordCode: "",
@@ -670,19 +716,19 @@ export default function (app: Express, ctx: Context) {
         // console.error(error)
         return res.status(400).json({ error });
       }
-    })
-    app.use('/auth', auth)
+    });
+    app.use("/auth", auth);
   }
 
   // user
   {
-    const user = express.Router()
+    const user = express.Router();
     user.delete("/request-delete", async (req, res) => {
-      const { email, code } = req.body
+      const { email, code } = req.body;
 
       if (email) {
         try {
-          const user = await User.findOne({ where: { email } })
+          const user = await User.findOne({ where: { email } });
           if (!user) {
             return res.status(404).json({
               success: false,
@@ -696,19 +742,25 @@ export default function (app: Express, ctx: Context) {
             });
           }
           // only process if user is not already requested, or already reqyest but in 3 minutes
-          if (user.requestDelete && dayjs().diff(dayjs(user.requestDeleteDate), 'minute') < 3) {
+          if (
+            user.requestDelete &&
+            dayjs().diff(dayjs(user.requestDeleteDate), "minute") < 3
+          ) {
             return res.status(400).json({
               success: false,
-              message: "User already requested, please wait 3 minute to request again",
+              message:
+                "User already requested, please wait 3 minute to request again",
             });
           }
 
           // code
-          let codeStr = ''
+          let codeStr = "";
           while (true) {
-            codeStr = geneateUniqueStrCode256()
-            const found = await User.findOne({ where: { requestDeleteCode: codeStr } })
-            if (!found) break
+            codeStr = geneateUniqueStrCode256();
+            const found = await User.findOne({
+              where: { requestDeleteCode: codeStr },
+            });
+            if (!found) break;
           }
           if (!codeStr) {
             return res.status(500).json({
@@ -716,13 +768,13 @@ export default function (app: Express, ctx: Context) {
               message: "Internal server error",
             });
           }
-          
-          const nowDate = dayjs().toDate()
+
+          const nowDate = dayjs().toDate();
           const updated = await user.update({
             requestDelete: true,
             requestDeleteDate: nowDate,
             requestDeleteCode: codeStr,
-          })
+          });
 
           const mailOptions = {
             from: "HatoFit | No Reply <" + config.MAIL_USERNAME + ">",
@@ -730,26 +782,29 @@ export default function (app: Express, ctx: Context) {
             subject: "Request Delete Account",
             text: "Request Delete Account",
             html:
-              "<p> Your request delete account is "
-              + `https://hatofit.com/user/request-delete?code=${codeStr}`
-              + "</p>"
-              + "<p> This link will be expired in 24 hours </p>"
-              + "<p> If you did not request this, please ignore this email </p>",
+              "<p> Your request delete account is " +
+              `https://hatofit.com/user/request-delete?code=${codeStr}` +
+              "</p>" +
+              "<p> This link will be expired in 24 hours </p>" +
+              "<p> If you did not request this, please ignore this email </p>",
           };
 
-          const service = getMailService(ctx)
-          service.transporter.sendMail(mailOptions, function (error: any, info: any) {
-            if (error) {
-              console.log(error);
-              return res.status(400).json({ error });
-            } else {
-              console.log("Email sent: " + info.response);
-              return res.json({
-                success: true,
-                message: "Email sent",
-              })
+          const service = getMailService(ctx);
+          service.transporter.sendMail(
+            mailOptions,
+            function (error: any, info: any) {
+              if (error) {
+                console.log(error);
+                return res.status(400).json({ error });
+              } else {
+                console.log("Email sent: " + info.response);
+                return res.json({
+                  success: true,
+                  message: "Email sent",
+                });
+              }
             }
-          })
+          );
 
           return res.json({
             success: true,
@@ -757,12 +812,16 @@ export default function (app: Express, ctx: Context) {
             user: exceptObjectProp(updated.toJSON(), ["password"]),
           });
         } catch (error) {
-          console.log(error)
-          return res.status(500).json({ success: false, message: "Internal server error" })
+          console.log(error);
+          return res
+            .status(500)
+            .json({ success: false, message: "Internal server error" });
         }
       } else if (code) {
         try {
-          const user = await User.findOne({ where: { requestDeleteCode: code } })
+          const user = await User.findOne({
+            where: { requestDeleteCode: code },
+          });
           if (!user) {
             return res.status(404).json({
               success: false,
@@ -775,30 +834,32 @@ export default function (app: Express, ctx: Context) {
               message: "User already requested delete",
             });
           }
-          
+
           // process delete
           const deleteAt = dayjs().add(2, "week").toDate();
           const updated = await user.update({
             deleteDate: deleteAt,
             requestDelete: true,
-          })
+          });
 
           return res.json({
             success: true,
             message: "User will be deleted in 2 weeks",
-          })
+          });
         } catch (error) {
-          console.log(error)
-          return res.status(500).json({ success: false, message: "Internal server error" })
+          console.log(error);
+          return res
+            .status(500)
+            .json({ success: false, message: "Internal server error" });
         }
       }
-    })
-    app.use('/user', user)
+    });
+    app.use("/user", user);
   }
 
   // exercise
   {
-    const exercise = express.Router()
+    const exercise = express.Router();
     exercise.post("/", async (req, res) => {
       try {
         // validate input
@@ -808,7 +869,7 @@ export default function (app: Express, ctx: Context) {
         const created = await Exercise.create({
           ...exercise,
           _id: new mongoose.Types.ObjectId().toHexString(),
-        })
+        });
 
         // resposne
         return res.json({
@@ -819,12 +880,14 @@ export default function (app: Express, ctx: Context) {
             ...exercise,
             uuid: created._id,
           },
-        })
+        });
       } catch (error) {
-        console.log(error)
-        return res.status(500).json({ success: false, message: "Internal server error" })
+        console.log(error);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
-    })
+    });
     exercise.get("/", async (req, res) => {
       const exercises = await Exercise.find();
       return res.json({
@@ -834,29 +897,36 @@ export default function (app: Express, ctx: Context) {
           ...item.toObject(),
           uuid: item._id,
         })),
-      })
-    })
-    app.use('/exercise', exercise)
+      });
+    });
+    app.use("/exercise", exercise);
   }
 
   // session
   {
-    const session = express.Router()
+    const session = express.Router();
     session.get("/", AuthJwtMiddleware, async (req, res) => {
-      const sessions = (await Session.find({
-        userId: req.auth?.user?._id,
-      })).map((item) => exceptObjectProp(item.toObject(), ["data"]));
+      const sessions = (
+        await Session.find({
+          userId: req.auth?.user?._id,
+        })
+      ).map((item) => exceptObjectProp(item.toObject(), ["data"]));
 
-      const companiesIds: string[] = sessions.map((item) => item.companyId).filter((value, index, self) => self.indexOf(value) === index).filter((item) => item) as string[]
+      const companiesIds: string[] = sessions
+        .map((item) => item.companyId)
+        .filter((value, index, self) => self.indexOf(value) === index)
+        .filter((item) => item) as string[];
       const companies = await Company.findAll({
         where: { _id: companiesIds },
-      })
+      });
 
       for (const session of sessions) {
         if (session.companyId) {
-          const company = companies.find((item) => item._id === session.companyId)
+          const company = companies.find(
+            (item) => item._id === session.companyId
+          );
           if (company) {
-            session['company'] = company
+            session["company"] = company;
           }
         }
       }
@@ -869,9 +939,9 @@ export default function (app: Express, ctx: Context) {
           ...item,
           uuid: item._id,
         })),
-      })
-    })
-    session.post('/', AuthJwtMiddleware, async (req, res) => {
+      });
+    });
+    session.post("/", AuthJwtMiddleware, async (req, res) => {
       try {
         // validate user
         const userId = req.auth?.user?._id;
@@ -888,9 +958,7 @@ export default function (app: Express, ctx: Context) {
         const companyExerciseId = req.body?.companyExerciseId;
 
         if (withoutExercise !== true) {
-          if (
-            exerciseId || companyExerciseId
-          ) {
+          if (exerciseId || companyExerciseId) {
             if (exerciseId) {
               if (typeof exerciseId !== "string" || exerciseId.length === 0) {
                 return res.json({
@@ -899,7 +967,10 @@ export default function (app: Express, ctx: Context) {
                 });
               }
             } else if (companyExerciseId) {
-              if (typeof companyExerciseId !== "string" || companyExerciseId.length === 0) {
+              if (
+                typeof companyExerciseId !== "string" ||
+                companyExerciseId.length === 0
+              ) {
                 return res.json({
                   success: false,
                   message: "Invalid companyExerciseId",
@@ -943,7 +1014,9 @@ export default function (app: Express, ctx: Context) {
                 message: "Company Exercise not found",
               });
             }
-            company = await Company.findOne({ where: { _id: exercise.companyId as string } });
+            company = await Company.findOne({
+              where: { _id: exercise.companyId as string },
+            });
             if (!company) {
               return res.json({
                 success: false,
@@ -974,7 +1047,7 @@ export default function (app: Express, ctx: Context) {
           userId: user._id,
           exercise,
           withoutExercise,
-          ...(company ? { companyId: company._id } : {})
+          ...(company ? { companyId: company._id } : {}),
         });
         // response
         return res.json({
@@ -987,21 +1060,25 @@ export default function (app: Express, ctx: Context) {
           },
         });
       } catch (error) {
-        console.log(error)
-        return res.status(500).json({ success: false, message: "Internal server error" });
+        console.log(error);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
-    })
-    app.use('/session', session)
+    });
+    app.use("/session", session);
   }
 
   // report
   {
-    const report = express.Router()
+    const report = express.Router();
     report.get("/:id", async (req, res) => {
       try {
         const { id } = req.params;
         const session = await Session.findById(id);
-        const user = await User.findOne({ where: { _id: session?.userId || '' } });
+        const user = await User.findOne({
+          where: { _id: session?.userId || "" },
+        });
         if (!session) {
           return res.status(404).json({
             success: false,
@@ -1020,53 +1097,54 @@ export default function (app: Express, ctx: Context) {
           user: exceptObjectProp(user?.toJSON(), ["password"]),
         });
       } catch (error) {
-        console.log(error)
-        return res.status(500).json({ success: false, message: "Internal server error" })
+        console.log(error);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
-    })
-    app.use('/report', report)
+    });
+    app.use("/report", report);
   }
 
   // company
   const getIsAdmin = async (userId: number, company: Company) => {
     const found = await CompanyUser.findOne({
       where: { companyId: company.id, userId },
-    })
-    if (!found) return false
-    return found.role === 'admin'
-  }
+    });
+    if (!found) return false;
+    return found.role === "admin";
+  };
   {
-    const company = express.Router()
+    const company = express.Router();
     company.get("/", AuthJwtMiddleware, async (req, res) => {
       const users = await CompanyUser.findAll({
         where: { userId: req.auth?.user?.id },
-      })
+      });
 
       const compIds = users
         .map((item) => item.companyId)
         // remove duplicate
         .filter((value, index, self) => self.indexOf(value) === index);
-      
+
       const companies = await Company.findAll({
         // where in
         where: { id: compIds },
-      })        
-      
+      });
+
       return res.json({
         success: true,
         message: "Companies found",
         companies,
-      })
-    })
+      });
+    });
     company.get("/:id", async (req, res) => {
-      const { id } = req.params
+      const { id } = req.params;
 
-      const company = await Company
-        .findOne({
-          where: {
-            id,
-          }
-        })
+      const company = await Company.findOne({
+        where: {
+          id,
+        },
+      });
 
       if (!company) {
         return res.status(404).json({
@@ -1074,19 +1152,22 @@ export default function (app: Express, ctx: Context) {
           message: "Company not found",
         });
       }
-      
-      const [success, auth] = await parseAuthFromRequest(req)
-      const isAdmin: boolean|undefined = (auth && auth?.user?.id) ? await getIsAdmin(auth.user.id, company) : undefined
+
+      const [success, auth] = await parseAuthFromRequest(req);
+      const isAdmin: boolean | undefined =
+        auth && auth?.user?.id
+          ? await getIsAdmin(auth.user.id, company)
+          : undefined;
 
       return res.json({
         success: true,
         message: "Company found",
         company: { ...company.toJSON(), isAdmin },
-      })
-    })
+      });
+    });
     company.get("/:id/member", AuthJwtMiddleware, async (req, res) => {
-      const { id } = req.params
-      const company = await Company.findOne({ where: { id } })
+      const { id } = req.params;
+      const company = await Company.findOne({ where: { id } });
       if (!company) {
         return res.status(404).json({
           success: false,
@@ -1098,79 +1179,79 @@ export default function (app: Express, ctx: Context) {
         include: [
           {
             model: User,
-            attributes: [
-              '_id',
-              'firstName',
-              'lastName',
-              'email',
-              'createdAt',
-            ]
-          }
+            attributes: ["_id", "firstName", "lastName", "email", "createdAt"],
+          },
         ],
-        order: [['role', 'ASC']]
-      })
+        order: [["role", "ASC"]],
+      });
       return res.json({
         success: true,
         message: "Company members found",
         members: users.map((item) => item),
-      })
-    })
+      });
+    });
     company.post("/", AuthJwtMiddleware, async (req, res) => {
       try {
         // validate
-        const { ok, data, errors } = validateWithZod(CreateCompanySchema, req.body)
-        if (!ok || !data) return res.status(400).json({ success: false, errors })
+        const { ok, data, errors } = validateWithZod(
+          CreateCompanySchema,
+          req.body
+        );
+        if (!ok || !data)
+          return res.status(400).json({ success: false, errors });
 
         // create
         const created = await Company.create({
           name: data.name,
           address: data.address,
           description: data.description,
-        })
+        });
 
         // create company user
         await CompanyUser.create({
           companyId: created.id,
           userId: req.auth?.user?.id,
-          role: 'admin',
-        })
+          role: "admin",
+        });
 
         return res.json({
           success: true,
           message: "Company created successfully",
-        })
+        });
       } catch (error) {
-        console.log(error)
-        return res.status(500).json({ success: false, message: "Internal server error" })
+        console.log(error);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
-    })
+    });
     company.put("/:id", AuthJwtMiddleware, async (req, res) => {
-      const { id } = req.params
-      const company = await Company.findOne({ where: { id } })
+      const { id } = req.params;
+      const company = await Company.findOne({ where: { id } });
       if (!company) {
         return res.status(404).json({
           success: false,
           message: "Company not found",
         });
       }
-      const { name, address, description } = req.body
+      const { name, address, description } = req.body;
       const updated = await company.update({
         name,
         address,
         description,
-      })
+      });
       return res.json({
         success: true,
         message: "Company updated successfully",
         company: updated,
-      })
-    })
+      });
+    });
 
     // user auth
     company.post("/join", AuthJwtMiddleware, async (req, res) => {
-      let { code } = req.body as any
+      let { code } = req.body as any;
 
-      const company = await Company.findOne({ where: { _id: code } })
+      const company = await Company.findOne({ where: { _id: code } });
       if (!company) {
         return res.status(404).json({
           success: false,
@@ -1178,8 +1259,8 @@ export default function (app: Express, ctx: Context) {
         });
       }
       const found = await CompanyUser.findOne({
-        where: { companyId: company.id, userId: req.auth?.user?.id }
-      })
+        where: { companyId: company.id, userId: req.auth?.user?.id },
+      });
       if (found) {
         return res.status(400).json({
           success: false,
@@ -1191,19 +1272,19 @@ export default function (app: Express, ctx: Context) {
       await CompanyUser.create({
         companyId: company.id,
         userId: req.auth?.user?.id,
-        role: 'member',
-      })
+        role: "member",
+      });
 
       return res.json({
         success: true,
         message: "User joined company successfully",
-      })
-    })
+      });
+    });
     company.delete("/leave", AuthJwtMiddleware, async (req, res) => {
-      let { code } = req.body as any
+      let { code } = req.body as any;
       // code = Number(code)
 
-      const company = await Company.findOne({ where: { _id: code } })
+      const company = await Company.findOne({ where: { _id: code } });
       if (!company) {
         return res.status(404).json({
           success: false,
@@ -1211,8 +1292,8 @@ export default function (app: Express, ctx: Context) {
         });
       }
       const found = await CompanyUser.findOne({
-        where: { companyId: company.id, userId: req.auth?.user?.id }
-      })
+        where: { companyId: company.id, userId: req.auth?.user?.id },
+      });
       if (!found) {
         return res.status(400).json({
           success: false,
@@ -1221,7 +1302,7 @@ export default function (app: Express, ctx: Context) {
       }
 
       // check if user is admin
-      if (found.role === 'admin') {
+      if (found.role === "admin") {
         return res.status(400).json({
           success: false,
           message: "Admin cannot leave company",
@@ -1229,18 +1310,18 @@ export default function (app: Express, ctx: Context) {
       }
 
       // delete
-      await found.destroy()
+      await found.destroy();
 
       return res.json({
         success: true,
         message: "User left company successfully",
-      })
-    })
+      });
+    });
 
     // manage - exercises
     company.get("/:id/exercise", AuthJwtMiddleware, async (req, res) => {
-      const { id } = req.params
-      const company = await Company.findOne({ where: { id } })
+      const { id } = req.params;
+      const company = await Company.findOne({ where: { id } });
       if (!company) {
         return res.status(404).json({
           success: false,
@@ -1249,22 +1330,25 @@ export default function (app: Express, ctx: Context) {
       }
       const exercises = await CompanyExercise.find({
         where: { companyId: company._id },
-      })
+      });
 
       return res.json({
         success: true,
         message: "Company exercises found",
         exercises,
-      })
-    })
+      });
+    });
     company.post("/:id/exercise", AuthJwtMiddleware, async (req, res) => {
       // validate
-      const { ok, data, errors } = validateWithZod(CreateExerciseSchema, req.body)
-      if (!ok || !data) return res.status(400).json({ success: false, errors })
+      const { ok, data, errors } = validateWithZod(
+        CreateExerciseSchema,
+        req.body
+      );
+      if (!ok || !data) return res.status(400).json({ success: false, errors });
 
       try {
         // company id
-        const company = await Company.findOne({ where: { id: req.params.id } })
+        const company = await Company.findOne({ where: { id: req.params.id } });
         if (!company) {
           return res.status(404).json({
             success: false,
@@ -1277,26 +1361,79 @@ export default function (app: Express, ctx: Context) {
           ...data,
           companyId: company._id,
           _id: new mongoose.Types.ObjectId().toHexString(),
-        })
+        });
 
         return res.status(201).json({
           success: true,
           message: "Exercise created successfully",
           id: created._id,
           exercise: created,
-        })
+        });
       } catch (error) {
-        console.log(error)
-        return res.status(500).json({ success: false, message: "Internal server error" })
+        console.log(error);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
-    })
-    company.put("/:id/exercise/:exerciseId", AuthJwtMiddleware, async (req, res) => {
-      const { ok, data, errors } = validateWithZod(CreateExerciseSchema, req.body)
-      if (!ok || !data) return res.status(400).json({ success: false, errors })
+    });
+    company.put(
+      "/:id/exercise/:exerciseId",
+      AuthJwtMiddleware,
+      async (req, res) => {
+        const { ok, data, errors } = validateWithZod(
+          CreateExerciseSchema,
+          req.body
+        );
+        if (!ok || !data)
+          return res.status(400).json({ success: false, errors });
 
-      try {
-        const { id, exerciseId } = req.params
-        const company = await Company.findOne({ where: { id } })
+        try {
+          const { id, exerciseId } = req.params;
+          const company = await Company.findOne({ where: { id } });
+          if (!company) {
+            return res.status(404).json({
+              success: false,
+              message: "Company not found",
+            });
+          }
+          const exercise = await CompanyExercise.findOne({
+            where: { companyId: company._id, _id: exerciseId },
+          });
+          if (!exercise) {
+            return res.status(404).json({
+              success: false,
+              message: "Exercise not found",
+            });
+          }
+
+          const updated = await CompanyExercise.updateOne(
+            {
+              companyId: company._id,
+              _id: exerciseId,
+            },
+            {
+              ...data,
+            }
+          );
+          return res.json({
+            success: true,
+            message: "Exercise updated successfully",
+            exercise: updated,
+          });
+        } catch (error) {
+          console.log(error);
+          return res
+            .status(500)
+            .json({ success: false, message: "Internal server error" });
+        }
+      }
+    );
+    company.get(
+      "/:id/exercise/:exerciseId",
+      AuthJwtMiddleware,
+      async (req, res) => {
+        const { id, exerciseId } = req.params;
+        const company = await Company.findOne({ where: { id } });
         if (!company) {
           return res.status(404).json({
             success: false,
@@ -1305,7 +1442,7 @@ export default function (app: Express, ctx: Context) {
         }
         const exercise = await CompanyExercise.findOne({
           where: { companyId: company._id, _id: exerciseId },
-        })
+        });
         if (!exercise) {
           return res.status(404).json({
             success: false,
@@ -1313,90 +1450,175 @@ export default function (app: Express, ctx: Context) {
           });
         }
 
-        const updated = await CompanyExercise.updateOne({
-          companyId: company._id,
-          _id: exerciseId,
-        }, {
-          ...data,
-        })
+        const sessions = (
+          await Session.find({
+            companyId: company._id,
+          })
+        ).map((item) => exceptObjectProp(item.toObject(), ["data"]));
+
+        // get all user ids, and dont duplicate
+        const userIds = sessions
+          .map((item) => item.userId)
+          .filter((value, index, self) => self.indexOf(value) === index)
+          .filter((item) => item) as string[];
+
+        const users = await User.findAll({
+          where: { _id: userIds },
+        });
+
+        const sessionsWithUser = sessions.map((item) => {
+          const user = users.find((user) => user._id === item.userId);
+          return {
+            ...item,
+            user: {
+              _id: user?._id,
+              firstName: user?.firstName,
+              lastName: user?.lastName,
+              email: user?.email,
+            },
+          };
+        });
+
         return res.json({
           success: true,
-          message: "Exercise updated successfully",
-          exercise: updated,
-        })
-      } catch (error) {
-        console.log(error)
-        return res.status(500).json({ success: false, message: "Internal server error" })
-      }
-    })
-    company.get("/:id/exercise/:exerciseId", AuthJwtMiddleware, async (req, res) => {
-      const { id, exerciseId } = req.params
-      const company = await Company.findOne({ where: { id } })
-      if (!company) {
-        return res.status(404).json({
-          success: false,
-          message: "Company not found",
+          message: "Company exercises found",
+          exercise,
+          sessions: sessionsWithUser,
+          userIds,
         });
       }
-      const exercise = await CompanyExercise.findOne({
-        where: { companyId: company._id, _id: exerciseId },
-      })
-      if (!exercise) {
-        return res.status(404).json({
-          success: false,
-          message: "Exercise not found",
-        });
-      }
-
-
-      const sessions = (await Session.find({
-        companyId: company._id,
-      })).map((item) => exceptObjectProp(item.toObject(), ["data"]));
-
-      // get all user ids, and dont duplicate
-      const userIds = sessions
-        .map((item) => item.userId)
-        .filter((value, index, self) => self.indexOf(value) === index).filter((item) => item) as string[]
-
-      const users = await User.findAll({
-        where: { _id: userIds },
-      })
-
-      const sessionsWithUser = sessions.map((item) => {
-        const user = users.find((user) => user._id === item.userId)
-        return {
-          ...item,
-          user: {
-            _id: user?._id,
-            firstName: user?.firstName,
-            lastName: user?.lastName,
-            email: user?.email,
-          }
-        }
-      })
-
-      return res.json({
-        success: true,
-        message: "Company exercises found",
-        exercise,
-        sessions: sessionsWithUser,
-        userIds,
-      })
-    })
+    );
 
     // manage - members
-    company.put("/:id/member/:userId/promote", AuthJwtMiddleware, async (req, res) => {
-      const { id, userId } = req.params
+    company.put(
+      "/:id/member/:userId/promote",
+      AuthJwtMiddleware,
+      async (req, res) => {
+        const { id, userId } = req.params;
 
-      try {
-        const company = await Company.findOne({ where: { id } })
+        try {
+          const company = await Company.findOne({ where: { id } });
+          if (!company) {
+            return res.status(404).json({
+              success: false,
+              message: "Company not found",
+            });
+          }
+          const user = await User.findOne({ where: { _id: userId } });
+          if (!user) {
+            return res.status(404).json({
+              success: false,
+              message: "User not found",
+            });
+          }
+
+          console.log("promote", id, userId);
+          const found = await CompanyUser.findOne({
+            where: { companyId: company.id, userId: user.id },
+          });
+          if (!found) {
+            return res.status(400).json({
+              success: false,
+              message: "User not joined",
+            });
+          }
+
+          // check if user is admin
+          if (found.role === "admin") {
+            return res.status(400).json({
+              success: false,
+              message: "User already admin",
+            });
+          }
+
+          // promote
+          await found.update({
+            role: "admin",
+          });
+
+          return res.json({
+            success: true,
+            message: "User promoted successfully",
+          });
+        } catch (error) {
+          console.log(error);
+          return res
+            .status(500)
+            .json({ success: false, message: "Internal server error" });
+        }
+      }
+    );
+    company.put(
+      "/:id/member/:userId/demote",
+      AuthJwtMiddleware,
+      async (req, res) => {
+        const { id, userId } = req.params;
+
+        try {
+          const company = await Company.findOne({ where: { id } });
+          if (!company) {
+            return res.status(404).json({
+              success: false,
+              message: "Company not found",
+            });
+          }
+          const user = await User.findOne({ where: { _id: userId } });
+          if (!user) {
+            return res.status(404).json({
+              success: false,
+              message: "User not found",
+            });
+          }
+
+          const found = await CompanyUser.findOne({
+            where: { companyId: company.id, userId: user.id },
+          });
+          if (!found) {
+            return res.status(400).json({
+              success: false,
+              message: "User not joined",
+            });
+          }
+
+          // check if user is admin
+          if (found.role !== "admin") {
+            return res.status(400).json({
+              success: false,
+              message: "User not admin",
+            });
+          }
+
+          // demote
+          await found.update({
+            role: "member",
+          });
+
+          return res.json({
+            success: true,
+            message: "User demoted successfully",
+          });
+        } catch (error) {
+          console.log(error);
+          return res
+            .status(500)
+            .json({ success: false, message: "Internal server error" });
+        }
+      }
+    );
+    company.delete(
+      "/:id/member/:userId",
+      AuthJwtMiddleware,
+      async (req, res) => {
+        const { id, userId } = req.params;
+
+        const company = await Company.findOne({ where: { id } });
         if (!company) {
           return res.status(404).json({
             success: false,
             message: "Company not found",
           });
         }
-        const user = await User.findOne({ where: { _id: userId } })
+        const user = await User.findOne({ where: { _id: userId } });
         if (!user) {
           return res.status(404).json({
             success: false,
@@ -1404,10 +1626,9 @@ export default function (app: Express, ctx: Context) {
           });
         }
 
-        console.log('promote', id, userId)
         const found = await CompanyUser.findOne({
-          where: { companyId: company.id, userId: user.id }
-        })
+          where: { companyId: company.id, userId: user._id },
+        });
         if (!found) {
           return res.status(400).json({
             success: false,
@@ -1416,124 +1637,23 @@ export default function (app: Express, ctx: Context) {
         }
 
         // check if user is admin
-        if (found.role === 'admin') {
+        if (found.role === "admin") {
           return res.status(400).json({
             success: false,
-            message: "User already admin",
+            message: "Admin cannot leave company",
           });
         }
 
-        // promote
-        await found.update({
-          role: 'admin',
-        })
+        // delete
+        await found.destroy();
 
         return res.json({
           success: true,
-          message: "User promoted successfully",
-        })
-      } catch (error) {
-        console.log(error)
-        return res.status(500).json({ success: false, message: "Internal server error" })
-      }
-    })
-    company.put("/:id/member/:userId/demote", AuthJwtMiddleware, async (req, res) => {
-      const { id, userId } = req.params
-
-      try {
-        const company = await Company.findOne({ where: { id } })
-        if (!company) {
-          return res.status(404).json({
-            success: false,
-            message: "Company not found",
-          });
-        }
-        const user = await User.findOne({ where: { _id: userId } })
-        if (!user) {
-          return res.status(404).json({
-            success: false,
-            message: "User not found",
-          });
-        }
-
-        const found = await CompanyUser.findOne({
-          where: { companyId: company.id, userId: user.id }
-        })
-        if (!found) {
-          return res.status(400).json({
-            success: false,
-            message: "User not joined",
-          });
-        }
-
-        // check if user is admin
-        if (found.role !== 'admin') {
-          return res.status(400).json({
-            success: false,
-            message: "User not admin",
-          });
-        }
-
-        // demote
-        await found.update({
-          role: 'member',
-        })
-
-        return res.json({
-          success: true,
-          message: "User demoted successfully",
-        })
-      } catch (error) {
-        console.log(error)
-        return res.status(500).json({ success: false, message: "Internal server error" })
-      }
-    })
-    company.delete("/:id/member/:userId", AuthJwtMiddleware, async (req, res) => {
-      const { id, userId } = req.params
-
-      const company = await Company.findOne({ where: { id } })
-      if (!company) {
-        return res.status(404).json({
-          success: false,
-          message: "Company not found",
+          message: "User left company successfully",
         });
       }
-      const user = await User.findOne({ where: { _id: userId } })
-      if (!user) {
-        return res.status(404).json({
-          success: false,
-          message: "User not found",
-        });
-      }
+    );
 
-      const found = await CompanyUser.findOne({
-        where: { companyId: company.id, userId: user._id }
-      })
-      if (!found) {
-        return res.status(400).json({
-          success: false,
-          message: "User not joined",
-        });
-      }
-
-      // check if user is admin
-      if (found.role === 'admin') {
-        return res.status(400).json({
-          success: false,
-          message: "Admin cannot leave company",
-        });
-      }
-
-      // delete
-      await found.destroy()
-
-      return res.json({
-        success: true,
-        message: "User left company successfully",
-      })
-    })
-
-
-    app.use('/company', company)
+    app.use("/company", company);
   }
 }

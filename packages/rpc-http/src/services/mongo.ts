@@ -1,7 +1,6 @@
-import { DataTypes, Sequelize, type Optional, Model, type InferAttributes, type InferCreationAttributes, type CreationOptional, UUID, UUIDV4 } from 'sequelize'
-import { BaseService, ServiceManager } from '@/foundation/sevice'
-import { getConfigService } from '@/services/config'
-import mongoose, { Schema } from "mongoose"
+import { BaseService } from "@/foundation/sevice";
+import { getConfigService } from "@/services/config";
+import mongoose, { Schema } from "mongoose";
 
 mongoose.set("strictQuery", true);
 mongoose.set("strictPopulate", true);
@@ -11,12 +10,18 @@ export const MongoConnect = (url: string, opts?: mongoose.ConnectOptions) =>
 
 // SERVICE Mongo
 export class MongoService extends BaseService {
-  name = 'Mongo'
-  
+  name = "Mongo";
+
   async setup() {
-    const config = getConfigService().getAll()
-    this.log.info(`Connecting to ${this.name}`)
-    this.log.debug('load mongo: ', config.MONGO_URL, config.MONGO_USER, config.MONGO_PASSWORD, config.MONGO_DB_NAME)
+    const config = getConfigService().getAll();
+    this.log.info(`Connecting to ${this.name}`);
+    this.log.debug(
+      "load mongo: ",
+      config.MONGO_URL,
+      config.MONGO_USER,
+      config.MONGO_PASSWORD,
+      config.MONGO_DB_NAME
+    );
 
     await MongoConnect(config.MONGO_URL || "", {
       auth: {
@@ -25,11 +30,11 @@ export class MongoService extends BaseService {
       },
       dbName: config.MONGO_DB_NAME || "",
       authSource: "admin",
-    })
+    });
   }
 
   async start() {
-    this.log.info(`Connected to ${this.name}`)
+    this.log.info(`${this.name} connected`);
   }
 }
 
@@ -61,9 +66,8 @@ const ExerciseSchema = new Schema(
     typeKey: "$type",
     timestamps: true,
   }
-)
-export const Exercise = mongoose.model("Exercise", ExerciseSchema)
-
+);
+export const Exercise = mongoose.model("Exercise", ExerciseSchema);
 
 const CompanyExerciseSchema = new Schema(
   {
@@ -93,9 +97,11 @@ const CompanyExerciseSchema = new Schema(
     typeKey: "$type",
     timestamps: true,
   }
-)
-export const CompanyExercise = mongoose.model("CompanyExercise", CompanyExerciseSchema)
-
+);
+export const CompanyExercise = mongoose.model(
+  "CompanyExercise",
+  CompanyExerciseSchema
+);
 
 const SessionSchema = new Schema(
   {
@@ -134,4 +140,4 @@ const SessionSchema = new Schema(
     timestamps: true,
   }
 );
-export const Session = mongoose.model("Session", SessionSchema)
+export const Session = mongoose.model("Session", SessionSchema);

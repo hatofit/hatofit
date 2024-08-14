@@ -1,20 +1,17 @@
 import type { Context } from "@/foundation/context";
 import context from "@/foundation/context";
 import { BaseService, ServiceManager } from "@/foundation/sevice";
-import dotenv from 'dotenv'
-import path from 'path'
-import fs from 'fs'
-import nodemailer, { type Transporter } from 'nodemailer'
+import nodemailer, { type Transporter } from "nodemailer";
 import { getConfigService } from "./config";
 
 export class MailService extends BaseService {
-  name = 'Mail'
-  transporter!: Transporter
+  name = "Mail";
+  transporter!: Transporter;
 
   async setup() {
-    const config = getConfigService().getAll()
-    this.log.info(`Connecting to ${this.name}`)
-    this.log.debug('load mail config: ', config.MAIL_USERNAME)
+    const config = getConfigService().getAll();
+    this.log.info(`Connecting to ${this.name}`);
+    this.log.debug("load mail config: ", config.MAIL_USERNAME);
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
@@ -25,13 +22,15 @@ export class MailService extends BaseService {
         user: config.MAIL_USERNAME,
         pass: config.MAIL_PASSWORD,
       },
-    })
-    this.transporter = transporter
+    });
+    this.transporter = transporter;
   }
 
   async start() {}
 }
 
 export const getMailService = (ctx?: Context) => {
-  return (ctx || context).get<ServiceManager>('serviceManager').getService('Mail') as MailService
-}
+  return (ctx || context)
+    .get<ServiceManager>("serviceManager")
+    .getService("Mail") as MailService;
+};
