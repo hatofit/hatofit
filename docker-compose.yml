@@ -1,11 +1,11 @@
-version: '3.7'
+version: "3.7"
 services:
   mongodb:
     image: mongo:latest
     environment:
-      MONGO_INITDB_ROOT_USERNAME: '${MONGO_USER}'
-      MONGO_INITDB_ROOT_PASSWORD: '${MONGO_PASSWORD}'
-      MONGO_INITDB_DATABASE: '${MONGO_DB_NAME}'
+      MONGO_INITDB_ROOT_USERNAME: "${MONGO_USER}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_PASSWORD}"
+      MONGO_INITDB_DATABASE: "${MONGO_DB_NAME}"
     ports:
       - 27017:27017
     volumes:
@@ -13,16 +13,28 @@ services:
   postgres:
     image: postgres:14-alpine
     ports:
-      - '${DB_PORT:-5432}:5432'
+      - "${DB_PORT:-5432}:5432"
     volumes:
       - postgres:/var/lib/postgresql/data
     env_file:
       - path: ./.env
         required: true
     environment:
-      POSTGRES_PASSWORD: '${DB_PASS}'
-      POSTGRES_USER: '${DB_USER}'
-      POSTGRES_DB: '${DB_NAME}'
+      POSTGRES_PASSWORD: "${DB_PASS}"
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_DB: "${DB_NAME}"
+  minio:
+    image: minio/minio
+    ports:
+      - 9000:9000
+      - 9001:9001
+    volumes:
+      - minio:/data
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: "${MINIO_ROOT_USER}"
+      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD}"
+      MINIO_STS_DURATION: "${MINIO_STS_DURATION}"
 networks:
   sail:
     driver: bridge
@@ -30,4 +42,6 @@ volumes:
   mongodb:
     driver: local
   postgres:
+    driver: local
+  minio:
     driver: local
