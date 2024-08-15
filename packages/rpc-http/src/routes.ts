@@ -6,7 +6,11 @@ import express, { type Express } from "express";
 import jwt from "jsonwebtoken";
 dayjs.extend(dayjsutc);
 
-import { AuthRegisterFormDataSchema, AuthRegisterSchema } from "@/schemas/user";
+import {
+  AuthRegisterFormDataSchema,
+  AuthRegisterSchema,
+  UserSchema,
+} from "@/schemas/user";
 import { Company, CompanyUser, User } from "@/services/postgres";
 import { validateWithZod } from "@/utils/zod";
 import mongoose from "mongoose";
@@ -852,6 +856,116 @@ export default function (app: Express, ctx: Context) {
             .status(500)
             .json({ success: false, message: "Internal server error" });
         }
+      }
+    });
+    user.put("/update", AuthJwtMiddleware, async (req, res) => {
+      console.log("DATA BODY", req.body);
+      try {
+        // reformat data
+        if (req.body.dateOfBirth)
+          req.body.dateOfBirth = dayjs(req.body.dateOfBirth).toDate();
+        // validate input
+        const password = req.body.password || "";
+        // remove whitespace
+        if (password.trim() === "") {
+          return res.status(400).json({
+            success: false,
+            message: "Password must not be empty",
+          });
+        }
+        const isJSON =
+          req.headers["content-type"]?.includes("application/json");
+
+        // validate
+        const { errors, data } = validateWithZod(
+          isJSON ? UserSchema : AuthRegisterFormDataSchema,
+          req.body
+        );
+        if (errors) return res.status(400).json({ success: false, errors });
+        const find = await User.findOne({ where: { _id: req.auth.user._id } });
+        if (!find) {
+          return res
+            .status(404)
+            .json({ success: false, errors: "User not found" });
+        }
+        (data as any).password = find.password;
+
+        // check if password first 4 character isnt * then hash password
+        if (password.substring(0, 4) !== "****") {
+          // input schema
+          const rawPlainPassword: string = data.password || ("" as string);
+          // password
+          const saltRounds = parseInt(process.env.HASH_PASSWORD_SALT || "10");
+          const hasingPasssword = await new Promise((res) => {
+            bcrypt.hash(
+              rawPlainPassword,
+              saltRounds,
+              function (err: any, hash: any) {
+                return res(hash);
+              }
+            );
+          });
+          (data as any).password = hasingPasssword;
+        }
+
+        const photo = (data as any).photo;
+        if (photo && typeof photo === "object") {
+          const ext = photo.path.split(".").pop();
+          const minioService = getMinioService(ctx);
+          await minioService.uploadFile(
+            "avatars",
+            `${data.email}.${ext}`,
+            photo.path,
+            `image/${ext}`
+          );
+          const imageUrl = await minioService.getPresignedUrl(
+            "avatars",
+            `${data.email}.${ext}`
+          );
+          (data as any).photo = imageUrl.split("?")[0];
+        }
+
+        // update
+        await User.update(
+          {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            password: data.password,
+            dateOfBirth: data.dateOfBirth,
+            gender: data.gender,
+            height: data.height,
+            weight: data.weight,
+            metricUnits: {
+              energyUnits: data.metricUnits?.energyUnits || "kj",
+              weightUnits: data.metricUnits?.weightUnits || "kg",
+              heightUnits: data.metricUnits?.heightUnits || "cm",
+            },
+            photo: (data as any).photo,
+          },
+          {
+            where: {
+              email: data.email,
+            },
+          }
+        );
+        const user = await User.findOne({ where: { _id: req.auth.user._id } });
+        const jwtSecret = config.JWT_SECRET_KEY || "polar";
+        const token = jwt.sign({ id: user!._id }, jwtSecret, {
+          expiresIn: 7776000, // 90 days
+        });
+
+        return res.json({
+          success: true,
+          message: "User created successfully",
+          user: exceptObjectProp(user!.toJSON(), ["password"]),
+          token,
+        });
+      } catch (error) {
+        console.error(error);
+        return res
+          .status(500)
+          .json({ success: false, message: "Internal server error" });
       }
     });
     app.use("/user", user);

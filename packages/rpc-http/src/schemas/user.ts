@@ -39,7 +39,7 @@ export const AuthRegisterSchema = UserSchema.pick({
 export const AuthRegisterFormDataSchema = zfd.formData({
   email: zfd.text(),
   password: zfd.text(),
-  confirmPassword: zfd.text(),
+  confirmPassword: zfd.text().optional(),
   firstName: zfd.text(),
   lastName: zfd.text(),
   dateOfBirth: z.date(),
