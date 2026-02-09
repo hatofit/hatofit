@@ -1,22 +1,16 @@
 {
   "name": "hatofit",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "workspaces": [
-    "packages/api",
-    "packages/web"
+    "packages/*"
   ],
-  "dependencies": {
-    "concurrently": "^8.1.0",
-    "lerna": "^6.6.2",
-    "nodemon": "^2.0.22",
-    "ts-node": "^10.9.1"
-  }
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "module": "index.ts",
+  "type": "module"
 }
